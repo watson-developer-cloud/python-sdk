@@ -11,8 +11,9 @@ or [Stack Overflow](http://stackoverflow.com/questions/ask?tags=ibm-watson).
 
 
 ## Installation
-(Currently the library is only available for download. Once it is published you will be able to:)
+Clone the repository and run `python setup.py install`. In the future the SDK will be available via pip.
 
+<!---
 To install, use `pip` or `easy_install`:
 
 ```bash
@@ -22,7 +23,7 @@ or
 ```bash
 $ easy_install --upgrade watson-developer-cloud
 ```
-
+-->
 
 ## Python Version
 Tested (lightly) on Python 2.7 and Python 3.3.
