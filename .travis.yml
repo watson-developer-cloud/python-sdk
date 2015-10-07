@@ -14,4 +14,4 @@ install:
   - pip install -r requirements.txt
   - pip install -r requirements-dev.txt
 # command to run tests
-script: py.test test
+script: coverage run --source watson-developer-cloud -m py.test test
