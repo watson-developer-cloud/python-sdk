@@ -1,4 +1,9 @@
 ## Watson Developer Cloud Python SDK
+[![Software License](https://img.shields.io/badge/license-Apache 2.0-brightgreen.svg)](LICENSE)
+[![Build Status](https://travis-ci.org/qiniu/python-sdk.svg)](https://travis-ci.org/watson-developer-cloud/python-sdk)
+[![Latest Stable Version](https://img.shields.io/pypi/v/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
+[![Download Times](https://img.shields.io/pypi/dm/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
+
 Python client library to quickly get started with the various [Watson Developer Cloud][wdc] services - A collection of REST APIs and SDKs that use cognitive computing to solve complex problems.
 
 ## Questions
@@ -20,6 +25,9 @@ or
 ```bash
 $ easy_install --upgrade watson-developer-cloud
 ```
+
+## Examples
+The [examples](examples) folder has basic and advanced examples.
 
 ### Getting the Service Credentials
 You will need the `username` and `password` credentials for each service these are *not* your Bluemix credentials, and are found in the VCAP_SERVICES variable on Bluemix, and they are different for each service.
@@ -54,7 +62,7 @@ install: "pip install -r requirements.txt"
 nodetests
 ```
 ## Python Version
-Tested (lightly) on: Python 2.6, 2.7, 3.2, 3.3, 3.4, 3.5, 3.5-dev and 3.6-dev (development branch)
+Tested (lightly) on: Python from 2.6 to 3.6-dev (development branch)
 
 ## Python Version
 
