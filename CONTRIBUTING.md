@@ -12,7 +12,7 @@ Before that, please search for similar issues. It's possible somebody has encoun
 
 If you want to contribute to the repository, here's a quick guide:
   1. Fork the repository
-  2. develop and test your code changes with nosetests.
+  2. develop and test your code changes with [pytest].
     * Respect the original code [style guide][styleguide].
     * Only use spaces for indentation.
     * Create minimal diffs - disable on save actions like reformat source code or organize imports. If you feel the source code should be reformatted create a separate PR for this change.
@@ -28,4 +28,4 @@ If you want to contribute to the repository, here's a quick guide:
 [dw]: https://developer.ibm.com/answers/questions/ask/?topics=watson
 [stackoverflow]: http://stackoverflow.com/questions/ask?tags=ibm-watson
 [styleguide]: http://google.github.io/styleguide/pyguide.html
-[nosetests]: https://nose.readthedocs.org/en/latest/
+[pytest]: http://pytest.org/latest/

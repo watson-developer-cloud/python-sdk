@@ -56,17 +56,16 @@ You need to copy `username` and `password`.
 
 ## Build + Test
 
-To build and test the project you need [nosetests][nosetests].  
+To build and test the project you need [pytest] and [responses].  
 ```bash
-install: "pip install -r requirements.txt"
-nodetests
+pip install -f requirements-dev.txt
 ```
 ## Python Version
 Tested (lightly) on: Python from 2.6 to 3.6-dev (development branch)
 
 ## Third Party Libraries and Dependencies
-* [requests](http://docs.python-requests.org/en/latest/)
-* [responses](https://github.com/getsentry/responses)(for testing)
+* [requests]
+* [responses] (for testing)
 
 ## Contributing
 See [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -78,4 +77,6 @@ This library is licensed under the [Apache 2.0 license](http://www.apache.org/li
 [wdc]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/
 [vcap_environment]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/getting_started/index.html#EnvVars
 [bluemix]: https://console.ng.bluemix.net
-[nosetests]: https://nose.readthedocs.org/en/latest/
+[pytest]: http://pytest.org/latest/
+[responses]: https://github.com/getsentry/responses
+[requests]: http://docs.python-requests.org/en/latest/
