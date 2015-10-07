@@ -18,7 +18,7 @@ from .watson_developer_cloud_service import WatsonInvalidArgument
 from .authorization_v1 import AuthorizationV1
 from .concept_expansion_v1_beta import ConceptExpansionV1Beta
 from .concept_insights_v2 import ConceptInsightsV2
-from .dialog_v1_beta import DialogV1Experimental
+from .dialog_v1 import DialogV1
 from .language_translation_v2 import LanguageTranslationV2
 from .message_resonance_v1_beta import MessageResonanceV1Beta
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1

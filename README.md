@@ -59,7 +59,8 @@ You need to copy `username` and `password`.
 
 To build and test the project you need [pytest] and [responses].  
 ```bash
-pip install -f requirements-dev.txt
+pip install -r requirements-dev.txt
+py.test test
 ```
 ## Python Version
 Tested (lightly) on: Python from 2.6 to 3.6-dev (development branch)

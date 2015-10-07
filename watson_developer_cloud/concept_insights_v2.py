@@ -22,7 +22,7 @@ from .watson_developer_cloud_service import WatsonException
 
 
 class ConceptInsightsV2(WatsonDeveloperCloudService):
-    """The IBM Watson™ Concept Insights service provides APIs
+    """The IBM Watson Concept Insights service provides APIs
     that enable you to work with concepts and identify conceptual
     associations in the content that you provide as input to the service.
     Input content is auto-tagged against a concept graph, which is a formal

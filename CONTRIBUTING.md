@@ -35,11 +35,11 @@ You probably want to set up a [virtualenv].
     ```
  3. Install the test dependencies with:
 ```
-pip install -f requirements-dev.txt
+pip install -r requirements-dev.txt
 ```
  4. Run the test cases with:
     ```
-    py.test
+    py.test test
     ```
 
 ## Additional Resources
