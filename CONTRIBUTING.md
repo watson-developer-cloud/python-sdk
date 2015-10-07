@@ -21,6 +21,27 @@ If you want to contribute to the repository, here's a quick guide:
   4. Commit your changes
   5. Push to your fork and submit a pull request to the `dev` branch
 
+## Running the tests
+
+You probably want to set up a [virtualenv].
+
+ 1. Clone this repository:
+    ```
+    git clone https://github.com/mitsuhiko/flask.git
+    ```
+ 2. Install the sdk as an editable package using the current source:
+    ```
+    pip install --editable .
+    ```
+ 3. Install the test dependencies with:
+```
+pip install -f requirements-dev.txt
+```
+ 4. Run the test cases with:
+    ```
+    py.test
+    ```
+
 ## Additional Resources
 + [General GitHub documentation](https://help.github.com/)
 + [GitHub pull request documentation](https://help.github.com/send-pull-requests/)
@@ -29,3 +50,4 @@ If you want to contribute to the repository, here's a quick guide:
 [stackoverflow]: http://stackoverflow.com/questions/ask?tags=ibm-watson
 [styleguide]: http://google.github.io/styleguide/pyguide.html
 [pytest]: http://pytest.org/latest/
+[virtualenv]: http://virtualenv.readthedocs.org/en/latest/index.html

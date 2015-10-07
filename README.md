@@ -35,7 +35,8 @@ You will need the `username` and `password` credentials for each service these a
 You can use Bluemix to access your app and view the `VCAP_SERVICES` environment variable there.
 
 Example output:
-```System-Provided:
+```
+System-Provided:
   {
   "VCAP_SERVICES": {
     "visual_recognition": [{
