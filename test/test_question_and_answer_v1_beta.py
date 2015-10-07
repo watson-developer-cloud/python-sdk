@@ -14,7 +14,8 @@ def test_success():
                   body=datasets_response, status=200,
                   content_type='application/json')
 
-    question_and_answer = watson_developer_cloud.QuestionAndAnswerV1Beta(username="username", password="password")
+    question_and_answer = watson_developer_cloud.QuestionAndAnswerV1Beta(
+        username="username", password="password")
     question_and_answer.datasets()
 
     assert responses.calls[0].request.url == datasets_url
@@ -30,7 +31,8 @@ def test_success():
                   body=question_response, status=200,
                   content_type='application/json')
 
-    question_and_answer.ask(question_request_text, dataset=question_request_dataset, items=1)
+    question_and_answer.ask(
+        question_request_text, dataset=question_request_dataset, items=1)
 
     assert responses.calls[1].request.url == question_url
     assert responses.calls[1].response.text == question_response

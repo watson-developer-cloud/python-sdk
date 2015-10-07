@@ -15,16 +15,19 @@ def test_success():
                       '"https://stream.watsonplatform.net/text-to-speech/api/v1/voices/VoiceEnUsAllison", ' \
                       '"gender": "female", "name": "VoiceEnUsAllison", "language": "en-US"}]}'
 
-    responses.add(responses.GET, voices_url, body=voices_response, status=200, content_type='application/json')
+    responses.add(responses.GET, voices_url, body=voices_response,
+                  status=200, content_type='application/json')
 
-    text_to_speech = watson_developer_cloud.TextToSpeechV1(username="username", password="password")
+    text_to_speech = watson_developer_cloud.TextToSpeechV1(
+        username="username", password="password")
     text_to_speech.voices()
 
     assert responses.calls[0].request.url == voices_url
     assert responses.calls[0].response.text == voices_response
 
     synthesize_text = 'hello'
-    synthesize_url = 'https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize?text=' + synthesize_text
+    synthesize_url = 'https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize?text=' + \
+        synthesize_text
     synthesize_response_body = '<binary response>'
 
     responses.add(responses.GET, synthesize_url,

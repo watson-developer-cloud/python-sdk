@@ -12,11 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+The v1 Dialog service
+(https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/dialog.html)
+"""
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
-class DialogV1Experimental(WatsonDeveloperCloudService):
-    default_url = 'https://gateway.watsonplatform.net/dialog-beta/api'
+class DialogV1(WatsonDeveloperCloudService):
+    default_url = 'https://gateway.watsonplatform.net/dialog/api'
 
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'dialog', url, **kwargs)
@@ -45,7 +49,8 @@ class DialogV1Experimental(WatsonDeveloperCloudService):
 
     def conversation(self, dialog_id, dialog_input=None, client_id=None, conversation_id=None):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        data = {'input': dialog_input, 'client_id': client_id, 'conversation_id': conversation_id}
+        data = {'input': dialog_input, 'client_id': client_id,
+                'conversation_id': conversation_id}
         return self.request(method='POST', url='/v1/dialogs/{}/conversation'.format(dialog_id), data=data,
                             accept_json=True)
 
@@ -57,7 +62,8 @@ class DialogV1Experimental(WatsonDeveloperCloudService):
     # TODO: Test
     def get_conversation(self, dialog_id, date_from, date_to):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        params = {'date_from': self._format_date(date_from), 'date_to': self._format_date(date_to)}
+        params = {'date_from': self._format_date(
+            date_from), 'date_to': self._format_date(date_to)}
         return self.request(method='GET', url='/v1/dialogs/{}/conversation'.format(dialog_id), params=params,
                             accept_json=True)
 

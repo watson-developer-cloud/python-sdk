@@ -21,7 +21,8 @@ class MessageResonanceV1Beta(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/message-resonance-beta/api'
 
     def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(self, 'message_resonance', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'message_resonance', url, username, password, use_vcap_services)
 
     def datasets(self):
         """

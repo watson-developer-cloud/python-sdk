@@ -32,10 +32,15 @@ def _format_status(status):
 
 
 class ConceptExpansionV1Beta(WatsonDeveloperCloudService):
+
+    """The Concept Expansion service analyzes text and interprets its meaning
+    based on usage in other similar contexts.
+    """
     default_url = 'https://gateway.watsonplatform.net/concept-expansion-beta/api'
 
     def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(self, 'concept_expansion', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'concept_expansion', url, username, password, use_vcap_services)
 
     def create_job(self, dataset, seeds, label=''):
         """
@@ -58,7 +63,8 @@ class ConceptExpansionV1Beta(WatsonDeveloperCloudService):
         if isinstance(job_id, dict) and 'jobid' in job_id:
             job_id = job_id['jobid']
         params = {'jobid': job_id}
-        results = self.request(method='GET', url='/v1/status', params=params, accept_json=True)
+        results = self.request(
+            method='GET', url='/v1/status', params=params, accept_json=True)
         return _format_status(results)
 
     def get_results(self, job_id):

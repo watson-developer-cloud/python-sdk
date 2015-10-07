@@ -14,7 +14,7 @@
 
 """
 The v1 Language Translation service
-(http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/...)
+(https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/language-translation.html)
 """
 
 import json
@@ -25,7 +25,8 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
     default_url = "https://gateway.watsonplatform.net/language-translation/api"
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'language_translation', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(
+            self, 'language_translation', url, **kwargs)
 
     def identify(self, text):
         """
@@ -45,7 +46,8 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
         """
         Translates text from a source language to a target language
         """
-        data = {'text': text, 'source': source, 'target': target, 'model': model}
+        data = {'text': text, 'source': source,
+                'target': target, 'model': model}
 
         # data=data or json=data
         return self.request(method='POST', url='/v2/translate', json=data).text

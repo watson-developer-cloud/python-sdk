@@ -7,7 +7,8 @@ def test_success():
     create_url = 'https://gateway.watsonplatform.net/concept-expansion-beta/api/v1/upload'
     create_response = '{"jobid": "2014"}'
 
-    responses.add(responses.POST, create_url, body=create_response, status=200, content_type='application/json')
+    responses.add(responses.POST, create_url, body=create_response,
+                  status=200, content_type='application/json')
 
     status_url = 'https://gateway.watsonplatform.net/concept-expansion-beta/api/v1/status?jobid=2014'
     status_response = '{"state": "D"}'
@@ -18,9 +19,11 @@ def test_success():
     results_url = 'https://gateway.watsonplatform.net/concept-expansion-beta/api/v1/result'
     results_response = '{"return_seeds": [{"prevalence": 1, "result": "*"}, {"prevalence": 2, "result": "+"}]}'
 
-    responses.add(responses.PUT, results_url, body=results_response, status=200, content_type='application/json')
+    responses.add(responses.PUT, results_url, body=results_response,
+                  status=200, content_type='application/json')
 
-    concept_expansion = watson_developer_cloud.ConceptExpansionV1Beta(username="username", password="password")
+    concept_expansion = watson_developer_cloud.ConceptExpansionV1Beta(
+        username="username", password="password")
     job_id = concept_expansion.create_job(dataset='mtsamples', seeds=['motrin', 'tylenol', 'aspirin'],
                                           label='medications')
 

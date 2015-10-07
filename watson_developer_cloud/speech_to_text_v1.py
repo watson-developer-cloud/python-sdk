@@ -11,6 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""
+The v1 Speech to Text service
+(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/speech-to-text.html)
+"""
 
 import json
 import requests
@@ -22,7 +26,8 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
 
     def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
 
-        WatsonDeveloperCloudService.__init__(self, 'speech_to_text', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'speech_to_text', url, username, password, use_vcap_services)
 
     def recognize(self, audio, content_type, continuous=False, model=None):
         """

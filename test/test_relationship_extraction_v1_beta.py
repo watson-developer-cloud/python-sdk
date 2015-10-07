@@ -47,7 +47,8 @@ def test_success():
                   body=extract_response_body, status=200,
                   content_type='application/xml')
 
-    relationship_extraction = watson_developer_cloud.RelationshipExtractionV1Beta(username="username", password="password")
+    relationship_extraction = watson_developer_cloud.RelationshipExtractionV1Beta(
+        username="username", password="password")
     relationship_extraction.extract(extract_text)
 
     assert responses.calls[0].request.url == extract_url

@@ -24,7 +24,8 @@ def test_success():
                   body=dilemmas_response, status=200,
                   content_type='application/json')
 
-    tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1(username="username", password="password")
+    tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1(
+        username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/problem.json')) as data_file:
         problem_data = json.load(data_file)

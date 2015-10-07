@@ -28,11 +28,13 @@ def load_from_vcap_services(service_name):
 
 
 class WatsonException(Exception):
+
     """Generic exception class."""
     pass
 
 
 class WatsonInvalidArgument(Exception):
+
     """A parameter to a function or methods was invalid"""
     pass
 
@@ -44,6 +46,7 @@ def _remove_null_values(dictionary):
 
 
 class WatsonDeveloperCloudService:
+
     def __init__(self, vcap_services_name, url, username=None, password=None, use_vcap_services=True):
         """
         Loads credentials from the VCAP_SERVICES environment variable if available, preferring credentials explicitly
@@ -60,7 +63,8 @@ class WatsonDeveloperCloudService:
         self.jar = cookielib.CookieJar()
 
         if use_vcap_services and not username:
-            self.vcap_service_credentials = load_from_vcap_services(vcap_services_name)
+            self.vcap_service_credentials = load_from_vcap_services(
+                vcap_services_name)
             if self.vcap_service_credentials is not None:
                 self.url = self.vcap_service_credentials['url']
                 self.username = self.vcap_service_credentials['username']
@@ -115,4 +119,5 @@ class WatsonDeveloperCloudService:
                 error_message = error_json['error']
         except ValueError:
             pass
-        raise WatsonException('Error: ' + error_message + ', Code: ' + str(response.status_code))
+        raise WatsonException(
+            'Error: ' + error_message + ', Code: ' + str(response.status_code))

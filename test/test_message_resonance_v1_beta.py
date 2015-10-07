@@ -21,9 +21,11 @@ def test_success():
                   body=resonance_response, status=200,
                   content_type='application/json', match_querystring=True)
 
-    message_resonance = watson_developer_cloud.MessageResonanceV1Beta(username="username", password="password")
+    message_resonance = watson_developer_cloud.MessageResonanceV1Beta(
+        username="username", password="password")
     message_resonance.datasets()
-    message_resonance.resonance(resonance_request_text, resonance_request_dataset)
+    message_resonance.resonance(
+        resonance_request_text, resonance_request_dataset)
 
     assert responses.calls[0].request.url == datasets_url
     assert responses.calls[0].response.text == datasets_response

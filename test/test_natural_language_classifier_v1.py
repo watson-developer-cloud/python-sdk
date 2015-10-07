@@ -62,7 +62,8 @@ def test_success():
                   body=create_response, status=200,
                   content_type='application/json')
     with open(os.path.join(os.path.dirname(__file__), '../resources/weather_data_train.csv'), 'rb') as training_data:
-        natural_language_classifier.create(training_data=training_data, language='en')
+        natural_language_classifier.create(
+            training_data=training_data, language='en')
 
     assert responses.calls[3].request.url == create_url
     assert responses.calls[3].response.text == create_response

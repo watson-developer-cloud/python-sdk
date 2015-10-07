@@ -13,9 +13,10 @@
 # limitations under the License.
 
 """
-The v1-experimental Tone Analyzer service
-(http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/...)
+The v2-experimental Tone Analyzer service
+(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/tone-analyzer.html)
 """
+
 
 import json
 import requests
@@ -26,7 +27,8 @@ class ToneAnalyzerV2Experimental(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer-experimental/api'
 
     def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(self, 'tone_analyzer', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'tone_analyzer', url, username, password, use_vcap_services)
 
     def scorecards(self):
         """

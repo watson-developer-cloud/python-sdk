@@ -23,7 +23,8 @@ class QuestionAndAnswerV1Beta(WatsonDeveloperCloudService):
 
     def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
 
-        WatsonDeveloperCloudService.__init__(self, 'question_and_answer', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'question_and_answer', url, username, password, use_vcap_services)
 
     def datasets(self):
         """
@@ -36,7 +37,8 @@ class QuestionAndAnswerV1Beta(WatsonDeveloperCloudService):
         Returns an answer to a natural language question
         """
 
-        params = {'question': {'evidenceRequest': {'items': items}, 'questionText': question, 'items': items}}
+        params = {'question': {
+            'evidenceRequest': {'items': items}, 'questionText': question, 'items': items}}
         headers = {'x-synctimeout': 30}
 
         return self.request(method='POST', url='/v1/question/{}'.format(dataset), json=params, accept_json=True,

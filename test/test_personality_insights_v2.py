@@ -17,7 +17,8 @@ def test_success():
                   content_type='application/json')
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as personality_text:
-        personality_insights = watson_developer_cloud.PersonalityInsightsV2(username="username", password="password")
+        personality_insights = watson_developer_cloud.PersonalityInsightsV2(
+            username="username", password="password")
         personality_insights.profile(personality_text)
 
     assert responses.calls[0].request.url == profile_url

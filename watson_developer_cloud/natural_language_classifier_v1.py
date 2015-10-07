@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+The v1 Natural Language Classifier service
+(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/nl-classifier.html)
+"""
+
 import json
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
 

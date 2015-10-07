@@ -13,25 +13,33 @@
 # limitations under the License.
 
 """
-The v1 Authorization "service" that enables developers to retrieve a temporary access token
+The v1 Authorization "service" that enables developers to
+retrieve a temporary access token
 """
 
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class AuthorizationV1(WatsonDeveloperCloudService):
+
+    """Generates tokens, when it's too cumbersome to provide a username/password pair.
+    he Authorization service can generates tokens, this are useful when it's too cumbersome
+    to provide a username/password pair. Tokens are valid for 1 hour and
+    need to be send using the `X-Watson-Authorization-Token` header.
+    """
     default_url = "https://stream.watsonplatform.net/authorization/api"
 
     def __init__(self, url=default_url,
                  username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(self, 'authorization', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'authorization', url, username, password, use_vcap_services)
 
     def get_token(self, url):
         """
         Retrieves a temporary access token
         """
         # TODO: Use https://stream.watsonplatform.net/ for streaming urls, https://gateway.watsonplatform.net otherwise
-        # A hack to avoid url-encoding the url, since the authorization service doesn't work with correctly encoded urls
+        # A hack to avoid url-encoding the url, since the authorization service
+        # doesn't work with correctly encoded urls
         response = self.request(method='GET', url='/v1/token?url=' + url)
         return response.text
-

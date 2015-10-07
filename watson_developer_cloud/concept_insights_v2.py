@@ -11,7 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+"""
+The v2 Concept Insights service
+(https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/concept-insights.html)
+"""
 import requests
 import json
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
@@ -19,12 +22,21 @@ from .watson_developer_cloud_service import WatsonException
 
 
 class ConceptInsightsV2(WatsonDeveloperCloudService):
+    """The IBM Watson™ Concept Insights service provides APIs
+    that enable you to work with concepts and identify conceptual
+    associations in the content that you provide as input to the service.
+    Input content is auto-tagged against a concept graph, which is a formal
+    representation of the relationship(s) between concepts. The concept
+    graph used by the Concept Insights service is based on content that
+    has been ingested from the English language Wikipedia.
+    """
     DEFAULT_URL = 'https://gateway.watsonplatform.net/concept-insights/api'
     CORPORA_PATH = '/v2/corpora'
     WIKIPEDIA_ACCOUNT = 'wikipedia'
 
     def __init__(self, url=DEFAULT_URL, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'concept_insights', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(
+            self, 'concept_insights', url, **kwargs)
         self.cached_account = None
 
     def get_default_account(self):
@@ -35,7 +47,8 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
 
     def set_username_and_password(self, username=None, password=None):
         self.cached_account = None
-        WatsonDeveloperCloudService.set_username_and_password(self, username=username, password=password)
+        WatsonDeveloperCloudService.set_username_and_password(
+            self, username=username, password=password)
 
     def _get_corpus_id_path(self, corpus, account_id=None):
         if not account_id:

@@ -11,6 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""
+The v1 Text to Speech service
+(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/text-to-speech.html)
+"""
 
 import json
 import requests
@@ -18,6 +22,7 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class TextToSpeechV1(WatsonDeveloperCloudService):
+
     """Client for the Text to Speech service"""
     default_url = "https://stream.watsonplatform.net/text-to-speech/api"
 
@@ -26,14 +31,16 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
         Construct an instance. Fetches service parameters from VCAP_SERVICES
         runtime variable for Bluemix, or it defaults to local URLs.
         """
-        WatsonDeveloperCloudService.__init__(self, 'text_to_speech', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'text_to_speech', url, username, password, use_vcap_services)
 
     def synthesize(self, text, voice=None, accept=None):
         """
         Returns the get HTTP response by doing a GET to /synthesize with text, voice, accept
         """
         params = {'text': text, 'voice': voice, 'accept': accept}
-        response = self.request(method='GET', url='/v1/synthesize', stream=True, params=params)
+        response = self.request(
+            method='GET', url='/v1/synthesize', stream=True, params=params)
         return response.content
 
     def voices(self):

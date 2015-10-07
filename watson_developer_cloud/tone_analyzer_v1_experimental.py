@@ -14,7 +14,7 @@
 
 """
 The v1-experimental Tone Analyzer service
-(http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/...)
+(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/tone-analyzer.html)
 """
 
 import json
@@ -26,7 +26,8 @@ class ToneAnalyzerV1Experimental(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer-experimental/api'
 
     def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(self, 'tone_analyzer', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'tone_analyzer', url, username, password, use_vcap_services)
 
     def scorecards(self):
         """
@@ -38,7 +39,8 @@ class ToneAnalyzerV1Experimental(WatsonDeveloperCloudService):
         additional scorecards in future versions.
         """
 
-        response = self.request(method='GET', url='/v1/scorecards', headers={'accept': 'application/json'})
+        response = self.request(
+            method='GET', url='/v1/scorecards', headers={'accept': 'application/json'})
         return response.json()
 
     def synonym(self, words, limit=None, traits=None, hops=None, context=None, index=None):
@@ -48,7 +50,8 @@ class ToneAnalyzerV1Experimental(WatsonDeveloperCloudService):
 
         @param words  array of words
         """
-        data = {'words': words, 'limit': limit, 'traits': traits, 'hops': hops, 'context': context, 'index': index}
+        data = {'words': words, 'limit': limit, 'traits': traits,
+                'hops': hops, 'context': context, 'index': index}
         return self.request(method='Post', url='/v1/synonym', json=data, accept_json=True)
 
     def tone(self, text, scorecard=None):

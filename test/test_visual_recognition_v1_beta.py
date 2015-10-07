@@ -12,7 +12,8 @@ def test_success():
                   body=labels_response_body, status=200,
                   content_type='application/json')
 
-    visual_recognition = watson_developer_cloud.VisualRecognitionV1Beta(username="username", password="password")
+    visual_recognition = watson_developer_cloud.VisualRecognitionV1Beta(
+        username="username", password="password")
     visual_recognition.labels()
 
     assert responses.calls[0].request.url == labels_url
@@ -27,7 +28,8 @@ def test_success():
                   content_type='application/json')
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/test.jpg'), 'rb') as image_file:
-        visual_recognition.recognize(image_file, labels_to_check={'label_groups': ['Indoors']})
+        visual_recognition.recognize(
+            image_file, labels_to_check={'label_groups': ['Indoors']})
 
     assert responses.calls[1].request.url == recognize_url
     assert responses.calls[1].response.text == recognize_response

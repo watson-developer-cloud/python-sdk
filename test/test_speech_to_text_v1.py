@@ -15,7 +15,8 @@ def test_success():
                   body=models_response, status=200,
                   content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(username="username", password="password")
+    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+        username="username", password="password")
     speech_to_text.models()
 
     assert responses.calls[0].request.url == models_url
@@ -30,9 +31,11 @@ def test_success():
                   content_type='application/json')
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/speech.wav'), 'rb') as audio_file:
-        speech_to_text.recognize(audio_file, content_type='audio/l16; rate=44100')
+        speech_to_text.recognize(
+            audio_file, content_type='audio/l16; rate=44100')
 
-    assert responses.calls[1].request.url == recognize_url + '?continuous=False'
+    assert responses.calls[
+        1].request.url == recognize_url + '?continuous=False'
     assert responses.calls[1].response.text == recognize_response
 
     assert len(responses.calls) == 2

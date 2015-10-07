@@ -11,6 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""
+The v2 Personality Insights service
+(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/personality-insights.html)
+"""
 
 import json
 import requests
@@ -18,6 +22,7 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class PersonalityInsightsV2(WatsonDeveloperCloudService):
+
     """Wrapper of the Personality Insights service"""
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
 
@@ -27,7 +32,8 @@ class PersonalityInsightsV2(WatsonDeveloperCloudService):
         runtime variable for Bluemix, or it defaults to local URLs.
         """
 
-        WatsonDeveloperCloudService.__init__(self, 'personality_insights', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(
+            self, 'personality_insights', url, username, password, use_vcap_services)
 
     def profile(self, text, content_type='text/plain', accept='application/json', language=None, csv_headers=False):
         """
@@ -49,7 +55,8 @@ class PersonalityInsightsV2(WatsonDeveloperCloudService):
         if accept == 'text/csv' and csv_headers:
             params['headers'] = 'true'
 
-        response = self.request(method='POST', url='/v2/profile', data=text, params=params, headers=headers)
+        response = self.request(
+            method='POST', url='/v2/profile', data=text, params=params, headers=headers)
         if accept == 'application/json':
             return response.json()
         else:
