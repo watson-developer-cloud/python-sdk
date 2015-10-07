@@ -64,8 +64,6 @@ nodetests
 ## Python Version
 Tested (lightly) on: Python from 2.6 to 3.6-dev (development branch)
 
-## Python Version
-
 ## Third Party Libraries and Dependencies
 * [requests](http://docs.python-requests.org/en/latest/)
 * [responses](https://github.com/getsentry/responses)(for testing)
