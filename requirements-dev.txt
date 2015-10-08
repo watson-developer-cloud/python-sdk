@@ -3,7 +3,7 @@ pytest>=2.8.2
 responses>=0.4.0
 
 # code coverage
-coverage>=4.0
+coverage<4
 coveralls>=1.0
 requests>=2.8.0
 
