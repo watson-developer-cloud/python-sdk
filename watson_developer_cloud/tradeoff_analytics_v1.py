@@ -1,0 +1,37 @@
+# Copyright 2015 IBM All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""
+The v1 Tradeoff Analytics service
+(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/tradeoff-analytics.html)
+"""
+
+import json
+import requests
+from .watson_developer_cloud_service import WatsonDeveloperCloudService
+
+
+class TradeoffAnalyticsV1(WatsonDeveloperCloudService):
+
+    """Wrapper of the Tradeoff Analytics service"""
+    default_url = 'https://gateway.watsonplatform.net/tradeoff-analytics/api'
+
+    def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
+        WatsonDeveloperCloudService.__init__(
+            self, 'tradeoff_analytics', url, username, password, use_vcap_services)
+
+    def dilemmas(self, params):
+        """
+        Returns a dilemma that contains the problem and a resolution.
+        """
+        return self.request(method='POST', url='/v1/dilemmas', json=params, accept_json=True)
