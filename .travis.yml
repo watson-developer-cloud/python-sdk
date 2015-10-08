@@ -13,7 +13,7 @@ install:
     - "pip install pylint"
 script:
     # Run pylint and disable some warnings like "line to long"
-    #- "pylint watson_developer_cloud --disable=E1004,C0111,I0011,I0012,W0704,W0142,W0212,W0232,W0613,W0702,R0201,W0614,R0914,R0912,R0915,R0913,R0904,R0801,C0301"
+    - "pylint.sh"
     - "coverage run --source=watson_developer_cloud setup.py test"
 after_success:
     coveralls
