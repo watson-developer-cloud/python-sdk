@@ -22,6 +22,14 @@ import codecs
 import os
 import sys
 
+# Convert README.md to README.rst for pypi
+try:
+    from pypandoc import convert
+    read_md = lambda f: convert(f, 'rst')
+except ImportError:
+    print("warning: pypandoc module not found, could not convert Markdown to RST")
+    read_md = lambda f: open(f, 'r').read()
+
 class PyTest(TestCommand):
     def finalize_options(self):
         TestCommand.finalize_options(self)
@@ -42,7 +50,7 @@ setup(name='watson-developer-cloud',
       cmdclass={'test': PyTest},
       author='Jeffrey Stylos',
       author_email='jsstylos@us.ibm.com',
-      long_description=open('README.md').read(),
+      long_description=read_md('README.md'),
       url='https://github.com/watson-developer-cloud/python-sdk',
       packages=['watson_developer_cloud'],
       keywords='alchemy datanews, language, vision, question and answer' +
