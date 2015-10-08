@@ -22,7 +22,7 @@ $ easy_install --upgrade watson-developer-cloud
 The [examples](examples) folder has basic and advanced examples.
 
 ## Getting the Service Credentials
-You will need the `username` and `password` credentials for each service these are *not* your Bluemix credentials.
+You will need the `username` and `password` credentials for each service. Service credentials are different from your Bluemix account username and password.
 
 To get your service credentials, follow these steps:
  1. Log in to Bluemix at https://bluemix.net.
