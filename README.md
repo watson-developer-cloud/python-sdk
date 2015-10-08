@@ -20,7 +20,7 @@ $ easy_install --upgrade watson-developer-cloud
 ```
 
 ## Examples
-The [examples](examples) folder has basic and advanced examples.
+The [examples][examples] folder has basic and advanced examples.
 
 ## Getting the Service Credentials
 You will need the `username` and `password` credentials for each service. Service credentials are different from your Bluemix account username and password.
@@ -43,7 +43,7 @@ Tested 👌 (lightly) on: Python from 2.6 to 3.5-dev (development branch)
 * [responses] (for testing)
 
 ## Contributing
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md][CONTRIBUTING].
 
 ## License
 
@@ -55,3 +55,5 @@ This library is licensed under the [Apache 2.0 license](http://www.apache.org/li
 [pytest]: http://pytest.org/latest/
 [responses]: https://github.com/getsentry/responses
 [requests]: http://docs.python-requests.org/en/latest/
+[examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
+[CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
