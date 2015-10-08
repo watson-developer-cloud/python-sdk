@@ -10,8 +10,10 @@ python:
   - "nightly" # currently points to 3.6-dev
 # command to install dependencies
 install:
-  - pip install .
-  - pip install -r requirements.txt
-  - pip install -r requirements-dev.txt
-# command to run tests
-script: coverage run --source watson-developer-cloud -m py.test test
+    - "pip install -r requirements-dev.txt --use-mirrors"
+    - "pip install coverage"
+    - "pip install coveralls"
+script:
+    - "coverage run --source=watson_developer_cloud setup.py test"
+after_success:
+    coveralls

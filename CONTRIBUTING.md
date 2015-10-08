@@ -27,7 +27,7 @@ You probably want to set up a [virtualenv].
 
  1. Clone this repository:
     ```
-    git clone https://github.com/mitsuhiko/flask.git
+    git clone https://github.com/watson-developer-cloud/python-sdk.git
     ```
  2. Install the sdk as an editable package using the current source:
     ```

@@ -1,3 +1,7 @@
+# IDE OS
+.DS_Store
+.idea
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -40,12 +44,12 @@ nosetests.xml
 coverage.xml
 *,cover
 
-.DS_Store
-
 # virtual env
 venv/
 .env
 
+# resources
 resources/output.wav
-npm-debug.log
-.idea
+
+# don't publish docs yet
+docs/
