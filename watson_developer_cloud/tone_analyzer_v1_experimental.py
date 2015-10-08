@@ -17,8 +17,6 @@ The v1-experimental Tone Analyzer service
 (https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/tone-analyzer.html)
 """
 
-import json
-import requests
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
 
 

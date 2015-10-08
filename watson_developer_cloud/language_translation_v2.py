@@ -17,7 +17,6 @@ The v1 Language Translation service
 (https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/language-translation.html)
 """
 
-import json
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
 
 

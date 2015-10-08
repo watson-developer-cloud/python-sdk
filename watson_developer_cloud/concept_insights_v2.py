@@ -15,10 +15,7 @@
 The v2 Concept Insights service
 (https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/concept-insights.html)
 """
-import requests
-import json
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
-from .watson_developer_cloud_service import WatsonException
 
 
 class ConceptInsightsV2(WatsonDeveloperCloudService):
@@ -64,4 +61,3 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     # def annotate_text(self, text, account_id=WIKIPEDIA_ACCOUNT, graph=WIKIPEDIA_EN_LATEST):
     #     return self.request(method='GET', url='/v2/'
     #                         )
-    # TODO: Add other methods

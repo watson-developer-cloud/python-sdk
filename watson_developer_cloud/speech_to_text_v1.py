@@ -16,8 +16,6 @@ The v1 Speech to Text service
 (https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/speech-to-text.html)
 """
 
-import json
-import requests
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 

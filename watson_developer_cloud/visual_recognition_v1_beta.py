@@ -15,9 +15,7 @@
 The v1 Visual Recognition service
 (https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html)
 """
-
 import json
-import requests
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 

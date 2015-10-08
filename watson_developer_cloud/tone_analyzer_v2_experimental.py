@@ -18,8 +18,6 @@ The v2-experimental Tone Analyzer service
 """
 
 
-import json
-import requests
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
 
 

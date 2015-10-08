@@ -38,7 +38,6 @@ class AuthorizationV1(WatsonDeveloperCloudService):
         """
         Retrieves a temporary access token
         """
-        # TODO: Use https://stream.watsonplatform.net/ for streaming urls, https://gateway.watsonplatform.net otherwise
         # A hack to avoid url-encoding the url, since the authorization service
         # doesn't work with correctly encoded urls
         response = self.request(method='GET', url='/v1/token?url=' + url)

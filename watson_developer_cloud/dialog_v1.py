@@ -41,7 +41,6 @@ class DialogV1(WatsonDeveloperCloudService):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         return self.request(method='GET', url='/v1/dialogs/{}/content'.format(dialog_id), accept_json=True)
 
-    # TODO: Test
     def update_content(self, dialog_id, content):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         return self.request(method='PUT', url='/v1/dialogs/{}/content'.format(dialog_id), json=content,
@@ -59,7 +58,6 @@ class DialogV1(WatsonDeveloperCloudService):
         if date:
             return date.strftime('%Y-%m-%d %H:%M:%S')
 
-    # TODO: Test
     def get_conversation(self, dialog_id, date_from, date_to):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         params = {'date_from': self._format_date(
@@ -74,7 +72,6 @@ class DialogV1(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v1/dialogs/{}/profile'.format(dialog_id), params=params,
                             accept_json=True)
 
-    # TODO: Test
     def update_profile(self, dialog_id, client_id, name_values):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         client_id = self.unpack_id(client_id, 'client_id')

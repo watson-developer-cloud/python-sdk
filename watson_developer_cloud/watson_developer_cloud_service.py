@@ -55,8 +55,6 @@ class WatsonDeveloperCloudService:
         be specified.
         """
 
-        # TODO: Parse the vcap_services_name from the url
-
         self.url = url
         self.username = username
         self.password = password

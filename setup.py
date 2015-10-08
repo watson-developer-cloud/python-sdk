@@ -18,16 +18,27 @@ from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import watson_developer_cloud
 import io
-import codecs
 import os
 import sys
+
+version = watson_developer_cloud.__version__
+
+if sys.argv[-1] == 'publish':
+    # test server
+    os.system('python setup.py register -r pypitest')
+    os.system('python setup.py sdist upload -r pypitest')
+
+    # production server
+    os.system('python setup.py register -r pypi')
+    os.system('python setup.py sdist upload -r pypi')
+    sys.exit()
 
 # Convert README.md to README.rst for pypi
 try:
     from pypandoc import convert
     read_md = lambda f: convert(f, 'rst')
 except ImportError:
-    print("warning: pypandoc module not found, could not convert Markdown to RST")
+    print('warning: pypandoc module not found, could not convert Markdown to RST')
     read_md = lambda f: open(f, 'r').read()
 
 class PyTest(TestCommand):
@@ -42,7 +53,7 @@ class PyTest(TestCommand):
         sys.exit(errcode)
 
 setup(name='watson-developer-cloud',
-      version=watson_developer_cloud.__version__,
+      version=version,
       description='Client library to use the IBM Watson Services',
       license='Apache 2.0',
       install_requires=['requests'],

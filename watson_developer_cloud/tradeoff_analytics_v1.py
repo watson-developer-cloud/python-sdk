@@ -16,8 +16,6 @@ The v1 Tradeoff Analytics service
 (https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/tradeoff-analytics.html)
 """
 
-import json
-import requests
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 

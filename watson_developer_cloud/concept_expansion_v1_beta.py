@@ -12,10 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import requests
-import json
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
-from .watson_developer_cloud_service import WatsonException
 
 
 def _format_status(status):
