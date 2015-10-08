@@ -46,6 +46,9 @@ coverage.xml
 
 # virtual env
 venv/
+# python 3 virtual env
+python3/
+
 .env
 
 # resources
