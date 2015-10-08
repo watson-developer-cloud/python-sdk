@@ -13,7 +13,7 @@ install:
     - "pip install pylint"
 script:
     # Run pylint and disable some warnings like "line to long"
-    - "pylint.sh"
+    - "sh pylint.sh"
     - "coverage run --source=watson_developer_cloud setup.py test"
 after_success:
     coveralls
