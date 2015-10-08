@@ -12,9 +12,6 @@ python:
 # command to install dependencies
 install:
     - "pip install -r requirements-dev.txt"
-    - "pip install coverage"
-    - "pip install coveralls"
-    - "wget -q -O - https://github.com/yihui/crandalf/raw/master/inst/scripts/install-pandoc | bash"
 script:
     - "coverage run --source=watson_developer_cloud setup.py test"
 after_success:
