@@ -46,7 +46,7 @@ def _remove_null_values(dictionary):
     return dictionary
 
 
-class WatsonDeveloperCloudService:
+class WatsonDeveloperCloudService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None, use_vcap_services=True):
         """
         Loads credentials from the VCAP_SERVICES environment variable if available, preferring credentials explicitly

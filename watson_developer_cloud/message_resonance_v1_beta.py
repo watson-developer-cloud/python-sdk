@@ -44,4 +44,4 @@ class MessageResonanceV1Beta(WatsonDeveloperCloudService):
         :param dataset: The index of the dataset to use
         :return: An array of resonance information for each word in the input
         """
-        return map(lambda word: self.resonance_for_word(word, dataset), text.split())
+        return [self.resonance_for_word(word, dataset) for word in text.split()]
