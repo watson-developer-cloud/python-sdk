@@ -10,7 +10,7 @@ python:
   - "nightly" # currently points to 3.6-dev
 # command to install dependencies
 install:
-    - "pip install -r requirements-dev.txt --use-mirrors"
+    - "pip install -r requirements-dev.txt"
     - "pip install coverage"
     - "pip install coveralls"
 script:
