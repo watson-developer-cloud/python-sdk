@@ -8,6 +8,5 @@ coveralls>=1.0
 requests>=2.8.0
 
 # documentation
-pypandoc
 recommonmark>=0.2.0
 Sphinx>=1.3.1
