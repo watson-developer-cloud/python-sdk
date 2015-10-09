@@ -55,3 +55,4 @@ python3/
 resources/output.wav
 
 docs/_build/
+deploy.sh
