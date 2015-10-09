@@ -69,7 +69,7 @@ master_doc = 'index'
 # General information about the project.
 project = u'Watson Developer Cloud Python SDK'
 copyright = u'2015, IBM Corp'
-author = u'Jeff Stylos @ IBM Corp'
+author = u'IBM Corp'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
