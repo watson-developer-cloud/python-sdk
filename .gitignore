@@ -53,3 +53,5 @@ python3/
 
 # resources
 resources/output.wav
+
+docs/_build/
