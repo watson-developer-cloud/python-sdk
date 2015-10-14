@@ -20,7 +20,7 @@ import io
 import os
 import sys
 
-__version__ = '0.1.4'
+__version__ = '0.1.5'
 
 if sys.argv[-1] == 'publish':
     # test server
