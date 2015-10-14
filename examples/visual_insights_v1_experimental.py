@@ -3,7 +3,7 @@ import watson_developer_cloud.VisualInsightsV1Experimental as VisualInsights
 
 
 visual_insights = VisualInsights(username='YOUR SERVICE USERNAME',
-                                                       password='YOUR SERVICE PASSWORD')
+                                 password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(visual_insights.classifiers(), indent=2))
 

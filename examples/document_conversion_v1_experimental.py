@@ -4,7 +4,7 @@ import watson_developer_cloud.DocumentConversionV1Experimental as DocumentConver
 
 
 document_conversion = DocumentConversion(username='YOUR SERVICE USERNAME',
-                                                       password='YOUR SERVICE PASSWORD')
+                                         password='YOUR SERVICE PASSWORD')
 
 # print(json.dumps(document_conversion.get_jobs(), indent=2))
 

@@ -3,7 +3,7 @@ import watson_developer_cloud.MessageResonanceV1Beta as MessageResonance
 
 
 message_resonance = MessageResonance(username='YOUR SERVICE USERNAME',
-                                                       password='YOUR SERVICE PASSWORD')
+                                     password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(message_resonance.datasets(), indent=2))
 

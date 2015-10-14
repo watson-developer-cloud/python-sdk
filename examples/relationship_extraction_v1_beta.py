@@ -2,6 +2,6 @@ import watson_developer_cloud.RelationshipExtractionV1Beta as RelationshipExtrac
 
 
 relationship_extraction = RelationshipExtraction(username='YOUR SERVICE USERNAME',
-                                                       password='YOUR SERVICE PASSWORD')
+                                                 password='YOUR SERVICE PASSWORD')
 
 print(relationship_extraction.extract("Hello from IBM Watson"))
