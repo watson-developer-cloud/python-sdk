@@ -1,9 +1,10 @@
 # coding=utf-8
 import json
-import watson_developer_cloud
+import watson_developer_cloud.DialogV1 as Dialog
 
 
-dialog = watson_developer_cloud.DialogV1Experimental()
+dialog = Dialog(username='YOUR SERVICE USERNAME',
+                                                       password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(dialog.get_dialogs(), indent=2))
 
