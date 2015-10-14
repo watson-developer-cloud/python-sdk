@@ -1,8 +1,9 @@
 import json
-import watson_developer_cloud
+import watson_developer_cloud.SpeechToTextV1 as SpeechToText
 
 
-speech_to_text = watson_developer_cloud.SpeechToTextV1()
+speech_to_text = SpeechToText(username='YOUR SERVICE USERNAME',
+                                                       password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(speech_to_text.models(), indent=2))
 

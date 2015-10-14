@@ -1,11 +1,14 @@
 import json
-import watson_developer_cloud
+import watson_developer_cloud.PersonalityInsightsV2 as PersonalityInsights
 
 
-personality_insights = watson_developer_cloud.PersonalityInsightsV2()
+personality_insights = PersonalityInsights(username='YOUR SERVICE USERNAME',
+                                           password='YOUR SERVICE PASSWORD')
 
 with open('../resources/personality.txt') as personality_text:
-    print(json.dumps(personality_insights.profile(text=personality_text.read()), indent=2))
+    print(json.dumps(personality_insights.profile(
+        text=personality_text.read()), indent=2))
+
 
 # with open('../resources/personality.txt') as personality_text:
 #     personality_insights_json = {"contentItems": [

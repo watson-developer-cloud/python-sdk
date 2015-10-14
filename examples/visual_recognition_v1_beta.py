@@ -1,8 +1,9 @@
 import json
-import watson_developer_cloud
+import watson_developer_cloud.VisualRecognitionV1Beta as VisualRecognition
 
 
-visual_recognition = watson_developer_cloud.VisualRecognitionV1Beta()
+visual_recognition = VisualRecognition(username='YOUR SERVICE USERNAME',
+                                                       password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(visual_recognition.labels(), indent=2))
 

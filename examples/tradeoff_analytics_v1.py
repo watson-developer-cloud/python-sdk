@@ -1,9 +1,10 @@
 import json
 import os
-import watson_developer_cloud
+import watson_developer_cloud.TradeoffAnalyticsV1 as TradeoffAnalytics
 
 
-tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1()
+tradeoff_analytics = TradeoffAnalytics(username='YOUR SERVICE USERNAME',
+                                       password='YOUR SERVICE PASSWORD')
 
 with open(os.path.join(os.path.dirname(__file__), '../resources/problem.json')) as data_file:
     problem_data = json.load(data_file)

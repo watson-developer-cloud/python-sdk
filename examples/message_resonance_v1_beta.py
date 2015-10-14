@@ -1,8 +1,9 @@
 import json
-import watson_developer_cloud
+import watson_developer_cloud.MessageResonanceV1Beta as MessageResonance
 
 
-message_resonance = watson_developer_cloud.MessageResonanceV1Beta()
+message_resonance = MessageResonance(username='YOUR SERVICE USERNAME',
+                                                       password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(message_resonance.datasets(), indent=2))
 

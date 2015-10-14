@@ -1,9 +1,10 @@
 # coding=utf-8
 import json
-import watson_developer_cloud
+import watson_developer_cloud.DocumentConversionV1Experimental as DocumentConversion
 
 
-document_conversion = watson_developer_cloud.DocumentConversionV1Experimental()
+document_conversion = DocumentConversion(username='YOUR SERVICE USERNAME',
+                                                       password='YOUR SERVICE PASSWORD')
 
 # print(json.dumps(document_conversion.get_jobs(), indent=2))
 

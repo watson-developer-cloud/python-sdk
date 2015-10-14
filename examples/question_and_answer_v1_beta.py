@@ -1,8 +1,9 @@
 import json
-import watson_developer_cloud
+import watson_developer_cloud.QuestionAndAnswerV1Beta as QuestionAndAnswer
 
 
-question_and_answer = watson_developer_cloud.QuestionAndAnswerV1Beta()
+question_and_answer = QuestionAndAnswer(username='YOUR SERVICE USERNAME',
+                                                       password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(question_and_answer.datasets(), indent=2))
 
