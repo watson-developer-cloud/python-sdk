@@ -16,12 +16,11 @@
 from __future__ import print_function
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
-import watson_developer_cloud
 import io
 import os
 import sys
 
-version = watson_developer_cloud.__version__
+__version__ = '0.1.3'
 
 if sys.argv[-1] == 'publish':
     # test server
@@ -53,7 +52,7 @@ class PyTest(TestCommand):
         sys.exit(errcode)
 
 setup(name='watson-developer-cloud',
-      version=version,
+      version=__version__,
       description='Client library to use the IBM Watson Services',
       license='Apache 2.0',
       install_requires=['requests'],
