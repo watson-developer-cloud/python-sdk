@@ -14,13 +14,12 @@
 # limitations under the License.
 
 from __future__ import print_function
-from setuptools import setup, find_packages
+from setuptools import setup
 from setuptools.command.test import test as TestCommand
-import io
 import os
 import sys
 
-__version__ = '0.1.6'
+__version__ = '0.1.7'
 
 if sys.argv[-1] == 'publish':
     # test server
@@ -39,6 +38,7 @@ try:
 except ImportError:
     print('warning: pypandoc module not found, could not convert Markdown to RST')
     read_md = lambda f: open(f, 'r').read()
+
 
 class PyTest(TestCommand):
     def finalize_options(self):
