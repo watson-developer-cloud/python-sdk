@@ -60,7 +60,7 @@ class WatsonDeveloperCloudService(object):
         self.password = password
         self.jar = CookieJar()
 
-        if use_vcap_services and not username:
+        if use_vcap_services and (not username or username == 'YOUR SERVICE USERNAME'):
             self.vcap_service_credentials = load_from_vcap_services(vcap_services_name)
             if self.vcap_service_credentials is not None:
                 self.url = self.vcap_service_credentials['url']
@@ -87,6 +87,26 @@ class WatsonDeveloperCloudService(object):
             return dictionary[label_id]
         return dictionary
 
+    def _get_error_message(response):
+        '''
+        Gets the error message from a JSON response.
+        {
+            code: 400
+            error: 'Bad request'
+        }
+        '''
+        error_message = 'Unknown error'
+        try:
+            error_json = response.json()
+            if 'error' in error_json:
+                error_message = error_json['error']
+            if 'error_message' in error_json:
+                error_message = error_json['error_message']
+        except:
+            pass
+        finally:
+            return error_message
+
     def request(self, method, url, accept_json=False, headers=None, params=None, json=None, data=None, **kwargs):
         full_url = self.url + url
 
@@ -109,11 +129,10 @@ class WatsonDeveloperCloudService(object):
             if accept_json:
                 return response.json()
             return response
-        error_message = response.text
-        try:
-            error_json = response.json()
-            if 'error' in error_json:
-                error_message = error_json['error']
-        except ValueError:
-            pass
-        raise WatsonException('Error: ' + error_message + ', Code: ' + str(response.status_code))
+        else:
+            if response.status_code == 401:
+                error_message = 'Unauthorized: Access is denied due to invalid credentials'
+            else:
+                error_message = self._get_error_message(response)
+
+            raise WatsonException('Error: ' + error_message + ', Code: ' + str(response.status_code))

@@ -56,3 +56,5 @@ resources/output.wav
 
 docs/_build/
 deploy.sh
+
+test/__init__.py
