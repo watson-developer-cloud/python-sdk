@@ -59,11 +59,7 @@ class WatsonDeveloperCloudService(object):
         self.jar = None
         self.set_username_and_password(username, password)
 
-<<<<<<< HEAD
         if use_vcap_services and (not username or username == 'YOUR SERVICE USERNAME'):
-=======
-        if use_vcap_services and not self.username:
->>>>>>> origin/master
             self.vcap_service_credentials = load_from_vcap_services(vcap_services_name)
             if self.vcap_service_credentials is not None:
                 self.url = self.vcap_service_credentials['url']
@@ -96,7 +92,7 @@ class WatsonDeveloperCloudService(object):
             return dictionary[label_id]
         return dictionary
 
-    def _get_error_message(response):
+    def _get_error_message(self, response):
         '''
         Gets the error message from a JSON response.
         {
@@ -113,8 +109,7 @@ class WatsonDeveloperCloudService(object):
                 error_message = error_json['error_message']
         except:
             pass
-        finally:
-            return error_message
+        return error_message
 
     def request(self, method, url, accept_json=False, headers=None, params=None, json=None, data=None, **kwargs):
         full_url = self.url + url
