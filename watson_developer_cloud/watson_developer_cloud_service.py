@@ -56,11 +56,10 @@ class WatsonDeveloperCloudService(object):
         """
 
         self.url = url
-        self.username = username
-        self.password = password
-        self.jar = CookieJar()
+        self.jar = None
+        self.set_username_and_password(username, password)
 
-        if use_vcap_services and not username:
+        if use_vcap_services and not self.username:
             self.vcap_service_credentials = load_from_vcap_services(vcap_services_name)
             if self.vcap_service_credentials is not None:
                 self.url = self.vcap_service_credentials['url']
@@ -72,6 +71,12 @@ class WatsonDeveloperCloudService(object):
                                   '(Note: these are different from your Bluemix id)')
 
     def set_username_and_password(self, username=None, password=None):
+        if username == 'YOUR SERVICE USERNAME':
+            username = None
+
+        if password == 'YOUR SERVICE PASSWORD':
+            password = None
+
         self.username = username
         self.password = password
         self.jar = CookieJar()

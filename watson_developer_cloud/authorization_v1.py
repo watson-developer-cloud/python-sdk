@@ -18,14 +18,17 @@ retrieve a temporary access token
 """
 
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
+try:
+    import urllib.parse as urlparse  # Python 3
+except ImportError:
+    import urlparse  # Python 2
 
 
 class AuthorizationV1(WatsonDeveloperCloudService):
 
-    """Generates tokens, when it's too cumbersome to provide a username/password pair.
-    he Authorization service can generates tokens, this are useful when it's too cumbersome
-    to provide a username/password pair. Tokens are valid for 1 hour and
-    need to be send using the `X-Watson-Authorization-Token` header.
+    """
+    Generates tokens, which can be used client-side to avoid exposing the service credentials.
+    Tokens are valid for 1 hour and are sent using the `X-Watson-Authorization-Token` header.
     """
     default_url = "https://stream.watsonplatform.net/authorization/api"
 
@@ -40,5 +43,10 @@ class AuthorizationV1(WatsonDeveloperCloudService):
         """
         # A hack to avoid url-encoding the url, since the authorization service
         # doesn't work with correctly encoded urls
+
+        parsed_url = urlparse.urlsplit(url)
+        parsed_url = parsed_url._replace(path='/authorization/api')
+        self.url = urlparse.urlunsplit(parsed_url)
+
         response = self.request(method='GET', url='/v1/token?url=' + url)
         return response.text

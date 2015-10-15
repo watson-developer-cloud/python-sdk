@@ -1,5 +1,5 @@
 import json
-import watson_developer_cloud.QuestionAndAnswerV1Beta as QuestionAndAnswer
+from watson_developer_cloud import QuestionAndAnswerV1Beta as QuestionAndAnswer
 
 
 question_and_answer = QuestionAndAnswer(username='YOUR SERVICE USERNAME',

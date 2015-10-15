@@ -1,6 +1,6 @@
 import json
-import watson_developer_cloud.AuthorizationV1 as Authorization
-import watson_developer_cloud.SpeechToTextV1 as SpeechToText
+from watson_developer_cloud import AuthorizationV1 as Authorization
+from watson_developer_cloud import SpeechToTextV1 as SpeechToText
 
 authorization = Authorization(username='YOUR SERVICE USERNAME',
                               password='YOUR SERVICE PASSWORD')

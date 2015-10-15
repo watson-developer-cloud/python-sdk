@@ -1,5 +1,5 @@
 import json
-import watson_developer_cloud.TextToSpeechV1 as TextToSpeech
+from watson_developer_cloud import TextToSpeechV1 as TextToSpeech
 
 
 text_to_speech = TextToSpeech(username='YOUR SERVICE USERNAME',

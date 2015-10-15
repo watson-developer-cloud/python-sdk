@@ -1,5 +1,5 @@
 import json
-import watson_developer_cloud.PersonalityInsightsV2 as PersonalityInsights
+from watson_developer_cloud import PersonalityInsightsV2 as PersonalityInsights
 
 
 personality_insights = PersonalityInsights(username='YOUR SERVICE USERNAME',

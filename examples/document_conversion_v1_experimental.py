@@ -1,6 +1,6 @@
 # coding=utf-8
 import json
-import watson_developer_cloud.DocumentConversionV1Experimental as DocumentConversion
+from watson_developer_cloud import DocumentConversionV1Experimental as DocumentConversion
 
 
 document_conversion = DocumentConversion(username='YOUR SERVICE USERNAME',
