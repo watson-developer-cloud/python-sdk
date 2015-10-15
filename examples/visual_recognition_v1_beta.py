@@ -1,5 +1,5 @@
 import json
-import watson_developer_cloud.VisualRecognitionV1Beta as VisualRecognition
+from watson_developer_cloud import VisualRecognitionV1Beta as VisualRecognition
 
 
 visual_recognition = VisualRecognition(username='YOUR SERVICE USERNAME',

@@ -1,8 +1,7 @@
 # coding=utf-8
 import json
 import time
-import watson_developer_cloud.ConceptExpansionV1Beta as ConceptExpansion
-
+from watson_developer_cloud import ConceptExpansionV1Beta as ConceptExpansion
 
 concept_expansion = ConceptExpansion(username='YOUR SERVICE USERNAME',
                                      password='YOUR SERVICE PASSWORD')

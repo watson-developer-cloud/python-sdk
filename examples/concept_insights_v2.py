@@ -1,6 +1,6 @@
 # coding=utf-8
 import json
-import watson_developer_cloud.ConceptInsightsV2 as ConceptInsights
+from watson_developer_cloud import ConceptInsightsV2 as ConceptInsights
 
 
 concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',

@@ -1,5 +1,5 @@
 import json
-import watson_developer_cloud.ToneAnalyzerV2Experimental as ToneAnalyzer
+from watson_developer_cloud import ToneAnalyzerV2Experimental as ToneAnalyzer
 
 
 tone_analyzer = ToneAnalyzer(username='YOUR SERVICE USERNAME',

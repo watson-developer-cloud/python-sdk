@@ -1,4 +1,4 @@
-import watson_developer_cloud.RelationshipExtractionV1Beta as RelationshipExtraction
+from watson_developer_cloud import RelationshipExtractionV1Beta as RelationshipExtraction
 
 
 relationship_extraction = RelationshipExtraction(username='YOUR SERVICE USERNAME',

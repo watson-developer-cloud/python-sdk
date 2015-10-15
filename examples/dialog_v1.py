@@ -1,6 +1,6 @@
 # coding=utf-8
 import json
-import watson_developer_cloud.DialogV1 as Dialog
+from watson_developer_cloud import DialogV1 as Dialog
 
 
 dialog = Dialog(username='YOUR SERVICE USERNAME',

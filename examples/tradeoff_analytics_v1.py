@@ -1,6 +1,6 @@
 import json
 import os
-import watson_developer_cloud.TradeoffAnalyticsV1 as TradeoffAnalytics
+from watson_developer_cloud import TradeoffAnalyticsV1 as TradeoffAnalytics
 
 
 tradeoff_analytics = TradeoffAnalytics(username='YOUR SERVICE USERNAME',

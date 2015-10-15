@@ -1,5 +1,5 @@
 import json
-import watson_developer_cloud.MessageResonanceV1Beta as MessageResonance
+from watson_developer_cloud import MessageResonanceV1Beta as MessageResonance
 
 
 message_resonance = MessageResonance(username='YOUR SERVICE USERNAME',

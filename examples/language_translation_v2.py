@@ -1,6 +1,6 @@
 # coding=utf-8
 import json
-import watson_developer_cloud.LanguageTranslationV2 as LanguageTranslation
+from watson_developer_cloud import LanguageTranslationV2 as LanguageTranslation
 
 
 language_translation = LanguageTranslation(username='YOUR SERVICE USERNAME',

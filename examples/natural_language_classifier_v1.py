@@ -1,5 +1,5 @@
 import json
-import watson_developer_cloud.NaturalLanguageClassifierV1 as NaturalLanguageClassifier
+from watson_developer_cloud import NaturalLanguageClassifierV1 as NaturalLanguageClassifier
 
 
 natural_language_classifier = NaturalLanguageClassifier(username='YOUR SERVICE USERNAME',

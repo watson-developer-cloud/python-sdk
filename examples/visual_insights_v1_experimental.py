@@ -1,5 +1,5 @@
 import json
-import watson_developer_cloud.VisualInsightsV1Experimental as VisualInsights
+from watson_developer_cloud import VisualInsightsV1Experimental as VisualInsights
 
 
 visual_insights = VisualInsights(username='YOUR SERVICE USERNAME',
