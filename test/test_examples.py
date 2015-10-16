@@ -7,7 +7,6 @@ import sys
 from os import getcwd
 from subprocess import Popen, PIPE
 from os.path import join, dirname
-from dotenv import load_dotenv
 from glob import glob
 
 # tests to exclude
@@ -17,10 +16,12 @@ excludes = ['authorization_v1.py',
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')
 
 # environment variables
-dotenv_path = join(dirname(__file__), '../', '.env')
-load_dotenv(dotenv_path)
+if sys.version_info != (3,2):
+    from dotenv import load_dotenv
+    dotenv_path = join(dirname(__file__), '../', '.env')
+    load_dotenv(dotenv_path)
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None or sys.version_info == (3,2), reason='requires VCAP_SERVICES and Python != 3.2')
+@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 def test_examples():
     examples = glob(examples_path)
     for example in examples:
