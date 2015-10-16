@@ -9,6 +9,7 @@ python:
 install:
 - pip install -r requirements-dev.txt
 - pip install pylint
+- pip install git+git://github.com/watson-developer-cloud/python-sdk.git#egg=watson-developer-cloud
 script:
 - sh pylint.sh
 - coverage run --source=watson_developer_cloud setup.py test
