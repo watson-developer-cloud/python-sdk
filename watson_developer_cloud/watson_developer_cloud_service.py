@@ -59,7 +59,7 @@ class WatsonDeveloperCloudService(object):
         self.jar = None
         self.set_username_and_password(username, password)
 
-        if use_vcap_services and (not username or username == 'YOUR SERVICE USERNAME'):
+        if use_vcap_services and not self.username:
             self.vcap_service_credentials = load_from_vcap_services(vcap_services_name)
             if self.vcap_service_credentials is not None:
                 self.url = self.vcap_service_credentials['url']
