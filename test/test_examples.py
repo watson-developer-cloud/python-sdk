@@ -3,6 +3,7 @@
 import os
 import watson_developer_cloud
 import pytest
+import sys
 from os import getcwd
 from subprocess import Popen, PIPE
 from os.path import join, dirname
@@ -19,7 +20,7 @@ examples_path = join(dirname(__file__), '../', 'examples', '*.py')
 dotenv_path = join(dirname(__file__), '../', '.env')
 load_dotenv(dotenv_path)
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None and sys.version_info < (3,3), reason='requires VCAP_SERVICES and Python != 3.3')
 def test_examples():
     examples = glob(examples_path)
     for example in examples:
