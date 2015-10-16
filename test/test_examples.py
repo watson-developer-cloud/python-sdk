@@ -16,10 +16,13 @@ excludes = ['authorization_v1.py',
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')
 
 # environment variables
-if sys.version_info != (3,2):
+try:
     from dotenv import load_dotenv
     dotenv_path = join(dirname(__file__), '../', '.env')
     load_dotenv(dotenv_path)
+except:
+    print 'WARNING: dotenv could not be imported'
+    pass
 
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 def test_examples():
