@@ -21,8 +21,7 @@ try:
     dotenv_path = join(dirname(__file__), '../', '.env')
     load_dotenv(dotenv_path)
 except:
-    print 'WARNING: dotenv could not be imported'
-    pass
+    print('warning: dotenv module could not be imported')
 
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 def test_examples():
