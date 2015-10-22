@@ -47,7 +47,7 @@ def _remove_null_values(dictionary):
 
 
 class WatsonDeveloperCloudService(object):
-    def __init__(self, vcap_services_name, url, username=None, password=None, use_vcap_services=True):
+    def __init__(self, vcap_services_name, url, username=None, password=None, use_vcap_services=True, api_key=None):
         """
         Loads credentials from the VCAP_SERVICES environment variable if available, preferring credentials explicitly
         set in the request.
@@ -57,28 +57,39 @@ class WatsonDeveloperCloudService(object):
 
         self.url = url
         self.jar = None
-        self.set_username_and_password(username, password)
+        self.api_key = None
+        # separate out the calls so that non-Alchemy services can override set_username_and_password without api_key
+        if api_key is None:
+            self.set_username_and_password(username, password)
+        else:
+            self.set_username_and_password(username, password, api_key)
 
-        if use_vcap_services and not self.username:
+        if use_vcap_services and not self.username and not self.api_key:
             self.vcap_service_credentials = load_from_vcap_services(vcap_services_name)
-            if self.vcap_service_credentials is not None:
+            if self.vcap_service_credentials is not None and isinstance(self.vcap_service_credentials, dict):
                 self.url = self.vcap_service_credentials['url']
-                self.username = self.vcap_service_credentials['username']
-                self.password = self.vcap_service_credentials['password']
+                if 'username' in self.vcap_service_credentials:
+                    self.username = self.vcap_service_credentials['username']
+                if 'password' in self.vcap_service_credentials:
+                    self.password = self.vcap_service_credentials['password']
+                if 'apikey' in self.vcap_service_credentials:
+                    self.api_key = self.vcap_service_credentials['apikey']
 
-        if self.username is None or self.password is None:
+        if (self.username is None or self.password is None) and self.api_key is None:
             raise WatsonException('You must specific your username and password service credentials ' +
                                   '(Note: these are different from your Bluemix id)')
 
-    def set_username_and_password(self, username=None, password=None):
+    def set_username_and_password(self, username=None, password=None, api_key=None):
         if username == 'YOUR SERVICE USERNAME':
             username = None
-
         if password == 'YOUR SERVICE PASSWORD':
             password = None
+        if api_key == 'YOUR API KEY':
+            api_key = None
 
         self.username = username
         self.password = password
+        self.api_key = api_key
         self.jar = CookieJar()
 
     def set_url(self, url):
@@ -126,12 +137,29 @@ class WatsonDeveloperCloudService(object):
         json = _remove_null_values(json)
         data = _remove_null_values(data)
 
-        response = requests.request(method=method, url=full_url, cookies=self.jar, auth=(self.username, self.password),
-                                    headers=headers, params=params, json=json, data=data, **kwargs)
+        auth = None
+        if self.username and self.password:
+            auth = (self.username, self.password)
+        if self.api_key is not None:
+            if params is None:
+                params = {}
+            params['apikey'] = self.api_key
+
+        response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
+                                    params=params, json=json, data=data, **kwargs)
 
         if 200 <= response.status_code <= 299:
             if accept_json:
-                return response.json()
+                response_json = response.json()
+                if 'status' in response_json and response_json['status'] == 'ERROR':
+                    response.status_code = 400
+                    error_message = 'Unknown error'
+                    if 'statusInfo' in response_json:
+                        error_message = response_json['statusInfo']
+                    if error_message == 'invalid-api-key':
+                        response.status_code = 401
+                    raise WatsonException('Error: ' + error_message)
+                return response_json
             return response
         else:
             if response.status_code == 401:

@@ -43,6 +43,18 @@ Tested 👌 (lightly) on: Python from 2.6 to 3.5-dev (development branch)
 * [requests]
 * [responses] (for testing)
 
+## Debugging
+
+Add the follow lines to your Python script to enable request logging:
+```
+import logging
+logging.basicConfig()
+logging.getLogger().setLevel(logging.DEBUG)
+requests_log = logging.getLogger("requests.packages.urllib3")
+requests_log.setLevel(logging.DEBUG)
+requests_log.propagate = True
+```
+
 ## Contributing
 See [CONTRIBUTING.md][CONTRIBUTING].
 

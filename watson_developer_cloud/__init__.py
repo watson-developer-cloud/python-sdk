@@ -15,6 +15,7 @@
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 from .watson_developer_cloud_service import WatsonException
 from .watson_developer_cloud_service import WatsonInvalidArgument
+from .alchemy_vision_v1 import AlchemyVisionV1
 from .authorization_v1 import AuthorizationV1
 from .concept_expansion_v1_beta import ConceptExpansionV1Beta
 from .concept_insights_v2 import ConceptInsightsV2

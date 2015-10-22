@@ -17,7 +17,8 @@ The v1 Language Translation service
 (https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/language-translation.html)
 """
 
-from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_developer_cloud_service import WatsonInvalidArgument
 
 
 class LanguageTranslationV2(WatsonDeveloperCloudService):
@@ -45,8 +46,10 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
         """
         Translates text from a source language to a target language
         """
-        data = {'text': text, 'source': source,
-                'target': target, 'model': model}
+        if model is None and (source is None or target is None):
+            raise WatsonInvalidArgument('Either model or source and target must be specified')
+
+        data = {'text': text, 'source': source, 'target': target, 'model': model}
 
         # data=data or json=data
         return self.request(method='POST', url='/v2/translate', json=data).text

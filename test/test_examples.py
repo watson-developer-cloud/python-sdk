@@ -10,8 +10,8 @@ from os.path import join, dirname
 from glob import glob
 
 # tests to exclude
-excludes = ['authorization_v1.py',
-            'language_translation_v2.py', 'concept_expansion_v1.py', 'question_and_answer_v1_beta.py']
+excludes = ['authorization_v1.py', 'message_resonance_v1_beta.py', 'concept_expansion_v1.py',
+            'question_and_answer_v1_beta.py']
 # examples path. /examples
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')
 
@@ -32,8 +32,13 @@ def test_examples():
         if name in excludes:
             continue
 
-        p = Popen(['python', example], stdout=PIPE, stderr=PIPE, stdin=PIPE)
-        out, err = p.communicate()
+        try:
+            exec(open(example).read(), globals())
+        except Exception as e:
+            assert False, 'example in file ' + name + ' failed with error: ' + e.message
+        # p = Popen(['python', example], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+        # out, err = p.communicate()
+        #
+        # assert p.returncode == 0, 'example %s fail with error: %s' % (
+        #     name, err)
 
-        assert p.returncode == 0, 'example %s fail with error: %s' % (
-            name, err)

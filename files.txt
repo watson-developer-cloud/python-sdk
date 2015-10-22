@@ -1,0 +1,1 @@
+/Users/jsstylos/.pyenv/versions/2.7.9/lib/python2.7/site-packages/watson_developer_cloud-0.1.9-py2.7.egg
