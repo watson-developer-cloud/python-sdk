@@ -16,7 +16,6 @@ The AlchemyAPI Vision service
 (http://www.alchemyapi.com/products/alchemyvision)
 """
 
-import sys
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 from .watson_developer_cloud_service import WatsonInvalidArgument
 
