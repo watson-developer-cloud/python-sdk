@@ -18,10 +18,15 @@ examples_path = join(dirname(__file__), '../', 'examples', '*.py')
 # environment variables
 try:
     from dotenv import load_dotenv
+except:
+    print('warning: dotenv module could not be imported')
+
+try:
     dotenv_path = join(dirname(__file__), '../', '.env')
     load_dotenv(dotenv_path)
 except:
-    print('warning: dotenv module could not be imported')
+    print('warning: no .env file loaded')
+
 
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 def test_examples():
