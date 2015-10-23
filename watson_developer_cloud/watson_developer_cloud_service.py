@@ -58,11 +58,15 @@ class WatsonDeveloperCloudService(object):
         self.url = url
         self.jar = None
         self.api_key = None
-        # separate out the calls so that non-Alchemy services can override set_username_and_password without api_key
-        if api_key is None:
-            self.set_username_and_password(username, password)
+        self.username = None
+        self.password = None
+
+        if api_key is not None:
+            if username is not None or password is not None:
+                raise WatsonInvalidArgument('Cannot set api_key and username and password together')
+            self.set_api_key(api_key)
         else:
-            self.set_username_and_password(username, password, api_key)
+            self.set_username_and_password(username, password)
 
         if use_vcap_services and not self.username and not self.api_key:
             self.vcap_service_credentials = load_from_vcap_services(vcap_services_name)
@@ -79,16 +83,20 @@ class WatsonDeveloperCloudService(object):
             raise WatsonException('You must specific your username and password service credentials ' +
                                   '(Note: these are different from your Bluemix id)')
 
-    def set_username_and_password(self, username=None, password=None, api_key=None):
+    def set_username_and_password(self, username=None, password=None):
         if username == 'YOUR SERVICE USERNAME':
             username = None
         if password == 'YOUR SERVICE PASSWORD':
             password = None
-        if api_key == 'YOUR API KEY':
-            api_key = None
 
         self.username = username
         self.password = password
+        self.jar = CookieJar()
+
+    def set_api_key(self, api_key):
+        if api_key == 'YOUR API KEY':
+            api_key = None
+
         self.api_key = api_key
         self.jar = CookieJar()
 
