@@ -130,6 +130,48 @@ class WatsonDeveloperCloudService(object):
             pass
         return error_message
 
+    def _alchemy_html_request(self, method_name, url=None, html=None, text=None, params=None):
+        if params is None:
+            params = {}
+        params['outputMode'] = 'json'
+        headers = {'content-type': 'application/x-www-form-urlencoded'}
+        url_encoded_params = {'html': html, 'text': text}
+
+        if url:
+            params['url'] = url
+            method_url = '/url/URL' + method_name
+        elif html:
+            method_url = '/html/HTML' + method_name
+        elif text:
+            method_url = '/text/Text' + method_name
+        else:
+            raise WatsonInvalidArgument('url, html or text must be specified')
+
+        return self.request(method='POST', url=method_url, params=params, data=url_encoded_params, headers=headers,
+                            accept_json=True)
+
+    def _alchemy_image_request(self, method_name, image_file=None, image_url=None, params=None):
+        if params is None:
+            params = {}
+        params['outputMode'] = 'json'
+        headers = {}
+        image_contents = None
+
+        if image_file:
+            params['imagePostMode'] = 'raw'
+            image_contents = image_file.read()
+            # headers['content-length'] = sys.getsizeof(image_contents)
+            url = '/image/Image' + method_name
+        elif image_url:
+            params['imagePostMode'] = 'not-raw'
+            params['url'] = image_url
+            url = '/url/URL' + method_name
+        else:
+            raise WatsonInvalidArgument('image_file or image_url must be specified')
+
+        return self.request(method='POST', url=url, params=params, data=image_contents, headers=headers,
+                            accept_json=True)
+
     def request(self, method, url, accept_json=False, headers=None, params=None, json=None, data=None, **kwargs):
         full_url = self.url + url
 
