@@ -28,7 +28,7 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
     def sentiment(self, html=None, text=None, url=None):
         return self._alchemy_html_request('GetTextSentiment', html=html, text=text, url=url)
 
-    # FIXME: Should provide a way to provide multiple targets
+    # Should provide a way to provide multiple targets
     def targeted_sentiment(self, target, html=None, text=None, url=None):
         params = {'target': target}
         return self._alchemy_html_request('GetTargetedSentiment', html=html, text=text, url=url, params=params)
