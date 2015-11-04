@@ -39,6 +39,12 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
                   'maxRetrieve': max_keywords}
         return self._alchemy_html_request('GetRankedKeywords', html=html, url=url, params=params)
 
+    def concepts(self, html=None, url=None, max_concepts=8, linked_data=True, show_source_text=False):
+        params = {'maxRetrieve': max_concepts,
+                  'linkedData': 1 if linked_data else 0,
+                  'showSourceText': 1 if show_source_text else 0}
+        return self._alchemy_html_request('GetRankedConcepts', html=html, url=url, params=params)
+
     def sentiment(self, html=None, text=None, url=None):
         return self._alchemy_html_request('GetTextSentiment', html=html, text=text, url=url)
 

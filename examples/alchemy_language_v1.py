@@ -9,3 +9,5 @@ alchemy_language = AlchemyLanguageV1(api_key='YOUR API KEY')
 # print(json.dumps(alchemy_language.author(url='https://developer.ibm.com/watson/blog/2015/11/03/price-reduction-for-watson-personality-insights/'), indent=2))
 
 # print(json.dumps(alchemy_language.keywords(max_keywords=5, url='https://developer.ibm.com/watson/blog/2015/11/03/price-reduction-for-watson-personality-insights/'), indent=2))
+
+print(json.dumps(alchemy_language.concepts(max_concepts=2, url='https://developer.ibm.com/watson/blog/2015/11/03/price-reduction-for-watson-personality-insights/'), indent=2))
