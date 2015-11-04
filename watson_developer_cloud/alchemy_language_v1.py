@@ -25,6 +25,20 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
 
+    def author(self, html=None, url=None):
+        return self._alchemy_html_request('GetAuthor', html=html, url=url)
+
+    def authors(self, html=None, url=None):
+        return self._alchemy_html_request('GetAuthors', html=html, url=url)
+
+    def keywords(self, html=None, url=None, strict_extract_mode=False, sentiment=False, show_source_text=False,
+                 max_keywords=50):
+        params = {'keywordExtractMode': 'strict' if strict_extract_mode else 'normal',
+                  'sentiment': 1 if sentiment else 0,
+                  'showSourceText': 1 if show_source_text else 0,
+                  'maxRetrieve': max_keywords}
+        return self._alchemy_html_request('GetRankedKeywords', html=html, url=url, params=params)
+
     def sentiment(self, html=None, text=None, url=None):
         return self._alchemy_html_request('GetTextSentiment', html=html, text=text, url=url)
 
