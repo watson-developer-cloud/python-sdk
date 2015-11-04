@@ -27,13 +27,13 @@ class AlchemyVisionV1(WatsonDeveloperCloudService):
 
     def get_image_keywords(self, image_file=None, image_url=None, knowledge_graph=False, force_show_all=False):
         method_name = 'GetRankedImageKeywords'
-        params = {'knowledgeGraph': 1 if knowledge_graph else 0,
-                  'forceShowAll': 1 if force_show_all else 0}
+        params = {'knowledgeGraph': knowledge_graph,
+                  'forceShowAll': force_show_all}
         return self._alchemy_image_request(method_name, image_file, image_url, params)
 
     def recognize_faces(self, image_file=None, image_url=None, knowledge_graph=False):
         method_name = 'GetRankedImageFaceTags'
-        params = {'knowledgeGraph': 1 if knowledge_graph else 0}
+        params = {'knowledgeGraph': knowledge_graph}
         return self._alchemy_image_request(method_name, image_file, image_url, params)
 
     def get_image_links(self, url=None, html=None):

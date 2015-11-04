@@ -46,6 +46,18 @@ def _remove_null_values(dictionary):
     return dictionary
 
 
+def _convert_boolean_value(value):
+    if isinstance(value, bool):
+        return 1 if value else 0
+    return value
+
+
+def _convert_boolean_values(dictionary):
+    if isinstance(dictionary, dict):
+        return {k: _convert_boolean_value(v) for k, v in dictionary.items()}
+    return dictionary
+
+
 class WatsonDeveloperCloudService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None, use_vcap_services=True, api_key=None):
         """
@@ -136,6 +148,7 @@ class WatsonDeveloperCloudService(object):
         params['outputMode'] = 'json'
         headers = {'content-type': 'application/x-www-form-urlencoded'}
         url_encoded_params = {'html': html, 'text': text}
+        params = _convert_boolean_values(params)
 
         if url:
             params['url'] = url
@@ -154,6 +167,7 @@ class WatsonDeveloperCloudService(object):
         if params is None:
             params = {}
         params['outputMode'] = 'json'
+        params = _convert_boolean_values(params)
         headers = {}
         image_contents = None
 
