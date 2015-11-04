@@ -31,19 +31,34 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
     def authors(self, html=None, url=None):
         return self._alchemy_html_request('GetAuthors', html=html, url=url)
 
-    def keywords(self, html=None, url=None, strict_extract_mode=False, sentiment=False, show_source_text=False,
+    def keywords(self, html=None, text=None, url=None, strict_extract_mode=False, sentiment=False, show_source_text=False,
                  max_keywords=50):
         params = {'keywordExtractMode': 'strict' if strict_extract_mode else 'normal',
                   'sentiment': 1 if sentiment else 0,
                   'showSourceText': 1 if show_source_text else 0,
                   'maxRetrieve': max_keywords}
-        return self._alchemy_html_request('GetRankedKeywords', html=html, url=url, params=params)
+        return self._alchemy_html_request('GetRankedKeywords', html=html, text=text, url=url, params=params)
 
-    def concepts(self, html=None, url=None, max_concepts=8, linked_data=True, show_source_text=False):
+    def concepts(self, html=None, text=None, url=None, max_concepts=8, linked_data=True, show_source_text=False):
         params = {'maxRetrieve': max_concepts,
                   'linkedData': 1 if linked_data else 0,
                   'showSourceText': 1 if show_source_text else 0}
-        return self._alchemy_html_request('GetRankedConcepts', html=html, url=url, params=params)
+        return self._alchemy_html_request('GetRankedConcepts', html=html, text=text, url=url, params=params)
+
+    def entities(self, html=None, text=None, url=None, disambiguate=True, linked_data=True, coreference=True,
+                 quotations=False, sentiment=False, show_source_text=False, max_entities=50):
+        params = {'disambiguate': 1 if disambiguate else 0,
+                  'linkedData': 1 if linked_data else 0,
+                  'coreference': 1 if coreference else 0,
+                  'quotations': 1 if quotations else 0,
+                  'sentiment': 1 if sentiment else 0,
+                  'showSourceText': 1 if show_source_text else 0,
+                  'maxRetrieve': max_entities}
+        return self._alchemy_html_request('GetRankedNamedEntities', html=html, text=text, url=url, params=params)
+
+    def category(self, html=None, text=None, url=None, show_source_text=False):
+        params = {'showSourceText': 1 if show_source_text else 0}
+        return self._alchemy_html_request('GetCategory', html=html, text=text, url=url, params=params)
 
     def sentiment(self, html=None, text=None, url=None):
         return self._alchemy_html_request('GetTextSentiment', html=html, text=text, url=url)
