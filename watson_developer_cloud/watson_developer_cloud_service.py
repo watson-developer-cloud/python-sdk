@@ -142,7 +142,8 @@ class WatsonDeveloperCloudService(object):
             pass
         return error_message
 
-    def _alchemy_html_request(self, method_name, url=None, html=None, text=None, params=None):
+    def _alchemy_html_request(self, method_name=None, url=None, html=None, text=None, params=None, method='POST',
+                              method_url=None):
         if params is None:
             params = {}
         params['outputMode'] = 'json'
@@ -150,17 +151,18 @@ class WatsonDeveloperCloudService(object):
         url_encoded_params = {'html': html, 'text': text}
         params = _convert_boolean_values(params)
 
-        if url:
-            params['url'] = url
-            method_url = '/url/URL' + method_name
-        elif html:
-            method_url = '/html/HTML' + method_name
-        elif text:
-            method_url = '/text/Text' + method_name
-        else:
-            raise WatsonInvalidArgument('url, html or text must be specified')
+        if method_url is None:
+            if url:
+                params['url'] = url
+                method_url = '/url/URL' + method_name
+            elif html:
+                method_url = '/html/HTML' + method_name
+            elif text:
+                method_url = '/text/Text' + method_name
+            else:
+                raise WatsonInvalidArgument('url, html or text must be specified')
 
-        return self.request(method='POST', url=method_url, params=params, data=url_encoded_params, headers=headers,
+        return self.request(method=method, url=method_url, params=params, data=url_encoded_params, headers=headers,
                             accept_json=True)
 
     def _alchemy_image_request(self, method_name, image_file=None, image_url=None, params=None):

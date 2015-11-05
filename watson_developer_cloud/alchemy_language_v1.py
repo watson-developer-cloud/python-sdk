@@ -138,7 +138,8 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         Combined call for page-image, entity, keyword, title, author, taxonomy,  concept.
         INPUT:
         extract ->
-            Possible comma-separated values: page-image, entity, keyword, title, author, taxonomy,  concept
+            List or comma separated string
+            Possible values: page-image, entity, keyword, title, author, taxonomy,  concept
             default        : entity, keyword, taxonomy,  concept
         disambiguate ->
             disambiguate detected entities
@@ -178,6 +179,9 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         OUTPUT:
         The response, already converted from JSON to a Python object.
         """
+        if isinstance(extract, list):
+            extract = ','.join(extract)
+
         params = {'extract': extract,
                   'disambiguate': disambiguate,
                   'linkedData': linked_data,
