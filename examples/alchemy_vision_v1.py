@@ -9,12 +9,13 @@ alchemy_vision = AlchemyVision(api_key='YOUR API KEY')
 with open(join(dirname(__file__), '../resources/face.jpg'), 'rb') as image_file:
     print(json.dumps(alchemy_vision.recognize_faces(image_file, knowledge_graph=True), indent=2))
 
-faceUrl = 'https://upload.wikimedia.org/wikipedia/commons/0/00/Scarlett_Johansson_-_Captain_America_2_press_conference_%28retouched%29_2.jpg'
-print(json.dumps(alchemy_vision.recognize_faces(image_url=faceUrl, knowledge_graph=True), indent=2))
+face_url = 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Barack_Obama.jpg'
+print(json.dumps(alchemy_vision.recognize_faces(image_url=face_url, knowledge_graph=True), indent=2))
 
 # Image tagging
 with open(join(dirname(__file__), '../resources/test.jpg'), 'rb') as image_file:
-    print(json.dumps(alchemy_vision.get_image_keywords(image_file, knowledge_graph=True), indent=2))
+    print(json.dumps(alchemy_vision.get_image_keywords(image_file, knowledge_graph=True,
+                                                       force_show_all=True), indent=2))
 
 print(json.dumps(alchemy_vision.get_image_keywords(
     image_url='https://upload.wikimedia.org/wikipedia/commons/8/81/Morris-Chair-Ironwood.jpg'), indent=2))
