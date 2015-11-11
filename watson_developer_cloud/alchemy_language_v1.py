@@ -196,7 +196,9 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
     def sentiment(self, html=None, text=None, url=None):
         return self._alchemy_html_request('GetTextSentiment', html=html, text=text, url=url)
 
-    # Should provide a way to provide multiple targets
-    def targeted_sentiment(self, target, html=None, text=None, url=None):
-        params = {'target': target}
+    def targeted_sentiment(self, targets, html=None, text=None, url=None):
+        if isinstance(targets, list):
+            targets = '|'.join(targets)
+
+        params = {'targets': targets}
         return self._alchemy_html_request('GetTargetedSentiment', html=html, text=text, url=url, params=params)
