@@ -25,7 +25,13 @@ class AlchemyDataNewsV1(WatsonDeveloperCloudService):
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
 
-    def get_news(self, start, end):
+    def get_news_documents(self, start, end, return_fields):
         params = {'start': start,
                   'end': end}
+        return self._alchemy_html_request(method_url='/data/GetNews', method='GET', params=params)
+
+    def get_volume(self, start, end, time_slice=None):
+        params = {'start': start,
+                  'end': end,
+                  'timeSlice': time_slice}
         return self._alchemy_html_request(method_url='/data/GetNews', method='GET', params=params)

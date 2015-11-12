@@ -40,7 +40,7 @@ def test_examples():
         try:
             exec(open(example).read(), globals())
         except Exception as e:
-            assert False, 'example in file ' + name + ' failed with error: ' + e.message
+            assert False, 'example in file ' + name + ' failed with error: ' + str(e)
         # p = Popen(['python', example], stdout=PIPE, stderr=PIPE, stdin=PIPE)
         # out, err = p.communicate()
         #

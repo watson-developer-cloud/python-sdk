@@ -203,6 +203,15 @@ class WatsonDeveloperCloudService(object):
         json = _remove_null_values(json)
         data = _remove_null_values(data)
 
+        # Support versions of requests older than 2.4.2 without the json input
+        if not data and json is not None:
+            data = json_import.dumps(json)
+            content_type_header = {'content-type': 'application/json'}
+            if headers:
+                headers.update(content_type_header)
+            else:
+                headers = content_type_header
+
         auth = None
         if self.username and self.password:
             auth = (self.username, self.password)
@@ -212,7 +221,7 @@ class WatsonDeveloperCloudService(object):
             params['apikey'] = self.api_key
 
         response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
-                                    params=params, json=json, data=data, **kwargs)
+                                    params=params, data=data, **kwargs)
 
         if 200 <= response.status_code <= 299:
             if accept_json:
