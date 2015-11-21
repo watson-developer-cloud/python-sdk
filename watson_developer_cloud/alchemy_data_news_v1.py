@@ -26,9 +26,10 @@ class AlchemyDataNewsV1(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
 
     # INCOMPLETE
-    def get_news_documents(self, start, end, return_fields):
+    def get_news_documents(self, start, end, max_results=10, return_fields={}):
         params = {'start': start,
-                  'end': end}
+                  'end': end,
+                  'maxResults': max_results}
         return self._alchemy_html_request(method_url='/data/GetNews', method='GET', params=params)
 
     # INCOMPLETE
