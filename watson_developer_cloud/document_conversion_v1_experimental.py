@@ -21,6 +21,8 @@ import json
 class DocumentConversionV1Experimental(WatsonDeveloperCloudService):
     DEFAULT_URL = 'https://gateway.watsonplatform.net/document-conversion-experimental/api'
     ANSWER_UNITS = 'ANSWER_UNITS'
+    NORMALIZED_HTML = 'NORMALIZED_HTML'
+    NORMALIZED_TEXT = 'NORMALIZED_TEXT'
 
     def __init__(self, url=DEFAULT_URL, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'document_conversion', url, **kwargs)
@@ -39,7 +41,7 @@ class DocumentConversionV1Experimental(WatsonDeveloperCloudService):
             return extension_map[extension]
         return None
 
-    def convert_document(self, document, media_type=None, conversion_target=ANSWER_UNITS):
+    def convert_document(self, document, conversion_target, media_type=None):
         filename = os.path.basename(document.name)
         if not media_type:
             media_type = self._media_type_from_filename(filename)

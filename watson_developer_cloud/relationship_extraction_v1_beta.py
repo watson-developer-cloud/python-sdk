@@ -15,6 +15,7 @@
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
+
 class RelationshipExtractionV1Beta(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/relationship-extraction-beta/api'
 

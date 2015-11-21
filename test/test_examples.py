@@ -10,18 +10,23 @@ from os.path import join, dirname
 from glob import glob
 
 # tests to exclude
-excludes = ['authorization_v1.py',
-            'language_translation_v2.py', 'concept_expansion_v1.py', 'question_and_answer_v1_beta.py']
+excludes = ['authorization_v1.py', 'message_resonance_v1_beta.py', 'concept_expansion_v1.py',
+            'question_and_answer_v1_beta.py', 'relationship_extraction_v1_beta.py']
 # examples path. /examples
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')
 
 # environment variables
 try:
     from dotenv import load_dotenv
+except:
+    print('warning: dotenv module could not be imported')
+
+try:
     dotenv_path = join(dirname(__file__), '../', '.env')
     load_dotenv(dotenv_path)
 except:
-    print('warning: dotenv module could not be imported')
+    print('warning: no .env file loaded')
+
 
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 def test_examples():
@@ -32,8 +37,13 @@ def test_examples():
         if name in excludes:
             continue
 
-        p = Popen(['python', example], stdout=PIPE, stderr=PIPE, stdin=PIPE)
-        out, err = p.communicate()
+        try:
+            exec(open(example).read(), globals())
+        except Exception as e:
+            assert False, 'example in file ' + name + ' failed with error: ' + str(e)
+        # p = Popen(['python', example], stdout=PIPE, stderr=PIPE, stdin=PIPE)
+        # out, err = p.communicate()
+        #
+        # assert p.returncode == 0, 'example %s fail with error: %s' % (
+        #     name, err)
 
-        assert p.returncode == 0, 'example %s fail with error: %s' % (
-            name, err)

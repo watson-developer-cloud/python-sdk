@@ -1,0 +1,204 @@
+# Copyright 2015 IBM All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""
+The AlchemyAPI Language service
+(http://www.alchemyapi.com/products/alchemylanguage)
+"""
+
+from .watson_developer_cloud_service import WatsonDeveloperCloudService
+
+
+class AlchemyLanguageV1(WatsonDeveloperCloudService):
+    default_url = 'https://gateway-a.watsonplatform.net/calls'
+
+    def __init__(self, url=default_url, **kwargs):
+        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
+
+    def author(self, html=None, url=None):
+        return self._alchemy_html_request('GetAuthor', html=html, url=url)
+
+    def authors(self, html=None, url=None):
+        return self._alchemy_html_request('GetAuthors', html=html, url=url)
+
+    def keywords(self, html=None, text=None, url=None, strict_extract_mode=False, sentiment=False,
+                 show_source_text=False, max_keywords=50):
+        params = {'keywordExtractMode': 'strict' if strict_extract_mode else 'normal',
+                  'sentiment': sentiment,
+                  'showSourceText': show_source_text,
+                  'maxRetrieve': max_keywords}
+        return self._alchemy_html_request('GetRankedKeywords', html=html, text=text, url=url, params=params)
+
+    def concepts(self, html=None, text=None, url=None, max_items=8, linked_data=True, show_source_text=False):
+        params = {'maxRetrieve': max_items,
+                  'linkedData': linked_data,
+                  'showSourceText': show_source_text}
+        return self._alchemy_html_request('GetRankedConcepts', html=html, text=text, url=url, params=params)
+
+    def entities(self, html=None, text=None, url=None, disambiguate=True, linked_data=True, coreference=True,
+                 quotations=False, sentiment=False, show_source_text=False, max_items=50):
+        params = {'disambiguate': disambiguate,
+                  'linkedData': linked_data,
+                  'coreference': coreference,
+                  'quotations': quotations,
+                  'sentiment': sentiment,
+                  'showSourceText': show_source_text,
+                  'maxRetrieve': max_items}
+        return self._alchemy_html_request('GetRankedNamedEntities', html=html, text=text, url=url, params=params)
+
+    def relations(self, html=None, text=None, url=None, sentiment=False, keywords=False, entities=False,
+                  require_entities=False, sentiment_excludes_entities=True, disambiguate=True, linked_data=True,
+                  coreference=True, show_source_text=False, max_items=50):
+        params = {'sentiment': sentiment,
+                  'keywords': keywords,
+                  'entities': entities,
+                  'requireEntities': require_entities,
+                  'sentimentExcludesEntities': sentiment_excludes_entities,
+                  'disambiguate': disambiguate,
+                  'linkedData': linked_data,
+                  'coreference': coreference,
+                  'showSourceText': show_source_text,
+                  'maxRetrieve': max_items}
+        return self._alchemy_html_request('GetRelations', html=html, text=text, url=url, params=params)
+
+    def language(self, html=None, text=None, url=None):
+        return self._alchemy_html_request('GetLanguage', html=html, text=text, url=url)
+
+    def text(self, html=None, url=None, use_metadata=True, extract_links=False):
+        params = {'useMetadata': use_metadata,
+                  'extractLinks': extract_links}
+        return self._alchemy_html_request('GetText', html=html, url=url, params=params)
+
+    def raw_text(self, html=None, url=None):
+        return self._alchemy_html_request('GetRawText', html=html, url=url)
+
+    def category(self, html=None, text=None, url=None, show_source_text=False):
+        params = {'showSourceText': show_source_text}
+        return self._alchemy_html_request('GetCategory', html=html, text=text, url=url, params=params)
+
+    def title(self, html=None, url=None, use_metadata=True):
+        params = {'useMetadata': use_metadata}
+        return self._alchemy_html_request('GetTitle', html=html, url=url, params=params)
+
+    def feeds(self, html=None, url=None):
+        return self._alchemy_html_request('GetFeedLinks', html=html, url=url)
+
+    def microformats(self, html=None, url=None):
+        return self._alchemy_html_request('GetMicroformatData', html=html, url=url)
+
+    def publication_date(self, html=None, url=None):
+        return self._alchemy_html_request('GetPubDate', html=html, url=url)
+
+    def taxonomy(self, html=None, text=None, url=None, show_source_text=False, source_text_type=None,
+                 constraint_query=None, xpath_query=None, base_url=None):
+        """
+        source_text_type ->
+            where to obtain the text that will be processed by this API call.
+            AlchemyAPI supports multiple modes of text extraction:
+                web page cleaning (removes ads, navigation links, etc.), raw text extraction
+                (processes all web page text, including ads / nav links), visual constraint queries, and XPath queries.
+            Possible values:
+                cleaned_or_raw  : cleaning enabled, fallback to raw when cleaning produces no text (default)
+                cleaned         : operate on 'cleaned' web page text (web page cleaning enabled)
+                raw             : operate on raw web page text (web page cleaning disabled)
+                cquery          : operate on the results of a visual constraints query
+                                  Note: The 'constraint_query'  argument must also be set to a valid visual constraints
+                                  query.
+                xpath           : operate on the results of an XPath query
+                                  Note: The 'xpath' http argument must also be set to a valid XPath query.
+        constraint_query ->
+            a visual constraints query to apply to the web page.
+        xpath ->
+            an XPath query to apply to the web page.
+        base_url ->
+            rel-tag output base http url (must be uri-argument encoded)
+        """
+        params = {'showSourceText': show_source_text,
+                  'sourceText': source_text_type,
+                  'cquery': constraint_query,
+                  'xpath': xpath_query,
+                  'base_url': base_url}
+        return self._alchemy_html_request('GetRankedTaxonomy', html=html, text=text, url=url, params=params)
+
+    # Some of these options don't appear in the API documentation but are supported by the previous AlchemyAPI SDK
+    def combined(self, html=None, text=None, url=None, extract=None, disambiguate=True, linked_data=True,
+                 coreference=True, quotations=False, sentiment=False, show_source_text=False, max_items=50,
+                 base_url=None):
+        """
+        Combined call for page-image, entity, keyword, title, author, taxonomy,  concept.
+        INPUT:
+        extract ->
+            List or comma separated string
+            Possible values: page-image, entity, keyword, title, author, taxonomy,  concept
+            default        : entity, keyword, taxonomy,  concept
+        disambiguate ->
+            disambiguate detected entities
+            Possible values:
+                True : enabled (default)
+                False : disabled
+        linked_data ->
+            include Linked Data content links with disambiguated entities
+            Possible values :
+                True : enabled (default)
+                False : disabled
+        coreference ->
+            resolve he/she/etc coreferences into detected entities
+            Possible values:
+                True : enabled (default)
+                False : disabled
+        quotations ->
+            enable quotations extraction
+            Possible values:
+                True : enabled
+                False : disabled (default)
+        sentiment ->
+            enable entity-level sentiment analysis
+            Possible values:
+                True : enabled
+                False : disabled (default)
+        show_source_text ->
+            include the original 'source text' the entities were extracted from within the API response
+            Possible values:
+                True : enabled
+                False : disabled (default)
+        max_items ->
+            maximum number of named entities to extract
+            default : 50
+        base_url ->
+            rel-tag output base http url
+        OUTPUT:
+        The response, already converted from JSON to a Python object.
+        """
+        if isinstance(extract, list):
+            extract = ','.join(extract)
+
+        params = {'extract': extract,
+                  'disambiguate': disambiguate,
+                  'linkedData': linked_data,
+                  'coreference': coreference,
+                  'quotations': quotations,
+                  'sentiment': sentiment,
+                  'showSourceText': show_source_text,
+                  'maxRetrieve': max_items,
+                  'baseUrl': base_url}
+        return self._alchemy_html_request('GetCombinedData', html=html, text=text, url=url, params=params)
+
+    def sentiment(self, html=None, text=None, url=None):
+        return self._alchemy_html_request('GetTextSentiment', html=html, text=text, url=url)
+
+    def targeted_sentiment(self, targets, html=None, text=None, url=None):
+        if isinstance(targets, list):
+            targets = '|'.join(targets)
+
+        params = {'targets': targets}
+        return self._alchemy_html_request('GetTargetedSentiment', html=html, text=text, url=url, params=params)

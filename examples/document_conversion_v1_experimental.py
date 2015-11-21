@@ -10,4 +10,5 @@ document_conversion = DocumentConversion(username='YOUR SERVICE USERNAME',
 # print(json.dumps(document_conversion.get_jobs(), indent=2))
 
 with open(join(dirname(__file__), '../resources/sample-docx.docx'), 'rb') as document:
-    print(json.dumps(document_conversion.convert_document(document=document), indent=2))
+    print(json.dumps(document_conversion.convert_document(document=document,
+                                                          conversion_target=DocumentConversion.ANSWER_UNITS), indent=2))
