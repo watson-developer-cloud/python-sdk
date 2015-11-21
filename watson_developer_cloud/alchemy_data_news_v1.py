@@ -25,16 +25,15 @@ class AlchemyDataNewsV1(WatsonDeveloperCloudService):
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
 
-    # INCOMPLETE
-    def get_news_documents(self, start, end, max_results=10, return_fields=None):
+    def get_news_documents(self, start, end, max_results=10, query_fields=None, return_fields=None, time_slice=None):
+        if isinstance(return_fields, list):
+            return_fields = ','.join(return_fields)
         params = {'start': start,
                   'end': end,
-                  'maxResults': max_results}
-        return self._alchemy_html_request(method_url='/data/GetNews', method='GET', params=params)
-
-    # INCOMPLETE
-    def get_volume(self, start, end, time_slice=None):
-        params = {'start': start,
-                  'end': end,
+                  'maxResults': max_results,
+                  'return': return_fields,
                   'timeSlice': time_slice}
+        if isinstance(query_fields, dict):
+            for key in query_fields:
+                params[key if key.startswith('q.') else 'q.' + key] = query_fields[key]
         return self._alchemy_html_request(method_url='/data/GetNews', method='GET', params=params)
