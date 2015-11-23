@@ -16,4 +16,4 @@ script:
 after_success: coveralls
 before_install:
 - openssl aes-256-cbc -K $encrypted_c3e85137836d_key -iv $encrypted_c3e85137836d_iv
-  - in .env.enc -out .env -d
+  -in .env.enc -out .env -d
