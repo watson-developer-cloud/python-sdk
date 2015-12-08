@@ -10,6 +10,9 @@ pip install bumpversion
 ```
 
 ### 2. Doing a release
+
+(The pypandoc module should be installed on the system doing the release, to generate the documentation for pip.)
+
 ```
 bumpversion major|minor|patch
 git push origin master
