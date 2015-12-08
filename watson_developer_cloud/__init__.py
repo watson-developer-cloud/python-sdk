@@ -37,4 +37,4 @@ from .visual_insights_v1_experimental import VisualInsightsV1Experimental
 from .visual_recognition_v1_beta import VisualRecognitionV1Beta
 
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
