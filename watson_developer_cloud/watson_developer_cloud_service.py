@@ -14,10 +14,19 @@
 import json as json_import
 import os
 import requests
+from requests.structures import CaseInsensitiveDict
 try:
     from http.cookiejar import CookieJar  # Python 3
 except ImportError:
     from cookielib import CookieJar  # Python 2
+from .version import __version__
+# Uncomment this to enable http debugging
+# try:
+#    import http.client as http_client
+# except ImportError:
+#    # Python 2
+#    import httplib as http_client
+# http_client.HTTPConnection.debuglevel = 1
 
 
 def load_from_vcap_services(service_name):
@@ -191,14 +200,14 @@ class WatsonDeveloperCloudService(object):
     def request(self, method, url, accept_json=False, headers=None, params=None, json=None, data=None, **kwargs):
         full_url = self.url + url
 
+        input_headers = _remove_null_values(headers) if headers else {}
+
+        headers = CaseInsensitiveDict({'user-agent': 'watson-developer-cloud-python-' + __version__})
         if accept_json:
-            json_headers = {'accept': 'application/json'}
-            if headers:
-                json_headers.update(headers)
-            headers = json_headers
+            headers['accept'] = 'application/json'
+        headers.update(input_headers)
 
         # Remove keys with None values
-        headers = _remove_null_values(headers)
         params = _remove_null_values(params)
         json = _remove_null_values(json)
         data = _remove_null_values(data)
@@ -206,11 +215,7 @@ class WatsonDeveloperCloudService(object):
         # Support versions of requests older than 2.4.2 without the json input
         if not data and json is not None:
             data = json_import.dumps(json)
-            content_type_header = {'content-type': 'application/json'}
-            if headers:
-                headers.update(content_type_header)
-            else:
-                headers = content_type_header
+            headers.update({'content-type': 'application/json'})
 
         auth = None
         if self.username and self.password:

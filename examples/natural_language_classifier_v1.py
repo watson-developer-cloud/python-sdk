@@ -6,7 +6,8 @@ from watson_developer_cloud import NaturalLanguageClassifierV1 as NaturalLanguag
 natural_language_classifier = NaturalLanguageClassifier(username='YOUR SERVICE USERNAME',
                                                         password='YOUR SERVICE PASSWORD')
 
-print(json.dumps(natural_language_classifier.list(), indent=2))
+classifiers = natural_language_classifier.list()
+print(json.dumps(classifiers, indent=2))
 
 # create a classifier
 # with open('../resources/weather_data_train.csv', 'rb') as training_data:

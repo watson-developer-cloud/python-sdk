@@ -21,6 +21,7 @@ from .alchemy_vision_v1 import AlchemyVisionV1
 from .authorization_v1 import AuthorizationV1
 from .concept_expansion_v1_beta import ConceptExpansionV1Beta
 from .concept_insights_v2 import ConceptInsightsV2
+from .document_conversion_v1 import DocumentConversionV1
 from .document_conversion_v1_experimental import DocumentConversionV1Experimental
 from .dialog_v1 import DialogV1
 from .language_translation_v2 import LanguageTranslationV2
@@ -35,6 +36,5 @@ from .tone_analyzer_v2_experimental import ToneAnalyzerV2Experimental
 from .tradeoff_analytics_v1 import TradeoffAnalyticsV1
 from .visual_insights_v1_experimental import VisualInsightsV1Experimental
 from .visual_recognition_v1_beta import VisualRecognitionV1Beta
+from .version import __version__
 
-
-__version__ = '0.2.1'
