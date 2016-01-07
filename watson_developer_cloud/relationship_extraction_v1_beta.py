@@ -23,13 +23,18 @@ class RelationshipExtractionV1Beta(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(self, 'relationship_extraction', url, username, password,
                                              use_vcap_services)
 
-    def extract(self, text, dataset='ie-en-news'):
+    def extract(self, text, dataset='ie-en-news', format='xml'):
         """
         Extractions entities and relations from the source text.
         dataset can be either 'ie-en-news' or 'ie-es-news'
         returns an xml string
         """
-        params = {'txt': text, 'rt': 'xml', 'sid': dataset}
+        params = {'txt': text, 'rt': format, 'sid': dataset}
 
-        response = self.request(method='POST', url='/v1/sire/0', data=params)
-        return response.text
+        is_json = (format == 'json')
+
+        response = self.request(method='POST', url='/v1/sire/0', data=params, accept_json=is_json)
+        if is_json:
+            return response
+        else:
+            return response.text
