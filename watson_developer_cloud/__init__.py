@@ -37,4 +37,3 @@ from .tradeoff_analytics_v1 import TradeoffAnalyticsV1
 from .visual_insights_v1_experimental import VisualInsightsV1Experimental
 from .visual_recognition_v1_beta import VisualRecognitionV1Beta
 from .version import __version__
-
