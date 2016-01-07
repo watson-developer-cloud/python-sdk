@@ -21,7 +21,7 @@ print(json.dumps(alchemy_vision.get_image_keywords(
     image_url='https://upload.wikimedia.org/wikipedia/commons/8/81/Morris-Chair-Ironwood.jpg'), indent=2))
 
 # Image link extraction
-print(json.dumps(alchemy_vision.get_image_links(url='http://www.ibm.com/smarterplanet/us/en/ibmwatson/'), indent=2))
+print(json.dumps(alchemy_vision.get_image_links(url='http://www.zillow.com/'), indent=2))
 
 with open(join(dirname(__file__), '../resources/example.html'), 'r') as webpage:
     print(json.dumps(alchemy_vision.get_image_links(html=webpage.read()), indent=2))
