@@ -37,6 +37,26 @@ class VisualRecognitionV2Beta(WatsonDeveloperCloudService):
             self, 'visual_recognition', url, username, password, use_vcap_services)
         self.version = version
 
+    def get_classifier(self, classifier_id):
+        """
+        Retrieves information about a specific classifier.
+        :param classifier_id: The classifier id
+        """
+
+        params = {'version': self.version}
+        return self.request(method='GET', url='/v2/classifiers/{}'.format(classifier_id), params=params,
+                            accept_json=True)
+
+    def delete_classifier(self, classifier_id):
+        """
+        Deletes a custom classifier with the specified classifier id.
+        :param classifier_id: The classifier id
+        """
+
+        params = {'version': self.version}
+        return self.request(method='DELETE', url='/v2/classifiers/{}'.format(classifier_id), params=params,
+                            accept_json=True)
+
     def list_classifiers(self, verbose=False):
         """
         Returns a list of user-created and built-in classifiers. (May change in the future to only user-created.)
@@ -46,7 +66,29 @@ class VisualRecognitionV2Beta(WatsonDeveloperCloudService):
         params = {'verbose': verbose, 'version': self.version}
         return self.request(method='GET', url='/v2/classifiers', params=params, accept_json=True)
 
+    def create_classifier(self, name, positive_examples, negative_examples):
+        """
+        Train a new classifier from example images which are uploaded.
+        :param name: The desired short name of the new classifier.
+        :param positive_examples: A zip file of images that depict the subject of the new classifier.
+        :param negative_examples: A zip file of images that do not depict the subject of the new classifier.
+        :return:
+        """
+
+        params = {'version': self.version}
+        data = {'name': name}
+        # Params sent as url parameters here
+        return self.request(method='POST', url='/v2/classifiers', files={'positive_examples': positive_examples,
+                                                                         'negative_examples': negative_examples},
+                            data=data, params=params, accept_json=True)
+
     def classify(self, images_file, classifier_ids=None):
+        """
+        Returns a list of classification scores for one or more input images.
+        :param images_file: An image file or zip file of image files to analyze.
+        :param classifier_ids: The ids of classifiers to consider. When absence, considers all classifiers.
+        :return:
+        """
 
         if isinstance(classifier_ids, list):
             classifier_ids = json.dumps(classifier_ids)
