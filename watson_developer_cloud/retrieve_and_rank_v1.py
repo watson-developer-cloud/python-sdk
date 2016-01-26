@@ -50,7 +50,7 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
     # Need to test
     def create_config(self, solr_cluster_id, config_name, config):
         return self.request(method='POST', url='/v1/solr_clusters/{}/config/{}'.format(solr_cluster_id, config_name),
-                            files={'body': config}, accept_json=True)
+                            files={'body': config}, headers={'content-type': 'application/zip'}, accept_json=True)
 
     def delete_config(self, solr_cluster_id, config_name):
         return self.request(method='DELETE', url='/v1/solr_clusters/{}/config/{}'.format(solr_cluster_id, config_name),
@@ -61,17 +61,18 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
                             accept_json=True)
 
     def list_collections(self, solr_cluster_id):
-        return self.request(method='GET', url='/v1/solr_clusters/{}/collections'.format(solr_cluster_id),
-                            accept_json=True)
+        params = {'action': 'LIST', 'wt': 'json'}
+        return self.request(method='GET', url='/v1/solr_clusters/{}/solr/admin/collections'.format(solr_cluster_id),
+                            params=params, accept_json=True)
 
     def create_collection(self, solr_cluster_id, collection_name, config_name):
-        params = {'collection.configName': config_name, 'name': collection_name}
-        return self.request(method='POST', url='/v1/solr_clusters/{}/collections'.format(solr_cluster_id),
+        params = {'collection.configName': config_name, 'name': collection_name, 'action': 'CREATE', 'wt': 'json'}
+        return self.request(method='POST', url='/v1/solr_clusters/{}/solr/admin/collections'.format(solr_cluster_id),
                             params=params, accept_json=True)
 
     def delete_collection(self, solr_cluster_id, collection_name, config_name):
-        params = {'name': collection_name, 'action': 'DELETE'}
-        return self.request(method='POST', url='/v1/solr_clusters/{}/collections'.format(solr_cluster_id),
+        params = {'name': collection_name, 'action': 'DELETE', 'wt': 'json'}
+        return self.request(method='POST', url='/v1/solr_clusters/{}/solr/admin/collections'.format(solr_cluster_id),
                             params=params, accept_json=True)
 
     def get_pysolr_client(self, solr_cluster_id, collection_name):
