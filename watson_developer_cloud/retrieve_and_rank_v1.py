@@ -18,6 +18,7 @@ The v1 Retrieve and Rank service
 """
 
 import json
+import pysolr
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
@@ -27,6 +28,56 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
     def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
         WatsonDeveloperCloudService.__init__(self, 'retrieve_and_rank', url, username, password,
                                              use_vcap_services)
+
+    def list_solr_clusters(self):
+        return self.request(method='GET', url='/v1/solr_clusters', accept_json=True)
+
+    def create_solr_cluster(self, cluster_name=None, cluster_size=None):
+        if cluster_size and isinstance(cluster_size, (int, long)):
+            cluster_size = str(cluster_size)
+        params = {'cluster_name': cluster_name, 'cluster_size': cluster_size}
+        return self.request(method='POST', url='/v1/solr_clusters', accept_json=True, json=params)
+
+    def delete_solr_cluster(self, solr_cluster_id):
+        return self.request(method='DELETE', url='/v1/solr_clusters/{}'.format(solr_cluster_id), accept_json=True)
+
+    def get_solr_cluster_status(self, solr_cluster_id):
+        return self.request(method='GET', url='/v1/solr_clusters/{}'.format(solr_cluster_id), accept_json=True)
+
+    def list_configs(self, solr_cluster_id):
+        return self.request(method='GET', url='/v1/solr_clusters/{}/config'.format(solr_cluster_id), accept_json=True)
+
+    # Need to test
+    def create_config(self, solr_cluster_id, config_name, config):
+        return self.request(method='POST', url='/v1/solr_clusters/{}/config/{}'.format(solr_cluster_id, config_name),
+                            files={'body': config}, accept_json=True)
+
+    def delete_config(self, solr_cluster_id, config_name):
+        return self.request(method='DELETE', url='/v1/solr_clusters/{}/config/{}'.format(solr_cluster_id, config_name),
+                            accept_json=True)
+
+    def get_config(self, solr_cluster_id, config_name):
+        return self.request(method='GET', url='/v1/solr_clusters/{}/config/{}'.format(solr_cluster_id, config_name),
+                            accept_json=True)
+
+    def list_collections(self, solr_cluster_id):
+        return self.request(method='GET', url='/v1/solr_clusters/{}/collections'.format(solr_cluster_id),
+                            accept_json=True)
+
+    def create_collection(self, solr_cluster_id, collection_name, config_name):
+        params = {'collection.configName': config_name, 'name': collection_name}
+        return self.request(method='POST', url='/v1/solr_clusters/{}/collections'.format(solr_cluster_id),
+                            params=params, accept_json=True)
+
+    def delete_collection(self, solr_cluster_id, collection_name, config_name):
+        params = {'name': collection_name, 'action': 'DELETE'}
+        return self.request(method='POST', url='/v1/solr_clusters/{}/collections'.format(solr_cluster_id),
+                            params=params, accept_json=True)
+
+    def get_pysolr_client(self, solr_cluster_id, collection_name):
+        base_url = self.url.replace('https://', 'https://' + self.username + ':' + self.password + '@')
+        url = base_url + '/v1/solr_clusters/{}/solr/{}'.format(solr_cluster_id, collection_name)
+        return pysolr.Solr(url)
 
     def create_ranker(self, training_data, name=None):
         data = None
