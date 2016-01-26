@@ -21,12 +21,12 @@ except ImportError:
     from cookielib import CookieJar  # Python 2
 from .version import __version__
 # Uncomment this to enable http debugging
-try:
-   import http.client as http_client
-except ImportError:
-   # Python 2
-   import httplib as http_client
-http_client.HTTPConnection.debuglevel = 1
+# try:
+#    import http.client as http_client
+# except ImportError:
+#    # Python 2
+#    import httplib as http_client
+# http_client.HTTPConnection.debuglevel = 1
 
 
 def load_from_vcap_services(service_name):
