@@ -29,7 +29,7 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     """
     DEFAULT_URL = 'https://gateway.watsonplatform.net/concept-insights/api'
     CORPORA_PATH = '/v2/corpora'
-    WIKIPEDIA_ACCOUNT = 'wikipedia'
+    WIKIPEDIA_EN_LATEST = '/graphs/wikipedia/en-latest'
 
     def __init__(self, url=DEFAULT_URL, **kwargs):
         WatsonDeveloperCloudService.__init__(
@@ -55,9 +55,12 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     def get_accounts_info(self):
         return self.request(method='GET', url='/v2/accounts', accept_json=True)
 
-    def get_concept(self, graph_id, concept_id, account_id=None):
-        return self.request(method='GET', url='/v2/{}'.format(concept_id), accept_json=True)
+    def get_concept(self, concept_id, graph=WIKIPEDIA_EN_LATEST):
+        return self.request(method='GET', url='/v2/{}/concepts/{}'.format(graph, concept_id), accept_json=True)
 
-    # def annotate_text(self, text, account_id=WIKIPEDIA_ACCOUNT, graph=WIKIPEDIA_EN_LATEST):
-    #     return self.request(method='GET', url='/v2/'
-    #                         )
+    def get_graphs(self):
+        return self.request(method='GET', url='/v2/graphs', accept_json=True)
+
+    def annotate_text(self, text, graph=WIKIPEDIA_EN_LATEST):
+        return self.request(method='POST', url='/v2/{}/annotate_text'.format(graph), data=text,
+                            headers={'content-type': 'text/plain'}, accept_json=True)
