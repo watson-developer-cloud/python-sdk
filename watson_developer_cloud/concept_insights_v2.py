@@ -16,6 +16,7 @@ The v2 Concept Insights service
 (https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/concept-insights.html)
 """
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
+import json
 
 
 class ConceptInsightsV2(WatsonDeveloperCloudService):
@@ -58,8 +59,38 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     def get_concept(self, concept_id, graph=WIKIPEDIA_EN_LATEST):
         return self.request(method='GET', url='/v2/{}/concepts/{}'.format(graph, concept_id), accept_json=True)
 
+    def search_concept_by_label(self, label, graph=WIKIPEDIA_EN_LATEST, concept_fields=None):
+        if isinstance(concept_fields, dict):
+            concept_fields = json.dumps(concept_fields)
+        params = {'query': label, 'concept_fields': concept_fields}
+        return self.request(method='GET', url='/v2/{}/label_search'.format(graph), params=params, accept_json=True)
+
     def get_graphs(self):
         return self.request(method='GET', url='/v2/graphs', accept_json=True)
+
+    @staticmethod
+    def _expand_concept_ids(concept_ids, graph):
+        if isinstance(concept_ids, basestring):
+            concept_ids = [concept_ids]
+        concept_ids = [concept_id if concept_id.startswith(graph) else graph + '/concepts/' + concept_id
+                       for concept_id in concept_ids]
+        return concept_ids
+        
+    def get_related_concepts(self, concept_ids, level=1, limit=10, concept_fields=None, graph=WIKIPEDIA_EN_LATEST):
+        concept_ids = self._expand_concept_ids(concept_ids, graph)
+        if isinstance(concept_fields, dict):
+            concept_fields = json.dumps(concept_fields)
+        params = {'concepts': json.dumps(concept_ids),
+                  'concept_fields': concept_fields,
+                  'level': level,
+                  'limit': limit}
+        return self.request(method='GET', url='/v2/{}/related_concepts'.format(graph), params=params, accept_json=True)
+
+    def get_relation_scores(self, concept_id, concept_ids, graph=WIKIPEDIA_EN_LATEST):
+        concept_ids = self._expand_concept_ids(concept_ids, graph)
+        params = {'concepts': json.dumps(concept_ids)}
+        return self.request(method='GET', url='/v2/{}/concepts/{}/relation_scores'.format(graph, concept_id),
+                            params=params, accept_json=True)
 
     def annotate_text(self, text, graph=WIKIPEDIA_EN_LATEST):
         return self.request(method='POST', url='/v2/{}/annotate_text'.format(graph), data=text,

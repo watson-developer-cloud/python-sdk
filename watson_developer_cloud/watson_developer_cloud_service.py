@@ -132,14 +132,15 @@ class WatsonDeveloperCloudService(object):
             return dictionary[label_id]
         return dictionary
 
-    def _get_error_message(self, response):
-        '''
+    @staticmethod
+    def _get_error_message(response):
+        """
         Gets the error message from a JSON response.
         {
             code: 400
             error: 'Bad request'
         }
-        '''
+        """
         error_message = 'Unknown error'
         try:
             error_json = response.json()
