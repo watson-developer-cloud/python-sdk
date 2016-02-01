@@ -34,8 +34,14 @@ concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',
 # corpus = concept_insights.get_corpus('ibmresearcher', account='public')
 # print(json.dumps(corpus, indent=2))
 
-corpus = concept_insights.create_corpus('test_corpus', ttl_hours=25)
-print(corpus)
+# creation_response = concept_insights.create_corpus('test_corpus', ttl_hours=25)
+# print(creation_response)
 
-delete_results = concept_insights.delete_corpus('test_corpus')
-print(delete_results)
+corpus = concept_insights.get_corpus('test_corpus')
+print(json.dumps(corpus, indent=2))
+
+update_response = concept_insights.update_corpus_metadata('test_corpus', users=corpus['users'],  ttl_hours=26)
+print(update_response)
+
+# delete_response = concept_insights.delete_corpus('test_corpus')
+# print(delete_response)

@@ -105,7 +105,7 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
         return self.request(method='GET', url='/v2/{}'.format(full_corpus_path), accept_json=True)
 
-    def create_corpus(self, corpus, access=None, users=None, public_fields=None, ttl_hours=None, expires_on=None,
+    def create_corpus(self, corpus, users=None, access=None, public_fields=None, ttl_hours=None, expires_on=None,
                       account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
         corpus_body = {'access': access,
@@ -118,3 +118,13 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     def delete_corpus(self, corpus, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
         return self.request(method='DELETE', url='/v2/{}'.format(full_corpus_path))
+
+    def update_corpus_metadata(self, corpus, users, access=None, public_fields=None, ttl_hours=None,
+                               expires_on=None, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        corpus_body = {'access': access,
+                       'users': users,
+                       'public_fields': public_fields,
+                       'ttl_hours': ttl_hours,
+                       'expires_on': expires_on}
+        return self.request(method='POST', url='/v2/{}'.format(full_corpus_path), json=corpus_body)
