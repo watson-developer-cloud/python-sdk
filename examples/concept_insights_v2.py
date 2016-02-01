@@ -24,6 +24,18 @@ concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',
 # concepts = concept_insights.get_related_concepts(['IBM_Watson', 'Business'])
 # print(json.dumps(concepts, indent=2))
 
-relation_scores = concept_insights.get_relation_scores('IBM', ['Mainframe_computer', 'Web_services',
-                                                               'Java_programming_language'])
-print(json.dumps(relation_scores, indent=2))
+# relation_scores = concept_insights.get_relation_scores('IBM', ['Mainframe_computer', 'Web_services',
+#                                                                'Java_programming_language'])
+# print(json.dumps(relation_scores, indent=2))
+
+# corpora = concept_insights.list_corpora()
+# print (json.dumps(corpora, indent=2))
+
+# corpus = concept_insights.get_corpus('ibmresearcher', account='public')
+# print(json.dumps(corpus, indent=2))
+
+corpus = concept_insights.create_corpus('test_corpus', ttl_hours=25)
+print(corpus)
+
+delete_results = concept_insights.delete_corpus('test_corpus')
+print(delete_results)

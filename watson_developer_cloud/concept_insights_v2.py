@@ -40,18 +40,13 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     def get_default_account(self):
         if self.cached_account:
             return self.cached_account
-        self.cached_account = self.get_accounts_info()[0]['account_id']
+        self.cached_account = self.get_accounts_info()['accounts'][0]['account_id']
         return self.cached_account
 
     def set_username_and_password(self, username=None, password=None):
         self.cached_account = None
         WatsonDeveloperCloudService.set_username_and_password(
             self, username=username, password=password)
-
-    def _get_corpus_id_path(self, corpus, account_id=None):
-        if not account_id:
-            account_id = self.get_default_account()
-        return '{}/{}/{}/'.format(self.CORPORA_PATH, account_id, corpus)
 
     def get_accounts_info(self):
         return self.request(method='GET', url='/v2/accounts', accept_json=True)
@@ -95,3 +90,31 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     def annotate_text(self, text, graph=WIKIPEDIA_EN_LATEST):
         return self.request(method='POST', url='/v2/{}/annotate_text'.format(graph), data=text,
                             headers={'content-type': 'text/plain'}, accept_json=True)
+
+    def list_corpora(self):
+        return self.request(method='GET', url='/v2/corpora', accept_json=True)
+
+    def _get_full_corpus_path(self, corpus, account=None):
+        if corpus.count('/') == 3:
+            return corpus
+        if account is None:
+            account = self.get_default_account()
+        return '/corpora/{}/{}'.format(account, corpus)
+
+    def get_corpus(self, corpus, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='GET', url='/v2/{}'.format(full_corpus_path), accept_json=True)
+
+    def create_corpus(self, corpus, access=None, users=None, public_fields=None, ttl_hours=None, expires_on=None,
+                      account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        corpus_body = {'access': access,
+                       'users': users,
+                       'public_fields': public_fields,
+                       'ttl_hours': ttl_hours,
+                       'expires_on': expires_on}
+        return self.request(method='PUT', url='/v2/{}'.format(full_corpus_path), json=corpus_body)
+
+    def delete_corpus(self, corpus, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='DELETE', url='/v2/{}'.format(full_corpus_path))
