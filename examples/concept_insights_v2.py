@@ -37,11 +37,35 @@ concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',
 # creation_response = concept_insights.create_corpus('test_corpus', ttl_hours=25)
 # print(creation_response)
 
-corpus = concept_insights.get_corpus('test_corpus')
-print(json.dumps(corpus, indent=2))
+# corpus_state = concept_insights.get_corpus_processing_state('test_corpus')
+# print(json.dumps(corpus_state, indent=2))
 
-update_response = concept_insights.update_corpus_metadata('test_corpus', users=corpus['users'],  ttl_hours=26)
-print(update_response)
+# corpus_stats = concept_insights.get_corpus_stats('test_corpus')
+# print(json.dumps(corpus_stats, indent=2))
+
+# corpus = concept_insights.get_corpus('test_corpus')
+# print(json.dumps(corpus, indent=2))
+
+# update_response = concept_insights.update_corpus_metadata('test_corpus', users=corpus['users'],  ttl_hours=26)
+# print(update_response)
 
 # delete_response = concept_insights.delete_corpus('test_corpus')
 # print(delete_response)
+
+# document_labels = concept_insights.search_corpus_by_label('TEDTalks', account='public', query='John', prefix=True)
+# print(json.dumps(document_labels, indent=2))
+
+# related_concepts = concept_insights.get_corpus_related_concepts('ibmresearcher', account='public', limit=3)
+# print(json.dumps(related_concepts, indent=2))
+
+# Showing abbreviated and full concept referencing
+# relation_scores = concept_insights.get_corpus_relation_scores('ibmresearcher', account='public', concepts=[
+#     'Artificial_intelligence', '/graphs/wikipedia/en-20120601/concepts/Botany'
+# ])
+# print(json.dumps(relation_scores, indent=2))
+
+related_documents = concept_insights.get_corpus_related_documents('ibmresearcher', account='public', limit=1, ids=[
+    '/corpora/public/TEDTalks/documents/2',
+    '/graphs/wikipedia/en-20120601/concepts/Artificial_intelligence'
+])
+print(json.dumps(related_documents, indent=2))

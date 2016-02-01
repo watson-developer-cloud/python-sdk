@@ -64,15 +64,15 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v2/graphs', accept_json=True)
 
     @staticmethod
-    def _expand_concept_ids(concept_ids, graph):
-        if isinstance(concept_ids, basestring):
-            concept_ids = [concept_ids]
-        concept_ids = [concept_id if concept_id.startswith(graph) else graph + '/concepts/' + concept_id
-                       for concept_id in concept_ids]
-        return concept_ids
+    def _expand_concept_or_document_ids(ids, graph):
+        if isinstance(ids, basestring):
+            ids = [ids]
+        ids = [item_id if item_id.startswith('/graphs/') or item_id.startswith('/corpora/')
+               else graph + '/concepts/' + item_id for item_id in ids]
+        return ids
         
     def get_related_concepts(self, concept_ids, level=1, limit=10, concept_fields=None, graph=WIKIPEDIA_EN_LATEST):
-        concept_ids = self._expand_concept_ids(concept_ids, graph)
+        concept_ids = self._expand_concept_or_document_ids(concept_ids, graph)
         if isinstance(concept_fields, dict):
             concept_fields = json.dumps(concept_fields)
         params = {'concepts': json.dumps(concept_ids),
@@ -82,7 +82,7 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v2/{}/related_concepts'.format(graph), params=params, accept_json=True)
 
     def get_relation_scores(self, concept_id, concept_ids, graph=WIKIPEDIA_EN_LATEST):
-        concept_ids = self._expand_concept_ids(concept_ids, graph)
+        concept_ids = self._expand_concept_or_document_ids(concept_ids, graph)
         params = {'concepts': json.dumps(concept_ids)}
         return self.request(method='GET', url='/v2/{}/concepts/{}/relation_scores'.format(graph, concept_id),
                             params=params, accept_json=True)
@@ -104,6 +104,14 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     def get_corpus(self, corpus, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
         return self.request(method='GET', url='/v2/{}'.format(full_corpus_path), accept_json=True)
+
+    def get_corpus_processing_state(self, corpus, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='GET', url='/v2/{}/processing_state'.format(full_corpus_path), accept_json=True)
+
+    def get_corpus_stats(self, corpus, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='GET', url='/v2/{}/stats'.format(full_corpus_path), accept_json=True)
 
     def create_corpus(self, corpus, users=None, access=None, public_fields=None, ttl_hours=None, expires_on=None,
                       account=None):
@@ -128,3 +136,54 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
                        'ttl_hours': ttl_hours,
                        'expires_on': expires_on}
         return self.request(method='POST', url='/v2/{}'.format(full_corpus_path), json=corpus_body)
+
+    def search_corpus_by_label(self, corpus, query, concepts=False, prefix=False, limit=10, concept_fields=None,
+                               document_fields=None, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        if isinstance(concept_fields, dict):
+            concept_fields = json.dumps(concept_fields)
+        if isinstance(document_fields, dict):
+            document_fields = json.dumps(document_fields)
+        params = {'query': query,
+                  'concepts': concepts,
+                  'prefix': prefix,
+                  'limit': limit,
+                  'concept_fields': concept_fields,
+                  'document_fields': document_fields}
+        return self.request(method='GET', url='/v2/{}/label_search'.format(full_corpus_path), params=params,
+                            accept_json=True)
+
+    def get_corpus_related_concepts(self, corpus, level=1, limit=10, concept_fields=None, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        if isinstance(concept_fields, dict):
+            concept_fields = json.dumps(concept_fields)
+        params = {'level': level,
+                  'limit': limit,
+                  'concept_fields': concept_fields}
+        return self.request(method='GET', url='/v2/{}/related_concepts'.format(full_corpus_path), params=params,
+                            accept_json=True)
+
+    def get_corpus_relation_scores(self, corpus, concepts, graph=WIKIPEDIA_EN_LATEST, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        concepts = self._expand_concept_or_document_ids(concepts, graph)
+        params = {'concepts': json.dumps(concepts)}
+        return self.request(method='GET', url='/v2/{}/relation_scores'.format(full_corpus_path), params=params,
+                            accept_json=True)
+
+    def get_corpus_related_documents(self, corpus, ids, graph=WIKIPEDIA_EN_LATEST, cursor=0, limit=10,
+                                     concept_fields=None, document_fields=None, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        ids = self._expand_concept_or_document_ids(ids, graph)
+        if isinstance(concept_fields, dict):
+            concept_fields = json.dumps(concept_fields)
+        if isinstance(document_fields, dict):
+            document_fields = json.dumps(document_fields)
+        params = {
+            'ids': json.dumps(ids),
+            'cursor': cursor,
+            'limit': limit,
+            'concept_fields': concept_fields,
+            'document_fields': document_fields
+        }
+        return self.request(method='GET', url='/v2/{}/conceptual_search'.format(full_corpus_path), params=params,
+                            accept_json=True)
