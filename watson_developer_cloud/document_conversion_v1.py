@@ -22,13 +22,16 @@ class DocumentConversionV1(WatsonDeveloperCloudService):
     ANSWER_UNITS = 'ANSWER_UNITS'
     NORMALIZED_HTML = 'NORMALIZED_HTML'
     NORMALIZED_TEXT = 'NORMALIZED_TEXT'
+    latest_version = '2016-02-10'
 
-    def __init__(self, url=DEFAULT_URL, **kwargs):
+    def __init__(self, version, url=DEFAULT_URL, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'document_conversion', url, **kwargs)
+        self.version = version
 
     def convert_document(self, document, config, media_type=None):
+        params = {'version': self.version}
         filename = os.path.basename(document.name)
         file_tuple = (filename, document, media_type) if media_type else (filename, document)
         files = [('file', file_tuple),
                  ('config', ('config.json', json.dumps(config), 'application/json'))]
-        return self.request(method='POST', url='/v1/convert_document', files=files, accept_json=True)
+        return self.request(method='POST', url='/v1/convert_document', files=files, params=params, accept_json=True)

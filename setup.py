@@ -19,7 +19,7 @@ from setuptools.command.test import test as TestCommand
 import os
 import sys
 
-__version__ = '0.4.0'
+__version__ = '0.5.0'
 
 if sys.argv[-1] == 'publish':
     # test server
@@ -55,7 +55,7 @@ setup(name='watson-developer-cloud',
       version=__version__,
       description='Client library to use the IBM Watson Services',
       license='Apache 2.0',
-      install_requires=['requests>=2.0, <3.0'],
+      install_requires=['requests>=2.0, <3.0', 'pysolr>= 3.3, <4.0'],
       tests_require=['responses', 'pytest', 'python_dotenv'],
       cmdclass={'test': PyTest},
       author='Jeffrey Stylos',
