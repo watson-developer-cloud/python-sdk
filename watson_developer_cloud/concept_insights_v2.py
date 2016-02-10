@@ -187,3 +187,48 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         }
         return self.request(method='GET', url='/v2/{}/conceptual_search'.format(full_corpus_path), params=params,
                             accept_json=True)
+
+    def list_documents(self, corpus, limit=20, cursor=0, query=None, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        params = {
+            'limit': limit,
+            'cursor': cursor,
+            'query': query
+        }
+        return self.request(method='GET', url='/v2/{}/documents'.format(full_corpus_path), params=params,
+                            accept_json=True)
+
+    def get_document(self, corpus, document, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='GET', url='/v2/{}/documents/{}'.format(full_corpus_path, document),
+                            accept_json=True)
+
+    def get_document_annotations(self, corpus, document, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='GET', url='/v2/{}/documents/{}/annotations'.format(full_corpus_path, document),
+                            accept_json=True)
+
+    def get_document_processing_state(self, corpus, document, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='GET', url='/v2/{}/documents/{}/processing_state'.format(full_corpus_path, document),
+                            accept_json=True)
+
+    def get_document_related_concepts(self, corpus, document, level=1, limit=10, concept_fields=None, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        if isinstance(concept_fields, dict):
+            concept_fields = json.dumps(concept_fields)
+        params = {
+            'level': level,
+            'limit': limit,
+            'concept_fields': concept_fields
+        }
+        return self.request(method='GET', url='/v2/{}/documents/{}/related_concepts'.format(full_corpus_path, document),
+                            params=params, accept_json=True)
+
+    def get_document_relation_scores(self, corpus, document, concepts, graph=WIKIPEDIA_EN_LATEST, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        concept_ids = self._expand_concept_or_document_ids(concepts, graph)
+        params = {'concepts': json.dumps(concept_ids)}
+        return self.request(method='GET', url='/v2/{}/documents/{}/relation_scores'.format(full_corpus_path, document),
+                            params=params, accept_json=True)
+

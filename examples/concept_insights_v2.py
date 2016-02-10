@@ -64,8 +64,28 @@ concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',
 # ])
 # print(json.dumps(relation_scores, indent=2))
 
-related_documents = concept_insights.get_corpus_related_documents('ibmresearcher', account='public', limit=1, ids=[
-    '/corpora/public/TEDTalks/documents/2',
-    '/graphs/wikipedia/en-20120601/concepts/Artificial_intelligence'
-])
-print(json.dumps(related_documents, indent=2))
+# related_documents = concept_insights.get_corpus_related_documents('ibmresearcher', account='public', limit=1, ids=[
+#     '/corpora/public/TEDTalks/documents/2',
+#     '/graphs/wikipedia/en-20120601/concepts/Artificial_intelligence'
+# ])
+# print(json.dumps(related_documents, indent=2))
+
+# documents = concept_insights.list_documents('ibmresearcher', account='public')
+# print(json.dumps(documents, indent=2))
+
+# document = concept_insights.get_document('TEDTalks', document='2', account='public')
+# print(json.dumps(document, indent=2))
+
+# document_annotations = concept_insights.get_document_annotations('TEDTalks', document='2', account='public')
+# print(json.dumps(document_annotations, indent=2))
+
+# document_processing_state = concept_insights.get_document_processing_state('TEDTalks', document='2', account='public')
+# print(json.dumps(document_processing_state, indent=2))
+
+# document_related_concepts = concept_insights.get_document_related_concepts('TEDTalks', document='2', account='public')
+# print(json.dumps(document_related_concepts, indent=2))
+
+document_relation_scores = concept_insights.get_document_relation_scores(
+    'ibmresearcher', document='us-etm', concepts=['Artificial_intelligence',
+                                                  '/graphs/wikipedia/en-20120601/concepts/Botany'], account='public')
+print(json.dumps(document_relation_scores, indent=2))
