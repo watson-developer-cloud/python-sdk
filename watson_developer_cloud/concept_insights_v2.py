@@ -70,7 +70,7 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         ids = [item_id if item_id.startswith('/graphs/') or item_id.startswith('/corpora/')
                else graph + '/concepts/' + item_id for item_id in ids]
         return ids
-        
+
     def get_related_concepts(self, concept_ids, level=1, limit=10, concept_fields=None, graph=WIKIPEDIA_EN_LATEST):
         concept_ids = self._expand_concept_or_document_ids(concept_ids, graph)
         if isinstance(concept_fields, dict):
@@ -245,4 +245,3 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     def delete_document(self, corpus, document, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
         return self.request(method='DELETE', url='/v2/{}/documents/{}'.format(full_corpus_path, document))
-
