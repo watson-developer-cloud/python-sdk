@@ -66,10 +66,10 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     @staticmethod
     def _expand_concept_or_document_ids(ids, graph):
         try:
-            basestring
+            string = basestring
         except NameError:
-            basestring = str
-        if isinstance(ids, basestring):
+            string = str
+        if isinstance(ids, string):
             ids = [ids]
         ids = [item_id if item_id.startswith('/graphs/') or item_id.startswith('/corpora/')
                else graph + '/concepts/' + item_id for item_id in ids]
