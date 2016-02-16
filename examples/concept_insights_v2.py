@@ -6,8 +6,8 @@ from watson_developer_cloud import ConceptInsightsV2 as ConceptInsights
 concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',
                                    password='YOUR SERVICE PASSWORD')
 
-# accounts = concept_insights.get_accounts_info()
-# print(json.dumps(accounts, indent=2))
+accounts = concept_insights.get_accounts_info()
+print(json.dumps(accounts, indent=2))
 
 # graphs = concept_insights.get_graphs()
 # print(json.dumps(graphs, indent=2))
@@ -28,8 +28,8 @@ concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',
 #                                                                'Java_programming_language'])
 # print(json.dumps(relation_scores, indent=2))
 
-# corpora = concept_insights.list_corpora()
-# print (json.dumps(corpora, indent=2))
+corpora = concept_insights.list_corpora()
+print (json.dumps(corpora, indent=2))
 
 # corpus = concept_insights.get_corpus('ibmresearcher', account='public')
 # print(json.dumps(corpus, indent=2))
@@ -85,7 +85,30 @@ concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',
 # document_related_concepts = concept_insights.get_document_related_concepts('TEDTalks', document='2', account='public')
 # print(json.dumps(document_related_concepts, indent=2))
 
-document_relation_scores = concept_insights.get_document_relation_scores(
-    'ibmresearcher', document='us-etm', concepts=['Artificial_intelligence',
-                                                  '/graphs/wikipedia/en-20120601/concepts/Botany'], account='public')
-print(json.dumps(document_relation_scores, indent=2))
+# document_relation_scores = concept_insights.get_document_relation_scores(
+#     'ibmresearcher', document='us-etm', concepts=['Artificial_intelligence',
+#                                                   '/graphs/wikipedia/en-20120601/concepts/Botany'], account='public')
+# print(json.dumps(document_relation_scores, indent=2))
+
+test_document = {
+    'label': 'Test document with custom fields',
+    'user_fields': {
+      'latitude': 41.1329599,
+      'longitude': -73.7492039
+    },
+    'parts': [
+      {
+        'name': 'test-partOne',
+        'content-type': 'text/plain',
+        'data': 'Text data'
+      }
+    ]
+  }
+# creation_response = concept_insights.create_document('test_corpus', 'test_document', test_document)
+# print(creation_response)
+
+# update_response = concept_insights.update_document('test_corpus', 'test_document', test_document)
+# print(update_response)
+
+delete_response = concept_insights.delete_document('test_corpus', 'test_document')
+print(delete_response)

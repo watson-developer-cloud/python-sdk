@@ -232,3 +232,17 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v2/{}/documents/{}/relation_scores'.format(full_corpus_path, document),
                             params=params, accept_json=True)
 
+    def create_document(self, corpus, document, document_contents, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='PUT', url='/v2/{}/documents/{}'.format(full_corpus_path, document),
+                            json=document_contents)
+
+    def update_document(self, corpus, document, document_contents, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='POST', url='/v2/{}/documents/{}'.format(full_corpus_path, document),
+                            json=document_contents)
+
+    def delete_document(self, corpus, document, account=None):
+        full_corpus_path = self._get_full_corpus_path(corpus, account)
+        return self.request(method='DELETE', url='/v2/{}/documents/{}'.format(full_corpus_path, document))
+
