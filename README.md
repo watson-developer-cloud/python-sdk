@@ -40,7 +40,7 @@ To get your service credentials, follow these steps:
 Tested 👌 (lightly) on: Python from 2.6 to 3.5-dev (development branch)
 
 ## Known Issues
-There is a known incompatibilty with this module with Python versions 3.x with Korean systems.
+There is a known incompatibility with this module with Python versions 3.x with Korean systems.
 
 ## Dependencies
 * [requests]
