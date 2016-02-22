@@ -21,12 +21,21 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 class DialogV1(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/dialog/api'
+    dialog_json_format = 'application/wds+json'
+    dialog_xml_format = 'application/wds+xml'
+    dialog_binary_format = 'application/octet-stream'
 
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'dialog', url, **kwargs)
 
     def get_dialogs(self):
         return self.request(method='GET', url='/v1/dialogs', accept_json=True)
+
+    def get_dialog(self, dialog_id, accept='application/wds+json'):
+        accept_json = accept == self.dialog_json_format
+        headers = {'accept': accept}
+        return self.request(method='GET', url='/v1/dialogs/{}'.format(dialog_id), headers=headers,
+                            accept_json=accept_json)
 
     def create_dialog(self, dialog_file, name):
         return self.request(method='POST', url='/v1/dialogs', files={'file': dialog_file}, accept_json=True,

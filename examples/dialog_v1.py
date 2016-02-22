@@ -9,6 +9,8 @@ dialog = Dialog(username='YOUR SERVICE USERNAME',
 
 print(json.dumps(dialog.get_dialogs(), indent=2))
 
+# print(json.dumps(dialog.get_dialog('6250d170-41d6-468a-a697-5675578c8012'), indent=2))
+
 # CREATE A DIALOG
 # with open(join(dirname(__file__), '../resources/dialog.xml') as dialog_file:
 #     print(json.dumps(dialog.create_dialog(
