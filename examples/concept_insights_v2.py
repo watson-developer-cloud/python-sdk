@@ -37,13 +37,13 @@ print(json.dumps(corpus, indent=2))
 # creation_response = concept_insights.create_corpus('test_corpus', ttl_hours=25)
 # print(creation_response)
 
-corpus_state = concept_insights.get_corpus_processing_state('test_corpus')
+corpus_state = concept_insights.get_corpus_processing_state('ibmresearcher', account='public')
 print(json.dumps(corpus_state, indent=2))
 
-corpus_stats = concept_insights.get_corpus_stats('test_corpus')
+corpus_stats = concept_insights.get_corpus_stats('ibmresearcher', account='public')
 print(json.dumps(corpus_stats, indent=2))
 
-corpus = concept_insights.get_corpus('test_corpus')
+corpus = concept_insights.get_corpus('ibmresearcher', account='public')
 print(json.dumps(corpus, indent=2))
 
 # update_response = concept_insights.update_corpus_metadata('test_corpus', users=corpus['users'],  ttl_hours=26)
