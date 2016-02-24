@@ -44,7 +44,7 @@ There is a known incompatibility with this module with Python versions 3.x with 
 
 ## Dependencies
 * [requests]
-* [responses] (for testing)
+* [responses] for testing
 
 ## Contributing
 See [CONTRIBUTING.md][CONTRIBUTING].
