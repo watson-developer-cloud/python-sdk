@@ -1,9 +1,9 @@
 import json
-from watson_developer_cloud import ToneAnalyzerV2Experimental as ToneAnalyzer
+from watson_developer_cloud import ToneAnalyzerV2Experimental
 
 
-tone_analyzer = ToneAnalyzer(username='YOUR SERVICE USERNAME',
-                             password='YOUR SERVICE PASSWORD')
+tone_analyzer = ToneAnalyzerV2Experimental(username='YOUR SERVICE USERNAME',
+                                           password='YOUR SERVICE PASSWORD')
 
 
 print(json.dumps(tone_analyzer.scorecards(), indent=2))

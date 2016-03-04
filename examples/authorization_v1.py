@@ -1,8 +1,8 @@
 import json
-from watson_developer_cloud import AuthorizationV1 as Authorization
-from watson_developer_cloud import SpeechToTextV1 as SpeechToText
+from watson_developer_cloud import AuthorizationV1
+from watson_developer_cloud import SpeechToTextV1
 
-authorization = Authorization(username='YOUR SERVICE USERNAME',
-                              password='YOUR SERVICE PASSWORD')
+authorization = AuthorizationV1(username='YOUR SERVICE USERNAME',
+                                password='YOUR SERVICE PASSWORD')
 
-print(json.dumps(authorization.get_token(url=SpeechToText.default_url), indent=2))
+print(json.dumps(authorization.get_token(url=SpeechToTextV1.default_url), indent=2))

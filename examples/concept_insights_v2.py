@@ -1,10 +1,10 @@
 # coding=utf-8
 import json
-from watson_developer_cloud import ConceptInsightsV2 as ConceptInsights
+from watson_developer_cloud import ConceptInsightsV2
 
 
-concept_insights = ConceptInsights(username='YOUR SERVICE USERNAME',
-                                   password='YOUR SERVICE PASSWORD')
+concept_insights = ConceptInsightsV2(username='YOUR SERVICE USERNAME',
+                                     password='YOUR SERVICE PASSWORD')
 
 accounts = concept_insights.get_accounts_info()
 print(json.dumps(accounts, indent=2))

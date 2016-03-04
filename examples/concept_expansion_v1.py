@@ -1,11 +1,11 @@
 # coding=utf-8
 import json
 import time
-from watson_developer_cloud import ConceptExpansionV1Beta as ConceptExpansion
+from watson_developer_cloud import ConceptExpansionV1Beta
 
 
-concept_expansion = ConceptExpansion(username='YOUR SERVICE USERNAME',
-                                     password='YOUR SERVICE PASSWORD')
+concept_expansion = ConceptExpansionV1Beta(username='YOUR SERVICE USERNAME',
+                                           password='YOUR SERVICE PASSWORD')
 
 job_id = concept_expansion.create_job(dataset='mtsamples', seeds=[
                                       'motrin', 'tylenol', 'aspirin'], label='medications')

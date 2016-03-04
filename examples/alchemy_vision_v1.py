@@ -1,8 +1,8 @@
 import json
 from os.path import join, dirname
-from watson_developer_cloud import AlchemyVisionV1 as AlchemyVision
+from watson_developer_cloud import AlchemyVisionV1
 
-alchemy_vision = AlchemyVision(api_key='YOUR API KEY')
+alchemy_vision = AlchemyVisionV1(api_key='YOUR API KEY')
 
 
 # Face recognition

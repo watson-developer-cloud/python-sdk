@@ -1,9 +1,9 @@
 import json
-from watson_developer_cloud import RetrieveAndRankV1 as RetrieveAndRank
+from watson_developer_cloud import RetrieveAndRankV1
 
 
-retrieve_and_rank = RetrieveAndRank(username='YOUR SERVICE USERNAME',
-                                    password='YOUR SERVICE PASSWORD')
+retrieve_and_rank = RetrieveAndRankV1(username='YOUR SERVICE USERNAME',
+                                      password='YOUR SERVICE PASSWORD')
 
 # Solr clusters
 

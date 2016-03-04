@@ -1,10 +1,10 @@
 import json
 from os.path import join, dirname
-from watson_developer_cloud import SpeechToTextV1 as SpeechToText
+from watson_developer_cloud import SpeechToTextV1
 
 
-speech_to_text = SpeechToText(username='YOUR SERVICE USERNAME',
-                              password='YOUR SERVICE PASSWORD')
+speech_to_text = SpeechToTextV1(username='YOUR SERVICE USERNAME',
+                                password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(speech_to_text.models(), indent=2))
 
