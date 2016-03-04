@@ -14,7 +14,6 @@
 import json as json_import
 import os
 import requests
-import sys
 from requests.structures import CaseInsensitiveDict
 try:
     from http.cookiejar import CookieJar  # Python 3
