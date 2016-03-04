@@ -14,6 +14,7 @@
 import json as json_import
 import os
 import requests
+import sys
 from requests.structures import CaseInsensitiveDict
 try:
     from http.cookiejar import CookieJar  # Python 3
@@ -40,12 +41,10 @@ def load_from_vcap_services(service_name):
 
 
 class WatsonException(Exception):
-    """Generic exception class."""
     pass
 
 
-class WatsonInvalidArgument(Exception):
-    """A parameter to a function or methods was invalid"""
+class WatsonInvalidArgument(WatsonException):
     pass
 
 
@@ -148,6 +147,8 @@ class WatsonDeveloperCloudService(object):
                 error_message = error_json['error']
             if 'error_message' in error_json:
                 error_message = error_json['error_message']
+            if 'description' in error_json:
+                error_message += ', Description: ' + error_json['description']
         except:
             pass
         return error_message
@@ -198,7 +199,8 @@ class WatsonDeveloperCloudService(object):
         return self.request(method='POST', url=url, params=params, data=image_contents, headers=headers,
                             accept_json=True)
 
-    def request(self, method, url, accept_json=False, headers=None, params=None, json=None, data=None, **kwargs):
+    def request(self, method, url, accept_json=False, headers=None, params=None, json=None, data=None, files=None,
+                **kwargs):
         full_url = self.url + url
 
         input_headers = _remove_null_values(headers) if headers else {}
@@ -212,6 +214,7 @@ class WatsonDeveloperCloudService(object):
         params = _remove_null_values(params)
         json = _remove_null_values(json)
         data = _remove_null_values(data)
+        files = _remove_null_values(files)
 
         # Support versions of requests older than 2.4.2 without the json input
         if not data and json is not None:
@@ -227,7 +230,7 @@ class WatsonDeveloperCloudService(object):
             params['apikey'] = self.api_key
 
         response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
-                                    params=params, data=data, **kwargs)
+                                    params=params, data=data, files=files, **kwargs)
 
         if 200 <= response.status_code <= 299:
             if accept_json:
@@ -247,5 +250,4 @@ class WatsonDeveloperCloudService(object):
                 error_message = 'Unauthorized: Access is denied due to invalid credentials'
             else:
                 error_message = self._get_error_message(response)
-
             raise WatsonException('Error: ' + error_message + ', Code: ' + str(response.status_code))

@@ -35,12 +35,32 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
         return self.request(method='POST', url='/v2/identify', data=text, headers={'content-type': 'text/plain'},
                             accept_json=True)
 
+    def get_identifiable_languages(self):
+        return self.request(method='GET', url='/v2/identifiable_languages', accept_json=True)
+
     def get_models(self, default=None, source=None, target=None):
         """
         Get the available models for translation
         """
         params = {'default': default, 'source': source, 'target': target}
         return self.request(method='GET', url='/v2/models', params=params, accept_json=True)
+
+    def create_model(self, base_model_id, name=None, forced_glossary=None, parallel_corpus=None,
+                     monolingual_corpus=None):
+        if forced_glossary is None and parallel_corpus is None and monolingual_corpus is None:
+            raise WatsonInvalidArgument('A glossary or corpus must be provided')
+        params = {'name': name,
+                  'base_model_id': base_model_id}
+        files = {'forced_glossary': forced_glossary,
+                 'parallel_corpus': parallel_corpus,
+                 'monolingual_corpus': monolingual_corpus}
+        return self.request(method='POST', url='/v2/models', params=params, files=files, accept_json=True)
+
+    def get_model(self, model_id):
+        return self.request(method='GET', url='/v2/models/{}'.format(model_id), accept_json=True)
+
+    def delete_model(self, model_id):
+        return self.request(method='DELETE', url='/v2/models/{}'.format(model_id), accept_json=True)
 
     def translate(self, text, source=None, target=None, model=None):
         """

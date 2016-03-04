@@ -19,3 +19,6 @@ print (json.dumps(status, indent=2))
 
 classes = natural_language_classifier.classify('47C164-nlc-243', 'How hot will it be tomorrow?')
 print(json.dumps(classes, indent=2))
+
+# example of raising a WatsonException
+# print(json.dumps(natural_language_classifier.create(training_data='', name='weather3'), indent=2))
