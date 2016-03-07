@@ -143,11 +143,12 @@ class WatsonDeveloperCloudService(object):
         try:
             error_json = response.json()
             if 'error' in error_json:
-                error_message = error_json['error']
+                error_message = 'Error: ' + error_json['error']
             if 'error_message' in error_json:
-                error_message = error_json['error_message']
+                error_message = 'Error: ' + error_json['error_message']
             if 'description' in error_json:
                 error_message += ', Description: ' + error_json['description']
+            error_message += ', Code: ' + str(response.status_code)
         except:
             pass
         return error_message
@@ -249,4 +250,4 @@ class WatsonDeveloperCloudService(object):
                 error_message = 'Unauthorized: Access is denied due to invalid credentials'
             else:
                 error_message = self._get_error_message(response)
-            raise WatsonException('Error: ' + error_message + ', Code: ' + str(response.status_code))
+            raise WatsonException(error_message)
