@@ -22,5 +22,5 @@ url = 'https://developer.ibm.com/watson/blog/2015/11/03/price-reduction-for-wats
 # print(json.dumps(alchemy_language.microformats(url='http://microformats.org/wiki/hcard-examples'), indent=2))
 # print(json.dumps(alchemy_language.publication_date(url=url), indent=2))
 # print(json.dumps(alchemy_language.taxonomy(url=url), indent=2))
-combined_operations = ['page-image', 'entity', 'keyword', 'title', 'author', 'taxonomy', 'concept']
+combined_operations = ['page-image', 'entity', 'keyword', 'title', 'author', 'taxonomy', 'concept', 'doc-emotion']
 print(json.dumps(alchemy_language.combined(url=url, extract=combined_operations), indent=2))

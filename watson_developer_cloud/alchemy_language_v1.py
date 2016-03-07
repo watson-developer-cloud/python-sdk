@@ -56,6 +56,14 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
                   'maxRetrieve': max_items}
         return self._alchemy_html_request('GetRankedNamedEntities', html=html, text=text, url=url, params=params)
 
+    def emotion(self, html=None, text=None, url=None, show_source_text=False, source_text_type=None,
+                constraint_query=None, xpath_query=None):
+        params = {'showSourceText': show_source_text,
+                  'sourceText': source_text_type,
+                  'cquery': constraint_query,
+                  'xpath': xpath_query}
+        return self._alchemy_html_request('GetEmotion', html=html, text=text, url=url, params=params)
+
     def relations(self, html=None, text=None, url=None, sentiment=False, keywords=False, entities=False,
                   require_entities=False, sentiment_excludes_entities=True, disambiguate=True, linked_data=True,
                   coreference=True, show_source_text=False, max_items=50):
@@ -135,7 +143,7 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
                  coreference=True, quotations=False, sentiment=False, show_source_text=False, max_items=50,
                  base_url=None):
         """
-        Combined call for page-image, entity, keyword, title, author, taxonomy,  concept.
+        Combined call for page-image, entity, keyword, title, author, taxonomy, concept, doc-emotion.
         INPUT:
         extract ->
             List or comma separated string
