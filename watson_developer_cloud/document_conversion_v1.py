@@ -34,4 +34,6 @@ class DocumentConversionV1(WatsonDeveloperCloudService):
         file_tuple = (filename, document, media_type) if media_type else (filename, document)
         files = [('file', file_tuple),
                  ('config', ('config.json', json.dumps(config), 'application/json'))]
-        return self.request(method='POST', url='/v1/convert_document', files=files, params=params, accept_json=True)
+        accept_json = config['conversion_target'] == DocumentConversionV1.ANSWER_UNITS
+        return self.request(method='POST', url='/v1/convert_document', files=files, params=params,
+                            accept_json=accept_json)
