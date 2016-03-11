@@ -11,7 +11,7 @@ document_conversion = DocumentConversionV1(username='YOUR SERVICE USERNAME',
 # Example of retrieving html or plain text
 with open(join(dirname(__file__), '../resources/example.html'), 'r') as document:
     config = {'conversion_target': DocumentConversionV1.NORMALIZED_HTML}
-    print(document_conversion.convert_document(document=document, config=config, media_type='text/html').text)
+    print(document_conversion.convert_document(document=document, config=config, media_type='text/html').text.encode('utf-8'))
 
 # Example with JSON
 with open(join(dirname(__file__), '../resources/example.html'), 'r') as document:
