@@ -3,8 +3,9 @@ from os.path import join, dirname
 from watson_developer_cloud import VisualInsightsV1Experimental
 
 
-visual_insights = VisualInsightsV1Experimental(username='YOUR SERVICE USERNAME',
-                                               password='YOUR SERVICE PASSWORD')
+visual_insights = VisualInsightsV1Experimental(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(visual_insights.classifiers(), indent=2))
 

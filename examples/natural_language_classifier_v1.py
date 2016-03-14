@@ -3,8 +3,9 @@ import json
 from watson_developer_cloud import NaturalLanguageClassifierV1
 
 
-natural_language_classifier = NaturalLanguageClassifierV1(username='YOUR SERVICE USERNAME',
-                                                          password='YOUR SERVICE PASSWORD')
+natural_language_classifier = NaturalLanguageClassifierV1(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 classifiers = natural_language_classifier.list()
 print(json.dumps(classifiers, indent=2))

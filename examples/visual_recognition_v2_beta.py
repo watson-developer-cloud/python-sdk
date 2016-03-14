@@ -3,8 +3,10 @@ from os.path import join, dirname
 from watson_developer_cloud import VisualRecognitionV2Beta
 
 
-visual_recognition = VisualRecognitionV2Beta(version='2015-12-02', username='YOUR SERVICE USERNAME',
-                                             password='YOUR SERVICE PASSWORD')
+visual_recognition = VisualRecognitionV2Beta(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD',
+    version='2015-12-02')
 
 # with open(join(dirname(__file__), '../resources/cars.zip'), 'rb') as cars, \
 #         open(join(dirname(__file__), '../resources/trucks.zip'), 'rb') as trucks:

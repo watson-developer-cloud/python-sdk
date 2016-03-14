@@ -4,8 +4,9 @@ from os.path import join, dirname
 from watson_developer_cloud import DialogV1
 
 
-dialog = DialogV1(username='YOUR SERVICE USERNAME',
-                  password='YOUR SERVICE PASSWORD')
+dialog = DialogV1(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(dialog.get_dialogs(), indent=2))
 

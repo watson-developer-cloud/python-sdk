@@ -3,8 +3,9 @@ from os.path import join, dirname
 from watson_developer_cloud import VisualRecognitionV1Beta
 
 
-visual_recognition = VisualRecognitionV1Beta(username='YOUR SERVICE USERNAME',
-                                             password='YOUR SERVICE PASSWORD')
+visual_recognition = VisualRecognitionV1Beta(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 print(json.dumps(visual_recognition.labels(), indent=2))
 

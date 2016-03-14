@@ -3,8 +3,9 @@ import json
 from watson_developer_cloud import LanguageTranslationV2
 
 
-language_translation = LanguageTranslationV2(username='YOUR SERVICE USERNAME',
-                                             password='YOUR SERVICE PASSWORD')
+language_translation = LanguageTranslationV2(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 # create new custom model
 # with open('../resources/language_translation_model.tmx', 'rb') as custom_model:

@@ -4,11 +4,12 @@ import time
 from watson_developer_cloud import ConceptExpansionV1Beta
 
 
-concept_expansion = ConceptExpansionV1Beta(username='YOUR SERVICE USERNAME',
-                                           password='YOUR SERVICE PASSWORD')
+concept_expansion = ConceptExpansionV1Beta(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
-job_id = concept_expansion.create_job(dataset='mtsamples', seeds=[
-                                      'motrin', 'tylenol', 'aspirin'], label='medications')
+job_id = concept_expansion.create_job(
+    dataset='mtsamples', seeds=['motrin', 'tylenol', 'aspirin'], label='medications')
 print(json.dumps(job_id, indent=2))
 
 time.sleep(5)  # sleep for 5 seconds

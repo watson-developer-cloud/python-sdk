@@ -4,8 +4,9 @@ from os.path import join, dirname
 from watson_developer_cloud import DocumentConversionV1Experimental
 
 
-document_conversion = DocumentConversionV1Experimental(username='YOUR SERVICE USERNAME',
-                                                       password='YOUR SERVICE PASSWORD')
+document_conversion = DocumentConversionV1Experimental(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 # print(json.dumps(document_conversion.get_jobs(), indent=2))
 
