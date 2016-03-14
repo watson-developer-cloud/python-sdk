@@ -35,5 +35,5 @@ class DocumentConversionV1(WatsonDeveloperCloudService):
         files = [('file', file_tuple),
                  ('config', ('config.json', json.dumps(config), 'application/json'))]
         accept_json = config['conversion_target'] == DocumentConversionV1.ANSWER_UNITS
-        return self.request(method='POST', url='/v1/convert_document', files=files, params=params,
+        return self.request(method='POST', url='/v1/convert_document?version=2015-12-15', files=files, params=params,
                             accept_json=accept_json)

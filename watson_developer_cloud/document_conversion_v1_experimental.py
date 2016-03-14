@@ -50,4 +50,4 @@ class DocumentConversionV1Experimental(WatsonDeveloperCloudService):
         config = {'conversion_target': conversion_target}
         files = [('file', (filename, document, media_type)),
                  ('config', ('config', json.dumps(config), 'application/json'))]
-        return self.request(method='POST', url='/v1/convert_document', files=files, accept_json=True)
+        return self.request(method='POST', url='/v1/convert_document?version=2015-12-15', files=files, accept_json=True)
