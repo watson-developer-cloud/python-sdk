@@ -74,19 +74,23 @@ class DialogV1(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v1/dialogs/{}/conversation'.format(dialog_id), params=params,
                             accept_json=True)
 
-    def get_profile(self, dialog_id, client_id):
+    def get_profile(self, dialog_id, client_id, name=None):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         client_id = self.unpack_id(client_id, 'client_id')
-        params = {'client_id': client_id}
+        params = {'client_id': client_id, 'name': name}
         return self.request(method='GET', url='/v1/dialogs/{}/profile'.format(dialog_id), params=params,
                             accept_json=True)
 
-    def update_profile(self, dialog_id, client_id, name_values):
+    def update_profile(self, dialog_id, name_values, client_id=None):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         client_id = self.unpack_id(client_id, 'client_id')
-        params = {'client_id': client_id}
-        return self.request(method='PUT', url='/v1/dialogs/{}/profile'.format(dialog_id), params=params,
-                            json=name_values, accept_json=True)
+        if isinstance(name_values, dict):
+            name_values = list({'name': item[0], 'value': item[1]} for item in name_values.items())
+        params = {
+            'client_id': client_id,
+            'name_values': name_values
+        }
+        return self.request(method='PUT', url='/v1/dialogs/{}/profile'.format(dialog_id), json=params, accept_json=True)
 
     def delete_dialog(self, dialog_id):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')

@@ -34,3 +34,10 @@ print(json.dumps(dialog.get_dialogs(), indent=2))
 # client_id=initial_response['client_id']), indent=2))
 
 # print(json.dumps(dialog.delete_dialog(dialog_id='63b0489c-cd97-45ef-8800-4e7c310eeb19'), indent=2))
+
+# print(json.dumps(dialog.update_profile(
+#     dialog_id='6250d170-41d6-468a-a697-5675578c8012', client_id=123, name_values=[{'name': 'test', 'value': 'v1'}]),
+#     indent=2))
+#
+# print(json.dumps(dialog.get_profile(
+#     dialog_id='6250d170-41d6-468a-a697-5675578c8012', client_id=123), indent=2))
