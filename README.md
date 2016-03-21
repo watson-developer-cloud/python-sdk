@@ -1,6 +1,6 @@
 ## Watson Developer Cloud Python SDK
 [![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg)](https://travis-ci.org/watson-developer-cloud/python-sdk)
-[![Coverage Status](https://coveralls.io/repos/watson-developer-cloud/python-sdk/badge.svg?branch=master&service=github)](https://coveralls.io/github/watson-developer-cloud/python-sdk?branch=master)
+[![codecov.io](https://codecov.io/github/watson-developer-cloud/python-sdk/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/python-sdk?branch=master)
 [![Latest Stable Version](https://img.shields.io/pypi/v/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
 [![Download Times](https://img.shields.io/pypi/dm/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
 
