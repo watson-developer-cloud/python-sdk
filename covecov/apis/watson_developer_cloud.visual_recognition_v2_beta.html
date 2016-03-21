@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>watson_developer_cloud.visual_recognition_v2_beta module &mdash; Watson Developer Cloud Python SDK 0.7.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Watson Developer Cloud Python SDK 0.7.0 documentation" href="../index.html" />
+    <link rel="prev" title="watson_developer_cloud.visual_recognition_v1_beta module" href="watson_developer_cloud.visual_recognition_v1_beta.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.visual_recognition_v2_beta">
+<span id="watson-developer-cloud-visual-recognition-v2-beta-module"></span><h1>watson_developer_cloud.visual_recognition_v2_beta module<a class="headerlink" href="#module-watson_developer_cloud.visual_recognition_v2_beta" title="Permalink to this headline">¶</a></h1>
+<p>The v1 Visual Recognition service
+(<a class="reference external" href="https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html">https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/visual-recognition.html</a>)</p>
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta">
+<em class="property">class </em><code class="descname">VisualRecognitionV2Beta</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/visual-recognition-beta/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>use_vcap_services=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v2_beta.html#VisualRecognitionV2Beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_developer_cloud_service.WatsonDeveloperCloudService</span></code></p>
+<p>Client for the Visual Recognition service</p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/visual-recognition-beta/api'</em><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.latest_version">
+<code class="descname">latest_version</code><em class="property"> = '2015-12-02'</em><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.latest_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.get_classifier">
+<code class="descname">get_classifier</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v2_beta.html#VisualRecognitionV2Beta.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.get_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves information about a specific classifier.
+:param classifier_id: The classifier id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.delete_classifier">
+<code class="descname">delete_classifier</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v2_beta.html#VisualRecognitionV2Beta.delete_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.delete_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a custom classifier with the specified classifier id.
+:param classifier_id: The classifier id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.list_classifiers">
+<code class="descname">list_classifiers</code><span class="sig-paren">(</span><em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v2_beta.html#VisualRecognitionV2Beta.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.list_classifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of user-created and built-in classifiers. (May change in the future to only user-created.)
+:param verbose: Specifies whether to return more information about each classifier, such as the author</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.create_classifier">
+<code class="descname">create_classifier</code><span class="sig-paren">(</span><em>name</em>, <em>positive_examples</em>, <em>negative_examples</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v2_beta.html#VisualRecognitionV2Beta.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.create_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train a new classifier from example images which are uploaded.
+:param name: The desired short name of the new classifier.
+:param positive_examples: A zip file of images that depict the subject of the new classifier.
+:param negative_examples: A zip file of images that do not depict the subject of the new classifier.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.classify">
+<code class="descname">classify</code><span class="sig-paren">(</span><em>images_file</em>, <em>classifier_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v2_beta.html#VisualRecognitionV2Beta.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v2_beta.VisualRecognitionV2Beta.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of classification scores for one or more input images.
+:param images_file: An image file or zip file of image files to analyze.
+:param classifier_ids: The ids of classifiers to consider. When absence, considers all classifiers.
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.visual_recognition_v1_beta.html" title="previous chapter">watson_developer_cloud.visual_recognition_v1_beta module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

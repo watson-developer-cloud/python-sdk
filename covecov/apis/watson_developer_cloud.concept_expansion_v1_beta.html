@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>watson_developer_cloud.concept_expansion_v1_beta module &mdash; Watson Developer Cloud Python SDK 0.7.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.7.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Watson Developer Cloud Python SDK 0.7.0 documentation" href="../index.html" />
+    <link rel="next" title="watson_developer_cloud.concept_insights_v2 module" href="watson_developer_cloud.concept_insights_v2.html" />
+    <link rel="prev" title="watson_developer_cloud.authorization_v1 module" href="watson_developer_cloud.authorization_v1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.concept_expansion_v1_beta">
+<span id="watson-developer-cloud-concept-expansion-v1-beta-module"></span><h1>watson_developer_cloud.concept_expansion_v1_beta module<a class="headerlink" href="#module-watson_developer_cloud.concept_expansion_v1_beta" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta">
+<em class="property">class </em><code class="descname">ConceptExpansionV1Beta</code><span class="sig-paren">(</span><em>url='https://gateway.watsonplatform.net/concept-expansion-beta/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>use_vcap_services=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_expansion_v1_beta.html#ConceptExpansionV1Beta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_developer_cloud_service.WatsonDeveloperCloudService</span></code></p>
+<p>The Concept Expansion service analyzes text and interprets its meaning
+based on usage in other similar contexts.</p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/concept-expansion-beta/api'</em><a class="headerlink" href="#watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta.create_job">
+<code class="descname">create_job</code><span class="sig-paren">(</span><em>dataset</em>, <em>seeds</em>, <em>label=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_expansion_v1_beta.html#ConceptExpansionV1Beta.create_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta.create_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new asynchronous job that will compute the
+list of expanded concepts</p>
+<p>&#64;param dataset  the domain to use (&#8216;mtsamples&#8217; or &#8216;social&#8217;)
+&#64;param seeds  the list of initial search terms
+&#64;param label  label of the new job</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta.get_status">
+<code class="descname">get_status</code><span class="sig-paren">(</span><em>job_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_expansion_v1_beta.html#ConceptExpansionV1Beta.get_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta.get_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the status of a previously created job</p>
+<p>&#64;param job_id  job id to get status of</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta.get_results">
+<code class="descname">get_results</code><span class="sig-paren">(</span><em>job_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_expansion_v1_beta.html#ConceptExpansionV1Beta.get_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_expansion_v1_beta.ConceptExpansionV1Beta.get_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the results of a previously created job</p>
+<p>&#64;param job_id  job id to get status of</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.authorization_v1.html" title="previous chapter">watson_developer_cloud.authorization_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.concept_insights_v2.html" title="next chapter">watson_developer_cloud.concept_insights_v2 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
