@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>watson_developer_cloud.concept_insights_v2 module &mdash; Watson Developer Cloud Python SDK 0.10.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.10.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Watson Developer Cloud Python SDK 0.10.0 documentation" href="../index.html" />
+    <link rel="next" title="watson_developer_cloud.dialog_v1 module" href="watson_developer_cloud.dialog_v1.html" />
+    <link rel="prev" title="watson_developer_cloud.concept_expansion_v1_beta module" href="watson_developer_cloud.concept_expansion_v1_beta.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.concept_insights_v2">
+<span id="watson-developer-cloud-concept-insights-v2-module"></span><h1>watson_developer_cloud.concept_insights_v2 module<a class="headerlink" href="#module-watson_developer_cloud.concept_insights_v2" title="Permalink to this headline">¶</a></h1>
+<p>The v2 Concept Insights service
+(<a class="reference external" href="https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/concept-insights.html">https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/concept-insights.html</a>)</p>
+<dl class="class">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2">
+<em class="property">class </em><code class="descname">ConceptInsightsV2</code><span class="sig-paren">(</span><em>url='https://gateway.watsonplatform.net/concept-insights/api'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_developer_cloud_service.WatsonDeveloperCloudService</span></code></p>
+<p>The IBM Watson Concept Insights service provides APIs
+that enable you to work with concepts and identify conceptual
+associations in the content that you provide as input to the service.
+Input content is auto-tagged against a concept graph, which is a formal
+representation of the relationship(s) between concepts. The concept
+graph used by the Concept Insights service is based on content that
+has been ingested from the English language Wikipedia.</p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.DEFAULT_URL">
+<code class="descname">DEFAULT_URL</code><em class="property"> = 'https://gateway.watsonplatform.net/concept-insights/api'</em><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.DEFAULT_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.CORPORA_PATH">
+<code class="descname">CORPORA_PATH</code><em class="property"> = '/v2/corpora'</em><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.CORPORA_PATH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.WIKIPEDIA_EN_LATEST">
+<code class="descname">WIKIPEDIA_EN_LATEST</code><em class="property"> = '/graphs/wikipedia/en-latest'</em><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.WIKIPEDIA_EN_LATEST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_default_account">
+<code class="descname">get_default_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_default_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_default_account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.set_username_and_password">
+<code class="descname">set_username_and_password</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.set_username_and_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.set_username_and_password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_accounts_info">
+<code class="descname">get_accounts_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_accounts_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_accounts_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_concept">
+<code class="descname">get_concept</code><span class="sig-paren">(</span><em>concept_id</em>, <em>graph='/graphs/wikipedia/en-latest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_concept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_concept" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.search_concept_by_label">
+<code class="descname">search_concept_by_label</code><span class="sig-paren">(</span><em>label</em>, <em>graph='/graphs/wikipedia/en-latest'</em>, <em>concept_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.search_concept_by_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.search_concept_by_label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_graphs">
+<code class="descname">get_graphs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_graphs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_graphs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_related_concepts">
+<code class="descname">get_related_concepts</code><span class="sig-paren">(</span><em>concept_ids</em>, <em>level=1</em>, <em>limit=10</em>, <em>concept_fields=None</em>, <em>graph='/graphs/wikipedia/en-latest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_related_concepts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_related_concepts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_relation_scores">
+<code class="descname">get_relation_scores</code><span class="sig-paren">(</span><em>concept_id</em>, <em>concept_ids</em>, <em>graph='/graphs/wikipedia/en-latest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_relation_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_relation_scores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.annotate_text">
+<code class="descname">annotate_text</code><span class="sig-paren">(</span><em>text</em>, <em>graph='/graphs/wikipedia/en-latest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.annotate_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.annotate_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.list_corpora">
+<code class="descname">list_corpora</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.list_corpora"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.list_corpora" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus">
+<code class="descname">get_corpus</code><span class="sig-paren">(</span><em>corpus</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_corpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_processing_state">
+<code class="descname">get_corpus_processing_state</code><span class="sig-paren">(</span><em>corpus</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_corpus_processing_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_processing_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_stats">
+<code class="descname">get_corpus_stats</code><span class="sig-paren">(</span><em>corpus</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_corpus_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_stats" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.create_corpus">
+<code class="descname">create_corpus</code><span class="sig-paren">(</span><em>corpus</em>, <em>users=None</em>, <em>access=None</em>, <em>public_fields=None</em>, <em>ttl_hours=None</em>, <em>expires_on=None</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.create_corpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.create_corpus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.delete_corpus">
+<code class="descname">delete_corpus</code><span class="sig-paren">(</span><em>corpus</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.delete_corpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.delete_corpus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.update_corpus_metadata">
+<code class="descname">update_corpus_metadata</code><span class="sig-paren">(</span><em>corpus</em>, <em>users</em>, <em>access=None</em>, <em>public_fields=None</em>, <em>ttl_hours=None</em>, <em>expires_on=None</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.update_corpus_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.update_corpus_metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.search_corpus_by_label">
+<code class="descname">search_corpus_by_label</code><span class="sig-paren">(</span><em>corpus</em>, <em>query</em>, <em>concepts=False</em>, <em>prefix=False</em>, <em>limit=10</em>, <em>concept_fields=None</em>, <em>document_fields=None</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.search_corpus_by_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.search_corpus_by_label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_related_concepts">
+<code class="descname">get_corpus_related_concepts</code><span class="sig-paren">(</span><em>corpus</em>, <em>level=1</em>, <em>limit=10</em>, <em>concept_fields=None</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_corpus_related_concepts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_related_concepts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_relation_scores">
+<code class="descname">get_corpus_relation_scores</code><span class="sig-paren">(</span><em>corpus</em>, <em>concepts</em>, <em>graph='/graphs/wikipedia/en-latest'</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_corpus_relation_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_relation_scores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_related_documents">
+<code class="descname">get_corpus_related_documents</code><span class="sig-paren">(</span><em>corpus</em>, <em>ids</em>, <em>graph='/graphs/wikipedia/en-latest'</em>, <em>cursor=0</em>, <em>limit=10</em>, <em>concept_fields=None</em>, <em>document_fields=None</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_corpus_related_documents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_corpus_related_documents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.list_documents">
+<code class="descname">list_documents</code><span class="sig-paren">(</span><em>corpus</em>, <em>limit=20</em>, <em>cursor=0</em>, <em>query=None</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.list_documents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.list_documents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document">
+<code class="descname">get_document</code><span class="sig-paren">(</span><em>corpus</em>, <em>document</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document_annotations">
+<code class="descname">get_document_annotations</code><span class="sig-paren">(</span><em>corpus</em>, <em>document</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_document_annotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document_annotations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document_processing_state">
+<code class="descname">get_document_processing_state</code><span class="sig-paren">(</span><em>corpus</em>, <em>document</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_document_processing_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document_processing_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document_related_concepts">
+<code class="descname">get_document_related_concepts</code><span class="sig-paren">(</span><em>corpus</em>, <em>document</em>, <em>level=1</em>, <em>limit=10</em>, <em>concept_fields=None</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_document_related_concepts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document_related_concepts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document_relation_scores">
+<code class="descname">get_document_relation_scores</code><span class="sig-paren">(</span><em>corpus</em>, <em>document</em>, <em>concepts</em>, <em>graph='/graphs/wikipedia/en-latest'</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.get_document_relation_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.get_document_relation_scores" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.create_document">
+<code class="descname">create_document</code><span class="sig-paren">(</span><em>corpus</em>, <em>document</em>, <em>document_contents</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.create_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.create_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.update_document">
+<code class="descname">update_document</code><span class="sig-paren">(</span><em>corpus</em>, <em>document</em>, <em>document_contents</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.update_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.update_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.delete_document">
+<code class="descname">delete_document</code><span class="sig-paren">(</span><em>corpus</em>, <em>document</em>, <em>account=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/concept_insights_v2.html#ConceptInsightsV2.delete_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.concept_insights_v2.ConceptInsightsV2.delete_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.concept_expansion_v1_beta.html" title="previous chapter">watson_developer_cloud.concept_expansion_v1_beta module</a></li>
+      <li>Next: <a href="watson_developer_cloud.dialog_v1.html" title="next chapter">watson_developer_cloud.dialog_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
