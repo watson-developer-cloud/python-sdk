@@ -17,8 +17,7 @@ if [ "$TRAVIS_REPO_SLUG" == "watson-developer-cloud/python-sdk" ] && [ "$TRAVIS_
   pushd gh-pages
     # on tagged builds, $TRAVIS_BRANCH is the tag (e.g. v1.2.3), otherwise it's the branch name (e.g. master)
     rm -rf $TRAVIS_BRANCH
-    mkdir $TRAVIS_BRANCH
-    cp -Rf ../_build/html/ ./$TRAVIS_BRANCH/
+    cp -Rf ../_build/html/ $TRAVIS_BRANCH
     ../generate_index_html.sh > index.html
 
     git add -f .
