@@ -2,6 +2,8 @@
 # checking the build/job numbers allows it to only
 # publish once even though we test against multiple python versions
 
+cd $(dirname $0)
+
 if [ "$TRAVIS_REPO_SLUG" == "watson-developer-cloud/python-sdk" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" ] && [ "$TRAVIS_BUILD_NUMBER.1" == "$TRAVIS_JOB_NUMBER" ]; then
 
   echo "Create Docs"
@@ -16,8 +18,8 @@ if [ "$TRAVIS_REPO_SLUG" == "watson-developer-cloud/python-sdk" ] && [ "$TRAVIS_
     # on tagged builds, $TRAVIS_BRANCH is the tag (e.g. v1.2.3), otherwise it's the branch name (e.g. master)
     rm -rf $TRAVIS_BRANCH
     mkdir $TRAVIS_BRANCH
-    cp -Rf ../docs/_build/html/*/* ./$TRAVIS_BRANCH
-    ../docs/generate_index_html.sh > index.html
+    cp -Rf ../_build/html/*/* ./$TRAVIS_BRANCH
+    ../generate_index_html.sh > index.html
 
     git add -f .
     git commit -m "Docs for $TRAVIS_BRANCH ($TRAVIS_COMMIT)"
