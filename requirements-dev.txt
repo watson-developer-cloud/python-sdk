@@ -6,7 +6,8 @@ pylint>=1.4.4
 
 # code coverage
 coverage<4
-coveralls>=1.0
+codecov>=1.6.3
+pytest-cov>=2.2.1
 requests>=2.8.0
 
 # documentation
