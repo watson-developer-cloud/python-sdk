@@ -20,7 +20,7 @@ install:
 
 script:
   - sh pylint.sh
-  - py.test test --cov=test
+  - py.test test --cov=watson_developer_cloud
 after_success:
   - codecov
   - docs/publish.sh
