@@ -25,14 +25,12 @@ from .document_conversion_v1 import DocumentConversionV1
 from .document_conversion_v1_experimental import DocumentConversionV1Experimental
 from .dialog_v1 import DialogV1
 from .language_translation_v2 import LanguageTranslationV2
-from .message_resonance_v1_beta import MessageResonanceV1Beta
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
 from .personality_insights_v2 import PersonalityInsightsV2
 from .relationship_extraction_v1_beta import RelationshipExtractionV1Beta
 from .retrieve_and_rank_v1 import RetrieveAndRankV1
 from .speech_to_text_v1 import SpeechToTextV1
 from .text_to_speech_v1 import TextToSpeechV1
-from .tone_analyzer_v1_experimental import ToneAnalyzerV1Experimental
 from .tone_analyzer_v2_experimental import ToneAnalyzerV2Experimental
 from .tone_analyzer_v3_beta import ToneAnalyzerV3Beta
 from .tradeoff_analytics_v1 import TradeoffAnalyticsV1
