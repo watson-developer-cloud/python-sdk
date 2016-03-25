@@ -36,6 +36,10 @@ class AlchemyVisionV1(WatsonDeveloperCloudService):
         params = {'knowledgeGraph': knowledge_graph}
         return self._alchemy_image_request(method_name, image_file, image_url, params)
 
+    def get_image_scene_text(self, image_file=None, image_url=None):
+        method_name = 'GetRankedImageSceneText'
+        return self._alchemy_image_request(method_name, image_file, image_url)
+
     def get_image_links(self, url=None, html=None):
         method_name = 'GetImage'
         return self._alchemy_html_request(method_name, url=url, html=html)
