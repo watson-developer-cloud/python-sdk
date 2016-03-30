@@ -1,6 +1,7 @@
 """
-Script for generating RaaS predictions.  Refer to the following wiki for details:
- https://w3-connections.ibm.com/wikis/home?lang=en-us#!/wiki/Wc649e283e9c4_46b5_8fc1_7b91b8004716/page/How%20to%20run%20RaaS%20experiments%20using%20Bluemix%20%28requires%20acces%20to%20%60Retrieve%20and%20Rank%60%20service%20in%20bluemix%29
+This example code implements a command line runnable script that can be used to run learning-to-rank experiments
+ using the /rank API methods available as part of the Retrieve and Rank service.  See usage details by running
+ python rank_with_evaluation_v1.py --help
 """
 import argparse
 import csv
@@ -13,8 +14,6 @@ from collections import defaultdict
 from time import sleep
 
 from watson_developer_cloud import RetrieveAndRankV1, WatsonException
-
-__author__ = 'rchakravarti'
 
 BLUEMIX_CONNECTION = None
 _MAX_RUNTIME_ATTEMPTS = 1
@@ -462,12 +461,13 @@ if __name__ == '__main__':
     parses the command line args to setup constants and then calls main runner
     """
     # Get cmd line args
-    parser = argparse.ArgumentParser(description='Facilitates RaaS experiments in bluemix',
+    parser = argparse.ArgumentParser(description='Facilitates learning-to-rank experiments using the /rank API',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-t', '--train-file', dest='train_file', type=argparse.FileType('rb'),
-                        help="Training feature file for Ranker in csv format")
+                        help="Training feature file for ranker in csv format: "
+                             "qid,feature_1,feature_2,...,feature_n,ground_truth")
     parser.add_argument('-v', '--validation-file', dest='validation_file', type=argparse.FileType('rb'),
-                        help="Validation feature file for testing the Ranker")
+                        help="Validation feature file for testing the Ranker (same format as training file)")
     parser.add_argument('-o', '--output-path', dest='outFile', type=argparse.FileType('wb'),
                         help="Output path for file with rank predictions for validation set")
     parser.add_argument('-a', '--accuracy-output', dest='accuracy_outfile', type=argparse.FileType('wb'),
