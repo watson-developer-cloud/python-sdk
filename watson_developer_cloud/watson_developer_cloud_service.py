@@ -49,7 +49,7 @@ class WatsonInvalidArgument(WatsonException):
 
 def _remove_null_values(dictionary):
     if isinstance(dictionary, dict):
-        return {k: v for k, v in dictionary.items() if v is not None}
+        return dict([(k, v) for k, v in dictionary.items() if v is not None])
     return dictionary
 
 
@@ -61,7 +61,7 @@ def _convert_boolean_value(value):
 
 def _convert_boolean_values(dictionary):
     if isinstance(dictionary, dict):
-        return {k: _convert_boolean_value(v) for k, v in dictionary.items()}
+        return dict([(k, _convert_boolean_value(v)) for k, v in dictionary.items()])
     return dictionary
 
 

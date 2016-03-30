@@ -57,10 +57,10 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
         return self.request(method='POST', url='/v2/models', params=params, files=files, accept_json=True)
 
     def get_model(self, model_id):
-        return self.request(method='GET', url='/v2/models/{}'.format(model_id), accept_json=True)
+        return self.request(method='GET', url='/v2/models/{0}'.format(model_id), accept_json=True)
 
     def delete_model(self, model_id):
-        return self.request(method='DELETE', url='/v2/models/{}'.format(model_id), accept_json=True)
+        return self.request(method='DELETE', url='/v2/models/{0}'.format(model_id), accept_json=True)
 
     def translate(self, text, source=None, target=None, model=None):
         """

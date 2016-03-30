@@ -52,13 +52,13 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v2/accounts', accept_json=True)
 
     def get_concept(self, concept_id, graph=WIKIPEDIA_EN_LATEST):
-        return self.request(method='GET', url='/v2/{}/concepts/{}'.format(graph, concept_id), accept_json=True)
+        return self.request(method='GET', url='/v2/{0}/concepts/{1}'.format(graph, concept_id), accept_json=True)
 
     def search_concept_by_label(self, label, graph=WIKIPEDIA_EN_LATEST, concept_fields=None):
         if isinstance(concept_fields, dict):
             concept_fields = json.dumps(concept_fields)
         params = {'query': label, 'concept_fields': concept_fields}
-        return self.request(method='GET', url='/v2/{}/label_search'.format(graph), params=params, accept_json=True)
+        return self.request(method='GET', url='/v2/{0}/label_search'.format(graph), params=params, accept_json=True)
 
     def get_graphs(self):
         return self.request(method='GET', url='/v2/graphs', accept_json=True)
@@ -83,16 +83,16 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
                   'concept_fields': concept_fields,
                   'level': level,
                   'limit': limit}
-        return self.request(method='GET', url='/v2/{}/related_concepts'.format(graph), params=params, accept_json=True)
+        return self.request(method='GET', url='/v2/{0}/related_concepts'.format(graph), params=params, accept_json=True)
 
     def get_relation_scores(self, concept_id, concept_ids, graph=WIKIPEDIA_EN_LATEST):
         concept_ids = self._expand_concept_or_document_ids(concept_ids, graph)
         params = {'concepts': json.dumps(concept_ids)}
-        return self.request(method='GET', url='/v2/{}/concepts/{}/relation_scores'.format(graph, concept_id),
+        return self.request(method='GET', url='/v2/{0}/concepts/{1}/relation_scores'.format(graph, concept_id),
                             params=params, accept_json=True)
 
     def annotate_text(self, text, graph=WIKIPEDIA_EN_LATEST):
-        return self.request(method='POST', url='/v2/{}/annotate_text'.format(graph), data=text,
+        return self.request(method='POST', url='/v2/{0}/annotate_text'.format(graph), data=text,
                             headers={'content-type': 'text/plain'}, accept_json=True)
 
     def list_corpora(self):
@@ -103,19 +103,19 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
             return corpus
         if account is None:
             account = self.get_default_account()
-        return '/corpora/{}/{}'.format(account, corpus)
+        return '/corpora/{0}/{1}'.format(account, corpus)
 
     def get_corpus(self, corpus, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='GET', url='/v2/{}'.format(full_corpus_path), accept_json=True)
+        return self.request(method='GET', url='/v2/{0}'.format(full_corpus_path), accept_json=True)
 
     def get_corpus_processing_state(self, corpus, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='GET', url='/v2/{}/processing_state'.format(full_corpus_path), accept_json=True)
+        return self.request(method='GET', url='/v2/{0}/processing_state'.format(full_corpus_path), accept_json=True)
 
     def get_corpus_stats(self, corpus, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='GET', url='/v2/{}/stats'.format(full_corpus_path), accept_json=True)
+        return self.request(method='GET', url='/v2/{0}/stats'.format(full_corpus_path), accept_json=True)
 
     def create_corpus(self, corpus, users=None, access=None, public_fields=None, ttl_hours=None, expires_on=None,
                       account=None):
@@ -125,11 +125,11 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
                        'public_fields': public_fields,
                        'ttl_hours': ttl_hours,
                        'expires_on': expires_on}
-        return self.request(method='PUT', url='/v2/{}'.format(full_corpus_path), json=corpus_body)
+        return self.request(method='PUT', url='/v2/{0}'.format(full_corpus_path), json=corpus_body)
 
     def delete_corpus(self, corpus, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='DELETE', url='/v2/{}'.format(full_corpus_path))
+        return self.request(method='DELETE', url='/v2/{0}'.format(full_corpus_path))
 
     def update_corpus_metadata(self, corpus, users, access=None, public_fields=None, ttl_hours=None,
                                expires_on=None, account=None):
@@ -139,7 +139,7 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
                        'public_fields': public_fields,
                        'ttl_hours': ttl_hours,
                        'expires_on': expires_on}
-        return self.request(method='POST', url='/v2/{}'.format(full_corpus_path), json=corpus_body)
+        return self.request(method='POST', url='/v2/{0}'.format(full_corpus_path), json=corpus_body)
 
     def search_corpus_by_label(self, corpus, query, concepts=False, prefix=False, limit=10, concept_fields=None,
                                document_fields=None, account=None):
@@ -154,7 +154,7 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
                   'limit': limit,
                   'concept_fields': concept_fields,
                   'document_fields': document_fields}
-        return self.request(method='GET', url='/v2/{}/label_search'.format(full_corpus_path), params=params,
+        return self.request(method='GET', url='/v2/{0}/label_search'.format(full_corpus_path), params=params,
                             accept_json=True)
 
     def get_corpus_related_concepts(self, corpus, level=1, limit=10, concept_fields=None, account=None):
@@ -164,14 +164,14 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         params = {'level': level,
                   'limit': limit,
                   'concept_fields': concept_fields}
-        return self.request(method='GET', url='/v2/{}/related_concepts'.format(full_corpus_path), params=params,
+        return self.request(method='GET', url='/v2/{0}/related_concepts'.format(full_corpus_path), params=params,
                             accept_json=True)
 
     def get_corpus_relation_scores(self, corpus, concepts, graph=WIKIPEDIA_EN_LATEST, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
         concepts = self._expand_concept_or_document_ids(concepts, graph)
         params = {'concepts': json.dumps(concepts)}
-        return self.request(method='GET', url='/v2/{}/relation_scores'.format(full_corpus_path), params=params,
+        return self.request(method='GET', url='/v2/{0}/relation_scores'.format(full_corpus_path), params=params,
                             accept_json=True)
 
     def get_corpus_related_documents(self, corpus, ids, graph=WIKIPEDIA_EN_LATEST, cursor=0, limit=10,
@@ -189,7 +189,7 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
             'concept_fields': concept_fields,
             'document_fields': document_fields
         }
-        return self.request(method='GET', url='/v2/{}/conceptual_search'.format(full_corpus_path), params=params,
+        return self.request(method='GET', url='/v2/{0}/conceptual_search'.format(full_corpus_path), params=params,
                             accept_json=True)
 
     def list_documents(self, corpus, limit=20, cursor=0, query=None, account=None):
@@ -199,22 +199,22 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
             'cursor': cursor,
             'query': query
         }
-        return self.request(method='GET', url='/v2/{}/documents'.format(full_corpus_path), params=params,
+        return self.request(method='GET', url='/v2/{0}/documents'.format(full_corpus_path), params=params,
                             accept_json=True)
 
     def get_document(self, corpus, document, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='GET', url='/v2/{}/documents/{}'.format(full_corpus_path, document),
+        return self.request(method='GET', url='/v2/{0}/documents/{1}'.format(full_corpus_path, document),
                             accept_json=True)
 
     def get_document_annotations(self, corpus, document, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='GET', url='/v2/{}/documents/{}/annotations'.format(full_corpus_path, document),
+        return self.request(method='GET', url='/v2/{0}/documents/{1}/annotations'.format(full_corpus_path, document),
                             accept_json=True)
 
     def get_document_processing_state(self, corpus, document, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='GET', url='/v2/{}/documents/{}/processing_state'.format(full_corpus_path, document),
+        return self.request(method='GET', url='/v2/{0}/documents/{1}/processing_state'.format(full_corpus_path, document),
                             accept_json=True)
 
     def get_document_related_concepts(self, corpus, document, level=1, limit=10, concept_fields=None, account=None):
@@ -226,26 +226,28 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
             'limit': limit,
             'concept_fields': concept_fields
         }
-        return self.request(method='GET', url='/v2/{}/documents/{}/related_concepts'.format(full_corpus_path, document),
+        return self.request(method='GET',
+                            url='/v2/{0}/documents/{1}/related_concepts'.format(full_corpus_path, document),
                             params=params, accept_json=True)
 
     def get_document_relation_scores(self, corpus, document, concepts, graph=WIKIPEDIA_EN_LATEST, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
         concept_ids = self._expand_concept_or_document_ids(concepts, graph)
         params = {'concepts': json.dumps(concept_ids)}
-        return self.request(method='GET', url='/v2/{}/documents/{}/relation_scores'.format(full_corpus_path, document),
+        return self.request(method='GET',
+                            url='/v2/{0}/documents/{1}/relation_scores'.format(full_corpus_path, document),
                             params=params, accept_json=True)
 
     def create_document(self, corpus, document, document_contents, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='PUT', url='/v2/{}/documents/{}'.format(full_corpus_path, document),
+        return self.request(method='PUT', url='/v2/{0}/documents/{1}'.format(full_corpus_path, document),
                             json=document_contents)
 
     def update_document(self, corpus, document, document_contents, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='POST', url='/v2/{}/documents/{}'.format(full_corpus_path, document),
+        return self.request(method='POST', url='/v2/{0}/documents/{1}'.format(full_corpus_path, document),
                             json=document_contents)
 
     def delete_document(self, corpus, document, account=None):
         full_corpus_path = self._get_full_corpus_path(corpus, account)
-        return self.request(method='DELETE', url='/v2/{}/documents/{}'.format(full_corpus_path, document))
+        return self.request(method='DELETE', url='/v2/{0}/documents/{1}'.format(full_corpus_path, document))

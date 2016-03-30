@@ -45,13 +45,13 @@ class NaturalLanguageClassifierV1(WatsonDeveloperCloudService):
 
     def status(self, classifier_id):
         classifier_id = self.unpack_id(classifier_id, 'classifier_id')
-        return self.request(method='GET', url='/v1/classifiers/{}'.format(classifier_id), accept_json=True)
+        return self.request(method='GET', url='/v1/classifiers/{0}'.format(classifier_id), accept_json=True)
 
     def classify(self, classifier_id, text):
         classifier_id = self.unpack_id(classifier_id, 'classifier_id')
-        return self.request(method='POST', url='/v1/classifiers/{}/classify'.format(classifier_id), accept_json=True,
+        return self.request(method='POST', url='/v1/classifiers/{0}/classify'.format(classifier_id), accept_json=True,
                             json={'text': text})
 
     def remove(self, classifier_id):
         classifier_id = self.unpack_id(classifier_id, 'classifier_id')
-        return self.request(method='DELETE', url='/v1/classifiers/{}'.format(classifier_id), accept_json=True)
+        return self.request(method='DELETE', url='/v1/classifiers/{0}'.format(classifier_id), accept_json=True)

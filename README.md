@@ -37,7 +37,8 @@ To get your service credentials, follow these steps:
      1. Copy `username` and `password` from these service credentials.
 
 ## Python Version
-Tested 👌 (lightly) on: Python from 2.6 to 3.5-dev (development branch)
+Tested 👌 (lightly) on: Python from 2.7 to 3.5-dev (development branch).
+Python 2.6 is partially supported but generates InsecurePlatformWarnings (and other warnings), which can be ignored.
 
 ## Known Issues
 There is a known incompatibility with this module with Python versions 3.x with Korean systems.

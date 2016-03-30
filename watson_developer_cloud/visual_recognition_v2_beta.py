@@ -44,7 +44,7 @@ class VisualRecognitionV2Beta(WatsonDeveloperCloudService):
         """
 
         params = {'version': self.version}
-        return self.request(method='GET', url='/v2/classifiers/{}'.format(classifier_id), params=params,
+        return self.request(method='GET', url='/v2/classifiers/{0}'.format(classifier_id), params=params,
                             accept_json=True)
 
     def delete_classifier(self, classifier_id):
@@ -54,7 +54,7 @@ class VisualRecognitionV2Beta(WatsonDeveloperCloudService):
         """
 
         params = {'version': self.version}
-        return self.request(method='DELETE', url='/v2/classifiers/{}'.format(classifier_id), params=params,
+        return self.request(method='DELETE', url='/v2/classifiers/{0}'.format(classifier_id), params=params,
                             accept_json=True)
 
     def list_classifiers(self, verbose=False):

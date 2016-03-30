@@ -34,7 +34,7 @@ class DialogV1(WatsonDeveloperCloudService):
     def get_dialog(self, dialog_id, accept='application/wds+json'):
         accept_json = accept == self.dialog_json_format
         headers = {'accept': accept}
-        return self.request(method='GET', url='/v1/dialogs/{}'.format(dialog_id), headers=headers,
+        return self.request(method='GET', url='/v1/dialogs/{0}'.format(dialog_id), headers=headers,
                             accept_json=accept_json)
 
     def create_dialog(self, dialog_file, name):
@@ -43,23 +43,23 @@ class DialogV1(WatsonDeveloperCloudService):
 
     def update_dialog(self, dialog_id, dialog_file):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        return self.request(method='PUT', url='/v1/dialogs/{}'.format(dialog_id), files={'file': dialog_file},
+        return self.request(method='PUT', url='/v1/dialogs/{0}'.format(dialog_id), files={'file': dialog_file},
                             accept_json=True)
 
     def get_content(self, dialog_id):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        return self.request(method='GET', url='/v1/dialogs/{}/content'.format(dialog_id), accept_json=True)
+        return self.request(method='GET', url='/v1/dialogs/{0}/content'.format(dialog_id), accept_json=True)
 
     def update_content(self, dialog_id, content):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        return self.request(method='PUT', url='/v1/dialogs/{}/content'.format(dialog_id), json=content,
+        return self.request(method='PUT', url='/v1/dialogs/{0}/content'.format(dialog_id), json=content,
                             accept_json=True)
 
     def conversation(self, dialog_id, dialog_input=None, client_id=None, conversation_id=None):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         data = {'input': dialog_input, 'client_id': client_id,
                 'conversation_id': conversation_id}
-        return self.request(method='POST', url='/v1/dialogs/{}/conversation'.format(dialog_id), data=data,
+        return self.request(method='POST', url='/v1/dialogs/{0}/conversation'.format(dialog_id), data=data,
                             accept_json=True)
 
     @staticmethod
@@ -71,14 +71,14 @@ class DialogV1(WatsonDeveloperCloudService):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         params = {'date_from': self._format_date(
             date_from), 'date_to': self._format_date(date_to)}
-        return self.request(method='GET', url='/v1/dialogs/{}/conversation'.format(dialog_id), params=params,
+        return self.request(method='GET', url='/v1/dialogs/{0}/conversation'.format(dialog_id), params=params,
                             accept_json=True)
 
     def get_profile(self, dialog_id, client_id, name=None):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         client_id = self.unpack_id(client_id, 'client_id')
         params = {'client_id': client_id, 'name': name}
-        return self.request(method='GET', url='/v1/dialogs/{}/profile'.format(dialog_id), params=params,
+        return self.request(method='GET', url='/v1/dialogs/{0}/profile'.format(dialog_id), params=params,
                             accept_json=True)
 
     def update_profile(self, dialog_id, name_values, client_id=None):
@@ -90,8 +90,9 @@ class DialogV1(WatsonDeveloperCloudService):
             'client_id': client_id,
             'name_values': name_values
         }
-        return self.request(method='PUT', url='/v1/dialogs/{}/profile'.format(dialog_id), json=params, accept_json=True)
+        return self.request(method='PUT', url='/v1/dialogs/{0}/profile'.format(dialog_id), json=params,
+                            accept_json=True)
 
     def delete_dialog(self, dialog_id):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        return self.request(method='DELETE', url='/v1/dialogs/{}'.format(dialog_id), accept_json=True)
+        return self.request(method='DELETE', url='/v1/dialogs/{0}'.format(dialog_id), accept_json=True)

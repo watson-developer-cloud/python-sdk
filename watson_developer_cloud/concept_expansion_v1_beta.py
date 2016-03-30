@@ -23,9 +23,9 @@ def _format_status(status):
     try:
         return status_mapping[status['state']]
     except ValueError:
-        return {'status': 'error', 'error': 'invalid json: {}'.format(status)}
+        return {'status': 'error', 'error': 'invalid json: {0}'.format(status)}
     except KeyError:
-        return {'status': 'error', 'error': 'missing json data: {}'.format(status)}
+        return {'status': 'error', 'error': 'missing json data: {0}'.format(status)}
 
 
 class ConceptExpansionV1Beta(WatsonDeveloperCloudService):
