@@ -32,9 +32,8 @@ class AlchemyDataNewsV1(WatsonDeveloperCloudService):
                   'end': end,
                   'maxResults': max_results,
                   'return': return_fields,
-                  'timeSlice': time_slice}
-        if isinstance(next_page, str):
-            params['next'] = next_page
+                  'timeSlice': time_slice,
+                  'next': next_page}
         if isinstance(query_fields, dict):
             for key in query_fields:
                 params[key if key.startswith('q.') else 'q.' + key] = query_fields[key]
