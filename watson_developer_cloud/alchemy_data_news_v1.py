@@ -36,5 +36,8 @@ class AlchemyDataNewsV1(WatsonDeveloperCloudService):
                   'next': next_page}
         if isinstance(query_fields, dict):
             for key in query_fields:
-                params[key if key.startswith('q.') else 'q.' + key] = query_fields[key]
+                if key.startswith('enriched.url') or key.startswith('original.url'):
+                    params[key if key.startswith('q.') else 'q.' + key] = query_fields[key]
+                else:
+                    params[key] = query_fields[key]
         return self._alchemy_html_request(method_url='/data/GetNews', method='GET', params=params)
