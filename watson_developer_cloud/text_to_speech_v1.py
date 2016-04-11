@@ -46,3 +46,69 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
         Returns the list of available voices to use with synthesize
         """
         return self.request(method='GET', url='/v1/voices', accept_json=True)
+
+    def pronunciation(self, text, voice=None, pronunciation_format='ipa'):
+        params = {
+            'text': text,
+            'voice': voice,
+            'format': pronunciation_format
+        }
+        return self.request(method='GET', url='/v1/pronunciation', params=params, accept_json=True)
+
+    def customizations(self, language=None):
+        params = {
+            'language': language
+        }
+        return self.request(method='GET', url='/v1/customizations', params=params, accept_json=True)
+
+    def get_customization(self, customization_id):
+        customization_id = self.unpack_id(customization_id, 'customization_id')
+        return self.request(method='GET', url='/v1/customizations/{0}'.format(customization_id), accept_json=True)
+
+    def create_customization(self, name, language=None, description=None):
+        body = {
+            'name': name,
+            'language': language,
+            'description': description
+        }
+        return self.request(method='POST', url='/v1/customizations', json=body, accept_json=True)
+
+    def update_customization(self, customization_id, name=None, description=None, words=None):
+        body = {
+            'name': name,
+            'description': description,
+            'words': words
+        }
+        return self.request(method='POST', url='/v1/customizations/{0}'.format(customization_id), json=body)
+
+    def delete_customization(self, customization_id):
+        customization_id = self.unpack_id(customization_id, 'customization_id')
+        return self.request(method='DELETE', url='/v1/customizations/{0}'.format(customization_id))
+
+    def get_customization_words(self, customization_id):
+        customization_id = self.unpack_id(customization_id, 'customization_id')
+        return self.request(method='GET', url='/v1/customizations/{0}/words'.format(customization_id), accept_json=True)
+
+    def add_customization_words(self, customization_id, words):
+        customization_id = self.unpack_id(customization_id, 'customization_id')
+        body = {
+            'words': words
+        }
+        return self.request(method='POST', url='/v1/customizations/{0}/words'.format(customization_id), json=body)
+
+    def get_customization_word(self, customization_id, word):
+        customization_id = self.unpack_id(customization_id, 'customization_id')
+        return self.request(method='GET', url='/v1/customizations/{0}/words/{1}'.format(customization_id, word),
+                            accept_json=True)
+
+    def set_customization_word(self, customization_id, word, translation):
+        customization_id = self.unpack_id(customization_id, 'customization_id')
+        body = {
+            'translation': translation
+        }
+        return self.request(method='PUT', url='/v1/customizations/{0}/words/{1}'.format(customization_id, word),
+                            json=body)
+
+    def delete_customization_word(self, customization_id, word):
+        customization_id = self.unpack_id(customization_id, 'customization_id')
+        return self.request(method='DELETE', url='/v1/customizations/{0}/words/{1}'.format(customization_id, word))
