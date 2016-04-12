@@ -26,7 +26,7 @@ class AlchemyDataNewsV1(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
 
     def get_news_documents(self, start, end, max_results=10, query_fields=None, return_fields=None, time_slice=None,
-                           next_page=None):
+                           next_page=None, dedup=None, dedup_threshold=None, rank=None):
         if isinstance(return_fields, list):
             return_fields = ','.join(return_fields)
         params = {'start': start,
@@ -34,7 +34,10 @@ class AlchemyDataNewsV1(WatsonDeveloperCloudService):
                   'maxResults': max_results,
                   'return': return_fields,
                   'timeSlice': time_slice,
-                  'next': next_page}
+                  'next': next_page,
+                  'dedup': dedup,
+                  'dedupThreshold': dedup_threshold,
+                  'rank': rank}
         if isinstance(query_fields, dict):
             for key in query_fields:
                 params[key if key.startswith('q.') else 'q.' + key] = query_fields[key]
