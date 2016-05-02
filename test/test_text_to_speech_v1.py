@@ -26,11 +26,10 @@ def test_success():
     assert responses.calls[0].response.text == voices_response
 
     synthesize_text = 'hello'
-    synthesize_url = 'https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize?text=' + \
-        synthesize_text
+    synthesize_url = 'https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize'
     synthesize_response_body = '<binary response>'
 
-    responses.add(responses.GET, synthesize_url,
+    responses.add(responses.POST, synthesize_url,
                   body=synthesize_response_body, status=200,
                   content_type='application/json', match_querystring=True)
     text_to_speech.synthesize(synthesize_text)

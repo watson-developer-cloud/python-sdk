@@ -32,13 +32,14 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(
             self, 'text_to_speech', url, username, password, use_vcap_services)
 
-    def synthesize(self, text, voice=None, accept=None):
+    def synthesize(self, text, voice=None, accept=None, customization_id=None):
         """
         Returns the get HTTP response by doing a GET to /synthesize with text, voice, accept
         """
-        params = {'text': text, 'voice': voice, 'accept': accept}
+        params = {'voice': voice, 'accept': accept, 'customization_id': customization_id}
+        data = {'text': text}
         response = self.request(
-            method='GET', url='/v1/synthesize', stream=True, params=params)
+            method='POST', url='/v1/synthesize', stream=True, params=params, json=data)
         return response.content
 
     def voices(self):
