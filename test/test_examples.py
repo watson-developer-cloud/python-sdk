@@ -11,7 +11,8 @@ from glob import glob
 
 # tests to exclude
 excludes = ['authorization_v1.py', 'concept_expansion_v1.py', 'alchemy_data_news_v1.py',
-            'alchemy_language_v1.py', 'alchemy_vision_v1.py', 'relationship_extraction_v1_beta.py']
+            'alchemy_language_v1.py', 'alchemy_vision_v1.py', 'relationship_extraction_v1_beta.py',
+            'natural_language_classifier_v1.py']
 
 # examples path. /examples
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')
