@@ -25,6 +25,9 @@ print(json.dumps(status, indent=2))
 #     config_status = retrieve_and_rank.create_config(solr_cluster_id, 'test-config', config)
 #     print(json.dumps(config_status, indent=2))
 
+# deleted_response = retrieve_and_rank.delete_config(solr_cluster_id, 'test-config')
+# print(json.dumps(deleted_response, indent=2))
+
 configs = retrieve_and_rank.list_configs(solr_cluster_id=solr_cluster_id)
 print(json.dumps(configs, indent=2))
 

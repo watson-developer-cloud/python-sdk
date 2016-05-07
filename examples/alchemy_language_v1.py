@@ -6,8 +6,8 @@ alchemy_language = AlchemyLanguageV1(api_key='YOUR API KEY')
 
 url = 'https://developer.ibm.com/watson/blog/2015/11/03/price-reduction-for-watson-personality-insights/'
 
-# print(json.dumps(alchemy_language.targeted_sentiment(text='I love cats! Dogs are smelly.',
-#                                                      targets=['cats', 'dogs']), indent=2))
+print(json.dumps(alchemy_language.targeted_sentiment(text='I love cats! Dogs are smelly.',
+                                                     targets=['cats', 'dogs'], language='english'), indent=2))
 # print(json.dumps(alchemy_language.author(url=url), indent=2))
 # print(json.dumps(alchemy_language.keywords(max_items=5, url=url), indent=2))
 # print(json.dumps(alchemy_language.concepts(max_items=2, url=url), indent=2))

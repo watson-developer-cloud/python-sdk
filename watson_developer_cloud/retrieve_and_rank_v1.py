@@ -54,12 +54,10 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
 
     def delete_config(self, solr_cluster_id, config_name):
         return self.request(method='DELETE',
-                            url='/v1/solr_clusters/{0}/config/{1}'.format(solr_cluster_id, config_name),
-                            accept_json=True)
+                            url='/v1/solr_clusters/{0}/config/{1}'.format(solr_cluster_id, config_name), accept_json=True)
 
     def get_config(self, solr_cluster_id, config_name):
-        return self.request(method='GET', url='/v1/solr_clusters/{0}/config/{1}'.format(solr_cluster_id, config_name),
-                            accept_json=True)
+        return self.request(method='GET', url='/v1/solr_clusters/{0}/config/{1}'.format(solr_cluster_id, config_name))
 
     def list_collections(self, solr_cluster_id):
         params = {'action': 'LIST', 'wt': 'json'}
