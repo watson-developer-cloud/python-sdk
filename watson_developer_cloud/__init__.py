@@ -31,8 +31,8 @@ from .relationship_extraction_v1_beta import RelationshipExtractionV1Beta
 from .retrieve_and_rank_v1 import RetrieveAndRankV1
 from .speech_to_text_v1 import SpeechToTextV1
 from .text_to_speech_v1 import TextToSpeechV1
-from .tone_analyzer_v2_experimental import ToneAnalyzerV2Experimental
 from .tone_analyzer_v3_beta import ToneAnalyzerV3Beta
+from .tone_analyzer_v3 import ToneAnalyzerV3
 from .tradeoff_analytics_v1 import TradeoffAnalyticsV1
 from .visual_insights_v1_experimental import VisualInsightsV1Experimental
 from .visual_recognition_v1_beta import VisualRecognitionV1Beta

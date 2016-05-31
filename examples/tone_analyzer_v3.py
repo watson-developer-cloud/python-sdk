@@ -1,8 +1,8 @@
 import json
-from watson_developer_cloud import ToneAnalyzerV3Beta
+from watson_developer_cloud import ToneAnalyzerV3
 
 
-tone_analyzer = ToneAnalyzerV3Beta(
+tone_analyzer = ToneAnalyzerV3(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
     version='2016-02-11')
