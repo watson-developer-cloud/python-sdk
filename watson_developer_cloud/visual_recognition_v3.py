@@ -106,7 +106,6 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         else:
             return self.request(method='POST', url='/v3/classify', files={'images_file': images_file}, data=data, params=params, accept_json=True)
 
-
     def detect_faces(self, images_file=None, images_url=None):
         """
         Returns a list of faces detected.  This includes identities for famous people.
