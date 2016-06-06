@@ -34,7 +34,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
 
         WatsonDeveloperCloudService.__init__(
-            self, 'visual_recognition', url, None, None, use_vcap_services, api_key)
+            self, 'watson_vision_combined', url, None, None, use_vcap_services, api_key)
         self.version = version
 
     def get_classifier(self, classifier_id):
@@ -78,10 +78,10 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         params = {'version': self.version}
         data = {'name': name}
         # Params sent as url parameters here
-        return self.request(method='POST', url='/v3/classifiers', files=kwargs,
-                            data=data, params=params, accept_json=True)
+        return self.request(method='POST', url='/v3/classifiers', files=kwargs, data=data, params=params,
+                            accept_json=True)
 
-    def classify(self, images_file=None, images_url=None, classifier_ids=None):
+    def classify(self, images_file=None, images_url=None, classifier_ids=None, owners=None, threshold=None):
         """
         Returns a list of classification scores for one or more input images.
         :param images_file: An image file or zip file of image files to analyze.
@@ -97,14 +97,14 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         if images_file is None and images_url is None:
             raise AssertionError('You must specify either a file or a url')
 
-        params = {'version': self.version}
-        data = {'classifier_ids': classifier_ids}
+        params = {'version': self.version, 'classifier_ids': classifier_ids, 'owners': owners, 'threshold': threshold}
         # Params sent as url parameters here
         if images_url:
             params['url'] = images_url
-            return self.request(method='POST', url='/v3/classify', data=data, params=params, accept_json=True)
+            return self.request(method='GET', url='/v3/classify', params=params, accept_json=True)
         else:
-            return self.request(method='POST', url='/v3/classify', files={'images_file': images_file}, data=data, params=params, accept_json=True)
+            return self.request(method='POST', url='/v3/classify', files={'images_file': images_file}, params=params,
+                                accept_json=True)
 
     def detect_faces(self, images_file=None, images_url=None):
         """
@@ -117,7 +117,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         # Params sent as url parameters here
         if images_url:
             params['url'] = images_url
-            return self.request(method='POST', url='/v3/detect_faces', params=params, accept_json=True)
+            return self.request(method='GET', url='/v3/detect_faces', params=params, accept_json=True)
         else:
             return self.request(method='POST', url='/v3/detect_faces', files={'images_file': images_file},
                                 params=params, accept_json=True)
@@ -133,7 +133,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         # Params sent as url parameters here
         if images_url:
             params['url'] = images_url
-            return self.request(method='POST', url='/v3/recognize_text', params=params, accept_json=True)
+            return self.request(method='GET', url='/v3/recognize_text', params=params, accept_json=True)
         else:
             return self.request(method='POST', url='/v3/recognize_text',
                                 files={'images_file': images_file}, params=params, accept_json=True)
