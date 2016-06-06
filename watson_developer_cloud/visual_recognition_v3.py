@@ -94,7 +94,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         if classifier_ids:
             classifier_ids = '{"classifier_ids": ' + classifier_ids + '}'
 
-        if images_file == None and images_url == None:
+        if images_file is None and images_url is None:
             raise AssertionError('You must specify either a file or a url')
 
         params = {'version': self.version}
@@ -104,7 +104,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
             params['url'] = images_url
             return self.request(method='POST', url='/v3/classify', data=data, params=params, accept_json=True)
         else:
-            return self.request(method='POST', url='/v3/classify', files={'images_file': images_file }, data=data, params=params, accept_json=True)
+            return self.request(method='POST', url='/v3/classify', files={'images_file': images_file}, data=data, params=params, accept_json=True)
 
 
     def detect_faces(self, images_file=None, images_url=None):
@@ -138,6 +138,3 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         else:
             return self.request(method='POST', url='/v3/recognize_text',
                                 files={'images_file': images_file}, params=params, accept_json=True)
-
-        
-        
