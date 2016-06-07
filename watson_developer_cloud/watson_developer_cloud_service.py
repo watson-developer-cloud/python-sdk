@@ -99,6 +99,8 @@ class WatsonDeveloperCloudService(object):
                     self.api_key = self.vcap_service_credentials['api_key']
                 if 'apikey' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['apikey']
+                if 'api_key' in self.vcap_service_credentials:
+                    self.api_key = self.vcap_service_credentials['api_key']
 
         if (self.username is None or self.password is None) and self.api_key is None:
             raise WatsonException('You must specific your username and password service credentials ' +

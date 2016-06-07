@@ -22,7 +22,6 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class VisualRecognitionV3(WatsonDeveloperCloudService):
-
     """Client for the Visual Recognition service"""
 
     default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
