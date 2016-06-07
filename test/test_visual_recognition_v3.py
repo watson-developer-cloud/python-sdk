@@ -1,6 +1,7 @@
 import json
 import mimetypes
 import os
+from os.path import join, dirname
 import responses
 import watson_developer_cloud
 
