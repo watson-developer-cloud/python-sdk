@@ -106,9 +106,9 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
 
         if isinstance(classifier_ids, list):
-            classifier_ids = json.dumps(classifier_ids)
-        if classifier_ids:
-            classifier_ids = '{"classifier_ids": ' + classifier_ids + '}'
+            classifier_ids = ','.join(classifier_ids)
+        if isinstance(owners, list):
+            owners = ','.join(owners)
 
         params = {'version': self.version, 'classifier_ids': classifier_ids, 'owners': owners, 'threshold': threshold}
         return self._image_call('/v3/classify', images_file, images_url, params)
