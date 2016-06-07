@@ -13,6 +13,7 @@ print(json.dumps(alchemy_language.targeted_sentiment(text='I love cats! Dogs are
 # print(json.dumps(alchemy_language.concepts(max_items=2, url=url), indent=2))
 # print(json.dumps(alchemy_language.entities(url=url), indent=2))
 # print(json.dumps(alchemy_language.category(url=url), indent=2))
+# print(json.dumps(alchemy_language.typed_relations(url=url), indent=2))
 # print(json.dumps(alchemy_language.relations(url=url), indent=2))
 # print(json.dumps(alchemy_language.language(url=url), indent=2))
 # print(json.dumps(alchemy_language.text(url=url), indent=2))

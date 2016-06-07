@@ -95,8 +95,12 @@ class WatsonDeveloperCloudService(object):
                     self.username = self.vcap_service_credentials['username']
                 if 'password' in self.vcap_service_credentials:
                     self.password = self.vcap_service_credentials['password']
+                if 'api_key' in self.vcap_service_credentials:
+                    self.api_key = self.vcap_service_credentials['api_key']
                 if 'apikey' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['apikey']
+                if 'api_key' in self.vcap_service_credentials:
+                    self.api_key = self.vcap_service_credentials['api_key']
 
         if (self.username is None or self.password is None) and self.api_key is None:
             raise WatsonException('You must specific your username and password service credentials ' +
@@ -143,7 +147,10 @@ class WatsonDeveloperCloudService(object):
         try:
             error_json = response.json()
             if 'error' in error_json:
-                error_message = 'Error: ' + error_json['error']
+                if isinstance(error_json['error'], dict) and 'description' in error_json['error']:
+                    error_message = 'Error: ' + error_json['error']['description']
+                else:
+                    error_message = 'Error: ' + error_json['error']
             if 'error_message' in error_json:
                 error_message = 'Error: ' + error_json['error_message']
             if 'description' in error_json:
@@ -227,7 +234,10 @@ class WatsonDeveloperCloudService(object):
         if self.api_key is not None:
             if params is None:
                 params = {}
-            params['apikey'] = self.api_key
+            if url.startswith('https://gateway-a.watsonplatform.net/calls'):
+                params['apikey'] = self.api_key
+            else:
+                params['api_key'] = self.api_key
 
         response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
                                     params=params, data=data, files=files, **kwargs)
