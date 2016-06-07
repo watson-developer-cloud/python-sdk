@@ -101,6 +101,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
         Returns a list of classification scores for one or more input images.
         :param images_file: An image file or zip file of image files to analyze.
+        :param images_url: The url for an image file or zip file of images to analyze.
         :param classifier_ids: The ids of classifiers to consider. When absent, considers all classifiers.
         :return:
         """
@@ -117,6 +118,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
         Returns a list of faces detected.  This includes identities for famous people.
         :param images_file: An image file or zip file of image files to analyze.
+        :param images_url: The url for an image file or zip file of images to analyze.
         :return:
         """
 
@@ -127,6 +129,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
         Returns a list of recognized text
         :param images_file: An image file or zip file of image files to analyze.
+        :param images_url: The url for an image file or zip file of images to analyze.
         :return:
         """
 
