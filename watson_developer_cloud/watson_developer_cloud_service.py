@@ -151,8 +151,10 @@ class WatsonDeveloperCloudService(object):
                     error_message = 'Error: ' + error_json['error']['description']
                 else:
                     error_message = 'Error: ' + error_json['error']
-            if 'error_message' in error_json:
+            elif 'error_message' in error_json:
                 error_message = 'Error: ' + error_json['error_message']
+            elif 'msg' in error_json:
+                error_message = 'Error: ' + error_json['msg']
             if 'description' in error_json:
                 error_message += ', Description: ' + error_json['description']
             error_message += ', Code: ' + str(response.status_code)
