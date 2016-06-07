@@ -71,6 +71,10 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
                   'language': language}
         return self._alchemy_html_request('GetEmotion', html=html, text=text, url=url, params=params)
 
+    def typed_relations(self, html=None, text=None, url=None, model=None):
+        params = {'model': model}
+        return self._alchemy_html_request('GetTypedRelations', html=html, text=text, url=url, params=params)
+
     def relations(self, html=None, text=None, url=None, sentiment=False, keywords=False, entities=False,
                   require_entities=False, sentiment_excludes_entities=True, disambiguate=True, linked_data=True,
                   coreference=True, show_source_text=False, max_items=50, language=None):
