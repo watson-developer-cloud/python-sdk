@@ -16,6 +16,7 @@ The v3 Visual Recognition service
 (http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/)
 """
 import json
+import mimetypes
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
@@ -104,8 +105,15 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
             params['url'] = images_url
             return self.request(method='POST', url='/v3/classify', data=data, params=params, accept_json=True)
         else:
-            return self.request(method='POST', url='/v3/classify', files={'images_file': images_file}, data=data, params=params, accept_json=True)
+            guessed_mime_type = self.guess_mime_type(images_file)
+            file_hash = {'images_file': (images_file.name, images_file, guessed_mime_type[0])}
+            return self.request(method='POST', url='/v3/classify', files=file_hash, data=data, params=params, accept_json=True)
 
+    def guess_mime_type(self, images_file):
+        guessed_mime_type = mimetypes.guess_type(images_file.name)
+        if guessed_mime_type[0] not in ['image/gif', 'image/jpeg', 'image/png']:
+            raise AssertionError('You must specify a jpeg, png, or gif image')
+        return guessed_mime_type
 
     def detect_faces(self, images_file=None, images_url=None):
         """
@@ -120,7 +128,9 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
             params['url'] = images_url
             return self.request(method='POST', url='/v3/detect_faces', params=params, accept_json=True)
         else:
-            return self.request(method='POST', url='/v3/detect_faces', files={'images_file': images_file},
+            guessed_mime_type = self.guess_mime_type(images_file)
+            file_hash = {'images_file': (images_file.name, images_file, guessed_mime_type[0])}
+            return self.request(method='POST', url='/v3/detect_faces', files=file_hash,
                                 params=params, accept_json=True)
 
     def recognize_text(self, images_file=None, images_url=None):
@@ -136,5 +146,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
             params['url'] = images_url
             return self.request(method='POST', url='/v3/recognize_text', params=params, accept_json=True)
         else:
+            guessed_mime_type = self.guess_mime_type(images_file)
+            file_hash = {'images_file': (images_file.name, images_file, guessed_mime_type[0])}
             return self.request(method='POST', url='/v3/recognize_text',
-                                files={'images_file': images_file}, params=params, accept_json=True)
+                                files=file_hash, params=params, accept_json=True)

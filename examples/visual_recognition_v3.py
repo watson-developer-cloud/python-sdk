@@ -12,11 +12,11 @@ visual_recognition = VisualRecognitionV3('2016-05-20',api_key=environ['API_KEY']
 #    print(json.dumps(visual_recognition.create_classifier('Cars vs Trucks', cars_positive_examples=cars,
 #                                                          negative_examples=trucks), indent=2))
 
-#with open(join(dirname(__file__), '../resources/car.jpg'), 'rb') as image_file:
-#    visual_recognition.classify(images_file=image_file)
+with open(join(dirname(__file__), '../resources/car.jpg'), 'rb') as image_file:
+    #print(json.dumps(visual_recognition.classify(images_file=image_file),indent=2))
+    print(visual_recognition.classify(images_file=image_file))
 
-print(json.dumps(visual_recognition.classify(images_url=test_url), indent=2))
-
+#print(json.dumps(visual_recognition.classify(images_url=test_url), indent=2))
 
 #The service currently has a bug where even successful deletions return a 404
 #print(json.dumps(visual_recognition.delete_classifier(classifier_id='YOUR CLASSIFIER ID'), indent=2))
