@@ -15,7 +15,6 @@
 The v3 Visual Recognition service
 (http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/)
 """
-import json
 import mimetypes
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
