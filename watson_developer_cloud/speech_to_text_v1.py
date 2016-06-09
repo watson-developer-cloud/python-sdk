@@ -22,12 +22,15 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 class SpeechToTextV1(WatsonDeveloperCloudService):
     default_url = "https://stream.watsonplatform.net/speech-to-text/api"
 
-    def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
+    def __init__(self, url=default_url,
+                 username=None, password=None, use_vcap_services=True):
 
         WatsonDeveloperCloudService.__init__(
             self, 'speech_to_text', url, username, password, use_vcap_services)
 
-    def recognize(self, audio, content_type, continuous=False, model=None):
+    def recognize(self, audio,
+                  content_type, continuous=False,
+                  model=None, timestamps=False):
         """
         Returns the recognized text from the audio input
         """
@@ -36,7 +39,14 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         if model:
             params['model'] = model
 
-        return self.request(method='POST', url='/v1/recognize', headers=headers, data=audio, params=params,
+        '''
+        Add option for timestamps to params
+        '''
+        if timestamps:
+            params['timestamps'] = True
+
+        return self.request(method='POST', url='/v1/recognize',
+                            headers=headers, data=audio, params=params,
                             stream=True, accept_json=True)
 
     def models(self):
