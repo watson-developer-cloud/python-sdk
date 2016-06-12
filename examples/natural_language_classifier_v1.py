@@ -15,10 +15,10 @@ print(json.dumps(classifiers, indent=2))
 #     print(json.dumps(natural_language_classifier.create(training_data=training_data, name='weather'), indent=2))
 
 # replace 4f1704ex55-nlc-2432" with your classifier id
-status = natural_language_classifier.status('3a84d1x62-nlc-18096')
+status = natural_language_classifier.status('2374f9x68-nlc-2646')
 print(json.dumps(status, indent=2))
 #
-classes = natural_language_classifier.classify('3a84d1x62-nlc-18096', 'How hot will it be tomorrow?')
+classes = natural_language_classifier.classify('2374f9x68-nlc-2646', 'How hot will it be tomorrow?')
 print(json.dumps(classes, indent=2))
 
 # example of raising a WatsonException

@@ -40,6 +40,9 @@ To get your service credentials, follow these steps:
 Tested 👌 (lightly) on: Python from 2.7 to 3.5-dev (development branch).
 Python 2.6 is partially supported but generates InsecurePlatformWarnings (and other warnings), which can be ignored.
 
+## CHANGELOG
+See [CHANGELOG][CHANGELOG.md].
+
 ## Known Issues
 There is a known incompatibility with this module with Python versions 3.x with Korean systems.
 
@@ -62,4 +65,6 @@ This library is licensed under the [Apache 2.0 license][license].
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
 [CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
+[CHANGELOG.md]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CHANGELOG.md
+
 [license]: http://www.apache.org/licenses/LICENSE-2.0

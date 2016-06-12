@@ -27,12 +27,22 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(
             self, 'speech_to_text', url, username, password, use_vcap_services)
 
-    def recognize(self, audio, content_type, continuous=False, model=None):
+    def recognize(self, audio, content_type, continuous=False, model=None, inactivity_timeout=None,
+                  keywords=None, keywords_threshold=None, max_alternatives=None, word_alternatives_threshold=None,
+                  word_confidence=None, timestamps=None, interim_results=None):
         """
         Returns the recognized text from the audio input
         """
         headers = {'content-type': content_type}
-        params = {'continuous': continuous}
+        params = {'continuous': continuous,
+                  'inactivityTimeout': inactivity_timeout,
+                  'keywords': keywords,
+                  'keywordsThreshold': keywords_threshold,
+                  'maxAlternatives': max_alternatives,
+                  'wordAlternativesThreshold': word_alternatives_threshold,
+                  'wordConfidence': word_confidence,
+                  'timestamps': timestamps,
+                  'interimResults': interim_results}
         if model:
             params['model'] = model
 
