@@ -95,8 +95,8 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
         return self.request(method='POST', url='/v2/{0}/annotate_text'.format(graph), data=text,
                             headers={'content-type': 'text/plain'}, accept_json=True)
 
-    def list_corpora(self):
-        return self.request(method='GET', url='/v2/corpora', accept_json=True)
+    def list_corpora(self, account=None):
+        return self.request(method='GET', url='/v2/corpora/{0}'.format(account), accept_json=True)
 
     def _get_full_corpus_path(self, corpus, account=None):
         if corpus.count('/') == 3:

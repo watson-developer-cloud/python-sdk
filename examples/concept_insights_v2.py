@@ -32,6 +32,10 @@ print(json.dumps(relation_scores, indent=2))
 corpora = concept_insights.list_corpora()
 print (json.dumps(corpora, indent=2))
 
+corpora = concept_insights.list_corpora(account='public')
+print (json.dumps(corpora, indent=2))
+
+
 corpus = concept_insights.get_corpus('ibmresearcher', account='public')
 print(json.dumps(corpus, indent=2))
 
