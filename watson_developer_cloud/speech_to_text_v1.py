@@ -39,12 +39,11 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                   'keywords': keywords,
                   'keywordsThreshold': keywords_threshold,
                   'maxAlternatives': max_alternatives,
+                  'model': model,
                   'wordAlternativesThreshold': word_alternatives_threshold,
                   'wordConfidence': word_confidence,
                   'timestamps': timestamps,
                   'interimResults': interim_results}
-        if model:
-            params['model'] = model
 
         return self.request(method='POST', url='/v1/recognize', headers=headers, data=audio, params=params,
                             stream=True, accept_json=True)
