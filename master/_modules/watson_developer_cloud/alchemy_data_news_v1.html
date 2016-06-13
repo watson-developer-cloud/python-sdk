@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>watson_developer_cloud.alchemy_data_news_v1 &mdash; Watson Developer Cloud Python SDK 0.10.0 documentation</title>
+    <title>watson_developer_cloud.alchemy_data_news_v1 &mdash; Watson Developer Cloud Python SDK 0.13.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.10.0',
+        VERSION:     '0.13.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,14 +24,16 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
-    <link rel="top" title="Watson Developer Cloud Python SDK 0.10.0 documentation" href="../../index.html" />
+    <link rel="top" title="Watson Developer Cloud Python SDK 0.13.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -66,14 +68,19 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">WatsonDeveloperCloudService</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;alchemy_api&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AlchemyDataNewsV1.get_news_documents"><a class="viewcode-back" href="../../apis/watson_developer_cloud.alchemy_data_news_v1.html#watson_developer_cloud.alchemy_data_news_v1.AlchemyDataNewsV1.get_news_documents">[docs]</a>    <span class="k">def</span> <span class="nf">get_news_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">query_fields</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">return_fields</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time_slice</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AlchemyDataNewsV1.get_news_documents"><a class="viewcode-back" href="../../apis/watson_developer_cloud.alchemy_data_news_v1.html#watson_developer_cloud.alchemy_data_news_v1.AlchemyDataNewsV1.get_news_documents">[docs]</a>    <span class="k">def</span> <span class="nf">get_news_documents</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">max_results</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">query_fields</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">return_fields</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">time_slice</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                           <span class="n">next_page</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dedup</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dedup_threshold</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_fields</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">return_fields</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">return_fields</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;start&#39;</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
                   <span class="s1">&#39;end&#39;</span><span class="p">:</span> <span class="n">end</span><span class="p">,</span>
                   <span class="s1">&#39;maxResults&#39;</span><span class="p">:</span> <span class="n">max_results</span><span class="p">,</span>
                   <span class="s1">&#39;return&#39;</span><span class="p">:</span> <span class="n">return_fields</span><span class="p">,</span>
-                  <span class="s1">&#39;timeSlice&#39;</span><span class="p">:</span> <span class="n">time_slice</span><span class="p">}</span>
+                  <span class="s1">&#39;timeSlice&#39;</span><span class="p">:</span> <span class="n">time_slice</span><span class="p">,</span>
+                  <span class="s1">&#39;next&#39;</span><span class="p">:</span> <span class="n">next_page</span><span class="p">,</span>
+                  <span class="s1">&#39;dedup&#39;</span><span class="p">:</span> <span class="n">dedup</span><span class="p">,</span>
+                  <span class="s1">&#39;dedupThreshold&#39;</span><span class="p">:</span> <span class="n">dedup_threshold</span><span class="p">,</span>
+                  <span class="s1">&#39;rank&#39;</span><span class="p">:</span> <span class="n">rank</span><span class="p">}</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query_fields</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">query_fields</span><span class="p">:</span>
                 <span class="n">params</span><span class="p">[</span><span class="n">key</span> <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;q.&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;q.&#39;</span> <span class="o">+</span> <span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">query_fields</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
@@ -102,14 +109,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>

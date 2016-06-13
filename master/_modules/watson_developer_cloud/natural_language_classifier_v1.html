@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>watson_developer_cloud.natural_language_classifier_v1 &mdash; Watson Developer Cloud Python SDK 0.10.0 documentation</title>
+    <title>watson_developer_cloud.natural_language_classifier_v1 &mdash; Watson Developer Cloud Python SDK 0.13.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.10.0',
+        VERSION:     '0.13.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,14 +24,16 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
-    <link rel="top" title="Watson Developer Cloud Python SDK 0.10.0 documentation" href="../../index.html" />
+    <link rel="top" title="Watson Developer Cloud Python SDK 0.13.0 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -86,16 +88,16 @@
 
 <div class="viewcode-block" id="NaturalLanguageClassifierV1.status"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.status">[docs]</a>    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">):</span>
         <span class="n">classifier_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unpack_id</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">,</span> <span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/classifiers/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/classifiers/{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="NaturalLanguageClassifierV1.classify"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify">[docs]</a>    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="n">classifier_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unpack_id</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">,</span> <span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/classifiers/{}/classify&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/classifiers/{0}/classify&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
                             <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="NaturalLanguageClassifierV1.remove"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">):</span>
         <span class="n">classifier_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unpack_id</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">,</span> <span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/classifiers/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/classifiers/{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -120,14 +122,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
