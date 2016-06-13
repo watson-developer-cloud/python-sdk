@@ -19,10 +19,9 @@ from .alchemy_data_news_v1 import AlchemyDataNewsV1
 from .alchemy_language_v1 import AlchemyLanguageV1
 from .alchemy_vision_v1 import AlchemyVisionV1
 from .authorization_v1 import AuthorizationV1
-from .concept_expansion_v1_beta import ConceptExpansionV1Beta
 from .concept_insights_v2 import ConceptInsightsV2
+from .conversation_v1_experimental import ConversationV1Experimental
 from .document_conversion_v1 import DocumentConversionV1
-from .document_conversion_v1_experimental import DocumentConversionV1Experimental
 from .dialog_v1 import DialogV1
 from .language_translation_v2 import LanguageTranslationV2
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
@@ -31,11 +30,7 @@ from .relationship_extraction_v1_beta import RelationshipExtractionV1Beta
 from .retrieve_and_rank_v1 import RetrieveAndRankV1
 from .speech_to_text_v1 import SpeechToTextV1
 from .text_to_speech_v1 import TextToSpeechV1
-from .tone_analyzer_v3_beta import ToneAnalyzerV3Beta
 from .tone_analyzer_v3 import ToneAnalyzerV3
 from .tradeoff_analytics_v1 import TradeoffAnalyticsV1
-from .visual_insights_v1_experimental import VisualInsightsV1Experimental
-from .visual_recognition_v1_beta import VisualRecognitionV1Beta
-from .visual_recognition_v2_beta import VisualRecognitionV2Beta
 from .visual_recognition_v3 import VisualRecognitionV3
 from .version import __version__

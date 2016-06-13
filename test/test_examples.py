@@ -10,9 +10,8 @@ from os.path import join, dirname
 from glob import glob
 
 # tests to exclude
-excludes = ['authorization_v1.py', 'concept_expansion_v1.py', 'alchemy_data_news_v1.py',
-            'alchemy_language_v1.py', 'alchemy_vision_v1.py', 'relationship_extraction_v1_beta.py',
-            'visual_recognition_v2_beta.py']
+excludes = ['authorization_v1.py', 'alchemy_data_news_v1.py',
+            'alchemy_language_v1.py', 'alchemy_vision_v1.py']
 
 # examples path. /examples
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')

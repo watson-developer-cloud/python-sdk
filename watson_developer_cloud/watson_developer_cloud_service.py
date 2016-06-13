@@ -95,8 +95,6 @@ class WatsonDeveloperCloudService(object):
                     self.username = self.vcap_service_credentials['username']
                 if 'password' in self.vcap_service_credentials:
                     self.password = self.vcap_service_credentials['password']
-                if 'api_key' in self.vcap_service_credentials:
-                    self.api_key = self.vcap_service_credentials['api_key']
                 if 'apikey' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['apikey']
                 if 'api_key' in self.vcap_service_credentials:
