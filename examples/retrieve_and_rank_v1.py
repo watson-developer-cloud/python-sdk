@@ -15,7 +15,7 @@ print(json.dumps(solr_clusters, indent=2))
 # print(json.dumps(created_cluster, indent=2))
 
 # Replace with your own solr_cluster_id
-solr_cluster_id = 'sc1ca661d0_0c8d_430d_8132_51ac6df940e1'
+solr_cluster_id = 'sc19cac12e_3587_4510_820d_87945c51a3f9'
 
 status = retrieve_and_rank.get_solr_cluster_status(solr_cluster_id=solr_cluster_id)
 print(json.dumps(status, indent=2))
