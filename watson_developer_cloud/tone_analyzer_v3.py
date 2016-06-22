@@ -19,24 +19,25 @@ The v3 Tone Analyzer service
 
 
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
-
+import copy
 
 class ToneAnalyzerV3(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
-    latest_version = '2016-02-11'
+    latest_version = '2016-05-19'
 
-    def __init__(self, version, url=default_url, username=None, password=None, use_vcap_services=True):
+    def __init__(self, version=latest_version, url=default_url, username=None, password=None, use_vcap_services=True):
         WatsonDeveloperCloudService.__init__(
             self, 'tone_analyzer', url, username, password, use_vcap_services)
         self.version = version
 
-    def tone(self, text):
+    def tone(self, text, params=None):
         """
         The tone API is the main API call: it analyzes the "tone" of a piece of text. The message is analyzed from
         several tones (social tone, emotional tone, writing tone), and for each of them various traits are derived
         (such as conscientiousness, agreeableness, openness).
         :param text: Text to analyze
         """
-        params = {'version': self.version}
+        args = copy.copy(params) if params is not None else {}
+        args['version'] = self.version
         data = {'text': text}
-        return self.request(method='POST', url='/v3/tone', params=params, json=data, accept_json=True)
+        return self.request(method='POST', url='/v3/tone', params=args, json=data, accept_json=True)
