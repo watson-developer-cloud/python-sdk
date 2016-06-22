@@ -31,7 +31,7 @@ def test_success():
 ## Invoking tone() with some modifiers given in 'params': specific tones requested, and sentences skipped
 def test_with_args():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
-    tone_args = '?version=2016-05-19&tones=social&sentences=false'
+    tone_args = { 'version': '2016-05-19', 'tones': 'social', 'sentences': 'false' }
     tone_response = None
     with open(os.path.join(os.path.dirname(__file__), '../resources/tone_response.json')) as response_json:
         tone_response = response_json.read()
@@ -46,8 +46,13 @@ def test_with_args():
             username="username", password="password")
         tone_analyzer.tone(tone_text.read(), params=params)
 
-    #print responses.calls[0].request.url
-    assert responses.calls[0].request.url == tone_url + tone_args
-    assert responses.calls[0].response.text == tone_response
 
+    print responses.calls[0].request.url
+    assert responses.calls[0].request.url.split('?')[0] == tone_url 
+    # Compare args. Order is not deterministic!
+    actualArgs = {}
+    for arg in responses.calls[0].request.url.split('?')[1].split('&'):
+        actualArgs[arg.split('=')[0]] = arg.split('=')[1]
+    assert actualArgs == tone_args
+    assert responses.calls[0].response.text == tone_response
     assert len(responses.calls) == 1
