@@ -47,7 +47,6 @@ def test_with_args():
         tone_analyzer.tone(tone_text.read(), params=params)
 
 
-    print responses.calls[0].request.url
     assert responses.calls[0].request.url.split('?')[0] == tone_url 
     # Compare args. Order is not deterministic!
     actualArgs = {}
