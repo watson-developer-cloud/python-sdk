@@ -24,6 +24,7 @@ from .conversation_v1_experimental import ConversationV1Experimental
 from .document_conversion_v1 import DocumentConversionV1
 from .dialog_v1 import DialogV1
 from .language_translation_v2 import LanguageTranslationV2
+from .language_translator_v2 import LanguageTranslatorV2
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
 from .personality_insights_v2 import PersonalityInsightsV2
 from .relationship_extraction_v1_beta import RelationshipExtractionV1Beta
