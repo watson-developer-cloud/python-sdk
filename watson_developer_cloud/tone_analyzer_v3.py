@@ -19,7 +19,6 @@ The v3 Tone Analyzer service
 
 
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
-import copy
 
 class ToneAnalyzerV3(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
