@@ -25,19 +25,25 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
     latest_version = '2016-05-19'
 
-    def __init__(self, version=latest_version, url=default_url, username=None, password=None, use_vcap_services=True):
+    def __init__(self, version, url=default_url, username=None, password=None, use_vcap_services=True):
         WatsonDeveloperCloudService.__init__(
             self, 'tone_analyzer', url, username, password, use_vcap_services)
         self.version = version
 
-    def tone(self, text, params=None):
+    def tone(self, text, tones=None, sentences=None):
         """
         The tone API is the main API call: it analyzes the "tone" of a piece of text. The message is analyzed from
         several tones (social tone, emotional tone, writing tone), and for each of them various traits are derived
         (such as conscientiousness, agreeableness, openness).
         :param text: Text to analyze
+        :param sentences: If "false", sentence-level analysis is omitted
+        :param tones: Can be one or more of 'social', 'language', 'emotion'; comma-separated.
         """
-        args = copy.copy(params) if params is not None else {}
-        args['version'] = self.version
+        queryArgs = {}
+        queryArgs['version'] = self.version
+        if tones is not None:
+            queryArgs['tones'] = tones
+        if sentences is not None:
+            queryArgs['sentences'] = str(sentences).lower() # Cast boolean to "false" / "true"
         data = {'text': text}
-        return self.request(method='POST', url='/v3/tone', params=args, json=data, accept_json=True)
+        return self.request(method='POST', url='/v3/tone', params=queryArgs, json=data, accept_json=True)

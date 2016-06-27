@@ -17,7 +17,7 @@ def test_success():
                   content_type='application/json')
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
-        tone_analyzer = watson_developer_cloud.ToneAnalyzerV3(
+        tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
             username="username", password="password")
         tone_analyzer.tone(tone_text.read())
 
@@ -40,11 +40,10 @@ def test_with_args():
                   body=tone_response, status=200,
                   content_type='application/json')
 
-    params = { 'tones': 'social', 'sentences': 'false' }
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
-        tone_analyzer = watson_developer_cloud.ToneAnalyzerV3(
+        tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
             username="username", password="password")
-        tone_analyzer.tone(tone_text.read(), params=params)
+        tone_analyzer.tone(tone_text.read(), tones="social", sentences=False)
 
 
     assert responses.calls[0].request.url.split('?')[0] == tone_url 
