@@ -39,11 +39,11 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
         :param sentences: If "false", sentence-level analysis is omitted
         :param tones: Can be one or more of 'social', 'language', 'emotion'; comma-separated.
         """
-        queryArgs = {}
-        queryArgs['version'] = self.version
+        params = {}
+        params['version'] = self.version
         if tones is not None:
-            queryArgs['tones'] = tones
+            params['tones'] = tones
         if sentences is not None:
-            queryArgs['sentences'] = str(sentences).lower() # Cast boolean to "false" / "true"
+            params['sentences'] = str(sentences).lower() # Cast boolean to "false" / "true"
         data = {'text': text}
-        return self.request(method='POST', url='/v3/tone', params=queryArgs, json=data, accept_json=True)
+        return self.request(method='POST', url='/v3/tone', params=params, json=data, accept_json=True)
