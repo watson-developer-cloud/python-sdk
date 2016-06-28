@@ -30,7 +30,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
         Construct an instance. Fetches service parameters from VCAP_SERVICES
         runtime variable for Bluemix, or it defaults to local URLs.
-        :param version: specifies the specific version-date of the service to use
+        :param version: specifies the specific version-date of the service to use, for example '2016-05-20'
         """
 
         WatsonDeveloperCloudService.__init__(
