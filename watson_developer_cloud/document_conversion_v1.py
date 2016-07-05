@@ -39,7 +39,7 @@ class DocumentConversionV1(WatsonDeveloperCloudService):
                             accept_json=accept_json)
 
     def index_document(self, config, document=None, metadata=None, media_type=None):
-        if document == None and metadata == None:
+        if document is None and metadata is None:
             raise AssertionError('Missing required parameters: document or metadata. At least one of those is required.')
         params = {'version': self.version}
         files = [('config', ('config.json', json.dumps(config), 'application/json'))]
