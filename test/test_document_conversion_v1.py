@@ -11,7 +11,7 @@ def test_success():
                          '<head><title>Simple HTML Page</title></head>' \
                          '<body><h1>Chapter 1</h1><p>The content of the first chapter.</p></body></html>'
     document_conversion = watson_developer_cloud.DocumentConversionV1(
-        username="username", password="password")
+        username="username", password="password", version='2015-12-15')
 
     responses.add(responses.POST, convert_url,
                   body=convert_response, status=200,
