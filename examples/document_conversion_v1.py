@@ -25,7 +25,7 @@ print("########## Example of a dry run of index_document with only a document ##
 with open(join(dirname(__file__), '../resources/example.html'), 'r') as document:
     config = {
         'retrieve_and_rank': {
-            'dry_run':'true'
+            'dry_run': 'true'
         }
     }
     print(json.dumps(document_conversion.index_document(config=config, document=document), indent=2))
@@ -33,12 +33,12 @@ with open(join(dirname(__file__), '../resources/example.html'), 'r') as document
 print("########## Example of a dry run of index_document with only metadata ##########")
 config = {
     'retrieve_and_rank': {
-        'dry_run':'true'
+        'dry_run': 'true'
     }
 }
 metadata = {
     'metadata': [
-        {'name':'id', 'value':'12345'}
+        {'name': 'id', 'value': '12345'}
     ]
 }
 print(json.dumps(document_conversion.index_document(config=config, metadata=metadata), indent=2))
@@ -47,12 +47,12 @@ print("########## Example of a dry run of index_document with document and metad
 with open(join(dirname(__file__), '../resources/example.html'), 'r') as document:
     config = {
         'retrieve_and_rank': {
-            'dry_run':'true'
+            'dry_run': 'true'
         }
     }
     metadata = {
         'metadata': [
-            {'name':'id', 'value':'12345'}
+            {'name': 'id', 'value': '12345'}
         ]
     }
     print(json.dumps(document_conversion.index_document(config=config, document=document, metadata=metadata), indent=2))
@@ -62,34 +62,34 @@ with open(join(dirname(__file__), '../resources/example.html'), 'r') as document
     config = {
         'convert_document': {
             'normalized_html': {
-                'exclude_content': {"xpaths":["//body/div"]}
+                'exclude_content': {"xpaths": ["//body/div"]}
             }
         },
         'retrieve_and_rank': {
-            'dry_run':'true'
+            'dry_run': 'true'
         }
     }
     metadata = {
         'metadata': [
-            {'name':'id', 'value':'12345'}
+            {'name': 'id', 'value': '12345'}
         ]
     }
     print(json.dumps(document_conversion.index_document(config=config, document=document, metadata=metadata), indent=2))
 
-print("########## Example of index_document with document, metadata (A service instance id, SOLR cluster id, and "
-      "a SOLR collection name must be provided from the Retrieve and Rank service in order to index) ##########")
-with open(join(dirname(__file__), '../resources/example.html'), 'r') as document:
-    config = {
-        'retrieve_and_rank': {
-            'dry_run':'false',
-            'service_instance_id':'YOUR RETRIEVE AND RANK SERVICE INSTANCE ID',
-            'cluster_id':'YOUR RETRIEVE AND RANK SERVICE SOLR CLUSTER ID',
-            'search_collection':'YOUR RETRIEVE AND RANK SERVICE SOLR SEARCH COLLECTION NAME'
-        }
-    }
-    metadata = {
-        'metadata': [
-            {'name':'id', 'value':'12345'}
-        ]
-    }
-    print(json.dumps(document_conversion.index_document(config=config, document=document, metadata=metadata), indent=2))
+# print("########## Example of index_document with document, metadata (A service instance id, SOLR cluster id, and "
+#       "a SOLR collection name must be provided from the Retrieve and Rank service in order to index) ##########")
+# with open(join(dirname(__file__), '../resources/example.html'), 'r') as document:
+#     config = {
+#         'retrieve_and_rank': {
+#             'dry_run': 'false',
+#             'service_instance_id': 'YOUR RETRIEVE AND RANK SERVICE INSTANCE ID',
+#             'cluster_id': 'YOUR RETRIEVE AND RANK SERVICE SOLR CLUSTER ID',
+#             'search_collection': 'YOUR RETRIEVE AND RANK SERVICE SOLR SEARCH COLLECTION NAME'
+#         }
+#     }
+#     metadata = {
+#         'metadata': [
+#             {'name': 'id', 'value': '12345'}
+#         ]
+#     }
+#     print(json.dumps(document_conversion.index_document(config=config, document=document, metadata=metadata), indent=2))
