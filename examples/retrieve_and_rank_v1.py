@@ -38,7 +38,7 @@ if (len(configs['solr_configs']) > 0):
     collections = retrieve_and_rank.list_collections(solr_cluster_id=solr_cluster_id)
     print(json.dumps(collections, indent=2))
 
-    pysolr_client = retrieve_and_rank.get_pysolr_client(solr_cluster_id, 'test-collection')
+    pysolr_client = retrieve_and_rank.get_pysolr_client(solr_cluster_id, 'example-collection')
     results = pysolr_client.search('bananas')
     print(results)
 
