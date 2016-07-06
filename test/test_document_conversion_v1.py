@@ -6,7 +6,7 @@ import watson_developer_cloud
 
 @responses.activate
 def test_success():
-    convert_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/convert_document?version=2015-12-15'
+    convert_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/convert_document'
     convert_response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><html>' \
                          '<head><title>Simple HTML Page</title></head>' \
                          '<body><h1>Chapter 1</h1><p>The content of the first chapter.</p></body></html>'
@@ -21,10 +21,10 @@ def test_success():
         convertConfig = {'conversion_target': watson_developer_cloud.DocumentConversionV1.NORMALIZED_HTML}
         document_conversion.convert_document(document=document, config=convertConfig, media_type='text/html')
 
-    assert responses.calls[0].request.url == convert_url
+    assert responses.calls[0].request.url == convert_url + '?version=2015-12-15'
     assert responses.calls[0].response.text == convert_response
 
-    index_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/index_document?version=2015-12-15'
+    index_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/index_document'
     index_response = '{"status": "success"}'
 
     responses.add(responses.POST, index_url,
@@ -42,7 +42,7 @@ def test_success():
         }
         document_conversion.index_document(config=indexConfig, document=document)
 
-    assert responses.calls[1].request.url == index_url
+    assert responses.calls[1].request.url == index_url + '?version=2015-12-15'
     assert responses.calls[1].response.text == index_response
 
     assert len(responses.calls) == 2
