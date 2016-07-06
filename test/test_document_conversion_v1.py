@@ -6,7 +6,7 @@ import watson_developer_cloud
 
 @responses.activate
 def test_success():
-    convert_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/convert_document'
+    convert_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/convert_document?version=2015-12-15'
     convert_response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><html>' \
                          '<head><title>Simple HTML Page</title></head>' \
                          '<body><h1>Chapter 1</h1><p>The content of the first chapter.</p></body></html>'
@@ -24,7 +24,7 @@ def test_success():
     assert responses.calls[0].request.url == convert_url
     assert responses.calls[0].response.text == convert_response
 
-    index_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/index_document'
+    index_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/index_document?version=2015-12-15'
     index_response = '{"status": "success"}'
 
     responses.add(responses.POST, index_url,
