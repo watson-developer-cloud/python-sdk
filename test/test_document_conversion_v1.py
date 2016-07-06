@@ -21,7 +21,7 @@ def test_success():
         convertConfig = {'conversion_target': watson_developer_cloud.DocumentConversionV1.NORMALIZED_HTML}
         document_conversion.convert_document(document=document, config=convertConfig, media_type='text/html')
 
-    assert responses.calls[0].request.url == convert_url
+    assert responses.calls[0].request.url.startswith(convert_url)
     assert responses.calls[0].response.text == convert_response
 
     index_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/index_document'
@@ -42,7 +42,7 @@ def test_success():
         }
         document_conversion.index_document(config=indexConfig, document=document)
 
-    assert responses.calls[1].request.url == index_url
+    assert responses.calls[1].request.url.startswith(index_url)
     assert responses.calls[1].response.text == index_response
 
     assert len(responses.calls) == 2
