@@ -18,15 +18,11 @@ def test_success():
                   content_type='application/json')
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/simple.html'), 'r') as document:
-        config = {'conversion_target': watson_developer_cloud.DocumentConversionV1.NORMALIZED_HTML}
-        document_conversion.convert_document(
-            document=document, config=config, media_type='text/html')
+        convertConfig = {'conversion_target': watson_developer_cloud.DocumentConversionV1.NORMALIZED_HTML}
+        document_conversion.convert_document(document=document, config=convertConfig, media_type='text/html')
 
-    assert responses.calls[
-               1].request.url == convert_url
-    assert responses.calls[1].response.text == convert_response
-
-    assert len(responses.calls) == 2
+    assert responses.calls[0].request.url == convert_url
+    assert responses.calls[0].response.text == convert_response
 
     index_url = 'https://gateway.watsonplatform.net/document-conversion/api/v1/index_document'
     index_response = '{"status": "success"}'
@@ -35,8 +31,8 @@ def test_success():
                   body=index_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/simple.html'), 'r') as document:
-        config = {
+    with open(os.path.join(os.path.dirname(__file__), '../resources/example.html'), 'r') as document:
+        indexConfig = {
             'retrieve_and_rank': {
                 'dry_run':'false',
                 'service_instance_id':'serviceInstanceId',
@@ -44,11 +40,9 @@ def test_success():
                 'search_collection':'searchCollectionName'
             }
         }
-        document_conversion.index_document(
-            config=config, document=document)
+        document_conversion.index_document(config=indexConfig, document=document)
 
-    assert responses.calls[
-               1].request.url == index_url
+    assert responses.calls[1].request.url == index_url
     assert responses.calls[1].response.text == index_response
 
     assert len(responses.calls) == 2
