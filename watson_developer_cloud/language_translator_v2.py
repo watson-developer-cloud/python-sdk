@@ -14,7 +14,7 @@
 
 """
 The v2 Language Translator service
-(https:/www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/language-translator.html)
+(https://www.ibm.com/watson/developercloud/language-translator.html)
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService

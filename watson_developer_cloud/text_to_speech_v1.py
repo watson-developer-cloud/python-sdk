@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 The v1 Text to Speech service
-(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/text-to-speech.html)
+(https://www.ibm.com/watson/developercloud/text-to-speech.html)
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService

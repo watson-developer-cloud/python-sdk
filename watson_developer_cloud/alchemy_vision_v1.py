@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 The AlchemyAPI Vision service
-(http://www.alchemyapi.com/products/alchemyvision)
+(https://www.ibm.com/watson/developercloud/visual-recognition.html)
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService

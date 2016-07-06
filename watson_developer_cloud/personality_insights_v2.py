@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 The v2 Personality Insights service
-(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/personality-insights.html)
+(https://www.ibm.com/watson/developercloud/personality-insights.html)
 """
 
 import json

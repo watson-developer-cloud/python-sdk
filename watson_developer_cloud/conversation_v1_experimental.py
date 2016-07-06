@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 The Conversation v1 experimental service
-(http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/conversation.html)
+(https://www.ibm.com/watson/developercloud/conversation.html)
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService

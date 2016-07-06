@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 The AlchemyData News service
-(http://www.alchemyapi.com/products/alchemydata-news)
+(https://www.ibm.com/watson/developercloud/alchemy-data-news.html)
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService

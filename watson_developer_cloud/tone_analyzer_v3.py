@@ -14,7 +14,7 @@
 
 """
 The v3 Tone Analyzer service
-(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/tone-analyzer.html)
+(https://www.ibm.com/watson/developercloud/tone-analyzer.html)
 """
 
 

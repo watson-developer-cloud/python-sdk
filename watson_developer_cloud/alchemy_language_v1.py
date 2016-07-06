@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 The AlchemyAPI Language service
-(http://www.alchemyapi.com/products/alchemylanguage)
+(https://www.ibm.com/watson/developercloud/alchemy-language.html)
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService

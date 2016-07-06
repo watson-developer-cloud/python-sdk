@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 The v1 Tradeoff Analytics service
-(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/tradeoff-analytics.html)
+(https://www.ibm.com/watson/developercloud/tradeoff-analytics.html)
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService

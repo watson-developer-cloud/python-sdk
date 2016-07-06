@@ -14,7 +14,7 @@
 
 """
 The v1 Natural Language Classifier service
-(https://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/nl-classifier.html)
+(https://www.ibm.com/watson/developercloud/nl-classifier.html)
 """
 
 import json

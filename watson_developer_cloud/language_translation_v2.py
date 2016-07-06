@@ -14,7 +14,7 @@
 
 """
 The v2 Language Translation service
-(https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/language-translation.html)
+(https://www.ibm.com/watson/developercloud/language-translation.html)
 """
 
 import warnings

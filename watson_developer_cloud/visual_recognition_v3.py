@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 The v3 Visual Recognition service
-(http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/visual-recognition/)
+(https://www.ibm.com/watson/developercloud/visual-recognition.html)
 """
 import mimetypes
 

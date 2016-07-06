@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+The v1 Document Conversion service
+(https://www.ibm.com/watson/developercloud/document-conversion.html)
+"""
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import os
 import json

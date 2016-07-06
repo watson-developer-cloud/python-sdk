@@ -14,7 +14,7 @@
 
 """
 The v1 Dialog service
-(https://http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/dialog.html)
+(https://www.ibm.com/watson/developercloud/dialog.html)
 """
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 

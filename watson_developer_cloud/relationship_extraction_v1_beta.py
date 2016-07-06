@@ -13,6 +13,11 @@
 # limitations under the License.
 
 
+"""
+The v1 beta Relationship Extraction service
+(https://www.ibm.com/watson/developercloud/relationship-extraction.html)
+"""
+
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 

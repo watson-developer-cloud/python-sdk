@@ -14,7 +14,7 @@
 
 """
 The v1 Retrieve and Rank service
-(http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/retrieve-rank.html)
+(https://www.ibm.com/watson/developercloud/retrieve-rank.html)
 """
 
 import json
