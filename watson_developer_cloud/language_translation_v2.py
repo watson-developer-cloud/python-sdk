@@ -62,14 +62,14 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
     def delete_model(self, model_id):
         return self.request(method='DELETE', url='/v2/models/{0}'.format(model_id), accept_json=True)
 
-    def translate(self, text, source=None, target=None, model=None):
+    def translate(self, text, source=None, target=None, model_id=None):
         """
         Translates text from a source language to a target language
         """
-        if model is None and (source is None or target is None):
-            raise WatsonInvalidArgument('Either model or source and target must be specified')
+        if model_id is None and (source is None or target is None):
+            raise WatsonInvalidArgument('Either model_id or source and target must be specified')
 
-        data = {'text': text, 'source': source, 'target': target, 'model': model}
+        data = {'text': text, 'source': source, 'target': target, 'model_id': model_id}
 
         # data=data or json=data
         return self.request(method='POST', url='/v2/translate', json=data).text

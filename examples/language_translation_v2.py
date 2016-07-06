@@ -21,7 +21,8 @@ print(json.dumps(language_translation.get_model('en-es-conversational'), indent=
 print(json.dumps(language_translation.translate('Hola, cómo estás? €', source='es', target='en'), indent=2,
                  ensure_ascii=False))
 
-print(json.dumps(language_translation.identify('Hello how are you?'), indent=2))
+print(json.dumps(language_translation.translate('Messi is the best ever', model_id='en-es-conversational'), indent=2))
 
+print(json.dumps(language_translation.identify('Hello how are you?'), indent=2))
 
 print(json.dumps(language_translation.get_identifiable_languages(), indent=2))
