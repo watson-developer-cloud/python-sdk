@@ -70,7 +70,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
         Train a new classifier from example images which are uploaded.
         :param name: The desired short name of the new classifier.
-        :param <NAME>_positive_examples: Up to 5 zip files of images that depict the subject of the new classifier.
+        :param <NAME>_positive_examples: zip files of images that depict the subject of the new classifier.
         :param negative_examples: A zip file of images that do not depict the subject of the new classifier.
         :return:
         """

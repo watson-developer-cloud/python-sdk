@@ -34,7 +34,7 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
 
     def synthesize(self, text, voice=None, accept=None, customization_id=None):
         """
-        Returns the get HTTP response by doing a GET to /synthesize with text, voice, accept
+        Returns the get HTTP response by doing a POST to /synthesize with text, voice, accept
         """
         params = {'voice': voice, 'accept': accept, 'customization_id': customization_id}
         data = {'text': text}
