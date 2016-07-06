@@ -1,4 +1,4 @@
-# Copyright 2015 IBM All Rights Reserved.
+# Copyright 2016 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@ The v2 Language Translation service
 (https://www.ibm.com/watson/developercloud/language-translation.html)
 """
 
-import warnings
-
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 from .watson_developer_cloud_service import WatsonInvalidArgument
 
@@ -27,7 +25,6 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
     default_url = "https://gateway.watsonplatform.net/language-translation/api"
 
     def __init__(self, url=default_url, **kwargs):
-        warnings.warn('deprecated. Use LanguageTranslatorV2', DeprecationWarning)
         WatsonDeveloperCloudService.__init__(
             self, 'language_translation', url, **kwargs)
 
