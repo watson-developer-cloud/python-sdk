@@ -15,6 +15,10 @@ import json as json_import
 import os
 import requests
 from requests.structures import CaseInsensitiveDict
+try:
+    from http.cookiejar import CookieJar  # Python 3
+except ImportError:
+    from cookielib import CookieJar  # Python 2
 from .version import __version__
 # Uncomment this to enable http debugging
 # try:
@@ -71,7 +75,7 @@ class WatsonDeveloperCloudService(object):
         """
 
         self.url = url
-        self.session = None
+        self.jar = None
         self.api_key = None
         self.username = None
         self.password = None
@@ -108,14 +112,14 @@ class WatsonDeveloperCloudService(object):
 
         self.username = username
         self.password = password
-        self.session = requests.Session()
+        self.jar = CookieJar()
 
     def set_api_key(self, api_key):
         if api_key == 'YOUR API KEY':
             api_key = None
 
         self.api_key = api_key
-        self.session = requests.Session()
+        self.jar = CookieJar()
 
     def set_url(self, url):
         self.url = url
@@ -235,8 +239,8 @@ class WatsonDeveloperCloudService(object):
             else:
                 params['api_key'] = self.api_key
 
-        response = self.session.request(method=method, url=full_url, auth=auth, headers=headers,
-                                        params=params, data=data, files=files, **kwargs)
+        response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
+                                    params=params, data=data, files=files, **kwargs)
 
         if 200 <= response.status_code <= 299:
             if accept_json:
