@@ -15,7 +15,7 @@ print(json.dumps(solr_clusters, indent=2))
 # print(json.dumps(created_cluster, indent=2))
 
 # Replace with your own solr_cluster_id
-solr_cluster_id = 'sc19cac12e_3587_4510_820d_87945c51a3f9'
+solr_cluster_id = 'sc573c955c_4bb3_46b2_bada_d8040c8c058d'
 
 status = retrieve_and_rank.get_solr_cluster_status(solr_cluster_id=solr_cluster_id)
 print(json.dumps(status, indent=2))
@@ -31,14 +31,14 @@ print(json.dumps(status, indent=2))
 configs = retrieve_and_rank.list_configs(solr_cluster_id=solr_cluster_id)
 print(json.dumps(configs, indent=2))
 
-# collection = retrieve_and_rank.create_collection(solr_cluster_id, 'test-collection', 'test-config')
-# print(json.dumps(collection, indent=2))
+collection = retrieve_and_rank.create_collection(solr_cluster_id, 'test-collection', 'test-config')
+print(json.dumps(collection, indent=2))
 
 if len(configs['solr_configs']) > 0:
     collections = retrieve_and_rank.list_collections(solr_cluster_id=solr_cluster_id)
     print(json.dumps(collections, indent=2))
 
-    pysolr_client = retrieve_and_rank.get_pysolr_client(solr_cluster_id, 'example-collection')
+    pysolr_client = retrieve_and_rank.get_pysolr_client(solr_cluster_id, 'test-collection')
     results = pysolr_client.search('bananas')
     print('{0} documents found'.format(len(results.docs)))
 

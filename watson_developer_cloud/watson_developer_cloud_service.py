@@ -75,7 +75,7 @@ class WatsonDeveloperCloudService(object):
         """
 
         self.url = url
-        self.jar = None
+        self.session = None
         self.api_key = None
         self.username = None
         self.password = None
@@ -112,14 +112,14 @@ class WatsonDeveloperCloudService(object):
 
         self.username = username
         self.password = password
-        self.jar = CookieJar()
+        self.session = requests.Session()
 
     def set_api_key(self, api_key):
         if api_key == 'YOUR API KEY':
             api_key = None
 
         self.api_key = api_key
-        self.jar = CookieJar()
+        self.session = requests.Session()
 
     def set_url(self, url):
         self.url = url
@@ -239,8 +239,8 @@ class WatsonDeveloperCloudService(object):
             else:
                 params['api_key'] = self.api_key
 
-        response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
-                                    params=params, data=data, files=files, **kwargs)
+        response = self.session.request(method=method, url=full_url, auth=auth, headers=headers,
+                                        params=params, data=data, files=files, **kwargs)
 
         if 200 <= response.status_code <= 299:
             if accept_json:
