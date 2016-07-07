@@ -6,7 +6,6 @@ Change Log
 _2016-07-07_
 
 * New: index_document in Document Conversion
-* New: using requests.session for connection pooling
 * Fixed: bug with model_id in translation
 
 ## Version 0.14.0
