@@ -31,8 +31,8 @@ print(json.dumps(status, indent=2))
 configs = retrieve_and_rank.list_configs(solr_cluster_id=solr_cluster_id)
 print(json.dumps(configs, indent=2))
 
-collection = retrieve_and_rank.create_collection(solr_cluster_id, 'test-collection', 'test-config')
-print(json.dumps(collection, indent=2))
+# collection = retrieve_and_rank.create_collection(solr_cluster_id, 'test-collection', 'test-config')
+# print(json.dumps(collection, indent=2))
 
 if len(configs['solr_configs']) > 0:
     collections = retrieve_and_rank.list_collections(solr_cluster_id=solr_cluster_id)
