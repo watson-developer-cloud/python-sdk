@@ -15,10 +15,6 @@ import json as json_import
 import os
 import requests
 from requests.structures import CaseInsensitiveDict
-try:
-    from http.cookiejar import CookieJar  # Python 3
-except ImportError:
-    from cookielib import CookieJar  # Python 2
 from .version import __version__
 # Uncomment this to enable http debugging
 # try:
