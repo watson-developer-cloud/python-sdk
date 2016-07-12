@@ -20,6 +20,7 @@ from .alchemy_language_v1 import AlchemyLanguageV1
 from .alchemy_vision_v1 import AlchemyVisionV1
 from .authorization_v1 import AuthorizationV1
 from .concept_insights_v2 import ConceptInsightsV2
+from .conversation_v1 import ConversationV1
 from .conversation_v1_experimental import ConversationV1Experimental
 from .document_conversion_v1 import DocumentConversionV1
 from .dialog_v1 import DialogV1
