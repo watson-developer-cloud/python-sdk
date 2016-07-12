@@ -22,7 +22,7 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 class ConversationV1(WatsonDeveloperCloudService):
     """Client for the Conversation service"""
 
-    default_url = 'https://gateway.watsonplatform.net/conversation-experimental/api'
+    default_url = 'https://gateway.watsonplatform.net/conversation/api'
     latest_version = '2016-07-11'
 
     def __init__(self, version, url=default_url, username=None, password=None, use_vcap_services=True):
