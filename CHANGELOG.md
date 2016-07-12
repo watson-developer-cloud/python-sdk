@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 0.16.0
+
+_2016-07-12_
+
+* New: Conversation v1 service
+
 ## Version 0.15.0
 
 _2016-07-07_
