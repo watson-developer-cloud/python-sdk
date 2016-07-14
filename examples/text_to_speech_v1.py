@@ -7,8 +7,7 @@ from watson_developer_cloud import TextToSpeechV1
 text_to_speech = TextToSpeechV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
-    x_watson_learning_opt_out=True  # Optional flag
-)
+    x_watson_learning_opt_out=True)  # Optional flag
 
 print(json.dumps(text_to_speech.voices(), indent=2))
 

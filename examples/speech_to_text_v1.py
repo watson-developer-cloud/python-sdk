@@ -5,7 +5,8 @@ from watson_developer_cloud import SpeechToTextV1
 
 speech_to_text = SpeechToTextV1(
     username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD'
+    password='YOUR SERVICE PASSWORD',
+    x_watson_learning_opt_out=False
 )
 
 print(json.dumps(speech_to_text.models(), indent=2))
