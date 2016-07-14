@@ -66,7 +66,8 @@ def _convert_boolean_values(dictionary):
 
 
 class WatsonDeveloperCloudService(object):
-    def __init__(self, vcap_services_name, url, username=None, password=None, use_vcap_services=True, api_key=None):
+    def __init__(self, vcap_services_name, url, username=None, password=None, use_vcap_services=True, api_key=None,
+                 x_watson_learning_opt_out=False):
         """
         Loads credentials from the VCAP_SERVICES environment variable if available, preferring credentials explicitly
         set in the request.
@@ -79,6 +80,7 @@ class WatsonDeveloperCloudService(object):
         self.api_key = None
         self.username = None
         self.password = None
+        self.x_watson_learning_opt_out = x_watson_learning_opt_out
 
         if api_key is not None:
             if username is not None or password is not None:
@@ -238,6 +240,9 @@ class WatsonDeveloperCloudService(object):
                 params['apikey'] = self.api_key
             else:
                 params['api_key'] = self.api_key
+
+        if self.x_watson_learning_opt_out:
+            headers.update({'X-Watson-Learning-Opt-Out', 'false'})
 
         response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
                                     params=params, data=data, files=files, **kwargs)

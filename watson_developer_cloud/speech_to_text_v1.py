@@ -22,10 +22,10 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 class SpeechToTextV1(WatsonDeveloperCloudService):
     default_url = "https://stream.watsonplatform.net/speech-to-text/api"
 
-    def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
+    def __init__(self, url=default_url, **kwargs):
 
         WatsonDeveloperCloudService.__init__(
-            self, 'speech_to_text', url, username, password, use_vcap_services)
+            self, 'speech_to_text', url, **kwargs)
 
     def recognize(self, audio, content_type, continuous=False, model=None, inactivity_timeout=None,
                   keywords=None, keywords_threshold=None, max_alternatives=None, word_alternatives_threshold=None,

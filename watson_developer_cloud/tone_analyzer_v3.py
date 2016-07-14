@@ -17,16 +17,15 @@ The v3 Tone Analyzer service
 (https://www.ibm.com/watson/developercloud/tone-analyzer.html)
 """
 
-
 from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
+
 
 class ToneAnalyzerV3(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
     latest_version = '2016-05-19'
 
-    def __init__(self, version, url=default_url, username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(
-            self, 'tone_analyzer', url, username, password, use_vcap_services)
+    def __init__(self, version, url=default_url, **kwargs):
+        WatsonDeveloperCloudService.__init__(self, 'tone_analyzer', url, **kwargs)
         self.version = version
 
     def tone(self, text, tones=None, sentences=None):
