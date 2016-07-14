@@ -242,7 +242,7 @@ class WatsonDeveloperCloudService(object):
                 params['api_key'] = self.api_key
 
         if self.x_watson_learning_opt_out:
-            headers.update({'X-Watson-Learning-Opt-Out', 'false'})
+            headers.update({'x-watson-learning-opt-out', 'false'})
 
         response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
                                     params=params, data=data, files=files, **kwargs)
