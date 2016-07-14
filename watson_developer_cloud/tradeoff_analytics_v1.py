@@ -25,7 +25,7 @@ class TradeoffAnalyticsV1(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/tradeoff-analytics/api'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'tradeoff_analytics', url, kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'tradeoff_analytics', url, **kwargs)
 
     def dilemmas(self, params):
         """
