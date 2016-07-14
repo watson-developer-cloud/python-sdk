@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 0.17.0
+
+_2016-07-14_
+
+* Fixed: Conversation default url
+* Added: `x_watson_learning_opt_out` option on the WatsonDeveloperCloud service
+
 ## Version 0.16.0
 
 _2016-07-12_
