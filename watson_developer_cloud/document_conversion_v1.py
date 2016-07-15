@@ -23,9 +23,9 @@ import json
 
 class DocumentConversionV1(WatsonDeveloperCloudService):
     DEFAULT_URL = 'https://gateway.watsonplatform.net/document-conversion/api'
-    ANSWER_UNITS = 'ANSWER_UNITS'
-    NORMALIZED_HTML = 'NORMALIZED_HTML'
-    NORMALIZED_TEXT = 'NORMALIZED_TEXT'
+    ANSWER_UNITS = 'answer_units'
+    NORMALIZED_HTML = 'normalized_html'
+    NORMALIZED_TEXT = 'normalized_text'
     latest_version = '2016-02-10'
 
     def __init__(self, version, url=DEFAULT_URL, **kwargs):
@@ -47,10 +47,10 @@ class DocumentConversionV1(WatsonDeveloperCloudService):
             raise AssertionError('Missing required parameters: document or metadata. At least one of those is required.')
         params = {'version': self.version}
         files = [('config', ('config.json', json.dumps(config), 'application/json'))]
-        if document != None:
+        if document is not None:
             filename = os.path.basename(document.name)
             file_tuple = (filename, document, media_type) if media_type else (filename, document)
             files.append(('file', file_tuple))
-        if metadata != None:
+        if metadata is not None:
             files.append(('metadata', ('metadata.json', json.dumps(metadata), 'application/json')))
         return self.request(method='POST', url='/v1/index_document', files=files, params=params, accept_json=True)
