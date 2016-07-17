@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 0.17.1
+
+_2016-07-17_
+
+* Fixed: `x_watson_learning_opt_out` value
+
 ## Version 0.17.0
 
 _2016-07-14_
