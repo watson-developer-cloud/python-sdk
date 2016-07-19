@@ -81,6 +81,20 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         return self.request(method='POST', url='/v3/classifiers', files=kwargs, data=data, params=params,
                             accept_json=True)
 
+    def update_classifier(self, classifier_id, **kwargs):
+        """
+        Updates an existing classifier by adding images to existing or new classes.
+        :param classifier_id: The id of the classifier to update.
+        :param <NAME>_positive_examples: zip files of images that depict the subject of the class.
+        :param negative_examples: A zip file of images that do not depict the subject of any of the classes.
+        :return:
+        """
+
+        params = {'version': self.version}
+        # Params sent as url parameters here
+        return self.request(method='POST', url='/v3/classifiers/{0}'.format(classifier_id), files=kwargs,
+                            params=params, accept_json=True)
+
     def _image_call(self, url, images_file=None, images_url=None, params=None):
         if images_file is None and images_url is None:
             raise AssertionError('You must specify either a file or a url')

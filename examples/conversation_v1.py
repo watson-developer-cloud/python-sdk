@@ -1,7 +1,6 @@
 import json
 from watson_developer_cloud import ConversationV1
 
-
 conversation = ConversationV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
