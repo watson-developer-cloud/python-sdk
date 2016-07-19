@@ -91,6 +91,16 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.update_classifier">
+<code class="descname">update_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.update_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.update_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates an existing classifier by adding images to existing or new classes.
+:param classifier_id: The id of the classifier to update.
+:param &lt;NAME&gt;_positive_examples: zip files of images that depict the subject of the class.
+:param negative_examples: A zip file of images that do not depict the subject of any of the classes.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.classify">
 <code class="descname">classify</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>images_url=None</em>, <em>classifier_ids=None</em>, <em>owners=None</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.classify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of classification scores for one or more input images.
