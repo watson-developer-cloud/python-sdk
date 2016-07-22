@@ -18,9 +18,9 @@ with open(join(dirname(__file__), '../resources/car.jpg'), 'rb') as image_file:
 
 # print(json.dumps(visual_recognition.get_classifier('YOUR CLASSIFIER ID'), indent=2))
 
-with open('../resources/car.jpg', 'rb') as image_file:
-    print(json.dumps(visual_recognition.update_classifier('CarsvsTrucks_1479118188',
-                                                          cars_positive_examples=image_file), indent=2))
+# with open(join(dirname(__file__), '../resources/car.jpg'), 'rb') as image_file:
+#     print(json.dumps(visual_recognition.update_classifier('CarsvsTrucks_1479118188',
+#                                                           cars_positive_examples=image_file), indent=2))
 
 print(json.dumps(visual_recognition.classify(images_url=test_url), indent=2))
 
