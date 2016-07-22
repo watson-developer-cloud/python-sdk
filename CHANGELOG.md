@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 0.18.0
+
+_2016-07-22_
+
+* Added: Retraining for Visual Recognition classifiers
+* Added: Using custom models for Alchemy Language entities
+
 ## Version 0.17.1
 
 _2016-07-17_
