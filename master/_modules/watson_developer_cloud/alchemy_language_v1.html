@@ -29,6 +29,7 @@
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
+  
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
@@ -77,11 +78,21 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alchemy_html_request</span><span class="p">(</span><span class="s1">&#39;GetAuthors&#39;</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="n">html</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AlchemyLanguageV1.keywords"><a class="viewcode-back" href="../../apis/watson_developer_cloud.alchemy_language_v1.html#watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1.keywords">[docs]</a>    <span class="k">def</span> <span class="nf">keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_extract_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sentiment</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">show_source_text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_keywords</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">show_source_text</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">max_items</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_keywords</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param html: HTML input</span>
+<span class="sd">        :param text: Text input</span>
+<span class="sd">        :param url: URL input</span>
+<span class="sd">        :param max_items: The number of results to return (default 50)</span>
+<span class="sd">        :param max_keywords: deprecated, use max_items instead</span>
+<span class="sd">        :return: A JSON object with extracted keywords from the source document</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">max_items</span><span class="p">:</span>
+            <span class="n">max_items</span> <span class="o">=</span> <span class="n">max_keywords</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;keywordExtractMode&#39;</span><span class="p">:</span> <span class="s1">&#39;strict&#39;</span> <span class="k">if</span> <span class="n">strict_extract_mode</span> <span class="k">else</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span>
                   <span class="s1">&#39;sentiment&#39;</span><span class="p">:</span> <span class="n">sentiment</span><span class="p">,</span>
                   <span class="s1">&#39;showSourceText&#39;</span><span class="p">:</span> <span class="n">show_source_text</span><span class="p">,</span>
-                  <span class="s1">&#39;maxRetrieve&#39;</span><span class="p">:</span> <span class="n">max_keywords</span><span class="p">,</span>
+                  <span class="s1">&#39;maxRetrieve&#39;</span><span class="p">:</span> <span class="n">max_items</span><span class="p">,</span>
                   <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alchemy_html_request</span><span class="p">(</span><span class="s1">&#39;GetRankedKeywords&#39;</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="n">html</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
 
