@@ -34,11 +34,21 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         return self._alchemy_html_request('GetAuthors', html=html, url=url, params=params)
 
     def keywords(self, html=None, text=None, url=None, strict_extract_mode=False, sentiment=False,
-                 show_source_text=False, max_keywords=50, language=None):
+                 show_source_text=False, max_items=None, language=None, max_keywords=50):
+        """
+        :param html: HTML input
+        :param text: Text input
+        :param url: URL input
+        :param max_items: The number of results to return (default 50)
+        :param max_keywords: deprecated, use max_items instead
+        :return: A JSON object with extracted keywords from the source document
+        """
+        if not max_items:
+            max_items = max_keywords
         params = {'keywordExtractMode': 'strict' if strict_extract_mode else 'normal',
                   'sentiment': sentiment,
                   'showSourceText': show_source_text,
-                  'maxRetrieve': max_keywords,
+                  'maxRetrieve': max_items,
                   'language': language}
         return self._alchemy_html_request('GetRankedKeywords', html=html, text=text, url=url, params=params)
 
