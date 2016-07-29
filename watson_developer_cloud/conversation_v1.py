@@ -25,12 +25,11 @@ class ConversationV1(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/conversation/api'
     latest_version = '2016-07-11'
 
-    def __init__(self, version, url=default_url, username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(
-            self, 'conversation', url, username, password, use_vcap_services)
+    def __init__(self, version, url=default_url, **kwargs):
+        WatsonDeveloperCloudService.__init__(self, 'conversation', url, **kwargs)
         self.version = version
 
-    def message(self, workspace_id, message_input, context=None):
+    def message(self, workspace_id, message_input=None, context=None):
         """
         Retrieves information about a specific classifier.
         :param workspace_id: The workspace to use

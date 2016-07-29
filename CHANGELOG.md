@@ -1,6 +1,26 @@
 Change Log
 ==========
 
+## Version 0.18.0
+
+_2016-07-22_
+
+* Added: Retraining for Visual Recognition classifiers
+* Added: Using custom models for Alchemy Language entities
+
+## Version 0.17.1
+
+_2016-07-17_
+
+* Fixed: `x_watson_learning_opt_out` value
+
+## Version 0.17.0
+
+_2016-07-14_
+
+* Fixed: Conversation default url
+* Added: `x_watson_learning_opt_out` option on the WatsonDeveloperCloud service
+
 ## Version 0.16.0
 
 _2016-07-12_

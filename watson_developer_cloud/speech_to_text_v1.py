@@ -22,14 +22,14 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 class SpeechToTextV1(WatsonDeveloperCloudService):
     default_url = "https://stream.watsonplatform.net/speech-to-text/api"
 
-    def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
+    def __init__(self, url=default_url, **kwargs):
 
-        WatsonDeveloperCloudService.__init__(
-            self, 'speech_to_text', url, username, password, use_vcap_services)
+        WatsonDeveloperCloudService.__init__(self, 'speech_to_text', url, **kwargs)
 
     def recognize(self, audio, content_type, continuous=False, model=None, inactivity_timeout=None,
                   keywords=None, keywords_threshold=None, max_alternatives=None, word_alternatives_threshold=None,
-                  word_confidence=None, timestamps=None, interim_results=None):
+                  word_confidence=None, timestamps=None, interim_results=None, profanity_filter=None,
+                  smart_formatting=None):
         """
         Returns the recognized text from the audio input
         """
@@ -43,7 +43,9 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                   'wordAlternativesThreshold': word_alternatives_threshold,
                   'wordConfidence': word_confidence,
                   'timestamps': timestamps,
-                  'interimResults': interim_results}
+                  'interimResults': interim_results,
+                  'profanity_filter': profanity_filter,
+                  'smart_formatting': smart_formatting}
 
         return self.request(method='POST', url='/v1/recognize', headers=headers, data=audio, params=params,
                             stream=True, accept_json=True)

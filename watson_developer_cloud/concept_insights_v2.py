@@ -33,8 +33,7 @@ class ConceptInsightsV2(WatsonDeveloperCloudService):
     WIKIPEDIA_EN_LATEST = '/graphs/wikipedia/en-latest'
 
     def __init__(self, url=DEFAULT_URL, **kwargs):
-        WatsonDeveloperCloudService.__init__(
-            self, 'concept_insights', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'concept_insights', url, **kwargs)
         self.cached_account = None
 
     def get_default_account(self):

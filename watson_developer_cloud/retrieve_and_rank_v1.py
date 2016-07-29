@@ -25,9 +25,8 @@ from watson_developer_cloud.watson_developer_cloud_service import WatsonDevelope
 class RetrieveAndRankV1(WatsonDeveloperCloudService):
     default_url = 'https://gateway.watsonplatform.net/retrieve-and-rank/api'
 
-    def __init__(self, url=default_url, username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(self, 'retrieve_and_rank', url, username, password,
-                                             use_vcap_services)
+    def __init__(self, url=default_url, **kwargs):
+        WatsonDeveloperCloudService.__init__(self, 'retrieve_and_rank', url, **kwargs)
 
     def list_solr_clusters(self):
         return self.request(method='GET', url='/v1/solr_clusters', accept_json=True)

@@ -25,8 +25,7 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
     default_url = "https://gateway.watsonplatform.net/language-translation/api"
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(
-            self, 'language_translation', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'language_translation', url, **kwargs)
 
     def identify(self, text):
         """
