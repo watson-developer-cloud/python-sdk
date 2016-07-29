@@ -17,7 +17,8 @@ def test_success():
               body=listrank_response, status=200,
               content_type='application/json')
 
-    retrieve_and_rank.list_rankers()
+    ranker_list = retrieve_and_rank.list_rankers()
+    assert len(ranker_list['rankers']) == 1
     
     assert responses.calls[0].request.url == listrank_url
     assert responses.calls[0].response.text == listrank_response
