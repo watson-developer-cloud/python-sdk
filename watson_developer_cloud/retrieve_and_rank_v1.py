@@ -32,7 +32,7 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v1/solr_clusters', accept_json=True)
 
     def create_solr_cluster(self, cluster_name=None, cluster_size=None):
-        if cluster_size and isinstance(cluster_size, (int, long)):
+        if cluster_size:
             cluster_size = str(cluster_size)
         params = {'cluster_name': cluster_name, 'cluster_size': cluster_size}
         return self.request(method='POST', url='/v1/solr_clusters', accept_json=True, json=params)
