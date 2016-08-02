@@ -29,7 +29,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(self, 'conversation', url, **kwargs)
         self.version = version
 
-    def message(self, workspace_id, message_input=None, context=None):
+    def message(self, workspace_id, message_input=None, context=None, entities=None, intents=None, output=None):
         """
         Retrieves information about a specific classifier.
         :param workspace_id: The workspace to use
@@ -39,6 +39,9 @@ class ConversationV1(WatsonDeveloperCloudService):
 
         params = {'version': self.version}
         data = {'input': message_input,
-                'context': context}
+                'context': context,
+                'entities': entities,
+                'intents': intents,
+                'output': output}
         return self.request(method='POST', url='/v1/workspaces/{0}/message'.format(workspace_id), params=params,
                             json=data, accept_json=True)
