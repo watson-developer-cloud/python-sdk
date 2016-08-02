@@ -35,6 +35,9 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param workspace_id: The workspace to use
         :param message_input: The input, usually containing a text field
         :param context: The optional context object
+        :param entities: The optional entities
+        :param intents: The optional intents
+        :param output: The optional output object
         """
 
         params = {'version': self.version}
