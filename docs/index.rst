@@ -2,7 +2,7 @@ Python SDK |version|
 --------------------
 
 Python client library to quickly get started with the various
-`Watson Developer Cloud <http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/>`__
+`Watson Developer Cloud <http://www.ibm.com/watson/developercloud/>`__
 services.
 
 Installation

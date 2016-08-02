@@ -32,7 +32,7 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v1/solr_clusters', accept_json=True)
 
     def create_solr_cluster(self, cluster_name=None, cluster_size=None):
-        if cluster_size and isinstance(cluster_size, (int, long)):
+        if cluster_size:
             cluster_size = str(cluster_size)
         params = {'cluster_name': cluster_name, 'cluster_size': cluster_size}
         return self.request(method='POST', url='/v1/solr_clusters', accept_json=True, json=params)
@@ -68,7 +68,7 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
         return self.request(method='POST', url='/v1/solr_clusters/{0}/solr/admin/collections'.format(solr_cluster_id),
                             params=params, accept_json=True)
 
-    def delete_collection(self, solr_cluster_id, collection_name, config_name):
+    def delete_collection(self, solr_cluster_id, collection_name, config_name=None):
         params = {'name': collection_name, 'action': 'DELETE', 'wt': 'json'}
         return self.request(method='POST', url='/v1/solr_clusters/{0}/solr/admin/collections'.format(solr_cluster_id),
                             params=params, accept_json=True)

@@ -57,8 +57,8 @@ See [CONTRIBUTING.md][CONTRIBUTING].
 
 This library is licensed under the [Apache 2.0 license][license].
 
-[wdc]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/
-[vcap_environment]: http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/getting_started/index.html#EnvVars
+[wdc]: http://www.ibm.com/watson/developercloud/
+[vcap_environment]: http://www.ibm.com/watson/developercloud/doc/getting_started/gs-variables.shtml
 [bluemix]: https://console.ng.bluemix.net
 [pytest]: http://pytest.org/latest/
 [responses]: https://github.com/getsentry/responses
