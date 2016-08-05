@@ -1,18 +1,14 @@
 # coding=utf-8
 
 import os
-import watson_developer_cloud
+
 import pytest
-import sys
-from os import getcwd
-from subprocess import Popen, PIPE
 from os.path import join, dirname
 from glob import glob
 
 # tests to exclude
 excludes = ['authorization_v1.py', 'alchemy_data_news_v1.py',
-            'alchemy_language_v1.py', 'alchemy_vision_v1.py',
-            'concept_insights_v2.py']
+            'alchemy_language_v1.py', 'alchemy_vision_v1.py']
 
 # examples path. /examples
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')
