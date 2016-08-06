@@ -19,7 +19,6 @@ from .alchemy_data_news_v1 import AlchemyDataNewsV1
 from .alchemy_language_v1 import AlchemyLanguageV1
 from .alchemy_vision_v1 import AlchemyVisionV1
 from .authorization_v1 import AuthorizationV1
-from .concept_insights_v2 import ConceptInsightsV2
 from .conversation_v1 import ConversationV1
 from .conversation_v1_experimental import ConversationV1Experimental
 from .document_conversion_v1 import DocumentConversionV1
@@ -27,7 +26,6 @@ from .dialog_v1 import DialogV1
 from .language_translation_v2 import LanguageTranslationV2
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
 from .personality_insights_v2 import PersonalityInsightsV2
-from .relationship_extraction_v1_beta import RelationshipExtractionV1Beta
 from .retrieve_and_rank_v1 import RetrieveAndRankV1
 from .speech_to_text_v1 import SpeechToTextV1
 from .text_to_speech_v1 import TextToSpeechV1
