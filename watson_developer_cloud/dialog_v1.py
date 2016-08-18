@@ -16,6 +16,7 @@
 The v1 Dialog service
 (https://www.ibm.com/watson/developercloud/dialog.html)
 """
+from __future__ import print_function
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
