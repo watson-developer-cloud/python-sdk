@@ -16,6 +16,7 @@
 The v1 Dialog service
 (https://www.ibm.com/watson/developercloud/dialog.html)
 """
+from __future__ import print_function
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
@@ -27,6 +28,7 @@ class DialogV1(WatsonDeveloperCloudService):
 
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'dialog', url, **kwargs)
+        print('WARNING: The Dialog service was deprecated, existing instances of the service will continue to function until August 9, 2017. See https://www.ibm.com/watson/developercloud/doc/conversation/migration.shtml')
 
     def get_dialogs(self):
         return self.request(method='GET', url='/v1/dialogs', accept_json=True)

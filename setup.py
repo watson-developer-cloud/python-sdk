@@ -65,12 +65,12 @@ setup(name='watson-developer-cloud',
       packages=['watson_developer_cloud'],
       keywords='alchemy datanews, language, vision, question and answer' +
       ' tone_analyzer, natural language classifier, retrieve and rank,' +
-      ' tradeoff analytics, concept insights, text to speech,' +
+      ' tradeoff analytics, text to speech,' +
       ' language translation, language identification,' +
       ' concept expansion, machine translation, personality insights,' +
       ' message resonance, watson developer cloud, wdc, watson, ibm,' +
       ' dialog, user modeling, alchemyapi, alchemy, tone analyzer,' +
-      'speech to text, visual recognition, relationship extraction',
+      'speech to text, visual recognition',
       classifiers=[
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',

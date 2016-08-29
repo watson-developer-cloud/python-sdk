@@ -60,6 +60,12 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
                   'language': language}
         return self._alchemy_html_request('GetRankedConcepts', html=html, text=text, url=url, params=params)
 
+    def dates(self, html=None, text=None, url=None, anchor_date=None, show_source_text=False, language=None):
+        params = {'anchorDate': anchor_date,
+                  'showSourceText': show_source_text,
+                  'language': language}
+        return self._alchemy_html_request('ExtractDates', html=html, text=text, url=url, params=params)
+
     def entities(self, html=None, text=None, url=None, disambiguate=True, linked_data=True, coreference=True,
                  quotations=False, sentiment=False, show_source_text=False, max_items=50, language=None, model=None):
         params = {'disambiguate': disambiguate,
