@@ -57,7 +57,7 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         params = {'maxRetrieve': max_items,
                   'linkedData': linked_data,
                   'showSourceText': show_source_text,
-                  'langauge': language}
+                  'language': language}
         return self._alchemy_html_request('GetRankedConcepts', html=html, text=text, url=url, params=params)
 
     def entities(self, html=None, text=None, url=None, disambiguate=True, linked_data=True, coreference=True,
