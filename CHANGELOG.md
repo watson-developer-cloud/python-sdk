@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+## Version 0.19.0
+
+_2016-08-30_
+
+* Fixed: Typo in the "language" parameter in Alchemy Language
+* Added: Targeted Emotion in Alchemy Language
+* Added: More supported parameters in Alchemy Language
+
 ## Version 0.18.0
 
 _2016-07-22_
