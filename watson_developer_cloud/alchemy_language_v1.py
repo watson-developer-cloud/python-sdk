@@ -33,7 +33,7 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         params = {'language': language}
         return self._alchemy_html_request('GetAuthors', html=html, url=url, params=params)
 
-    def keywords(self, html=None, text=None, url=None, strict_extract_mode=False, sentiment=False,
+    def keywords(self, html=None, text=None, url=None, strict_extract_mode=False, sentiment=False, emotion=False,
                  show_source_text=False, max_items=None, language=None, max_keywords=50):
         """
         :param html: HTML input
@@ -47,6 +47,7 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
             max_items = max_keywords
         params = {'keywordExtractMode': 'strict' if strict_extract_mode else 'normal',
                   'sentiment': sentiment,
+                  'emotion': emotion,
                   'showSourceText': show_source_text,
                   'maxRetrieve': max_items,
                   'language': language}
@@ -67,12 +68,13 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         return self._alchemy_html_request('ExtractDates', html=html, text=text, url=url, params=params)
 
     def entities(self, html=None, text=None, url=None, disambiguate=True, linked_data=True, coreference=True,
-                 quotations=False, sentiment=False, show_source_text=False, max_items=50, language=None, model=None):
+                 quotations=False, sentiment=False, emotion=False, show_source_text=False, max_items=50, language=None, model=None):
         params = {'disambiguate': disambiguate,
                   'linkedData': linked_data,
                   'coreference': coreference,
                   'quotations': quotations,
                   'sentiment': sentiment,
+                  'emotion': emotion,
                   'showSourceText': show_source_text,
                   'maxRetrieve': max_items,
                   'language': language,
@@ -88,8 +90,22 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
                   'language': language}
         return self._alchemy_html_request('GetEmotion', html=html, text=text, url=url, params=params)
 
-    def typed_relations(self, html=None, text=None, url=None, model=None):
-        params = {'model': model}
+    def targeted_emotion(self, targets, html=None, text=None, url=None, language=None, constraint_query=None,
+                         xpath_query=None, show_source_text=False, source_text_type=None):
+        if isinstance(targets, list):
+            targets = '|'.join(targets)
+
+        params = {'targets': targets,
+                  'language': language,
+                  'cquery': constraint_query,
+                  'xpath': xpath_query,
+                  'showSourceText': show_source_text,
+                  'sourceText': source_text_type}
+        return self._alchemy_html_request('GetTargetedEmotion', html=html, text=text, url=url, params=params)
+
+    def typed_relations(self, html=None, text=None, url=None, model=None, show_source_text=False):
+        params = {'model': model,
+                  'showSourceText': show_source_text}
         return self._alchemy_html_request('GetTypedRelations', html=html, text=text, url=url, params=params)
 
     def relations(self, html=None, text=None, url=None, sentiment=False, keywords=False, entities=False,
@@ -164,7 +180,7 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
                   'sourceText': source_text_type,
                   'cquery': constraint_query,
                   'xpath': xpath_query,
-                  'base_url': base_url,
+                  'baseUrl': base_url,
                   'language': language}
         return self._alchemy_html_request('GetRankedTaxonomy', html=html, text=text, url=url, params=params)
 
@@ -236,9 +252,15 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         params = {'language': language}
         return self._alchemy_html_request('GetTextSentiment', html=html, text=text, url=url, params=params)
 
-    def targeted_sentiment(self, targets, html=None, text=None, url=None, language=None):
+    def targeted_sentiment(self, targets, html=None, text=None, url=None, language=None, constraint_query=None,
+                           xpath_query=None, show_source_text=False, source_text_type=None):
         if isinstance(targets, list):
             targets = '|'.join(targets)
 
-        params = {'targets': targets, 'language': language}
+        params = {'targets': targets,
+                  'language': language,
+                  'cquery': constraint_query,
+                  'xpath': xpath_query,
+                  'showSourceText': show_source_text,
+                  'sourceText': source_text_type}
         return self._alchemy_html_request('GetTargetedSentiment', html=html, text=text, url=url, params=params)
