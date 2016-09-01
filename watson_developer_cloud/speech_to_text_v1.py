@@ -55,3 +55,10 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         Returns the list of available models to use with recognize
         """
         return self.request(method='GET', url='/v1/models', accept_json=True)
+
+    def get_model(self, model_id):
+        """
+        :param model_id: The identifier of the desired model
+        :return: A single instance of a Model object with results for the specified model.
+        """
+        return self.request(method='GET', url='/v1/models/{0}'.format(model_id), accept_json=True)
