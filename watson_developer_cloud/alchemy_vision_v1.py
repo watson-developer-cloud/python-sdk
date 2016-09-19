@@ -20,10 +20,12 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class AlchemyVisionV1(WatsonDeveloperCloudService):
+    """AlchemyVision was deprecated, migrate your application to use VisualRecognition."""
     default_url = 'https://gateway-a.watsonplatform.net/calls'
 
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
+        print('WARNING: The AlchemyVision service was deprecated, use VisualRecognitionV3 instead')
 
     def get_image_keywords(self, image_file=None, image_url=None, knowledge_graph=False, force_show_all=False):
         method_name = 'GetRankedImageKeywords'
