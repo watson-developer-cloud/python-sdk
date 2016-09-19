@@ -11,3 +11,8 @@ workspace_id = '293b58fc-3c5b-4ac5-a8f4-8d52c393d875'
 
 response = conversation.message(workspace_id=workspace_id, message_input={'text': 'What\'s the weather like?'})
 print(json.dumps(response, indent=2))
+
+# When you send multiple requests for the same conversation, include the context object from the previous response.
+# response = conversation.message(workspace_id=workspace_id, message_input={'text': 'turn the wipers on'},
+                                context=response['context'])
+# print(json.dumps(response, indent=2))
