@@ -34,7 +34,7 @@ WRITING_TONE_LABEL = 'writing_tone'
 SOCIAL_TONE_LABEL = 'social_tone'
 
 '''
- * updateUserTone processes the Tone Analyzer payload to pull out the emotion, language and social
+ * updateUserTone processes the Tone Analyzer payload to pull out the emotion, writing and social
  * tones, and identify the meaningful tones (i.e., those tones that meet the specified thresholds).
  * The conversationPayload json object is updated to include these tones.
  * @param conversationPayload json object returned by the Watson Conversation Service
@@ -57,7 +57,7 @@ def updateUserTone (conversationPayload, toneAnalyzerPayload, maintainHistory):
   # For convenience sake, define a variable for the user object
   user = conversationPayload['context']['user'];
 
-  # Extract the tones - emotion, language and social
+  # Extract the tones - emotion, writing and social
   if toneAnalyzerPayload and toneAnalyzerPayload['document_tone']:
     for toneCategory in toneAnalyzerPayload['document_tone']['tone_categories']:
       if toneCategory['category_id'] == EMOTION_TONE_LABEL:
@@ -132,16 +132,16 @@ def updateEmotionTone(user, emotionTone, maintainHistory):
     })
 
 '''
- updateLanguageTone updates the user with the language tones interpreted based on the specified thresholds
+ updateWritingTone updates the user with the writing tones interpreted based on the specified thresholds
  @param: user a json object representing user information (tone) to be used in conversing with the Conversation Service
- @param: languageTone a json object containing the language tones in the payload returned by the Tone Analyzer
+ @param: writingTone a json object containing the writing tones in the payload returned by the Tone Analyzer
 '''
 def updateWritingTone (user, writingTone, maintainHistory):
 
   currentWriting = [];
   currentWritingObject = [];
 
-  # Process each language tone and determine if it is high or low
+  # Process each writing tone and determine if it is high or low
   for tone in writingTone['tones']:
     if tone['score'] >= WRITING_HIGH_SCORE_THRESHOLD:
       currentWriting.append(tone['tone_name'].lower() + '_high')

@@ -7,7 +7,7 @@ from watson_developer_cloud import ToneAnalyzerV3
 # import tone detection
 import tone_detection
 
-#
+# load the .env file containing your environment variables for the required services (conversation and tone)
 load_dotenv(find_dotenv())
 
 # replace with your own conversation credentials or put them in a .env file in the home directory
@@ -30,7 +30,7 @@ workspace_id = os.environ.get('WORKSPACE_ID') or 'YOUR WORKSPACE ID'
 maintainToneHistoryInContext = True
 
 # Payload for the Watson Conversation Service
-# workspace_id and user input text required.
+# user input text required - replace "I am happy" with user input text.
 payload = {
     'workspace_id':workspace_id,
     'input': {
