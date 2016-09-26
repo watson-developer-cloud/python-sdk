@@ -1,36 +1,40 @@
 import json
+import os
+from dotenv import load_dotenv, find_dotenv
 from watson_developer_cloud import ConversationV1
 from watson_developer_cloud import ToneAnalyzerV3
 
 # import tone detection
 import tone_detection
 
-# replace with your own conversation credentials
+#
+load_dotenv(find_dotenv())
+
+# replace with your own conversation credentials or put them in a .env file in the home directory
 conversation = ConversationV1(
-    username='YOUR SERVICE NAME', # YOUR SERVICE NAME
-    password='YOUR PASSWORD',
+    username=os.environ.get('CONVERSATION_USERNAME') or 'YOUR SERVICE NAME',
+    password=os.environ.get('CONVERSATION_PASSWORD') or 'YOUR PASSWORD',
     version='2016-07-11')
 
 # replace with your own tone analyzer credentials
 tone_analyzer = ToneAnalyzerV3(
-    username='YOUR SERVICE NAME',
-    password='YOUR PASSWORD',
+    username=os.environ.get('TONE_ANALYZER_USERNAME') or 'YOUR SERVICE NAME',
+    password=os.environ.get('TONE_ANALYZER_PASSWORD') or 'YOUR SERVICE NAME',
     version='2016-02-11')
 
 # replace with your own workspace_id
-# the process.env probably won't work with python
-workspace_id = process.env.WORKSPACE_ID or 'YOUR WORKSPACE ID'
+workspace_id = os.environ.get('WORKSPACE_ID') or 'YOUR WORKSPACE ID'
 
 # This example stores tone for each user utterance in conversation context.
 # Change this to false, if you do not want to maintain history
-maintainToneHistoryInContext = true
+maintainToneHistoryInContext = True
 
 # Payload for the Watson Conversation Service
-# <workspace-id> and user input text required.
+# workspace_id and user input text required.
 payload = {
     'workspace_id':workspace_id,
     'input': {
-      'text': "I am not happy today :("
+      'text': "I am happy"
     }
 }
 
@@ -45,10 +49,9 @@ def invokeToneConversation (payload, maintainToneHistoryInContext):
 
      Note: as indicated below, the console.log statements can be replaced with application-specific code to process the err or data object returned by the Conversation Service.
     '''
-
-    tone = tone_analyzer.tone({'text': payload['input']['text']})
+    tone = tone_analyzer.tone(text=payload['input']['text'])
     conversation_payload =  tone_detection.updateUserTone(payload, tone, maintainToneHistoryInContext)
-    response = conversation.message(workspace_id=workspace_id, message_input=conversation_payload)
+    response = conversation.message(workspace_id=workspace_id, message_input=conversation_payload['input'], context=conversation_payload['context'])
     print(json.dumps(response, indent=2))
 
 invokeToneConversation(payload,maintainToneHistoryInContext);
