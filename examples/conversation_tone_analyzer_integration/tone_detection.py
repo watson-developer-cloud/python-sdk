@@ -23,14 +23,14 @@ import json
  * These thresholds can be adjusted to client/domain requirements.
 """
 PRIMARY_EMOTION_SCORE_THRESHOLD = 0.5
-LANGUAGE_HIGH_SCORE_THRESHOLD = 0.75
-LANGUAGE_NO_SCORE_THRESHOLD = 0.0
+WRITING_HIGH_SCORE_THRESHOLD = 0.75
+WRITING_NO_SCORE_THRESHOLD = 0.0
 SOCIAL_HIGH_SCORE_THRESHOLD = 0.75
 SOCIAL_LOW_SCORE_THRESHOLD = 0.25
 
 # Labels for the tone categories returned by the Watson Tone Analyzer
 EMOTION_TONE_LABEL = 'emotion_tone'
-LANGUAGE_TONE_LABEL = 'language_tone'
+WRITING_TONE_LABEL = 'writing_tone'
 SOCIAL_TONE_LABEL = 'social_tone'
 
 '''
@@ -44,15 +44,15 @@ SOCIAL_TONE_LABEL = 'social_tone'
 def updateUserTone (conversationPayload, toneAnalyzerPayload, maintainHistory):
 
   emotionTone = None
-  languageTone = None
+  writingTone = None
   socialTone = None
 
   # if there is no context in a
-  if conversationPayload.context == None:
-    conversationPayload.context = {};
+  if 'context' not in conversationPayload:
+    conversationPayload['context'] = {};
 
-  if conversationPayload.context.user == None:
-     conversationPayload.context = initUser()
+  if 'user' not in conversationPayload['context']:
+     conversationPayload['context'] = initUser()
 
   # For convenience sake, define a variable for the user object
   user = conversationPayload['context']['user'];
@@ -62,13 +62,13 @@ def updateUserTone (conversationPayload, toneAnalyzerPayload, maintainHistory):
     for toneCategory in toneAnalyzerPayload['document_tone']['tone_categories']:
       if toneCategory['category_id'] == EMOTION_TONE_LABEL:
         emotionTone = toneCategory
-      if toneCategory['category_id'] == LANGUAGE_TONE_LABEL:
-        languageTone = toneCategory
+      if toneCategory['category_id'] == WRITING_TONE_LABEL:
+        writingTone = toneCategory
       if toneCategory['category_id'] == SOCIAL_TONE_LABEL:
         socialTone = toneCategory
 
     updateEmotionTone(user, emotionTone, maintainHistory)
-    updateLanguageTone(user, languageTone, maintainHistory)
+    updateWritingTone(user, writingTone, maintainHistory)
     updateSocialTone(user, socialTone, maintainHistory)
 
   conversationPayload['context']['user'] = user
@@ -77,7 +77,7 @@ def updateUserTone (conversationPayload, toneAnalyzerPayload, maintainHistory):
 
 '''
  initToneContext initializes a user object containing tone data (from the Watson Tone Analyzer)
- @returns user json object with the emotion, language and social tones.  The current
+ @returns user json object with the emotion, writing and social tones.  The current
  tone identifies the tone for a specific conversation turn, and the history provides the conversation for
  all tones up to the current tone for a conversation instance with a user.
  '''
@@ -86,13 +86,13 @@ def initUser():
     'user': {
       'tone': {
         'emotion': {
-          'current': null
+          'current': None
         },
-        'language': {
-          'current': null
+        'writing': {
+          'current': None
         },
         'social': {
-          'current': null
+          'current': None
         }
       }
     }
@@ -124,7 +124,7 @@ def updateEmotionTone(user, emotionTone, maintainHistory):
   user['tone']['emotion']['current'] = primaryEmotion;
 
   if maintainHistory:
-    if not user['tone']['emotion']['history']:
+    if 'history' not in user['tone']['emotion']:
         user['tone']['emotion']['history'] = []
         user['tone']['emotion']['history'].append({
             'tone_name': primaryEmotion,
@@ -136,39 +136,39 @@ def updateEmotionTone(user, emotionTone, maintainHistory):
  @param: user a json object representing user information (tone) to be used in conversing with the Conversation Service
  @param: languageTone a json object containing the language tones in the payload returned by the Tone Analyzer
 '''
-def updateLanguageTone (user, languageTone, maintainHistory):
+def updateWritingTone (user, writingTone, maintainHistory):
 
-  currentLanguage = [];
-  currentLanguageObject = [];
+  currentWriting = [];
+  currentWritingObject = [];
 
   # Process each language tone and determine if it is high or low
-  for tone in languageTone['tones']:
-    if tone['score'] >= LANGUAGE_HIGH_SCORE_THRESHOLD:
-      currentLanguage.append(tone['tone_name'].lower() + '_high')
-      currentLanguageObject.append({
+  for tone in writingTone['tones']:
+    if tone['score'] >= WRITING_HIGH_SCORE_THRESHOLD:
+      currentWriting.append(tone['tone_name'].lower() + '_high')
+      currentWritingObject.append({
         'tone_name': tone['tone_name'].lower(),
         'score': tone['score'],
         'interpretation': 'likely high'
       })
-    elif tone['score'] <= LANGUAGE_NO_SCORE_THRESHOLD:
-      currentLanguageObject.append({
+    elif tone['score'] <= WRITING_NO_SCORE_THRESHOLD:
+      currentWritingObject.append({
         'tone_name': tone['tone_name'].lower(),
         'score': tone['score'],
         'interpretation': 'no evidence'
       })
     else:
-      currentLanguageObject.append({
+      currentWritingObject.append({
         'tone_name': tone['tone_name'].lower(),
         'score': tone['score'],
         'interpretation': 'likely medium'
       })
 
-  # update user language tone
-  user['tone']['language']['current'] = currentLanguage
+  # update user writing tone
+  user['tone']['writing']['current'] = currentWriting
   if maintainHistory:
-    if not user['tone']['language']['history']:
-     user['tone']['language']['history'] = []
-  user['tone']['language']['history'].append(currentLanguageObject)  #TODO - is this the correct location??? AW
+    if 'history' not in user['tone']['writing']:
+     user['tone']['writing']['history'] = []
+  user['tone']['writing']['history'].append(currentWritingObject)  #TODO - is this the correct location??? AW
 
 '''
  updateSocialTone updates the user with the social tones interpreted based on the specified thresholds
