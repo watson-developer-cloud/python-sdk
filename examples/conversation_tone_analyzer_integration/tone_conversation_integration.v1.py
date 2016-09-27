@@ -1,6 +1,8 @@
 import json
 import os
 from dotenv import load_dotenv, find_dotenv
+import asyncio
+
 from watson_developer_cloud import ConversationV1
 from watson_developer_cloud import ToneAnalyzerV3
 
@@ -54,4 +56,20 @@ def invokeToneConversation (payload, maintainToneHistoryInContext):
     response = conversation.message(workspace_id=workspace_id, message_input=conversation_payload['input'], context=conversation_payload['context'])
     print(json.dumps(response, indent=2))
 
-invokeToneConversation(payload,maintainToneHistoryInContext);
+async def invokeToneConversationAsync (payload, maintainToneHistoryInContext):
+    tone = await tone_detection.invokeToneAsync(payload,tone_analyzer)
+    conversation_payload =  tone_detection.updateUserTone(payload, tone, maintainToneHistoryInContext)
+    response = conversation.message(workspace_id=workspace_id, message_input=conversation_payload['input'], context=conversation_payload['context'])
+    print(json.dumps(response, indent=2))
+
+
+# how to invoke both versions of the tone aware calls to conversation
+
+# synchronous call to conversation with tone included in the context
+invokeToneConversation(payload,maintainToneHistoryInContext)
+
+# asynchronous call to conversation with tone included in the context
+loop = asyncio.get_event_loop()
+loop.run_until_complete(invokeToneConversationAsync(payload,maintainToneHistoryInContext))
+loop.close()
+
