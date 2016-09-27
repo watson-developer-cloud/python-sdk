@@ -1,5 +1,3 @@
-import json
-
 """
  * Copyright 2015 IBM Corp. All Rights Reserved.
  *
@@ -22,6 +20,10 @@ import json
  * https://www.ibm.com/watson/developercloud/doc/tone-analyzer/understanding-tone.shtml
  * These thresholds can be adjusted to client/domain requirements.
 """
+
+import json
+import asyncio
+
 PRIMARY_EMOTION_SCORE_THRESHOLD = 0.5
 WRITING_HIGH_SCORE_THRESHOLD = 0.75
 WRITING_NO_SCORE_THRESHOLD = 0.0
@@ -97,6 +99,20 @@ def initUser():
       }
     }
   }
+
+
+
+
+'''
+ invokeToneAsync is an asynchronous function that calls the Tone Analyzer service
+ @param conversationPayload json object returned by the Watson Conversation Service
+ @param tone_analyzer an instance of the Watson Tone Analyzer service
+ @returns the result of calling the tone_analyzer with the conversationPayload 
+ (which contains the user's input text)
+'''
+async def invokeToneAsync(conversationPayload, tone_analyzer):
+    return tone_analyzer.tone(text=conversationPayload['input']['text'])
+
 
 '''
  updateEmotionTone updates the user emotion tone with the primary emotion - the emotion tone that has
