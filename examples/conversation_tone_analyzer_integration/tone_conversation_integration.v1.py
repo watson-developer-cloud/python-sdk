@@ -12,7 +12,7 @@ import tone_detection
 # load the .env file containing your environment variables for the required services (conversation and tone)
 load_dotenv(find_dotenv())
 
-# replace with your own conversation credentials or put them in a .env file in the home directory
+# replace with your own conversation credentials or put them in a .env file
 conversation = ConversationV1(
     username=os.environ.get('CONVERSATION_USERNAME') or 'YOUR SERVICE NAME',
     password=os.environ.get('CONVERSATION_PASSWORD') or 'YOUR PASSWORD',
@@ -63,7 +63,7 @@ async def invokeToneConversationAsync (payload, maintainToneHistoryInContext):
     print(json.dumps(response, indent=2))
 
 
-# how to invoke both versions of the tone aware calls to conversation
+# invoke tone aware calls to conversation - either synchronously or asynchronously
 
 # synchronous call to conversation with tone included in the context
 invokeToneConversation(payload,maintainToneHistoryInContext)

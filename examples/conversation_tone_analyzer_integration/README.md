@@ -2,9 +2,9 @@
 
 This example provides sample code for integrating [Tone Analyzer][tone_analyzer] and [Conversation][conversation].
 
-  * [tone_detection.py][tone_conversation_integration_example_tone_detection] - sample code to initialize a user object in the conversation payload's context (initUser), and to update tone in the user object in the conversation payload's context (updateUserTone).
+  * [tone_detection.py][tone_conversation_integration_example_tone_detection] - sample code to initialize a user object in the conversation payload's context (initUser), to call Tone Analyzer to retrieve tone for a user's input (invokeToneAsync), and to update tone in the user object in the conversation payload's context (updateUserTone).
 
-  * [tone_conversation_integration.v1.py][tone_conversation_integration_example] - sample code to use tone_detection.py to get and add tone to the payload and send a request to the Conversation Service's message endpoint.
+  * [tone_conversation_integration.v1.py][tone_conversation_integration_example] - sample code to use tone_detection.py to get and add tone to the payload and send a request to the Conversation Service's message endpoint both in a synchronous and asynchronous manner.
 
 
 Requirements to run the sample code

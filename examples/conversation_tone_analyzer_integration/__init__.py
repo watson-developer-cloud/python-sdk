@@ -12,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# TODO: are these needed?
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 from .watson_developer_cloud_service import WatsonException
 from .watson_developer_cloud_service import WatsonInvalidArgument
 from .conversation_v1 import ConversationV1
 from .tone_analyzer_v3 import ToneAnalyzerV3
 
-# TODO: do I need the version library?
+
 from .version import __version__
