@@ -2,6 +2,8 @@
 import json
 from watson_developer_cloud import LanguageTranslationV2
 
+# Language translation was deprecated use Language Translator.
+
 language_translation = LanguageTranslationV2(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')

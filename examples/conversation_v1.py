@@ -4,15 +4,15 @@ from watson_developer_cloud import ConversationV1
 conversation = ConversationV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
-    version='2016-07-11')
+    version='2016-09-20')
 
 # replace with your own workspace_id
-workspace_id = '293b58fc-3c5b-4ac5-a8f4-8d52c393d875'
+workspace_id = 'b42ee794-c019-4a0d-acd2-9e4d1d016767'
 
 response = conversation.message(workspace_id=workspace_id, message_input={'text': 'What\'s the weather like?'})
 print(json.dumps(response, indent=2))
 
 # When you send multiple requests for the same conversation, include the context object from the previous response.
 # response = conversation.message(workspace_id=workspace_id, message_input={'text': 'turn the wipers on'},
-                                context=response['context'])
+#                                context=response['context'])
 # print(json.dumps(response, indent=2))

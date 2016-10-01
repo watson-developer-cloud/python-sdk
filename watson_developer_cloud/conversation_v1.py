@@ -23,7 +23,7 @@ class ConversationV1(WatsonDeveloperCloudService):
     """Client for the Conversation service"""
 
     default_url = 'https://gateway.watsonplatform.net/conversation/api'
-    latest_version = '2016-07-11'
+    latest_version = '2016-09-20'
 
     def __init__(self, version, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'conversation', url, **kwargs)

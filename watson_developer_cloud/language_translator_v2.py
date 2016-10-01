@@ -13,21 +13,20 @@
 # limitations under the License.
 
 """
-The v2 Language Translation service
-(https://www.ibm.com/watson/developercloud/language-translation.html)
+The v2 Language Translator service
+(https://www.ibm.com/watson/developercloud/language-translator.html)
 """
 
-from __future__ import print_function
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 from .watson_developer_cloud_service import WatsonInvalidArgument
 
 
-class LanguageTranslationV2(WatsonDeveloperCloudService):
-    default_url = "https://gateway.watsonplatform.net/language-translation/api"
+class LanguageTranslatorV2(WatsonDeveloperCloudService):
+    default_url = "https://gateway.watsonplatform.net/language-translator/api"
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'language_translation', url, **kwargs)
-        print('WARNING: The Language Translation service was deprecated, please migrate to Language Translator.')
+        WatsonDeveloperCloudService.__init__(self, 'language_translator', url, **kwargs)
+
     def identify(self, text):
         """
         Identifies the language of given source text

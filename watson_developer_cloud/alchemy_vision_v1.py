@@ -15,8 +15,9 @@
 The AlchemyAPI Vision service
 (https://www.ibm.com/watson/developercloud/visual-recognition.html)
 """
-
+from __future__ import print_function
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
+
 
 
 class AlchemyVisionV1(WatsonDeveloperCloudService):
