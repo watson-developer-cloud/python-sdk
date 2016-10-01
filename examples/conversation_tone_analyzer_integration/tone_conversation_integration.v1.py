@@ -16,7 +16,7 @@ load_dotenv(find_dotenv())
 conversation = ConversationV1(
     username=os.environ.get('CONVERSATION_USERNAME') or 'YOUR SERVICE NAME',
     password=os.environ.get('CONVERSATION_PASSWORD') or 'YOUR PASSWORD',
-    version='2016-07-11')
+    version='2016-09-20')
 
 # replace with your own tone analyzer credentials
 tone_analyzer = ToneAnalyzerV3(
