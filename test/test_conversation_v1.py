@@ -7,11 +7,11 @@ def test_message():
 # Ranker endpoints
     conversation = watson_developer_cloud.ConversationV1(username="username",
                                                          password="password",
-                                                         version='2016-07-11')
+                                                         version='2016-09-20')
 
     workspace_id = 'f8fdbc65-e0bd-4e43-b9f8-2975a366d4ec'
     message_url = 'https://gateway.watsonplatform.net/conversation/api/v1/workspaces/%s/message' % workspace_id
-    message_url1 = 'https://gateway.watsonplatform.net/conversation/api/v1/workspaces/%s/message?version=2016-07-11' % workspace_id
+    message_url1 = 'https://gateway.watsonplatform.net/conversation/api/v1/workspaces/%s/message?version=2016-09-20' % workspace_id
     message_response = '{"context":{"conversation_id":"1b7b67c0-90ed-45dc-8508-9488bc483d5b","system":{"dialog_stack":["root"],"dialog_turn_counter":1,"dialog_request_counter":1}},"intents":[],"entities":[],"input":{}}'
 
     responses.add(responses.POST, message_url,

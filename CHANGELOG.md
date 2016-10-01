@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+## Version 0.20.0
+
+_2016-09-30_
+
+* Added: Language Translator
+* Fixed: Deprecation to Language Translation
+* Removed: Conversation v1 experimental
+
+
 ## Version 0.19.0
 
 _2016-08-30_
