@@ -35,15 +35,15 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         """
         headers = {'content-type': content_type}
         params = {'continuous': continuous,
-                  'inactivityTimeout': inactivity_timeout,
+                  'inactivity_timeout': inactivity_timeout,
                   'keywords': keywords,
-                  'keywordsThreshold': keywords_threshold,
-                  'maxAlternatives': max_alternatives,
+                  'keywords_threshold': keywords_threshold,
+                  'max_alternatives': max_alternatives,
                   'model': model,
-                  'wordAlternativesThreshold': word_alternatives_threshold,
-                  'wordConfidence': word_confidence,
+                  'word_alternatives_threshold': word_alternatives_threshold,
+                  'word_confidence': word_confidence,
                   'timestamps': timestamps,
-                  'interimResults': interim_results,
+                  'interim_results': interim_results,
                   'profanity_filter': profanity_filter,
                   'smart_formatting': smart_formatting}
 
