@@ -26,6 +26,7 @@ from .language_translation_v2 import LanguageTranslationV2
 from .language_translator_v2 import LanguageTranslatorV2
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
 from .personality_insights_v2 import PersonalityInsightsV2
+from .personality_insights_v3 import PersonalityInsightsV3
 from .retrieve_and_rank_v1 import RetrieveAndRankV1
 from .speech_to_text_v1 import SpeechToTextV1
 from .text_to_speech_v1 import TextToSpeechV1
