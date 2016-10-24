@@ -47,6 +47,18 @@ class WatsonInvalidArgument(WatsonException):
     pass
 
 
+def _cleanup_param_value(value):
+    if isinstance(value, bool):
+        return 'true' if value else 'false'
+    return value
+
+
+def _cleanup_param_values(dictionary):
+    if isinstance(dictionary, dict):
+        return dict([(k, _cleanup_param_value(v)) for k, v in dictionary.items()])
+    return dictionary
+
+
 def _remove_null_values(dictionary):
     if isinstance(dictionary, dict):
         return dict([(k, v) for k, v in dictionary.items() if v is not None])
@@ -221,6 +233,7 @@ class WatsonDeveloperCloudService(object):
 
         # Remove keys with None values
         params = _remove_null_values(params)
+        params = _cleanup_param_values(params)
         json = _remove_null_values(json)
         data = _remove_null_values(data)
         files = _remove_null_values(files)
