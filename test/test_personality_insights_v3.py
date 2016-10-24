@@ -15,8 +15,6 @@ def test_plain_to_json():
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
-    profile_args = '?version=2016-10-20'
-
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect1.txt')) as expect_file:
         profile_response = json.dumps(expect_file.read())
 
@@ -28,7 +26,7 @@ def test_plain_to_json():
         personality_insights.profile(
             personality_text, content_type='text/plain;charset=utf-8')
 
-    assert responses.calls[0].request.url == profile_url + profile_args
+    assert 'version=2016-10-20' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1
 
@@ -42,8 +40,6 @@ def test_json_to_json():
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
-    profile_args = '?consumption_preferences=true&version=2016-10-20&raw_scores=true'
-
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect2.txt')) as expect_file:
         profile_response = json.dumps(expect_file.read())
 
@@ -56,7 +52,9 @@ def test_json_to_json():
             personality_text, content_type='application/json',
             raw_scores=True, consumption_preferences=True)
 
-    assert responses.calls[0].request.url == profile_url + profile_args
+    assert 'version=2016-10-20' in responses.calls[0].request.url
+    assert 'raw_scores=true' in responses.calls[0].request.url
+    assert 'consumption_preferences=true' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1
 
@@ -69,8 +67,6 @@ def test_json_to_csv():
 
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
-
-    profile_args = '?csv_headers=true&consumption_preferences=true&version=2016-10-20&raw_scores=true'
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect3.txt')) as expect_file:
         profile_response = json.dumps(expect_file.read())
@@ -85,10 +81,12 @@ def test_json_to_csv():
             accept='text/csv', csv_headers=True,
             raw_scores=True, consumption_preferences=True)
 
-    assert responses.calls[0].request.url == profile_url + profile_args
+    assert 'version=2016-10-20' in responses.calls[0].request.url
+    assert 'raw_scores=true' in responses.calls[0].request.url
+    assert 'consumption_preferences=true' in responses.calls[0].request.url
+    assert 'csv_headers=true' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1
-
 
 """
 Input: Plain text (Spanish)
@@ -99,8 +97,6 @@ def test_plain_to_json_es():
 
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
-
-    profile_args = '?version=2016-10-20'
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect4.txt')) as expect_file:
         profile_response = json.dumps(expect_file.read())
@@ -114,6 +110,6 @@ def test_plain_to_json_es():
             personality_text, content_type='text/plain;charset=utf-8',
             content_language='es', accept_language='es')
 
-    assert responses.calls[0].request.url == profile_url + profile_args
+    assert 'version=2016-10-20' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1

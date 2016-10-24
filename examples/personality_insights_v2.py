@@ -11,7 +11,6 @@ with open(join(dirname(__file__), '../resources/personality.txt')) as personalit
     print(json.dumps(personality_insights.profile(
         text=personality_text.read()), indent=2))
 
-
 # with open(join(dirname(__file__), '../resources/personality.txt') as personality_text:
 #     personality_insights_json = {"contentItems": [
 #         {"id": "245160944223793152", "userid": "bob", "sourceid": "twitter", "created": 1427720427,

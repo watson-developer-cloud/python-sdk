@@ -103,7 +103,7 @@ class WatsonDeveloperCloudService(object):
                     self.api_key = self.vcap_service_credentials['api_key']
 
         if (self.username is None or self.password is None) and self.api_key is None:
-            raise WatsonException('You must specific your username and password service credentials ' +
+            raise WatsonException('You must specify your username and password service credentials ' +
                                   '(Note: these are different from your Bluemix id)')
 
     def set_username_and_password(self, username=None, password=None):
