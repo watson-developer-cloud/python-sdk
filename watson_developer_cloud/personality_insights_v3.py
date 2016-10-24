@@ -40,12 +40,8 @@ class PersonalityInsightsV3(WatsonDeveloperCloudService):
     def profile(self, text, content_type=None, content_language=None,
                 accept=None, accept_language=None, raw_scores=None,
                 consumption_preferences=None, csv_headers=None):
-
         """
-        Returns a personality profile with normalized percentile scores
-        given at least 100 words of input text. Content type is detected
-        automatically.
-        :param text: The input text to be analyzed
+        :param text: The input text to be analyzed; provide a minimum of 100 words and a maximum of 20 MB of content
         :param content_type: Type of the input text: 'text/plain' (default), 'text/html', or 'application/json'; for plain text or HTML, include the charset parameter to indicate the character encoding
         :param content_language: Language of the input text: 'ar', 'en' (default), 'es', or 'ja'
         :param accept: Type of the response: 'application/json' (default) or 'text/csv'
@@ -53,6 +49,7 @@ class PersonalityInsightsV3(WatsonDeveloperCloudService):
         :param raw_scores: If True, returns percentage scores not compared with a sample population in addition to normalized scores
         :param consumption_preferences: If True, returns consumption preferences in addition to normalized scores
         :param csv_headers: If True, returns a row of headers for CSV output
+        :return: A personality profile with normalized percentile scores in JSON or CSV format
         """
 
         if content_type == 'application/json' and isinstance(text, dict):
