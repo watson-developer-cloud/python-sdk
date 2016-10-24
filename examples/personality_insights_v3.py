@@ -9,8 +9,8 @@ The example returns a JSON response whose content is the same as that in
 
 personality_insights = PersonalityInsightsV3(
     version='2016-10-20',
-    username='daa4e679-184b-4ea4-bcf5-325431b92991',
-    password='OCMwTTWKU6l2')
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 with open(join(dirname(__file__), '../resources/personality-v3.json')) as profile_json:
     profile = personality_insights.profile(
