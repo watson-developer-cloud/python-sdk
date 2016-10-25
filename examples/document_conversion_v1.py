@@ -57,7 +57,8 @@ with open(join(dirname(__file__), '../resources/example.html'), 'r') as document
     }
     print(json.dumps(document_conversion.index_document(config=config, document=document, metadata=metadata), indent=2))
 
-print("########## Example of a dry run of index_document with document, metadata, and additional config for conversion ##########")
+print("########## Example of a dry run of index_document with document, metadata, and additional config for conversion"
+      "##########")
 with open(join(dirname(__file__), '../resources/example.html'), 'r') as document:
     config = {
         'convert_document': {

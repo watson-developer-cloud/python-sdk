@@ -68,7 +68,8 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         return self._alchemy_html_request('ExtractDates', html=html, text=text, url=url, params=params)
 
     def entities(self, html=None, text=None, url=None, disambiguate=True, linked_data=True, coreference=True,
-                 quotations=False, sentiment=False, emotion=False, show_source_text=False, max_items=50, language=None, model=None):
+                 quotations=False, sentiment=False, emotion=False, show_source_text=False, max_items=50, language=None,
+                 model=None):
         params = {'disambiguate': disambiguate,
                   'linkedData': linked_data,
                   'coreference': coreference,
