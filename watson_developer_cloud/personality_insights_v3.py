@@ -36,8 +36,10 @@ class PersonalityInsightsV3(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(self, 'personality_insights', url, **kwargs)
         self.version = version
 
-    def profile(self, text, content_type='text/plain', content_language=None, accept='application/json',
-                accept_language=None, raw_scores=False, consumption_preferences=False, csv_headers=False):
+    def profile(self, text, content_type='text/plain', content_language=None,
+                accept='application/json', accept_language=None,
+                raw_scores=False, consumption_preferences=False,
+                csv_headers=False):
         """
         :param text: The input text to be analyzed; provide a minimum of 100 words and a maximum of 20 MB of content
         :param content_type: Type of the input text: 'text/plain' (default), 'text/html', or 'application/json'; for
