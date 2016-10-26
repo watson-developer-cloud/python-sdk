@@ -28,6 +28,7 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'language_translation', url, **kwargs)
         print('WARNING: The Language Translation service was deprecated, please migrate to Language Translator.')
+
     def identify(self, text):
         """
         Identifies the language of given source text
