@@ -19,7 +19,6 @@ The v3 Personality Insights service
 import json
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
-
 class PersonalityInsightsV3(WatsonDeveloperCloudService):
 
     """Wrapper for the Personality Insights service"""
@@ -28,8 +27,7 @@ class PersonalityInsightsV3(WatsonDeveloperCloudService):
 
     def __init__(self, version=default_version, url=default_url, **kwargs):
         """
-        Constructs an instance of the service. Fetches service parameters from VCAP_SERVICES runtime variable for
-        Bluemix or defaults to local URLs.
+        Constructs an instance of the service. Fetches service parameters from VCAP_SERVICES runtime variable for Bluemix or defaults to local URLs.
         :param version: The version of the API to be used in YYYY-MM-DD format (for example, '2016-10-20')
         """
 
