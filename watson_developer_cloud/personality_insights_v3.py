@@ -42,14 +42,11 @@ class PersonalityInsightsV3(WatsonDeveloperCloudService):
                 csv_headers=False):
         """
         :param text: The input text to be analyzed; provide a minimum of 100 words and a maximum of 20 MB of content
-        :param content_type: Type of the input text: 'text/plain' (default), 'text/html', or 'application/json'; for
-        plain text or HTML, include the charset parameter to indicate the character encoding
+        :param content_type: Type of the input text: 'text/plain' (default), 'text/html', or 'application/json'; for plain text or HTML, include the charset parameter to indicate the character encoding
         :param content_language: Language of the input text: 'ar', 'en' (default), 'es', or 'ja'
         :param accept: Type of the response: 'application/json' (default) or 'text/csv'
-        :param accept_language: Language of the response: 'ar', 'de', 'en' (default), 'es', 'fr', 'it', 'ja', 'ko',
-        'pt-br', 'zh-cn', or 'zh-tw'
-        :param raw_scores: If True, returns percentage scores not compared with a sample population in addition to
-        normalized scores
+        :param accept_language: Language of the response: 'ar', 'de', 'en' (default), 'es', 'fr', 'it', 'ja', 'ko', 'pt-br', 'zh-cn', or 'zh-tw'
+        :param raw_scores: If True, returns percentage scores not compared with a sample population in addition to normalized scores
         :param consumption_preferences: If True, returns consumption preferences in addition to normalized scores
         :param csv_headers: If True, returns a row of headers for CSV output
         :return: A personality profile with normalized percentile scores in JSON or CSV format
