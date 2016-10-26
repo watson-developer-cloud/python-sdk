@@ -70,24 +70,23 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>text</strong> &#8211; The input text to be analyzed; provide a minimum of 100 words and a maximum of 20 MB of content</li>
-<li><strong>content_type</strong> &#8211; Type of the input text: &#8216;text/plain&#8217; (default), &#8216;text/html&#8217;, or &#8216;application/json&#8217;; for</li>
+<li><strong>content_type</strong> &#8211; Type of the input text: &#8216;text/plain&#8217; (default), &#8216;text/html&#8217;, or &#8216;application/json&#8217;; for plain text or HTML, include the charset parameter to indicate the character encoding</li>
+<li><strong>content_language</strong> &#8211; Language of the input text: &#8216;ar&#8217;, &#8216;en&#8217; (default), &#8216;es&#8217;, or &#8216;ja&#8217;</li>
+<li><strong>accept</strong> &#8211; Type of the response: &#8216;application/json&#8217; (default) or &#8216;text/csv&#8217;</li>
+<li><strong>accept_language</strong> &#8211; Language of the response: &#8216;ar&#8217;, &#8216;de&#8217;, &#8216;en&#8217; (default), &#8216;es&#8217;, &#8216;fr&#8217;, &#8216;it&#8217;, &#8216;ja&#8217;, &#8216;ko&#8217;, &#8216;pt-br&#8217;, &#8216;zh-cn&#8217;, or &#8216;zh-tw&#8217;</li>
+<li><strong>raw_scores</strong> &#8211; If True, returns percentage scores not compared with a sample population in addition to normalized scores</li>
+<li><strong>consumption_preferences</strong> &#8211; If True, returns consumption preferences in addition to normalized scores</li>
+<li><strong>csv_headers</strong> &#8211; If True, returns a row of headers for CSV output</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A personality profile with normalized percentile scores in JSON or CSV format</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>plain text or HTML, include the charset parameter to indicate the character encoding
-:param content_language: Language of the input text: &#8216;ar&#8217;, &#8216;en&#8217; (default), &#8216;es&#8217;, or &#8216;ja&#8217;
-:param accept: Type of the response: &#8216;application/json&#8217; (default) or &#8216;text/csv&#8217;
-:param accept_language: Language of the response: &#8216;ar&#8217;, &#8216;de&#8217;, &#8216;en&#8217; (default), &#8216;es&#8217;, &#8216;fr&#8217;, &#8216;it&#8217;, &#8216;ja&#8217;, &#8216;ko&#8217;,
-&#8216;pt-br&#8217;, &#8216;zh-cn&#8217;, or &#8216;zh-tw&#8217;
-:param raw_scores: If True, returns percentage scores not compared with a sample population in addition to
-normalized scores
-:param consumption_preferences: If True, returns consumption preferences in addition to normalized scores
-:param csv_headers: If True, returns a row of headers for CSV output
-:return: A personality profile with normalized percentile scores in JSON or CSV format</p>
 </dd></dl>
 
 </dd></dl>
