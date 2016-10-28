@@ -73,7 +73,8 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">default_version</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructs an instance of the service. Fetches service parameters from VCAP_SERVICES runtime variable for Bluemix or defaults to local URLs.</span>
+<span class="sd">        Constructs an instance of the service. Fetches service parameters from VCAP_SERVICES runtime variable for \</span>
+<span class="sd">        Bluemix or defaults to local URLs.</span>
 <span class="sd">        :param version: The version of the API to be used in YYYY-MM-DD format (for example, &#39;2016-10-20&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -84,11 +85,14 @@
                 <span class="n">accept_language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">raw_scores</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">consumption_preferences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">csv_headers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param text: The input text to be analyzed; provide a minimum of 100 words and a maximum of 20 MB of content</span>
-<span class="sd">        :param content_type: Type of the input text: &#39;text/plain&#39; (default), &#39;text/html&#39;, or &#39;application/json&#39;; for plain text or HTML, include the charset parameter to indicate the character encoding</span>
+<span class="sd">        :param content_type: Type of the input text: &#39;text/plain&#39; (default), &#39;text/html&#39;, or &#39;application/json&#39;; for \</span>
+<span class="sd">        plain text or HTML, include the charset parameter to indicate the character encoding</span>
 <span class="sd">        :param content_language: Language of the input text: &#39;ar&#39;, &#39;en&#39; (default), &#39;es&#39;, or &#39;ja&#39;</span>
 <span class="sd">        :param accept: Type of the response: &#39;application/json&#39; (default) or &#39;text/csv&#39;</span>
-<span class="sd">        :param accept_language: Language of the response: &#39;ar&#39;, &#39;de&#39;, &#39;en&#39; (default), &#39;es&#39;, &#39;fr&#39;, &#39;it&#39;, &#39;ja&#39;, &#39;ko&#39;, &#39;pt-br&#39;, &#39;zh-cn&#39;, or &#39;zh-tw&#39;</span>
-<span class="sd">        :param raw_scores: If True, returns percentage scores not compared with a sample population in addition to normalized scores</span>
+<span class="sd">        :param accept_language: Language of the response: &#39;ar&#39;, &#39;de&#39;, &#39;en&#39; (default), &#39;es&#39;, &#39;fr&#39;, &#39;it&#39;, &#39;ja&#39;, &#39;ko&#39;, \</span>
+<span class="sd">        &#39;pt-br&#39;, &#39;zh-cn&#39;, or &#39;zh-tw&#39;</span>
+<span class="sd">        :param raw_scores: If True, returns percentage scores not compared with a sample population in addition to \</span>
+<span class="sd">        normalized scores</span>
 <span class="sd">        :param consumption_preferences: If True, returns consumption preferences in addition to normalized scores</span>
 <span class="sd">        :param csv_headers: If True, returns a row of headers for CSV output</span>
 <span class="sd">        :return: A personality profile with normalized percentile scores in JSON or CSV format</span>
