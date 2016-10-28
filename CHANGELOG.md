@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 0.21.0
+
+_2016-10-28_
+
+* Added: Personality Insights v3
+
+
 ## Version 0.20.1
 
 _2016-10-13_
