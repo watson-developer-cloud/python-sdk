@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>watson_developer_cloud.language_translation_v2 module &#8212; Watson Developer Cloud Python SDK 0.21.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.21.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Watson Developer Cloud Python SDK 0.21.0 documentation" href="../index.html" />
+    <link rel="next" title="watson_developer_cloud.language_translator_v2 module" href="watson_developer_cloud.language_translator_v2.html" />
+    <link rel="prev" title="watson_developer_cloud.document_conversion_v1 module" href="watson_developer_cloud.document_conversion_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.language_translation_v2">
+<span id="watson-developer-cloud-language-translation-v2-module"></span><h1>watson_developer_cloud.language_translation_v2 module<a class="headerlink" href="#module-watson_developer_cloud.language_translation_v2" title="Permalink to this headline">¶</a></h1>
+<p>The v2 Language Translation service
+(<a class="reference external" href="https://www.ibm.com/watson/developercloud/language-translation.html">https://www.ibm.com/watson/developercloud/language-translation.html</a>)</p>
+<dl class="class">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2">
+<em class="property">class </em><code class="descname">LanguageTranslationV2</code><span class="sig-paren">(</span><em>url='https://gateway.watsonplatform.net/language-translation/api'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translation_v2.html#LanguageTranslationV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_developer_cloud_service.WatsonDeveloperCloudService</span></code></p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/language-translation/api'</em><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2.identify">
+<code class="descname">identify</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translation_v2.html#LanguageTranslationV2.identify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2.identify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identifies the language of given source text</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2.get_identifiable_languages">
+<code class="descname">get_identifiable_languages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translation_v2.html#LanguageTranslationV2.get_identifiable_languages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2.get_identifiable_languages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2.get_models">
+<code class="descname">get_models</code><span class="sig-paren">(</span><em>default=None</em>, <em>source=None</em>, <em>target=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translation_v2.html#LanguageTranslationV2.get_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2.get_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the available models for translation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2.create_model">
+<code class="descname">create_model</code><span class="sig-paren">(</span><em>base_model_id</em>, <em>name=None</em>, <em>forced_glossary=None</em>, <em>parallel_corpus=None</em>, <em>monolingual_corpus=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translation_v2.html#LanguageTranslationV2.create_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2.create_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2.get_model">
+<code class="descname">get_model</code><span class="sig-paren">(</span><em>model_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translation_v2.html#LanguageTranslationV2.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2.get_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2.delete_model">
+<code class="descname">delete_model</code><span class="sig-paren">(</span><em>model_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translation_v2.html#LanguageTranslationV2.delete_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2.delete_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.language_translation_v2.LanguageTranslationV2.translate">
+<code class="descname">translate</code><span class="sig-paren">(</span><em>text</em>, <em>source=None</em>, <em>target=None</em>, <em>model_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translation_v2.html#LanguageTranslationV2.translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translation_v2.LanguageTranslationV2.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translates text from a source language to a target language</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.document_conversion_v1.html" title="previous chapter">watson_developer_cloud.document_conversion_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.language_translator_v2.html" title="next chapter">watson_developer_cloud.language_translator_v2 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
