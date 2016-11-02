@@ -18,17 +18,23 @@ The v1 Tradeoff Analytics service
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
-
 class TradeoffAnalyticsV1(WatsonDeveloperCloudService):
 
-    """Wrapper of the Tradeoff Analytics service"""
+    """Wrapper for the Tradeoff Analytics service"""
     default_url = 'https://gateway.watsonplatform.net/tradeoff-analytics/api'
 
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'tradeoff_analytics', url, **kwargs)
 
-    def dilemmas(self, params):
+    def dilemmas(self, params, generate_visualization=True):
         """
-        Returns a dilemma that contains the problem and a resolution.
+        :param params: The JSON problem (subject, columns, and options)
+        :param generate_visualization: If True, returns the map visualization used by the Tradeoff Analytics widget
+        :return: A dilemma that contains the problem and its resolution
         """
-        return self.request(method='POST', url='/v1/dilemmas', json=params, accept_json=True)
+
+        parameters = {
+            'generate_visualization': generate_visualization
+        }
+
+        return self.request(method='POST', url='/v1/dilemmas', json=params, params=parameters, accept_json=True)
