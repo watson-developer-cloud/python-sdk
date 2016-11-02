@@ -180,8 +180,15 @@ class WatsonDeveloperCloudService(object):
             params = {}
         params['outputMode'] = 'json'
         headers = {'content-type': 'application/x-www-form-urlencoded'}
-        url_encoded_params = {'html': html, 'text': text}
         params = _convert_boolean_values(params)
+        url_encoded_params = {}
+
+        if method.upper() is 'POST':
+            url_encoded_params = params
+            params = {}
+
+        url_encoded_params['html'] = html
+        url_encoded_params['text'] = text
 
         if method_url is None:
             if url:
