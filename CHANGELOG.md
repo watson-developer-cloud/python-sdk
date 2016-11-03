@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+## Version 0.22.0
+
+_2016-11-03_
+
+* Added: Tradeoff Analytics `generate_visualization` flag
+* Fixed: AlchemyLanguage flags now passed as form fields when using `POST`
+
+
 ## Version 0.21.0
 
 _2016-10-28_
