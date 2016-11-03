@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>watson_developer_cloud.visual_recognition_v3 module &#8212; Watson Developer Cloud Python SDK 0.22.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.22.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Watson Developer Cloud Python SDK 0.22.0 documentation" href="../index.html" />
+    <link rel="prev" title="watson_developer_cloud.tradeoff_analytics_v1 module" href="watson_developer_cloud.tradeoff_analytics_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.visual_recognition_v3">
+<span id="watson-developer-cloud-visual-recognition-v3-module"></span><h1>watson_developer_cloud.visual_recognition_v3 module<a class="headerlink" href="#module-watson_developer_cloud.visual_recognition_v3" title="Permalink to this headline">¶</a></h1>
+<p>The v3 Visual Recognition service
+(<a class="reference external" href="https://www.ibm.com/watson/developercloud/visual-recognition.html">https://www.ibm.com/watson/developercloud/visual-recognition.html</a>)</p>
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3">
+<em class="property">class </em><code class="descname">VisualRecognitionV3</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway-a.watsonplatform.net/visual-recognition/api'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_developer_cloud_service.WatsonDeveloperCloudService</span></code></p>
+<p>Client for the Visual Recognition service</p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://gateway-a.watsonplatform.net/visual-recognition/api'</em><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.latest_version">
+<code class="descname">latest_version</code><em class="property"> = '2016-05-20'</em><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.latest_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_classifier">
+<code class="descname">get_classifier</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves information about a specific classifier.
+:param classifier_id: The classifier id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_classifier">
+<code class="descname">delete_classifier</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.delete_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a custom classifier with the specified classifier id.
+:param classifier_id: The classifier id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_classifiers">
+<code class="descname">list_classifiers</code><span class="sig-paren">(</span><em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_classifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of user-created and built-in classifiers. (May change in the future to only user-created.)
+:param verbose: Specifies whether to return more information about each classifier, such as the author</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_classifier">
+<code class="descname">create_classifier</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train a new classifier from example images which are uploaded.
+:param name: The desired short name of the new classifier.
+:param &lt;NAME&gt;_positive_examples: zip files of images that depict the subject of the new classifier.
+:param negative_examples: A zip file of images that do not depict the subject of the new classifier.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.update_classifier">
+<code class="descname">update_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.update_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.update_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates an existing classifier by adding images to existing or new classes.
+:param classifier_id: The id of the classifier to update.
+:param &lt;NAME&gt;_positive_examples: zip files of images that depict the subject of the class.
+:param negative_examples: A zip file of images that do not depict the subject of any of the classes.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.classify">
+<code class="descname">classify</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>images_url=None</em>, <em>classifier_ids=None</em>, <em>owners=None</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of classification scores for one or more input images.
+:param images_file: An image file or zip file of image files to analyze.
+:param images_url: The url for an image file or zip file of images to analyze.
+:param classifier_ids: The ids of classifiers to consider. When absent, considers all classifiers.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.detect_faces">
+<code class="descname">detect_faces</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>images_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.detect_faces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.detect_faces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of faces detected.  This includes identities for famous people.
+:param images_file: An image file or zip file of image files to analyze.
+:param images_url: The url for an image file or zip file of images to analyze.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.recognize_text">
+<code class="descname">recognize_text</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>images_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.recognize_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.recognize_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of recognized text
+:param images_file: An image file or zip file of image files to analyze.
+:param images_url: The url for an image file or zip file of images to analyze.
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.tradeoff_analytics_v1.html" title="previous chapter">watson_developer_cloud.tradeoff_analytics_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
