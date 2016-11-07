@@ -93,7 +93,7 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
         return self.request(method='GET', url='/v1/rankers/{0}'.format(ranker_id), accept_json=True)
 
     def rank(self, ranker_id, answer_data, top_answers=10):
-        data = {'answer_metadata': json.dumps({'answers': + top_answers})}
+        data = {'answers': + top_answers}
         return self.request(method='POST', url='/v1/rankers/{0}/rank'.format(ranker_id),
                             files=[('answer_data', answer_data)], data=data, accept_json=True)
 
