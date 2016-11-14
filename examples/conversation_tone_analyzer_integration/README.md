@@ -1,6 +1,6 @@
 # Conversation and Tone Analyzer Integration Example
 
-This example provides sample code for integrating [Tone Analyzer][tone_analyzer] and [Conversation][conversation].
+This example provides sample code for integrating [Tone Analyzer][tone_analyzer] and [Conversation][conversation] in Python 2.6+.  All calls are made synchronously. For sample Python 3.5 asynchronous code, please see [https://github.com/aprilwebster/python-sdk][aprilwebster_python_sdk_github].
 
   * [tone_detection.py][tone_conversation_integration_example_tone_detection] - sample code to initialize a user object in the conversation payload's context (initUser), to call Tone Analyzer to retrieve tone for a user's input (invokeToneAsync), and to update tone in the user object in the conversation payload's context (updateUserTone).
 
@@ -29,3 +29,4 @@ Command to run the sample code
 [conversation_simple_workspace]: https://github.com/watson-developer-cloud/conversation-simple#workspace
 [tone_conversation_integration_example]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples/tone_conversation_integration.v1.py
 [tone_conversation_integration_example_tone_detection]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples/conversation_addons/tone_detection.py
+[aprilwebster_python_sdk_github]: https://github.com/aprilwebster/python-sdk
