@@ -22,7 +22,9 @@ $ easy_install --upgrade watson-developer-cloud
 The [examples][examples] folder has basic and advanced examples.
 
 ## Getting the Service Credentials
-You will need the `username` and `password` credentials for each service. Service credentials are different from your Bluemix account username and password.
+Service credentials are required to access the APIs. When running on Bluemix, the SDK uses the VCAP_SERVICES environment variable to load the credentials automatically.
+
+To run locally or outside of Bluemix you will need the `username` and `password` credentials for each service. (Service credentials are different from your Bluemix account email and password.)
 
 To get your service credentials, follow these steps:
  1. Log in to Bluemix at https://bluemix.net.
