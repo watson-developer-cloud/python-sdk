@@ -59,3 +59,4 @@ deploy.sh
 docs/apis
 docs/gh-pages
 test/__init__.py
+*~
