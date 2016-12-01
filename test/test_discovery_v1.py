@@ -1,6 +1,9 @@
 import responses
 import watson_developer_cloud
-from urllib.parse import urlparse, urljoin
+try:
+    from urllib.parse import urlparse, urljoin
+except ImportError:
+    from urlparse import urlparse, urljoin
 
 base_discovery_url = 'https://gateway.watsonplatform.net/discovery-experimental/api/v1/'
 
