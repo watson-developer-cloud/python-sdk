@@ -69,14 +69,14 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :return:
         """
         self._valid_name_and_description(name=name, description=description)
-        if size not in range(1,4):
+        if size not in range(1, 4):
             raise ValueError("Size can be 1, 2, or 3")
 
         body = json.dumps({"name": name, "description": description, "size": size})
         return self.request(method='POST',
                             url='/v1/environments',
                             params={"version": self.version,
-                                    "body": body },
+                                    "body": body},
                             accept_json=True)
 
     def update_environment(self, environment_id, name="", description=""):
@@ -90,13 +90,13 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         self._valid_name_and_description(name=name, description=description)
         body = json.dumps({"name": name, "description": description})
         return self.request(method='PUT',
-                            url=urljoin('/v1/environments/',environment_id),
+                            url=urljoin('/v1/environments/', environment_id),
                             params={"version": self.version,
-                                    "body": body },
+                                    "body": body},
                             accept_json=True)
 
 
-    def delete_environment(self,environment_id):
+    def delete_environment(self, environment_id):
         """
         Deletes the specified environment.
         :param environment_id: guid of environment to delete

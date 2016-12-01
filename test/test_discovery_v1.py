@@ -1,4 +1,3 @@
-import os
 import responses
 import watson_developer_cloud
 from urllib.parse import urlparse, urljoin
@@ -109,7 +108,7 @@ def test_create_environment():
 
 @responses.activate
 def test_update_environment():
-    discovery_url = urljoin(base_discovery_url,'environments/envid')
+    discovery_url = urljoin(base_discovery_url, 'environments/envid')
     responses.add(responses.PUT, discovery_url,
                   body="{\"resulting_key\": true}", status=200,
                   content_type='application/json')
@@ -117,13 +116,12 @@ def test_update_environment():
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
                                                    password='password')
-    discovery.update_environment('envid',name="hello", description="new")
+    discovery.update_environment('envid', name="hello", description="new")
     assert len(responses.calls) == 1
-
 
 @responses.activate
 def test_delete_environment():
-    discovery_url = urljoin(base_discovery_url,'environments/envid')
+    discovery_url = urljoin(base_discovery_url, 'environments/envid')
     responses.add(responses.DELETE, discovery_url,
                   body="{\"resulting_key\": true}", status=200,
                   content_type='application/json')
@@ -153,7 +151,7 @@ def test_collections():
 
     assert called_url.netloc == test_url.netloc
     assert called_url.path == test_url.path
-    assert(len(responses.calls) == 1)
+    assert len(responses.calls) == 1
 
 
 @responses.activate
@@ -174,7 +172,7 @@ def test_get_collection():
 
     assert called_url.netloc == test_url.netloc
     assert called_url.path == test_url.path
-    assert (len(responses.calls) == 1)
+    assert len(responses.calls) == 1
 
 @responses.activate
 def test_query():
@@ -186,11 +184,11 @@ def test_query():
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
                                                    password='password')
-    discovery.query('envid','collid',{'count': 10})
+    discovery.query('envid', 'collid', {'count': 10})
 
     called_url = urlparse(responses.calls[0].request.url)
     test_url = urlparse(discovery_url)
 
     assert called_url.netloc == test_url.netloc
     assert called_url.path == test_url.path
-    assert(len(responses.calls) == 1)
+    assert len(responses.calls) == 1
