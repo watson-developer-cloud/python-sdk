@@ -15,7 +15,7 @@
 The v1 Discovery Service
 (http://www.ibm.com/watson/developercloud/doc/discovery/)
 """
-import mimetypes
+import json
 from urllib.parse import urljoin
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
@@ -42,13 +42,68 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         Retrieves information about the environments associated with the user
         """
         return self.request(method='GET', url='/v1/environments', params={"version": self.version}, accept_json=True)
-        
-    
-    def create_environment(self):
-        pass
+
+    def get_environment(self, environment_id):
+        """
+        Retrieves information about the specific
+        :param environment_id:
+        :return:
+        """
+
+        return self.request(method='GET',
+                            url='/v1/environments/{0}'.format(environment_id),
+                            params={"version": self.version}, accept_json=True)
+
+    def _valid_name_and_description(self, name, description):
+        if len(name) not in range(0, 255):
+            raise ValueError("name must be a string having length between 0 and 255 characters")
+        if len(description) not in range(0, 255):
+            raise ValueError("description must be a string having length between 0 and 255 characters")
+
+    def create_environment(self, name="", description="", size=1):
+        """
+
+        :param name: name of the environment (max 255 chars) can be empty
+        :param description: description of the environment (max 255 chars) can be empty
+        :param size: size of the environment (1,2, or 3)
+        :return:
+        """
+        self._valid_name_and_description(name=name, description=description)
+        if size not in range(1,4):
+            raise ValueError("Size can be 1, 2, or 3")
+
+        body = json.dumps({"name": name, "description": description, "size": size})
+        return self.request(method='POST',
+                            url='/v1/environments',
+                            params={"version": self.version,
+                                    "body": body },
+                            accept_json=True)
+
+    def update_environment(self, environment_id, name="", description=""):
+        """
+
+        :param environment_id: guid of the environment to modify
+        :param name: update the name of the environment
+        :param description: update the description of the environment
+        :return:
+        """
+        self._valid_name_and_description(name=name, description=description)
+        body = json.dumps({"name": name, "description": description})
+        return self.request(method='PUT',
+                            url=urljoin('/v1/environments/',environment_id),
+                            params={"version": self.version,
+                                    "body": body },
+                            accept_json=True)
+
 
     def delete_environment(self,environment_id):
-        pass
+        """
+        Deletes the specified environment.
+        :param environment_id: guid of environment to delete
+        :return:
+        """
+        url_string = urljoin('/v1/environments/', environment_id)
+        return self.request(method='DELETE', url=url_string, params={"version": self.version}, accept_json=True)
 
     def get_collections(self, environment_id):
         """
@@ -56,7 +111,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :param environment_id: this is the guid of a valid environment
         :return: json results of the collections in an environment
         """
-        url_string = urljoin('/v1/environments/', environment_id)
+        url_string = '/v1/environments/{0}/collections'.format(environment_id)
         return self.request(method='GET', url=url_string, params={"version": self.version}, accept_json=True)
 
     def get_collection(self, environment_id, collection_id):
