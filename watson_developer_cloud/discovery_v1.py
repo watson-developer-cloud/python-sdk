@@ -16,10 +16,6 @@ The v1 Discovery Service
 (http://www.ibm.com/watson/developercloud/doc/discovery/)
 """
 import json
-try:
-    from urllib.parse import urljoin
-except ImportError:
-    from urlparse import urljoin
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
@@ -93,7 +89,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         self._valid_name_and_description(name=name, description=description)
         body = json.dumps({"name": name, "description": description})
         return self.request(method='PUT',
-                            url=urljoin('/v1/environments/', environment_id),
+                            url='/v1/environments/{0}'.format(environment_id),
                             params={"version": self.version,
                                     "body": body},
                             accept_json=True)
@@ -105,7 +101,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :param environment_id: guid of environment to delete
         :return:
         """
-        url_string = urljoin('/v1/environments/', environment_id)
+        url_string = '/v1/environments/{0}'.format(environment_id)
         return self.request(method='DELETE', url=url_string, params={"version": self.version}, accept_json=True)
 
     def get_collections(self, environment_id):
