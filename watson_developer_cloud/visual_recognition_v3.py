@@ -15,6 +15,7 @@
 The v3 Visual Recognition service
 (https://www.ibm.com/watson/developercloud/visual-recognition.html)
 """
+import json
 import mimetypes
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
@@ -147,3 +148,159 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
 
         params = {'version': self.version}
         return self._image_call('/v3/recognize_text', images_file, images_url, params)
+
+    def create_collection(self, name):
+        """
+        Create a new collection of images to search. You can create a maximum of 5 collections.
+
+        :param name:   The name of the new collection. The name can be a maximum of 128 UTF8 characters, with no spaces.
+        :return:
+        """
+
+        return self.request(method='POST', url='/v3/collections',
+                            params={'version': self.version},
+                            data={'name': name},
+                            accept_json=True)
+
+    def get_collection(self, collection_id):
+        """
+        Retrieve collection details
+        :param collection_id: a valid collection id
+        :return:
+        """
+        return self.request(method='POST', url='/v3/collections/{0}'.format(collection_id),
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def list_collections(self):
+        """
+        List all custom collections.
+        :return:
+        """
+        return self.request(method='GET', url='/v3/collections',
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def delete_collection(self, collection_id):
+        """
+        Delete a user created collection
+        :param collection_id: a valid collection id
+        :return:
+        """
+        return self.request(method='DELETE', url='/v3/collections/{0}'.format(collection_id),
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def add_image(self, collection_id, image_file, metadata=None):
+        """
+        Add an image to a collection
+        :param collection_id: a valid collection id
+        :param image_file: a file object of an image
+        :param metdata: metadata describing the image,  must be convertable to JSON
+        :return:
+        """
+        metadata = metadata or {}
+        filename = image_file.name
+        mime_type = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+        return self.request(method='POST', url='/v3/collections/{0}/images'.format(collection_id),
+                            params={'version': self.version},
+                            files={'images_file': (filename, image_file, mime_type),
+                                   'metadata' : ('metadata.json', json.dumps(metadata), 'application/json')},
+                            accept_json=True)
+
+    def list_images(self, collection_id):
+        """
+        list images in a given collection
+        :param collection_id:  valid collection id
+        :return:
+        """
+        return self.request(method='GET', url='/v3/collections/{0}/images'.format(collection_id),
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def get_image(self, collection_id, image_id):
+        """
+        Get an image from a collection
+        :param collection_id: valid collection id
+        :param image_id: valid image id
+        :return:
+        """
+        return self.request(method='GET', url='/v3/collections/{0}/images/{1}'.format(collection_id, image_id),
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def delete_image(self, collection_id, image_id):
+        """
+        delete the specified image
+        :param collection_id: valid collection id
+        :param image_id: valid image id
+        :return:
+        """
+        return self.request(method='DELETE', url='/v3/collections/{0}/images/{1}'.format(collection_id, image_id),
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def set_image_metadata(self, collection_id, image_id, metadata):
+        """
+        sets/overwrites the image metadata
+        :param collection_id: valid collection id
+        :param image_id: valid image id
+        :param metadata: key/value hash to set for the metadata
+        :return:
+        """
+        return self.request(method='PUT', url='/v3/collections/{0}/images/{1}/metadata'.format(collection_id, image_id),
+                            params={'version': self.version},
+                            files={'metadata': ('metadata.json', json.dumps(metadata), 'application/json')},
+                            accept_json=True)
+
+    def get_image_metadata(self, collection_id, image_id):
+        """
+        Return image metadata
+        :param collection_id: valid collection id
+        :param image_id: valid image id
+        :return:
+        """
+        return self.request(method='GET', url='/v3/collections/{0}/images/{1}/metadata'.format(collection_id, image_id),
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def delete_image_metadata(self, collection_id, image_id):
+        """
+        Delete image metadata
+        :param collection_id: valid collection id
+        :param image_id: valid image id
+        :return:
+        """
+        return self.request(method='DELETE', url='/v3/collections/{0}/images/{1}/metadata'.format(collection_id, image_id),
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def find_similar(self, collection_id, image_file, limit=10):
+        """
+        find similar images
+        :param collection_id: valid collection id
+        :param image_file: image file to use for searching
+        :param limit: number of returned results (default is 10)
+        :return:
+        {
+           "similar_images":[
+             {
+              "image_id":"dresses_1257263",
+              "created":"2016-09-04T21:49:16.908Z",
+              "metadata":{
+                "weight":10,
+                "cut":"a line",
+                "color":"red"
+               },
+               "score":"0.79"
+             }
+            ],
+           "image_file":"red_dress.jpg",
+           "images_processed": 1
+        }
+        """
+        mime_type = mimetypes.guess_type(image_file.name)[0] or 'application/octet-stream'
+        return self.request(method='POST', url='/v3/collections/{0}/find_similar'.format(collection_id),
+                            params={'version': self.version, 'limit': limit},
+                            files={'image_file': (image_file.name, image_file, mime_type)},
+                            accept_json=True)
