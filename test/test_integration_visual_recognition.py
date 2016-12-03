@@ -1,3 +1,4 @@
+import pytest
 import watson_developer_cloud
 import os
 from os.path import join, dirname
