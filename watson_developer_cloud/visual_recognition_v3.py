@@ -159,7 +159,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
 
         return self.request(method='POST', url='/v3/collections',
                             params={'version': self.version},
-                            data={'name': name},
+                            files={'name': (None, name)},
                             accept_json=True)
 
     def get_collection(self, collection_id):
@@ -204,7 +204,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         mime_type = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
         return self.request(method='POST', url='/v3/collections/{0}/images'.format(collection_id),
                             params={'version': self.version},
-                            files={'images_file': (filename, image_file, mime_type),
+                            files={'image_file': (filename, image_file, mime_type),
                                    'metadata' : ('metadata.json', json.dumps(metadata), 'application/json')},
                             accept_json=True)
 
