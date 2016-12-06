@@ -258,7 +258,7 @@ class WatsonDeveloperCloudService(object):
         if self.api_key is not None:
             if params is None:
                 params = {}
-            if url.startswith('https://gateway-a.watsonplatform.net/calls'):
+            if full_url.startswith('https://gateway-a.watsonplatform.net/calls'):
                 params['apikey'] = self.api_key
             else:
                 params['api_key'] = self.api_key
