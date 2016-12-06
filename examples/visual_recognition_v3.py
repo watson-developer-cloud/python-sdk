@@ -36,6 +36,7 @@ with open(join(dirname(__file__), '../resources/text.png'), 'rb') as image_file:
 with open(join(dirname(__file__), '../resources/face.jpg'), 'rb') as image_file:
     print(json.dumps(visual_recognition.detect_faces(images_file=image_file), indent=2))
 
-with open(join(dirname(__file__), '../resources/face.jpg'), 'rb') as image_file:
-    print(json.dumps(visual_recognition.find_similar(collection_id="YOUR_COLLECTION_ID", image_file=image_file), indent=2))
+# with open(join(dirname(__file__), '../resources/face.jpg'), 'rb') as image_file:
+#     print(json.dumps(visual_recognition.find_similar(collection_id="YOUR_COLLECTION_ID", image_file=image_file),
+#                      indent=2))
 
