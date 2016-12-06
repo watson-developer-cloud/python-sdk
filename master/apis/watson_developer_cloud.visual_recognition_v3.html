@@ -17,7 +17,8 @@
         VERSION:     '0.22.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
@@ -26,7 +27,6 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="top" title="Watson Developer Cloud Python SDK 0.22.0 documentation" href="../index.html" />
     <link rel="prev" title="watson_developer_cloud.tradeoff_analytics_v1 module" href="watson_developer_cloud.tradeoff_analytics_v1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -129,6 +129,148 @@
 :param images_file: An image file or zip file of image files to analyze.
 :param images_url: The url for an image file or zip file of images to analyze.
 :return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_collection">
+<code class="descname">create_collection</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.create_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new collection of images to search. You can create a maximum of 5 collections.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; The name of the new collection. The name can be a maximum of 128 UTF8 characters, with no spaces.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_collection">
+<code class="descname">get_collection</code><span class="sig-paren">(</span><em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve collection details
+:param collection_id: a valid collection id
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_collections">
+<code class="descname">list_collections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.list_collections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_collections" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all custom collections.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_collection">
+<code class="descname">delete_collection</code><span class="sig-paren">(</span><em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.delete_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a user created collection
+:param collection_id: a valid collection id
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.add_image">
+<code class="descname">add_image</code><span class="sig-paren">(</span><em>collection_id</em>, <em>image_file</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.add_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.add_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an image to a collection
+:param collection_id: a valid collection id
+:param image_file: a file object of an image
+:param metdata: metadata describing the image,  must be convertable to JSON
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_images">
+<code class="descname">list_images</code><span class="sig-paren">(</span><em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.list_images"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_images" title="Permalink to this definition">¶</a></dt>
+<dd><p>list images in a given collection
+:param collection_id:  valid collection id
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_image">
+<code class="descname">get_image</code><span class="sig-paren">(</span><em>collection_id</em>, <em>image_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an image from a collection
+:param collection_id: valid collection id
+:param image_id: valid image id
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_image">
+<code class="descname">delete_image</code><span class="sig-paren">(</span><em>collection_id</em>, <em>image_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.delete_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>delete the specified image
+:param collection_id: valid collection id
+:param image_id: valid image id
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.set_image_metadata">
+<code class="descname">set_image_metadata</code><span class="sig-paren">(</span><em>collection_id</em>, <em>image_id</em>, <em>metadata</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.set_image_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.set_image_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets/overwrites the image metadata
+:param collection_id: valid collection id
+:param image_id: valid image id
+:param metadata: key/value hash to set for the metadata
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_image_metadata">
+<code class="descname">get_image_metadata</code><span class="sig-paren">(</span><em>collection_id</em>, <em>image_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_image_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_image_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return image metadata
+:param collection_id: valid collection id
+:param image_id: valid image id
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_image_metadata">
+<code class="descname">delete_image_metadata</code><span class="sig-paren">(</span><em>collection_id</em>, <em>image_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.delete_image_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_image_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete image metadata
+:param collection_id: valid collection id
+:param image_id: valid image id
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.find_similar">
+<code class="descname">find_similar</code><span class="sig-paren">(</span><em>collection_id</em>, <em>image_file</em>, <em>limit=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.find_similar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.find_similar" title="Permalink to this definition">¶</a></dt>
+<dd><p>find similar images
+:param collection_id: valid collection id
+:param image_file: image file to use for searching
+:param limit: number of returned results (default is 10)
+:return:
+{</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>&#8220;similar_images&#8221;:[</dt>
+<dd><blockquote class="first">
+<div><dl class="docutils">
+<dt>{</dt>
+<dd><p class="first">&#8220;image_id&#8221;:&#8221;dresses_1257263&#8221;,
+&#8220;created&#8221;:&#8221;2016-09-04T21:49:16.908Z&#8221;,
+&#8220;metadata&#8221;:{</p>
+<blockquote class="last">
+<div><blockquote>
+<div>&#8220;weight&#8221;:10,
+&#8220;cut&#8221;:&#8221;a line&#8221;,
+&#8220;color&#8221;:&#8221;red&#8221;</div></blockquote>
+<p>},
+&#8220;score&#8221;:&#8221;0.79&#8221;</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p class="last">],</p>
+</dd>
+</dl>
+<p>&#8220;image_file&#8221;:&#8221;red_dress.jpg&#8221;,
+&#8220;images_processed&#8221;: 1</p>
+</div></blockquote>
+<p>}</p>
 </dd></dl>
 
 </dd></dl>

@@ -17,7 +17,8 @@
         VERSION:     '0.22.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,6 @@
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="Watson Developer Cloud Python SDK 0.22.0 documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -61,6 +60,7 @@
 <span class="sd">The v3 Visual Recognition service</span>
 <span class="sd">(https://www.ibm.com/watson/developercloud/visual-recognition.html)</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">mimetypes</span>
 
 <span class="kn">from</span> <span class="nn">.watson_developer_cloud_service</span> <span class="k">import</span> <span class="n">WatsonDeveloperCloudService</span>
@@ -192,7 +192,163 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_image_call</span><span class="p">(</span><span class="s1">&#39;/v3/recognize_text&#39;</span><span class="p">,</span> <span class="n">images_file</span><span class="p">,</span> <span class="n">images_url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_image_call</span><span class="p">(</span><span class="s1">&#39;/v3/recognize_text&#39;</span><span class="p">,</span> <span class="n">images_file</span><span class="p">,</span> <span class="n">images_url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.create_collection"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_collection">[docs]</a>    <span class="k">def</span> <span class="nf">create_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new collection of images to search. You can create a maximum of 5 collections.</span>
+
+<span class="sd">        :param name:   The name of the new collection. The name can be a maximum of 128 UTF8 characters, with no spaces.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections&#39;</span><span class="p">,</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">)},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.get_collection"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_collection">[docs]</a>    <span class="k">def</span> <span class="nf">get_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve collection details</span>
+<span class="sd">        :param collection_id: a valid collection id</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.list_collections"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_collections">[docs]</a>    <span class="k">def</span> <span class="nf">list_collections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List all custom collections.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections&#39;</span><span class="p">,</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.delete_collection"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_collection">[docs]</a>    <span class="k">def</span> <span class="nf">delete_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete a user created collection</span>
+<span class="sd">        :param collection_id: a valid collection id</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.add_image"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.add_image">[docs]</a>    <span class="k">def</span> <span class="nf">add_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">image_file</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add an image to a collection</span>
+<span class="sd">        :param collection_id: a valid collection id</span>
+<span class="sd">        :param image_file: a file object of an image</span>
+<span class="sd">        :param metdata: metadata describing the image,  must be convertable to JSON</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">image_file</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">mime_type</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;application/octet-stream&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">/images&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;image_file&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">image_file</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">),</span>
+                                   <span class="s1">&#39;metadata&#39;</span> <span class="p">:</span> <span class="p">(</span><span class="s1">&#39;metadata.json&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.list_images"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_images">[docs]</a>    <span class="k">def</span> <span class="nf">list_images</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        list images in a given collection</span>
+<span class="sd">        :param collection_id:  valid collection id</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">/images&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.get_image"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_image">[docs]</a>    <span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get an image from a collection</span>
+<span class="sd">        :param collection_id: valid collection id</span>
+<span class="sd">        :param image_id: valid image id</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">/images/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.delete_image"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_image">[docs]</a>    <span class="k">def</span> <span class="nf">delete_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        delete the specified image</span>
+<span class="sd">        :param collection_id: valid collection id</span>
+<span class="sd">        :param image_id: valid image id</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">/images/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.set_image_metadata"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.set_image_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">set_image_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        sets/overwrites the image metadata</span>
+<span class="sd">        :param collection_id: valid collection id</span>
+<span class="sd">        :param image_id: valid image id</span>
+<span class="sd">        :param metadata: key/value hash to set for the metadata</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">/images/</span><span class="si">{1}</span><span class="s1">/metadata&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;metadata.json&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.get_image_metadata"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_image_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_image_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return image metadata</span>
+<span class="sd">        :param collection_id: valid collection id</span>
+<span class="sd">        :param image_id: valid image id</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">/images/</span><span class="si">{1}</span><span class="s1">/metadata&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.delete_image_metadata"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_image_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">delete_image_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete image metadata</span>
+<span class="sd">        :param collection_id: valid collection id</span>
+<span class="sd">        :param image_id: valid image id</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">/images/</span><span class="si">{1}</span><span class="s1">/metadata&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">,</span> <span class="n">image_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3.find_similar"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.find_similar">[docs]</a>    <span class="k">def</span> <span class="nf">find_similar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">image_file</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        find similar images</span>
+<span class="sd">        :param collection_id: valid collection id</span>
+<span class="sd">        :param image_file: image file to use for searching</span>
+<span class="sd">        :param limit: number of returned results (default is 10)</span>
+<span class="sd">        :return:</span>
+<span class="sd">        {</span>
+<span class="sd">           &quot;similar_images&quot;:[</span>
+<span class="sd">             {</span>
+<span class="sd">              &quot;image_id&quot;:&quot;dresses_1257263&quot;,</span>
+<span class="sd">              &quot;created&quot;:&quot;2016-09-04T21:49:16.908Z&quot;,</span>
+<span class="sd">              &quot;metadata&quot;:{</span>
+<span class="sd">                &quot;weight&quot;:10,</span>
+<span class="sd">                &quot;cut&quot;:&quot;a line&quot;,</span>
+<span class="sd">                &quot;color&quot;:&quot;red&quot;</span>
+<span class="sd">               },</span>
+<span class="sd">               &quot;score&quot;:&quot;0.79&quot;</span>
+<span class="sd">             }</span>
+<span class="sd">            ],</span>
+<span class="sd">           &quot;image_file&quot;:&quot;red_dress.jpg&quot;,</span>
+<span class="sd">           &quot;images_processed&quot;: 1</span>
+<span class="sd">        }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mime_type</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">image_file</span><span class="o">.</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;application/octet-stream&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/collections/</span><span class="si">{0}</span><span class="s1">/find_similar&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">collection_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span> <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="n">limit</span><span class="p">},</span>
+                            <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;image_file&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">image_file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">image_file</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

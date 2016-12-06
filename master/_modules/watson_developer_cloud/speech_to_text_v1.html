@@ -17,7 +17,8 @@
         VERSION:     '0.22.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
@@ -26,8 +27,6 @@
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="top" title="Watson Developer Cloud Python SDK 0.22.0 documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -63,7 +62,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">.watson_developer_cloud_service</span> <span class="k">import</span> <span class="n">WatsonDeveloperCloudService</span>
-
+<span class="kn">import</span> <span class="nn">json</span>
 
 <div class="viewcode-block" id="SpeechToTextV1"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1">[docs]</a><span class="k">class</span> <span class="nc">SpeechToTextV1</span><span class="p">(</span><span class="n">WatsonDeveloperCloudService</span><span class="p">):</span>
     <span class="n">default_url</span> <span class="o">=</span> <span class="s2">&quot;https://stream.watsonplatform.net/speech-to-text/api&quot;</span>
@@ -107,7 +106,23 @@
 <span class="sd">        :param model_id: The identifier of the desired model</span>
 <span class="sd">        :return: A single instance of a Model object with results for the specified model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/models/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_id</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/models/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model_id</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpeechToTextV1.create_custom_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_custom_model">[docs]</a>    <span class="k">def</span> <span class="nf">create_custom_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">base_model</span><span class="o">=</span><span class="s2">&quot;en-US_BroadbandModel&quot;</span><span class="p">):</span>
+
+        <span class="n">json_body</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span> <span class="s1">&#39;base_model_name&#39;</span><span class="p">:</span> <span class="n">base_model</span><span class="p">})</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/customizations&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;content-type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">},</span>
+                            <span class="n">data</span><span class="o">=</span><span class="n">json_body</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SpeechToTextV1.list_custom_models"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_custom_models">[docs]</a>    <span class="k">def</span> <span class="nf">list_custom_models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/customizations&#39;</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpeechToTextV1.get_custom_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_custom_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_custom_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">modelid</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SpeechToTextV1.delete_custom_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_custom_model">[docs]</a>    <span class="k">def</span> <span class="nf">delete_custom_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modelid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">modelid</span><span class="p">),</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
