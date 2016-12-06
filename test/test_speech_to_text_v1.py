@@ -34,8 +34,19 @@ def test_success():
         speech_to_text.recognize(
             audio_file, content_type='audio/l16; rate=44100')
 
-    assert responses.calls[
-        1].request.url == recognize_url + '?continuous=false'
+    request_url = responses.calls[1].request.url
+    assert request_url == recognize_url + '?continuous=false'
     assert responses.calls[1].response.text == recognize_response
 
     assert len(responses.calls) == 2
+
+@responses.activate
+def test_get_model():
+    model_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/models/modelid'
+    responses.add(responses.GET, model_url,
+                  body='{"bogus_response": "yep"}', status=200,
+                  content_type='application/json')
+    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+        username="username", password="password")
+    speech_to_text.get_model(model_id='modelid')
+    assert len(responses.calls) == 1
