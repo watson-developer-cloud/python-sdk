@@ -14,7 +14,7 @@ visual_recognition = VisualRecognitionV3('2016-05-20', api_key='YOUR API KEY')
 
 with open(join(dirname(__file__), '../resources/car.jpg'), 'rb') as image_file:
     print(json.dumps(visual_recognition.classify(images_file=image_file, threshold=0.1,
-                                                 classifier_ids=['CarsvsTrucks_1675727418', 'default']), indent=2))
+                                                 classifier_ids=['CarsvsTrucks_1479118188', 'default']), indent=2))
 
 # print(json.dumps(visual_recognition.get_classifier('YOUR CLASSIFIER ID'), indent=2))
 
