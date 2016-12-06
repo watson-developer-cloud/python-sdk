@@ -37,7 +37,7 @@ try:
     read_md = lambda f: convert(f, 'rst')
 except ImportError:
     print('warning: pypandoc module not found, could not convert Markdown to RST')
-    read_md = lambda f: open(f, 'rb').read()
+    read_md = lambda f: open(f, 'rb').read().decode(encoding='utf-8')
 
 
 class PyTest(TestCommand):
