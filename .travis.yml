@@ -1,7 +1,10 @@
 language: python
-sudo: false
+sudo: true
 notifications:
   email: false
+addons:
+  apt_packages:
+    - pandoc
 python:
 - '2.7'
 - '3.3'
