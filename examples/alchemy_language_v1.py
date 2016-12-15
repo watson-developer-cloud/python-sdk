@@ -38,8 +38,8 @@ print(json.dumps(
 combined_operations = ['page-image', 'entity', 'keyword', 'title', 'author',
                        'taxonomy', 'concept', 'doc-emotion']
 print(
-json.dumps(alchemy_language.combined(url=url, extract=combined_operations),
-           indent=2))
+    json.dumps(alchemy_language.combined(url=url, extract=combined_operations),
+               indent=2))
 
 # Get sentiment and emotion information results for detected entities/keywords:
 # print(json.dumps(alchemy_language.entities(url=url, sentiment=True,

@@ -16,7 +16,8 @@ language_translator = LanguageTranslatorV2(
 print(json.dumps(language_translator.get_models(), indent=2))
 
 print(
-json.dumps(language_translator.get_model('en-es-conversational'), indent=2))
+    json.dumps(language_translator.get_model('en-es-conversational'),
+               indent=2))
 
 # delete custom model
 # print(json.dumps(language_translator.delete_model(

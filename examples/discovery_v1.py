@@ -1,6 +1,5 @@
 # coding=utf-8
 import watson_developer_cloud
-import os, json
 
 discovery = watson_developer_cloud.DiscoveryV1(
     '2016-11-07',

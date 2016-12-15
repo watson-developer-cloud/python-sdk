@@ -17,8 +17,8 @@ with open(join(dirname(__file__), '../resources/output.wav'),
                                   voice="en-US_AllisonVoice"))
 
 print(
-json.dumps(text_to_speech.pronunciation('Watson', pronunciation_format='spr'),
-           indent=2))
+    json.dumps(text_to_speech.pronunciation(
+        'Watson', pronunciation_format='spr'), indent=2))
 
 print(json.dumps(text_to_speech.customizations(), indent=2))
 
