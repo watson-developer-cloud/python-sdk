@@ -29,7 +29,8 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
 
     def recognize(self, audio, content_type, continuous=False, model=None,
                   inactivity_timeout=None,
-                  keywords=None, keywords_threshold=None, max_alternatives=None,
+                  keywords=None, keywords_threshold=None,
+                  max_alternatives=None,
                   word_alternatives_threshold=None,
                   word_confidence=None, timestamps=None, interim_results=None,
                   profanity_filter=None,
@@ -51,7 +52,8 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                   'profanity_filter': profanity_filter,
                   'smart_formatting': smart_formatting}
 
-        return self.request(method='POST', url='/v1/recognize', headers=headers,
+        return self.request(method='POST', url='/v1/recognize',
+                            headers=headers,
                             data=audio, params=params,
                             stream=True, accept_json=True)
 
@@ -67,7 +69,8 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         :return: A single instance of a Model object with results for the
         specified model.
         """
-        return self.request(method='GET', url='/v1/models/{0}'.format(model_id),
+        return self.request(method='GET',
+                            url='/v1/models/{0}'.format(model_id),
                             accept_json=True)
 
     def create_custom_model(self, name, description="",

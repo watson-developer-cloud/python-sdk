@@ -55,8 +55,8 @@ class DocumentConversionV1(WatsonDeveloperCloudService):
                 'one of those is'
                 'required.')
         params = {'version': self.version}
-        files = [
-            ('config', ('config.json', json.dumps(config), 'application/json'))]
+        files = [('config', ('config.json', json.dumps(config),
+                             'application/json'))]
         if document is not None:
             filename = os.path.basename(document.name)
             file_tuple = (filename, document, media_type)\

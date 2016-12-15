@@ -53,7 +53,8 @@ class LanguageTranslatorV2(WatsonDeveloperCloudService):
                      monolingual_corpus=None):
         if forced_glossary is None and parallel_corpus is None and \
                         monolingual_corpus is None:
-            raise WatsonInvalidArgument('A glossary or corpus must be provided')
+            raise WatsonInvalidArgument(
+                'A glossary or corpus must be provided')
         params = {'name': name,
                   'base_model_id': base_model_id}
         files = {'forced_glossary': forced_glossary,
@@ -63,7 +64,8 @@ class LanguageTranslatorV2(WatsonDeveloperCloudService):
                             files=files, accept_json=True)
 
     def get_model(self, model_id):
-        return self.request(method='GET', url='/v2/models/{0}'.format(model_id),
+        return self.request(method='GET',
+                            url='/v2/models/{0}'.format(model_id),
                             accept_json=True)
 
     def delete_model(self, model_id):

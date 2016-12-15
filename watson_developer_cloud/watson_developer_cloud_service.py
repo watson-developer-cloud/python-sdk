@@ -126,7 +126,7 @@ class WatsonDeveloperCloudService(object):
                     self.api_key = self.vcap_service_credentials['api_key']
 
         if (
-                self.username is None or self.password is None) and \
+                        self.username is None or self.password is None) and \
                         self.api_key is None:
             raise WatsonException(
                 'You must specify your username and password service '
@@ -253,9 +253,8 @@ class WatsonDeveloperCloudService(object):
                             data=image_contents, headers=headers,
                             accept_json=True)
 
-    def request(self, method, url, accept_json=False, headers=None, params=None,
-                json=None, data=None, files=None,
-                **kwargs):
+    def request(self, method, url, accept_json=False, headers=None,
+                params=None, json=None, data=None, files=None, **kwargs):
         full_url = self.url + url
 
         input_headers = _remove_null_values(headers) if headers else {}

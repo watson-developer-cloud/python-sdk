@@ -27,9 +27,8 @@ class NaturalLanguageClassifierV1(WatsonDeveloperCloudService):
                   '-classifier/api'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self,
-                                             'natural_language_classifier', url,
-                                             **kwargs)
+        WatsonDeveloperCloudService.__init__(
+            self, 'natural_language_classifier', url, **kwargs)
 
     def create(self, training_data, name=None, language='en'):
         """

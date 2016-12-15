@@ -43,12 +43,14 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
 
     def delete_solr_cluster(self, solr_cluster_id):
         return self.request(method='DELETE',
-                            url='/v1/solr_clusters/{0}'.format(solr_cluster_id),
+                            url='/v1/solr_clusters/{0}'.format(
+                                solr_cluster_id),
                             accept_json=True)
 
     def get_solr_cluster_status(self, solr_cluster_id):
         return self.request(method='GET',
-                            url='/v1/solr_clusters/{0}'.format(solr_cluster_id),
+                            url='/v1/solr_clusters/{0}'.format(
+                                solr_cluster_id),
                             accept_json=True)
 
     def list_configs(self, solr_cluster_id):
@@ -85,7 +87,8 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
                             params=params, accept_json=True)
 
     def create_collection(self, solr_cluster_id, collection_name, config_name):
-        params = {'collection.configName': config_name, 'name': collection_name,
+        params = {'collection.configName': config_name,
+                  'name': collection_name,
                   'action': 'CREATE', 'wt': 'json'}
         return self.request(method='POST',
                             url='/v1/solr_clusters/{0}/solr/admin/collections'
@@ -113,7 +116,8 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
         if name:
             data = {'training_metadata': json.dumps({'name': name})}
         return self.request(method='POST', url='/v1/rankers', accept_json=True,
-                            files=[('training_data', training_data)], data=data)
+                            files=[('training_data', training_data)],
+                            data=data)
 
     def list_rankers(self):
         return self.request(method='GET', url='/v1/rankers', accept_json=True)

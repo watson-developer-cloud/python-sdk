@@ -12,9 +12,8 @@ document_conversion = DocumentConversionV1(
 with open(join(dirname(__file__), '../resources/example.html'),
           'r') as document:
     config = {'conversion_target': DocumentConversionV1.NORMALIZED_HTML}
-    print(document_conversion.convert_document(document=document, config=config,
-                                               media_type='text/html')
-          .content)
+    print(document_conversion.convert_document(
+        document=document, config=config, media_type='text/html').content)
 
 # Example with JSON
 with open(join(dirname(__file__), '../resources/example.html'),
@@ -26,8 +25,8 @@ with open(join(dirname(__file__), '../resources/example.html'),
 
 # Examples of index_document API
 print(
-"########## Example of a dry run of index_document with only a document "
-"##########")
+    "########## Example of a dry run of index_document with only a document "
+    "##########")
 with open(join(dirname(__file__), '../resources/example.html'),
           'r') as document:
     config = {
@@ -40,8 +39,8 @@ with open(join(dirname(__file__), '../resources/example.html'),
         indent=2))
 
 print(
-"########## Example of a dry run of index_document with only metadata "
-"##########")
+    "########## Example of a dry run of index_document with only metadata "
+    "##########")
 config = {
     'retrieve_and_rank': {
         'dry_run': 'true'
@@ -53,12 +52,14 @@ metadata = {
     ]
 }
 print(
-json.dumps(document_conversion.index_document(config=config, metadata=metadata),
-           indent=2))
+    json.dumps(
+        document_conversion.index_document(config=config, metadata=metadata),
+        indent=2))
 
 print(
-"########## Example of a dry run of index_document with document and metadata "
-"##########")
+    "########## Example of a dry run of index_document with document and "
+    "metadata "
+    "##########")
 with open(join(dirname(__file__), '../resources/example.html'),
           'r') as document:
     config = {
@@ -76,9 +77,10 @@ with open(join(dirname(__file__), '../resources/example.html'),
                                            metadata=metadata), indent=2))
 
 print(
-"########## Example of a dry run of index_document with document, metadata, "
-"and additional config for conversion"
-"##########")
+    "########## Example of a dry run of index_document with document, "
+    "metadata, "
+    "and additional config for conversion"
+    "##########")
 with open(join(dirname(__file__), '../resources/example.html'),
           'r') as document:
     config = {

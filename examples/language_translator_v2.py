@@ -7,10 +7,11 @@ language_translator = LanguageTranslatorV2(
     password='YOUR SERVICE PASSWORD')
 
 # create new custom model
-# with open('../resources/language_translator_model.tmx', 'rb') as custom_model:
+# with open('../resources/language_translator_model.tmx', 'rb') as \
+#         custom_model:
 #     print(json.dumps(language_translator.create_model(
 #         base_model_id='en-fr', name='test_glossary',
-# forced_glossary=custom_model), indent=2))
+#         forced_glossary=custom_model), indent=2))
 
 print(json.dumps(language_translator.get_models(), indent=2))
 
@@ -26,9 +27,10 @@ print(json.dumps(
                                   target='en'), indent=2,
     ensure_ascii=False))
 
-print(json.dumps(language_translator.translate('Messi is the best ever',
-                                               model_id='en-es-conversational'),
-                 indent=2))
+print(json.dumps(
+    language_translator.translate('Messi is the best ever',
+                                  model_id='en-es-conversational'),
+    indent=2))
 
 print(json.dumps(language_translator.identify('Hello how are you?'), indent=2))
 

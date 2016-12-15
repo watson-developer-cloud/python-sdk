@@ -2,9 +2,10 @@
 import watson_developer_cloud
 import os, json
 
-discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                               username='YOUR SERVICE USERNAME',
-                                               password='YOUR SERVICE PASSWORD')
+discovery = watson_developer_cloud.DiscoveryV1(
+    '2016-11-07',
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 environments = discovery.get_environments()
 news_environments = [x for x in environments['environments'] if

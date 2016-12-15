@@ -25,7 +25,8 @@ class AlchemyVisionV1(WatsonDeveloperCloudService):
     default_url = 'https://gateway-a.watsonplatform.net/calls'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url,
+                                             **kwargs)
         print(
             'WARNING: The AlchemyVision service was deprecated, '
             'use VisualRecognitionV3 instead')

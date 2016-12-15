@@ -23,7 +23,8 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
     default_url = 'https://gateway-a.watsonplatform.net/calls'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url,
+                                             **kwargs)
 
     def author(self, html=None, url=None, language=None):
         params = {'language': language}
@@ -50,7 +51,8 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         if not max_items:
             max_items = max_keywords
         params = {
-            'keywordExtractMode': 'strict' if strict_extract_mode else 'normal',
+            'keywordExtractMode': 'strict' if strict_extract_mode else
+            'normal',
             'sentiment': sentiment,
             'emotion': emotion,
             'showSourceText': show_source_text,
@@ -153,7 +155,8 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         return self._alchemy_html_request('GetLanguage', html=html, text=text,
                                           url=url)
 
-    def text(self, html=None, url=None, use_metadata=True, extract_links=False):
+    def text(self, html=None, url=None, use_metadata=True,
+             extract_links=False):
         params = {'useMetadata': use_metadata,
                   'extractLinks': extract_links}
         return self._alchemy_html_request('GetText', html=html, url=url,

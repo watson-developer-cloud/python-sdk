@@ -23,7 +23,8 @@ class AlchemyDataNewsV1(WatsonDeveloperCloudService):
     default_url = 'https://gateway-a.watsonplatform.net/calls'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url,
+                                             **kwargs)
 
     def get_news_documents(self, start, end, max_results=10, query_fields=None,
                            return_fields=None, time_slice=None,

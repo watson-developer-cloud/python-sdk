@@ -128,7 +128,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
                             0] or 'application/octet-stream'
             return self.request(method='POST', url=url,
                                 files={'images_file': (
-                                filename, images_file, mime_type)},
+                                    filename, images_file, mime_type)},
                                 params=params,
                                 accept_json=True)
 
@@ -136,7 +136,8 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
                  owners=None, threshold=None):
         """
         Returns a list of classification scores for one or more input images.
-        :param images_file: An image file or zip file of image files to analyze.
+        :param images_file: An image file or zip file of image files to
+        analyze.
         :param images_url: The url for an image file or zip file of images to
         analyze.
         :param classifier_ids: The ids of classifiers to consider. When
@@ -151,13 +152,15 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
 
         params = {'version': self.version, 'classifier_ids': classifier_ids,
                   'owners': owners, 'threshold': threshold}
-        return self._image_call('/v3/classify', images_file, images_url, params)
+        return self._image_call('/v3/classify', images_file, images_url,
+                                params)
 
     def detect_faces(self, images_file=None, images_url=None):
         """
         Returns a list of faces detected.  This includes identities for
         famous people.
-        :param images_file: An image file or zip file of image files to analyze.
+        :param images_file: An image file or zip file of image files to
+        analyze.
         :param images_url: The url for an image file or zip file of images to
         analyze.
         :return:
@@ -170,7 +173,8 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
     def recognize_text(self, images_file=None, images_url=None):
         """
         Returns a list of recognized text
-        :param images_file: An image file or zip file of image files to analyze.
+        :param images_file: An image file or zip file of image files to
+        analyze.
         :param images_url: The url for an image file or zip file of images to
         analyze.
         :return:
@@ -244,7 +248,8 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
                                 collection_id),
                             params={'version': self.version},
                             files={
-                                'image_file': (filename, image_file, mime_type),
+                                'image_file': (
+                                filename, image_file, mime_type),
                                 'metadata': (
                                     'metadata.json', json.dumps(metadata),
                                     'application/json')},

@@ -81,7 +81,7 @@ class PersonalityInsightsV3(WatsonDeveloperCloudService):
             'csv_headers': csv_headers
         }
 
-        return self.request(method='POST', url='/v3/profile', data=text,
-                            params=params, headers=headers,
-                            accept_json=(
-                            accept is None or accept == 'application/json'))
+        return self.request(
+            method='POST', url='/v3/profile', data=text, params=params,
+            headers=headers,
+            accept_json=(accept is None or accept == 'application/json'))
