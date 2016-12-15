@@ -62,7 +62,9 @@
 <span class="sd">retrieve a temporary access token</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">watson_developer_cloud.watson_developer_cloud_service</span> <span class="k">import</span> <span class="n">WatsonDeveloperCloudService</span>
+<span class="kn">from</span> <span class="nn">watson_developer_cloud.watson_developer_cloud_service</span> <span class="k">import</span> \
+    <span class="n">WatsonDeveloperCloudService</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">urllib.parse</span> <span class="k">as</span> <span class="nn">urlparse</span>  <span class="c1"># Python 3</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -70,10 +72,11 @@
 
 
 <div class="viewcode-block" id="AuthorizationV1"><a class="viewcode-back" href="../../apis/watson_developer_cloud.authorization_v1.html#watson_developer_cloud.authorization_v1.AuthorizationV1">[docs]</a><span class="k">class</span> <span class="nc">AuthorizationV1</span><span class="p">(</span><span class="n">WatsonDeveloperCloudService</span><span class="p">):</span>
-
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates tokens, which can be used client-side to avoid exposing the service credentials.</span>
-<span class="sd">    Tokens are valid for 1 hour and are sent using the `X-Watson-Authorization-Token` header.</span>
+<span class="sd">    Generates tokens, which can be used client-side to avoid exposing the</span>
+<span class="sd">    service credentials.</span>
+<span class="sd">    Tokens are valid for 1 hour and are sent using the</span>
+<span class="sd">    `X-Watson-Authorization-Token` header.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">default_url</span> <span class="o">=</span> <span class="s2">&quot;https://stream.watsonplatform.net/authorization/api&quot;</span>
 

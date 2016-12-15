@@ -173,20 +173,28 @@
 <dd><p class="first">where to obtain the text that will be processed by this API call.
 AlchemyAPI supports multiple modes of text extraction:</p>
 <blockquote>
-<div>web page cleaning (removes ads, navigation links, etc.), raw text extraction
-(processes all web page text, including ads / nav links), visual constraint queries, and XPath queries.</div></blockquote>
+<div>web page cleaning (removes ads, navigation links, etc.),
+raw text extraction
+(processes all web page text, including ads / nav links),
+visual constraint queries, and XPath queries.</div></blockquote>
 <dl class="last docutils">
 <dt>Possible values:</dt>
-<dd><p class="first">cleaned_or_raw  : cleaning enabled, fallback to raw when cleaning produces no text (default)
-cleaned         : operate on &#8216;cleaned&#8217; web page text (web page cleaning enabled)
-raw             : operate on raw web page text (web page cleaning disabled)
-cquery          : operate on the results of a visual constraints query</p>
+<dd><p class="first">cleaned_or_raw  : cleaning enabled, fallback to raw when
+cleaning produces no text (default)
+cleaned         : operate on &#8216;cleaned&#8217; web page text (web
+page cleaning enabled)
+raw             : operate on raw web page text (web page
+cleaning disabled)
+cquery          : operate on the results of a visual
+constraints query</p>
 <blockquote>
-<div>Note: The &#8216;constraint_query&#8217;  argument must also be set to a valid visual constraints
+<div>Note: The &#8216;constraint_query&#8217;  argument must
+also be set to a valid visual constraints
 query.</div></blockquote>
 <dl class="last docutils">
 <dt>xpath</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">operate on the results of an XPath query</span><dd>Note: The &#8216;xpath&#8217; http argument must also be set to a valid XPath query.</dd>
+ <span class="classifier-delimiter">:</span> <span class="classifier">operate on the results of an XPath query</span><dd>Note: The &#8216;xpath&#8217; http argument must also
+be set to a valid XPath query.</dd>
 </dl>
 </dd>
 </dl>
@@ -203,12 +211,14 @@ query.</div></blockquote>
 <dl class="method">
 <dt id="watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1.combined">
 <code class="descname">combined</code><span class="sig-paren">(</span><em>html=None</em>, <em>text=None</em>, <em>url=None</em>, <em>extract=None</em>, <em>disambiguate=True</em>, <em>linked_data=True</em>, <em>coreference=True</em>, <em>quotations=False</em>, <em>sentiment=False</em>, <em>show_source_text=False</em>, <em>max_items=50</em>, <em>base_url=None</em>, <em>language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/alchemy_language_v1.html#AlchemyLanguageV1.combined"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1.combined" title="Permalink to this definition">¶</a></dt>
-<dd><p>Combined call for page-image, entity, keyword, title, author, taxonomy, concept, doc-emotion.
+<dd><p>Combined call for page-image, entity, keyword, title, author,
+taxonomy, concept, doc-emotion.
 INPUT:
 extract -&gt;</p>
 <blockquote>
 <div>List or comma separated string
-Possible values: page-image, entity, keyword, title, author, taxonomy,  concept
+Possible values: page-image, entity, keyword, title, author,
+taxonomy,  concept
 default        : entity, keyword, taxonomy,  concept</div></blockquote>
 <dl class="docutils">
 <dt>disambiguate -&gt;</dt>
@@ -247,7 +257,8 @@ Possible values:</p>
 False : disabled (default)</div></blockquote>
 </dd>
 <dt>show_source_text -&gt;</dt>
-<dd><p class="first">include the original &#8216;source text&#8217; the entities were extracted from within the API response
+<dd><p class="first">include the original &#8216;source text&#8217; the entities were extracted
+from within the API response
 Possible values:</p>
 <blockquote class="last">
 <div>True : enabled
