@@ -20,7 +20,6 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class TextToSpeechV1(WatsonDeveloperCloudService):
-
     """Client for the Text to Speech service"""
     default_url = "https://stream.watsonplatform.net/text-to-speech/api"
 
@@ -29,16 +28,20 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
         Construct an instance. Fetches service parameters from VCAP_SERVICES
         runtime variable for Bluemix, or it defaults to local URLs.
         """
-        WatsonDeveloperCloudService.__init__(self, 'text_to_speech', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'text_to_speech', url,
+                                             **kwargs)
 
     def synthesize(self, text, voice=None, accept=None, customization_id=None):
         """
-        Returns the get HTTP response by doing a POST to /synthesize with text, voice, accept
+        Returns the get HTTP response by doing a POST to /synthesize with
+        text, voice, accept
         """
-        params = {'voice': voice, 'accept': accept, 'customization_id': customization_id}
+        params = {'voice': voice, 'accept': accept,
+                  'customization_id': customization_id}
         data = {'text': text}
         response = self.request(
-            method='POST', url='/v1/synthesize', stream=True, params=params, json=data)
+            method='POST', url='/v1/synthesize', stream=True, params=params,
+            json=data)
         return response.content
 
     def voices(self):
@@ -53,17 +56,20 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
             'voice': voice,
             'format': pronunciation_format
         }
-        return self.request(method='GET', url='/v1/pronunciation', params=params, accept_json=True)
+        return self.request(method='GET', url='/v1/pronunciation',
+                            params=params, accept_json=True)
 
     def customizations(self, language=None):
         params = {
             'language': language
         }
-        return self.request(method='GET', url='/v1/customizations', params=params, accept_json=True)
+        return self.request(method='GET', url='/v1/customizations',
+                            params=params, accept_json=True)
 
     def get_customization(self, customization_id):
         customization_id = self.unpack_id(customization_id, 'customization_id')
-        return self.request(method='GET', url='/v1/customizations/{0}'.format(customization_id), accept_json=True)
+        return self.request(method='GET', url='/v1/customizations/{0}'.format(
+            customization_id), accept_json=True)
 
     def create_customization(self, name, language=None, description=None):
         body = {
@@ -71,34 +77,45 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
             'language': language,
             'description': description
         }
-        return self.request(method='POST', url='/v1/customizations', json=body, accept_json=True)
+        return self.request(method='POST', url='/v1/customizations', json=body,
+                            accept_json=True)
 
-    def update_customization(self, customization_id, name=None, description=None, words=None):
+    def update_customization(self, customization_id, name=None,
+                             description=None, words=None):
         body = {
             'name': name,
             'description': description,
             'words': words
         }
-        return self.request(method='POST', url='/v1/customizations/{0}'.format(customization_id), json=body)
+        return self.request(method='POST', url='/v1/customizations/{0}'.format(
+            customization_id), json=body)
 
     def delete_customization(self, customization_id):
         customization_id = self.unpack_id(customization_id, 'customization_id')
-        return self.request(method='DELETE', url='/v1/customizations/{0}'.format(customization_id))
+        return self.request(method='DELETE',
+                            url='/v1/customizations/{0}'.format(
+                                customization_id))
 
     def get_customization_words(self, customization_id):
         customization_id = self.unpack_id(customization_id, 'customization_id')
-        return self.request(method='GET', url='/v1/customizations/{0}/words'.format(customization_id), accept_json=True)
+        return self.request(method='GET',
+                            url='/v1/customizations/{0}/words'.format(
+                                customization_id), accept_json=True)
 
     def add_customization_words(self, customization_id, words):
         customization_id = self.unpack_id(customization_id, 'customization_id')
         body = {
             'words': words
         }
-        return self.request(method='POST', url='/v1/customizations/{0}/words'.format(customization_id), json=body)
+        return self.request(method='POST',
+                            url='/v1/customizations/{0}/words'.format(
+                                customization_id), json=body)
 
     def get_customization_word(self, customization_id, word):
         customization_id = self.unpack_id(customization_id, 'customization_id')
-        return self.request(method='GET', url='/v1/customizations/{0}/words/{1}'.format(customization_id, word),
+        return self.request(method='GET',
+                            url='/v1/customizations/{0}/words/{1}'.format(
+                                customization_id, word),
                             accept_json=True)
 
     def set_customization_word(self, customization_id, word, translation):
@@ -106,9 +123,13 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
         body = {
             'translation': translation
         }
-        return self.request(method='PUT', url='/v1/customizations/{0}/words/{1}'.format(customization_id, word),
+        return self.request(method='PUT',
+                            url='/v1/customizations/{0}/words/{1}'.format(
+                                customization_id, word),
                             json=body)
 
     def delete_customization_word(self, customization_id, word):
         customization_id = self.unpack_id(customization_id, 'customization_id')
-        return self.request(method='DELETE', url='/v1/customizations/{0}/words/{1}'.format(customization_id, word))
+        return self.request(method='DELETE',
+                            url='/v1/customizations/{0}/words/{1}'.format(
+                                customization_id, word))

@@ -19,16 +19,20 @@ The v1 Speech to Text service
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
 
+
 class SpeechToTextV1(WatsonDeveloperCloudService):
     default_url = "https://stream.watsonplatform.net/speech-to-text/api"
 
     def __init__(self, url=default_url, **kwargs):
+        WatsonDeveloperCloudService.__init__(self, 'speech_to_text', url,
+                                             **kwargs)
 
-        WatsonDeveloperCloudService.__init__(self, 'speech_to_text', url, **kwargs)
-
-    def recognize(self, audio, content_type, continuous=False, model=None, inactivity_timeout=None,
-                  keywords=None, keywords_threshold=None, max_alternatives=None, word_alternatives_threshold=None,
-                  word_confidence=None, timestamps=None, interim_results=None, profanity_filter=None,
+    def recognize(self, audio, content_type, continuous=False, model=None,
+                  inactivity_timeout=None,
+                  keywords=None, keywords_threshold=None, max_alternatives=None,
+                  word_alternatives_threshold=None,
+                  word_confidence=None, timestamps=None, interim_results=None,
+                  profanity_filter=None,
                   smart_formatting=None):
         """
         Returns the recognized text from the audio input
@@ -47,7 +51,8 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                   'profanity_filter': profanity_filter,
                   'smart_formatting': smart_formatting}
 
-        return self.request(method='POST', url='/v1/recognize', headers=headers, data=audio, params=params,
+        return self.request(method='POST', url='/v1/recognize', headers=headers,
+                            data=audio, params=params,
                             stream=True, accept_json=True)
 
     def models(self):
@@ -59,22 +64,30 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
     def get_model(self, model_id):
         """
         :param model_id: The identifier of the desired model
-        :return: A single instance of a Model object with results for the specified model.
+        :return: A single instance of a Model object with results for the
+        specified model.
         """
-        return self.request(method='GET', url='/v1/models/{0}'.format(model_id), accept_json=True)
+        return self.request(method='GET', url='/v1/models/{0}'.format(model_id),
+                            accept_json=True)
 
-    def create_custom_model(self, name, description="", base_model="en-US_BroadbandModel"):
-
-        json_body = json.dumps({'name': name, 'description': description, 'base_model_name': base_model})
-        return self.request(method='POST', url='/v1/customizations', headers={'content-type': 'application/json'},
+    def create_custom_model(self, name, description="",
+                            base_model="en-US_BroadbandModel"):
+        json_body = json.dumps({'name': name, 'description': description,
+                                'base_model_name': base_model})
+        return self.request(method='POST', url='/v1/customizations',
+                            headers={'content-type': 'application/json'},
                             data=json_body, accept_json=True)
 
-
     def list_custom_models(self):
-        return self.request(method='GET', url='/v1/customizations', accept_json=True)
+        return self.request(method='GET', url='/v1/customizations',
+                            accept_json=True)
 
     def get_custom_model(self, modelid):
-        return self.request(method='GET', url='/v1/customizations/{0}'.format(modelid), accept_json=True)
+        return self.request(method='GET',
+                            url='/v1/customizations/{0}'.format(modelid),
+                            accept_json=True)
 
     def delete_custom_model(self, modelid):
-        return self.request(method='DELETE', url='/v1/customizations/{0}'.format(modelid), accept_json=True)
+        return self.request(method='DELETE',
+                            url='/v1/customizations/{0}'.format(modelid),
+                            accept_json=True)

@@ -21,7 +21,6 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class PersonalityInsightsV2(WatsonDeveloperCloudService):
-
     """Wrapper of the Personality Insights service"""
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
 
@@ -34,11 +33,14 @@ class PersonalityInsightsV2(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(
             self, 'personality_insights', url, **kwargs)
 
-    def profile(self, text, content_type='text/plain', accept='application/json', language=None, csv_headers=False):
+    def profile(self, text, content_type='text/plain',
+                accept='application/json', language=None, csv_headers=False):
         """
-        Returns a personality profile given input text (at least 100 unique words)
+        Returns a personality profile given input text (at least 100 unique
+        words)
         content_type can be 'text/plain', 'application/json' or 'text/html'
-        if accept is set to 'text/csv', returns csv output (with a header row if csv_headers is set to True)
+        if accept is set to 'text/csv', returns csv output (with a header row
+        if csv_headers is set to True)
         """
 
         if isinstance(text, dict):
@@ -55,7 +57,8 @@ class PersonalityInsightsV2(WatsonDeveloperCloudService):
             params['headers'] = 'true'
 
         response = self.request(
-            method='POST', url='/v2/profile', data=text, params=params, headers=headers)
+            method='POST', url='/v2/profile', data=text, params=params,
+            headers=headers)
         if accept == 'application/json':
             return response.json()
         else:

@@ -5,7 +5,7 @@ try:
 except ImportError:
     from urlparse import urlparse, urljoin
 
-base_discovery_url = 'https://gateway.watsonplatform.net/discovery-experimental/api/v1/'
+base_discovery_url = 'https://gateway.watsonplatform.net/discovery/api/v1/'
 
 @responses.activate
 def test_environments():

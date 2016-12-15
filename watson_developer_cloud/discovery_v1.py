@@ -1,4 +1,4 @@
-# Copyright 2015 IBM All Rights Reserved.
+# Copyright 2016 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,17 +19,20 @@ import json
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
-default_url = 'https://gateway.watsonplatform.net/discovery-experimental/api'
+default_url = 'https://gateway.watsonplatform.net/discovery/api'
 latest_version = '2016-11-07'
+
 
 class DiscoveryV1(WatsonDeveloperCloudService):
     """Client for Discovery service"""
 
-    def __init__(self, version, url=default_url, username=None, password=None, use_vcap_services=True):
+    def __init__(self, version, url=default_url, username=None, password=None,
+                 use_vcap_services=True):
         """
         Construct an instance. Fetches service parameters from VCAP_SERVICES
         runtime variable for Bluemix, or it defaults to local URLs.
-        :param version: specifies the specific version-date of the service to use
+        :param version: specifies the specific version-date of the service to
+        use
         """
 
         WatsonDeveloperCloudService.__init__(
@@ -40,7 +43,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         """
         Retrieves information about the environments associated with the user
         """
-        return self.request(method='GET', url='/v1/environments', params={"version": self.version}, accept_json=True)
+        return self.request(method='GET', url='/v1/environments',
+                            params={"version": self.version}, accept_json=True)
 
     def get_environment(self, environment_id):
         """
@@ -55,15 +59,20 @@ class DiscoveryV1(WatsonDeveloperCloudService):
 
     def _valid_name_and_description(self, name, description):
         if len(name) not in range(0, 255):
-            raise ValueError("name must be a string having length between 0 and 255 characters")
+            raise ValueError(
+                "name must be a string having length between 0 and 255 "
+                "characters")
         if len(description) not in range(0, 255):
-            raise ValueError("description must be a string having length between 0 and 255 characters")
+            raise ValueError(
+                "description must be a string having length between 0 and 255 "
+                "characters")
 
     def create_environment(self, name="", description="", size=1):
         """
 
         :param name: name of the environment (max 255 chars) can be empty
-        :param description: description of the environment (max 255 chars) can be empty
+        :param description: description of the environment (max 255 chars)
+        can be empty
         :param size: size of the environment (1,2, or 3)
         :return:
         """
@@ -71,7 +80,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         if size not in range(1, 4):
             raise ValueError("Size can be 1, 2, or 3")
 
-        body = json.dumps({"name": name, "description": description, "size": size})
+        body = json.dumps(
+            {"name": name, "description": description, "size": size})
         return self.request(method='POST',
                             url='/v1/environments',
                             params={"version": self.version,
@@ -94,7 +104,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                     "body": body},
                             accept_json=True)
 
-
     def delete_environment(self, environment_id):
         """
         Deletes the specified environment.
@@ -102,7 +111,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :return:
         """
         url_string = '/v1/environments/{0}'.format(environment_id)
-        return self.request(method='DELETE', url=url_string, params={"version": self.version}, accept_json=True)
+        return self.request(method='DELETE', url=url_string,
+                            params={"version": self.version}, accept_json=True)
 
     def get_collections(self, environment_id):
         """
@@ -111,7 +121,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :return: json results of the collections in an environment
         """
         url_string = '/v1/environments/{0}/collections'.format(environment_id)
-        return self.request(method='GET', url=url_string, params={"version": self.version}, accept_json=True)
+        return self.request(method='GET', url=url_string,
+                            params={"version": self.version}, accept_json=True)
 
     def get_collection(self, environment_id, collection_id):
         """
@@ -121,8 +132,10 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :return: json results of the collection information
         """
         return self.request(method='GET',
-                            url='/v1/environments/{0}/collections/{1}'.format(environment_id, collection_id),
-                            params={"version": latest_version}, accept_json=True)
+                            url='/v1/environments/{0}/collections/{1}'.format(
+                                environment_id, collection_id),
+                            params={"version": latest_version},
+                            accept_json=True)
 
     def query(self, environment_id, collection_id, query_options):
         """
@@ -133,6 +146,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :return:
         """
         query_options["version"] = self.version
-        return self.request(method='GET',
-                            url='/v1/environments/{0}/collections/{1}/query'.format(environment_id, collection_id),
-                            params=query_options, accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/environments/{0}/collections/{1}/query'.format(
+                environment_id, collection_id),
+            params=query_options, accept_json=True)

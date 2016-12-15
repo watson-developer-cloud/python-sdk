@@ -12,7 +12,8 @@ personality_insights = PersonalityInsightsV3(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
 
-with open(join(dirname(__file__), '../resources/personality-v3.json')) as profile_json:
+with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
+        profile_json:
     profile = personality_insights.profile(
         profile_json.read(), content_type='application/json',
         raw_scores=True, consumption_preferences=True)

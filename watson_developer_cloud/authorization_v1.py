@@ -17,7 +17,9 @@ The v1 Authorization "service" that enables developers to
 retrieve a temporary access token
 """
 
-from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
+from watson_developer_cloud.watson_developer_cloud_service import \
+    WatsonDeveloperCloudService
+
 try:
     import urllib.parse as urlparse  # Python 3
 except ImportError:
@@ -25,10 +27,11 @@ except ImportError:
 
 
 class AuthorizationV1(WatsonDeveloperCloudService):
-
     """
-    Generates tokens, which can be used client-side to avoid exposing the service credentials.
-    Tokens are valid for 1 hour and are sent using the `X-Watson-Authorization-Token` header.
+    Generates tokens, which can be used client-side to avoid exposing the
+    service credentials.
+    Tokens are valid for 1 hour and are sent using the
+    `X-Watson-Authorization-Token` header.
     """
     default_url = "https://stream.watsonplatform.net/authorization/api"
 

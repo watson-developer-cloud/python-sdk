@@ -26,10 +26,12 @@ class ConversationV1(WatsonDeveloperCloudService):
     latest_version = '2016-09-20'
 
     def __init__(self, version, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'conversation', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'conversation', url,
+                                             **kwargs)
         self.version = version
 
-    def message(self, workspace_id, message_input=None, context=None, entities=None, intents=None, output=None,
+    def message(self, workspace_id, message_input=None, context=None,
+                entities=None, intents=None, output=None,
                 alternate_intents=False):
         """
         Retrieves information about a specific classifier.
@@ -49,5 +51,7 @@ class ConversationV1(WatsonDeveloperCloudService):
                 'intents': intents,
                 'alternate_intents': alternate_intents,
                 'output': output}
-        return self.request(method='POST', url='/v1/workspaces/{0}/message'.format(workspace_id), params=params,
+        return self.request(method='POST',
+                            url='/v1/workspaces/{0}/message'.format(
+                                workspace_id), params=params,
                             json=data, accept_json=True)

@@ -31,11 +31,14 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
         Construct an instance. Fetches service parameters from VCAP_SERVICES
         runtime variable for Bluemix, or it defaults to local URLs.
-        :param version: specifies the specific version-date of the service to use, for example '2016-05-20'
-        :param api_key: specifies the credentials for the service (doesn't use username and password)
+        :param version: specifies the specific version-date of the service to
+        use, for example '2016-05-20'
+        :param api_key: specifies the credentials for the service (doesn't
+        use username and password)
         """
 
-        WatsonDeveloperCloudService.__init__(self, 'watson_vision_combined', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'watson_vision_combined',
+                                             url, **kwargs)
         self.version = version
 
     def get_classifier(self, classifier_id):
@@ -45,7 +48,9 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
 
         params = {'version': self.version}
-        return self.request(method='GET', url='/v3/classifiers/{0}'.format(classifier_id), params=params,
+        return self.request(method='GET',
+                            url='/v3/classifiers/{0}'.format(classifier_id),
+                            params=params,
                             accept_json=True)
 
     def delete_classifier(self, classifier_id):
@@ -55,45 +60,58 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
 
         params = {'version': self.version}
-        return self.request(method='DELETE', url='/v3/classifiers/{0}'.format(classifier_id), params=params,
+        return self.request(method='DELETE',
+                            url='/v3/classifiers/{0}'.format(classifier_id),
+                            params=params,
                             accept_json=True)
 
     def list_classifiers(self, verbose=False):
         """
-        Returns a list of user-created and built-in classifiers. (May change in the future to only user-created.)
-        :param verbose: Specifies whether to return more information about each classifier, such as the author
+        Returns a list of user-created and built-in classifiers. (May change
+        in the future to only user-created.)
+        :param verbose: Specifies whether to return more information about
+        each classifier, such as the author
         """
 
         params = {'verbose': verbose, 'version': self.version}
-        return self.request(method='GET', url='/v3/classifiers', params=params, accept_json=True)
+        return self.request(method='GET', url='/v3/classifiers', params=params,
+                            accept_json=True)
 
     def create_classifier(self, name, **kwargs):
         """
         Train a new classifier from example images which are uploaded.
         :param name: The desired short name of the new classifier.
-        :param <NAME>_positive_examples: zip files of images that depict the subject of the new classifier.
-        :param negative_examples: A zip file of images that do not depict the subject of the new classifier.
+        :param <NAME>_positive_examples: zip files of images that depict the
+        subject of the new classifier.
+        :param negative_examples: A zip file of images that do not depict the
+        subject of the new classifier.
         :return:
         """
 
         params = {'version': self.version}
         data = {'name': name}
         # Params sent as url parameters here
-        return self.request(method='POST', url='/v3/classifiers', files=kwargs, data=data, params=params,
+        return self.request(method='POST', url='/v3/classifiers', files=kwargs,
+                            data=data, params=params,
                             accept_json=True)
 
     def update_classifier(self, classifier_id, **kwargs):
         """
-        Updates an existing classifier by adding images to existing or new classes.
+        Updates an existing classifier by adding images to existing or new
+        classes.
         :param classifier_id: The id of the classifier to update.
-        :param <NAME>_positive_examples: zip files of images that depict the subject of the class.
-        :param negative_examples: A zip file of images that do not depict the subject of any of the classes.
+        :param <NAME>_positive_examples: zip files of images that depict the
+        subject of the class.
+        :param negative_examples: A zip file of images that do not depict the
+        subject of any of the classes.
         :return:
         """
 
         params = {'version': self.version}
         # Params sent as url parameters here
-        return self.request(method='POST', url='/v3/classifiers/{0}'.format(classifier_id), files=kwargs,
+        return self.request(method='POST',
+                            url='/v3/classifiers/{0}'.format(classifier_id),
+                            files=kwargs,
                             params=params, accept_json=True)
 
     def _image_call(self, url, images_file=None, images_url=None, params=None):
@@ -102,20 +120,27 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
 
         if images_url:
             params['url'] = images_url
-            return self.request(method='GET', url=url, params=params, accept_json=True)
+            return self.request(method='GET', url=url, params=params,
+                                accept_json=True)
         else:
             filename = images_file.name
-            mime_type = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
+            mime_type = mimetypes.guess_type(filename)[
+                            0] or 'application/octet-stream'
             return self.request(method='POST', url=url,
-                                files={'images_file': (filename, images_file, mime_type)}, params=params,
+                                files={'images_file': (
+                                filename, images_file, mime_type)},
+                                params=params,
                                 accept_json=True)
 
-    def classify(self, images_file=None, images_url=None, classifier_ids=None, owners=None, threshold=None):
+    def classify(self, images_file=None, images_url=None, classifier_ids=None,
+                 owners=None, threshold=None):
         """
         Returns a list of classification scores for one or more input images.
         :param images_file: An image file or zip file of image files to analyze.
-        :param images_url: The url for an image file or zip file of images to analyze.
-        :param classifier_ids: The ids of classifiers to consider. When absent, considers all classifiers.
+        :param images_url: The url for an image file or zip file of images to
+        analyze.
+        :param classifier_ids: The ids of classifiers to consider. When
+        absent, considers all classifiers.
         :return:
         """
 
@@ -124,36 +149,44 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         if isinstance(owners, list):
             owners = ','.join(owners)
 
-        params = {'version': self.version, 'classifier_ids': classifier_ids, 'owners': owners, 'threshold': threshold}
+        params = {'version': self.version, 'classifier_ids': classifier_ids,
+                  'owners': owners, 'threshold': threshold}
         return self._image_call('/v3/classify', images_file, images_url, params)
 
     def detect_faces(self, images_file=None, images_url=None):
         """
-        Returns a list of faces detected.  This includes identities for famous people.
+        Returns a list of faces detected.  This includes identities for
+        famous people.
         :param images_file: An image file or zip file of image files to analyze.
-        :param images_url: The url for an image file or zip file of images to analyze.
+        :param images_url: The url for an image file or zip file of images to
+        analyze.
         :return:
         """
 
         params = {'version': self.version}
-        return self._image_call('/v3/detect_faces', images_file, images_url, params)
+        return self._image_call('/v3/detect_faces', images_file, images_url,
+                                params)
 
     def recognize_text(self, images_file=None, images_url=None):
         """
         Returns a list of recognized text
         :param images_file: An image file or zip file of image files to analyze.
-        :param images_url: The url for an image file or zip file of images to analyze.
+        :param images_url: The url for an image file or zip file of images to
+        analyze.
         :return:
         """
 
         params = {'version': self.version}
-        return self._image_call('/v3/recognize_text', images_file, images_url, params)
+        return self._image_call('/v3/recognize_text', images_file, images_url,
+                                params)
 
     def create_collection(self, name):
         """
-        Create a new collection of images to search. You can create a maximum of 5 collections.
+        Create a new collection of images to search. You can create a maximum
+        of 5 collections.
 
-        :param name:   The name of the new collection. The name can be a maximum of 128 UTF8 characters, with no spaces.
+        :param name:   The name of the new collection. The name can be a
+        maximum of 128 UTF8 characters, with no spaces.
         :return:
         """
 
@@ -168,7 +201,8 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param collection_id: a valid collection id
         :return:
         """
-        return self.request(method='POST', url='/v3/collections/{0}'.format(collection_id),
+        return self.request(method='POST',
+                            url='/v3/collections/{0}'.format(collection_id),
                             params={'version': self.version},
                             accept_json=True)
 
@@ -187,7 +221,8 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param collection_id: a valid collection id
         :return:
         """
-        return self.request(method='DELETE', url='/v3/collections/{0}'.format(collection_id),
+        return self.request(method='DELETE',
+                            url='/v3/collections/{0}'.format(collection_id),
                             params={'version': self.version},
                             accept_json=True)
 
@@ -196,16 +231,23 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         Add an image to a collection
         :param collection_id: a valid collection id
         :param image_file: a file object of an image
-        :param metdata: metadata describing the image,  must be convertable to JSON
+        :param metadata: metadata describing the image, must be convertable to
+        JSON
         :return:
         """
         metadata = metadata or {}
         filename = image_file.name
-        mime_type = mimetypes.guess_type(filename)[0] or 'application/octet-stream'
-        return self.request(method='POST', url='/v3/collections/{0}/images'.format(collection_id),
+        mime_type = mimetypes.guess_type(filename)[
+                        0] or 'application/octet-stream'
+        return self.request(method='POST',
+                            url='/v3/collections/{0}/images'.format(
+                                collection_id),
                             params={'version': self.version},
-                            files={'image_file': (filename, image_file, mime_type),
-                                   'metadata' : ('metadata.json', json.dumps(metadata), 'application/json')},
+                            files={
+                                'image_file': (filename, image_file, mime_type),
+                                'metadata': (
+                                    'metadata.json', json.dumps(metadata),
+                                    'application/json')},
                             accept_json=True)
 
     def list_images(self, collection_id):
@@ -214,7 +256,9 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param collection_id:  valid collection id
         :return:
         """
-        return self.request(method='GET', url='/v3/collections/{0}/images'.format(collection_id),
+        return self.request(method='GET',
+                            url='/v3/collections/{0}/images'.format(
+                                collection_id),
                             params={'version': self.version},
                             accept_json=True)
 
@@ -225,7 +269,9 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param image_id: valid image id
         :return:
         """
-        return self.request(method='GET', url='/v3/collections/{0}/images/{1}'.format(collection_id, image_id),
+        return self.request(method='GET',
+                            url='/v3/collections/{0}/images/{1}'.format(
+                                collection_id, image_id),
                             params={'version': self.version},
                             accept_json=True)
 
@@ -236,7 +282,9 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param image_id: valid image id
         :return:
         """
-        return self.request(method='DELETE', url='/v3/collections/{0}/images/{1}'.format(collection_id, image_id),
+        return self.request(method='DELETE',
+                            url='/v3/collections/{0}/images/{1}'.format(
+                                collection_id, image_id),
                             params={'version': self.version},
                             accept_json=True)
 
@@ -248,9 +296,13 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param metadata: key/value hash to set for the metadata
         :return:
         """
-        return self.request(method='PUT', url='/v3/collections/{0}/images/{1}/metadata'.format(collection_id, image_id),
+        return self.request(method='PUT',
+                            url='/v3/collections/{0}/images/{1}/metadata'
+                            .format(collection_id, image_id),
                             params={'version': self.version},
-                            files={'metadata': ('metadata.json', json.dumps(metadata), 'application/json')},
+                            files={'metadata': (
+                                'metadata.json', json.dumps(metadata),
+                                'application/json')},
                             accept_json=True)
 
     def get_image_metadata(self, collection_id, image_id):
@@ -260,7 +312,9 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param image_id: valid image id
         :return:
         """
-        return self.request(method='GET', url='/v3/collections/{0}/images/{1}/metadata'.format(collection_id, image_id),
+        return self.request(method='GET',
+                            url='/v3/collections/{0}/images/{1}/metadata'
+                            .format(collection_id, image_id),
                             params={'version': self.version},
                             accept_json=True)
 
@@ -271,7 +325,9 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param image_id: valid image id
         :return:
         """
-        return self.request(method='DELETE', url='/v3/collections/{0}/images/{1}/metadata'.format(collection_id, image_id),
+        return self.request(method='DELETE',
+                            url='/v3/collections/{0}/images/{1}/metadata'
+                            .format(collection_id, image_id),
                             params={'version': self.version},
                             accept_json=True)
 
@@ -299,8 +355,12 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
            "images_processed": 1
         }
         """
-        mime_type = mimetypes.guess_type(image_file.name)[0] or 'application/octet-stream'
-        return self.request(method='POST', url='/v3/collections/{0}/find_similar'.format(collection_id),
+        mime_type = mimetypes.guess_type(image_file.name)[
+                        0] or 'application/octet-stream'
+        return self.request(method='POST',
+                            url='/v3/collections/{0}/find_similar'.format(
+                                collection_id),
                             params={'version': self.version, 'limit': limit},
-                            files={'image_file': (image_file.name, image_file, mime_type)},
+                            files={'image_file': (image_file.name, image_file,
+                                                  mime_type)},
                             accept_json=True)

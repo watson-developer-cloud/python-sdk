@@ -15,11 +15,14 @@ import json as json_import
 import os
 import requests
 from requests.structures import CaseInsensitiveDict
+
 try:
     from http.cookiejar import CookieJar  # Python 3
 except ImportError:
     from cookielib import CookieJar  # Python 2
 from .version import __version__
+
+
 # Uncomment this to enable http debugging
 # try:
 #    import http.client as http_client
@@ -55,7 +58,8 @@ def _cleanup_param_value(value):
 
 def _cleanup_param_values(dictionary):
     if isinstance(dictionary, dict):
-        return dict([(k, _cleanup_param_value(v)) for k, v in dictionary.items()])
+        return dict(
+            [(k, _cleanup_param_value(v)) for k, v in dictionary.items()])
     return dictionary
 
 
@@ -73,17 +77,21 @@ def _convert_boolean_value(value):
 
 def _convert_boolean_values(dictionary):
     if isinstance(dictionary, dict):
-        return dict([(k, _convert_boolean_value(v)) for k, v in dictionary.items()])
+        return dict(
+            [(k, _convert_boolean_value(v)) for k, v in dictionary.items()])
     return dictionary
 
 
 class WatsonDeveloperCloudService(object):
-    def __init__(self, vcap_services_name, url, username=None, password=None, use_vcap_services=True, api_key=None,
+    def __init__(self, vcap_services_name, url, username=None, password=None,
+                 use_vcap_services=True, api_key=None,
                  x_watson_learning_opt_out=False):
         """
-        Loads credentials from the VCAP_SERVICES environment variable if available, preferring credentials explicitly
+        Loads credentials from the VCAP_SERVICES environment variable if
+        available, preferring credentials explicitly
         set in the request.
-        If VCAP_SERVICES is not found (or use_vcap_services is set to False), username and password credentials must
+        If VCAP_SERVICES is not found (or use_vcap_services is set to False),
+        username and password credentials must
         be specified.
         """
 
@@ -96,14 +104,17 @@ class WatsonDeveloperCloudService(object):
 
         if api_key is not None:
             if username is not None or password is not None:
-                raise WatsonInvalidArgument('Cannot set api_key and username and password together')
+                raise WatsonInvalidArgument(
+                    'Cannot set api_key and username and password together')
             self.set_api_key(api_key)
         else:
             self.set_username_and_password(username, password)
 
         if use_vcap_services and not self.username and not self.api_key:
-            self.vcap_service_credentials = load_from_vcap_services(vcap_services_name)
-            if self.vcap_service_credentials is not None and isinstance(self.vcap_service_credentials, dict):
+            self.vcap_service_credentials = load_from_vcap_services(
+                vcap_services_name)
+            if self.vcap_service_credentials is not None and isinstance(
+                    self.vcap_service_credentials, dict):
                 self.url = self.vcap_service_credentials['url']
                 if 'username' in self.vcap_service_credentials:
                     self.username = self.vcap_service_credentials['username']
@@ -114,9 +125,13 @@ class WatsonDeveloperCloudService(object):
                 if 'api_key' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['api_key']
 
-        if (self.username is None or self.password is None) and self.api_key is None:
-            raise WatsonException('You must specify your username and password service credentials ' +
-                                  '(Note: these are different from your Bluemix id)')
+        if (
+                self.username is None or self.password is None) and \
+                        self.api_key is None:
+            raise WatsonException(
+                'You must specify your username and password service '
+                'credentials ' +
+                '(Note: these are different from your Bluemix id)')
 
     def set_username_and_password(self, username=None, password=None):
         if username == 'YOUR SERVICE USERNAME':
@@ -138,7 +153,8 @@ class WatsonDeveloperCloudService(object):
     def set_url(self, url):
         self.url = url
 
-    # Could make this compute the label_id based on the variable name of the dictionary passed in (using **kwargs), but
+    # Could make this compute the label_id based on the variable name of the
+    # dictionary passed in (using **kwargs), but
     # this might be confusing to understand.
     @staticmethod
     def unpack_id(dictionary, label_id):
@@ -159,8 +175,10 @@ class WatsonDeveloperCloudService(object):
         try:
             error_json = response.json()
             if 'error' in error_json:
-                if isinstance(error_json['error'], dict) and 'description' in error_json['error']:
-                    error_message = 'Error: ' + error_json['error']['description']
+                if isinstance(error_json['error'], dict) and 'description' in \
+                        error_json['error']:
+                    error_message = 'Error: ' + error_json['error'][
+                        'description']
                 else:
                     error_message = 'Error: ' + error_json['error']
             elif 'error_message' in error_json:
@@ -176,7 +194,8 @@ class WatsonDeveloperCloudService(object):
             pass
         return error_message
 
-    def _alchemy_html_request(self, method_name=None, url=None, html=None, text=None, params=None, method='POST',
+    def _alchemy_html_request(self, method_name=None, url=None, html=None,
+                              text=None, params=None, method='POST',
                               method_url=None):
         if params is None:
             params = {}
@@ -201,12 +220,15 @@ class WatsonDeveloperCloudService(object):
             elif text:
                 method_url = '/text/Text' + method_name
             else:
-                raise WatsonInvalidArgument('url, html or text must be specified')
+                raise WatsonInvalidArgument(
+                    'url, html or text must be specified')
 
-        return self.request(method=method, url=method_url, params=params, data=url_encoded_params, headers=headers,
+        return self.request(method=method, url=method_url, params=params,
+                            data=url_encoded_params, headers=headers,
                             accept_json=True)
 
-    def _alchemy_image_request(self, method_name, image_file=None, image_url=None, params=None):
+    def _alchemy_image_request(self, method_name, image_file=None,
+                               image_url=None, params=None):
         if params is None:
             params = {}
         params['outputMode'] = 'json'
@@ -224,18 +246,22 @@ class WatsonDeveloperCloudService(object):
             params['url'] = image_url
             url = '/url/URL' + method_name
         else:
-            raise WatsonInvalidArgument('image_file or image_url must be specified')
+            raise WatsonInvalidArgument(
+                'image_file or image_url must be specified')
 
-        return self.request(method='POST', url=url, params=params, data=image_contents, headers=headers,
+        return self.request(method='POST', url=url, params=params,
+                            data=image_contents, headers=headers,
                             accept_json=True)
 
-    def request(self, method, url, accept_json=False, headers=None, params=None, json=None, data=None, files=None,
+    def request(self, method, url, accept_json=False, headers=None, params=None,
+                json=None, data=None, files=None,
                 **kwargs):
         full_url = self.url + url
 
         input_headers = _remove_null_values(headers) if headers else {}
 
-        headers = CaseInsensitiveDict({'user-agent': 'watson-developer-cloud-python-' + __version__})
+        headers = CaseInsensitiveDict(
+            {'user-agent': 'watson-developer-cloud-python-' + __version__})
         if accept_json:
             headers['accept'] = 'application/json'
         headers.update(input_headers)
@@ -258,7 +284,8 @@ class WatsonDeveloperCloudService(object):
         if self.api_key is not None:
             if params is None:
                 params = {}
-            if full_url.startswith('https://gateway-a.watsonplatform.net/calls'):
+            if full_url.startswith(
+                    'https://gateway-a.watsonplatform.net/calls'):
                 params['apikey'] = self.api_key
             else:
                 params['api_key'] = self.api_key
@@ -266,13 +293,17 @@ class WatsonDeveloperCloudService(object):
         if self.x_watson_learning_opt_out:
             headers['x-watson-learning-opt-out'] = 'true'
 
-        response = requests.request(method=method, url=full_url, cookies=self.jar, auth=auth, headers=headers,
-                                    params=params, data=data, files=files, **kwargs)
+        response = requests.request(method=method, url=full_url,
+                                    cookies=self.jar, auth=auth,
+                                    headers=headers,
+                                    params=params, data=data, files=files,
+                                    **kwargs)
 
         if 200 <= response.status_code <= 299:
             if accept_json:
                 response_json = response.json()
-                if 'status' in response_json and response_json['status'] == 'ERROR':
+                if 'status' in response_json and response_json[
+                    'status'] == 'ERROR':
                     response.status_code = 400
                     error_message = 'Unknown error'
                     if 'statusInfo' in response_json:
@@ -284,7 +315,8 @@ class WatsonDeveloperCloudService(object):
             return response
         else:
             if response.status_code == 401:
-                error_message = 'Unauthorized: Access is denied due to invalid credentials'
+                error_message = 'Unauthorized: Access is denied due to ' \
+                                'invalid credentials '
             else:
                 error_message = self._get_error_message(response)
             raise WatsonException(error_message)

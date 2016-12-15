@@ -17,7 +17,8 @@ The v3 Tone Analyzer service
 (https://www.ibm.com/watson/developercloud/tone-analyzer.html)
 """
 
-from watson_developer_cloud.watson_developer_cloud_service import WatsonDeveloperCloudService
+from watson_developer_cloud.watson_developer_cloud_service import \
+    WatsonDeveloperCloudService
 
 
 class ToneAnalyzerV3(WatsonDeveloperCloudService):
@@ -25,23 +26,28 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
     latest_version = '2016-05-19'
 
     def __init__(self, version, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'tone_analyzer', url, **kwargs)
+        WatsonDeveloperCloudService.__init__(self, 'tone_analyzer', url,
+                                             **kwargs)
         self.version = version
 
     def tone(self, text, tones=None, sentences=None):
         """
-        The tone API is the main API call: it analyzes the "tone" of a piece of text. The message is analyzed from
-        several tones (social tone, emotional tone, writing tone), and for each of them various traits are derived
+        The tone API is the main API call: it analyzes the "tone" of a piece
+        of text. The message is analyzed from
+        several tones (social tone, emotional tone, writing tone), and for
+        each of them various traits are derived
         (such as conscientiousness, agreeableness, openness).
         :param text: Text to analyze
         :param sentences: If "false", sentence-level analysis is omitted
-        :param tones: Can be one or more of 'social', 'language', 'emotion'; comma-separated.
+        :param tones: Can be one or more of 'social', 'language', 'emotion';
+        comma-separated.
         """
-        params = {}
-        params['version'] = self.version
+        params = {'version': self.version}
         if tones is not None:
             params['tones'] = tones
         if sentences is not None:
-            params['sentences'] = str(sentences).lower() # Cast boolean to "false" / "true"
+            params['sentences'] = str(
+                sentences).lower()  # Cast boolean to "false" / "true"
         data = {'text': text}
-        return self.request(method='POST', url='/v3/tone', params=params, json=data, accept_json=True)
+        return self.request(method='POST', url='/v3/tone', params=params,
+                            json=data, accept_json=True)

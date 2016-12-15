@@ -28,8 +28,12 @@ class DialogV1(WatsonDeveloperCloudService):
 
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'dialog', url, **kwargs)
-        print('WARNING: The Dialog service was deprecated, existing instances of the service will continue to function'
-              'until August 9, 2017. See https://www.ibm.com/watson/developercloud/doc/conversation/migration.shtml')
+        print(
+            'WARNING: The Dialog service was deprecated, existing instances '
+            'of the service will continue to function'
+            'until August 9, 2017. See '
+            'https://www.ibm.com/watson/developercloud/doc/conversation'
+            '/migration.shtml')
 
     def get_dialogs(self):
         return self.request(method='GET', url='/v1/dialogs', accept_json=True)
@@ -37,32 +41,44 @@ class DialogV1(WatsonDeveloperCloudService):
     def get_dialog(self, dialog_id, accept='application/wds+json'):
         accept_json = accept == self.dialog_json_format
         headers = {'accept': accept}
-        return self.request(method='GET', url='/v1/dialogs/{0}'.format(dialog_id), headers=headers,
+        return self.request(method='GET',
+                            url='/v1/dialogs/{0}'.format(dialog_id),
+                            headers=headers,
                             accept_json=accept_json)
 
     def create_dialog(self, dialog_file, name):
-        return self.request(method='POST', url='/v1/dialogs', files={'file': dialog_file}, accept_json=True,
+        return self.request(method='POST', url='/v1/dialogs',
+                            files={'file': dialog_file}, accept_json=True,
                             data={'name': name})
 
     def update_dialog(self, dialog_id, dialog_file):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        return self.request(method='PUT', url='/v1/dialogs/{0}'.format(dialog_id), files={'file': dialog_file},
+        return self.request(method='PUT',
+                            url='/v1/dialogs/{0}'.format(dialog_id),
+                            files={'file': dialog_file},
                             accept_json=True)
 
     def get_content(self, dialog_id):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        return self.request(method='GET', url='/v1/dialogs/{0}/content'.format(dialog_id), accept_json=True)
+        return self.request(method='GET',
+                            url='/v1/dialogs/{0}/content'.format(dialog_id),
+                            accept_json=True)
 
     def update_content(self, dialog_id, content):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        return self.request(method='PUT', url='/v1/dialogs/{0}/content'.format(dialog_id), json=content,
+        return self.request(method='PUT',
+                            url='/v1/dialogs/{0}/content'.format(dialog_id),
+                            json=content,
                             accept_json=True)
 
-    def conversation(self, dialog_id, dialog_input=None, client_id=None, conversation_id=None):
+    def conversation(self, dialog_id, dialog_input=None, client_id=None,
+                     conversation_id=None):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         data = {'input': dialog_input, 'client_id': client_id,
                 'conversation_id': conversation_id}
-        return self.request(method='POST', url='/v1/dialogs/{0}/conversation'.format(dialog_id), data=data,
+        return self.request(method='POST',
+                            url='/v1/dialogs/{0}/conversation'.format(
+                                dialog_id), data=data,
                             accept_json=True)
 
     @staticmethod
@@ -74,28 +90,37 @@ class DialogV1(WatsonDeveloperCloudService):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         params = {'date_from': self._format_date(
             date_from), 'date_to': self._format_date(date_to)}
-        return self.request(method='GET', url='/v1/dialogs/{0}/conversation'.format(dialog_id), params=params,
+        return self.request(method='GET',
+                            url='/v1/dialogs/{0}/conversation'.format(
+                                dialog_id), params=params,
                             accept_json=True)
 
     def get_profile(self, dialog_id, client_id, name=None):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         client_id = self.unpack_id(client_id, 'client_id')
         params = {'client_id': client_id, 'name': name}
-        return self.request(method='GET', url='/v1/dialogs/{0}/profile'.format(dialog_id), params=params,
+        return self.request(method='GET',
+                            url='/v1/dialogs/{0}/profile'.format(dialog_id),
+                            params=params,
                             accept_json=True)
 
     def update_profile(self, dialog_id, name_values, client_id=None):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
         client_id = self.unpack_id(client_id, 'client_id')
         if isinstance(name_values, dict):
-            name_values = list({'name': item[0], 'value': item[1]} for item in name_values.items())
+            name_values = list({'name': item[0], 'value': item[1]} for item in
+                               name_values.items())
         params = {
             'client_id': client_id,
             'name_values': name_values
         }
-        return self.request(method='PUT', url='/v1/dialogs/{0}/profile'.format(dialog_id), json=params,
+        return self.request(method='PUT',
+                            url='/v1/dialogs/{0}/profile'.format(dialog_id),
+                            json=params,
                             accept_json=True)
 
     def delete_dialog(self, dialog_id):
         dialog_id = self.unpack_id(dialog_id, 'dialog_id')
-        return self.request(method='DELETE', url='/v1/dialogs/{0}'.format(dialog_id), accept_json=True)
+        return self.request(method='DELETE',
+                            url='/v1/dialogs/{0}'.format(dialog_id),
+                            accept_json=True)
