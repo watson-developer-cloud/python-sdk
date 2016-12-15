@@ -124,8 +124,8 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
                                 accept_json=True)
         else:
             filename = images_file.name
-            mime_type = mimetypes.guess_type(filename)[
-                            0] or 'application/octet-stream'
+            mime_type = mimetypes.guess_type(
+                filename)[0] or 'application/octet-stream'
             return self.request(method='POST', url=url,
                                 files={'images_file': (
                                     filename, images_file, mime_type)},
@@ -241,15 +241,15 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
         metadata = metadata or {}
         filename = image_file.name
-        mime_type = mimetypes.guess_type(filename)[
-                        0] or 'application/octet-stream'
+        mime_type = mimetypes.guess_type(
+            filename)[0] or 'application/octet-stream'
         return self.request(method='POST',
                             url='/v3/collections/{0}/images'.format(
                                 collection_id),
                             params={'version': self.version},
                             files={
                                 'image_file': (
-                                filename, image_file, mime_type),
+                                    filename, image_file, mime_type),
                                 'metadata': (
                                     'metadata.json', json.dumps(metadata),
                                     'application/json')},
@@ -360,8 +360,8 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
            "images_processed": 1
         }
         """
-        mime_type = mimetypes.guess_type(image_file.name)[
-                        0] or 'application/octet-stream'
+        mime_type = mimetypes.guess_type(
+            image_file.name)[0] or 'application/octet-stream'
         return self.request(method='POST',
                             url='/v3/collections/{0}/find_similar'.format(
                                 collection_id),

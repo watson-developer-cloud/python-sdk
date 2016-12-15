@@ -81,9 +81,8 @@ class RetrieveAndRankV1(WatsonDeveloperCloudService):
     def list_collections(self, solr_cluster_id):
         params = {'action': 'LIST', 'wt': 'json'}
         return self.request(method='GET',
-                            url='/v1/solr_clusters/{'
-                                '0}/solr/admin/collections'.format(
-                                solr_cluster_id),
+                            url='/v1/solr_clusters/{0}/solr/admin/collections'
+                            .format(solr_cluster_id),
                             params=params, accept_json=True)
 
     def create_collection(self, solr_cluster_id, collection_name, config_name):

@@ -51,8 +51,8 @@ class AlchemyLanguageV1(WatsonDeveloperCloudService):
         if not max_items:
             max_items = max_keywords
         params = {
-            'keywordExtractMode': 'strict' if strict_extract_mode else
-            'normal',
+            'keywordExtractMode':
+                'strict' if strict_extract_mode else 'normal',
             'sentiment': sentiment,
             'emotion': emotion,
             'showSourceText': show_source_text,

@@ -125,9 +125,8 @@ class WatsonDeveloperCloudService(object):
                 if 'api_key' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['api_key']
 
-        if (
-                        self.username is None or self.password is None) and \
-                        self.api_key is None:
+        if (self.username is None or self.password is None)\
+                and self.api_key is None:
             raise WatsonException(
                 'You must specify your username and password service '
                 'credentials ' +
@@ -301,8 +300,8 @@ class WatsonDeveloperCloudService(object):
         if 200 <= response.status_code <= 299:
             if accept_json:
                 response_json = response.json()
-                if 'status' in response_json and response_json[
-                    'status'] == 'ERROR':
+                if 'status' in response_json and response_json['status'] \
+                        == 'ERROR':
                     response.status_code = 400
                     error_message = 'Unknown error'
                     if 'statusInfo' in response_json:
