@@ -138,7 +138,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             else:
                 return None
         except KeyError as ke:
-            print ke # this isn't really a problem
+            pass # this isn't a problem and supress isn't in 2.7
         return None
 
     def get_configuration(self, environment_id, configuration_id):
