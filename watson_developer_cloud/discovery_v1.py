@@ -138,7 +138,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             else:
                 return None
         except KeyError as ke:
-            print(ke) # this isn't really a problem
+            print ke # this isn't really a problem
         return None
 
     def get_configuration(self, environment_id, configuration_id):
@@ -231,8 +231,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url=url_string,
                             params=params,
                             data=metadata,
-                            files={ 'file': (fileinfo.name, fileinfo, mime_type),
-                                    'metadata': (None, json.dumps(metadata), 'application/json')},
+                            files={'file': (fileinfo.name, fileinfo, mime_type),
+                                   'metadata': (None, json.dumps(metadata), 'application/json')},
                             accept_json=True)
 
     def test_document(self, environment_id, fileinfo, configuration_id=None, metadata=None):
@@ -270,7 +270,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         url_string = base_url.format(
             environment_id, collection_id, document_id)
 
-        params = {'version': latest_version }
+        params = {'version': latest_version}
 
         return self.request(method='DELETE',
                             url=url_string,
