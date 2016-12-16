@@ -119,7 +119,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={"version": self.version},
                             accept_json=True)
 
-    def list_configurations(self,environment_id):
+    def list_configurations(self, environment_id):
 
         format_string = '/v1/environments/{0}/configurations'
         url_string = format_string.format(environment_id)
@@ -127,7 +127,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={'version': self.version},
                             accept_json=True)
 
-    def get_default_configuration_id(self,environment_id):
+    def get_default_configuration_id(self, environment_id):
         all_configs = self.list_configurations(environment_id=environment_id)
         try:
             configs = [x['configuration_id']
@@ -138,13 +138,13 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             else:
                 return None
         except KeyError as ke:
-            pass # this is not a problem
+            print(ke) # this isn't really a problem
         return None
 
-    def get_configuration(self,environment_id,configuration_id):
+    def get_configuration(self, environment_id, configuration_id):
 
         format_string = '/v1/environments/{0}/configurations/{1}'
-        url_string = format_string.format(environment_id,configuration_id)
+        url_string = format_string.format(environment_id, configuration_id)
         return self.request(method='GET', url=url_string,
                             params={'version': self.version},
                             accept_json=True)
@@ -180,14 +180,14 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                           description="",
                           configuration_id=None):
 
-        if (configuration_id == None):
+        if configuration_id is None:
             default_config = self.get_default_configuration_id(
                 environment_id=environment_id)
             configuration_id = default_config
 
-        data_dict = { 'configuration_id': configuration_id,
-                      'name': name,
-                      'description': description }
+        data_dict = {'configuration_id': configuration_id,
+                     'name': name,
+                     'description': description}
         url_string = '/v1/environments/{0}/collections'.format(
             environment_id)
         return self.request(method='POST',
@@ -205,7 +205,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={'version': latest_version},
                             accept_json=True)
 
-    def delete_collection(self,environment_id, collection_id):
+    def delete_collection(self, environment_id, collection_id):
 
         url_string = '/v1/environments/{0}/collections/{1}'.format(
             environment_id, collection_id)
@@ -215,11 +215,14 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={'version': latest_version},
                             accept_json=True)
 
-    def add_document(self, environment_id, collection_id, fileinfo, metadata={}):
+    def add_document(self, environment_id, collection_id, fileinfo, metadata=None):
         url_string = '/v1/environments/{0}/collections/{1}/documents'.format(
             environment_id, collection_id)
 
-        params = {'version': latest_version }
+        params = {'version': latest_version}
+
+        if metadata is None:
+            metadata = {}
 
         mime_type = mimetypes.guess_type(
             fileinfo.name)[0] or 'application/octet-stream'
@@ -229,16 +232,19 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params=params,
                             data=metadata,
                             files={ 'file': (fileinfo.name, fileinfo, mime_type),
-                                    'metadata': ( None, json.dumps(metadata), 'application/json') },
+                                    'metadata': (None, json.dumps(metadata), 'application/json')},
                             accept_json=True)
 
-    def test_document(self, environment_id, fileinfo, configuration_id=None, metadata={}):
+    def test_document(self, environment_id, fileinfo, configuration_id=None, metadata=None):
         url_string = '/v1/environments/{0}/preview'.format(
             environment_id)
 
         params = {'version': latest_version}
 
-        if (configuration_id):
+        if metadata is None:
+            metadata = {}
+
+        if configuration_id:
             params['configuration_id'] = configuration_id
         else:
             params['configuration_id'] = self.get_default_configuration_id(
@@ -251,12 +257,12 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url=url_string,
                             params=params,
                             data=metadata,
-                            files={ 'file': (fileinfo.name,
-                                             fileinfo,
-                                             mime_type),
-                                    'metadata': ( None,
-                                                  json.dumps(metadata),
-                                                  'application/json') },
+                            files={'file': (fileinfo.name,
+                                            fileinfo,
+                                            mime_type),
+                                   'metadata': (None,
+                                                json.dumps(metadata),
+                                                'application/json')},
                             accept_json=True)
 
     def delete_document(self, environment_id, collection_id, document_id):
