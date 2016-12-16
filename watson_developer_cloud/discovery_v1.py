@@ -137,7 +137,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                 return configs[0]
             else:
                 return None
-        except KeyError as ke:
+        except KeyError:
             pass # this isn't a problem and supress isn't in 2.7
         return None
 
