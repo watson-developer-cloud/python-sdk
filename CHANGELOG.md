@@ -1,6 +1,18 @@
 Change Log
 ==========
 
+## Version 0.23.0
+
+_2016-12-21_
+
+* Added: Discovery v1
+* Fixed: Retrieve and Rank `top_answers`
+* Added: Tone Analyzer + Conversation example
+* Added: `speaker_labels` to Speech to Text
+* Fixed: Using UTF-8 when installing the documentation from the README in `setup.py`
+* Added: Speech to Text customizations
+* Added: Unit tests for AlchemyLanguage, Speech to Text and Discovery
+
 ## Version 0.22.0
 
 _2016-11-03_
