@@ -215,7 +215,13 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={'version': latest_version},
                             accept_json=True)
 
-    def add_document(self, environment_id, collection_id, fileinfo, metadata=None):
+    def add_document(self,
+                     environment_id,
+                     collection_id,
+                     fileinfo=None,
+                     filedata=None,
+                     mimetype=None,
+                     metadata=None):
         url_string = '/v1/environments/{0}/collections/{1}/documents'.format(
             environment_id, collection_id)
 
@@ -224,15 +230,28 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         if metadata is None:
             metadata = {}
 
-        mime_type = mimetypes.guess_type(
-            fileinfo.name)[0] or 'application/octet-stream'
+        mime_type = None
+        filetuple = None
+
+        if mimetype:
+            mime_type = mimetype
+
+        if fileinfo:
+            mime_type = mimetypes.guess_type(
+                fileinfo.name)[0] or 'application/octet-stream'
+            filetuple = (fileinfo.name, fileinfo, mime_type)
+        elif filedata:
+            filetuple = ('tmpfile', filedata, mime_type or
+                         'application/html')
 
         return self.request(method='POST',
                             url=url_string,
                             params=params,
                             data=metadata,
-                            files={'file': (fileinfo.name, fileinfo, mime_type),
-                                   'metadata': (None, json.dumps(metadata), 'application/json')},
+                            files={'file': filetuple,
+                                   'metadata': (None,
+                                                json.dumps(metadata),
+                                                'application/json')},
                             accept_json=True)
 
     def test_document(self, environment_id, fileinfo, configuration_id=None, metadata=None):

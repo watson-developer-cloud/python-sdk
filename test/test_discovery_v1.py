@@ -342,3 +342,18 @@ def test_document():
                               document_id='docid')
 
     assert len(responses.calls) == 5
+
+
+    conf_id = discovery.add_document(environment_id='envid',
+                                     collection_id='collid',
+                                     filedata='my string of file')
+
+    assert len(responses.calls) == 6
+
+
+    conf_id = discovery.add_document(environment_id='envid',
+                                     collection_id='collid',
+                                     mimetype='application/html',
+                                     filedata='my string of file')
+
+    assert len(responses.calls) == 7
