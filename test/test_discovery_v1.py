@@ -347,12 +347,12 @@ def test_document():
 
     assert len(responses.calls) == 6
 
-    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', mime_type='application/html',
-                                     file_data='my string of file')
+    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file',
+                                     mime_type='application/html')
 
     assert len(responses.calls) == 7
 
-    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', mime_type='application/html',
-                                     file_data='my string of file', meta_data={'stuff': 'woot!'})
+    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file',
+                                     mime_type='application/html', metadata={'stuff': 'woot!'})
 
     assert len(responses.calls) == 8

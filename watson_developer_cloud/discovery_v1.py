@@ -221,14 +221,14 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                      file_info=None,
                      file_data=None,
                      mime_type=None,
-                     meta_data=None):
+                     metadata=None):
         url_string = '/v1/environments/{0}/collections/{1}/documents'.format(
             environment_id, collection_id)
 
         params = {'version': latest_version}
 
-        if meta_data is None:
-            meta_data = {}
+        if metadata is None:
+            metadata = {}
 
         file_tuple = None
 
@@ -238,15 +238,15 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             file_tuple = (file_info.name, file_info, mime_type)
         elif file_data:
             file_tuple = ('tmpfile', file_data, mime_type or
-                         'application/html')
+                          'application/html')
 
         return self.request(method='POST',
                             url=url_string,
                             params=params,
-                            data=meta_data,
+                            data=metadata,
                             files={'file': file_tuple,
                                    'metadata': (None,
-                                                json.dumps(meta_data),
+                                                json.dumps(metadata),
                                                 'application/json')},
                             accept_json=True)
 
