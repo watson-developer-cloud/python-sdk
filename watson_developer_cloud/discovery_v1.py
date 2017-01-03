@@ -218,39 +218,35 @@ class DiscoveryV1(WatsonDeveloperCloudService):
     def add_document(self,
                      environment_id,
                      collection_id,
-                     fileinfo=None,
-                     filedata=None,
-                     mimetype=None,
-                     metadata=None):
+                     file_info=None,
+                     file_data=None,
+                     mime_type=None,
+                     meta_data=None):
         url_string = '/v1/environments/{0}/collections/{1}/documents'.format(
             environment_id, collection_id)
 
         params = {'version': latest_version}
 
-        if metadata is None:
-            metadata = {}
+        if meta_data is None:
+            meta_data = {}
 
-        mime_type = None
-        filetuple = None
+        file_tuple = None
 
-        if mimetype:
-            mime_type = mimetype
-
-        if fileinfo:
-            mime_type = mimetypes.guess_type(
-                fileinfo.name)[0] or 'application/octet-stream'
-            filetuple = (fileinfo.name, fileinfo, mime_type)
-        elif filedata:
-            filetuple = ('tmpfile', filedata, mime_type or
+        if file_info:
+            mime_type = mime_type or mimetypes.guess_type(
+                file_info.name)[0]
+            file_tuple = (file_info.name, file_info, mime_type)
+        elif file_data:
+            file_tuple = ('tmpfile', file_data, mime_type or
                          'application/html')
 
         return self.request(method='POST',
                             url=url_string,
                             params=params,
-                            data=metadata,
-                            files={'file': filetuple,
+                            data=meta_data,
+                            files={'file': file_tuple,
                                    'metadata': (None,
-                                                json.dumps(metadata),
+                                                json.dumps(meta_data),
                                                 'application/json')},
                             accept_json=True)
 

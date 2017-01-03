@@ -330,9 +330,7 @@ def test_document():
                   content_type='application/json')
 
     with open(os.path.join(os.getcwd(), 'resources', 'simple.html')) as fileinfo:
-        conf_id = discovery.add_document(environment_id='envid',
-                                         collection_id='collid',
-                                         fileinfo=fileinfo)
+        conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_info=fileinfo)
         assert conf_id != None
 
     assert len(responses.calls) == 4
@@ -344,16 +342,17 @@ def test_document():
     assert len(responses.calls) == 5
 
 
-    conf_id = discovery.add_document(environment_id='envid',
-                                     collection_id='collid',
-                                     filedata='my string of file')
+    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file')
+
 
     assert len(responses.calls) == 6
 
-
-    conf_id = discovery.add_document(environment_id='envid',
-                                     collection_id='collid',
-                                     mimetype='application/html',
-                                     filedata='my string of file')
+    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', mime_type='application/html',
+                                     file_data='my string of file')
 
     assert len(responses.calls) == 7
+
+    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', mime_type='application/html',
+                                     file_data='my string of file', meta_data={'stuff': 'woot!'})
+
+    assert len(responses.calls) == 8
