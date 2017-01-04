@@ -149,6 +149,34 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={'version': self.version},
                             accept_json=True)
 
+    def create_configuration(self, environment_id, config_data):
+
+        format_string = '/v1/environments/{0}/configurations'
+        url_string = format_string.format(environment_id)
+        return self.request(method='POST', url=url_string,
+                            params={'version': self.version},
+                            data=json.dumps(config_data),
+                            headers={'content-type': 'application/json'},
+                            accept_json=True)
+
+    def delete_configuration(self, environment_id, configuration_id):
+
+        format_string = '/v1/environments/{0}/configurations/{1}'
+        url_string = format_string.format(environment_id, configuration_id)
+        return self.request(method='DELETE', url=url_string,
+                            params={'version': self.version},
+                            accept_json=True)
+
+    def update_configuration(self, environment_id, configuration_id, config_data):
+
+        format_string = '/v1/environments/{0}/configurations/{1}'
+        url_string = format_string.format(environment_id, configuration_id)
+        return self.request(method='PUT', url=url_string,
+                            params={'version': self.version},
+                            data=json.dumps(config_data),
+                            headers={'content-type': 'application/json'},
+                            accept_json=True)
+
     def list_collections(self, environment_id):
         """
         Retrieves information about the collections within a given environment

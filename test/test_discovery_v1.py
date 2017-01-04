@@ -1,4 +1,4 @@
-import responses,os
+import responses,os, json
 import watson_developer_cloud
 try:
     from urllib.parse import urlparse, urljoin
@@ -244,7 +244,18 @@ def test_configs():
                   body="{\"configurations\": [{ \"name\": \"Default Configuration\", \"configuration_id\": \"confid\"}]}",
                   status=200,
                   content_type='application/json')
-
+    responses.add(responses.POST, discovery_url,
+                  body="{\"configurations\": [{ \"name\": \"Default Configuration\", \"configuration_id\": \"confid\"}]}",
+                  status=200,
+                  content_type = 'application/json')
+    responses.add(responses.DELETE, discovery_config_id,
+                  body=json.dumps({ 'deleted': 'bogus -- ok'}),
+                  status=200,
+                  content_type = 'application/json')
+    responses.add(responses.PUT, discovery_config_id,
+                  body=json.dumps({ 'updated': 'bogus -- ok'}),
+                  status=200,
+                  content_type = 'application/json')
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
@@ -257,6 +268,11 @@ def test_configs():
 
     assert len(responses.calls) == 3
 
+    discovery.create_configuration(environment_id='envid', config_data={'name': 'my name'})
+    discovery.update_configuration(environment_id='envid', configuration_id='confid', config_data={'name': 'my new name'})
+    discovery.delete_configuration(environment_id='envid', configuration_id='confid')
+
+    assert len(responses.calls) == 6
 
 @responses.activate
 def test_empty_configs():
