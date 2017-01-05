@@ -202,7 +202,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         return self.request(method='GET',
                             url='/v1/environments/{0}/collections/{1}'.format(
                                 environment_id, collection_id),
-                            params={"version": latest_version},
+                            params={"version": self.version},
                             accept_json=True)
 
     def create_collection(self,
@@ -224,7 +224,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         return self.request(method='POST',
                             url=url_string,
                             data=data_dict,
-                            params={'version': latest_version},
+                            params={'version': self.version},
                             accept_json=True)
 
     def list_collection_fields(self, environment_id, collection_id):
@@ -233,7 +233,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
 
         return self.request(method='GET',
                             url=url_string,
-                            params={'version': latest_version},
+                            params={'version': self.version},
                             accept_json=True)
 
     def delete_collection(self, environment_id, collection_id):
@@ -243,7 +243,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
 
         return self.request(method='DELETE',
                             url=url_string,
-                            params={'version': latest_version},
+                            params={'version': self.version},
                             accept_json=True)
 
     def add_document(self,
@@ -256,7 +256,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         url_string = '/v1/environments/{0}/collections/{1}/documents'.format(
             environment_id, collection_id)
 
-        params = {'version': latest_version}
+        params = {'version': self.version}
 
         if metadata is None:
             metadata = {}
@@ -289,7 +289,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         url_string = '/v1/environments/{0}/preview'.format(
             environment_id)
 
-        params = {'version': latest_version}
+        params = {'version': self.version}
 
         if metadata is None:
             metadata = {}
@@ -331,7 +331,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         url_string = base_url.format(
             environment_id, collection_id, document_id)
 
-        params = {'version': latest_version}
+        params = {'version': self.version}
 
         return self.request(method='GET',
                             url=url_string,
@@ -347,7 +347,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         url_string = base_url.format(
             environment_id, collection_id, document_id)
 
-        params = {'version': latest_version}
+        params = {'version': self.version}
 
         return self.request(method='DELETE',
                             url=url_string,
