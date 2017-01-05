@@ -138,7 +138,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             else:
                 return None
         except KeyError:
-            pass # this isn't a problem and supress isn't in 2.7
+            pass  # this isn't a problem and supress isn't in 2.7
         return None
 
     def get_configuration(self, environment_id, configuration_id):
@@ -167,7 +167,10 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={'version': self.version},
                             accept_json=True)
 
-    def update_configuration(self, environment_id, configuration_id, config_data):
+    def update_configuration(self,
+                             environment_id,
+                             configuration_id,
+                             config_data):
 
         format_string = '/v1/environments/{0}/configurations/{1}'
         url_string = format_string.format(environment_id, configuration_id)
@@ -278,7 +281,11 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                                 'application/json')},
                             accept_json=True)
 
-    def test_document(self, environment_id, fileinfo, configuration_id=None, metadata=None):
+    def test_document(self,
+                      environment_id,
+                      fileinfo,
+                      configuration_id=None,
+                      metadata=None):
         url_string = '/v1/environments/{0}/preview'.format(
             environment_id)
 
