@@ -308,8 +308,35 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                                 'application/json')},
                             accept_json=True)
 
-    def delete_document(self, environment_id, collection_id, document_id):
+    def get_document(self,
+                     environment_id,
+                     collection_id,
+                     document_id):
+        """
+        Get document status
+        :param environment_id the guid of the environment
+        :param collection_id collection guid
+        :param document_id the id of the document
+        :return dict of document info, not the contents.
+        """
         base_url = '/v1/environments/{0}/collections/{1}/documents/{2}'
+
+        url_string = base_url.format(
+            environment_id, collection_id, document_id)
+
+        params = {'version': latest_version}
+
+        return self.request(method='GET',
+                            url=url_string,
+                            params=params,
+                            accept_json=True)
+    
+    def delete_document(self,
+                        environment_id,
+                        collection_id,
+                        document_id):
+        base_url = '/v1/environments/{0}/collections/{1}/documents/{2}'
+        
         url_string = base_url.format(
             environment_id, collection_id, document_id)
 

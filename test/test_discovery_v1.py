@@ -340,6 +340,11 @@ def test_document():
                   status=200,
                   content_type='application/json')
 
+    responses.add(responses.GET, del_doc_url,
+                  body="{\"body\": []}",
+                  status=200,
+                  content_type='application/json')
+
     responses.add(responses.DELETE, del_doc_url,
                   body="{\"body\": []}",
                   status=200,
@@ -351,24 +356,31 @@ def test_document():
 
     assert len(responses.calls) == 4
 
+    discovery.get_document(environment_id='envid',
+                           collection_id='collid',
+                           document_id='docid')
+
+    assert len(responses.calls) == 5
+
+
     discovery.delete_document(environment_id='envid',
                               collection_id='collid',
                               document_id='docid')
 
-    assert len(responses.calls) == 5
+    assert len(responses.calls) == 6
 
 
     conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file')
 
 
-    assert len(responses.calls) == 6
+    assert len(responses.calls) == 7
 
     conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file',
                                      mime_type='application/html')
 
-    assert len(responses.calls) == 7
+    assert len(responses.calls) == 8
 
     conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file',
                                      mime_type='application/html', metadata={'stuff': 'woot!'})
 
-    assert len(responses.calls) == 8
+    assert len(responses.calls) == 9
