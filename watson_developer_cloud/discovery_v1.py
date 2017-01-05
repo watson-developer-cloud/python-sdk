@@ -330,13 +330,13 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url=url_string,
                             params=params,
                             accept_json=True)
-    
+
     def delete_document(self,
                         environment_id,
                         collection_id,
                         document_id):
         base_url = '/v1/environments/{0}/collections/{1}/documents/{2}'
-        
+
         url_string = base_url.format(
             environment_id, collection_id, document_id)
 
