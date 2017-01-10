@@ -18,6 +18,7 @@ The v1 Speech to Text service
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
+from collections import namedtuple
 
 
 class SpeechToTextV1(WatsonDeveloperCloudService):
@@ -95,4 +96,45 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
     def delete_custom_model(self, modelid):
         return self.request(method='DELETE',
                             url='/v1/customizations/{0}'.format(modelid),
+                            accept_json=True)
+
+    def list_corpora(self, customization_id):
+        url = '/v1/customizations/{0}/corpora'
+        return self.request(method='GET',
+                            url=url.format(customization_id),
+                            accept_json=True)
+
+    def add_corpora(self,
+                    customization_id,
+                    corpus_name,
+                    file,
+                    allow_overwrite=None):
+
+        url = '/v1/customizations/{0}/corpora/{1}'
+
+        if allow_overwrite is None:
+            allow_overwrite = False
+
+        headers = {'Content-Type': 'application/octet-stream'}
+
+        return self.request(method='GET',
+                            url=url.format(customization_id,
+                                           corpus_name),
+                            headers=headers,
+                            data=file,
+                            params={'allow_overwrite': allow_overwrite},
+                            accept_json=True)
+
+    def get_corpus(self, customization_id, corpus_name):
+        url = '/v1/customizations/{0}/corpora/{1}'
+        return self.request(method='GET',
+                            url=url.format(customization_id,
+                                           corpus_name),
+                            accept_json=True)
+
+    def delete_corpus(self, customization_id, corpus_name):
+        url = '/v1/customizations/{0}/corpora/{1}'
+        return self.request(method='DELETE',
+                            url=url.format(customization_id,
+                                           corpus_name),
                             accept_json=True)
