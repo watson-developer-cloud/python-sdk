@@ -105,7 +105,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
     def add_corpora(self,
                     customization_id,
                     corpus_name,
-                    file,
+                    file_data,
                     allow_overwrite=None):
 
         url = '/v1/customizations/{0}/corpora/{1}'
@@ -119,7 +119,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             url=url.format(customization_id,
                                            corpus_name),
                             headers=headers,
-                            data=file,
+                            data=file_data,
                             params={'allow_overwrite': allow_overwrite},
                             accept_json=True)
 

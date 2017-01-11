@@ -132,7 +132,7 @@ def test_custom_corpora():
     full_path = os.path.join(os.path.dirname(__file__), file_path)
     with open(full_path) as corpus_file:
         speech_to_text.add_corpora(customization_id='customid',
-                                   corpus_name="corpus",file=corpus_file)
+                                   corpus_name="corpus",file_data=corpus_file)
 
     speech_to_text.get_corpus(customization_id='customid',
                               corpus_name='corpus')
