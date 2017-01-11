@@ -18,8 +18,6 @@ The v1 Speech to Text service
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
-from collections import namedtuple
-
 
 class SpeechToTextV1(WatsonDeveloperCloudService):
     default_url = "https://stream.watsonplatform.net/speech-to-text/api"
