@@ -19,6 +19,7 @@ The v1 Speech to Text service
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
 
+
 class SpeechToTextV1(WatsonDeveloperCloudService):
     default_url = "https://stream.watsonplatform.net/speech-to-text/api"
 
@@ -171,11 +172,13 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
 
     def add_custom_word(self, customization_id, custom_word):
         url = '/v1/customizations/{0}/words/{1}'
+
+        custom_word_fragment = {'sounds_like': custom_word.sounds_like,
+                                'display_as': custom_word.display_as}
         return self.request(method='POST',
                             url=url.format(customization_id,
                                            custom_word.word),
-                            data=json.dumps({'sounds_like': custom_word.sounds_like,
-                                             'display_as': custom_word.display_as}),
+                            data=json.dumps(custom_word_fragment),
                             headers={'content-type': 'application/json'},
                             accept_json=True)
 
@@ -184,7 +187,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         qs = {}
 
         if word_type:
-            if word_type in ['all','user','corpora']:
+            if word_type in ['all', 'user', 'corpora']:
                 qs['word_type'] = word_type
             else:
                 raise KeyError('word type must be all, user, or corpora')
@@ -200,10 +203,10 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             params=qs,
                             accept_json=True)
 
-    def list_custom_word(self, customization_id, custom_word ):
+    def list_custom_word(self, customization_id, custom_word):
         url = '/v1/customizations/{0}/words/{1}'
         word = None
-        if type(custom_word) is type(""):
+        if isinstance(custom_word, str):
             word = custom_word
         else:
             word = custom_word.word
@@ -215,7 +218,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
     def delete_custom_word(self, customization_id, custom_word):
         url = '/v1/customizations/{0}/words/{1}'
         word = None
-        if type(custom_word) is type(""):
+        if isinstance(custom_word, str):
             word = custom_word
         else:
             word = custom_word.word
@@ -223,4 +226,3 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         return self.request(method='DELETE',
                             url=url.format(customization_id, word),
                             accept_json=True)
-
