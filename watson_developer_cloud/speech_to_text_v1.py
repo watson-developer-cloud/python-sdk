@@ -138,7 +138,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                                            corpus_name),
                             accept_json=True)
 
-    class CustomWord:
+    class CustomWord(object):
         def __init__(self, word=None, sounds_like=None, display_as=None):
             self._word = word
             self._sounds_like = sounds_like
