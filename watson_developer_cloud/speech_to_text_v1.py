@@ -136,3 +136,91 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             url=url.format(customization_id,
                                            corpus_name),
                             accept_json=True)
+
+    class CustomWord:
+        def __init__(self, word=None, sounds_like=None, display_as=None):
+            self._word = word
+            self._sounds_like = sounds_like
+            self._display_as = display_as
+
+        @property
+        def word(self):
+            return self._word
+
+        @property
+        def sounds_like(self):
+            return self._sounds_like
+
+        @property
+        def display_as(self):
+            return self._display_as
+
+        def __dict__(self):
+            return {'word': self.word,
+                    'sounds_like': self.sounds_like,
+                    'display_as': self.display_as}
+
+    def add_custom_words(self, customization_id, custom_words):
+        url = '/v1/customizations/{0}/words'
+        payload = {'words': [x.__dict__() for x in custom_words]}
+        return self.request(method='POST',
+                            url=url.format(customization_id),
+                            data=json.dumps(payload),
+                            headers={'content-type': 'application/json'},
+                            accept_json=True)
+
+    def add_custom_word(self, customization_id, custom_word):
+        url = '/v1/customizations/{0}/words/{1}'
+        return self.request(method='POST',
+                            url=url.format(customization_id,
+                                           custom_word.word),
+                            data=json.dumps({'sounds_like': custom_word.sounds_like,
+                                             'display_as': custom_word.display_as}),
+                            headers={'content-type': 'application/json'},
+                            accept_json=True)
+
+    def list_custom_words(self, customization_id, word_type=None, sort=None):
+        url = '/v1/customizations/{0}/words'
+        qs = {}
+
+        if word_type:
+            if word_type in ['all','user','corpora']:
+                qs['word_type'] = word_type
+            else:
+                raise KeyError('word type must be all, user, or corpora')
+
+        if sort:
+            if sort in ['alphabetical', 'count']:
+                qs['sort'] = sort
+            else:
+                raise KeyError('sort must be alphabetical or count')
+
+        return self.request(method='GET',
+                            url=url.format(customization_id),
+                            params=qs,
+                            accept_json=True)
+
+    def list_custom_word(self, customization_id, custom_word ):
+        url = '/v1/customizations/{0}/words/{1}'
+        word = None
+        if type(custom_word) is type(""):
+            word = custom_word
+        else:
+            word = custom_word.word
+
+        return self.request(method='GET',
+                            url=url.format(customization_id, word),
+                            accept_json=True)
+
+    def delete_custom_word(self, customization_id, custom_word):
+        url = '/v1/customizations/{0}/words/{1}'
+        word = None
+        if type(custom_word) is type(""):
+            word = custom_word
+        else:
+            word = custom_word.word
+
+        return self.request(method='DELETE',
+                            url=url.format(customization_id, word),
+                            accept_json=True)
+
