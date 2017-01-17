@@ -193,11 +193,11 @@ def test_custom_words():
     speech_to_text.add_custom_words(customization_id='custid',
                                     custom_words=custom_words)
 
-    speech_to_text.list_custom_word(customization_id='custid',
-                                    custom_word="IEEE")
+    speech_to_text.get_custom_word(customization_id='custid',
+                                   custom_word="IEEE")
 
-    speech_to_text.list_custom_word(customization_id='custid',
-                                    custom_word=custom_word)
+    speech_to_text.get_custom_word(customization_id='custid',
+                                   custom_word=custom_word)
 
     speech_to_text.list_custom_words(customization_id='custid')
     speech_to_text.list_custom_words(customization_id='custid', sort='alphabetical')

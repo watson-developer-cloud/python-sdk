@@ -203,7 +203,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             params=qs,
                             accept_json=True)
 
-    def list_custom_word(self, customization_id, custom_word):
+    def get_custom_word(self, customization_id, custom_word):
         url = '/v1/customizations/{0}/words/{1}'
         word = None
         if isinstance(custom_word, str):
