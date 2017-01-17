@@ -186,6 +186,9 @@ def test_custom_words():
     speech_to_text.delete_custom_word(customization_id='custid',
                                       custom_word=custom_word)
 
+    speech_to_text.delete_custom_word(customization_id='custid',
+                                      custom_word='IEEE')
+
     custom_words = [custom_word, custom_word, custom_word]
     speech_to_text.add_custom_words(customization_id='custid',
                                     custom_words=custom_words)
@@ -208,6 +211,6 @@ def test_custom_words():
         speech_to_text.list_custom_words(customization_id='custid', word_type='badwordtype')
     assert 'word type must be all, user, or corpora' in str(keyerror.value)
 
-    assert len(responses.calls) == 8
+    assert len(responses.calls) == 9
 
 
