@@ -44,7 +44,7 @@ Copy your credentials from the **Service details** page. To find the the Service
 1. Copy `username` and `password`.
 
 ## Python Version
-Tested 👌 (lightly) on: Python from 2.7 to 3.5-dev (development branch).
+Tested on: Python from 2.7 to 3.6.
 Python 2.6 is partially supported but generates InsecurePlatformWarnings (and other warnings), which can be ignored.
 
 ## CHANGELOG
