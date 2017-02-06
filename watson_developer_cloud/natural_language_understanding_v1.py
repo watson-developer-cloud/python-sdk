@@ -16,10 +16,6 @@ from watson_developer_cloud.watson_developer_cloud_service import \
     WatsonDeveloperCloudService
 import json
 
-base_url = 'https://gateway.watsonplatform.net'
-default_url = '{0}/natural-language-understanding/api'.format(base_url)
-latest_version = '2017-01-23'
-
 
 class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
     """
@@ -27,6 +23,10 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
     from watson_developer_cloud/nlu/features/v1
 
     """
+    base_url = 'https://gateway.watsonplatform.net'
+    default_url = '{0}/natural-language-understanding/api'.format(base_url)
+    latest_version = '2017-01-23'
+
     def __init__(self,
                  version,
                  url=default_url,
