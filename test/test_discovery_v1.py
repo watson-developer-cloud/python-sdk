@@ -1,4 +1,6 @@
-import responses,os, json
+import responses
+import os
+import json
 import watson_developer_cloud
 try:
     from urllib.parse import urlparse, urljoin
@@ -6,6 +8,7 @@ except ImportError:
     from urlparse import urlparse, urljoin
 
 base_discovery_url = 'https://gateway.watsonplatform.net/discovery/api/v1/'
+
 
 @responses.activate
 def test_environments():
@@ -48,9 +51,12 @@ def test_environments():
                                                    password='password')
     discovery.get_environments()
 
-    assert responses.calls[0].request.url == "{0}?version=2016-11-07".format(discovery_url)
+    url_str = "{0}?version=2016-11-07".format(discovery_url)
+    assert responses.calls[0].request.url == url_str
+
     assert responses.calls[0].response.text == discovery_response_body
     assert len(responses.calls) == 1
+
 
 @responses.activate
 def test_get_environment():
@@ -63,8 +69,10 @@ def test_get_environment():
                                                    username='username',
                                                    password='password')
     discovery.get_environment(environment_id='envid')
-    assert responses.calls[0].request.url == "{0}?version=2016-11-07".format(discovery_url)
+    url_str = "{0}?version=2016-11-07".format(discovery_url)
+    assert responses.calls[0].request.url == url_str
     assert len(responses.calls) == 1
+
 
 @responses.activate
 def test_create_environment():
@@ -86,7 +94,9 @@ def test_create_environment():
         discovery.create_environment(name=badname)
     except ValueError as ve:
         thrown = True
-        assert str(ve) == "name must be a string having length between 0 and 255 characters"
+        errorstr_first = "description must be a string having length between"
+        errorstr = "{0} 0 and 255 characters".format(errorstr_first)
+        assert str(ve) == errorstr
 
     assert thrown
 
@@ -96,7 +106,9 @@ def test_create_environment():
         discovery.create_environment(description=baddescription)
     except ValueError as ve:
         thrown = True
-        assert str(ve) == "description must be a string having length between 0 and 255 characters"
+        errorstr_first = "description must be a string having length between"
+        errorstr = "{0} 0 and 255 characters".format(errorstr_first)
+        assert str(ve) == errorstr
 
     assert thrown
 
@@ -108,6 +120,7 @@ def test_create_environment():
 
     assert thrown
     assert len(responses.calls) == 2
+
 
 @responses.activate
 def test_update_environment():
@@ -122,6 +135,7 @@ def test_update_environment():
     discovery.update_environment('envid', name="hello", description="new")
     assert len(responses.calls) == 1
 
+
 @responses.activate
 def test_delete_environment():
     discovery_url = urljoin(base_discovery_url, 'environments/envid')
@@ -135,14 +149,15 @@ def test_delete_environment():
     discovery.delete_environment('envid')
     assert len(responses.calls) == 1
 
+
 @responses.activate
 def test_collections():
-    discovery_url = urljoin(base_discovery_url, 'environments/envid/collections')
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/collections')
 
     responses.add(responses.GET, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
-
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
@@ -159,13 +174,16 @@ def test_collections():
 
 @responses.activate
 def test_collection():
-    discovery_url = urljoin(base_discovery_url, 'environments/envid/collections/collid')
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/collections/collid')
 
-    discovery_fields = urljoin(base_discovery_url, 'environments/envid/collections/collid/fields')
-    config_url = urljoin(base_discovery_url, 'environments/envid/configurations')
+    discovery_fields = urljoin(base_discovery_url,
+                               'environments/envid/collections/collid/fields')
+    config_url = urljoin(base_discovery_url,
+                         'environments/envid/configurations')
 
     responses.add(responses.GET, config_url,
-                  body="{\"configurations\": [{ \"name\": \"Default Configuration\", \"configuration_id\": \"confid\"}]}",
+                  body="{\"body\": \"hello\"}",
                   status=200,
                   content_type='application/json')
 
@@ -182,10 +200,11 @@ def test_collection():
                   content_type='application/json')
 
     responses.add(responses.POST,
-                 urljoin(base_discovery_url, 'environments/envid/collections'),
-                 body="{\"body\": \"create\"}",
-                 status=200,
-                 content_type='application/json')
+                  urljoin(base_discovery_url,
+                          'environments/envid/collections'),
+                  body="{\"body\": \"create\"}",
+                  status=200,
+                  content_type='application/json')
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
@@ -207,13 +226,17 @@ def test_collection():
     assert called_url.netloc == test_url.netloc
     assert called_url.path == test_url.path
 
-    discovery.delete_collection(environment_id='envid',collection_id='collid')
-    discovery.list_collection_fields(environment_id='envid', collection_id='collid')
+    discovery.delete_collection(environment_id='envid',
+                                collection_id='collid')
+    discovery.list_collection_fields(environment_id='envid',
+                                     collection_id='collid')
     assert len(responses.calls) == 6
+
 
 @responses.activate
 def test_query():
-    discovery_url = urljoin(base_discovery_url, 'environments/envid/collections/collid/query')
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/collections/collid/query')
 
     responses.add(responses.GET, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
@@ -230,32 +253,39 @@ def test_query():
     assert called_url.path == test_url.path
     assert len(responses.calls) == 1
 
+
 @responses.activate
 def test_configs():
-    discovery_url = urljoin(base_discovery_url, 'environments/envid/configurations')
-    discovery_config_id = urljoin(base_discovery_url, 'environments/envid/configurations/confid')
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/configurations')
+    discovery_config_id = urljoin(base_discovery_url,
+                                  'environments/envid/configurations/confid')
 
+    results = {"configurations":
+               [{"name": "Default Configuration",
+                 "configuration_id": "confid"}]}
+    json_result = json.dumps(results)
     responses.add(responses.GET, discovery_url,
-                  body="{\"configurations\": [{ \"name\": \"Default Configuration\", \"configuration_id\": \"confid\"}]}",
+                  body=json_result,
                   status=200,
                   content_type='application/json')
 
     responses.add(responses.GET, discovery_config_id,
-                  body="{\"configurations\": [{ \"name\": \"Default Configuration\", \"configuration_id\": \"confid\"}]}",
+                  body=json_result,
                   status=200,
                   content_type='application/json')
     responses.add(responses.POST, discovery_url,
-                  body="{\"configurations\": [{ \"name\": \"Default Configuration\", \"configuration_id\": \"confid\"}]}",
+                  body=json_result,
                   status=200,
-                  content_type = 'application/json')
+                  content_type='application/json')
     responses.add(responses.DELETE, discovery_config_id,
-                  body=json.dumps({ 'deleted': 'bogus -- ok'}),
+                  body=json.dumps({'deleted': 'bogus -- ok'}),
                   status=200,
-                  content_type = 'application/json')
+                  content_type='application/json')
     responses.add(responses.PUT, discovery_config_id,
-                  body=json.dumps({ 'updated': 'bogus -- ok'}),
+                  body=json.dumps({'updated': 'bogus -- ok'}),
                   status=200,
-                  content_type = 'application/json')
+                  content_type='application/json')
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
@@ -264,19 +294,26 @@ def test_configs():
     conf_id = discovery.get_default_configuration_id(environment_id='envid')
     assert conf_id == 'confid'
 
-    discovery.get_configuration(environment_id='envid', configuration_id='confid')
+    discovery.get_configuration(environment_id='envid',
+                                configuration_id='confid')
 
     assert len(responses.calls) == 3
 
-    discovery.create_configuration(environment_id='envid', config_data={'name': 'my name'})
-    discovery.update_configuration(environment_id='envid', configuration_id='confid', config_data={'name': 'my new name'})
-    discovery.delete_configuration(environment_id='envid', configuration_id='confid')
+    discovery.create_configuration(environment_id='envid',
+                                   config_data={'name': 'my name'})
+    discovery.update_configuration(environment_id='envid',
+                                   configuration_id='confid',
+                                   config_data={'name': 'my new name'})
+    discovery.delete_configuration(environment_id='envid',
+                                   configuration_id='confid')
 
     assert len(responses.calls) == 6
 
+
 @responses.activate
 def test_empty_configs():
-    discovery_url = urljoin(base_discovery_url, 'environments/envid/configurations')
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/configurations')
     responses.add(responses.GET, discovery_url,
                   body="{}",
                   status=200,
@@ -287,12 +324,14 @@ def test_empty_configs():
                                                    password='password')
 
     conf_id = discovery.get_default_configuration_id(environment_id='envid')
-    assert conf_id == None
+    assert conf_id is None
     assert len(responses.calls) == 1
+
 
 @responses.activate
 def test_no_configs():
-    discovery_url = urljoin(base_discovery_url, 'environments/envid/configurations')
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/configurations')
     responses.add(responses.GET, discovery_url,
                   body="{\"configurations\": []}",
                   status=200,
@@ -303,38 +342,48 @@ def test_no_configs():
                                                    password='password')
 
     conf_id = discovery.get_default_configuration_id(environment_id='envid')
-    assert conf_id == None
+    assert conf_id is None
     assert len(responses.calls) == 1
 
 
 @responses.activate
 def test_document():
-    discovery_url = urljoin(base_discovery_url, 'environments/envid/preview')
-    config_url = urljoin(base_discovery_url, 'environments/envid/configurations')
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/preview')
+    config_url = urljoin(base_discovery_url,
+                         'environments/envid/configurations')
     responses.add(responses.POST, discovery_url,
                   body="{\"configurations\": []}",
                   status=200,
                   content_type='application/json')
     responses.add(responses.GET, config_url,
-                  body="{\"configurations\": [{ \"name\": \"Default Configuration\", \"configuration_id\": \"confid\"}]}",
+                  body=json.dumps({"configurations":
+                                  [{"name": "Default Configuration",
+                                    "configuration_id": "confid"}]}),
                   status=200,
                   content_type='application/json')
-
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
                                                    password='password')
-
-    with open(os.path.join(os.getcwd(), 'resources', 'simple.html')) as fileinfo:
-        conf_id = discovery.test_document(environment_id='envid', configuration_id='bogus', fileinfo=fileinfo)
-        assert conf_id != None
-        conf_id = discovery.test_document(environment_id='envid', fileinfo=fileinfo)
-        assert conf_id != None
+    html_path = os.path.join(os.getcwd(), 'resources', 'simple.html')
+    with open(html_path) as fileinfo:
+        conf_id = discovery.test_document(environment_id='envid',
+                                          configuration_id='bogus',
+                                          fileinfo=fileinfo)
+        assert conf_id is not None
+        conf_id = discovery.test_document(environment_id='envid',
+                                          fileinfo=fileinfo)
+        assert conf_id is not None
 
     assert len(responses.calls) == 3
 
-    add_doc_url = urljoin(base_discovery_url, 'environments/envid/collections/collid/documents')
-    del_doc_url = urljoin(base_discovery_url, 'environments/envid/collections/collid/documents/docid')
+    add_doc_url = urljoin(base_discovery_url,
+                          'environments/envid/collections/collid/documents')
+
+    doc_id_path = 'environments/envid/collections/collid/documents/docid'
+    del_doc_url = urljoin(base_discovery_url,
+                          doc_id_path)
     responses.add(responses.POST, add_doc_url,
                   body="{\"body\": []}",
                   status=200,
@@ -350,9 +399,12 @@ def test_document():
                   status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.getcwd(), 'resources', 'simple.html')) as fileinfo:
-        conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_info=fileinfo)
-        assert conf_id != None
+    html_path = os.path.join(os.getcwd(), 'resources', 'simple.html')
+    with open(html_path) as fileinfo:
+        conf_id = discovery.add_document(environment_id='envid',
+                                         collection_id='collid',
+                                         file_info=fileinfo)
+        assert conf_id is not None
 
     assert len(responses.calls) == 4
 
@@ -362,25 +414,29 @@ def test_document():
 
     assert len(responses.calls) == 5
 
-
     discovery.delete_document(environment_id='envid',
                               collection_id='collid',
                               document_id='docid')
 
     assert len(responses.calls) == 6
 
-
-    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file')
-
+    conf_id = discovery.add_document(environment_id='envid',
+                                     collection_id='collid',
+                                     file_data='my string of file')
 
     assert len(responses.calls) == 7
 
-    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file',
+    conf_id = discovery.add_document(environment_id='envid',
+                                     collection_id='collid',
+                                     file_data='my string of file',
                                      mime_type='application/html')
 
     assert len(responses.calls) == 8
 
-    conf_id = discovery.add_document(environment_id='envid', collection_id='collid', file_data='my string of file',
-                                     mime_type='application/html', metadata={'stuff': 'woot!'})
+    conf_id = discovery.add_document(environment_id='envid',
+                                     collection_id='collid',
+                                     file_data='my string of file',
+                                     mime_type='application/html',
+                                     metadata={'stuff': 'woot!'})
 
     assert len(responses.calls) == 9
