@@ -1,24 +1,27 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[4]:
 
 import sys
 import os
 sys.path.append(os.path.join(os.getcwd(),'..'))
 import watson_developer_cloud
+import watson_developer_cloud.nlu.features.v1 as features
 
 
-# In[2]:
+# In[3]:
 
 nlu = watson_developer_cloud.NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                                            username='<USERNAME>',
-                                                            password='<PASSWORD>')
+                                                            username='USERNAME',
+                                                            url='https://gateway-s.watsonplatform.net/natural-language-understanding/api',
+                                                            password='PASSWORD')
 
 
-# In[10]:
+# In[6]:
 
-nlu.analyzeText(text='this is my experimental text.  Bruce Banner is the Hulk and Bruce Wayne is BATMAN! Superman fears not Banner, but Wayne.',features={'entities': {}})
+nlu.analyzeText(text='this is my experimental text.  Bruce Banner is the Hulk and Bruce Wayne is BATMAN! Superman fears not Banner, but Wayne.',
+                features=[features.Entities(), features.Keywords()])
 
 
 # In[ ]:
