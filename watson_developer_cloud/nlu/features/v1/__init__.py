@@ -1,4 +1,4 @@
-class Feature:
+class Feature(object):
     def toDict(self):
         res = {}
         if not hasattr(self, "_dataTuples"):
