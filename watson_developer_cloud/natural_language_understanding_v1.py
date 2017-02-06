@@ -22,6 +22,11 @@ latest_version = '2017-01-23'
 
 
 class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
+    """
+    All methods taking features use the feature classes
+    from watson_developer_cloud/nlu/features/v1
+
+    """
     def __init__(self,
                  version,
                  url=default_url,
@@ -59,10 +64,28 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
                             accept_json=True)
 
     def analyzeText(self, features, text):
+        """
+        Analyze the supplied text for the supplied features.
+        :param features: a list of features
+        :param text: the text to analyze
+        :return: a diction of the resulting data
+        """
         return self._analyze(features, text, 'text')
 
     def analyzeHtml(self, features, html):
+        """
+        Analyse the supplied html for the supplied features
+        :param features: a list of features
+        :param html: the html to analyze
+        :return: a diction of the resulting data
+        """
         return self._analyze(features, html, 'html')
 
     def analyzeURL(self, features, url):
+        """
+        Fetch the supplied url and analyze it
+        :param features: a list of features
+        :param url: the url to fetch
+        :return: a diction of the resulting data
+        """
         return self._analyze(features, url, 'url')
