@@ -33,10 +33,10 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
             username, password, use_vcap_services)
         self.version = version
 
-    def _analyze(self, features, content, contentKind):
+    def _analyze(self, featureList, content, contentKind):
         body = None
         feature_dict = {}
-        for feature in features:
+        for feature in featureList:
             feature_dict[feature.name()] = feature.toDict()
 
         if contentKind == 'text':
@@ -48,6 +48,9 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
         else:
             msg = "contentKind must be one of html, text, or url"
             raise ValueError(msg)
+
+        if len(featureList) < 1:
+            raise ValueError("Must supply at least one feature")
 
         return self.request(method='POST', url='/v1/analyze',
                             params={"version": self.version},

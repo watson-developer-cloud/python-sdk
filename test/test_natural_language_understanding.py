@@ -11,7 +11,6 @@ base_url = 'https://gateway.watsonplatform.net'
 default_url = '{0}/natural-language-understanding/api'.format(base_url)
 
 
-@responses.activate
 class TestFeatures(TestCase):
     def test_concepts(self):
         c = features.Concepts()
@@ -53,6 +52,7 @@ class TestFeatures(TestCase):
     def test_sentiment(self):
         s = features.Sentiment()
         assert(s.name() == 'sentiment')
+        assert(s.toDict() == {})
 
 
 class TestNaturalLanguageUnderstanding(TestCase):
@@ -70,5 +70,55 @@ class TestNaturalLanguageUnderstanding(TestCase):
                                              password='password')
         assert(nlu)
 
+    @responses.activate
     def test_text_analyze(self):
-        assert(False)
+        nlu_url = "http://bogus.com/v1/analyze"
+        responses.add(responses.POST, nlu_url,
+                      body="{\"resulting_key\": true}", status=200,
+                      content_type='application/json')
+        nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
+                                             url='http://bogus.com',
+                                             username='username',
+                                             password='password')
+        nlu.analyzeText([features.Sentiment()], "hello this is a test")
+        assert len(responses.calls) == 1
+
+    @responses.activate
+    def test_html_analyze(self):
+        nlu_url = "http://bogus.com/v1/analyze"
+        responses.add(responses.POST, nlu_url,
+                      body="{\"resulting_key\": true}", status=200,
+                      content_type='application/json')
+        nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
+                                             url='http://bogus.com',
+                                             username='username',
+                                             password='password')
+        nlu.analyzeHtml([features.Sentiment(),
+                         features.Emotion(document=False)],
+                        "<span>hello this is a test</span>")
+        assert len(responses.calls) == 1
+
+    @responses.activate
+    def test_url_analyze(self):
+        nlu_url = "http://bogus.com/v1/analyze"
+        responses.add(responses.POST, nlu_url,
+                      body="{\"resulting_key\": true}", status=200,
+                      content_type='application/json')
+        nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
+                                             url='http://bogus.com',
+                                             username='username',
+                                             password='password')
+        nlu.analyzeURL([features.Sentiment(),
+                        features.Emotion(document=False)], "http://cnn.com")
+        assert len(responses.calls) == 1
+
+    def test_message_kind(self):
+        nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
+                                             url='http://bogus.com',
+                                             username='username',
+                                             password='password')
+        with pytest.raises(ValueError):
+            nlu._analyze([features.Sentiment()], "conent", 'whoops')
+
+        with pytest.raises(ValueError):
+            nlu.analyzeURL([], "http://cnn.com")

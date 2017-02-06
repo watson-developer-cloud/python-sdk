@@ -57,7 +57,7 @@ class SemanticRoles(Feature):
     def __init__(self, limit=None, entities=None, keywords=None):
         self._dataTuples = [(limit, "limit"), (entities, "entities"),
                             (keywords, "keywords")]
-        self._name = "sematic_roles"
+        self._name = "semantic_roles"
 
 
 class Relations(Feature):
