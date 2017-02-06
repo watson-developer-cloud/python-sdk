@@ -94,7 +94,7 @@ def test_create_environment():
         discovery.create_environment(name=badname)
     except ValueError as ve:
         thrown = True
-        errorstr_first = "description must be a string having length between"
+        errorstr_first = "name must be a string having length between"
         errorstr = "{0} 0 and 255 characters".format(errorstr_first)
         assert str(ve) == errorstr
 
