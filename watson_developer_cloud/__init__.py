@@ -25,6 +25,7 @@ from .dialog_v1 import DialogV1
 from .language_translation_v2 import LanguageTranslationV2
 from .language_translator_v2 import LanguageTranslatorV2
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
+from .natural_language_understanding_v1 import NaturalLanguageUnderstandingV1
 from .personality_insights_v2 import PersonalityInsightsV2
 from .personality_insights_v3 import PersonalityInsightsV3
 from .retrieve_and_rank_v1 import RetrieveAndRankV1
