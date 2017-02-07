@@ -38,20 +38,30 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
             username, password, use_vcap_services)
         self.version = version
 
-    def _analyze(self, featureList, content, contentKind):
-        body = None
+    def analyze(self, featureList, text=None, url=None, html=None,
+                clean=True, xpath=None, fallback_to_raw=True,
+                return_analyzed_text=False, language=None):
+        body = {'clean': clean, 'fallback_to_raw': fallback_to_raw,
+                'return_analyzed_text': return_analyzed_text}
+        if xpath:
+            body['xpath'] = xpath
+
+        if language:
+            body['language']=language
+
         feature_dict = {}
         for feature in featureList:
             feature_dict[feature.name()] = feature.toDict()
+        body['features'] = feature_dict
 
-        if contentKind == 'text':
-            body = json.dumps({'text': content, 'features': feature_dict})
-        elif contentKind == 'html':
-            body = json.dumps({'html': content, 'features': feature_dict})
-        elif contentKind == 'url':
-            body = json.dumps({'url': content, 'features': feature_dict})
+        if text:
+            body['text'] = text
+        elif url:
+            body['url'] = url
+        elif html:
+            body['html'] = html
         else:
-            msg = "contentKind must be one of html, text, or url"
+            msg = "html, text, or url must have content"
             raise ValueError(msg)
 
         if len(featureList) < 1:
@@ -62,30 +72,3 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
                             headers={'content-type': 'application/json'},
                             data=body,
                             accept_json=True)
-
-    def analyzeText(self, features, text):
-        """
-        Analyze the supplied text for the supplied features.
-        :param features: a list of features
-        :param text: the text to analyze
-        :return: a diction of the resulting data
-        """
-        return self._analyze(features, text, 'text')
-
-    def analyzeHtml(self, features, html):
-        """
-        Analyse the supplied html for the supplied features
-        :param features: a list of features
-        :param html: the html to analyze
-        :return: a diction of the resulting data
-        """
-        return self._analyze(features, html, 'html')
-
-    def analyzeURL(self, features, url):
-        """
-        Fetch the supplied url and analyze it
-        :param features: a list of features
-        :param url: the url to fetch
-        :return: a diction of the resulting data
-        """
-        return self._analyze(features, url, 'url')

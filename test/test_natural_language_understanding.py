@@ -70,6 +70,16 @@ class TestNaturalLanguageUnderstanding(TestCase):
                                              password='password')
         assert(nlu)
 
+    def test_analyze_throws(self):
+        nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
+                                             url='http://bogus.com',
+                                             username='username',
+                                             password='password')
+        with pytest.raises(ValueError):
+            nlu.analyze([features.Sentiment()])
+        with pytest.raises(ValueError):
+            nlu.analyze([], text="this will not work")
+
     @responses.activate
     def test_text_analyze(self):
         nlu_url = "http://bogus.com/v1/analyze"
@@ -80,7 +90,7 @@ class TestNaturalLanguageUnderstanding(TestCase):
                                              url='http://bogus.com',
                                              username='username',
                                              password='password')
-        nlu.analyzeText([features.Sentiment()], "hello this is a test")
+        nlu.analyze([features.Sentiment()], text="hello this is a test")
         assert len(responses.calls) == 1
 
     @responses.activate
@@ -93,9 +103,9 @@ class TestNaturalLanguageUnderstanding(TestCase):
                                              url='http://bogus.com',
                                              username='username',
                                              password='password')
-        nlu.analyzeHtml([features.Sentiment(),
-                         features.Emotion(document=False)],
-                        "<span>hello this is a test</span>")
+        nlu.analyze([features.Sentiment(),
+                     features.Emotion(document=False)],
+                     html="<span>hello this is a test</span>")
         assert len(responses.calls) == 1
 
     @responses.activate
@@ -108,17 +118,7 @@ class TestNaturalLanguageUnderstanding(TestCase):
                                              url='http://bogus.com',
                                              username='username',
                                              password='password')
-        nlu.analyzeURL([features.Sentiment(),
-                        features.Emotion(document=False)], "http://cnn.com")
+        nlu.analyze([features.Sentiment(),
+                     features.Emotion(document=False)], url="http://cnn.com",
+                    xpath="/bogus/xpath", language="en")
         assert len(responses.calls) == 1
-
-    def test_message_kind(self):
-        nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                             url='http://bogus.com',
-                                             username='username',
-                                             password='password')
-        with pytest.raises(ValueError):
-            nlu._analyze([features.Sentiment()], "conent", 'whoops')
-
-        with pytest.raises(ValueError):
-            nlu.analyzeURL([], "http://cnn.com")

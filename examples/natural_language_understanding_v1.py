@@ -20,8 +20,8 @@ nlu = watson_developer_cloud.NaturalLanguageUnderstandingV1(version='2016-01-23'
 
 # In[6]:
 
-nlu.analyzeText(text='this is my experimental text.  Bruce Banner is the Hulk and Bruce Wayne is BATMAN! Superman fears not Banner, but Wayne.',
-                features=[features.Entities(), features.Keywords()])
+nlu.analyze(text='this is my experimental text.  Bruce Banner is the Hulk and Bruce Wayne is BATMAN! Superman fears not Banner, but Wayne.',
+            features=[features.Entities(), features.Keywords()])
 
 
 # In[ ]:
