@@ -14,7 +14,6 @@ import watson_developer_cloud.nlu.features.v1 as features
 
 nlu = watson_developer_cloud.NaturalLanguageUnderstandingV1(version='2016-01-23',
                                                             username='USERNAME',
-                                                            url='https://gateway-s.watsonplatform.net/natural-language-understanding/api',
                                                             password='PASSWORD')
 
 
