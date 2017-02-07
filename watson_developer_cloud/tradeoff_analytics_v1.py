@@ -27,16 +27,22 @@ class TradeoffAnalyticsV1(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(self, 'tradeoff_analytics', url,
                                              **kwargs)
 
-    def dilemmas(self, params, generate_visualization=True):
+    def dilemmas(self, params,
+                 generate_visualization=True,
+                 find_preferable_options=False):
         """
         :param params: The JSON problem (subject, columns, and options)
         :param generate_visualization: If True, returns the map visualization
         used by the Tradeoff Analytics widget
+        :param find_preferable_options: If True, returns a refined subset of
+        best candidate options that will most likely satisfy the greatest number
+        of users
         :return: A dilemma that contains the problem and its resolution
         """
 
         parameters = {
-            'generate_visualization': generate_visualization
+            'generate_visualization': generate_visualization,
+            'find_preferable_options': find_preferable_options
         }
 
         return self.request(method='POST', url='/v1/dilemmas', json=params,
