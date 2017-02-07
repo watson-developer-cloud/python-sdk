@@ -41,6 +41,19 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
     def analyze(self, features, text=None, url=None, html=None,
                 clean=True, xpath=None, fallback_to_raw=True,
                 return_analyzed_text=False, language=None):
+        """
+        This is the method to call and analyze text with the supplied features
+        :param features: The list of features
+        :param text: Text to analyze (pick one of text, url, or html)
+        :param url: url to analyze (pick one of text, url, or html)
+        :param html: html to analyze (pick one of text, url, or html)
+        :param clean: should the service clean the text?
+        :param xpath: xpath to use for html or url
+        :param fallback_to_raw: 
+        :param return_analyzed_text: should the analyzed text be returned (defaults to false)
+        :param language: what language to use
+        :return: dict of analyzed text
+        """
         body = {'clean': clean, 'fallback_to_raw': fallback_to_raw,
                 'return_analyzed_text': return_analyzed_text}
         if xpath:
