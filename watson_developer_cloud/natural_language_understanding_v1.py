@@ -55,26 +55,22 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
         :param language: what language to use
         :return: dict of analyzed text
         """
-        body = {'clean': clean, 'fallback_to_raw': fallback_to_raw,
-                'return_analyzed_text': return_analyzed_text}
-        if xpath:
-            body['xpath'] = xpath
-
-        if language:
-            body['language'] = language
+        body = {'clean': clean,
+                'fallback_to_raw': fallback_to_raw,
+                'return_analyzed_text': return_analyzed_text,
+                'xpath': xpath,
+                'language': language,
+                'text': text,
+                'url': url,
+                'html': html
+                }
 
         feature_dict = {}
         for feature in features:
             feature_dict[feature.name()] = feature.toDict()
         body['features'] = feature_dict
 
-        if text:
-            body['text'] = text
-        elif url:
-            body['url'] = url
-        elif html:
-            body['html'] = html
-        else:
+        if not (text or url or body):
             msg = "html, text, or url must have content"
             raise ValueError(msg)
 
@@ -84,5 +80,5 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
         return self.request(method='POST', url='/v1/analyze',
                             params={"version": self.version},
                             headers={'content-type': 'application/json'},
-                            data=json.dumps(body),
+                            json=body,
                             accept_json=True)
