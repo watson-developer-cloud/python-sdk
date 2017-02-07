@@ -38,7 +38,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
             username, password, use_vcap_services)
         self.version = version
 
-    def analyze(self, featureList, text=None, url=None, html=None,
+    def analyze(self, features, text=None, url=None, html=None,
                 clean=True, xpath=None, fallback_to_raw=True,
                 return_analyzed_text=False, language=None):
         body = {'clean': clean, 'fallback_to_raw': fallback_to_raw,
@@ -50,7 +50,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
             body['language']=language
 
         feature_dict = {}
-        for feature in featureList:
+        for feature in features:
             feature_dict[feature.name()] = feature.toDict()
         body['features'] = feature_dict
 
@@ -64,11 +64,11 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
             msg = "html, text, or url must have content"
             raise ValueError(msg)
 
-        if len(featureList) < 1:
+        if len(features) < 1:
             raise ValueError("Must supply at least one feature")
 
         return self.request(method='POST', url='/v1/analyze',
                             params={"version": self.version},
                             headers={'content-type': 'application/json'},
-                            data=body,
+                            data=json.dumps(body),
                             accept_json=True)
