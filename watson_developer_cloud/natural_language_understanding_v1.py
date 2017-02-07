@@ -20,7 +20,7 @@ import json
 class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
     """
     All methods taking features use the feature classes
-    from watson_developer_cloud/nlu/features/v1
+    from watson_developer_cloud/natural_language_understanding/features/v1
 
     """
     base_url = 'https://gateway.watsonplatform.net'
