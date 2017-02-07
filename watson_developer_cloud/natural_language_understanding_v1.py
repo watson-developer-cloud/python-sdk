@@ -47,7 +47,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
             body['xpath'] = xpath
 
         if language:
-            body['language']=language
+            body['language'] = language
 
         feature_dict = {}
         for feature in features:
