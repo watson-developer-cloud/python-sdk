@@ -14,7 +14,6 @@
 
 from watson_developer_cloud.watson_developer_cloud_service import \
     WatsonDeveloperCloudService
-import json
 
 
 class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
@@ -55,15 +54,16 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
         :param language: what language to use
         :return: dict of analyzed text
         """
-        body = {'clean': clean,
-                'fallback_to_raw': fallback_to_raw,
-                'return_analyzed_text': return_analyzed_text,
-                'xpath': xpath,
-                'language': language,
-                'text': text,
-                'url': url,
-                'html': html
-                }
+        body = {
+            'clean': clean,
+            'fallback_to_raw': fallback_to_raw,
+            'return_analyzed_text': return_analyzed_text,
+            'xpath': xpath,
+            'language': language,
+            'text': text,
+            'url': url,
+            'html': html
+        }
 
         feature_dict = {}
         for feature in features:
