@@ -70,7 +70,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
             feature_dict[feature.name()] = feature.toDict()
         body['features'] = feature_dict
 
-        if not (text or url or body):
+        if text is None and html is None and url is None:
             msg = "html, text, or url must have content"
             raise ValueError(msg)
 
