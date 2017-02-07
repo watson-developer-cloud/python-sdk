@@ -49,8 +49,9 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
         :param html: html to analyze (pick one of text, url, or html)
         :param clean: should the service clean the text?
         :param xpath: xpath to use for html or url
-        :param fallback_to_raw: 
-        :param return_analyzed_text: should the analyzed text be returned (defaults to false)
+        :param fallback_to_raw:
+        :param return_analyzed_text: should the analyzed
+               text be returned (defaults to false)
         :param language: what language to use
         :return: dict of analyzed text
         """
