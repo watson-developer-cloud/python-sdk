@@ -1,10 +1,10 @@
 from unittest import TestCase
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 from watson_developer_cloud import WatsonException
-import watson_developer_cloud.natural_language_understanding.features.v1 as features
+from watson_developer_cloud.natural_language_understanding.features import (
+    v1 as features)
 import pytest
 import responses
-import json
 
 
 base_url = 'https://gateway.watsonplatform.net'
@@ -105,7 +105,7 @@ class TestNaturalLanguageUnderstanding(TestCase):
                                              password='password')
         nlu.analyze([features.Sentiment(),
                      features.Emotion(document=False)],
-                     html="<span>hello this is a test</span>")
+                    html="<span>hello this is a test</span>")
         assert len(responses.calls) == 1
 
     @responses.activate
