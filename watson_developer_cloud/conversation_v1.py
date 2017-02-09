@@ -30,6 +30,68 @@ class ConversationV1(WatsonDeveloperCloudService):
                                              **kwargs)
         self.version = version
 
+    def list_workspaces(self):
+        """
+        List workspaces available.
+        This includes pagination info.
+        """
+        params = {'version': self.version}
+        return self.request(method='GET',
+                            url='/v1/workspaces',
+                            params=params,
+                            accept_json=True)
+
+    def get_workspace(self, workspace_id, export=False):
+        """
+        Get a specific workspace
+        :param: workspace_id  the guid of the workspace
+        :param: export (optional) return all workspace data
+        """
+        params = {'version': self.version}
+        if export:
+            params['export'] = True
+
+        return self.request(method='GET',
+                            url='/v1/workspaces/{0}'.format(workspace_id),
+                            params=params,
+                            accept_json=True)
+
+    def delete_workspace(self, workspace_id):
+        """
+        Deletes a given workspace.
+        :param: workspace_id the guid of the workspace_id
+        """
+        params = {'version': self.version}
+        return self.request(method='DELETE',
+                            url='/v1/workspaces/{0}'.format(workspace_id),
+                            params=params,
+                            accept_json=True)
+
+    def create_workspace(self, workspace_data):
+        """
+        Create a new workspace
+        :param: workspace_data a dictionary of workspace information.
+        """
+        params = {'version': self.version}
+        return self.request(method='POST',
+                            url='/v1/workspaces',
+                            json=workspace_data,
+                            params=params,
+                            accept_json=True)
+
+    def update_workspace(self, workspace_id, workspace_data):
+        """
+        Update an existing workspace
+        :param: workspace_id the guid of the workspace to update
+        :param: workspace_data a dictionary of the data to update
+        """
+        params = {'version': self.version}
+        return self.request(method='POST',
+                            url='/v1/workspaces/{0}'.format(workspace_id),
+                            json=workspace_data,
+                            params=params,
+                            accept_json=True)
+
     def message(self, workspace_id, message_input=None, context=None,
                 entities=None, intents=None, output=None,
                 alternate_intents=False):
