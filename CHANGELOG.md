@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 0.24.0
+
+_2017-02-21_
+
+* Added: Discovery configuration APIs
+* Added: Tradeoff Analytics find_preferable_options flag
+
 ## Version 0.23.0
 
 _2016-12-21_
