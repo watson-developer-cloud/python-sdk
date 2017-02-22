@@ -88,12 +88,21 @@ def test_create_workspace():
                                                 }],
                                    "description": None
                                   }],
-                      "entities": [],
+                      "entities": [{'entity': 'just for testing'}],
                       "language": "en",
-                      "metadata": None,
+                      "metadata": {'thing': 'something'},
                       "description": "this is a development workspace",
-                      "dialog_nodes": [],
-                      "counterexamples": []
+                      "dialog_nodes": [{'conditions': '#orderpizza',
+                                        'context': None,
+                                        'description': None,
+                                        'dialog_node': 'YesYouCan',
+                                        'go_to': None,
+                                        'metadata': None,
+                                        'output':  {'text': {'selection_policy': 'random',
+                                                             'values': ['Yes You can!', 'Of course!']}},
+                                                             'parent': None,
+                                                             'previous_sibling': None}],
+                      "counterexamples": [{'counter': 'counterexamples for test'}]
                       }
 
     workspace_url = "{0}{1}".format(base_url, "/workspaces")
@@ -105,9 +114,16 @@ def test_create_workspace():
     conversation = watson_developer_cloud.ConversationV1(username="username",
                                                          password="password",
                                                          version='2016-09-20')
-    workspace = conversation.create_workspace(workspace_data)
-    assert len(responses.calls) == 1
+    workspace = conversation.create_workspace(name=workspace_data['name'],
+                                              description=workspace_data['description'],
+                                              language=workspace_data['language'],
+                                              intents=workspace_data['intents'],
+                                              metadata=workspace_data['metadata'],
+                                              counterexamples=workspace_data['counterexamples'],
+                                              dialog_nodes=workspace_data['dialog_nodes'],
+                                              entities=workspace_data['entities'])
     assert workspace == message_response
+    assert len(responses.calls) == 1
 
 
 @responses.activate
@@ -131,7 +147,7 @@ def test_update_workspace():
                                   }],
                       "entities": [],
                       "language": "en",
-                      "metadata": None,
+                      "metadata": {},
                       "description": "this is a development workspace",
                       "dialog_nodes": [],
                       "counterexamples": [],
@@ -146,7 +162,15 @@ def test_update_workspace():
     conversation = watson_developer_cloud.ConversationV1(username="username",
                                                          password="password",
                                                          version='2016-09-20')
-    workspace = conversation.update_workspace('boguswid', workspace_data)
+    workspace = conversation.update_workspace('boguswid',
+                                              name=workspace_data['name'],
+                                              description=workspace_data['description'],
+                                              language=workspace_data['language'],
+                                              intents=workspace_data['intents'],
+                                              metadata=workspace_data['metadata'],
+                                              counterexamples=workspace_data['counterexamples'],
+                                              dialog_nodes=workspace_data['dialog_nodes'],
+                                              entities=workspace_data['entities'])
     assert len(responses.calls) == 1
     assert workspace == message_response
 

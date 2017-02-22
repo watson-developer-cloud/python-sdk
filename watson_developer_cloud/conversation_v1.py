@@ -67,28 +67,90 @@ class ConversationV1(WatsonDeveloperCloudService):
                             params=params,
                             accept_json=True)
 
-    def create_workspace(self, workspace_data):
+    def create_workspace(self, name, description, language,
+                         intents=None,
+                         entities=None,
+                         dialog_nodes=None,
+                         counterexamples=None,
+                         metadata=None):
         """
         Create a new workspace
-        :param: workspace_data a dictionary of workspace information.
+        :param name: Name of the workspace
+        :param description: description of the worksspace
+        :param language: language code
+        :param entities: an array of entities (optional)
+        :param dialog_nodes: an array of dialog notes (optional)
+        :param counterexamples: an array of counterexamples (optional)
+        :param metadata: metadata dictionary (optional)
         """
+        payload = { 'name': name,
+                    'description': description,
+                    'language': language}
+        if intents is not None:
+            payload['intents'] = intents
+
+        if entities is not None:
+            payload['entities'] = entities
+
+        if dialog_nodes is not None:
+            payload['dialog_nodes'] = dialog_nodes
+
+        if counterexamples is not None:
+            payload['counterexamples'] = counterexamples
+
+        if metadata is not None:
+            payload['metadata'] = metadata
+
         params = {'version': self.version}
         return self.request(method='POST',
                             url='/v1/workspaces',
-                            json=workspace_data,
+                            json=payload,
                             params=params,
                             accept_json=True)
 
-    def update_workspace(self, workspace_id, workspace_data):
+    def update_workspace(self, workspace_id,
+                         name=None,
+                         description=None,
+                         language=None,
+                         intents=None,
+                         entities=None,
+                         dialog_nodes=None,
+                         counterexamples=None,
+                         metadata=None):
         """
         Update an existing workspace
-        :param: workspace_id the guid of the workspace to update
-        :param: workspace_data a dictionary of the data to update
+        :param workspace_id: the guid of the workspace to update
+        :param name: Name of the workspace
+        :param description: description of the worksspace
+        :param language: language code
+        :param entities: an array of entities (optional)
+        :param dialog_nodes: an array of dialog notes (optional)
+        :param counterexamples: an array of counterexamples (optional)
+        :param metadata: metadata dictionary (optional)
         """
+        params = {'version': self.version}
+        payload = {'name': name,
+                   'description': description,
+                   'language': language}
+        if intents is not None:
+            payload['intents'] = intents
+
+        if entities is not None:
+            payload['entities'] = entities
+
+        if dialog_nodes is not None:
+            payload['dialog_nodes'] = dialog_nodes
+
+        if counterexamples is not None:
+            payload['counterexamples'] = counterexamples
+
+        if metadata is not None:
+            payload['metadata'] = metadata
+
         params = {'version': self.version}
         return self.request(method='POST',
                             url='/v1/workspaces/{0}'.format(workspace_id),
-                            json=workspace_data,
+                            json=payload,
                             params=params,
                             accept_json=True)
 
