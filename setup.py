@@ -72,6 +72,7 @@ setup(name='watson-developer-cloud',
       long_description=read_md('README.md'),
       url='https://github.com/watson-developer-cloud/python-sdk',
       packages=['watson_developer_cloud'],
+      include_package_data=True,
       keywords='alchemy datanews, language, vision, question and answer' +
                ' tone_analyzer, natural language classifier, retrieve and '
                'rank,' +
