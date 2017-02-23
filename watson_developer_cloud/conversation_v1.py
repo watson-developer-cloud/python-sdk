@@ -83,9 +83,9 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param counterexamples: an array of counterexamples (optional)
         :param metadata: metadata dictionary (optional)
         """
-        payload = { 'name': name,
-                    'description': description,
-                    'language': language}
+        payload = {'name': name,
+                   'description': description,
+                   'language': language}
         if intents is not None:
             payload['intents'] = intents
 
