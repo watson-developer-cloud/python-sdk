@@ -14,7 +14,7 @@ import watson_developer_cloud.natural_language_understanding.features.v1 as \
 # In[3]:
 
 nlu = watson_developer_cloud.NaturalLanguageUnderstandingV1(
-    version='2016-01-23',
+    version='2017-02-27',
     username='USERNAME',
     password='PASSWORD')
 
