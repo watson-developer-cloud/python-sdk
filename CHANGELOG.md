@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 0.25.0
+
+_2017-02-23_
+
+* Fixed: Natural Language Understanding importing
+* Added: Conversation workspace updating
+
 ## Version 0.24.0
 
 _2017-02-21_
