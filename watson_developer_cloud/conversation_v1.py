@@ -30,6 +30,130 @@ class ConversationV1(WatsonDeveloperCloudService):
                                              **kwargs)
         self.version = version
 
+    def list_workspaces(self):
+        """
+        List workspaces available.
+        This includes pagination info.
+        """
+        params = {'version': self.version}
+        return self.request(method='GET',
+                            url='/v1/workspaces',
+                            params=params,
+                            accept_json=True)
+
+    def get_workspace(self, workspace_id, export=False):
+        """
+        Get a specific workspace
+        :param: workspace_id  the guid of the workspace
+        :param: export (optional) return all workspace data
+        """
+        params = {'version': self.version}
+        if export:
+            params['export'] = True
+
+        return self.request(method='GET',
+                            url='/v1/workspaces/{0}'.format(workspace_id),
+                            params=params,
+                            accept_json=True)
+
+    def delete_workspace(self, workspace_id):
+        """
+        Deletes a given workspace.
+        :param: workspace_id the guid of the workspace_id
+        """
+        params = {'version': self.version}
+        return self.request(method='DELETE',
+                            url='/v1/workspaces/{0}'.format(workspace_id),
+                            params=params,
+                            accept_json=True)
+
+    def create_workspace(self, name, description, language,
+                         intents=None,
+                         entities=None,
+                         dialog_nodes=None,
+                         counterexamples=None,
+                         metadata=None):
+        """
+        Create a new workspace
+        :param name: Name of the workspace
+        :param description: description of the worksspace
+        :param language: language code
+        :param entities: an array of entities (optional)
+        :param dialog_nodes: an array of dialog notes (optional)
+        :param counterexamples: an array of counterexamples (optional)
+        :param metadata: metadata dictionary (optional)
+        """
+        payload = {'name': name,
+                   'description': description,
+                   'language': language}
+        if intents is not None:
+            payload['intents'] = intents
+
+        if entities is not None:
+            payload['entities'] = entities
+
+        if dialog_nodes is not None:
+            payload['dialog_nodes'] = dialog_nodes
+
+        if counterexamples is not None:
+            payload['counterexamples'] = counterexamples
+
+        if metadata is not None:
+            payload['metadata'] = metadata
+
+        params = {'version': self.version}
+        return self.request(method='POST',
+                            url='/v1/workspaces',
+                            json=payload,
+                            params=params,
+                            accept_json=True)
+
+    def update_workspace(self, workspace_id,
+                         name=None,
+                         description=None,
+                         language=None,
+                         intents=None,
+                         entities=None,
+                         dialog_nodes=None,
+                         counterexamples=None,
+                         metadata=None):
+        """
+        Update an existing workspace
+        :param workspace_id: the guid of the workspace to update
+        :param name: Name of the workspace
+        :param description: description of the worksspace
+        :param language: language code
+        :param entities: an array of entities (optional)
+        :param dialog_nodes: an array of dialog notes (optional)
+        :param counterexamples: an array of counterexamples (optional)
+        :param metadata: metadata dictionary (optional)
+        """
+        params = {'version': self.version}
+        payload = {'name': name,
+                   'description': description,
+                   'language': language}
+        if intents is not None:
+            payload['intents'] = intents
+
+        if entities is not None:
+            payload['entities'] = entities
+
+        if dialog_nodes is not None:
+            payload['dialog_nodes'] = dialog_nodes
+
+        if counterexamples is not None:
+            payload['counterexamples'] = counterexamples
+
+        if metadata is not None:
+            payload['metadata'] = metadata
+
+        params = {'version': self.version}
+        return self.request(method='POST',
+                            url='/v1/workspaces/{0}'.format(workspace_id),
+                            json=payload,
+                            params=params,
+                            accept_json=True)
+
     def message(self, workspace_id, message_input=None, context=None,
                 entities=None, intents=None, output=None,
                 alternate_intents=False):
