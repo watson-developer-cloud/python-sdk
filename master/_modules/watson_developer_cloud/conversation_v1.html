@@ -75,6 +75,130 @@
                                              <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
 
+<div class="viewcode-block" id="ConversationV1.list_workspaces"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.ConversationV1.list_workspaces">[docs]</a>    <span class="k">def</span> <span class="nf">list_workspaces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List workspaces available.</span>
+<span class="sd">        This includes pagination info.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+                            <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/workspaces&#39;</span><span class="p">,</span>
+                            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConversationV1.get_workspace"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.ConversationV1.get_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">get_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace_id</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a specific workspace</span>
+<span class="sd">        :param: workspace_id  the guid of the workspace</span>
+<span class="sd">        :param: export (optional) return all workspace data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">export</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;export&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+                            <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConversationV1.delete_workspace"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.ConversationV1.delete_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">delete_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes a given workspace.</span>
+<span class="sd">        :param: workspace_id the guid of the workspace_id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
+                            <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">),</span>
+                            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConversationV1.create_workspace"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.ConversationV1.create_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">create_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span>
+                         <span class="n">intents</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">dialog_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">counterexamples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new workspace</span>
+<span class="sd">        :param name: Name of the workspace</span>
+<span class="sd">        :param description: description of the worksspace</span>
+<span class="sd">        :param language: language code</span>
+<span class="sd">        :param entities: an array of entities (optional)</span>
+<span class="sd">        :param dialog_nodes: an array of dialog notes (optional)</span>
+<span class="sd">        :param counterexamples: an array of counterexamples (optional)</span>
+<span class="sd">        :param metadata: metadata dictionary (optional)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                   <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+                   <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">intents</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;intents&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intents</span>
+
+        <span class="k">if</span> <span class="n">entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entities</span>
+
+        <span class="k">if</span> <span class="n">dialog_nodes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;dialog_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog_nodes</span>
+
+        <span class="k">if</span> <span class="n">counterexamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;counterexamples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">counterexamples</span>
+
+        <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+                            <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/workspaces&#39;</span><span class="p">,</span>
+                            <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span>
+                            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConversationV1.update_workspace"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.ConversationV1.update_workspace">[docs]</a>    <span class="k">def</span> <span class="nf">update_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace_id</span><span class="p">,</span>
+                         <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">intents</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">dialog_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">counterexamples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an existing workspace</span>
+<span class="sd">        :param workspace_id: the guid of the workspace to update</span>
+<span class="sd">        :param name: Name of the workspace</span>
+<span class="sd">        :param description: description of the worksspace</span>
+<span class="sd">        :param language: language code</span>
+<span class="sd">        :param entities: an array of entities (optional)</span>
+<span class="sd">        :param dialog_nodes: an array of dialog notes (optional)</span>
+<span class="sd">        :param counterexamples: an array of counterexamples (optional)</span>
+<span class="sd">        :param metadata: metadata dictionary (optional)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                   <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+                   <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">intents</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;intents&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">intents</span>
+
+        <span class="k">if</span> <span class="n">entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entities</span>
+
+        <span class="k">if</span> <span class="n">dialog_nodes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;dialog_nodes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dialog_nodes</span>
+
+        <span class="k">if</span> <span class="n">counterexamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;counterexamples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">counterexamples</span>
+
+        <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">payload</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+                            <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">),</span>
+                            <span class="n">json</span><span class="o">=</span><span class="n">payload</span><span class="p">,</span>
+                            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ConversationV1.message"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.ConversationV1.message">[docs]</a>    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace_id</span><span class="p">,</span> <span class="n">message_input</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">intents</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">alternate_intents</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

@@ -64,6 +64,55 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_workspaces">
+<code class="descname">list_workspaces</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_workspaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_workspaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>List workspaces available.
+This includes pagination info.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_workspace">
+<code class="descname">get_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a specific workspace
+:param: workspace_id  the guid of the workspace
+:param: export (optional) return all workspace data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.delete_workspace">
+<code class="descname">delete_workspace</code><span class="sig-paren">(</span><em>workspace_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.delete_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.delete_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a given workspace.
+:param: workspace_id the guid of the workspace_id</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.create_workspace">
+<code class="descname">create_workspace</code><span class="sig-paren">(</span><em>name</em>, <em>description</em>, <em>language</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.create_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.create_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new workspace
+:param name: Name of the workspace
+:param description: description of the worksspace
+:param language: language code
+:param entities: an array of entities (optional)
+:param dialog_nodes: an array of dialog notes (optional)
+:param counterexamples: an array of counterexamples (optional)
+:param metadata: metadata dictionary (optional)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.update_workspace">
+<code class="descname">update_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update an existing workspace
+:param workspace_id: the guid of the workspace to update
+:param name: Name of the workspace
+:param description: description of the worksspace
+:param language: language code
+:param entities: an array of entities (optional)
+:param dialog_nodes: an array of dialog notes (optional)
+:param counterexamples: an array of counterexamples (optional)
+:param metadata: metadata dictionary (optional)</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.message">
 <code class="descname">message</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>message_input=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em>, <em>alternate_intents=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves information about a specific classifier.
