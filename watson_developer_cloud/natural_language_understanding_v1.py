@@ -22,7 +22,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
     from watson_developer_cloud/natural_language_understanding/features/v1
 
     """
-    base_url = 'https://gateway-s.watsonplatform.net'
+    base_url = 'https://gateway.watsonplatform.net'
     default_url = '{0}/natural-language-understanding/api'.format(base_url)
     latest_version = '2017-02-27'
 
