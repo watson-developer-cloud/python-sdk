@@ -7,7 +7,7 @@ conversation = ConversationV1(
     version='2016-09-20')
 
 # replace with your own workspace_id
-workspace_id = 'b42ee794-c019-4a0d-acd2-9e4d1d016767'
+workspace_id = '0a0c06c1-8e31-4655-9067-58fcac5134fc'
 
 response = conversation.message(workspace_id=workspace_id, message_input={
     'text': 'What\'s the weather like?'})
