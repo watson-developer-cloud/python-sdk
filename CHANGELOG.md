@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version 0.25.1
+
+_2017-02-28_
+
+* Fixed: Natural Language Understanding base url
+
 ## Version 0.25.0
 
 _2017-02-23_
