@@ -33,7 +33,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
                  password=None,
                  use_vcap_services=True):
         WatsonDeveloperCloudService.__init__(
-            self, 'natural_language_understanding', url,
+            self, 'natural-language-understanding', url,
             username, password, use_vcap_services)
         self.version = version
 
