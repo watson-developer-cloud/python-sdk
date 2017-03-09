@@ -78,8 +78,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :return:
         """
         self._valid_name_and_description(name=name, description=description)
-        if size not in range(1, 4):
-            raise ValueError("Size can be 1, 2, or 3")
+        if size not in range(0, 4):
+            raise ValueError("Size can be 0, 1, 2, or 3")
 
         body = json.dumps({"name": name,
                            "description": description,

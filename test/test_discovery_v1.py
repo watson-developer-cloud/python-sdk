@@ -2,6 +2,7 @@ import responses
 import os
 import json
 import watson_developer_cloud
+import pytest
 try:
     from urllib.parse import urlparse, urljoin
 except ImportError:
@@ -112,14 +113,12 @@ def test_create_environment():
 
     assert thrown
 
-    try:
+    with pytest.raises(ValueError):
         discovery.create_environment(size=14)
-    except ValueError as ve:
-        thrown = True
-        assert str(ve) == "Size can be 1, 2, or 3"
 
-    assert thrown
-    assert len(responses.calls) == 2
+    discovery.create_environment(size=0)
+
+    assert len(responses.calls) == 3
 
 
 @responses.activate
