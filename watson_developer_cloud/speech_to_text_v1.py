@@ -22,12 +22,13 @@ import base64
 
 from autobahn.twisted.websocket import WebSocketClientFactory,\
     WebSocketClientProtocol, connectWS
-from twisted.internet import ssl, interfaces, reactor
+from twisted.internet import ssl, reactor
+
 
 class STTWebsocketClientProtocol(WebSocketClientProtocol):
     def setFile(self, filename):
         self.filename = filename
-    def setContentType(self,content_type):
+    def setContentType(self, content_type):
         self.contentType = content_type
     def setFactory(self, factory):
         self.factory = factory
@@ -36,7 +37,6 @@ class STTWebsocketClientProtocol(WebSocketClientProtocol):
     def setParams(self, params):
         self.params = params
     def onOpen(self):
-        print("Opened {0}".format(self.filename))
         data = self.params
         # send the initialization parameters
         self.sendMessage(json.dumps(data).encode('utf-8'))
@@ -46,21 +46,23 @@ class STTWebsocketClientProtocol(WebSocketClientProtocol):
                 if not buf:
                     self.sendMessage(json.dumps({'action': 'stop'}).encode('utf-8'))
                     break
-                self.sendMessage(buf,isBinary=True)
+                self.sendMessage(buf, isBinary=True)
+
     def onMessage(self, payload, is_binary):
         if not is_binary:
             json_payload = json.loads(payload)
             try:
                 self.messageCallback(json_payload)
-            except AttributeError as ae:
+            except AttributeError:
                 # if we don't have a message callback, don't worry about it
                 pass
             if 'results' in json_payload:
-                    if len(json_payload['results']) > 0:
-                        if 'final' in json_payload['results'][0]:
-                            if json_payload['results'][0]['final']:
-                                # if we're final, close it up
-                                self.sendClose(1000)
+                if len(json_payload['results']) > 0:
+                    if 'final' in json_payload['results'][0]:
+                        if json_payload['results'][0]['final']:
+                            # if we're final, close it up
+                            self.sendClose(1000)
+
     def onClose(self, wasClean, code, reason):
         reactor.stop()
 
@@ -161,7 +163,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                   'smart_formatting': smart_formatting,
                   'speaker_labels': speaker_labels}
         # filter and remove None's
-        params = dict([(k,params[k])
+        params = dict([(k, params[k])
                        for k
                        in params.keys()
                        if params[k] is not None])
@@ -170,8 +172,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         headers["Authorization"] = "Basic {0}".format(
             base64.b64encode("{0}:{1}".format(self.username,
                                               self.password)
-                             .encode('utf-8'))
-                .decode('utf-8'))
+                             .encode('utf-8')).decode('utf-8'))
         factory = STTInterfaceFactory(audio,
                                       content_type=content_type,
                                       content_callback=content_callback,
