@@ -25,7 +25,7 @@ from autobahn.twisted.websocket import WebSocketClientFactory,\
 from twisted.internet import ssl, reactor
 
 
-class STTWebsocketClientProtocol(WebSocketClientProtocol):
+class SpeechToTextWebSocketClientProtocol(WebSocketClientProtocol):
     def setFile(self, filename):
         self.filename = filename
     def setContentType(self, content_type):
@@ -66,7 +66,7 @@ class STTWebsocketClientProtocol(WebSocketClientProtocol):
     def onClose(self, wasClean, code, reason):
         reactor.stop()
 
-class STTInterfaceFactory(WebSocketClientFactory):
+class SpeechToTextWebSocketInterfaceFactory(WebSocketClientFactory):
     def __init__(self, target_file,
                  content_type=None,
                  content_callback=None,
@@ -80,7 +80,7 @@ class STTInterfaceFactory(WebSocketClientFactory):
         self.content_callback = content_callback
         self.params = params
     def buildProtocol(self, addr):
-        proto = STTWebsocketClientProtocol()
+        proto = SpeechToTextWebSocketClientProtocol()
         proto.setFile(self.file)
         proto.setContentType(self.content_type)
         proto.setCallback(self.content_callback)
@@ -173,13 +173,13 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
             base64.b64encode("{0}:{1}".format(self.username,
                                               self.password)
                              .encode('utf-8')).decode('utf-8'))
-        factory = STTInterfaceFactory(audio,
-                                      content_type=content_type,
-                                      content_callback=content_callback,
-                                      url=url,
-                                      params=params,
-                                      headers=headers)
-        factory.protocol = STTWebsocketClientProtocol
+        factory = SpeechToTextWebSocketInterfaceFactory(audio,
+                                                        content_type=content_type,
+                                                        content_callback=content_callback,
+                                                        url=url,
+                                                        params=params,
+                                                        headers=headers)
+        factory.protocol = SpeechToTextWebSocketClientProtocol
 
         if factory.isSecure:
             context_factory = ssl.ClientContextFactory()
