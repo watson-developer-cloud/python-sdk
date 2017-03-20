@@ -18,10 +18,77 @@ The v1 Speech to Text service
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
+import base64
 
+from autobahn.twisted.websocket import WebSocketClientFactory,\
+    WebSocketClientProtocol, connectWS
+from twisted.internet import ssl, interfaces, reactor
+
+class STTWebsocketClientProtocol(WebSocketClientProtocol):
+    def setFile(self, filename):
+        self.filename = filename
+    def setContentType(self,content_type):
+        self.contentType = content_type
+    def setFactory(self, factory):
+        self.factory = factory
+    def setCallback(self, callableobj):
+        self.messageCallback = callableobj
+    def setParams(self, params):
+        self.params = params
+    def onOpen(self):
+        print("Opened {0}".format(self.filename))
+        data = self.params
+        # send the initialization parameters
+        self.sendMessage(json.dumps(data).encode('utf-8'))
+        with open(self.filename, 'rb') as audiofile:
+            while True:
+                buf = audiofile.read(1024)
+                if not buf:
+                    self.sendMessage(json.dumps({'action': 'stop'}).encode('utf-8'))
+                    break
+                self.sendMessage(buf,isBinary=True)
+    def onMessage(self, payload, is_binary):
+        if not is_binary:
+            json_payload = json.loads(payload)
+            try:
+                self.messageCallback(json_payload)
+            except AttributeError as ae:
+                # if we don't have a message callback, don't worry about it
+                pass
+            if 'results' in json_payload:
+                    if len(json_payload['results']) > 0:
+                        if 'final' in json_payload['results'][0]:
+                            if json_payload['results'][0]['final']:
+                                # if we're final, close it up
+                                self.sendClose(1000)
+    def onClose(self, wasClean, code, reason):
+        reactor.stop()
+
+class STTInterfaceFactory(WebSocketClientFactory):
+    def __init__(self, target_file,
+                 content_type=None,
+                 content_callback=None,
+                 params=None,
+                 url=None,
+                 headers=None):
+
+        WebSocketClientFactory.__init__(self, url=url, headers=headers)
+        self.file = target_file
+        self.content_type = content_type
+        self.content_callback = content_callback
+        self.params = params
+    def buildProtocol(self, addr):
+        proto = STTWebsocketClientProtocol()
+        proto.setFile(self.file)
+        proto.setContentType(self.content_type)
+        proto.setCallback(self.content_callback)
+        proto.setFactory(self)
+        proto.setParams(self.params)
+        return proto
 
 class SpeechToTextV1(WatsonDeveloperCloudService):
-    default_url = "https://stream.watsonplatform.net/speech-to-text/api"
+    default_host = 'stream.watsonplatform.net'
+    default_url = 'https://{0}/speech-to-text/api'.format(default_host)
 
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'speech_to_text', url,
@@ -60,6 +127,65 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             headers=headers,
                             data=audio, params=params,
                             stream=True, accept_json=True)
+
+    def recognize_ws(self, audio, content_type,
+                     model=None,
+                     content_callback=None,
+                     customization_id=None,
+                     inactivity_timeout=None,
+                     keywords=None, keywords_threshold=None,
+                     max_alternatives=None,
+                     word_alternatives_threshold=None,
+                     word_confidence=None, timestamps=None, interim_results=None,
+                     profanity_filter=None,
+                     smart_formatting=None,
+                     speaker_labels=None):
+
+        url = "wss://{0}/speech-to-text/api/v1/recognize?model={1}".format('stream.watsonplatform.net',
+                                                                           model)
+        if model is None:
+            url = "wss://{0}/speech-to-text/api/v1/recognize?model={1}".format('stream.watsonplatform.net',
+                                                                               'en-US_BroadbandModel')
+
+        params = {'continuous': True,
+                  'inactivity_timeout': inactivity_timeout,
+                  'keywords': keywords,
+                  'keywords_threshold': keywords_threshold,
+                  'max_alternatives': max_alternatives,
+                  'customization_id': customization_id,
+                  'word_alternatives_threshold': word_alternatives_threshold,
+                  'word_confidence': word_confidence,
+                  'timestamps': timestamps,
+                  'interim_results': interim_results,
+                  'profanity_filter': profanity_filter,
+                  'smart_formatting': smart_formatting,
+                  'speaker_labels': speaker_labels}
+        # filter and remove None's
+        params = dict([(k,params[k])
+                       for k
+                       in params.keys()
+                       if params[k] is not None])
+
+        headers = {}
+        headers["Authorization"] = "Basic {0}".format(
+            base64.b64encode("{0}:{1}".format(self.username,
+                                              self.password)
+                             .encode('utf-8'))
+                .decode('utf-8'))
+        factory = STTInterfaceFactory(audio,
+                                      content_type=content_type,
+                                      content_callback=content_callback,
+                                      url=url,
+                                      params=params,
+                                      headers=headers)
+        factory.protocol = STTWebsocketClientProtocol
+
+        if factory.isSecure:
+            context_factory = ssl.ClientContextFactory()
+        else:
+            context_factory = None
+        connectWS(factory, context_factory)
+        reactor.run()
 
     def models(self):
         """
