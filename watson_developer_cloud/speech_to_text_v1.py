@@ -131,17 +131,17 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             stream=True, accept_json=True)
 
     def create_recognize_stream(self, audio, content_type,
-                     model=None,
-                     content_callback=None,
-                     customization_id=None,
-                     inactivity_timeout=None,
-                     keywords=None, keywords_threshold=None,
-                     max_alternatives=None,
-                     word_alternatives_threshold=None,
-                     word_confidence=None, timestamps=None, interim_results=None,
-                     profanity_filter=None,
-                     smart_formatting=None,
-                     speaker_labels=None):
+                                model=None,
+                                content_callback=None,
+                                customization_id=None,
+                                inactivity_timeout=None,
+                                keywords=None, keywords_threshold=None,
+                                max_alternatives=None,
+                                word_alternatives_threshold=None,
+                                word_confidence=None, timestamps=None, interim_results=None,
+                                profanity_filter=None,
+                                smart_formatting=None,
+                                speaker_labels=None):
 
         url = "wss://{0}/speech-to-text/api/v1/recognize?model={1}".format('stream.watsonplatform.net',
                                                                            model)
