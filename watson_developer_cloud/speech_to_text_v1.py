@@ -130,7 +130,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             data=audio, params=params,
                             stream=True, accept_json=True)
 
-    def recognize_ws(self, audio, content_type,
+    def create_recognize_stream(self, audio, content_type,
                      model=None,
                      content_callback=None,
                      customization_id=None,
