@@ -18,3 +18,4 @@ bumpversion>=0.5.3
 # needed for speech to text
 autobahn>=0.10.9
 Twisted>=13.2.0
+pyopenssl
