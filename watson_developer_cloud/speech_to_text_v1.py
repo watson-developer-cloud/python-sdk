@@ -19,6 +19,7 @@ The v1 Speech to Text service
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
 import base64
+from collections import deque
 
 from autobahn.twisted.websocket import WebSocketClientFactory,\
     WebSocketClientProtocol, connectWS
@@ -36,53 +37,77 @@ class SpeechToTextWebSocketClientProtocol(WebSocketClientProtocol):
         self.messageCallback = callableobj
     def setParams(self, params):
         self.params = params
+    def onConnect(self):
+        print("connect")
+        self._transitionToState('BEGIN')
     def onOpen(self):
         data = self.params
+        print("open")
+        self._transitionToState('OPENED')
+        print("started")
         # send the initialization parameters
         self.sendMessage(json.dumps(data).encode('utf-8'))
         with open(self.filename, 'rb') as audiofile:
+            self._transitionToState('SENDING')
             while True:
                 buf = audiofile.read(1024)
                 if not buf:
                     self.sendMessage(json.dumps({'action': 'stop'}).encode('utf-8'))
+                    self._transitionToState('DONE')
                     break
                 self.sendMessage(buf, isBinary=True)
-
+    def onError(self):
+        print("Error!")
     def onMessage(self, payload, is_binary):
+        print("message")
         if not is_binary:
             json_payload = json.loads(payload)
+            if 'state' in json_payload:
+                if self.state == 'DONE' and json_payload['state'] == 'listening':
+                    self.sendClose(1000)
+                else:
+                    print json_payload
             try:
                 self.messageCallback(json_payload)
             except AttributeError:
                 # if we don't have a message callback, don't worry about it
                 pass
-            if 'results' in json_payload:
-                if len(json_payload['results']) > 0:
-                    if 'final' in json_payload['results'][0]:
-                        if json_payload['results'][0]['final']:
-                            # if we're final, close it up
-                            self.sendClose(1000)
+
+    def _transitionToState(self, newstate):
+        states = { 'BEGIN' : {'OPENED': True},
+                   'OPENED' : {'SENDING': True},
+                   'SENDING' : {'DONE': True},
+                   'DONE' : {'CLOSED': True} }
+
+        if newstate == 'BEGIN' or states[self.state][newstate]:
+            self.state = newstate
+            return True
+        else:
+            raise "Cant transition to {0} from {1}".format(self.state, newstate)
 
     def onClose(self, wasClean, code, reason):
-        reactor.stop()
+        pass
+
 
 class SpeechToTextWebSocketInterfaceFactory(WebSocketClientFactory):
-    def __init__(self, target_file,
-                 content_type=None,
+    def __init__(self,
                  content_callback=None,
                  params=None,
                  url=None,
                  headers=None):
 
         WebSocketClientFactory.__init__(self, url=url, headers=headers)
-        self.file = target_file
-        self.content_type = content_type
         self.content_callback = content_callback
         self.params = params
+        self.queue = deque()
+    def enqueueAudio(self, filename, content_type):
+        self.queue.append((filename, content_type))
     def buildProtocol(self, addr):
+        print("hello")
+        dat = self.queue.popleft()
         proto = SpeechToTextWebSocketClientProtocol()
-        proto.setFile(self.file)
-        proto.setContentType(self.content_type)
+        proto.setFile(dat[0])
+        proto.setContentType(dat[1])
         proto.setCallback(self.content_callback)
         proto.setFactory(self)
         proto.setParams(self.params)
