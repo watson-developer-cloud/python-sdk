@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Version 0.25.2
+
+_2017-03-21_
+
+* Fixed: Speech to text supports customization_id
+* Fixed: Discovery now can create free instances
+
 ## Version 0.25.1
 
 _2017-02-28_
