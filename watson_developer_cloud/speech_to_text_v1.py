@@ -18,100 +18,129 @@ The v1 Speech to Text service
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
+from collections import deque, Counter, namedtuple
 import base64
-from collections import deque
 
 from autobahn.twisted.websocket import WebSocketClientFactory,\
     WebSocketClientProtocol, connectWS
-from twisted.internet import ssl, reactor
+from twisted.internet import ssl, reactor, task, interfaces
+from zope.interface import implementer
+
+Filedata = namedtuple('FileData', ['file_name',
+                                   'file_metadata',
+                                   'initial_data'])
 
 
-class SpeechToTextWebSocketClientProtocol(WebSocketClientProtocol):
-    def setFile(self, filename):
-        self.filename = filename
-    def setContentType(self, content_type):
-        self.contentType = content_type
-    def setFactory(self, factory):
-        self.factory = factory
-    def setCallback(self, callableobj):
-        self.messageCallback = callableobj
-    def setParams(self, params):
-        self.params = params
-    def onConnect(self):
-        print("connect")
-        self._transitionToState('BEGIN')
+@implementer(interfaces.IPushProducer)
+class AudioFileProducer:
+    def __init__(self, proto):
+        self.proto = proto
+        self.started = False
+        self.paused = False
+        self.filedata = proto.filedatasource.pop()
+        self.fileobj = open(self.filedata.file_name, 'rb')
+        self.proto.metadata = self.filedata.file_metadata
+
+    def pauseProducing(self):
+        self.paused = True
+
+    def resumeProducing(self):
+        self.paused = False
+        if not self.started:
+            as_json = json.dumps(self.filedata.initial_data).encode('utf-8')
+            self.proto.sendMessage(as_json, False)
+            self.started = True
+
+        while not self.paused:
+            buf = self.fileobj.read(1024)
+            if not buf:
+                as_json = json.dumps({"action": "stop"}).encode('utf-8')
+                self.proto.sendMessage(as_json, False)
+                break
+            self.proto.sendMessage(buf, True)
+
+    def stopProducing(self):
+        self.fileobj.close()
+
+
+class StreamingSpeechToTextProtocol(WebSocketClientProtocol):
+    filedatasource = deque()
+    params = {}
+    factory = None
+    ssl_context_factory = None
+    connects = 0
+
+    @classmethod
+    def buildFactory(cls, url, headers, params):
+        # only build the factory once
+        if cls.factory is None:
+            cls.factory = WebSocketClientFactory(url, headers=headers)
+            cls.factory.protocol = cls
+            cls.ssl_context_factory = ssl.ClientContextFactory()
+            cls.params = params
+
+    @classmethod
+    def start(cls):
+        reactor.run()
+
+    @classmethod
+    def stop(cls):
+        reactor.stop()
+
+    @classmethod
+    def addContentType(cls, content_type):
+        newparams = cls.params.copy()
+        newparams['content-type'] = content_type
+        return newparams
+
+    @classmethod
+    def addAudioFile(cls, filename, content_type, metadata=None):
+        data = cls.addContentType(content_type)
+        fdat = Filedata(filename, metadata, data)
+        cls.filedatasource.append(fdat)
+        connectWS(cls.factory, cls.ssl_context_factory)
+        cls.connects += 1
+
+    @classmethod
+    def done(cls):
+        if cls.connects == 0:
+            reactor.stop()
+
+    @classmethod
+    def runUntilDone(cls):
+        looper = task.LoopingCall(cls.done)
+        looper.start(5)
+        cls.start()
+
+    def __init__(self):
+        super(StreamingSpeechToTextProtocol, self).__init__()
+        self.counter = Counter()
+
+    def addState(self, state):
+        update = {}
+        update[state] = 1
+        self.counter.update(update)
+
+    def countState(self, state):
+        return self.counter[state]
+
+    def onError(self, error):
+        print(error)
+
     def onOpen(self):
-        data = self.params
-        print("open")
-        self._transitionToState('OPENED')
-        print("started")
-        # send the initialization parameters
-        self.sendMessage(json.dumps(data).encode('utf-8'))
-        with open(self.filename, 'rb') as audiofile:
-            self._transitionToState('SENDING')
-            while True:
-                buf = audiofile.read(1024)
-                if not buf:
-                    self.sendMessage(json.dumps({'action': 'stop'}).encode('utf-8'))
-                    self._transitionToState('DONE')
-                    break
-                self.sendMessage(buf, isBinary=True)
-    def onError(self):
-        print("Error!")
-    def onMessage(self, payload, is_binary):
-        print("message")
-        if not is_binary:
-            json_payload = json.loads(payload)
-            if 'state' in json_payload:
-                if self.state == 'DONE' and json_payload['state'] == 'listening':
-                    self.sendClose(1000)
-                else:
-                    print json_payload
-            try:
-                self.messageCallback(json_payload)
-            except AttributeError:
-                # if we don't have a message callback, don't worry about it
-                pass
+        producer = AudioFileProducer(self)
+        self.registerProducer(producer, True)
+        producer.resumeProducing()
 
-    def _transitionToState(self, newstate):
-        states = { 'BEGIN' : {'OPENED': True},
-                   'OPENED' : {'SENDING': True},
-                   'SENDING' : {'DONE': True},
-                   'DONE' : {'CLOSED': True} }
-
-        if newstate == 'BEGIN' or states[self.state][newstate]:
-            self.state = newstate
-            return True
-        else:
-            raise "Cant transition to {0} from {1}".format(self.state, newstate)
-
-    def onClose(self, wasClean, code, reason):
+    def onMessage(self, payload, isBinary):
         pass
 
+    def onConnect(self, request):
+        pass
 
-class SpeechToTextWebSocketInterfaceFactory(WebSocketClientFactory):
-    def __init__(self,
-                 content_callback=None,
-                 params=None,
-                 url=None,
-                 headers=None):
+    def onClose(self, wasClean, code, reason):
+        self.__class__.connects -= 1
 
-        WebSocketClientFactory.__init__(self, url=url, headers=headers)
-        self.content_callback = content_callback
-        self.params = params
-        self.queue = deque()
-    def enqueueAudio(self, filename, content_type):
-        self.queue.append((filename, content_type))
-    def buildProtocol(self, addr):
-        print("hello")
-        dat = self.queue.popleft()
-        proto = SpeechToTextWebSocketClientProtocol()
-        proto.setFile(dat[0])
-        proto.setContentType(dat[1])
-        proto.setCallback(self.content_callback)
-        proto.setFactory(self)
-        proto.setParams(self.params)
-        return proto
 
 class SpeechToTextV1(WatsonDeveloperCloudService):
     default_host = 'stream.watsonplatform.net'
@@ -155,26 +184,34 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             data=audio, params=params,
                             stream=True, accept_json=True)
 
-    def create_recognize_stream(self, audio, content_type,
+    def create_recognize_stream(self,
                                 model=None,
-                                content_callback=None,
+                                protocol_class=None,
                                 customization_id=None,
                                 inactivity_timeout=None,
                                 keywords=None, keywords_threshold=None,
                                 max_alternatives=None,
                                 word_alternatives_threshold=None,
-                                word_confidence=None, timestamps=None, interim_results=None,
+                                word_confidence=None,
+                                interim_results=None,
+                                timestamps=None,
                                 profanity_filter=None,
                                 smart_formatting=None,
                                 speaker_labels=None):
 
-        url = "wss://{0}/speech-to-text/api/v1/recognize?model={1}".format('stream.watsonplatform.net',
-                                                                           model)
-        if model is None:
-            url = "wss://{0}/speech-to-text/api/v1/recognize?model={1}".format('stream.watsonplatform.net',
-                                                                               'en-US_BroadbandModel')
+        url = "wss://{0}{2}?model={1}".format(
+            'stream.watsonplatform.net',
+            model,
+            "/speech-to-text/api/v1/recognize")
 
-        params = {'continuous': True,
+        if model is None:
+            url = "wss://{0}{2}?model={1}".format(
+                'stream.watsonplatform.net',
+                'en-US_BroadbandModel',
+                "/speech-to-text/api/v1/recognize")
+
+        params = {'action': 'start',
+                  'continuous': True,
                   'inactivity_timeout': inactivity_timeout,
                   'keywords': keywords,
                   'keywords_threshold': keywords_threshold,
@@ -198,20 +235,9 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
             base64.b64encode("{0}:{1}".format(self.username,
                                               self.password)
                              .encode('utf-8')).decode('utf-8'))
-        factory = SpeechToTextWebSocketInterfaceFactory(audio,
-                                                        content_type=content_type,
-                                                        content_callback=content_callback,
-                                                        url=url,
-                                                        params=params,
-                                                        headers=headers)
-        factory.protocol = SpeechToTextWebSocketClientProtocol
 
-        if factory.isSecure:
-            context_factory = ssl.ClientContextFactory()
-        else:
-            context_factory = None
-        connectWS(factory, context_factory)
-        reactor.run()
+        protocol_class.buildFactory(url, headers, params)
+        return params
 
     def models(self):
         """
