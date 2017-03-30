@@ -50,6 +50,14 @@ def test_get_model():
     speech_to_text.get_model(model_id='modelid')
     assert len(responses.calls) == 1
 
+
+def _decode_body(body):
+    try:
+        return body.decode('utf-8')
+    except:
+        return body
+
+
 @responses.activate
 def test_custom_model():
 
@@ -83,12 +91,12 @@ def test_custom_model():
     speech_to_text.create_custom_model(name="Example model", base_model="en-US_BroadbandModel",
                                        description="Example custom language model")
 
-    parsed_body = json.loads(responses.calls[1].request.body)
+    parsed_body = json.loads(_decode_body(responses.calls[1].request.body))
     assert parsed_body['name'] == 'Example model'
 
     speech_to_text.create_custom_model(name="Example model Two")
 
-    parsed_body = json.loads(responses.calls[2].request.body)
+    parsed_body = json.loads(_decode_body(responses.calls[2].request.body))
     assert parsed_body['name'] == 'Example model Two'
     assert parsed_body['description'] == ''
     assert parsed_body['base_model_name'] == 'en-US_BroadbandModel'

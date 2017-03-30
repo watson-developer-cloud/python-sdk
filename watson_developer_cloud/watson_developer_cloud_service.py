@@ -14,6 +14,7 @@
 import json as json_import
 import os
 import requests
+import sys
 from requests.structures import CaseInsensitiveDict
 
 try:
@@ -270,6 +271,9 @@ class WatsonDeveloperCloudService(object):
         json = _remove_null_values(json)
         data = _remove_null_values(data)
         files = _remove_null_values(files)
+
+        if sys.version_info >= (3, 0) and isinstance(data, str):
+            data = data.encode('utf-8')
 
         # Support versions of requests older than 2.4.2 without the json input
         if not data and json is not None:
