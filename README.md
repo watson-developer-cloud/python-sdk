@@ -65,13 +65,10 @@ See [CONTRIBUTING.md][CONTRIBUTING].
 This library is licensed under the [Apache 2.0 license][license].
 
 [wdc]: http://www.ibm.com/watson/developercloud/
-[vcap_environment]: http://www.ibm.com/watson/developercloud/doc/getting_started/gs-variables.shtml
 [bluemix]: https://console.ng.bluemix.net
-[pytest]: http://pytest.org/latest/
 [responses]: https://github.com/getsentry/responses
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
 [CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
 [CHANGELOG.md]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CHANGELOG.md
-
 [license]: http://www.apache.org/licenses/LICENSE-2.0
