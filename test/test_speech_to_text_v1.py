@@ -52,9 +52,10 @@ def test_get_model():
 
 
 def _decode_body(body):
-    if not isinstance(body, str):
+    try:
         return body.decode('utf-8')
-    return body
+    except:
+        return body
 
 
 @responses.activate
