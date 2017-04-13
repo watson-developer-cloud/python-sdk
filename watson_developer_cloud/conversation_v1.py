@@ -11,12 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 """
-The IBM Watson&trade; Conversation service combines machine learning, natural language understanding, and integrated dialog tools to create conversation flows between your apps and your users.
+The IBM Watson Conversation service combines machine learning, natural
+language understanding, and integrated dialog tools to create conversation
+flows between your apps and your users.
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
-
 
 class ConversationV1(WatsonDeveloperCloudService):
     """Client for the Conversation service."""
@@ -53,7 +55,8 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         Delete counterexample.
         :param workspace_id: The workspace ID.
-        :param text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :param text: The text of a user input counterexample (for example,
+            `What are you wearing?`).
         """
         params = {'version': self.version}
         return self.request(
@@ -67,7 +70,8 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         Get counterexample.
         :param workspace_id: The workspace ID.
-        :param text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :param text: The text of a user input counterexample (for example,
+            `What are you wearing?`).
         """
         params = {'version': self.version}
         return self.request(
@@ -86,10 +90,14 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         List counterexamples.
         :param workspace_id: The workspace ID.
-        :param page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param include_count: Whether to include information about the number of records returned.
-        :param sort: The sort order that determines the behavior of the pagination cursor.
-        :param cursor: A token identifying the last value from the previous page of results.
+        :param page_limit: The number of records to return in each page of
+            results. The default page limit is 100.
+        :param include_count: Whether to include information about the number
+            of records returned.
+        :param sort: The sort order that determines the behavior of the
+            pagination cursor.
+        :param cursor: A token identifying the last value from the previous
+            page of results.
         """
         params = {'version': self.version}
         params['page_limit'] = page_limit
@@ -106,8 +114,9 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         Update counterexample.
         :param workspace_id: The workspace ID.
-        :param text: The text of a user input counterexample (for example, `What are you wearing?`).
         :param body: An UpdateExample object defining the new text for the counterexample.
+        :param text: The text of a user input counterexample (for example,
+            `What are you wearing?`).
         """
         params = {'version': self.version}
         data = {}
@@ -182,10 +191,14 @@ class ConversationV1(WatsonDeveloperCloudService):
         List user input examples.
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
-        :param page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param include_count: Whether to include information about the number of records returned.
-        :param sort: The sort order that determines the behavior of the pagination cursor.
-        :param cursor: A token identifying the last value from the previous page of results.
+        :param page_limit: The number of records to return in each page of
+            results. The default page limit is 100.
+        :param include_count: Whether to include information about the number
+            of records returned.
+        :param sort: The sort order that determines the behavior of the
+            pagination cursor.
+        :param cursor: A token identifying the last value from the previous
+            page of results.
         """
         params = {'version': self.version}
         params['page_limit'] = page_limit
@@ -263,7 +276,11 @@ class ConversationV1(WatsonDeveloperCloudService):
         Get intent.
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
-        :param export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param export: Whether to include all element content in the
+            returned data. If export=`false`, the returned data includes
+            only information about the element itself. If export=`true`,
+            all content, including subelements, is included. The default
+            value is `false`.
         """
         params = {'version': self.version}
         params['export'] = export
@@ -283,11 +300,19 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         List intents.
         :param workspace_id: The workspace ID.
-        :param export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
-        :param page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param include_count: Whether to include information about the number of records returned.
-        :param sort: The sort order that determines the behavior of the pagination cursor.
-        :param cursor: A token identifying the last value from the previous page of results.
+        :param export: Whether to include all element content in the
+            returned data. If export=`false`, the returned data includes
+            only information about the element itself. If export=`true`,
+            all content, including subelements, is included. The default
+            value is `false`.
+        :param page_limit: The number of records to return in each page of
+            results. The default page limit is 100.
+        :param include_count: Whether to include information about the
+            number of records returned.
+        :param sort: The sort order that determines the behavior of the
+            pagination cursor.
+        :param cursor: A token identifying the last value from the previous
+            page of results.
         """
         params = {'version': self.version}
         params['export'] = export
@@ -333,11 +358,20 @@ class ConversationV1(WatsonDeveloperCloudService):
         Get a response to a user's input.
         :param workspace_id: Unique identifier of the workspace.
         :param message_input: An input object that includes the input text.
-        :param alternate_intents: Whether to return more than one intent. Set to `true` to return all matching intents.
-        :param context: State information for the conversation. Include the context object from the previous response when you send multiple requests for the same conversation.
-        :param entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param intents: An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param output: System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
+        :param alternate_intents: Whether to return more than one intent.
+            Set to `true` to return all matching intents.
+        :param context: State information for the conversation. Include the
+            context object from the previous response when you send multiple
+            requests for the same conversation.
+        :param entities: Include the entities from the previous response when
+            they do not need to change and to prevent Watson from trying to
+            identify them.
+        :param intents: An array of name-confidence pairs for the user input.
+            Include the intents from the previous response when they do not
+            need to change and to prevent Watson from trying to identify them.
+        :param output: System output. Include the output from the request
+            when you have several requests within the same Dialog turn to
+            pass back in the intermediate information.
         """
         params = {'version': self.version}
         data = {}
@@ -373,10 +407,14 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param description: The description of the workspace.
         :param language: The language of the workspace.
         :param metadata: Any metadata that is required by the workspace.
-        :param intents: An array of CreateIntent objects defining the intents for the workspace.
-        :param entities: An array of CreateEntity objects defining the entities for the workspace.
-        :param dialog_nodes: An array of CreateDialogNode objects defining the nodes in the workspace dialog.
-        :param counterexamples: An array of CreateExample objects defining input examples that have been marked as irrelevant input.
+        :param intents: An array of CreateIntent objects defining the
+            intents for the workspace.
+        :param entities: An array of CreateEntity objects defining the
+            entities for the workspace.
+        :param dialog_nodes: An array of CreateDialogNode objects defining
+            the nodes in the workspace dialog.
+        :param counterexamples: An array of CreateExample objects defining
+            input examples that have been marked as irrelevant input.
         """
         params = {'version': self.version}
         data = {}
@@ -411,7 +449,11 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         Get information about a workspace.
         :param workspace_id: The workspace ID.
-        :param export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param export: Whether to include all element content in the
+            returned data. If export=`false`, the returned data includes
+            only information about the element itself. If export=`true`,
+            all content, including subelements, is included. The default
+            value is `false`.
         """
         params = {'version': self.version}
         params['export'] = export
@@ -428,10 +470,14 @@ class ConversationV1(WatsonDeveloperCloudService):
                         cursor=None):
         """
         List workspaces.
-        :param page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param include_count: Whether to include information about the number of records returned.
-        :param sort: The sort order that determines the behavior of the pagination cursor.
-        :param cursor: A token identifying the last value from the previous page of results.
+        :param page_limit: The number of records to return in each page of
+            results. The default page limit is 100.
+        :param include_count: Whether to include information about the number
+            of records returned.
+        :param sort: The sort order that determines the behavior of the
+            pagination cursor.
+        :param cursor: A token identifying the last value from the previous
+            page of results.
         """
         params = {'version': self.version}
         params['page_limit'] = page_limit
@@ -461,10 +507,14 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param description: The description of the workspace.
         :param language: The language of the workspace.
         :param metadata: Any metadata that is required by the workspace.
-        :param intents: An array of CreateIntent objects defining the intents for the workspace.
-        :param entities: An array of CreateEntity objects defining the entities for the workspace.
-        :param dialog_nodes: An array of CreateDialogNode objects defining the nodes in the workspace dialog.
-        :param counterexamples: An array of CreateExample objects defining input examples that have been marked as irrelevant input.
+        :param intents: An array of CreateIntent objects defining the
+            intents for the workspace.
+        :param entities: An array of CreateEntity objects defining the
+            entities for the workspace.
+        :param dialog_nodes: An array of CreateDialogNode objects defining
+            the nodes in the workspace dialog.
+        :param counterexamples: An array of CreateExample objects defining
+            input examples that have been marked as irrelevant input.
         """
         params = {'version': self.version}
         data = {}
