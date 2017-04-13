@@ -110,16 +110,17 @@ class ConversationV1(WatsonDeveloperCloudService):
             params=params,
             accept_json=True)
 
-    def update_counterexample(self, workspace_id, text, body):
+    def update_counterexample(self, workspace_id, text, new_text=None):
         """
         Update counterexample.
         :param workspace_id: The workspace ID.
-        :param body: An UpdateExample object defining the new text for the counterexample.
         :param text: The text of a user input counterexample (for example,
             `What are you wearing?`).
+        :param new_text: The new text of a user input counterexample.
         """
         params = {'version': self.version}
         data = {}
+        data['text'] = new_text
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/counterexamples/{1}'.format(
@@ -212,16 +213,17 @@ class ConversationV1(WatsonDeveloperCloudService):
             params=params,
             accept_json=True)
 
-    def update_example(self, workspace_id, intent, text, body):
+    def update_example(self, workspace_id, intent, text, new_text=None):
         """
         Update user input example.
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         :param text: The text of the user input example.
-        :param body: An UpdateExample object defining the new text for the user input example.
+        :param new_text: The new text of the user input example.
         """
         params = {'version': self.version}
         data = {}
+        data['text'] = new_text
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
@@ -326,15 +328,25 @@ class ConversationV1(WatsonDeveloperCloudService):
             params=params,
             accept_json=True)
 
-    def update_intent(self, workspace_id, intent, body):
+    def update_intent(self,
+                      workspace_id,
+                      intent,
+                      new_intent=None,
+                      new_description=None,
+                      new_examples=None):
         """
         Update intent.
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
-        :param body: An UpdateIntent object defining the updated content of the intent.
+        :param new_intent: The new intent name.
+        :param new_description: The new description of the intent.
+        :param new_examples: An array of new user input examples.
         """
         params = {'version': self.version}
         data = {}
+        data['intent'] = new_intent
+        data['description'] = new_description
+        data['examples'] = new_examples
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
@@ -375,7 +387,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {'version': self.version}
         data = {}
-        data['message_input'] = message_input
+        data['input'] = message_input
         data['alternate_intents'] = alternate_intents
         data['context'] = context
         data['entities'] = entities
