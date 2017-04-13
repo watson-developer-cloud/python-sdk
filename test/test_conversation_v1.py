@@ -124,8 +124,7 @@ def test_list_counterexamples():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    counterexamples = service.list_counterexamples(
-        workspace_id='boguswid')
+    counterexamples = service.list_counterexamples(workspace_id='boguswid')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexamples == response
@@ -133,7 +132,8 @@ def test_list_counterexamples():
 
 @responses.activate
 def test_update_counterexample():
-    endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format('boguswid', 'What%20are%20you%20wearing%3F')
+    endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+        'boguswid', 'What%20are%20you%20wearing%3F')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "text": "What are you wearing?",
@@ -149,10 +149,13 @@ def test_update_counterexample():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.update_counterexample(
-        workspace_id='boguswid', text='What are you wearing%3F', new_text='What are you wearing%3F')
+        workspace_id='boguswid',
+        text='What are you wearing%3F',
+        new_text='What are you wearing%3F')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
+
 
 #########################
 # examples
@@ -292,10 +295,14 @@ def test_update_example():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     example = service.update_example(
-        workspace_id='boguswid', intent='pizza_order', text='Gimme a pizza with pepperoni', new_text='Gimme a pizza with pepperoni')
+        workspace_id='boguswid',
+        intent='pizza_order',
+        text='Gimme a pizza with pepperoni',
+        new_text='Gimme a pizza with pepperoni')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
+
 
 #########################
 # intents
@@ -410,7 +417,8 @@ def test_list_intents():
 
 @responses.activate
 def test_update_intent():
-    endpoint = '/v1/workspaces/{0}/intents/{1}'.format('boguswid', 'pizza_order')
+    endpoint = '/v1/workspaces/{0}/intents/{1}'.format('boguswid',
+                                                       'pizza_order')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "intent": "pizza_order",
@@ -427,10 +435,14 @@ def test_update_intent():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     intent = service.update_intent(
-        workspace_id='boguswid', intent='pizza_order', new_intent='pizza_order', new_description='User wants to start a new pizza order')
+        workspace_id='boguswid',
+        intent='pizza_order',
+        new_intent='pizza_order',
+        new_description='User wants to start a new pizza order')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intent == response
+
 
 #########################
 # message
@@ -440,61 +452,72 @@ def test_update_intent():
 @responses.activate
 def test_message():
 
-    conversation = watson_developer_cloud.ConversationV1(username="username",
-                                                         password="password",
-                                                         version='2016-09-20')
+    conversation = watson_developer_cloud.ConversationV1(
+        username="username", password="password", version='2016-09-20')
 
     workspace_id = 'f8fdbc65-e0bd-4e43-b9f8-2975a366d4ec'
     message_url = '%s/v1/workspaces/%s/message' % (base_url, workspace_id)
     url1_str = '%s/v1/workspaces/%s/message?version=2016-09-20'
     message_url1 = url1_str % (base_url, workspace_id)
-    message_response = {"context": {
-                        "conversation_id":
-                            "1b7b67c0-90ed-45dc-8508-9488bc483d5b",
-                        "system": {"dialog_stack":
-                                   ["root"],
-                                   "dialog_turn_counter": 1,
-                                   "dialog_request_counter": 1}},
-                        "intents": [],
-                        "entities": [],
-                        "input": {}}
+    message_response = {
+        "context": {
+            "conversation_id": "1b7b67c0-90ed-45dc-8508-9488bc483d5b",
+            "system": {
+                "dialog_stack": ["root"],
+                "dialog_turn_counter": 1,
+                "dialog_request_counter": 1
+            }
+        },
+        "intents": [],
+        "entities": [],
+        "input": {}
+    }
 
-    responses.add(responses.POST, message_url,
-                  body=json.dumps(message_response),
-                  status=200,
-                  content_type='application/json')
+    responses.add(
+        responses.POST,
+        message_url,
+        body=json.dumps(message_response),
+        status=200,
+        content_type='application/json')
 
-    message = conversation.message(workspace_id=workspace_id,
-                                   message_input={'text':
-                                                  'Turn on the lights'},
-                                   context=None)
+    message = conversation.message(
+        workspace_id=workspace_id,
+        message_input={'text': 'Turn on the lights'},
+        context=None)
 
     assert message is not None
     assert responses.calls[0].request.url == message_url1
     assert responses.calls[0].response.text == json.dumps(message_response)
 
+    # test context
+    responses.add(
+        responses.POST,
+        message_url,
+        body=message_response,
+        status=200,
+        content_type='application/json')
 
-# test context
-    responses.add(responses.POST, message_url,
-                  body=message_response, status=200,
-                  content_type='application/json')
-
-    message_ctx = {'context':
-                   {'conversation_id': '1b7b67c0-90ed-45dc-8508-9488bc483d5b',
-                    'system': {
-                        'dialog_stack': ['root'],
-                        'dialog_turn_counter': 2,
-                        'dialog_request_counter': 1}}}
-    message = conversation.message(workspace_id=workspace_id,
-                                   message_input={'text':
-                                                  'Turn on the lights'},
-                                   context=json.dumps(message_ctx))
+    message_ctx = {
+        'context': {
+            'conversation_id': '1b7b67c0-90ed-45dc-8508-9488bc483d5b',
+            'system': {
+                'dialog_stack': ['root'],
+                'dialog_turn_counter': 2,
+                'dialog_request_counter': 1
+            }
+        }
+    }
+    message = conversation.message(
+        workspace_id=workspace_id,
+        message_input={'text': 'Turn on the lights'},
+        context=json.dumps(message_ctx))
 
     assert message is not None
     assert responses.calls[1].request.url == message_url1
     assert responses.calls[1].response.text == json.dumps(message_response)
 
     assert len(responses.calls) == 2
+
 
 #########################
 # workspaces
@@ -570,8 +593,7 @@ def test_get_workspace():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    workspace = service.get_workspace(
-        workspace_id='boguswid', export=False)
+    workspace = service.get_workspace(workspace_id='boguswid', export=False)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
