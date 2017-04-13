@@ -439,70 +439,62 @@ def test_update_intent():
 
 @responses.activate
 def test_message():
-    endpoint = '/v1/workspaces/{0}/message'.format(TODO)
-    url = '{0}{1}'.format(base_url, endpoint)
-    response = {
-        "input": {
-            "text": "Turn on the lights"
-        },
-        "alternate_intents":
-        true,
-        "context": {
-            "conversation_id": "1b7b67c0-90ed-45dc-8508-9488bc483d5b",
-            "system": {
-                "dialog_stack": [{
-                    "dialog_node": "root"
-                }],
-                "dialog_turn_counter": 2,
-                "dialog_request_counter": 2
-            }
-        },
-        "entities": [{
-            "entity": "appliance",
-            "location": [12, 18],
-            "value": "light"
-        }],
-        "intents": [{
-            "intent": "turn_on",
-            "confidence": 0.99
-        }, {
-            "intent": "turn_up",
-            "confidence": 0.2
-        }, {
-            "intent": "out_of_scope",
-            "confidence": 0.2
-        }],
-        "output": {
-            "log_messages": [{
-                "level":
-                "warn",
-                "msg":
-                "No dialog node matched for the input at a root level!"
-            }],
-            "text": ["Ok. Turning on the light"],
-            "nodes_visited": [
-                "node_1_1467232431348", "node_2_1467232480480",
-                "node_4_1467232602708"
-            ]
-        }
-    }
-    responses.add(
-        responses.POST,
-        url,
-        body=json.dumps(response),
-        status=200,
-        content_type='application/json')
-    service = watson_developer_cloud.ConversationV1(
-        username='username', password='password', version='2017-02-03')
-    TODO = conversation.message(
-        workspace_id=TODO,
-        message_input=TODO,
-        alternate_intents=TODO,
-        context=TODO,
-        entities=TODO,
-        intents=TODO,
-        output=TODO)
-    # TODO: Asserts
+
+    conversation = watson_developer_cloud.ConversationV1(username="username",
+                                                         password="password",
+                                                         version='2016-09-20')
+
+    workspace_id = 'f8fdbc65-e0bd-4e43-b9f8-2975a366d4ec'
+    message_url = '%s/workspaces/%s/message' % (base_url, workspace_id)
+    url1_str = '%s/workspaces/%s/message?version=2016-09-20'
+    message_url1 = url1_str % (base_url, workspace_id)
+    message_response = {"context": {
+                        "conversation_id":
+                            "1b7b67c0-90ed-45dc-8508-9488bc483d5b",
+                        "system": {"dialog_stack":
+                                   ["root"],
+                                   "dialog_turn_counter": 1,
+                                   "dialog_request_counter": 1}},
+                        "intents": [],
+                        "entities": [],
+                        "input": {}}
+
+    responses.add(responses.POST, message_url,
+                  body=json.dumps(message_response),
+                  status=200,
+                  content_type='application/json')
+
+    message = conversation.message(workspace_id=workspace_id,
+                                   message_input={'text':
+                                                  'Turn on the lights'},
+                                   context=None)
+
+    assert message is not None
+    assert responses.calls[0].request.url == message_url1
+    assert responses.calls[0].response.text == json.dumps(message_response)
+
+
+# test context
+    responses.add(responses.POST, message_url,
+                  body=message_response, status=200,
+                  content_type='application/json')
+
+    message_ctx = {'context':
+                   {'conversation_id': '1b7b67c0-90ed-45dc-8508-9488bc483d5b',
+                    'system': {
+                        'dialog_stack': ['root'],
+                        'dialog_turn_counter': 2,
+                        'dialog_request_counter': 1}}}
+    message = conversation.message(workspace_id=workspace_id,
+                                   message_input={'text':
+                                                  'Turn on the lights'},
+                                   context=json.dumps(message_ctx))
+
+    assert message is not None
+    assert responses.calls[1].request.url == message_url1
+    assert responses.calls[1].response.text == json.dumps(message_response)
+
+    assert len(responses.calls) == 2
 
 #########################
 # workspaces
