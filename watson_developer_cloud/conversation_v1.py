@@ -11,12 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """
 The IBM Watson&trade; Conversation service combines machine learning, natural language understanding, and integrated dialog tools to create conversation flows between your apps and your users.
 """
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
+
 
 class ConversationV1(WatsonDeveloperCloudService):
     """Client for the Conversation service."""
@@ -42,11 +42,12 @@ class ConversationV1(WatsonDeveloperCloudService):
         params = {'version': self.version}
         data = {}
         data['text'] = text
-        return self.request(method='POST',
-                            url='/v1/workspaces/{0}/counterexamples'.format(workspace_id),
-                            params=params,
-                            json=data,
-                            accept_json=True)
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/counterexamples'.format(workspace_id),
+            params=params,
+            json=data,
+            accept_json=True)
 
     def delete_counterexample(self, workspace_id, text):
         """
@@ -55,10 +56,12 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param text: The text of a user input counterexample (for example, `What are you wearing?`).
         """
         params = {'version': self.version}
-        return self.request(method='DELETE',
-                            url='/v1/workspaces/{0}/counterexamples/{1}'.format(workspace_id, text),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='DELETE',
+            url='/v1/workspaces/{0}/counterexamples/{1}'.format(
+                workspace_id, text),
+            params=params,
+            accept_json=True)
 
     def get_counterexample(self, workspace_id, text):
         """
@@ -67,12 +70,19 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param text: The text of a user input counterexample (for example, `What are you wearing?`).
         """
         params = {'version': self.version}
-        return self.request(method='GET',
-                            url='/v1/workspaces/{0}/counterexamples/{1}'.format(workspace_id, text),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/counterexamples/{1}'.format(
+                workspace_id, text),
+            params=params,
+            accept_json=True)
 
-    def list_counterexamples(self, workspace_id, page_limit=None, include_count=None, sort=None, cursor=None):
+    def list_counterexamples(self,
+                             workspace_id,
+                             page_limit=None,
+                             include_count=None,
+                             sort=None,
+                             cursor=None):
         """
         List counterexamples.
         :param workspace_id: The workspace ID.
@@ -86,10 +96,11 @@ class ConversationV1(WatsonDeveloperCloudService):
         params['include_count'] = include_count
         params['sort'] = sort
         params['cursor'] = cursor
-        return self.request(method='GET',
-                            url='/v1/workspaces/{0}/counterexamples'.format(workspace_id),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/counterexamples'.format(workspace_id),
+            params=params,
+            accept_json=True)
 
     def update_counterexample(self, workspace_id, text, body):
         """
@@ -100,11 +111,13 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {'version': self.version}
         data = {}
-        return self.request(method='POST',
-                            url='/v1/workspaces/{0}/counterexamples/{1}'.format(workspace_id, text),
-                            params=params,
-                            json=data,
-                            accept_json=True)
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/counterexamples/{1}'.format(
+                workspace_id, text),
+            params=params,
+            json=data,
+            accept_json=True)
 
     #########################
     # examples
@@ -120,11 +133,13 @@ class ConversationV1(WatsonDeveloperCloudService):
         params = {'version': self.version}
         data = {}
         data['text'] = text
-        return self.request(method='POST',
-                            url='/v1/workspaces/{0}/intents/{1}/examples'.format(workspace_id, intent),
-                            params=params,
-                            json=data,
-                            accept_json=True)
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/intents/{1}/examples'.format(
+                workspace_id, intent),
+            params=params,
+            json=data,
+            accept_json=True)
 
     def delete_example(self, workspace_id, intent, text):
         """
@@ -134,10 +149,12 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param text: The text of the user input example.
         """
         params = {'version': self.version}
-        return self.request(method='DELETE',
-                            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(workspace_id, intent, text),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='DELETE',
+            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+                workspace_id, intent, text),
+            params=params,
+            accept_json=True)
 
     def get_example(self, workspace_id, intent, text):
         """
@@ -147,12 +164,20 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param text: The text of the user input example.
         """
         params = {'version': self.version}
-        return self.request(method='GET',
-                            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(workspace_id, intent, text),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+                workspace_id, intent, text),
+            params=params,
+            accept_json=True)
 
-    def list_examples(self, workspace_id, intent, page_limit=None, include_count=None, sort=None, cursor=None):
+    def list_examples(self,
+                      workspace_id,
+                      intent,
+                      page_limit=None,
+                      include_count=None,
+                      sort=None,
+                      cursor=None):
         """
         List user input examples.
         :param workspace_id: The workspace ID.
@@ -167,10 +192,12 @@ class ConversationV1(WatsonDeveloperCloudService):
         params['include_count'] = include_count
         params['sort'] = sort
         params['cursor'] = cursor
-        return self.request(method='GET',
-                            url='/v1/workspaces/{0}/intents/{1}/examples'.format(workspace_id, intent),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/intents/{1}/examples'.format(
+                workspace_id, intent),
+            params=params,
+            accept_json=True)
 
     def update_example(self, workspace_id, intent, text, body):
         """
@@ -182,17 +209,23 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {'version': self.version}
         data = {}
-        return self.request(method='POST',
-                            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(workspace_id, intent, text),
-                            params=params,
-                            json=data,
-                            accept_json=True)
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+                workspace_id, intent, text),
+            params=params,
+            json=data,
+            accept_json=True)
 
     #########################
     # intents
     #########################
 
-    def create_intent(self, workspace_id, intent, description=None, examples=None):
+    def create_intent(self,
+                      workspace_id,
+                      intent,
+                      description=None,
+                      examples=None):
         """
         Create intent.
         :param workspace_id: The workspace ID.
@@ -205,11 +238,12 @@ class ConversationV1(WatsonDeveloperCloudService):
         data['intent'] = intent
         data['description'] = description
         data['examples'] = examples
-        return self.request(method='POST',
-                            url='/v1/workspaces/{0}/intents'.format(workspace_id),
-                            params=params,
-                            json=data,
-                            accept_json=True)
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/intents'.format(workspace_id),
+            params=params,
+            json=data,
+            accept_json=True)
 
     def delete_intent(self, workspace_id, intent):
         """
@@ -218,10 +252,11 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param intent: The intent name (for example, `pizza_order`).
         """
         params = {'version': self.version}
-        return self.request(method='DELETE',
-                            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='DELETE',
+            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
+            params=params,
+            accept_json=True)
 
     def get_intent(self, workspace_id, intent, export=None):
         """
@@ -232,12 +267,19 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {'version': self.version}
         params['export'] = export
-        return self.request(method='GET',
-                            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
+            params=params,
+            accept_json=True)
 
-    def list_intents(self, workspace_id, export=None, page_limit=None, include_count=None, sort=None, cursor=None):
+    def list_intents(self,
+                     workspace_id,
+                     export=None,
+                     page_limit=None,
+                     include_count=None,
+                     sort=None,
+                     cursor=None):
         """
         List intents.
         :param workspace_id: The workspace ID.
@@ -253,10 +295,11 @@ class ConversationV1(WatsonDeveloperCloudService):
         params['include_count'] = include_count
         params['sort'] = sort
         params['cursor'] = cursor
-        return self.request(method='GET',
-                            url='/v1/workspaces/{0}/intents'.format(workspace_id),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/intents'.format(workspace_id),
+            params=params,
+            accept_json=True)
 
     def update_intent(self, workspace_id, intent, body):
         """
@@ -267,17 +310,25 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {'version': self.version}
         data = {}
-        return self.request(method='POST',
-                            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
-                            params=params,
-                            json=data,
-                            accept_json=True)
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
+            params=params,
+            json=data,
+            accept_json=True)
 
     #########################
     # message
     #########################
 
-    def message(self, workspace_id, message_input, alternate_intents=None, context=None, entities=None, intents=None, output=None):
+    def message(self,
+                workspace_id,
+                message_input,
+                alternate_intents=None,
+                context=None,
+                entities=None,
+                intents=None,
+                output=None):
         """
         Get a response to a user's input.
         :param workspace_id: Unique identifier of the workspace.
@@ -296,17 +347,26 @@ class ConversationV1(WatsonDeveloperCloudService):
         data['entities'] = entities
         data['intents'] = intents
         data['output'] = output
-        return self.request(method='POST',
-                            url='/v1/workspaces/{0}/message'.format(workspace_id),
-                            params=params,
-                            json=data,
-                            accept_json=True)
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/message'.format(workspace_id),
+            params=params,
+            json=data,
+            accept_json=True)
 
     #########################
     # workspaces
     #########################
 
-    def create_workspace(self, name=None, description=None, language=None, metadata=None, intents=None, entities=None, dialog_nodes=None, counterexamples=None):
+    def create_workspace(self,
+                         name=None,
+                         description=None,
+                         language=None,
+                         metadata=None,
+                         intents=None,
+                         entities=None,
+                         dialog_nodes=None,
+                         counterexamples=None):
         """
         Create workspace.
         :param name: The name of the workspace.
@@ -328,11 +388,12 @@ class ConversationV1(WatsonDeveloperCloudService):
         data['entities'] = entities
         data['dialog_nodes'] = dialog_nodes
         data['counterexamples'] = counterexamples
-        return self.request(method='POST',
-                            url='/v1/workspaces',
-                            params=params,
-                            json=data,
-                            accept_json=True)
+        return self.request(
+            method='POST',
+            url='/v1/workspaces',
+            params=params,
+            json=data,
+            accept_json=True)
 
     def delete_workspace(self, workspace_id):
         """
@@ -340,10 +401,11 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param workspace_id: The workspace ID.
         """
         params = {'version': self.version}
-        return self.request(method='DELETE',
-                            url='/v1/workspaces/{0}'.format(workspace_id),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='DELETE',
+            url='/v1/workspaces/{0}'.format(workspace_id),
+            params=params,
+            accept_json=True)
 
     def get_workspace(self, workspace_id, export=None):
         """
@@ -353,12 +415,17 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {'version': self.version}
         params['export'] = export
-        return self.request(method='GET',
-                            url='/v1/workspaces/{0}'.format(workspace_id),
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}'.format(workspace_id),
+            params=params,
+            accept_json=True)
 
-    def list_workspaces(self, page_limit=None, include_count=None, sort=None, cursor=None):
+    def list_workspaces(self,
+                        page_limit=None,
+                        include_count=None,
+                        sort=None,
+                        cursor=None):
         """
         List workspaces.
         :param page_limit: The number of records to return in each page of results. The default page limit is 100.
@@ -371,12 +438,22 @@ class ConversationV1(WatsonDeveloperCloudService):
         params['include_count'] = include_count
         params['sort'] = sort
         params['cursor'] = cursor
-        return self.request(method='GET',
-                            url='/v1/workspaces',
-                            params=params,
-                            accept_json=True)
+        return self.request(
+            method='GET',
+            url='/v1/workspaces',
+            params=params,
+            accept_json=True)
 
-    def update_workspace(self, workspace_id, name=None, description=None, language=None, metadata=None, intents=None, entities=None, dialog_nodes=None, counterexamples=None):
+    def update_workspace(self,
+                         workspace_id,
+                         name=None,
+                         description=None,
+                         language=None,
+                         metadata=None,
+                         intents=None,
+                         entities=None,
+                         dialog_nodes=None,
+                         counterexamples=None):
         """
         Update workspace.
         :param workspace_id: The workspace ID.
@@ -399,9 +476,9 @@ class ConversationV1(WatsonDeveloperCloudService):
         data['entities'] = entities
         data['dialog_nodes'] = dialog_nodes
         data['counterexamples'] = counterexamples
-        return self.request(method='POST',
-                            url='/v1/workspaces/{0}'.format(workspace_id),
-                            params=params,
-                            json=data,
-                            accept_json=True)
-
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}'.format(workspace_id),
+            params=params,
+            json=data,
+            accept_json=True)
