@@ -445,8 +445,8 @@ def test_message():
                                                          version='2016-09-20')
 
     workspace_id = 'f8fdbc65-e0bd-4e43-b9f8-2975a366d4ec'
-    message_url = '%s/workspaces/%s/message' % (base_url, workspace_id)
-    url1_str = '%s/workspaces/%s/message?version=2016-09-20'
+    message_url = '%s/v1/workspaces/%s/message' % (base_url, workspace_id)
+    url1_str = '%s/v1/workspaces/%s/message?version=2016-09-20'
     message_url1 = url1_str % (base_url, workspace_id)
     message_response = {"context": {
                         "conversation_id":
