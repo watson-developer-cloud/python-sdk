@@ -27,7 +27,7 @@ base_url = '{0}{1}'.format(platform_url, service_path)
 
 @responses.activate
 def test_create_counterexample():
-    endpoint = '/v1/workspaces/{0}/counterexamples'.format(TODO)
+    endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "text": "I want financial advice today.",
@@ -42,13 +42,17 @@ def test_create_counterexample():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.create_counterexample(workspace_id=TODO, text=TODO)
-    # TODO: Asserts
+    counterexample = service.create_counterexample(
+        workspace_id='boguswid', text='I want financial advice today.')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert counterexample == response
 
 
 @responses.activate
 def test_delete_counterexample():
-    endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(TODO, TODO)
+    endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+        'boguswid', 'I%20want%20financial%20advice%20today')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {}
     responses.add(
@@ -56,16 +60,20 @@ def test_delete_counterexample():
         url,
         body=json.dumps(response),
         status=200,
-        content_type='')
+        content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.delete_counterexample(workspace_id=TODO, text=TODO)
-    # TODO: Asserts
+    counterexample = service.delete_counterexample(
+        workspace_id='boguswid', text='I want financial advice today')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert counterexample == response
 
 
 @responses.activate
 def test_get_counterexample():
-    endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(TODO, TODO)
+    endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+        'boguswid', 'What%20are%20you%20wearing%3F')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "text": "What are you wearing?",
@@ -80,13 +88,16 @@ def test_get_counterexample():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.get_counterexample(workspace_id=TODO, text=TODO)
-    # TODO: Asserts
+    counterexample = service.get_counterexample(
+        workspace_id='boguswid', text='What are you wearing%3F')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert counterexample == response
 
 
 @responses.activate
 def test_list_counterexamples():
-    endpoint = '/v1/workspaces/{0}/counterexamples'.format(TODO)
+    endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "counterexamples": [{
@@ -113,18 +124,16 @@ def test_list_counterexamples():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.list_counterexamples(
-        workspace_id=TODO,
-        page_limit=TODO,
-        include_count=TODO,
-        sort=TODO,
-        cursor=TODO)
-    # TODO: Asserts
+    counterexamples = service.list_counterexamples(
+        workspace_id='boguswid')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert counterexamples == response
 
 
 @responses.activate
 def test_update_counterexample():
-    endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(TODO, TODO)
+    endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format('boguswid', 'What%20are%20you%20wearing%3F')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "text": "What are you wearing?",
@@ -139,10 +148,11 @@ def test_update_counterexample():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.update_counterexample(
-        workspace_id=TODO, text=TODO, body=TODO)
-    # TODO: Asserts
-
+    counterexample = service.update_counterexample(
+        workspace_id='boguswid', text='What are you wearing%3F', new_text='What are you wearing%3F')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert counterexample == response
 
 #########################
 # examples
@@ -151,7 +161,8 @@ def test_update_counterexample():
 
 @responses.activate
 def test_create_example():
-    endpoint = '/v1/workspaces/{0}/intents/{1}/examples'.format(TODO, TODO)
+    endpoint = '/v1/workspaces/{0}/intents/{1}/examples'.format(
+        'boguswid', 'pizza_order')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "text": "Gimme a pizza with pepperoni",
@@ -166,15 +177,19 @@ def test_create_example():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.create_example(
-        workspace_id=TODO, intent=TODO, text=TODO)
-    # TODO: Asserts
+    example = service.create_example(
+        workspace_id='boguswid',
+        intent='pizza_order',
+        text='Gimme a pizza with pepperoni')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert example == response
 
 
 @responses.activate
 def test_delete_example():
     endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-        TODO, TODO, TODO)
+        'boguswid', 'pizza_order', 'Gimme%20a%20pizza%20with%20pepperoni')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {}
     responses.add(
@@ -185,15 +200,19 @@ def test_delete_example():
         content_type='')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.delete_example(
-        workspace_id=TODO, intent=TODO, text=TODO)
-    # TODO: Asserts
+    example = service.delete_example(
+        workspace_id='boguswid',
+        intent='pizza_order',
+        text='Gimme a pizza with pepperoni')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert example == response
 
 
 @responses.activate
 def test_get_example():
     endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-        TODO, TODO, TODO)
+        'boguswid', 'pizza_order', 'Gimme%20a%20pizza%20with%20pepperoni')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "text": "Gimme a pizza with pepperoni",
@@ -208,13 +227,19 @@ def test_get_example():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.get_example(workspace_id=TODO, intent=TODO, text=TODO)
-    # TODO: Asserts
+    example = service.get_example(
+        workspace_id='boguswid',
+        intent='pizza_order',
+        text='Gimme a pizza with pepperoni')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert example == response
 
 
 @responses.activate
 def test_list_examples():
-    endpoint = '/v1/workspaces/{0}/intents/{1}/examples'.format(TODO, TODO)
+    endpoint = '/v1/workspaces/{0}/intents/{1}/examples'.format(
+        'boguswid', 'pizza_order')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "examples": [{
@@ -241,20 +266,17 @@ def test_list_examples():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.list_examples(
-        workspace_id=TODO,
-        intent=TODO,
-        page_limit=TODO,
-        include_count=TODO,
-        sort=TODO,
-        cursor=TODO)
-    # TODO: Asserts
+    examples = service.list_examples(
+        workspace_id='boguswid', intent='pizza_order')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert examples == response
 
 
 @responses.activate
 def test_update_example():
     endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-        TODO, TODO, TODO)
+        'boguswid', 'pizza_order', 'Gimme%20a%20pizza%20with%20pepperoni')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "text": "Gimme a pizza with pepperoni",
@@ -269,10 +291,11 @@ def test_update_example():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.update_example(
-        workspace_id=TODO, intent=TODO, text=TODO, body=TODO)
-    # TODO: Asserts
-
+    example = service.update_example(
+        workspace_id='boguswid', intent='pizza_order', text='Gimme a pizza with pepperoni', new_text='Gimme a pizza with pepperoni')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert example == response
 
 #########################
 # intents
@@ -281,7 +304,7 @@ def test_update_example():
 
 @responses.activate
 def test_create_intent():
-    endpoint = '/v1/workspaces/{0}/intents'.format(TODO)
+    endpoint = '/v1/workspaces/{0}/intents'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "intent": "pizza_order",
@@ -297,14 +320,19 @@ def test_create_intent():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.create_intent(
-        workspace_id=TODO, intent=TODO, description=TODO, examples=TODO)
-    # TODO: Asserts
+    intent = service.create_intent(
+        workspace_id='boguswid',
+        intent='pizza_order',
+        description='User wants to start a new pizza order')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert intent == response
 
 
 @responses.activate
 def test_delete_intent():
-    endpoint = '/v1/workspaces/{0}/intents/{1}'.format(TODO, TODO)
+    endpoint = '/v1/workspaces/{0}/intents/{1}'.format('boguswid',
+                                                       'pizza_order')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {}
     responses.add(
@@ -315,13 +343,17 @@ def test_delete_intent():
         content_type='')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.delete_intent(workspace_id=TODO, intent=TODO)
-    # TODO: Asserts
+    intent = service.delete_intent(
+        workspace_id='boguswid', intent='pizza_order')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert intent == response
 
 
 @responses.activate
 def test_get_intent():
-    endpoint = '/v1/workspaces/{0}/intents/{1}'.format(TODO, TODO)
+    endpoint = '/v1/workspaces/{0}/intents/{1}'.format('boguswid',
+                                                       'pizza_order')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "intent": "pizza_order",
@@ -337,13 +369,16 @@ def test_get_intent():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.get_intent(workspace_id=TODO, intent=TODO, export=TODO)
-    # TODO: Asserts
+    intent = service.get_intent(
+        workspace_id='boguswid', intent='pizza_order', export=False)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert intent == response
 
 
 @responses.activate
 def test_list_intents():
-    endpoint = '/v1/workspaces/{0}/intents'.format(TODO)
+    endpoint = '/v1/workspaces/{0}/intents'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "intents": [{
@@ -367,19 +402,15 @@ def test_list_intents():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.list_intents(
-        workspace_id=TODO,
-        export=TODO,
-        page_limit=TODO,
-        include_count=TODO,
-        sort=TODO,
-        cursor=TODO)
-    # TODO: Asserts
+    intents = service.list_intents(workspace_id='boguswid', export=False)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert intents == response
 
 
 @responses.activate
 def test_update_intent():
-    endpoint = '/v1/workspaces/{0}/intents/{1}'.format(TODO, TODO)
+    endpoint = '/v1/workspaces/{0}/intents/{1}'.format('boguswid', 'pizza_order')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "intent": "pizza_order",
@@ -395,10 +426,11 @@ def test_update_intent():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.update_intent(
-        workspace_id=TODO, intent=TODO, body=TODO)
-    # TODO: Asserts
-
+    intent = service.update_intent(
+        workspace_id='boguswid', intent='pizza_order', new_intent='pizza_order', new_description='User wants to start a new pizza order')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert intent == response
 
 #########################
 # message
@@ -498,21 +530,16 @@ def test_create_workspace():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.create_workspace(
-        name=TODO,
-        description=TODO,
-        language=TODO,
-        metadata=TODO,
-        intents=TODO,
-        entities=TODO,
-        dialog_nodes=TODO,
-        counterexamples=TODO)
-    # TODO: Asserts
+    workspace = service.create_workspace(
+        name='Pizza app', description='Pizza app', language='en', metadata={})
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert workspace == response
 
 
 @responses.activate
 def test_delete_workspace():
-    endpoint = '/v1/workspaces/{0}'.format(TODO)
+    endpoint = '/v1/workspaces/{0}'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {}
     responses.add(
@@ -523,13 +550,15 @@ def test_delete_workspace():
         content_type='')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.delete_workspace(workspace_id=TODO)
-    # TODO: Asserts
+    workspace = service.delete_workspace(workspace_id='boguswid')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert workspace == response
 
 
 @responses.activate
 def test_get_workspace():
-    endpoint = '/v1/workspaces/{0}'.format(TODO)
+    endpoint = '/v1/workspaces/{0}'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "name": "Pizza app",
@@ -549,8 +578,11 @@ def test_get_workspace():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.get_workspace(workspace_id=TODO, export=TODO)
-    # TODO: Asserts
+    workspace = service.get_workspace(
+        workspace_id='boguswid', export=False)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert workspace == response
 
 
 @responses.activate
@@ -582,14 +614,15 @@ def test_list_workspaces():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.list_workspaces(
-        page_limit=TODO, include_count=TODO, sort=TODO, cursor=TODO)
-    # TODO: Asserts
+    workspaces = service.list_workspaces()
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert workspaces == response
 
 
 @responses.activate
 def test_update_workspace():
-    endpoint = '/v1/workspaces/{0}'.format(TODO)
+    endpoint = '/v1/workspaces/{0}'.format('pizza_app-e0f3')
     url = '{0}{1}'.format(base_url, endpoint)
     response = {
         "name": "Pizza app",
@@ -608,14 +641,12 @@ def test_update_workspace():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    TODO = conversation.update_workspace(
-        workspace_id=TODO,
-        name=TODO,
-        description=TODO,
-        language=TODO,
-        metadata=TODO,
-        intents=TODO,
-        entities=TODO,
-        dialog_nodes=TODO,
-        counterexamples=TODO)
-    # TODO: Asserts
+    workspace = service.update_workspace(
+        workspace_id='pizza_app-e0f3',
+        name='Pizza app',
+        description='Pizza app',
+        language='en',
+        metadata={})
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert workspace == response
