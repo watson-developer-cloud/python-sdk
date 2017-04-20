@@ -408,17 +408,16 @@ class ConversationV1(WatsonDeveloperCloudService):
                          name=None,
                          description=None,
                          language=None,
-                         metadata=None,
                          intents=None,
                          entities=None,
                          dialog_nodes=None,
-                         counterexamples=None):
+                         counterexamples=None,
+                         metadata=None):
         """
         Create workspace.
         :param name: The name of the workspace.
         :param description: The description of the workspace.
         :param language: The language of the workspace.
-        :param metadata: Any metadata that is required by the workspace.
         :param intents: An array of CreateIntent objects defining the
             intents for the workspace.
         :param entities: An array of CreateEntity objects defining the
@@ -427,17 +426,18 @@ class ConversationV1(WatsonDeveloperCloudService):
             the nodes in the workspace dialog.
         :param counterexamples: An array of CreateExample objects defining
             input examples that have been marked as irrelevant input.
+        :param metadata: Any metadata that is required by the workspace.
         """
         params = {'version': self.version}
         data = {}
         data['name'] = name
         data['description'] = description
         data['language'] = language
-        data['metadata'] = metadata
         data['intents'] = intents
         data['entities'] = entities
         data['dialog_nodes'] = dialog_nodes
         data['counterexamples'] = counterexamples
+        data['metadata'] = metadata
         return self.request(
             method='POST',
             url='/v1/workspaces',
@@ -507,18 +507,17 @@ class ConversationV1(WatsonDeveloperCloudService):
                          name=None,
                          description=None,
                          language=None,
-                         metadata=None,
                          intents=None,
                          entities=None,
                          dialog_nodes=None,
-                         counterexamples=None):
+                         counterexamples=None,
+                         metadata=None):
         """
         Update workspace.
         :param workspace_id: The workspace ID.
         :param name: The name of the workspace.
         :param description: The description of the workspace.
         :param language: The language of the workspace.
-        :param metadata: Any metadata that is required by the workspace.
         :param intents: An array of CreateIntent objects defining the
             intents for the workspace.
         :param entities: An array of CreateEntity objects defining the
@@ -527,17 +526,18 @@ class ConversationV1(WatsonDeveloperCloudService):
             the nodes in the workspace dialog.
         :param counterexamples: An array of CreateExample objects defining
             input examples that have been marked as irrelevant input.
+        :param metadata: Any metadata that is required by the workspace.
         """
         params = {'version': self.version}
         data = {}
         data['name'] = name
         data['description'] = description
         data['language'] = language
-        data['metadata'] = metadata
         data['intents'] = intents
         data['entities'] = entities
         data['dialog_nodes'] = dialog_nodes
         data['counterexamples'] = counterexamples
+        data['metadata'] = metadata
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}'.format(workspace_id),
