@@ -61,5 +61,4 @@ class PersonalityInsightsV2(WatsonDeveloperCloudService):
             headers=headers)
         if accept == 'application/json':
             return response.json()
-        else:
-            return response.text
+        return response.text
