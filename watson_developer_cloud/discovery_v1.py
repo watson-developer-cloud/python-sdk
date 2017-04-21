@@ -133,10 +133,9 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             configs = [x['configuration_id']
                        for x in all_configs['configurations']
                        if x['name'] == 'Default Configuration']
-            if len(configs) > 0:
+            if configs:
                 return configs[0]
-            else:
-                return None
+            return None
         except KeyError:
             pass  # this isn't a problem and supress isn't in 2.7
         return None
