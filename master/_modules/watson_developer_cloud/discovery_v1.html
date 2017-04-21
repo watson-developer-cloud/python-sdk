@@ -178,10 +178,9 @@
             <span class="n">configs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;configuration_id&#39;</span><span class="p">]</span>
                        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_configs</span><span class="p">[</span><span class="s1">&#39;configurations&#39;</span><span class="p">]</span>
                        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Default Configuration&#39;</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">configs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">configs</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">configs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">pass</span>  <span class="c1"># this isn&#39;t a problem and supress isn&#39;t in 2.7</span>
         <span class="k">return</span> <span class="kc">None</span></div>
