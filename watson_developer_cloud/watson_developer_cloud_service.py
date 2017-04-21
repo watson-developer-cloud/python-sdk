@@ -204,7 +204,7 @@ class WatsonDeveloperCloudService(object):
         params = _convert_boolean_values(params)
         url_encoded_params = {}
 
-        if method.upper() is 'POST':
+        if method.upper() == 'POST':
             url_encoded_params = params
             params = {}
 
