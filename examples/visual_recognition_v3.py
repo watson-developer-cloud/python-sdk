@@ -15,9 +15,9 @@ visual_recognition = VisualRecognitionV3('2016-05-20', api_key='YOUR API KEY')
 #
 # negative_examples=trucks), indent=2))
 
-car_path = join(dirname(__file__), '../resources/car.jpg')
-with open(car_path, 'rb') as image_file:
-    car_results = visual_recognition.classify(images_file=image_file,
+car_path = join(dirname(__file__), '../resources/cars.zip')
+with open(car_path, 'rb') as images_file:
+    car_results = visual_recognition.classify(images_file=images_file,
                                               threshold=0.1,
                                               classifier_ids=[
                                                   'CarsvsTrucks_1479118188',
