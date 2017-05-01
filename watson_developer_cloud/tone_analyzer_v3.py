@@ -34,38 +34,27 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
     # tone
     #########################
 
-    def tone(self,
-             text,
-             content_type='application/json',
-             tones=None,
-             sentences=None):
+    def tone(self, text, tones=None, sentences=None):
         """
-        Analyze general tone.
-
-        Analyze the tone of a piece of text. The message is analyzed for several tones - social, emotional, and language. For each tone, various traits are derived. For example, conscientiousness, agreeableness, and openness.
-
-        :param text: The content to be analyzed. The Tone Analyzer service supports up to 128 KB of text, or about 1000 sentences. Sentences with less than three words cannot be analyzed.
-        :param content_type: The type of the input: application/json, text/plain, or application/json.
-        :param tones: Filter the results by a specific tone. Valid values are `emotion`, `language`, and `social`.
-        :param sentences: Filter your response to remove the sentence level analysis. Valid values are `true` and `false`. This parameter defaults to `true` when it's not set, which means that a sentence level analysis is automatically provided. Change `sentences` to `false` to filter out the sentence level analysis.
+        The tone API is the main API call: it analyzes the "tone" of a piece
+        of text. The message is analyzed from
+        several tones (social tone, emotional tone, writing tone), and for
+        each of them various traits are derived
+        (such as conscientiousness, agreeableness, openness).
+        :param text: Text to analyze
+        :param sentences: If "false", sentence-level analysis is omitted
+        :param tones: Can be one or more of 'social', 'language', 'emotion';
+        comma-separated.
         """
-        headers = {'content-type': content_type}
-        params = {
-            'version': self.version,
-            'tones': tones,
-            'sentences': str(sentences).lower()
-        }
-        if content_type == 'application/json' and isinstance(text, dict):
-            data = json.dumps(text)
-        else:
-            data = text
-        return self.request(
-            method='POST',
-            url='/v3/tone',
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        params = {'version': self.version}
+        if tones is not None:
+            params['tones'] = tones
+        if sentences is not None:
+            params['sentences'] = str(
+                sentences).lower()  # Cast boolean to "false" / "true"
+        data = {'text': text}
+        return self.request(method='POST', url='/v3/tone', params=params,
+                            json=data, accept_json=True)
 
     def tone_chat(self, utterances):
         """
