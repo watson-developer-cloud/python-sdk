@@ -26,7 +26,6 @@ personality traits, and writing style that you want for your intended
 audience.
 """
 
-import json
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
