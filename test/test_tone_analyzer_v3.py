@@ -54,3 +54,25 @@ def test_tone_with_args():
     assert actualArgs == tone_args
     assert responses.calls[0].response.text == tone_response
     assert len(responses.calls) == 1
+
+@responses.activate
+## Invoking tone_chat()
+def test_tone_chat():
+    tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone_chat'
+    tone_args = '?version=2016-05-19'
+    tone_response = None
+    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect2.json')) as response_json:
+        tone_response = response_json.read()
+
+    responses.add(responses.POST, tone_url,
+                  body=tone_response, status=200,
+                  content_type='application/json')
+
+    tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
+            username="username", password="password")
+    utterances = [{'text': 'I am very happy', 'user': 'glenn'}]
+    tone_analyzer.tone_chat(utterances)
+
+    assert responses.calls[0].request.url == tone_url + tone_args
+    assert responses.calls[0].response.text == tone_response
+    assert len(responses.calls) == 1
