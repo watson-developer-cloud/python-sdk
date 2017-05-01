@@ -11,8 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 """
-The IBM Watson™ Tone Analyzer Service uses linguistic analysis to detect three types of tones from written text: emotions, social tendencies, and language style. Emotions identified include things like anger, cheerfulness and sadness. Identified social tendencies include things from the Big Five personality traits used by some psychologists. These include openness, conscientiousness, extraversion, agreeableness, and neuroticism. Identified language styles include things like confident, analytical, and tentative. Input email and other written media into the Tone Analyzer service, and use the results to determine if your writing comes across with the tone, personality traits, and writing style that you want for your intended audience.
+The IBM Watson™ Tone Analyzer Service uses linguistic analysis to detect
+three types of tones from written text: emotions, social tendencies, and
+language style. Emotions identified include things like anger, cheerfulness
+and sadness. Identified social tendencies include things from the Big Five
+personality traits used by some psychologists. These include openness,
+conscientiousness, extraversion, agreeableness, and neuroticism. Identified
+language styles include things like confident, analytical, and tentative.
+Input email and other written media into the Tone Analyzer service, and use
+the results to determine if your writing comes across with the tone,
+personality traits, and writing style that you want for your intended
+audience.
 """
 
 import json
@@ -60,7 +71,8 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
         """
         Analyze customer engagement tone.
 
-        Use the Tone Analyzer for Customer Engagement Endpoint to monitor customer service and customer support conversations.
+        Use the Tone Analyzer for Customer Engagement Endpoint to monitor
+        customer service and customer support conversations.
 
         :param utterances: The content to be analyzed.
         """
