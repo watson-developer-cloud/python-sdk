@@ -5,11 +5,11 @@ import os
 
 @responses.activate
 ## Simple test, just calling tone() with some text
-def test_success():
+def test_tone():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
     tone_args = '?version=2016-05-19'
     tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone_response.json')) as response_json:
+    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
         tone_response = response_json.read()
 
     responses.add(responses.POST, tone_url,
@@ -29,11 +29,11 @@ def test_success():
 
 @responses.activate
 ## Invoking tone() with some modifiers given in 'params': specific tones requested, and sentences skipped
-def test_with_args():
+def test_tone_with_args():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
     tone_args = { 'version': '2016-05-19', 'tones': 'social', 'sentences': 'false' }
     tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone_response.json')) as response_json:
+    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
         tone_response = response_json.read()
 
     responses.add(responses.POST, tone_url,
