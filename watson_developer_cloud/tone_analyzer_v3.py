@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-The IBM Watson™ Tone Analyzer Service uses linguistic analysis to detect
+The IBM Watson Tone Analyzer Service uses linguistic analysis to detect
 three types of tones from written text: emotions, social tendencies, and
 language style. Emotions identified include things like anger, cheerfulness
 and sadness. Identified social tendencies include things from the Big Five
