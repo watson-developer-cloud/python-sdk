@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>watson_developer_cloud.discovery_v1 module &#8212; Watson Developer Cloud Python SDK 0.25.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.25.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.document_conversion_v1 module" href="watson_developer_cloud.document_conversion_v1.html" />
+    <link rel="prev" title="watson_developer_cloud.dialog_v1 module" href="watson_developer_cloud.dialog_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.discovery_v1">
+<span id="watson-developer-cloud-discovery-v1-module"></span><h1>watson_developer_cloud.discovery_v1 module<a class="headerlink" href="#module-watson_developer_cloud.discovery_v1" title="Permalink to this headline">¶</a></h1>
+<p>The v1 Discovery Service
+(<a class="reference external" href="http://www.ibm.com/watson/developercloud/doc/discovery/">http://www.ibm.com/watson/developercloud/doc/discovery/</a>)</p>
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1">
+<em class="property">class </em><code class="descname">DiscoveryV1</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/discovery/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>use_vcap_services=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_developer_cloud_service.WatsonDeveloperCloudService</span></code></p>
+<p>Client for Discovery service</p>
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_environments">
+<code class="descname">get_environments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_environments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_environments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves information about the environments associated with the user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_environment">
+<code class="descname">get_environment</code><span class="sig-paren">(</span><em>environment_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves information about the specific
+:param environment_id:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_environment">
+<code class="descname">create_environment</code><span class="sig-paren">(</span><em>name=''</em>, <em>description=''</em>, <em>size=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_environment" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; name of the environment (max 255 chars) can be empty</li>
+<li><strong>description</strong> &#8211; description of the environment (max 255 chars)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>can be empty
+:param size: size of the environment (1,2, or 3)
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_environment">
+<code class="descname">update_environment</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name=''</em>, <em>description=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_environment" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> &#8211; guid of the environment to modify</li>
+<li><strong>name</strong> &#8211; update the name of the environment</li>
+<li><strong>description</strong> &#8211; update the description of the environment</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_environment">
+<code class="descname">delete_environment</code><span class="sig-paren">(</span><em>environment_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the specified environment.
+:param environment_id: guid of environment to delete
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_configurations">
+<code class="descname">list_configurations</code><span class="sig-paren">(</span><em>environment_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_configurations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_configurations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_default_configuration_id">
+<code class="descname">get_default_configuration_id</code><span class="sig-paren">(</span><em>environment_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_default_configuration_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_default_configuration_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_configuration">
+<code class="descname">get_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_configuration">
+<code class="descname">create_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>config_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_configuration">
+<code class="descname">delete_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_configuration">
+<code class="descname">update_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em>, <em>config_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_collections">
+<code class="descname">list_collections</code><span class="sig-paren">(</span><em>environment_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_collections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_collections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves information about the collections within a given environment
+:param environment_id: this is the guid of a valid environment
+:return: json results of the collections in an environment</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_collection">
+<code class="descname">get_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves information about a sepcific collection in an environment
+:param environment_id: the guid of a valid environment
+:param collection_id: the guid of a valid collection
+:return: json results of the collection information</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_collection">
+<code class="descname">create_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name</em>, <em>description=''</em>, <em>configuration_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_collection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_collection_fields">
+<code class="descname">list_collection_fields</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_collection_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_collection_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_collection">
+<code class="descname">delete_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_collection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.add_document">
+<code class="descname">add_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>file_info=None</em>, <em>file_data=None</em>, <em>mime_type=None</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.add_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.add_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.test_document">
+<code class="descname">test_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>fileinfo</em>, <em>configuration_id=None</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.test_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.test_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_document">
+<code class="descname">get_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>document_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get document status
+:param environment_id the guid of the environment
+:param collection_id collection guid
+:param document_id the id of the document
+:return dict of document info, not the contents.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_document">
+<code class="descname">delete_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>document_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_options</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Performs a query and returns the results.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> &#8211; the guid of a valid environment</li>
+<li><strong>collection_id</strong> &#8211; the guid of a valid collection</li>
+<li><strong>query_options</strong> &#8211; this is a hash of query params and their values</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.dialog_v1.html" title="previous chapter">watson_developer_cloud.dialog_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.document_conversion_v1.html" title="next chapter">watson_developer_cloud.document_conversion_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

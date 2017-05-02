@@ -1,0 +1,461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>watson_developer_cloud.conversation_v1 module &#8212; Watson Developer Cloud Python SDK 0.25.2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.25.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.dialog_v1 module" href="watson_developer_cloud.dialog_v1.html" />
+    <link rel="prev" title="watson_developer_cloud.authorization_v1 module" href="watson_developer_cloud.authorization_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.conversation_v1">
+<span id="watson-developer-cloud-conversation-v1-module"></span><h1>watson_developer_cloud.conversation_v1 module<a class="headerlink" href="#module-watson_developer_cloud.conversation_v1" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson Conversation service combines machine learning, natural
+language understanding, and integrated dialog tools to create conversation
+flows between your apps and your users.</p>
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1">
+<em class="property">class </em><code class="descname">ConversationV1</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/conversation/api'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_developer_cloud_service.WatsonDeveloperCloudService</span></code></p>
+<p>Client for the Conversation service.</p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/conversation/api'</em><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.latest_version">
+<code class="descname">latest_version</code><em class="property"> = '2017-02-03'</em><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.latest_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.create_counterexample">
+<code class="descname">create_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.create_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.create_counterexample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create counterexample.
+:param workspace_id: The workspace ID.
+:param text: The text of a user input example.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.delete_counterexample">
+<code class="descname">delete_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.delete_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.delete_counterexample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete counterexample.
+:param workspace_id: The workspace ID.
+:param text: The text of a user input counterexample (for example,</p>
+<blockquote>
+<div><cite>What are you wearing?</cite>).</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_counterexample">
+<code class="descname">get_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_counterexample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get counterexample.
+:param workspace_id: The workspace ID.
+:param text: The text of a user input counterexample (for example,</p>
+<blockquote>
+<div><cite>What are you wearing?</cite>).</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_counterexamples">
+<code class="descname">list_counterexamples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_counterexamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_counterexamples" title="Permalink to this definition">¶</a></dt>
+<dd><p>List counterexamples.
+:param workspace_id: The workspace ID.
+:param page_limit: The number of records to return in each page of</p>
+<blockquote>
+<div>results. The default page limit is 100.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>include_count</strong> &#8211; Whether to include information about the number
+of records returned.</li>
+<li><strong>sort</strong> &#8211; The sort order that determines the behavior of the
+pagination cursor.</li>
+<li><strong>cursor</strong> &#8211; A token identifying the last value from the previous
+page of results.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.update_counterexample">
+<code class="descname">update_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em>, <em>new_text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_counterexample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update counterexample.
+:param workspace_id: The workspace ID.
+:param text: The text of a user input counterexample (for example,</p>
+<blockquote>
+<div><cite>What are you wearing?</cite>).</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>new_text</strong> &#8211; The new text of a user input counterexample.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.create_example">
+<code class="descname">create_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.create_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.create_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create user input example.
+:param workspace_id: The workspace ID.
+:param intent: The intent name (for example, <cite>pizza_order</cite>).
+:param text: The text of a user input example.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.delete_example">
+<code class="descname">delete_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.delete_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.delete_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete user input example.
+:param workspace_id: The workspace ID.
+:param intent: The intent name (for example, <cite>pizza_order</cite>).
+:param text: The text of the user input example.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_example">
+<code class="descname">get_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get user input example.
+:param workspace_id: The workspace ID.
+:param intent: The intent name (for example, <cite>pizza_order</cite>).
+:param text: The text of the user input example.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_examples">
+<code class="descname">list_examples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_examples" title="Permalink to this definition">¶</a></dt>
+<dd><p>List user input examples.
+:param workspace_id: The workspace ID.
+:param intent: The intent name (for example, <cite>pizza_order</cite>).
+:param page_limit: The number of records to return in each page of</p>
+<blockquote>
+<div>results. The default page limit is 100.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>include_count</strong> &#8211; Whether to include information about the number
+of records returned.</li>
+<li><strong>sort</strong> &#8211; The sort order that determines the behavior of the
+pagination cursor.</li>
+<li><strong>cursor</strong> &#8211; A token identifying the last value from the previous
+page of results.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.update_example">
+<code class="descname">update_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em>, <em>new_text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update user input example.
+:param workspace_id: The workspace ID.
+:param intent: The intent name (for example, <cite>pizza_order</cite>).
+:param text: The text of the user input example.
+:param new_text: The new text of the user input example.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.create_intent">
+<code class="descname">create_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>description=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.create_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.create_intent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create intent.
+:param workspace_id: The workspace ID.
+:param intent: The name of the intent.
+:param description: The description of the intent.
+:param examples: An array of user input examples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.delete_intent">
+<code class="descname">delete_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.delete_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.delete_intent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete intent.
+:param workspace_id: The workspace ID.
+:param intent: The intent name (for example, <cite>pizza_order</cite>).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_intent">
+<code class="descname">get_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>export=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_intent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get intent.
+:param workspace_id: The workspace ID.
+:param intent: The intent name (for example, <cite>pizza_order</cite>).
+:param export: Whether to include all element content in the</p>
+<blockquote>
+<div>returned data. If export=`false`, the returned data includes
+only information about the element itself. If export=`true`,
+all content, including subelements, is included. The default
+value is <cite>false</cite>.</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_intents">
+<code class="descname">list_intents</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_intents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_intents" title="Permalink to this definition">¶</a></dt>
+<dd><p>List intents.
+:param workspace_id: The workspace ID.
+:param export: Whether to include all element content in the</p>
+<blockquote>
+<div>returned data. If export=`false`, the returned data includes
+only information about the element itself. If export=`true`,
+all content, including subelements, is included. The default
+value is <cite>false</cite>.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>page_limit</strong> &#8211; The number of records to return in each page of
+results. The default page limit is 100.</li>
+<li><strong>include_count</strong> &#8211; Whether to include information about the
+number of records returned.</li>
+<li><strong>sort</strong> &#8211; The sort order that determines the behavior of the
+pagination cursor.</li>
+<li><strong>cursor</strong> &#8211; A token identifying the last value from the previous
+page of results.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.update_intent">
+<code class="descname">update_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>new_intent=None</em>, <em>new_description=None</em>, <em>new_examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_intent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update intent.
+:param workspace_id: The workspace ID.
+:param intent: The intent name (for example, <cite>pizza_order</cite>).
+:param new_intent: The new intent name.
+:param new_description: The new description of the intent.
+:param new_examples: An array of new user input examples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.message">
+<code class="descname">message</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>message_input</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a response to a user&#8217;s input.
+:param workspace_id: Unique identifier of the workspace.
+:param message_input: An input object that includes the input text.
+:param alternate_intents: Whether to return more than one intent.</p>
+<blockquote>
+<div>Set to <cite>true</cite> to return all matching intents.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>context</strong> &#8211; State information for the conversation. Include the
+context object from the previous response when you send multiple
+requests for the same conversation.</li>
+<li><strong>entities</strong> &#8211; Include the entities from the previous response when
+they do not need to change and to prevent Watson from trying to
+identify them.</li>
+<li><strong>intents</strong> &#8211; An array of name-confidence pairs for the user input.
+Include the intents from the previous response when they do not
+need to change and to prevent Watson from trying to identify them.</li>
+<li><strong>output</strong> &#8211; System output. Include the output from the request
+when you have several requests within the same Dialog turn to
+pass back in the intermediate information.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.create_workspace">
+<code class="descname">create_workspace</code><span class="sig-paren">(</span><em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.create_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.create_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create workspace.
+:param name: The name of the workspace.
+:param description: The description of the workspace.
+:param language: The language of the workspace.
+:param intents: An array of CreateIntent objects defining the</p>
+<blockquote>
+<div>intents for the workspace.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>entities</strong> &#8211; An array of CreateEntity objects defining the
+entities for the workspace.</li>
+<li><strong>dialog_nodes</strong> &#8211; An array of CreateDialogNode objects defining
+the nodes in the workspace dialog.</li>
+<li><strong>counterexamples</strong> &#8211; An array of CreateExample objects defining
+input examples that have been marked as irrelevant input.</li>
+<li><strong>metadata</strong> &#8211; Any metadata that is required by the workspace.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.delete_workspace">
+<code class="descname">delete_workspace</code><span class="sig-paren">(</span><em>workspace_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.delete_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.delete_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete workspace.
+:param workspace_id: The workspace ID.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_workspace">
+<code class="descname">get_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information about a workspace.
+:param workspace_id: The workspace ID.
+:param export: Whether to include all element content in the</p>
+<blockquote>
+<div>returned data. If export=`false`, the returned data includes
+only information about the element itself. If export=`true`,
+all content, including subelements, is included. The default
+value is <cite>false</cite>.</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_workspaces">
+<code class="descname">list_workspaces</code><span class="sig-paren">(</span><em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_workspaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_workspaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>List workspaces.
+:param page_limit: The number of records to return in each page of</p>
+<blockquote>
+<div>results. The default page limit is 100.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>include_count</strong> &#8211; Whether to include information about the number
+of records returned.</li>
+<li><strong>sort</strong> &#8211; The sort order that determines the behavior of the
+pagination cursor.</li>
+<li><strong>cursor</strong> &#8211; A token identifying the last value from the previous
+page of results.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.update_workspace">
+<code class="descname">update_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update workspace.
+:param workspace_id: The workspace ID.
+:param name: The name of the workspace.
+:param description: The description of the workspace.
+:param language: The language of the workspace.
+:param intents: An array of CreateIntent objects defining the</p>
+<blockquote>
+<div>intents for the workspace.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>entities</strong> &#8211; An array of CreateEntity objects defining the
+entities for the workspace.</li>
+<li><strong>dialog_nodes</strong> &#8211; An array of CreateDialogNode objects defining
+the nodes in the workspace dialog.</li>
+<li><strong>counterexamples</strong> &#8211; An array of CreateExample objects defining
+input examples that have been marked as irrelevant input.</li>
+<li><strong>metadata</strong> &#8211; Any metadata that is required by the workspace.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.authorization_v1.html" title="previous chapter">watson_developer_cloud.authorization_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.dialog_v1.html" title="next chapter">watson_developer_cloud.dialog_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
