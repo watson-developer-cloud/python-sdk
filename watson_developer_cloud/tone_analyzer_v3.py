@@ -1,4 +1,4 @@
-# Copyright 2016 IBM All Rights Reserved.
+# Copyright 2017 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,15 +13,25 @@
 # limitations under the License.
 
 """
-The v3 Tone Analyzer service
-(https://www.ibm.com/watson/developercloud/tone-analyzer.html)
+The IBM Watson Tone Analyzer Service uses linguistic analysis to detect
+three types of tones from written text: emotions, social tendencies, and
+language style. Emotions identified include things like anger, cheerfulness
+and sadness. Identified social tendencies include things from the Big Five
+personality traits used by some psychologists. These include openness,
+conscientiousness, extraversion, agreeableness, and neuroticism. Identified
+language styles include things like confident, analytical, and tentative.
+Input email and other written media into the Tone Analyzer service, and use
+the results to determine if your writing comes across with the tone,
+personality traits, and writing style that you want for your intended
+audience.
 """
 
-from watson_developer_cloud.watson_developer_cloud_service import \
-    WatsonDeveloperCloudService
+from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class ToneAnalyzerV3(WatsonDeveloperCloudService):
+    """Client for the ToneAnalyzer service."""
+
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
     latest_version = '2016-05-19'
 
@@ -29,6 +39,10 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(self, 'tone_analyzer', url,
                                              **kwargs)
         self.version = version
+
+    #########################
+    # tone
+    #########################
 
     def tone(self, text, tones=None, sentences=None):
         """
@@ -51,3 +65,21 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
         data = {'text': text}
         return self.request(method='POST', url='/v3/tone', params=params,
                             json=data, accept_json=True)
+
+    def tone_chat(self, utterances):
+        """
+        Analyze customer engagement tone.
+
+        Use the Tone Analyzer for Customer Engagement Endpoint to monitor
+        customer service and customer support conversations.
+
+        :param utterances: The content to be analyzed.
+        """
+        params = {'version': self.version}
+        data = {'utterances': utterances}
+        return self.request(
+            method='POST',
+            url='/v3/tone_chat',
+            params=params,
+            json=data,
+            accept_json=True)

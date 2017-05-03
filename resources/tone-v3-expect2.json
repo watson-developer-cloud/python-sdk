@@ -1,0 +1,30 @@
+{
+  "utterances_tone": [
+    {
+      "utterance_id": 0,
+      "utterance_text": "I am very happy",
+      "tones": [
+        {
+          "score": 0.875529,
+          "tone_id": "polite",
+          "tone_name": "polite"
+        },
+        {
+          "score": 0.838693,
+          "tone_id": "satisfied",
+          "tone_name": "satisfied"
+        },
+        {
+          "score": 0.844135,
+          "tone_id": "sympathetic",
+          "tone_name": "sympathetic"
+        },
+        {
+          "score": 0.916255,
+          "tone_id": "excited",
+          "tone_name": "excited"
+        }
+      ]
+    }
+  ]
+}
