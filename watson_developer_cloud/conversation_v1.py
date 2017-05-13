@@ -117,7 +117,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         params = {
             'version': self.version,
             'page_limit': page_limit,
-            'include_count': str(include_count).lower(),
+            'include_count': include_count,
             'sort': sort,
             'cursor': cursor
         }
@@ -218,7 +218,7 @@ class ConversationV1(WatsonDeveloperCloudService):
             all content, including subelements, is included. The default
             value is `false`.
         """
-        params = {'version': self.version, 'export': str(export).lower()}
+        params = {'version': self.version, 'export': export}
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}/entities/{1}'.format(workspace_id, entity),
@@ -254,9 +254,9 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {
             'version': self.version,
-            'export': str(export).lower(),
+            'export': export,
             'page_limit': page_limit,
-            'include_count': str(include_count).lower(),
+            'include_count': include_count,
             'sort': sort,
             'cursor': cursor
         }
@@ -388,7 +388,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         params = {
             'version': self.version,
             'page_limit': page_limit,
-            'include_count': str(include_count).lower(),
+            'include_count': include_count,
             'sort': sort,
             'cursor': cursor
         }
@@ -483,7 +483,7 @@ class ConversationV1(WatsonDeveloperCloudService):
             all content, including subelements, is included. The default
             value is `false`.
         """
-        params = {'version': self.version, 'export': str(export).lower()}
+        params = {'version': self.version, 'export': export}
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
@@ -519,9 +519,9 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {
             'version': self.version,
-            'export': str(export).lower(),
+            'export': export,
             'page_limit': page_limit,
-            'include_count': str(include_count).lower(),
+            'include_count': include_count,
             'sort': sort,
             'cursor': cursor
         }
@@ -742,7 +742,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         params = {
             'version': self.version,
             'page_limit': page_limit,
-            'include_count': str(include_count).lower(),
+            'include_count': include_count,
             'sort': sort,
             'cursor': cursor
         }
@@ -845,7 +845,7 @@ class ConversationV1(WatsonDeveloperCloudService):
             all content, including subelements, is included. The default
             value is `false`.
         """
-        params = {'version': self.version, 'export': str(export).lower()}
+        params = {'version': self.version, 'export': export}
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
@@ -884,9 +884,9 @@ class ConversationV1(WatsonDeveloperCloudService):
         """
         params = {
             'version': self.version,
-            'export': str(export).lower(),
+            'export': export,
             'page_limit': page_limit,
-            'include_count': str(include_count).lower(),
+            'include_count': include_count,
             'sort': sort,
             'cursor': cursor
         }
@@ -1008,7 +1008,7 @@ class ConversationV1(WatsonDeveloperCloudService):
             all content, including subelements, is included. The default
             value is `false`.
         """
-        params = {'version': self.version, 'export': str(export).lower()}
+        params = {'version': self.version, 'export': export}
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}'.format(workspace_id),
@@ -1037,7 +1037,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         params = {
             'version': self.version,
             'page_limit': page_limit,
-            'include_count': str(include_count).lower(),
+            'include_count': include_count,
             'sort': sort,
             'cursor': cursor
         }
