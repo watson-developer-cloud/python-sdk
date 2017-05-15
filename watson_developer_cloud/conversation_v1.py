@@ -914,7 +914,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param value: The text of the entity value.
         :param new_value: The text of the entity value.
         :param new_metadata: Any metadata related to the entity value.
-        :param new_synonyms: 
+        :param new_synonyms: An array of synonyms for the entity value.
         """
         params = {'version': self.version}
         data = {
