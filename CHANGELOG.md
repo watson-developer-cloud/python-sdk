@@ -1,11 +1,20 @@
 Change Log
 ==========
 
+## Version 0.26.0
+
+_2017-05-16_
+
+* Added: Conversation endpoints for 2017-04-21 service release (entities, logs)
+* Added: Tone Analyzer `tone_chat`
+* Fixed: Unicode issues in Python 3
+
+
 ## Version 0.25.2
 
 _2017-03-21_
 
-* Fixed: Speech to text supports customization_id
+* Fixed: Speech to text supports `customization_id`
 * Fixed: Discovery now can create free instances
 
 ## Version 0.25.1
