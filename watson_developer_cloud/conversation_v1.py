@@ -38,12 +38,15 @@ class ConversationV1(WatsonDeveloperCloudService):
     def create_counterexample(self, workspace_id, text):
         """
         Create counterexample.
+
+        Add a new counterexample to a workspace. Counterexamples are
+        examples that have been marked as irrelevant input.
+
         :param workspace_id: The workspace ID.
         :param text: The text of a user input example.
         """
         params = {'version': self.version}
-        data = {}
-        data['text'] = text
+        data = {'text': text}
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/counterexamples'.format(workspace_id),
@@ -54,6 +57,10 @@ class ConversationV1(WatsonDeveloperCloudService):
     def delete_counterexample(self, workspace_id, text):
         """
         Delete counterexample.
+
+        Delete a counterexample from a workspace. Counterexamples are
+        examples that have been marked as irrelevant input.
+
         :param workspace_id: The workspace ID.
         :param text: The text of a user input counterexample (for example,
             `What are you wearing?`).
@@ -69,6 +76,10 @@ class ConversationV1(WatsonDeveloperCloudService):
     def get_counterexample(self, workspace_id, text):
         """
         Get counterexample.
+
+        Get information about a counterexample. Counterexamples are
+        examples that have been marked as irrelevant input.
+
         :param workspace_id: The workspace ID.
         :param text: The text of a user input counterexample (for example,
             `What are you wearing?`).
@@ -89,21 +100,27 @@ class ConversationV1(WatsonDeveloperCloudService):
                              cursor=None):
         """
         List counterexamples.
+
+        List the counterexamples for a workspace. Counterexamples are
+        examples that have been marked as irrelevant input.
+
         :param workspace_id: The workspace ID.
         :param page_limit: The number of records to return in each page of
             results. The default page limit is 100.
         :param include_count: Whether to include information about the number
             of records returned.
-        :param sort: The sort order that determines the behavior of the
-            pagination cursor.
+        :param sort: Sorts the response according to the value of the
+            specified property, in ascending or descending order.
         :param cursor: A token identifying the last value from the previous
             page of results.
         """
-        params = {'version': self.version}
-        params['page_limit'] = page_limit
-        params['include_count'] = include_count
-        params['sort'] = sort
-        params['cursor'] = cursor
+        params = {
+            'version': self.version,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor
+        }
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}/counterexamples'.format(workspace_id),
@@ -113,18 +130,174 @@ class ConversationV1(WatsonDeveloperCloudService):
     def update_counterexample(self, workspace_id, text, new_text=None):
         """
         Update counterexample.
+
+        Update the text of a counterexample. Counterexamples are
+        examples that have been marked as irrelevant input.
+
         :param workspace_id: The workspace ID.
         :param text: The text of a user input counterexample (for example,
             `What are you wearing?`).
         :param new_text: The new text of a user input counterexample.
         """
         params = {'version': self.version}
-        data = {}
-        data['text'] = new_text
+        data = {'text': new_text}
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/counterexamples/{1}'.format(
                 workspace_id, text),
+            params=params,
+            json=data,
+            accept_json=True)
+
+    #########################
+    # entities
+    #########################
+
+    def create_entity(self,
+                      workspace_id,
+                      entity,
+                      description=None,
+                      metadata=None,
+                      values=None,
+                      fuzzy_match=None):
+        """
+        Create entity.
+
+        Create a new entity.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param description: The description of the entity.
+        :param metadata: Any metadata related to the value.
+        :param values: An array of entity values.
+        :param fuzzy_match: Whether to use fuzzy matching for the entity.
+        """
+        params = {'version': self.version}
+        data = {
+            'entity': entity,
+            'description': description,
+            'metadata': metadata,
+            'values': values,
+            'fuzzy_match': fuzzy_match
+        }
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/entities'.format(workspace_id),
+            params=params,
+            json=data,
+            accept_json=True)
+
+    def delete_entity(self, workspace_id, entity):
+        """
+        Delete entity.
+
+        Delete an entity from a workspace.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        """
+        params = {'version': self.version}
+        return self.request(
+            method='DELETE',
+            url='/v1/workspaces/{0}/entities/{1}'.format(workspace_id, entity),
+            params=params,
+            accept_json=True)
+
+    def get_entity(self, workspace_id, entity, export=None):
+        """
+        Get entity.
+
+        Get information about an entity, optionally
+        including all entity content.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param export: Whether to include all element content in the
+            returned data. If export=`false`, the returned data includes
+            only information about the element itself. If export=`true`,
+            all content, including subelements, is included. The default
+            value is `false`.
+        """
+        params = {'version': self.version, 'export': export}
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/entities/{1}'.format(workspace_id, entity),
+            params=params,
+            accept_json=True)
+
+    def list_entities(self,
+                      workspace_id,
+                      export=None,
+                      page_limit=None,
+                      include_count=None,
+                      sort=None,
+                      cursor=None):
+        """
+        List entities.
+
+        List the entities for a workspace.
+
+        :param workspace_id: The workspace ID.
+        :param export: Whether to include all element content in the
+            returned data. If export=`false`, the returned data includes
+            only information about the element itself. If export=`true`,
+            all content, including subelements, is included. The default
+            value is `false`.
+        :param page_limit: The number of records to return in each page of
+            results. The default page limit is 100.
+        :param include_count: Whether to include information about the number
+            of records returned.
+        :param sort: Sorts the response according to the value of the
+            specified property, in ascending or descending order.
+        :param cursor: A token identifying the last value from the previous
+            page of results.
+        """
+        params = {
+            'version': self.version,
+            'export': export,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor
+        }
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/entities'.format(workspace_id),
+            params=params,
+            accept_json=True)
+
+    def update_entity(self,
+                      workspace_id,
+                      entity,
+                      new_entity=None,
+                      new_description=None,
+                      new_metadata=None,
+                      new_fuzzy_match=None,
+                      new_values=None):
+        """
+        Update entity.
+
+        Update an existing entity with new or modified data.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param new_entity: The new name of the entity.
+        :param new_description: The new description of the entity.
+        :param new_metadata: Any new metadata related to the entity.
+        :param new_fuzzy_match: Whether to use fuzzy matching for the entity.
+        :param new_values: A new array of entity values.
+        """
+        params = {'version': self.version}
+        data = {
+            'entity': new_entity,
+            'description': new_description,
+            'metadata': new_metadata,
+            'fuzzy_match': new_fuzzy_match,
+            'values': new_values
+        }
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/entities/{1}'.format(workspace_id, entity),
             params=params,
             json=data,
             accept_json=True)
@@ -136,13 +309,15 @@ class ConversationV1(WatsonDeveloperCloudService):
     def create_example(self, workspace_id, intent, text):
         """
         Create user input example.
+
+        Add a new user input example to an intent.
+
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         :param text: The text of a user input example.
         """
         params = {'version': self.version}
-        data = {}
-        data['text'] = text
+        data = {'text': text}
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/intents/{1}/examples'.format(
@@ -154,6 +329,9 @@ class ConversationV1(WatsonDeveloperCloudService):
     def delete_example(self, workspace_id, intent, text):
         """
         Delete user input example.
+
+        Delete a user input example from an intent.
+
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         :param text: The text of the user input example.
@@ -169,6 +347,9 @@ class ConversationV1(WatsonDeveloperCloudService):
     def get_example(self, workspace_id, intent, text):
         """
         Get user input example.
+
+        Get information about a user input example.
+
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         :param text: The text of the user input example.
@@ -190,22 +371,27 @@ class ConversationV1(WatsonDeveloperCloudService):
                       cursor=None):
         """
         List user input examples.
+
+        List the user input examples for an intent.
+
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         :param page_limit: The number of records to return in each page of
             results. The default page limit is 100.
         :param include_count: Whether to include information about the number
             of records returned.
-        :param sort: The sort order that determines the behavior of the
-            pagination cursor.
+        :param sort: Sorts the response according to the value of the
+            specified property, in ascending or descending order.
         :param cursor: A token identifying the last value from the previous
             page of results.
         """
-        params = {'version': self.version}
-        params['page_limit'] = page_limit
-        params['include_count'] = include_count
-        params['sort'] = sort
-        params['cursor'] = cursor
+        params = {
+            'version': self.version,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor
+        }
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}/intents/{1}/examples'.format(
@@ -216,14 +402,16 @@ class ConversationV1(WatsonDeveloperCloudService):
     def update_example(self, workspace_id, intent, text, new_text=None):
         """
         Update user input example.
+
+        Update the text of a user input example.
+
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         :param text: The text of the user input example.
-        :param new_text: The new text of the user input example.
+        :param new_text: The text of the user input example.
         """
         params = {'version': self.version}
-        data = {}
-        data['text'] = new_text
+        data = {'text': new_text}
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
@@ -243,16 +431,20 @@ class ConversationV1(WatsonDeveloperCloudService):
                       examples=None):
         """
         Create intent.
+
+        Create a new intent.
+
         :param workspace_id: The workspace ID.
         :param intent: The name of the intent.
         :param description: The description of the intent.
         :param examples: An array of user input examples.
         """
         params = {'version': self.version}
-        data = {}
-        data['intent'] = intent
-        data['description'] = description
-        data['examples'] = examples
+        data = {
+            'intent': intent,
+            'description': description,
+            'examples': examples
+        }
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/intents'.format(workspace_id),
@@ -263,6 +455,9 @@ class ConversationV1(WatsonDeveloperCloudService):
     def delete_intent(self, workspace_id, intent):
         """
         Delete intent.
+
+        Delete an intent from a workspace.
+
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         """
@@ -276,6 +471,10 @@ class ConversationV1(WatsonDeveloperCloudService):
     def get_intent(self, workspace_id, intent, export=None):
         """
         Get intent.
+
+        Get information about an intent, optionally
+        including all intent content.
+
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         :param export: Whether to include all element content in the
@@ -284,8 +483,7 @@ class ConversationV1(WatsonDeveloperCloudService):
             all content, including subelements, is included. The default
             value is `false`.
         """
-        params = {'version': self.version}
-        params['export'] = export
+        params = {'version': self.version, 'export': export}
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
@@ -301,6 +499,9 @@ class ConversationV1(WatsonDeveloperCloudService):
                      cursor=None):
         """
         List intents.
+
+        List the intents for a workspace.
+
         :param workspace_id: The workspace ID.
         :param export: Whether to include all element content in the
             returned data. If export=`false`, the returned data includes
@@ -311,17 +512,19 @@ class ConversationV1(WatsonDeveloperCloudService):
             results. The default page limit is 100.
         :param include_count: Whether to include information about the
             number of records returned.
-        :param sort: The sort order that determines the behavior of the
-            pagination cursor.
+        :param sort: Sorts the response according to the value of the
+            specified property, in ascending or descending order.
         :param cursor: A token identifying the last value from the previous
             page of results.
         """
-        params = {'version': self.version}
-        params['export'] = export
-        params['page_limit'] = page_limit
-        params['include_count'] = include_count
-        params['sort'] = sort
-        params['cursor'] = cursor
+        params = {
+            'version': self.version,
+            'export': export,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor
+        }
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}/intents'.format(workspace_id),
@@ -336,22 +539,64 @@ class ConversationV1(WatsonDeveloperCloudService):
                       new_examples=None):
         """
         Update intent.
+
+        Update an existing intent with new or modified data. You must provide data defining the content of the updated intent.
+
         :param workspace_id: The workspace ID.
         :param intent: The intent name (for example, `pizza_order`).
         :param new_intent: The new intent name.
-        :param new_description: The new description of the intent.
+        :param new_description: The description of the intent.
         :param new_examples: An array of new user input examples.
         """
         params = {'version': self.version}
-        data = {}
-        data['intent'] = new_intent
-        data['description'] = new_description
-        data['examples'] = new_examples
+        data = {
+            'intent': new_intent,
+            'description': new_description,
+            'examples': new_examples
+        }
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
             params=params,
             json=data,
+            accept_json=True)
+
+    #########################
+    # logs
+    #########################
+
+    def list_logs(self,
+                  workspace_id,
+                  sort=None,
+                  filter=None,
+                  page_limit=None,
+                  cursor=None):
+        """
+        List log events.
+
+        List log events associated with the given workspace.
+
+        :param workspace_id: The workspace ID.
+        :param sort: Sorts the response according to the value of the
+            specified property, in ascending or descending order.
+        :param filter: A cacheable parameter that limits the results to
+            those matching the specified filter.
+        :param page_limit: The number of records to return in each page
+            of results. The default page limit is 100.
+        :param cursor: A token identifying the last value from the
+            previous page of results.
+        """
+        params = {
+            'version': self.version,
+            'sort': sort,
+            'filter': filter,
+            'page_limit': page_limit,
+            'cursor': cursor
+        }
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/logs'.format(workspace_id),
+            params=params,
             accept_json=True)
 
     #########################
@@ -368,13 +613,16 @@ class ConversationV1(WatsonDeveloperCloudService):
                 output=None):
         """
         Get a response to a user's input.
+
+        Send a user's message and receive a response.
+
         :param workspace_id: Unique identifier of the workspace.
         :param message_input: An input object that includes the input text.
         :param alternate_intents: Whether to return more than one intent.
             Set to `true` to return all matching intents.
-        :param context: State information for the conversation. Include the
-            context object from the previous response when you send multiple
-            requests for the same conversation.
+        :param context: State information for the conversation. Continue a
+            conversation by including the context object from the previous
+            response.
         :param entities: Include the entities from the previous response when
             they do not need to change and to prevent Watson from trying to
             identify them.
@@ -386,16 +634,298 @@ class ConversationV1(WatsonDeveloperCloudService):
             pass back in the intermediate information.
         """
         params = {'version': self.version}
-        data = {}
-        data['input'] = message_input
-        data['alternate_intents'] = alternate_intents
-        data['context'] = context
-        data['entities'] = entities
-        data['intents'] = intents
-        data['output'] = output
+        data = {
+            'input': message_input,
+            'alternate_intents': alternate_intents,
+            'context': context,
+            'entities': entities,
+            'intents': intents,
+            'output': output
+        }
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}/message'.format(workspace_id),
+            params=params,
+            json=data,
+            accept_json=True)
+
+    #########################
+    # synonyms
+    #########################
+
+    def create_synonym(self, workspace_id, entity, value, synonym):
+        """
+        Add entity value synonym.
+
+        Add a new synonym to an entity value.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        :param synonym: The text of the synonym.
+        """
+        params = {'version': self.version}
+        data = {'synonym': synonym}
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
+                workspace_id, entity, value),
+            params=params,
+            json=data,
+            accept_json=True)
+
+    def delete_synonym(self, workspace_id, entity, value, synonym):
+        """
+        Delete entity value synonym.
+
+        Delete a synonym for an entity value.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        :param synonym: The text of the synonym.
+        """
+        params = {'version': self.version}
+        return self.request(
+            method='DELETE',
+            url=
+            '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+                workspace_id, entity, value, synonym),
+            params=params,
+            accept_json=True)
+
+    def get_synonym(self, workspace_id, entity, value, synonym):
+        """
+        Get entity value synonym.
+
+        Get information about a synonym for an entity value.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        :param synonym: The text of the synonym.
+        """
+        params = {'version': self.version}
+        return self.request(
+            method='GET',
+            url=
+            '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+                workspace_id, entity, value, synonym),
+            params=params,
+            accept_json=True)
+
+    def list_synonyms(self,
+                      workspace_id,
+                      entity,
+                      value,
+                      page_limit=None,
+                      include_count=None,
+                      sort=None,
+                      cursor=None):
+        """
+        List entity value synonyms.
+
+        List the synonyms for an entity value.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        :param page_limit: The number of records to return in each page
+            of results. The default page limit is 100.
+        :param include_count: Whether to include information about the
+            number of records returned.
+        :param sort: Sorts the response according to the value of the
+            specified property, in ascending or descending order.
+        :param cursor: A token identifying the last value from the
+            previous page of results.
+        """
+        params = {
+            'version': self.version,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor
+        }
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
+                workspace_id, entity, value),
+            params=params,
+            accept_json=True)
+
+    def update_synonym(self,
+                       workspace_id,
+                       entity,
+                       value,
+                       synonym,
+                       new_synonym=None):
+        """
+        Update entity value synonym.
+
+        Update the information about a synonym for an entity value.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        :param synonym: The text of the synonym.
+        :param new_synonym: The text of the synonym.
+        """
+        params = {'version': self.version}
+        data = {'synonym': new_synonym}
+        return self.request(
+            method='POST',
+            url=
+            '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+                workspace_id, entity, value, synonym),
+            params=params,
+            json=data,
+            accept_json=True)
+
+    #########################
+    # values
+    #########################
+
+    def create_value(self,
+                     workspace_id,
+                     entity,
+                     value,
+                     metadata=None,
+                     synonyms=None):
+        """
+        Add entity value.
+
+        Create a new value for an entity.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        :param metadata: Any metadata related to the entity value.
+        :param synonyms: Any array of synonyms for the entity value.
+        """
+        params = {'version': self.version}
+        data = {'value': value, 'metadata': metadata, 'synonyms': synonyms}
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/entities/{1}/values'.format(
+                workspace_id, entity),
+            params=params,
+            json=data,
+            accept_json=True)
+
+    def delete_value(self, workspace_id, entity, value):
+        """
+        Delete entity value.
+
+        Delete a value for an entity.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        """
+        params = {'version': self.version}
+        return self.request(
+            method='DELETE',
+            url='/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+                workspace_id, entity, value),
+            params=params,
+            accept_json=True)
+
+    def get_value(self, workspace_id, entity, value, export=None):
+        """
+        Get entity value.
+
+        Get information about an entity value.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        :param export: Whether to include all element content in the
+            returned data. If export=`false`, the returned data includes
+            only information about the element itself. If export=`true`,
+            all content, including subelements, is included. The default
+            value is `false`.
+        """
+        params = {'version': self.version, 'export': export}
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+                workspace_id, entity, value),
+            params=params,
+            accept_json=True)
+
+    def list_values(self,
+                    workspace_id,
+                    entity,
+                    export=None,
+                    page_limit=None,
+                    include_count=None,
+                    sort=None,
+                    cursor=None):
+        """
+        List entity values.
+
+        List the values for an entity.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param export: Whether to include all element content in the
+            returned data. If export=`false`, the returned data includes
+            only information about the element itself. If export=`true`,
+            all content, including subelements, is included. The default
+            value is `false`.
+        :param page_limit: The number of records to return in each page
+            of results. The default page limit is 100.
+        :param include_count: Whether to include information about the
+            number of records returned.
+        :param sort: Sorts the response according to the value of the
+            specified property, in ascending or descending order.
+        :param cursor: A token identifying the last value from the
+            previous page of results.
+        """
+        params = {
+            'version': self.version,
+            'export': export,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor
+        }
+        return self.request(
+            method='GET',
+            url='/v1/workspaces/{0}/entities/{1}/values'.format(
+                workspace_id, entity),
+            params=params,
+            accept_json=True)
+
+    def update_value(self,
+                     workspace_id,
+                     entity,
+                     value,
+                     new_value=None,
+                     new_metadata=None,
+                     new_synonyms=None):
+        """
+        Update entity value.
+
+        Update the content of a value for an entity.
+
+        :param workspace_id: The workspace ID.
+        :param entity: The name of the entity.
+        :param value: The text of the entity value.
+        :param new_value: The text of the entity value.
+        :param new_metadata: Any metadata related to the entity value.
+        :param new_synonyms: An array of synonyms for the entity value.
+        """
+        params = {'version': self.version}
+        data = {
+            'value': new_value,
+            'metadata': new_metadata,
+            'synonyms': new_synonyms
+        }
+        return self.request(
+            method='POST',
+            url='/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+                workspace_id, entity, value),
             params=params,
             json=data,
             accept_json=True)
@@ -415,6 +945,10 @@ class ConversationV1(WatsonDeveloperCloudService):
                          metadata=None):
         """
         Create workspace.
+
+        Create a workspace based on component objects. You must provide
+        workspace components defining the content of the new workspace.
+
         :param name: The name of the workspace.
         :param description: The description of the workspace.
         :param language: The language of the workspace.
@@ -426,18 +960,19 @@ class ConversationV1(WatsonDeveloperCloudService):
             the nodes in the workspace dialog.
         :param counterexamples: An array of CreateExample objects defining
             input examples that have been marked as irrelevant input.
-        :param metadata: Any metadata that is required by the workspace.
+        :param metadata: Any metadata related to the workspace.
         """
         params = {'version': self.version}
-        data = {}
-        data['name'] = name
-        data['description'] = description
-        data['language'] = language
-        data['intents'] = intents
-        data['entities'] = entities
-        data['dialog_nodes'] = dialog_nodes
-        data['counterexamples'] = counterexamples
-        data['metadata'] = metadata
+        data = {
+            'name': name,
+            'description': description,
+            'language': language,
+            'intents': intents,
+            'entities': entities,
+            'dialog_nodes': dialog_nodes,
+            'counterexamples': counterexamples,
+            'metadata': metadata
+        }
         return self.request(
             method='POST',
             url='/v1/workspaces',
@@ -448,6 +983,9 @@ class ConversationV1(WatsonDeveloperCloudService):
     def delete_workspace(self, workspace_id):
         """
         Delete workspace.
+
+        Delete a workspace from the service instance.
+
         :param workspace_id: The workspace ID.
         """
         params = {'version': self.version}
@@ -460,6 +998,9 @@ class ConversationV1(WatsonDeveloperCloudService):
     def get_workspace(self, workspace_id, export=None):
         """
         Get information about a workspace.
+
+        Get information about a workspace, optionally including all workspace content.
+
         :param workspace_id: The workspace ID.
         :param export: Whether to include all element content in the
             returned data. If export=`false`, the returned data includes
@@ -467,8 +1008,7 @@ class ConversationV1(WatsonDeveloperCloudService):
             all content, including subelements, is included. The default
             value is `false`.
         """
-        params = {'version': self.version}
-        params['export'] = export
+        params = {'version': self.version, 'export': export}
         return self.request(
             method='GET',
             url='/v1/workspaces/{0}'.format(workspace_id),
@@ -482,20 +1022,25 @@ class ConversationV1(WatsonDeveloperCloudService):
                         cursor=None):
         """
         List workspaces.
+
+        List the workspaces associated with a Conversation service instance.
+
         :param page_limit: The number of records to return in each page of
             results. The default page limit is 100.
         :param include_count: Whether to include information about the number
             of records returned.
-        :param sort: The sort order that determines the behavior of the
-            pagination cursor.
+        :param sort: Sorts the response according to the value of the
+            specified property, in ascending or descending order.
         :param cursor: A token identifying the last value from the previous
             page of results.
         """
-        params = {'version': self.version}
-        params['page_limit'] = page_limit
-        params['include_count'] = include_count
-        params['sort'] = sort
-        params['cursor'] = cursor
+        params = {
+            'version': self.version,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor
+        }
         return self.request(
             method='GET',
             url='/v1/workspaces',
@@ -514,6 +1059,11 @@ class ConversationV1(WatsonDeveloperCloudService):
                          metadata=None):
         """
         Update workspace.
+
+        Update an existing workspace with new or modified data.
+        You must provide component objects defining the content
+        of the updated workspace.
+
         :param workspace_id: The workspace ID.
         :param name: The name of the workspace.
         :param description: The description of the workspace.
@@ -526,18 +1076,19 @@ class ConversationV1(WatsonDeveloperCloudService):
             the nodes in the workspace dialog.
         :param counterexamples: An array of CreateExample objects defining
             input examples that have been marked as irrelevant input.
-        :param metadata: Any metadata that is required by the workspace.
+        :param metadata: Any metadata related to the workspace.
         """
         params = {'version': self.version}
-        data = {}
-        data['name'] = name
-        data['description'] = description
-        data['language'] = language
-        data['intents'] = intents
-        data['entities'] = entities
-        data['dialog_nodes'] = dialog_nodes
-        data['counterexamples'] = counterexamples
-        data['metadata'] = metadata
+        data = {
+            'name': name,
+            'description': description,
+            'language': language,
+            'intents': intents,
+            'entities': entities,
+            'dialog_nodes': dialog_nodes,
+            'counterexamples': counterexamples,
+            'metadata': metadata
+        }
         return self.request(
             method='POST',
             url='/v1/workspaces/{0}'.format(workspace_id),

@@ -158,6 +158,161 @@ def test_update_counterexample():
 
 
 #########################
+# entities
+#########################
+
+
+@responses.activate
+def test_create_entity():
+    endpoint = '/v1/workspaces/{0}/entities'.format('boguswid')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "entity": "pizza_toppings",
+        "description": "Tasty pizza toppings",
+        "created": "2015-12-06T04:32:20.000Z",
+        "updated": "2015-12-07T18:53:59.153Z",
+        "metadata": {
+            "property": "value"
+        }
+    }
+    responses.add(
+        responses.POST,
+        url,
+        body=json.dumps(response),
+        status=201,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    entity = service.create_entity(
+        workspace_id='boguswid',
+        entity='pizza_toppings',
+        description='Tasty pizza toppings',
+        metadata={"property": "value"},
+        values=None,
+        fuzzy_match=None)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert entity == response
+
+
+@responses.activate
+def test_delete_entity():
+    endpoint = '/v1/workspaces/{0}/entities/{1}'.format('boguswid', 'pizza_toppings')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = ""
+    responses.add(
+        responses.DELETE,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    entity = service.delete_entity(workspace_id='boguswid', entity='pizza_toppings')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert entity == response
+
+
+@responses.activate
+def test_get_entity():
+    endpoint = '/v1/workspaces/{0}/entities/{1}'.format('boguswid', 'pizza_toppings')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "entity": "pizza_toppings",
+        "description": "Tasty pizza toppings",
+        "created": "2015-12-06T04:32:20.000Z",
+        "updated": "2015-12-07T18:53:59.153Z",
+        "metadata": {
+            "property": "value"
+        }
+    }
+    responses.add(
+        responses.GET,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    entity = service.get_entity(workspace_id='boguswid', entity='pizza_toppings', export=True)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert entity == response
+
+
+@responses.activate
+def test_list_entities():
+    endpoint = '/v1/workspaces/{0}/entities'.format('boguswid')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "entities": [{
+            "entity": "pizza_toppings",
+            "description": "Tasty pizza toppings",
+            "created": "2015-12-06T04:32:20.000Z",
+            "updated": "2015-12-07T18:53:59.153Z",
+            "metadata": {
+                "property": "value"
+            }
+        }],
+        "pagination": {
+            "refresh_url":
+            "/v1/workspaces/pizza_app-e0f3/entities?version=2017-12-18&filter=name:pizza&include_count=true&page_limit=1",
+            "next_url":
+            "/v1/workspaces/pizza_app-e0f3/entities?cursor=base64=&version=2017-12-18&filter=name:pizza&page_limit=1",
+            "total":
+            1,
+            "matched":
+            1
+        }
+    }
+    responses.add(
+        responses.GET,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    entities = service.list_entities(
+        workspace_id='boguswid',
+        export=True)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert entities == response
+
+
+@responses.activate
+def test_update_entity():
+    endpoint = '/v1/workspaces/{0}/entities/{1}'.format('boguswid', 'pizza_toppings')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "entity": "pizza_toppings",
+        "description": "Tasty pizza toppings",
+        "created": "2015-12-06T04:32:20.000Z",
+        "updated": "2015-12-07T18:53:59.153Z",
+        "metadata": {
+            "property": "value"
+        }
+    }
+    responses.add(
+        responses.POST,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    entity = service.update_entity(
+        workspace_id='boguswid',
+        entity='pizza_toppings',
+        new_entity='pizza_toppings')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert entity == response
+
+
+#########################
 # examples
 #########################
 
@@ -445,6 +600,75 @@ def test_update_intent():
 
 
 #########################
+# logs
+#########################
+
+
+@responses.activate
+def test_list_logs():
+    endpoint = '/v1/workspaces/{0}/logs'.format('boguswid')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "logs": [{
+            "request": {
+                "input": {
+                    "text": "Can you turn off the AC"
+                },
+                "context": {}
+            },
+            "response": {
+                "input": {
+                    "text": "Can you turn off the AC"
+                },
+                "context": {
+                    "conversation_id": "f2c7e362-4cc8-4761-8b0f-9ccd70c63bca",
+                    "system": {
+                        "dialog_stack": ["root"],
+                        "dialog_turn_counter": 1,
+                        "dialog_request_counter": 1
+                    },
+                    "defaultCounter": 0
+                },
+                "entities": [],
+                "intents": [{
+                    "intent": "turn_off",
+                    "confidence": 0.9332477126694649
+                }],
+                "output": {
+                    "log_messages": [],
+                    "text": [
+                        "Hi. It looks like a nice drive today. What would you like me to do?"
+                    ],
+                    "nodes_visited": ["node_1_1467221909631"]
+                }
+            },
+            "request_timestamp": "2016-07-16T09:22:38.960Z",
+            "response_timestamp": "2016-07-16T09:22:39.011Z",
+            "log_id": "e70d6c12-582d-47a8-a6a2-845120a1f232"
+        }],
+        "pagination": {
+            "next_url":
+            "/v1/workspaces/15fb0e8a-463d-4fec-86aa-a737d9c38a32/logs?cursor=dOfVSuh6fBpDuOxEL9m1S7JKDV7KLuBmRR+lQG1s1i/rVnBZ0ZBVCuy53ruHgPImC31gQv5prUsJ77e0Mj+6sGu/yfusHYF5&version=2016-07-11&filter=response.top_intent:turn_off&page_limit=1",
+            "matched":
+            215
+        }
+    }
+    responses.add(
+        responses.GET,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    logs = service.list_logs(
+        workspace_id='boguswid')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert logs == response
+
+
+#########################
 # message
 #########################
 
@@ -517,6 +741,304 @@ def test_message():
     assert responses.calls[1].response.text == json.dumps(message_response)
 
     assert len(responses.calls) == 2
+
+
+#########################
+# synonyms
+#########################
+
+
+@responses.activate
+def test_create_synonym():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
+        'boguswid', 'aeiou', 'vowel')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "synonym": "aeiou",
+        "created": "2000-01-23T04:56:07.000+00:00",
+        "updated": "2000-01-23T04:56:07.000+00:00"
+    }
+    responses.add(
+        responses.POST,
+        url,
+        body=json.dumps(response),
+        status=201,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    synonym = service.create_synonym(
+        workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert synonym == response
+
+
+@responses.activate
+def test_delete_synonym():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+        'boguswid', 'aeiou', 'vowel', 'a')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = ""
+    responses.add(
+        responses.DELETE,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    synonym = service.delete_synonym(
+        workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert synonym == response
+
+
+@responses.activate
+def test_get_synonym():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+        'boguswid', 'grilling', 'bbq', 'barbecue')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "synonym": "barbecue",
+        "created": "2015-12-06T23:53:59.153Z",
+        "updated": "2015-12-07T18:53:59.153Z"
+    }
+    responses.add(
+        responses.GET,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    synonym = service.get_synonym(
+        workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert synonym == response
+
+
+@responses.activate
+def test_list_synonyms():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
+        'boguswid', 'grilling', 'bbq')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "synonyms": [{
+            "synonym": "BBQ sauce",
+            "created": "2015-12-06T23:53:59.153Z",
+            "updated": "2015-12-07T18:53:59.153Z"
+        }, {
+            "synonym": "barbecue",
+            "created": "2015-12-06T23:53:59.153Z",
+            "updated": "2015-12-07T18:53:59.153Z"
+        }],
+        "pagination": {
+            "refresh_url":
+            "/v1/workspaces/pizza_app-e0f3/entities/sauce/values/types/synonyms?version=2017-12-18&filter=name:b&include_count=true&page_limit=2",
+            "next_url":
+            "/v1/workspaces/pizza_app-e0f3/entities/sauce/values/types/synonyms?cursor=base64=&version=2017-12-18&filter=name:b&page_limit=2",
+            "total":
+            8,
+            "matched":
+            2
+        }
+    }
+    responses.add(
+        responses.GET,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    synonyms = service.list_synonyms(
+        workspace_id='boguswid',
+        entity='grilling',
+        value='bbq')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert synonyms == response
+
+
+@responses.activate
+def test_update_synonym():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+        'boguswid', 'grilling', 'bbq', 'barbecue')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "synonym": "barbecue",
+        "created": "2015-12-06T23:53:59.153Z",
+        "updated": "2015-12-07T18:53:59.153Z"
+    }
+    responses.add(
+        responses.POST,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    synonym = service.update_synonym(
+        workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue', new_synonym='barbecue')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert synonym == response
+
+
+#########################
+# values
+#########################
+
+
+@responses.activate
+def test_create_value():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values'.format('boguswid', 'grilling')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "metadata": "{}",
+        "created": "2000-01-23T04:56:07.000+00:00",
+        "value": "aeiou",
+        "updated": "2000-01-23T04:56:07.000+00:00"
+    }
+    responses.add(
+        responses.POST,
+        url,
+        body=json.dumps(response),
+        status=201,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    value = service.create_value(
+        workspace_id='boguswid',
+        entity='grilling',
+        value='aeiou')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert value == response
+
+
+@responses.activate
+def test_delete_value():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+        'boguswid', 'grilling', 'bbq')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = ""
+    responses.add(
+        responses.DELETE,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    value = service.delete_value(
+        workspace_id='boguswid', entity='grilling', value='bbq')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert value == response
+
+
+@responses.activate
+def test_get_value():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+        'boguswid', 'grilling', 'bbq')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "value": "BBQ sauce",
+        "metadata": {
+            "code": 1422
+        },
+        "created": "2015-12-06T23:53:59.153Z",
+        "updated": "2015-12-07T18:53:59.153Z"
+    }
+    responses.add(
+        responses.GET,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    value = service.get_value(
+        workspace_id='boguswid', entity='grilling', value='bbq', export=True)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert value == response
+
+
+@responses.activate
+def test_list_values():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values'.format('boguswid', 'grilling')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "values": [{
+            "value": "BBQ sauce",
+            "metadata": {
+                "code": 1422
+            },
+            "created": "2015-12-06T23:53:59.153Z",
+            "updated": "2015-12-07T18:53:59.153Z"
+        }],
+        "pagination": {
+            "refresh_url":
+            "/v1/workspaces/pizza_app-e0f3/entities/sauce/values?version=2017-12-18&filter=name:pizza&include_count=true&page_limit=1",
+            "next_url":
+            "/v1/workspaces/pizza_app-e0f3/sauce/values?cursor=base64=&version=2017-12-18&filter=name:pizza&page_limit=1",
+            "total":
+            1,
+            "matched":
+            1
+        }
+    }
+    responses.add(
+        responses.GET,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    values = service.list_values(
+        workspace_id='boguswid',
+        entity='grilling',
+        export=True)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert values == response
+
+
+@responses.activate
+def test_update_value():
+    endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+        'boguswid', 'grilling', 'bbq')
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "value": "BBQ sauce",
+        "metadata": {
+            "code": 1422
+        },
+        "created": "2015-12-06T23:53:59.153Z"
+    }
+    responses.add(
+        responses.POST,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    value = service.update_value(
+        workspace_id='boguswid',
+        entity='grilling',
+        value='bbq',
+        new_value='BBQ sauce',
+        new_metadata={"code": 1422},
+        new_synonyms=None)
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert value == response
 
 
 #########################
