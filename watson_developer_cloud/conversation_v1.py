@@ -568,7 +568,7 @@ class ConversationV1(WatsonDeveloperCloudService):
     def list_logs(self,
                   workspace_id,
                   sort=None,
-                  log_filter=None,
+                  filter=None,
                   page_limit=None,
                   cursor=None):
         """
@@ -579,7 +579,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         :param workspace_id: The workspace ID.
         :param sort: Sorts the response according to the value of the
             specified property, in ascending or descending order.
-        :param log_filter: A cacheable parameter that limits the results to
+        :param filter: A cacheable parameter that limits the results to
             those matching the specified filter.
         :param page_limit: The number of records to return in each page
             of results. The default page limit is 100.
@@ -589,7 +589,7 @@ class ConversationV1(WatsonDeveloperCloudService):
         params = {
             'version': self.version,
             'sort': sort,
-            'filter': log_filter,
+            'filter': filter,
             'page_limit': page_limit,
             'cursor': cursor
         }
