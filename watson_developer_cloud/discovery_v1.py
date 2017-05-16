@@ -226,6 +226,29 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={'version': self.version},
                             accept_json=True)
 
+    def update_collection(self,
+                          environment_id,
+			  collection_id,
+                          name,
+                          description="",
+                          configuration_id=None):
+
+        if configuration_id is None:
+            default_config = self.get_default_configuration_id(
+                environment_id=environment_id)
+            configuration_id = default_config
+
+        data_dict = {'configuration_id': configuration_id,
+                     'name': name,
+                     'description': description}
+        url_string = '/v1/environments/{0}/collections/{1}'.format(
+            environment_id, collection_id)
+        return self.request(method='PUT',
+                            url=url_string,
+                            data=data_dict,
+                            params={'version': self.version},
+                            accept_json=True)
+
     def list_collection_fields(self, environment_id, collection_id):
         url_string = '/v1/environments/{0}/collections/{1}/fields'.format(
             environment_id, collection_id)
