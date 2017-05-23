@@ -16,6 +16,7 @@ The v1 Speech to Text service
 (https://www.ibm.com/watson/developercloud/speech-to-text.html)
 """
 
+from __future__ import print_function
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
 from collections import deque, Counter, namedtuple
@@ -32,7 +33,7 @@ Filedata = namedtuple('FileData', ['file_name',
 
 
 @implementer(interfaces.IPushProducer)
-class AudioFileProducer:
+class AudioFileProducer(object):
     def __init__(self, proto):
         self.proto = proto
         self.started = False
