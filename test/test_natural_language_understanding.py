@@ -122,3 +122,28 @@ class TestNaturalLanguageUnderstanding(TestCase):
                      features.Emotion(document=False)], url="http://cnn.com",
                     xpath="/bogus/xpath", language="en")
         assert len(responses.calls) == 1
+
+    @responses.activate
+    def test_listModels(self):
+        nlu_url = "http://bogus.com/v1/models"
+        responses.add(responses.GET, nlu_url, status=200, body="{\"resulting_key\": true}",
+                      content_type='application/json')
+        nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
+                                             url='http://bogus.com',
+                                             username='username',
+                                             password='password')
+        nlu.listModels();
+        assert len(responses.calls) == 1
+
+    @responses.activate
+    def test_deleteModel(self):
+        model_id = "invalid_model_id"
+        nlu_url = "http://bogus.com/v1/models/" + model_id
+        responses.add(responses.DELETE, nlu_url, status=200,
+                      content_type='application/json')
+        nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
+                                             url='http://bogus.com',
+                                             username='username',
+                                             password='password')
+        nlu.deleteModel(model_id);
+        assert len(responses.calls) == 1
