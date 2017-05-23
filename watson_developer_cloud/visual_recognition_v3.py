@@ -122,15 +122,14 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
             params['url'] = images_url
             return self.request(method='GET', url=url, params=params,
                                 accept_json=True)
-        else:
-            filename = images_file.name
-            mime_type = mimetypes.guess_type(
-                filename)[0] or 'application/octet-stream'
-            return self.request(method='POST', url=url,
-                                files={'images_file': (
-                                    filename, images_file, mime_type)},
-                                params=params,
-                                accept_json=True)
+        filename = images_file.name
+        mime_type = mimetypes.guess_type(
+            filename)[0] or 'application/octet-stream'
+        return self.request(method='POST', url=url,
+                            files={'images_file': (
+                                filename, images_file, mime_type)},
+                            params=params,
+                            accept_json=True)
 
     def classify(self, images_file=None, images_url=None, classifier_ids=None,
                  owners=None, threshold=None):

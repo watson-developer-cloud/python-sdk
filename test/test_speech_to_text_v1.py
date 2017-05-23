@@ -50,6 +50,14 @@ def test_get_model():
     speech_to_text.get_model(model_id='modelid')
     assert len(responses.calls) == 1
 
+
+def _decode_body(body):
+    try:
+        return body.decode('utf-8')
+    except:
+        return body
+
+
 @responses.activate
 def test_custom_model():
 
@@ -83,12 +91,12 @@ def test_custom_model():
     speech_to_text.create_custom_model(name="Example model", base_model="en-US_BroadbandModel",
                                        description="Example custom language model")
 
-    parsed_body = json.loads(responses.calls[1].request.body)
+    parsed_body = json.loads(_decode_body(responses.calls[1].request.body))
     assert parsed_body['name'] == 'Example model'
 
     speech_to_text.create_custom_model(name="Example model Two")
 
-    parsed_body = json.loads(responses.calls[2].request.body)
+    parsed_body = json.loads(_decode_body(responses.calls[2].request.body))
     assert parsed_body['name'] == 'Example model Two'
     assert parsed_body['description'] == ''
     assert parsed_body['base_model_name'] == 'en-US_BroadbandModel'
@@ -98,49 +106,48 @@ def test_custom_model():
 
     assert len(responses.calls) == 5
 
-@responses.activate
 def test_custom_corpora():
 
     corpora_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/customizations/{0}/corpora'
     get_corpora_url = '{0}/{1}'.format(corpora_url.format('customid'),'corpus')
 
-    responses.add(responses.GET, corpora_url.format('customid'),
-                  body='{"get response": "yep"}', status=200,
-                  content_type='application/json')
+    with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
+        rsps.add(responses.GET, corpora_url.format('customid'),
+                 body='{"get response": "yep"}', status=200,
+                 content_type='application/json')
 
-    responses.add(responses.POST, get_corpora_url,
+        rsps.add(responses.POST, get_corpora_url,
                  body='{"get response": "yep"}',
                  status=200,
                  content_type='application/json')
 
-    responses.add(responses.GET, get_corpora_url,
+        rsps.add(responses.GET, get_corpora_url,
                  body='{"get response": "yep"}',
                  status=200,
                  content_type='application/json')
 
-    responses.add(responses.DELETE, get_corpora_url,
-                  body='{"get response": "yep"}',
-                  status=200,
-                  content_type='application/json')
+        rsps.add(responses.DELETE, get_corpora_url,
+                 body='{"get response": "yep"}',
+                 status=200,
+                 content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
-        username="username", password="password")
+        speech_to_text = watson_developer_cloud.SpeechToTextV1(
+            username="username", password="password")
 
-    speech_to_text.list_corpora(customization_id='customid')
+        speech_to_text.list_corpora(customization_id='customid')
 
-    file_path = '../resources/speech_to_text/corpus-short-1.txt'
-    full_path = os.path.join(os.path.dirname(__file__), file_path)
-    with open(full_path) as corpus_file:
-        speech_to_text.add_corpus(customization_id='customid',
-                                  corpus_name="corpus", file_data=corpus_file)
+        file_path = '../resources/speech_to_text/corpus-short-1.txt'
+        full_path = os.path.join(os.path.dirname(__file__), file_path)
+        with open(full_path) as corpus_file:
+            speech_to_text.add_corpus(customization_id='customid',
+                                      corpus_name="corpus", file_data=corpus_file)
 
-    speech_to_text.get_corpus(customization_id='customid',
-                              corpus_name='corpus')
+        speech_to_text.get_corpus(customization_id='customid',
+                                  corpus_name='corpus')
 
-    speech_to_text.delete_corpus(customization_id='customid',
-                                 corpus_name='corpus')
+        speech_to_text.delete_corpus(customization_id='customid',
+                                     corpus_name='corpus')
 
-    assert len(responses.calls) == 4
 
 @responses.activate
 def test_custom_words():

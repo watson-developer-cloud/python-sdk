@@ -33,6 +33,6 @@ print(json.dumps(
                                   model_id='en-es-conversational'),
     indent=2))
 
-print(json.dumps(language_translator.identify('Hello how are you?'), indent=2))
+print(json.dumps(language_translator.identify('你好'), indent=2))
 
 print(json.dumps(language_translator.get_identifiable_languages(), indent=2))

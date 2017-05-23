@@ -1,6 +1,7 @@
 # coding=utf-8
 import json
 from os.path import join, dirname
+from io import open
 from watson_developer_cloud import DocumentConversionV1
 
 document_conversion = DocumentConversionV1(
@@ -10,14 +11,14 @@ document_conversion = DocumentConversionV1(
 
 # Example of retrieving html or plain text
 with open(join(dirname(__file__), '../resources/example.html'),
-          'r') as document:
+          encoding='utf8') as document:
     config = {'conversion_target': DocumentConversionV1.NORMALIZED_HTML}
     print(document_conversion.convert_document(
         document=document, config=config, media_type='text/html').content)
 
 # Example with JSON
 with open(join(dirname(__file__), '../resources/example.html'),
-          'r') as document:
+          encoding='utf8') as document:
     config['conversion_target'] = DocumentConversionV1.ANSWER_UNITS
     print(json.dumps(
         document_conversion.convert_document(document=document, config=config),
@@ -28,7 +29,7 @@ print(
     "########## Example of a dry run of index_document with only a document "
     "##########")
 with open(join(dirname(__file__), '../resources/example.html'),
-          'r') as document:
+          encoding='utf8') as document:
     config = {
         'retrieve_and_rank': {
             'dry_run': 'true'
@@ -61,7 +62,7 @@ print(
     "metadata "
     "##########")
 with open(join(dirname(__file__), '../resources/example.html'),
-          'r') as document:
+          encoding='utf8') as document:
     config = {
         'retrieve_and_rank': {
             'dry_run': 'true'
@@ -82,7 +83,7 @@ print(
     "and additional config for conversion"
     "##########")
 with open(join(dirname(__file__), '../resources/example.html'),
-          'r') as document:
+          encoding='utf8') as document:
     config = {
         'convert_document': {
             'normalized_html': {

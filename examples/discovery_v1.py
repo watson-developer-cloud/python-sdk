@@ -1,10 +1,5 @@
 # coding: utf-8
-
-# In[1]:
-
-import sys
-import os
-sys.path.append(os.path.join(os.getcwd(),'..'))
+import json
 import watson_developer_cloud
 
 discovery = watson_developer_cloud.DiscoveryV1(
@@ -13,24 +8,33 @@ discovery = watson_developer_cloud.DiscoveryV1(
     password='YOUR SERVICE PASSWORD')
 
 environments = discovery.get_environments()
-print(environments)
+print(json.dumps(environments, indent=2))
 
 news_environments = [x for x in environments['environments'] if
                      x['name'] == 'Watson News Environment']
 news_environment_id = news_environments[0]['environment_id']
-print(news_environment_id)
+print(json.dumps(news_environment_id, indent=2))
 
 collections = discovery.list_collections(news_environment_id)
 news_collections = [x for x in collections['collections']]
-print(collections)
+print(json.dumps(collections, indent=2))
 
-print(discovery.list_configurations(environment_id=news_environment_id))
-default_config_id = discovery.get_default_configuration_id(environment_id=news_environment_id)
-print(default_config_id)
+configurations = discovery.list_configurations(
+    environment_id=news_environment_id)
+print(json.dumps(configurations, indent=2))
+default_config_id = discovery.get_default_configuration_id(
+    environment_id=news_environment_id)
+print(json.dumps(default_config_id, indent=2))
 
-default_config = discovery.get_configuration(environment_id=news_environment_id, configuration_id=default_config_id)
-print(default_config)
+default_config = discovery.get_configuration(
+    environment_id=news_environment_id, configuration_id=default_config_id)
+print(json.dumps(default_config, indent=2))
 
+query_options = {'query': 'IBM'}
+query_results = discovery.query(news_environment_id,
+                                news_collections[0]['collection_id'],
+                                query_options)
+print(json.dumps(query_results, indent=2))
 
 # new_environment = discovery.create_environment(name="new env", description="bogus env")
 # print(new_environment)

@@ -1,7 +1,7 @@
 # coding=utf-8
 
 import os
-
+import re
 import pytest
 import json as json_import
 
@@ -28,9 +28,10 @@ except:
     print('warning: no .env file loaded')
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
+                    reason='requires VCAP_SERVICES')
 def test_examples():
-    vcapServices = json_import.loads(os.getenv('VCAP_SERVICES'))
+    vcap_services = json_import.loads(os.getenv('VCAP_SERVICES'))
     examples = glob(examples_path)
     for example in examples:
         name = example.split('/')[-1]
@@ -40,13 +41,17 @@ def test_examples():
             continue
 
         # exclude tests if there are no credentials for that service
-        serviceName = name[:-6] if not name.startswith('visual_recognition') else 'watson_vision_combined'
+        service_name = name[:-6] if not name.startswith('visual_recognition')\
+            else 'watson_vision_combined'
 
-        if serviceName not in vcapServices:
-            print('%s does not have credentials in VCAP_SERVICES', serviceName)
+        if service_name not in vcap_services:
+            print('%s does not have credentials in VCAP_SERVICES',
+                  service_name)
             continue
 
         try:
-            exec(open(example).read(), globals())
+            service_file = open(example).read()
+            exec(re.sub('# coding=utf-8', '', service_file), globals())
         except Exception as e:
-            assert False, 'example in file ' + name + ' failed with error: ' + str(e)
+            assert False, 'example in file ' + name + ' failed with error: '\
+                          + str(e)
