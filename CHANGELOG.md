@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+## Version unreleased
+
+_2017-??-??_
+
+* Added: Natural Language Understanding model management APIs
+
 ## Version 0.26.0
 
 _2017-05-16_
@@ -8,7 +14,6 @@ _2017-05-16_
 * Added: Conversation endpoints for 2017-04-21 service release (entities, logs)
 * Added: Tone Analyzer `tone_chat`
 * Fixed: Unicode issues in Python 3
-
 
 ## Version 0.25.2
 
