@@ -91,15 +91,13 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
                             params={"version": self.version},
                             accept_json=True)
 
-    def deleteModel(self, model_id=None):
+    def deleteModel(self, model_id):
         """
         Deletes a custom model
         :param model_id: The ID of the model to delete
         :return: dict with status of model deletion
         """
-        if model_id is None:
-            raise ValueError("Missing parameter 'model_id'")
 
-        return self.request(method='DELETE', url='/v1/models/'+model_id,
+        return self.request(method='DELETE', url='/v1/models/{0}'.format(model_id),
                             params={"version": self.version},
                             accept_json=True)
