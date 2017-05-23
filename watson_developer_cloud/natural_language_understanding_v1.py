@@ -82,3 +82,24 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
                             headers={'content-type': 'application/json'},
                             json=body,
                             accept_json=True)
+
+    def list_models(self):
+        """
+        Lists the custom models available for your service instance
+        :return: dict of available custom models
+        """
+        return self.request(method='GET', url='/v1/models',
+                            params={"version": self.version},
+                            accept_json=True)
+
+    def delete_model(self, model_id):
+        """
+        Deletes a custom model
+        :param model_id: The ID of the model to delete
+        :return: dict with status of model deletion
+        """
+
+        return self.request(method='DELETE',
+                            url='/v1/models/{0}'.format(model_id),
+                            params={"version": self.version},
+                            accept_json=True)
