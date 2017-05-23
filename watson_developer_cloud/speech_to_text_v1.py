@@ -118,7 +118,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
 
         headers = {'Content-Type': 'application/octet-stream'}
 
-        return self.request(method='GET',
+        return self.request(method='POST',
                             url=url.format(customization_id,
                                            corpus_name),
                             headers=headers,
