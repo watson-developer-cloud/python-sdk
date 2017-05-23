@@ -124,26 +124,27 @@ class TestNaturalLanguageUnderstanding(TestCase):
         assert len(responses.calls) == 1
 
     @responses.activate
-    def test_listModels(self):
+    def test_list_models(self):
         nlu_url = "http://bogus.com/v1/models"
-        responses.add(responses.GET, nlu_url, status=200, body="{\"resulting_key\": true}",
+        responses.add(responses.GET, nlu_url, status=200,
+                      body="{\"resulting_key\": true}",
                       content_type='application/json')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
                                              username='username',
                                              password='password')
-        nlu.listModels();
+        nlu.list_models()
         assert len(responses.calls) == 1
 
     @responses.activate
-    def test_deleteModel(self):
+    def test_delete_model(self):
         model_id = "invalid_model_id"
         nlu_url = "http://bogus.com/v1/models/" + model_id
         responses.add(responses.DELETE, nlu_url, status=200,
-                      content_type='application/json')
+                      body="{}", content_type='application/json')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
                                              username='username',
                                              password='password')
-        nlu.deleteModel(model_id);
+        nlu.delete_model(model_id)
         assert len(responses.calls) == 1
