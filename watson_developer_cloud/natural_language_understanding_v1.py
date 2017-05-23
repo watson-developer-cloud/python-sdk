@@ -95,7 +95,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
         """
         Deletes a custom model
         :param model_id: The ID of the model to delete
-        :return: dict of analyzed text
+        :return: dict with status of model deletion
         """
         if model_id is None:
             raise ValueError("Missing parameter 'model_id'")
