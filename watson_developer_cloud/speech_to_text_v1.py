@@ -16,12 +16,136 @@ The v1 Speech to Text service
 (https://www.ibm.com/watson/developercloud/speech-to-text.html)
 """
 
+from __future__ import print_function
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 import json
+from collections import deque, Counter, namedtuple
+import base64
+
+from autobahn.twisted.websocket import WebSocketClientFactory,\
+    WebSocketClientProtocol, connectWS
+from twisted.internet import ssl, reactor, task, interfaces
+from zope.interface import implementer
+
+Filedata = namedtuple('FileData', ['file_name',
+                                   'file_metadata',
+                                   'initial_data'])
+
+
+@implementer(interfaces.IPushProducer)
+class AudioFileProducer(object):
+    def __init__(self, proto):
+        self.proto = proto
+        self.started = False
+        self.paused = False
+        self.filedata = proto.filedatasource.pop()
+        self.fileobj = open(self.filedata.file_name, 'rb')
+        self.proto.metadata = self.filedata.file_metadata
+
+    def pauseProducing(self):
+        self.paused = True
+
+    def resumeProducing(self):
+        self.paused = False
+        if not self.started:
+            as_json = json.dumps(self.filedata.initial_data).encode('utf-8')
+            self.proto.sendMessage(as_json, False)
+            self.started = True
+
+        while not self.paused:
+            buf = self.fileobj.read(1024)
+            if not buf:
+                as_json = json.dumps({"action": "stop"}).encode('utf-8')
+                self.proto.sendMessage(as_json, False)
+                break
+            self.proto.sendMessage(buf, True)
+
+    def stopProducing(self):
+        self.fileobj.close()
+
+
+class StreamingSpeechToTextProtocol(WebSocketClientProtocol):
+    filedatasource = deque()
+    params = {}
+    factory = None
+    ssl_context_factory = None
+    connects = 0
+
+    @classmethod
+    def buildFactory(cls, url, headers, params):
+        # only build the factory once
+        if cls.factory is None:
+            cls.factory = WebSocketClientFactory(url, headers=headers)
+            cls.factory.protocol = cls
+            cls.ssl_context_factory = ssl.ClientContextFactory()
+            cls.params = params
+
+    @classmethod
+    def start(cls):
+        reactor.run()
+
+    @classmethod
+    def stop(cls):
+        reactor.stop()
+
+    @classmethod
+    def addContentType(cls, content_type):
+        newparams = cls.params.copy()
+        newparams['content-type'] = content_type
+        return newparams
+
+    @classmethod
+    def addAudioFile(cls, filename, content_type, metadata=None):
+        data = cls.addContentType(content_type)
+        fdat = Filedata(filename, metadata, data)
+        cls.filedatasource.append(fdat)
+        connectWS(cls.factory, cls.ssl_context_factory)
+        cls.connects += 1
+
+    @classmethod
+    def done(cls):
+        if cls.connects == 0:
+            reactor.stop()
+
+    @classmethod
+    def runUntilDone(cls):
+        looper = task.LoopingCall(cls.done)
+        looper.start(5)
+        cls.start()
+
+    def __init__(self):
+        super(StreamingSpeechToTextProtocol, self).__init__()
+        self.counter = Counter()
+
+    def addState(self, state):
+        update = {}
+        update[state] = 1
+        self.counter.update(update)
+
+    def countState(self, state):
+        return self.counter[state]
+
+    def onError(self, error):
+        print(error)
+
+    def onOpen(self):
+        producer = AudioFileProducer(self)
+        self.registerProducer(producer, True)
+        producer.resumeProducing()
+
+    def onMessage(self, payload, isBinary):
+        pass
+
+    def onConnect(self, request):
+        pass
+
+    def onClose(self, wasClean, code, reason):
+        self.__class__.connects -= 1
 
 
 class SpeechToTextV1(WatsonDeveloperCloudService):
-    default_url = "https://stream.watsonplatform.net/speech-to-text/api"
+    default_host = 'stream.watsonplatform.net'
+    default_url = 'https://{0}/speech-to-text/api'.format(default_host)
 
     def __init__(self, url=default_url, **kwargs):
         WatsonDeveloperCloudService.__init__(self, 'speech_to_text', url,
@@ -60,6 +184,61 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
                             headers=headers,
                             data=audio, params=params,
                             stream=True, accept_json=True)
+
+    def create_recognize_stream(self,
+                                model=None,
+                                protocol_class=None,
+                                customization_id=None,
+                                inactivity_timeout=None,
+                                keywords=None, keywords_threshold=None,
+                                max_alternatives=None,
+                                word_alternatives_threshold=None,
+                                word_confidence=None,
+                                interim_results=None,
+                                timestamps=None,
+                                profanity_filter=None,
+                                smart_formatting=None,
+                                speaker_labels=None):
+
+        url = "wss://{0}{2}?model={1}".format(
+            'stream.watsonplatform.net',
+            model,
+            "/speech-to-text/api/v1/recognize")
+
+        if model is None:
+            url = "wss://{0}{2}?model={1}".format(
+                'stream.watsonplatform.net',
+                'en-US_BroadbandModel',
+                "/speech-to-text/api/v1/recognize")
+
+        params = {'action': 'start',
+                  'continuous': True,
+                  'inactivity_timeout': inactivity_timeout,
+                  'keywords': keywords,
+                  'keywords_threshold': keywords_threshold,
+                  'max_alternatives': max_alternatives,
+                  'customization_id': customization_id,
+                  'word_alternatives_threshold': word_alternatives_threshold,
+                  'word_confidence': word_confidence,
+                  'timestamps': timestamps,
+                  'interim_results': interim_results,
+                  'profanity_filter': profanity_filter,
+                  'smart_formatting': smart_formatting,
+                  'speaker_labels': speaker_labels}
+        # filter and remove None's
+        params = dict([(k, params[k])
+                       for k
+                       in params.keys()
+                       if params[k] is not None])
+
+        headers = {}
+        headers["Authorization"] = "Basic {0}".format(
+            base64.b64encode("{0}:{1}".format(self.username,
+                                              self.password)
+                             .encode('utf-8')).decode('utf-8'))
+
+        protocol_class.buildFactory(url, headers, params)
+        return params
 
     def models(self):
         """
