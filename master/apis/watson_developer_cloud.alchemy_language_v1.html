@@ -1,12 +1,12 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>watson_developer_cloud.alchemy_language_v1 module &#8212; Watson Developer Cloud Python SDK 0.25.2 documentation</title>
+    <title>watson_developer_cloud.alchemy_language_v1 module &#8212; Watson Developer Cloud Python SDK 0.26.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.25.2',
+        VERSION:     '0.26.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -36,7 +36,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -50,11 +50,11 @@
 (<a class="reference external" href="https://www.ibm.com/watson/developercloud/alchemy-language.html">https://www.ibm.com/watson/developercloud/alchemy-language.html</a>)</p>
 <dl class="class">
 <dt id="watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1">
-<em class="property">class </em><code class="descname">AlchemyLanguageV1</code><span class="sig-paren">(</span><em>url='https://gateway-a.watsonplatform.net/calls'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/alchemy_language_v1.html#AlchemyLanguageV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">AlchemyLanguageV1</code><span class="sig-paren">(</span><em>url=’https://gateway-a.watsonplatform.net/calls’</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/alchemy_language_v1.html#AlchemyLanguageV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_developer_cloud_service.WatsonDeveloperCloudService</span></code></p>
 <dl class="attribute">
 <dt id="watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1.default_url">
-<code class="descname">default_url</code><em class="property"> = 'https://gateway-a.watsonplatform.net/calls'</em><a class="headerlink" href="#watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1.default_url" title="Permalink to this definition">¶</a></dt>
+<code class="descname">default_url</code><em class="property"> = ‘https://gateway-a.watsonplatform.net/calls’</em><a class="headerlink" href="#watson_developer_cloud.alchemy_language_v1.AlchemyLanguageV1.default_url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -75,11 +75,11 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>html</strong> &#8211; HTML input</li>
-<li><strong>text</strong> &#8211; Text input</li>
-<li><strong>url</strong> &#8211; URL input</li>
-<li><strong>max_items</strong> &#8211; The number of results to return (default 50)</li>
-<li><strong>max_keywords</strong> &#8211; deprecated, use max_items instead</li>
+<li><strong>html</strong> – HTML input</li>
+<li><strong>text</strong> – Text input</li>
+<li><strong>url</strong> – URL input</li>
+<li><strong>max_items</strong> – The number of results to return (default 50)</li>
+<li><strong>max_keywords</strong> – deprecated, use max_items instead</li>
 </ul>
 </td>
 </tr>
@@ -181,19 +181,19 @@ visual constraint queries, and XPath queries.</div></blockquote>
 <dt>Possible values:</dt>
 <dd><p class="first">cleaned_or_raw  : cleaning enabled, fallback to raw when
 cleaning produces no text (default)
-cleaned         : operate on &#8216;cleaned&#8217; web page text (web
+cleaned         : operate on ‘cleaned’ web page text (web
 page cleaning enabled)
 raw             : operate on raw web page text (web page
 cleaning disabled)
 cquery          : operate on the results of a visual
 constraints query</p>
 <blockquote>
-<div>Note: The &#8216;constraint_query&#8217;  argument must
+<div>Note: The ‘constraint_query’  argument must
 also be set to a valid visual constraints
 query.</div></blockquote>
 <dl class="last docutils">
 <dt>xpath <span class="classifier-delimiter">:</span> <span class="classifier">operate on the results of an XPath query</span></dt>
-<dd>Note: The &#8216;xpath&#8217; http argument must also
+<dd>Note: The ‘xpath’ http argument must also
 be set to a valid XPath query.</dd>
 </dl>
 </dd>
@@ -257,7 +257,7 @@ Possible values:</p>
 False : disabled (default)</div></blockquote>
 </dd>
 <dt>show_source_text -&gt;</dt>
-<dd><p class="first">include the original &#8216;source text&#8217; the entities were extracted
+<dd><p class="first">include the original ‘source text’ the entities were extracted
 from within the API response
 Possible values:</p>
 <blockquote class="last">
