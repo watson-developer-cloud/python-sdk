@@ -1,0 +1,15 @@
+.cache/
+.coverage
+.env
+.vscode/
+build/
+deploy.sh
+dist/
+docs/
+examples/
+python3/
+resources/
+test/
+venv/
+watson_developer_cloud.egg-info/
+watson_developer_cloud/
