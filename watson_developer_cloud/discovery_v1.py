@@ -228,7 +228,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
 
     def update_collection(self,
                           environment_id,
-			  collection_id,
+                          collection_id,
                           name,
                           description="",
                           configuration_id=None):
