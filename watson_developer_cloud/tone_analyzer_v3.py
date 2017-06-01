@@ -28,7 +28,6 @@ audience.
 
 from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
-
 class ToneAnalyzerV3(WatsonDeveloperCloudService):
     """Client for the ToneAnalyzer service."""
 
@@ -44,27 +43,43 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
     # tone
     #########################
 
-    def tone(self, text, tones=None, sentences=None):
+    def tone(self, text, content_type='text/plain', tones=None, sentences=None):
         """
-        The tone API is the main API call: it analyzes the "tone" of a piece
-        of text. The message is analyzed from
-        several tones (social tone, emotional tone, writing tone), and for
-        each of them various traits are derived
-        (such as conscientiousness, agreeableness, openness).
-        :param text: Text to analyze
-        :param sentences: If "false", sentence-level analysis is omitted
-        :param tones: Can be one or more of 'social', 'language', 'emotion';
-        comma-separated.
+        The general purpose tone API analyzes the "tone" of input text.
+        The message is analyzed for several tones (social, emotional, and
+        writing), with various characteristics derived for each tone.
+        :param text: The input content to analyze.
+        :param content_type: The type of the input content: "text/plain"
+        (the default), "text/html", or "application/json".
+        :param sentences: If false, sentence-level analysis is omitted; by
+        default (or if true), each sentence is analyzed.
+        :param tones: A comma-separated list of one or more of the following
+        tones for which to analyze the input text, 'social', 'language', and
+        'emotion'; the default is all tones.
         """
         params = {'version': self.version}
         if tones is not None:
             params['tones'] = tones
         if sentences is not None:
-            params['sentences'] = str(
-                sentences).lower()  # Cast boolean to "false" / "true"
-        data = {'text': text}
-        return self.request(method='POST', url='/v3/tone', params=params,
-                            json=data, accept_json=True)
+            # Cast boolean to "false" / "true"
+            params['sentences'] = str(sentences).lower()
+        if content_type == 'text/plain':
+            text = {'text': text}
+            content_type = 'application/json'
+        headers = {'content-type': content_type}
+
+        if content_type == 'application/json':
+            return self.request(
+                method='POST', headers=headers, url='/v3/tone', params=params,
+                json=text, accept_json=True)
+        else:
+            return self.request(
+                method='POST', headers=headers, url='/v3/tone', params=params,
+                data=text, accept_json=True)
+
+    #########################
+    # tone_chat
+    #########################
 
     def tone_chat(self, utterances):
         """
