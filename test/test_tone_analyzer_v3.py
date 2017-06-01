@@ -19,7 +19,7 @@ def test_tone():
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
         tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
             username="username", password="password")
-        tone_analyzer.tone(tone_text.read())
+        tone_analyzer.tone(tone_text.read(), language='en')
 
     assert responses.calls[0].request.url == tone_url + tone_args
     assert responses.calls[0].response.text == tone_response

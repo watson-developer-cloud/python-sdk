@@ -44,7 +44,7 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
     # tone
     #########################
 
-    def tone(self, text, tones=None, sentences=None):
+    def tone(self, text, tones=None, sentences=None, language='en'):
         """
         The tone API is the main API call: it analyzes the "tone" of a piece
         of text. The message is analyzed from
@@ -55,6 +55,7 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
         :param sentences: If "false", sentence-level analysis is omitted
         :param tones: Can be one or more of 'social', 'language', 'emotion';
         comma-separated.
+        :param language: Language of input
         """
         params = {'version': self.version}
         if tones is not None:
@@ -63,8 +64,9 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
             params['sentences'] = str(
                 sentences).lower()  # Cast boolean to "false" / "true"
         data = {'text': text}
+        headers = {'content-language': language.lower()}
         return self.request(method='POST', url='/v3/tone', params=params,
-                            json=data, accept_json=True)
+                            headers=headers, json=data, accept_json=True)
 
     def tone_chat(self, utterances):
         """
