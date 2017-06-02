@@ -43,19 +43,19 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
     # tone
     #########################
 
-    def tone(self, text, content_type='text/plain', tones=None, sentences=None):
+    def tone(self, text, tones=None, sentences=None, content_type='text/plain'):
         """
         The general purpose tone API analyzes the "tone" of input text.
         The message is analyzed for several tones (social, emotional, and
         writing), with various characteristics derived for each tone.
         :param text: The input content to analyze.
-        :param content_type: The type of the input content: "text/plain"
-        (the default), "text/html", or "application/json".
         :param sentences: If false, sentence-level analysis is omitted; by
         default (or if true), each sentence is analyzed.
         :param tones: A comma-separated list of one or more of the following
         tones for which to analyze the input text, 'social', 'language', and
         'emotion'; the default is all tones.
+        :param content_type: The type of the input content: "text/plain"
+        (the default), "text/html", or "application/json".
         """
         params = {'version': self.version}
         if tones is not None:
