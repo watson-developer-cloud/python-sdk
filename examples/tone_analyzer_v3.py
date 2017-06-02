@@ -4,10 +4,8 @@ from os.path import join, dirname
 from watson_developer_cloud import ToneAnalyzerV3
 
 tone_analyzer = ToneAnalyzerV3(
-    username='6e9af982-31bf-45c4-99b0-51f6b576e433',
-    password='2dXhAyPQjxD5',
-    # username='YOUR SERVICE USERNAME',
-    # password='YOUR SERVICE PASSWORD',
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD',
     version='2016-05-19')
 
 print("\ntone_chat() example 1:\n")
