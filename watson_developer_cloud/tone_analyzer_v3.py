@@ -57,6 +57,7 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
         :param content_type: The type of the input content: "text/plain"
         (the default), "text/html", or "application/json".
         """
+
         params = {'version': self.version}
         if tones is not None:
             params['tones'] = tones
@@ -72,7 +73,8 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
             return self.request(
                 method='POST', headers=headers, url='/v3/tone', params=params,
                 json=text, accept_json=True)
-        else:
+
+        if content_type == 'text/html':
             return self.request(
                 method='POST', headers=headers, url='/v3/tone', params=params,
                 data=text, accept_json=True)
