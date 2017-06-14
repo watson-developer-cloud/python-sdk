@@ -74,7 +74,10 @@ class ToneAnalyzerV3(WatsonDeveloperCloudService):
                 method='POST', headers=headers, url='/v3/tone', params=params,
                 json=text, accept_json=True)
 
-        if content_type == 'text/html':
+        # Use the equivalent of an 'else' rather than checking for explicit
+        # 'text/html' so that the call is made and returns a meaningful error
+        # for an invalid content type.
+        if content_type != 'application/json':
             return self.request(
                 method='POST', headers=headers, url='/v3/tone', params=params,
                 data=text, accept_json=True)
