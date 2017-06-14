@@ -45,7 +45,6 @@ def test_tone_with_args():
             username="username", password="password")
         tone_analyzer.tone(tone_text.read(), tones="social", sentences=False)
 
-
     assert responses.calls[0].request.url.split('?')[0] == tone_url
     # Compare args. Order is not deterministic!
     actualArgs = {}
@@ -60,7 +59,7 @@ def test_tone_with_args():
 ## Invoking tone() with some modifiers specified as positional parameters: tones are emotion and social, and sentences is false
 def test_tone():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
-    tone_args = '?version=2016-05-19&tones=emotion%2Csocial&sentences=false'
+    tone_args = { 'version': '2016-05-19', 'tones': 'emotion%2Csocial', 'sentences': 'false' }
     tone_response = None
     with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
         tone_response = response_json.read()
@@ -74,9 +73,13 @@ def test_tone():
             username="username", password="password")
         tone_analyzer.tone(tone_text.read(), 'emotion,social', False)
 
-    assert responses.calls[0].request.url == tone_url + tone_args
+    assert responses.calls[0].request.url.split('?')[0] == tone_url
+    # Compare args. Order is not deterministic!
+    actualArgs = {}
+    for arg in responses.calls[0].request.url.split('?')[1].split('&'):
+        actualArgs[arg.split('=')[0]] = arg.split('=')[1]
+    assert actualArgs == tone_args
     assert responses.calls[0].response.text == tone_response
-
     assert len(responses.calls) == 1
 
 
