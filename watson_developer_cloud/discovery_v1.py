@@ -222,7 +222,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             environment_id)
         return self.request(method='POST',
                             url=url_string,
-                            data=data_dict,
+                            json=data_dict,
                             params={'version': self.version},
                             accept_json=True)
 
