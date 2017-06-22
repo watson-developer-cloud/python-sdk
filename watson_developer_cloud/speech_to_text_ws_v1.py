@@ -2,12 +2,12 @@
 
 """
 watson websocket connection for speech-to-text
-adapted from: 
+update to: 
 https://github.com/watson-developer-cloud/speech-to-text-websockets-python
 by @daniel-bolanos 
-updated by python 3.5/ Watson SDK class
+updated for python 3.5; using the Watson SDK class
 date: 6/20/17 
-by @kstohr
+updated by: @kstohr
 
 speech recognition using the WebSocket interface to the Watson Speech-to-Text service
 
