@@ -293,8 +293,9 @@ class WSSpeechToTextV1(SpeechToTextV1):
         headers = {'Authorization': 'Basic {0}'.format(encoded_auth)}
         
         now = dt.datetime.now()
-
+    
         # create output directory if necessary
+        dir_output = os.path.join(dir_output, '')
         if not (os.path.isdir(dir_output)):
             try:
                 os.makedirs(dir_output)
