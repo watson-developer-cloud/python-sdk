@@ -1,11 +1,16 @@
 # coding: utf-8
-#http://kbroman.org/github_tutorial/pages/fork.html
 
-# TO DO: Change if then else for 'log-type' selector
 """
-watson websocket connection
-adapted from: https://github.com/watson-developer-cloud/speech-to-text-websockets-python
+watson websocket connection for speech-to-text
+adapted from: 
+https://github.com/watson-developer-cloud/speech-to-text-websockets-python
+by @daniel-bolanos 
+updated by python 3.5/ Watson SDK class
+date: 6/20/17 
+by @kstohr
+
 speech recognition using the WebSocket interface to the Watson Speech-to-Text service
+
 """
 
 import json                        # json
@@ -23,9 +28,8 @@ from watson_developer_cloud import SpeechToTextV1 #main stt class
 # WebSockets
 from autobahn.twisted.websocket import WebSocketClientProtocol, WebSocketClientFactory, connectWS
 from twisted.python import log
-from twisted.internet import ssl, reactor
-                    
-
+from twisted.internet import ssl, reactor                    
+    
 class WSSpeechToTextV1(SpeechToTextV1):
     
     class WSInterfaceFactory(WebSocketClientFactory):
@@ -50,7 +54,7 @@ class WSSpeechToTextV1(SpeechToTextV1):
             self.closeHandshakeTimeout = 10
 
             # start the thread that takes care of ending the reactor so
-            # the script can finish, the reactor is shutdown and the main loop is exited cleanly 
+            # the script can finish, the reactor is shutdown and the main loop is exited  
             endingThread = threading.Thread(target=self.endReactor, args=())
             endingThread.daemon = True  
             endingThread.start()
@@ -64,7 +68,9 @@ class WSSpeechToTextV1(SpeechToTextV1):
             except Queue.Empty:
                 log.msg ("getUtterance: no more utterances to process, queue is empty!")
                 return False
-
+            
+        # this function gets called if there is a keyboard interrupt (precipitating a connection error) 
+        # or a connection error    
         def killReactor(self, wasClean, code, reason): 
             
             #first empty the queue
