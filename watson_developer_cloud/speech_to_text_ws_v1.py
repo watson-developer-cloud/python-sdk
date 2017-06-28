@@ -1,46 +1,68 @@
 # coding: utf-8
 
 """
-watson websocket connection for speech-to-text
-update to: 
+watson websocket connection for speech-to-text update to:
 https://github.com/watson-developer-cloud/speech-to-text-websockets-python
-by @daniel-bolanos 
+by @daniel-bolanos
 updated for python 3.5; using the Watson SDK class
-date: 6/20/17 
+date: 6/20/17
 updated by: @kstohr
-
-speech recognition using the WebSocket interface to the Watson Speech-to-Text service
 
 """
 
 import json                        # json
 import threading                   # multi threading
-import os                          # for listing directories
+import os                          # for listing directories, filepath manipulation
 import queue as Queue              # queue used for thread syncronization
 import sys                         # system calls
 import base64                      # necessary to encode in base64 according to the RFC2045 standard
-import certifi                     # validate secure ssl connection
-import requests                    # python HTTP requests library
-from os.path import join, dirname  # filepath manipulation
 import datetime as dt              # datetime objects
-from watson_developer_cloud import SpeechToTextV1 #main stt class
+from watson_developer_cloud import SpeechToTextV1 # main stt class
 
 # WebSockets
 from autobahn.twisted.websocket import WebSocketClientProtocol, WebSocketClientFactory, connectWS
 from twisted.python import log
-from twisted.internet import ssl, reactor                    
-    
+from twisted.internet import ssl, reactor
+
 class WSSpeechToTextV1(SpeechToTextV1):
-    
+
+    """
+    Speech recognition using the WebSocket interface to the Watson
+    Speech-to-Text service.
+
+    Takes a list of audio file paths in the form of ['path/audio1.wav',
+    'path/audio2.wav', 'path/audio3.wav']
+
+    Creates a websocket connection and transcribes all queued files.
+    Transcript files are saved to a user defined directory (dir_output). If
+    no output directory is specified, output is saved to the current working
+    directory.
+
+    Enables threading. If threading is None or not selected, defaults to a
+    single thread.
+
+    User can opt to have the log messages (including results) output to the
+    console ('stdout'), OR to a file ('') in the selected output directory.
+    Logging defaults to 'stdout', unless an output directory is specified.
+    Default model is 'en-US_BroadbandModel'.
+
+    Known issue: Limitations of the Twisted module mean that once created
+    the websocket 'reactor' can only be run once per application. For users
+    using an IDE (such as Jupyter Notebook) this can lead to the interpreter
+    having to be restarted if there is a connection error. A warning message
+    is provided.
+
+    """
+
     class WSInterfaceFactory(WebSocketClientFactory):
-        def __init__(self, 
-                    queue, 
-                    dir_output, 
-                    content_type, 
-                    model, 
-                    options,
-                    url=None, 
-                     headers=None, 
+        def __init__(self,
+                     queue,
+                     dir_output,
+                     content_type,
+                     model,
+                     options,
+                     url=None,
+                     headers=None,
                      debug=None):
 
             WebSocketClientFactory.__init__(self, url=url, headers=headers)
@@ -54,9 +76,9 @@ class WSSpeechToTextV1(SpeechToTextV1):
             self.closeHandshakeTimeout = 10
 
             # start the thread that takes care of ending the reactor so
-            # the script can finish, the reactor is shutdown and the main loop is exited  
+            # script finishes, reactor shutsdown and the main loop is exited
             endingThread = threading.Thread(target=self.endReactor, args=())
-            endingThread.daemon = True  
+            endingThread.daemon = True
             endingThread.start()
 
         def prepareUtterance(self):
@@ -66,26 +88,27 @@ class WSSpeechToTextV1(SpeechToTextV1):
                 self.queueProto.put(utt)
                 return True
             except Queue.Empty:
-                log.msg ("getUtterance: no more utterances to process, queue is empty!")
+                log.msg("getUtterance: no more utterances to process, queue is empty!")
                 return False
-            
-        # this function gets called if there is a keyboard interrupt (precipitating a connection error) 
-        # or a connection error    
-        def killReactor(self, wasClean, code, reason): 
-            
+
+        # this function gets called if there is a keyboard interrupt
+        # which (precipitates a connection error) OR
+        # a connection error of another type
+        def killReactor(self, wasClean, code, reason):
+
             #first empty the queue
-            while self.queue.empty()== False:
+            while self.queue.empty() is False:
                 self.queue.get()
-            print ("Stopping the websocket reactor due to an error. Connection code: {0}. Warning: The websocket reactor can be called only once per application. You may need to restart the interpreter before running again.".format(code))
+            log.msg("About to stop the websocket reactor due to an error.")
             reactor.callFromThread(reactor.stop)
             return
 
         def endReactor(self):
 
             self.queue.join()
-            log.msg("About to stop the websocket reactor!")
+            log.msg("About to stop the websocket reactor.")
             reactor.callFromThread(reactor.stop)
-            return 
+            return
 
         # this function gets called every time connectWS is called (once
         # per WebSocket connection/session)
@@ -93,13 +116,18 @@ class WSSpeechToTextV1(SpeechToTextV1):
 
             try:
                 utt = self.queueProto.get_nowait()
-                proto = WSSpeechToTextV1.WSInterfaceProtocol(self, self.queue, self.options,
-                                            self.dir_output, self.content_type)
+                proto = WSSpeechToTextV1.WSInterfaceProtocol(self,
+                                                             self.queue,
+                                                             self.options,
+                                                             self.dir_output,
+                                                             self.content_type
+                                                            )
                 proto.setUtterance(utt)
                 return proto
             except Queue.Empty:
-                log.msg("Watson file 'queue' should not be empty, otherwise this function should not have been called")
-                print ("Watson file queue should not be empty.")
+                log.msg("Watson file 'queue' should not be empty, otherwise \
+                        this function should not have been called")
+                print("Watson file queue should not be empty.")
                 return None
 
 
@@ -121,11 +149,11 @@ class WSSpeechToTextV1(SpeechToTextV1):
             self.chunkSize = 2000     # in bytes
             super(self.__class__, self).__init__()
 
-            print ("queueSize: " + str(self.queue.qsize()))
-            log.msg ("content_type: " +  str(self.content_type) + "\n"              
-                     "queueSize: " + str(self.queue.qsize()) +  "\n"               
-                     "Transcipts saved to: " + self.dir_output
-                  )
+            print("queueSize: " + str(self.queue.qsize()))
+            log.msg("content_type: " +  str(self.content_type) + "\n"
+                    "queueSize: " + str(self.queue.qsize()) +  "\n"
+                    "Transcipts saved to: " + self.dir_output
+                   )
 
         def setUtterance(self, utt):
 
@@ -149,8 +177,8 @@ class WSSpeechToTextV1(SpeechToTextV1):
                 if final:
                     self.sendMessage(b'', isBinary=True)
 
-            if (self.bytesSent + self.chunkSize >= len(data)):
-                if (len(data) > self.bytesSent):
+            if self.bytesSent + self.chunkSize >= len(data):
+                if len(data) > self.bytesSent:
                     sendChunk(data[self.bytesSent:len(data)], True)
                     return
             sendChunk(data[self.bytesSent:self.bytesSent + self.chunkSize])
@@ -158,25 +186,25 @@ class WSSpeechToTextV1(SpeechToTextV1):
             return
 
         def onConnect(self, response):
-            log.msg ("onConnect, server connected: {0}".format(response.peer))
+            log.msg("onConnect, server connected: {0}".format(response.peer))
 
         def onOpen(self):
-            log.msg ("onOpen")
+            log.msg("onOpen")
             data = self.options
-            log.msg ("sendMessage(init)")
+            log.msg("sendMessage(init)")
             # send the initialization parameters
             self.sendMessage(json.dumps(data).encode('utf8'))
 
             # start sending audio right away (it will get buffered in the
             # STT service)
-            print ("Sending file: " + str(self.uttNumber) + ": " + str(self.uttFilename))
-            log.msg ("Sending file: " + str(self.uttNumber) + ": " + str(self.uttFilename))
+            print("Sending file: " + str(self.uttNumber) + ": " + str(self.uttFilename))
+            log.msg("Sending file: " + str(self.uttNumber) + ": " + str(self.uttFilename))
             f = open(str(self.uttFilename), 'rb')
             self.bytesSent = 0
             dataFile = f.read()
             self.maybeSendChunk(dataFile)
-            log.msg ("File sent: " + str(self.uttNumber) + ": " + str(self.uttFilename))
-            log.msg ("onOpen ends.")
+            log.msg("File sent: " + str(self.uttNumber) + ": " + str(self.uttFilename))
+            log.msg("onOpen ends.")
 
         def onMessage(self, payload, isBinary):
 
@@ -191,21 +219,21 @@ class WSSpeechToTextV1(SpeechToTextV1):
                 jsonObject = json.loads(payload.decode('utf8'))
                 if 'state' in jsonObject:
                     self.listeningMessages += 1
-                    if (self.listeningMessages == 2):
-                        log.msg ("Closing connection to Watson. Sending code: 1000")
+                    if self.listeningMessages == 2:
+                        log.msg("Closing connection to Watson. Sending code: 1000")
                         # close the connection
                         self.sendClose(1000)
 
                 if 'error' in jsonObject:
                     #all responses are printed to log, also print errors to console
-                    print ('Error message received from Watson: {0}'.format(jsonObject['error']))
+                    print('Error message received from Watson: {0}'.format(jsonObject['error']))
 
                 # if in streaming
                 elif 'results' in jsonObject:
                     jsonObject = json.loads(payload.decode('utf8'))
                     # empty hypothesis
-                    if (len(jsonObject['results']) == 0):
-                        print ("Warning: Watson returned empty results!")
+                    if not jsonObject['results']:
+                        print("Warning: Watson returned empty results!")
                     # regular hypothesis
                     else:
                         # dump the message to the output directory
@@ -213,29 +241,30 @@ class WSSpeechToTextV1(SpeechToTextV1):
                         f = open(self.fileJson, "a")
                         f.write(json.dumps(jsonObject, indent=4, sort_keys=True))
                         f.close()
-                        print ("Transcipt successfully saved to: " + self.dir_output)
+                        print("Transcript saved to: " + self.dir_output + str(self.uttFilename))
 
         def onClose(self, wasClean, code, reason):
 
             log.msg("onClose")
 
             if not code == 1000:
-                log.msg ("WebSocket connection error: {0}".format(reason), "code: ", 
-                         code, "clean: ", wasClean, "reason: ", reason)
+                log.msg("WebSocket connection error: {0}".format(reason), "code: ",
+                        code, "clean: ", wasClean, "reason: ", reason)
+                print("Stopping websocket reactor due to an error. Connection code: {0}. Warning: The websocket reactor can be called only once per application. You may need to restart the interpreter before running again.".format(code))
                 #clear the queue, shutdown the reactor
                 self.factory.killReactor(wasClean, code, reason)
                 return
 
-            else: 
-                log.msg ("WebSocket connection closed: {0}".format(reason), "code: ",
-                  code, "clean: ", wasClean, "reason: ", reason)
-                print ("WebSocket connection closed. Status code: {0}".format(code))
+            else:
+                log.msg("WebSocket connection closed: {0}".format(reason), "code: ",
+                        code, "clean: ", wasClean, "reason: ", reason)
+                print("WebSocket connection closed. Status code: {0}".format(code))
 
             # create a new WebSocket connection if there are still
             # utterances in the queue that need to be processed
             self.queue.task_done()
 
-            if self.factory.prepareUtterance() == False:
+            if self.factory.prepareUtterance()is False:
                 return
 
             # SSL client context: default
@@ -244,15 +273,15 @@ class WSSpeechToTextV1(SpeechToTextV1):
             else:
                 contextFactory = None
 
-            # start new websocket connection
+            # start new websocket connection, continue loop
             connectWS(self.factory, contextFactory)
 
 
-    def recognize(self, 
-                  file_input=[],
-                  dir_output = None, 
-                  threads = None,
-                  log_type = None,
+    def recognize(self,
+                  file_input=None,
+                  dir_output=None,
+                  threads=None,
+                  log_type=None,
                   content_type=None, #required
                   interim_results=None,
                   model=None,
@@ -267,41 +296,52 @@ class WSSpeechToTextV1(SpeechToTextV1):
                   profanity_filter=None,
                   smart_formatting=None,
                   speaker_labels=None):
-        
+
+        #validate list of file paths
+        if isinstance(file_input, str):
+            if os.path.isfile(file_input):
+                file_input = [file_input]
+        elif isinstance(file_input, list) and all(isinstance(item, str) for item in file_input):
+            if all(os.path.isfile(item) for item in file_input):
+                pass
+        else:
+            raise TypeError("'file_input' requires a list of audio file paths in the form of ['my/path/audio1.wav', 'my/path/audio2.wav', 'my/path/audio3.wav']")
+
         if model is None:
             model = 'en-US_BroadbandModel'
-            
-        if threads is None: 
+        if threads is None:
             threads = 1
-        
+
+
         #set default logging to stdout, unless an output directory is specified
-        if (log_type is None):
-            if dir_output is None: 
+        if log_type is None:
+            if dir_output is None:
                 log_type = 'stdout'
             else:
-                log_type = 'file'   
-                
-        #set default output path to directory in which interpreter was started (current working directory)
-        if dir_output is None: 
-            dir_output = os.getcwd() 
-            print ("Saving output to current working directory {0}".format(dir_output))
-            dir_output = os.getcwd() 
-                                    
+                log_type = 'file'
+
+        #set default output path to current working directory
+        #i.e. directory in which interpreter was started
+        if dir_output is None:
+            dir_output = os.getcwd()
+            print("Saving output to current working directory {0}".format(dir_output))
+            dir_output = os.getcwd()
+
         authstring = "{0}:{1}".format(self.username, self.password)
         encoded_auth = base64.b64encode(authstring.encode('utf-8')).decode('utf-8')
 
         headers = {'Authorization': 'Basic {0}'.format(encoded_auth)}
-        
-        now = dt.datetime.now()
-    
+
+        now = dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
         # create output directory if necessary
         dir_output = os.path.join(dir_output, '')
-        if not (os.path.isdir(dir_output)):
+        if not os.path.isdir(dir_output):
             try:
                 os.makedirs(dir_output)
-            except OSError as e: 
-                raise (e)
-            
+            except OSError:
+                raise
+
         unfiltered_options = {
             'content_type': content_type,
             'inactivity_timeout': inactivity_timeout,
@@ -322,33 +362,34 @@ class WSSpeechToTextV1(SpeechToTextV1):
                         for k
                         in unfiltered_options.keys()
                         if unfiltered_options[k] is not None])
-        
+
         options['action'] = 'start'
-        
-        
-        # logging from Twisted module 
-        if log_type == 'file': 
-            log.startLogging(open(dir_output + "_" + str(now) + "_" + "transcript.log", 'w'), setStdout=False)   
+
+
+        # logging from Twisted module
+        if log_type == 'file':
+            log.startLogging(open(dir_output + str(now) + "_" + "transcript.log", 'w'),
+                             setStdout=False)
         elif log_type == 'stdout':
             log.startLogging(sys.stdout)
         else:
-            raise ValueError ("Please select a destination for the logging: 'file' or 'stdout'")
+            raise ValueError("Please select a destination for the logging: 'file' or 'stdout'")
 
         # add audio files to the processing queue
         queue = Queue.Queue()
         fileNumber = 0
         for fileName in file_input:
-            log.msg (fileName)
+            log.msg(fileName)
             queue.put((fileNumber, fileName))
             fileNumber += 1
 
         # create a WS server factory with our protocol
-        hostname="stream.watsonplatform.net" #set base connection url
+        hostname = "stream.watsonplatform.net" #set base connection url
         url = "wss://" + hostname + "/speech-to-text/api/v1/recognize?model=" + model
-    
+
         factory = self.WSInterfaceFactory(queue, dir_output, content_type,
-                                     model, options, url, headers, debug=False)
-            
+                                          model, options, url, headers, debug=False)
+
         factory.protocol = self.WSInterfaceProtocol
 
         for i in range(min(int(threads), queue.qsize())):
@@ -360,8 +401,12 @@ class WSSpeechToTextV1(SpeechToTextV1):
                 contextFactory = ssl.ClientContextFactory()
             else:
                 contextFactory = None
-            
+
             connectWS(factory, contextFactory)
 
         #reactors can be called only once per application
-        reactor.run()
+
+        try:
+            reactor.run()
+        except Exception as e:
+            print(e)

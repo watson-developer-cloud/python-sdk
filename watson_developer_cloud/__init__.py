@@ -30,6 +30,7 @@ from .personality_insights_v2 import PersonalityInsightsV2
 from .personality_insights_v3 import PersonalityInsightsV3
 from .retrieve_and_rank_v1 import RetrieveAndRankV1
 from .speech_to_text_v1 import SpeechToTextV1
+from .speech_to_text_ws_v1 import WSSpeechToTextV1
 from .text_to_speech_v1 import TextToSpeechV1
 from .tone_analyzer_v3 import ToneAnalyzerV3
 from .tradeoff_analytics_v1 import TradeoffAnalyticsV1
