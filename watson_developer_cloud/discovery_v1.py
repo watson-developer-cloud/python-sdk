@@ -279,6 +279,41 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                                 json.dumps(metadata),
                                                 'application/json')},
                             accept_json=True)
+    def update_document(self,
+                        environment_id,
+                        collection_id,
+                        document_id,
+                        file_info=None,
+                        file_data=None,
+                        mime_type=None,
+                        metadata=None):
+        url_string = '/v1/environments/{0}/collections/{1}/documents/{2}'. \
+            format(environment_id, collection_id, document_id)
+
+        params = {'version': self.version}
+
+        if metadata is None:
+            metadata = {}
+
+        file_tuple = None
+
+        if file_info:
+            mime_type = mime_type or mimetypes.guess_type(
+                file_info.name)[0]
+            file_tuple = (file_info.name, file_info, mime_type)
+        elif file_data:
+            file_tuple = ('tmpfile', file_data, mime_type or
+                          'application/html')
+
+        return self.request(method='POST',
+                            url=url_string,
+                            params=params,
+                            data=metadata,
+                            files={'file': file_tuple,
+                                   'metadata': (None,
+                                                json.dumps(metadata),
+                                                'application/json')},
+                            accept_json=True)
 
     def test_document(self,
                       environment_id,
