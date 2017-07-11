@@ -86,7 +86,7 @@ def _convert_boolean_values(dictionary):
 class WatsonDeveloperCloudService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
-                 x_watson_learning_opt_out=False):
+                 x_watson_learning_opt_out=False, use_connection_pool=False):
         """
         Loads credentials from the VCAP_SERVICES environment variable if
         available, preferring credentials explicitly
@@ -101,6 +101,8 @@ class WatsonDeveloperCloudService(object):
         self.api_key = None
         self.username = None
         self.password = None
+        self.request_obj = None
+        self.use_connection_pool = use_connection_pool
         self.x_watson_learning_opt_out = x_watson_learning_opt_out
 
         if api_key is not None:
@@ -132,6 +134,11 @@ class WatsonDeveloperCloudService(object):
                 'You must specify your username and password service '
                 'credentials ' +
                 '(Note: these are different from your Bluemix id)')
+
+        if use_connection_pool:
+            self.request_obj = requests.Session()
+        else:
+            self.request_obj = requests
 
     def set_username_and_password(self, username=None, password=None):
         if username == 'YOUR SERVICE USERNAME':
@@ -295,11 +302,11 @@ class WatsonDeveloperCloudService(object):
         if self.x_watson_learning_opt_out:
             headers['x-watson-learning-opt-out'] = 'true'
 
-        response = requests.request(method=method, url=full_url,
-                                    cookies=self.jar, auth=auth,
-                                    headers=headers,
-                                    params=params, data=data, files=files,
-                                    **kwargs)
+        response = self.request_obj.request(method=method, url=full_url,
+                                            cookies=self.jar, auth=auth,
+                                            headers=headers,
+                                            params=params, data=data, files=files,
+                                            **kwargs)
 
         if 200 <= response.status_code <= 299:
             if accept_json:
