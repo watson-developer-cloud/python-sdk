@@ -19,8 +19,7 @@ The v1 Retrieve and Rank service
 
 import json
 import pysolr
-from watson_developer_cloud.watson_developer_cloud_service import \
-    WatsonDeveloperCloudService
+from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class RetrieveAndRankV1(WatsonDeveloperCloudService):

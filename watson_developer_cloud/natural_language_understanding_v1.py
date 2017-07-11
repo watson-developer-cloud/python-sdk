@@ -12,9 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from watson_developer_cloud.watson_developer_cloud_service import \
-    WatsonDeveloperCloudService
-
+from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
     """
@@ -26,15 +24,12 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
     default_url = '{0}/natural-language-understanding/api'.format(base_url)
     latest_version = '2017-02-27'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 use_vcap_services=True):
+    def __init__(self, version, url=default_url,
+                 username=None, password=None,
+                 use_vcap_services=True, **kwargs):
         WatsonDeveloperCloudService.__init__(
             self, 'natural-language-understanding', url,
-            username, password, use_vcap_services)
+            username, password, use_vcap_services, **kwargs)
         self.version = version
 
     def analyze(self, features, text=None, url=None, html=None,

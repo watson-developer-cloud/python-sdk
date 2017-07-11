@@ -28,7 +28,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
     """Client for Discovery service"""
 
     def __init__(self, version, url=default_url, username=None, password=None,
-                 use_vcap_services=True):
+                 use_vcap_services=True, **kwargs):
         """
         Construct an instance. Fetches service parameters from VCAP_SERVICES
         runtime variable for Bluemix, or it defaults to local URLs.
@@ -37,7 +37,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         """
 
         WatsonDeveloperCloudService.__init__(
-            self, 'discovery', url, username, password, use_vcap_services)
+            self, 'discovery', url, username, password, use_vcap_services, **kwargs)
         self.version = version
 
     def get_environments(self):

@@ -18,8 +18,7 @@ The v1 Natural Language Classifier service
 """
 
 import json
-from watson_developer_cloud.watson_developer_cloud_service import \
-    WatsonDeveloperCloudService
+from .watson_developer_cloud_service import WatsonDeveloperCloudService
 
 
 class NaturalLanguageClassifierV1(WatsonDeveloperCloudService):
