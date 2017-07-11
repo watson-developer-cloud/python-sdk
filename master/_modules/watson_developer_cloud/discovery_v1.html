@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>watson_developer_cloud.discovery_v1 &#8212; Watson Developer Cloud Python SDK 0.26.0 documentation</title>
+    <title>watson_developer_cloud.discovery_v1 &#8212; Watson Developer Cloud Python SDK 0.26.1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.26.0',
+        VERSION:     '0.26.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -296,6 +296,41 @@
                      <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">url_string</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/collections/</span><span class="si">{1}</span><span class="s1">/documents&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">file_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">file_info</span><span class="p">:</span>
+            <span class="n">mime_type</span> <span class="o">=</span> <span class="n">mime_type</span> <span class="ow">or</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span>
+                <span class="n">file_info</span><span class="o">.</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">file_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">file_info</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">file_info</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">file_data</span><span class="p">:</span>
+            <span class="n">file_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;tmpfile&#39;</span><span class="p">,</span> <span class="n">file_data</span><span class="p">,</span> <span class="n">mime_type</span> <span class="ow">or</span>
+                          <span class="s1">&#39;application/html&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+                            <span class="n">url</span><span class="o">=</span><span class="n">url_string</span><span class="p">,</span>
+                            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">data</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+                            <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="n">file_tuple</span><span class="p">,</span>
+                                   <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span>
+                                                <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">metadata</span><span class="p">),</span>
+                                                <span class="s1">&#39;application/json&#39;</span><span class="p">)},</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+<div class="viewcode-block" id="DiscoveryV1.update_document"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.update_document">[docs]</a>    <span class="k">def</span> <span class="nf">update_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">environment_id</span><span class="p">,</span>
+                        <span class="n">collection_id</span><span class="p">,</span>
+                        <span class="n">document_id</span><span class="p">,</span>
+                        <span class="n">file_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">file_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">mime_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">url_string</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/collections/</span><span class="si">{1}</span><span class="s1">/documents/</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span> \
+            <span class="nb">format</span><span class="p">(</span><span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">document_id</span><span class="p">)</span>
 
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
 
