@@ -170,6 +170,37 @@ def test_collections():
     assert called_url.path == test_url.path
     assert len(responses.calls) == 1
 
+@responses.activate
+def test_update_collections():
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/collections/collid')
+
+    config_url = urljoin(base_discovery_url,
+                         'environments/envid/configurations')
+    responses.add(responses.GET, config_url,
+                  body="{\"body\": \"hello\"}",
+                  status=200,
+                  content_type='application/json')
+
+    responses.add(responses.PUT, discovery_url, 
+                  body="{\"body\": \"updated\"}", status=200,
+                  content_type='application/json')
+
+    
+
+    
+
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   username='username',
+                                                   password='password')
+    discovery.update_collection(environment_id='envid',
+                                name="name",
+                                collection_id='collid')
+    called_url = urlparse(responses.calls[1].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 2
 
 @responses.activate
 def test_collection():
