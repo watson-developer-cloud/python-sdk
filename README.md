@@ -44,14 +44,13 @@ Copy your credentials from the **Service details** page. To find the the Service
 1. Copy `username` and `password`.
 
 ## Python Version
-Tested on: Python from 2.7 to 3.6.
-Python 2.6 is partially supported but generates InsecurePlatformWarnings (and other warnings), which can be ignored.
+Tested on: Python from 2.7, 3.4, 3.5, and 3.6.
 
 ## CHANGELOG
-See [CHANGELOG][CHANGELOG.md].
+See [CHANGELOG](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog).
 
 ## Known Issues
-There is a known incompatibility with this module with Python versions 3.x with Korean systems.
+See [issues](https://github.com/watson-developer-cloud/python-sdk/issues).
 
 ## Dependencies
 * [requests]
@@ -70,5 +69,4 @@ This library is licensed under the [Apache 2.0 license][license].
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
 [CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
-[CHANGELOG.md]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CHANGELOG.md
 [license]: http://www.apache.org/licenses/LICENSE-2.0
