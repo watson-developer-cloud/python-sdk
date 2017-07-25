@@ -483,22 +483,22 @@ def test_list_training_data():
     endpoint = training_endpoint.format(environment_id, collection_id)
     url = '{0}{1}'.format(base_url, endpoint)
     mock_response = {
-      "environment_id": "string",
-      "collection_id": "string",
-      "queries": [
-        {
-          "query_id": "string",
-          "natural_language_query": "string",
-          "filter": "string",
-          "examples": [
+        "environment_id": "string",
+        "collection_id": "string",
+        "queries": [
             {
-              "document_id": "string",
-              "cross_reference": "string",
-              "relevance": 0
+                "query_id": "string",
+                "natural_language_query": "string",
+                "filter": "string",
+                "examples": [
+                    {
+                        "document_id": "string",
+                        "cross_reference": "string",
+                        "relevance": 0
+                    }
+                ]
             }
-          ]
-        }
-      ]
+        ]
     }
     responses.add(responses.GET,
                   url,
@@ -510,7 +510,7 @@ def test_list_training_data():
                                                  username='username',
                                                  password='password')
     response = service.list_training_data(environment_id=environment_id,
-                                            collection_id=collection_id)
+                                          collection_id=collection_id)
 
     assert response == mock_response
 
@@ -523,27 +523,27 @@ def test_add_training_data_query():
     natural_language_query = "why is the sky blue"
     filter = "text:meteorology"
     examples = [
-      {
-        "document_id": "54f95ac0-3e4f-4756-bea6-7a67b2713c81",
-        "relevance": 1
-      },
-      {
-        "document_id": "01bcca32-7300-4c9f-8d32-33ed7ea643da",
-        "cross_reference": "my_id_field:1463",
-        "relevance": 5
-      }
+        {
+            "document_id": "54f95ac0-3e4f-4756-bea6-7a67b2713c81",
+            "relevance": 1
+        },
+        {
+            "document_id": "01bcca32-7300-4c9f-8d32-33ed7ea643da",
+            "cross_reference": "my_id_field:1463",
+            "relevance": 5
+        }
     ]
     mock_response = {
-      "query_id": "string",
-      "natural_language_query": "string",
-      "filter": "string",
-      "examples": [
-        {
-          "document_id": "string",
-          "cross_reference": "string",
-          "relevance": 0
-        }
-      ]
+        "query_id": "string",
+        "natural_language_query": "string",
+        "filter": "string",
+        "examples": [
+            {
+                "document_id": "string",
+                "cross_reference": "string",
+                "relevance": 0
+            }
+        ]
     }
     responses.add(responses.POST,
                   url,
@@ -555,12 +555,11 @@ def test_add_training_data_query():
                                                  username='username',
                                                  password='password')
     response = service.add_training_data_query(
-                environment_id=environment_id,
-                collection_id=collection_id,
-                natural_language_query=natural_language_query,
-                filter=filter,
-                examples=examples
-               )
+        environment_id=environment_id,
+        collection_id=collection_id,
+        natural_language_query=natural_language_query,
+        filter=filter,
+        examples=examples)
 
     assert response == mock_response
 
@@ -590,16 +589,16 @@ def test_get_training_data_query():
     endpoint = training_endpoint.format(environment_id, collection_id, query_id)
     url = '{0}{1}'.format(base_url, endpoint)
     mock_response = {
-      "query_id": "string",
-      "natural_language_query": "string",
-      "filter": "string",
-      "examples": [
-        {
-          "document_id": "string",
-          "cross_reference": "string",
-          "relevance": 0
-        }
-      ]
+        "query_id": "string",
+        "natural_language_query": "string",
+        "filter": "string",
+        "examples": [
+            {
+                "document_id": "string",
+                "cross_reference": "string",
+                "relevance": 0
+            }
+        ]
     }
     responses.add(responses.GET,
                   url,
@@ -625,11 +624,11 @@ def test_list_training_data_query_examples():
     endpoint = examples_endpoint.format(environment_id, collection_id, query_id)
     url = '{0}{1}'.format(base_url, endpoint)
     mock_response = [
-      {
-        "document_id": "string",
-        "cross_reference": "string",
-        "relevance": 0
-      }
+        {
+            "document_id": "string",
+            "cross_reference": "string",
+            "relevance": 0
+        }
     ]
     responses.add(responses.GET,
                   url,
@@ -641,10 +640,9 @@ def test_list_training_data_query_examples():
                                                  username='username',
                                                  password='password')
     response = service.list_training_data_query_examples(
-                environment_id=environment_id,
-                collection_id=collection_id,
-                query_id=query_id
-               )
+        environment_id=environment_id,
+        collection_id=collection_id,
+        query_id=query_id)
 
     assert response == mock_response
 
@@ -660,9 +658,9 @@ def test_add_training_data_query_example():
     relevance = 0
     cross_reference = "string"
     mock_response = {
-      "document_id": "string",
-      "cross_reference": "string",
-      "relevance": 0
+        "document_id": "string",
+        "cross_reference": "string",
+        "relevance": 0
     }
     responses.add(responses.POST,
                   url,
@@ -674,19 +672,18 @@ def test_add_training_data_query_example():
                                                  username='username',
                                                  password='password')
     response = service.add_training_data_query_example(
-                environment_id=environment_id,
-                collection_id=collection_id,
-                query_id=query_id,
-                document_id=document_id,
-                relevance=relevance,
-                cross_reference=cross_reference
-               )
+        environment_id=environment_id,
+        collection_id=collection_id,
+        query_id=query_id,
+        document_id=document_id,
+        relevance=relevance,
+        cross_reference=cross_reference)
 
     assert response == mock_response
 
 
 @responses.activate
-def test_delete_training_data_query():
+def test_delete_training_data_query_example():
     examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
         '/{2}/examples/{3}'
     query_id = 'queryid'
@@ -702,11 +699,10 @@ def test_delete_training_data_query():
                                                  username='username',
                                                  password='password')
     response = service.delete_training_data_query_example(
-                environment_id=environment_id,
-                collection_id=collection_id,
-                query_id=query_id,
-                example_id=example_id
-               )
+        environment_id=environment_id,
+        collection_id=collection_id,
+        query_id=query_id,
+        example_id=example_id)
 
     assert response.status_code == 204
 
@@ -723,9 +719,9 @@ def test_get_training_data_query_example():
                                         example_id)
     url = '{0}{1}'.format(base_url, endpoint)
     mock_response = {
-      "document_id": "string",
-      "cross_reference": "string",
-      "relevance": 0
+        "document_id": "string",
+        "cross_reference": "string",
+        "relevance": 0
     }
     responses.add(responses.GET,
                   url,
@@ -737,11 +733,10 @@ def test_get_training_data_query_example():
                                                  username='username',
                                                  password='password')
     response = service.get_training_data_query_example(
-                environment_id=environment_id,
-                collection_id=collection_id,
-                query_id=query_id,
-                example_id=example_id
-               )
+        environment_id=environment_id,
+        collection_id=collection_id,
+        query_id=query_id,
+        example_id=example_id)
 
     assert response == mock_response
 
@@ -760,9 +755,9 @@ def test_update_training_data_query_example():
     relevance = 0
     cross_reference = "string"
     mock_response = {
-      "document_id": "string",
-      "cross_reference": "string",
-      "relevance": 0
+        "document_id": "string",
+        "cross_reference": "string",
+        "relevance": 0
     }
     responses.add(responses.PUT,
                   url,
@@ -774,12 +769,11 @@ def test_update_training_data_query_example():
                                                  username='username',
                                                  password='password')
     response = service.update_training_data_query_example(
-                environment_id=environment_id,
-                collection_id=collection_id,
-                query_id=query_id,
-                example_id=example_id,
-                relevance=relevance,
-                cross_reference=cross_reference
-               )
+        environment_id=environment_id,
+        collection_id=collection_id,
+        query_id=query_id,
+        example_id=example_id,
+        relevance=relevance,
+        cross_reference=cross_reference)
 
     assert response == mock_response
