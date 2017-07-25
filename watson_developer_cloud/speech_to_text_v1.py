@@ -41,6 +41,8 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         Returns the recognized text from the audio input
         """
         headers = {'content-type': content_type}
+        if continuous is None:
+            continuous = False
         params = {'continuous': continuous,
                   'inactivity_timeout': inactivity_timeout,
                   'keywords': keywords,
