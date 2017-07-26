@@ -441,6 +441,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                 environment_id,
                                 collection_id,
                                 natural_language_query,
+                                query_id=None,
                                 filter=None,
                                 examples=None):
         """
@@ -458,7 +459,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         params = {'version': self.version}
         data = {'natural_language_query': natural_language_query,
                 'filter': filter,
-                'examples': examples}
+                'examples': examples,
+                'query_id': query_id}
 
         return self.request(method='POST',
                             url=url_string,

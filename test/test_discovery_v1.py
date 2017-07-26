@@ -520,6 +520,7 @@ def test_add_training_data_query():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
     endpoint = training_endpoint.format(environment_id, collection_id)
     url = '{0}{1}'.format(base_url, endpoint)
+    query_id = "some_unique_id"
     natural_language_query = "why is the sky blue"
     filter = "text:meteorology"
     examples = [
@@ -558,6 +559,7 @@ def test_add_training_data_query():
         environment_id=environment_id,
         collection_id=collection_id,
         natural_language_query=natural_language_query,
+        query_id=query_id,
         filter=filter,
         examples=examples)
 
