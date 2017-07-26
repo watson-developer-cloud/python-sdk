@@ -219,5 +219,3 @@ def test_custom_words():
     assert 'word type must be all, user, or corpora' in str(keyerror.value)
 
     assert len(responses.calls) == 9
-
-
