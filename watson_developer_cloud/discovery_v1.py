@@ -456,12 +456,9 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         format_string = '/v1/environments/{0}/collections/{1}/training_data'
         url_string = format_string.format(environment_id, collection_id)
         params = {'version': self.version}
-        data = {'natural_language_query': natural_language_query}
-        if filter:
-            data['filter'] = filter
-
-        if examples:
-            data['examples'] = examples
+        data = {'natural_language_query': natural_language_query,
+                'filter': filter,
+                'examples': examples}
 
         return self.request(method='POST',
                             url=url_string,
@@ -563,9 +560,9 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                           collection_id,
                                           query_id)
         params = {'version': self.version}
-        data = {'document_id': document_id, 'relevance': relevance}
-        if cross_reference:
-            data['cross_reference'] = cross_reference
+        data = {'document_id': document_id,
+                'relevance': relevance,
+                'cross_reference': cross_reference}
 
         return self.request(method='POST',
                             url=url_string,
@@ -652,9 +649,9 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                           query_id,
                                           example_id)
         params = {'version': self.version}
-        data = {'document_id': example_id, 'relevance': relevance}
-        if cross_reference:
-            data['cross_reference'] = cross_reference
+        data = {'document_id': example_id,
+                'relevance': relevance,
+                'cross_reference': cross_reference}
 
         return self.request(method='PUT',
                             url=url_string,
