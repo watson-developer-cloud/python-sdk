@@ -15,6 +15,7 @@ install:
 - pip install pylint
 - pip install codecov
 - pip install git+git://github.com/watson-developer-cloud/python-sdk.git#egg=watson-developer-cloud
+- pip show six
 script:
 - sh pylint.sh
 - py.test test --cov=watson_developer_cloud
