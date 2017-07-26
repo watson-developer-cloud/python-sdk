@@ -34,7 +34,7 @@ def test_success():
             audio_file, content_type='audio/l16; rate=44100')
 
     request_url = responses.calls[1].request.url
-    assert request_url == recognize_url + '?continuous=false'
+    assert request_url == recognize_url
     assert responses.calls[1].response.text == recognize_response
 
     assert len(responses.calls) == 2
