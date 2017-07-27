@@ -71,11 +71,11 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">WatsonDeveloperCloudService</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;dialog&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="s1">&#39;WARNING: The Dialog service was deprecated, existing instances &#39;</span>
-            <span class="s1">&#39;of the service will continue to function&#39;</span>
-            <span class="s1">&#39;until August 9, 2017. See &#39;</span>
-            <span class="s1">&#39;https://www.ibm.com/watson/developercloud/doc/conversation&#39;</span>
-            <span class="s1">&#39;/migration.shtml&#39;</span><span class="p">)</span>
+            <span class="s1">&#39;WARNING: The Dialog service was deprecated. Existing instances &#39;</span>
+            <span class="s1">&#39;of the service stopped functioning on August 9, 2017. &#39;</span>
+            <span class="s1">&#39;Dialog was replaced by the Conversation service. See &#39;</span>
+            <span class="s1">&#39;https://console.bluemix.net/docs/services/conversation&#39;</span>
+            <span class="s1">&#39;/index.html#about&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DialogV1.get_dialogs"><a class="viewcode-back" href="../../apis/watson_developer_cloud.dialog_v1.html#watson_developer_cloud.dialog_v1.DialogV1.get_dialogs">[docs]</a>    <span class="k">def</span> <span class="nf">get_dialogs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/dialogs&#39;</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
