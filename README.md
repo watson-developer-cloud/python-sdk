@@ -17,6 +17,11 @@ or
 ```bash
 $ easy_install --upgrade watson-developer-cloud
 ```
+Note: If you run into permission issues try:
+```bash
+$ sudo -H pip install --ignore-installed six watson-developer-cloud
+```
+For more details see [#225](https://github.com/watson-developer-cloud/python-sdk/issues/225)
 
 ## Examples
 The [examples][examples] folder has basic and advanced examples.
