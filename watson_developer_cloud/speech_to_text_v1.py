@@ -27,7 +27,7 @@ class SpeechToTextV1(WatsonDeveloperCloudService):
         WatsonDeveloperCloudService.__init__(self, 'speech_to_text', url,
                                              **kwargs)
 
-    def recognize(self, audio, content_type, continuous=False, model=None,
+    def recognize(self, audio, content_type, continuous=None, model=None,
                   customization_id=None,
                   inactivity_timeout=None,
                   keywords=None, keywords_threshold=None,
