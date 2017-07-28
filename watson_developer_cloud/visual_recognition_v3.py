@@ -125,6 +125,12 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         filename = images_file.name
         mime_type = mimetypes.guess_type(
             filename)[0] or 'application/octet-stream'
+
+        if 'zip' in mime_type:
+            mime_type = 'application/zip'
+
+        filename = filename.replace('\\', '/')
+
         return self.request(method='POST', url=url,
                             files={'images_file': (
                                 filename, images_file, mime_type)},
