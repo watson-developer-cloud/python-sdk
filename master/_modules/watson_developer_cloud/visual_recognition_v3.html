@@ -167,6 +167,12 @@
         <span class="n">filename</span> <span class="o">=</span> <span class="n">images_file</span><span class="o">.</span><span class="n">name</span>
         <span class="n">mime_type</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span>
             <span class="n">filename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="s1">&#39;application/octet-stream&#39;</span>
+
+        <span class="k">if</span> <span class="s1">&#39;zip&#39;</span> <span class="ow">in</span> <span class="n">mime_type</span><span class="p">:</span>
+            <span class="n">mime_type</span> <span class="o">=</span> <span class="s1">&#39;application/zip&#39;</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
                             <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;images_file&#39;</span><span class="p">:</span> <span class="p">(</span>
                                 <span class="n">filename</span><span class="p">,</span> <span class="n">images_file</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)},</span>
