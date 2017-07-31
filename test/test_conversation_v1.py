@@ -62,9 +62,10 @@ def test_rate_limit_exceeded():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     try:
-        counterexample = service.create_counterexample(
+        service.create_counterexample(
             workspace_id='boguswid', text='I want financial advice today.')
     except WatsonException as ex:
+        print ex.message
         assert len(responses.calls) == 1
         assert ex.message == error_msg
 
