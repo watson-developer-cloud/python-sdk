@@ -193,11 +193,7 @@ class WatsonDeveloperCloudService(object):
             return error_message
         except:
             return {'Error: ': response.text or error_message, 'Code': str(response.status_code)}
-<<<<<<< HEAD
 
-=======
-       
->>>>>>> 57f9415d22255ab4b6ce944b490e620cf6f577dc
 
     def _alchemy_html_request(self, method_name=None, url=None, html=None,
                               text=None, params=None, method='POST',
