@@ -53,7 +53,8 @@ def test_create_counterexample():
 def test_rate_limit_exceeded():
     endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
-    error_msg = {'Code': '429', 'Error: ': u'Rate Limit exceeded'}
+    error_code = "'Code': '429'"
+    error_msg = 'Rate Limit exceeded'
     responses.add(
         responses.POST,
         url,
@@ -65,9 +66,27 @@ def test_rate_limit_exceeded():
         service.create_counterexample(
             workspace_id='boguswid', text='I want financial advice today.')
     except WatsonException as ex:
-        print("Printing error message here {}".format(ex.message))
         assert len(responses.calls) == 1
-        assert ex.message == error_msg
+        assert error_code in str(ex)
+        assert error_msg in str(ex)
+
+@responses.activate
+def test_unknown_error():
+    endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
+    url = '{0}{1}'.format(base_url, endpoint)
+    error_msg = 'Unknown error'
+    responses.add(
+        responses.POST,
+        url,
+        status=429)
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-02-03')
+    try:
+        service.create_counterexample(
+            workspace_id='boguswid', text='I want financial advice today.')
+    except WatsonException as ex:
+        assert len(responses.calls) == 1
+        assert error_msg in str(ex)
 
 @responses.activate
 def test_delete_counterexample():
