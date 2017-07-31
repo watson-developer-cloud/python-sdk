@@ -53,13 +53,14 @@ def test_create_counterexample():
 def test_rate_limit_exceeded():
     endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
-    error_code = "'code': '429'"
+    error_code = "'code': '407'"
     error_msg = 'Rate limit exceeded'
     responses.add(
         responses.POST,
         url,
         body='Rate limit exceeded',
-        status=429)
+        status=407,
+        content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     try:
@@ -78,7 +79,8 @@ def test_unknown_error():
     responses.add(
         responses.POST,
         url,
-        status=429)
+        status=407,
+        content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     try:
