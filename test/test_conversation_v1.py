@@ -53,12 +53,12 @@ def test_create_counterexample():
 def test_rate_limit_exceeded():
     endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
-    error_code = "'Code': '429'"
-    error_msg = 'Rate Limit exceeded'
+    error_code = "'code': '429'"
+    error_msg = 'Rate limit exceeded'
     responses.add(
         responses.POST,
         url,
-        body='Rate Limit exceeded',
+        body='Rate limit exceeded',
         status=429)
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
