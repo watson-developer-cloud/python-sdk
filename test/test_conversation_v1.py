@@ -65,7 +65,7 @@ def test_rate_limit_exceeded():
         service.create_counterexample(
             workspace_id='boguswid', text='I want financial advice today.')
     except WatsonException as ex:
-        print ex.message
+        print("Printing error message here {}".format(ex.message))
         assert len(responses.calls) == 1
         assert ex.message == error_msg
 
