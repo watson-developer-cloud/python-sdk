@@ -15,6 +15,7 @@
 import json
 import responses
 import watson_developer_cloud
+from watson_developer_cloud import WatsonException
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/conversation/api'
@@ -48,6 +49,46 @@ def test_create_counterexample():
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
 
+@responses.activate
+def test_rate_limit_exceeded():
+    endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
+    url = '{0}{1}'.format(base_url, endpoint)
+    error_code = "'code': '407'"
+    error_msg = 'Rate limit exceeded'
+    responses.add(
+        responses.POST,
+        url,
+        body='Rate limit exceeded',
+        status=407,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-02-03')
+    try:
+        service.create_counterexample(
+            workspace_id='boguswid', text='I want financial advice today.')
+    except WatsonException as ex:
+        assert len(responses.calls) == 1
+        assert error_code in str(ex)
+        assert error_msg in str(ex)
+
+@responses.activate
+def test_unknown_error():
+    endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
+    url = '{0}{1}'.format(base_url, endpoint)
+    error_msg = 'Unknown error'
+    responses.add(
+        responses.POST,
+        url,
+        status=407,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-02-03')
+    try:
+        service.create_counterexample(
+            workspace_id='boguswid', text='I want financial advice today.')
+    except WatsonException as ex:
+        assert len(responses.calls) == 1
+        assert error_msg in str(ex)
 
 @responses.activate
 def test_delete_counterexample():
