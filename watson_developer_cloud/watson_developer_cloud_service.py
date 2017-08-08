@@ -190,9 +190,10 @@ class WatsonDeveloperCloudService(object):
             if 'description' in error_json:
                 error_message += ', Description: ' + error_json['description']
             error_message += ', Code: ' + str(response.status_code)
+            return error_message
         except:
-            pass
-        return error_message
+            return {'error': response.text or error_message, 'code': str(response.status_code)}
+
 
     def _alchemy_html_request(self, method_name=None, url=None, html=None,
                               text=None, params=None, method='POST',
