@@ -279,6 +279,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                                 json.dumps(metadata),
                                                 'application/json')},
                             accept_json=True)
+    
     def update_document(self,
                         environment_id,
                         collection_id,
