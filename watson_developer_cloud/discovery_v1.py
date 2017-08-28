@@ -58,7 +58,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url='/v1/environments/{0}'.format(environment_id),
                             params={"version": self.version}, accept_json=True)
 
-    def _valid_name_and_description(self, name, description):
+    @staticmethod
+    def _valid_name_and_description(name, description):
         if len(name) not in range(0, 255):
             raise ValueError(
                 "name must be a string having length between 0 and 255 "
@@ -263,8 +264,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         file_tuple = None
 
         if file_info:
-            mime_type = mime_type or mimetypes.guess_type(
-                file_info.name)[0]
+            mime_type = mime_type or 'application/octet-stream'
             file_tuple = (file_info.name, file_info, mime_type)
         elif file_data:
             file_tuple = ('tmpfile', file_data, mime_type or
@@ -279,6 +279,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                                 json.dumps(metadata),
                                                 'application/json')},
                             accept_json=True)
+    
     def update_document(self,
                         environment_id,
                         collection_id,

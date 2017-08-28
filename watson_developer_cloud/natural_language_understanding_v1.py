@@ -31,10 +31,12 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
                  url=default_url,
                  username=None,
                  password=None,
-                 use_vcap_services=True):
+                 use_vcap_services=True,
+                 x_watson_learning_opt_out=False):
         WatsonDeveloperCloudService.__init__(
             self, 'natural-language-understanding', url,
-            username, password, use_vcap_services)
+            username, password, use_vcap_services,
+            x_watson_learning_opt_out=x_watson_learning_opt_out)
         self.version = version
 
     def analyze(self, features, text=None, url=None, html=None,
