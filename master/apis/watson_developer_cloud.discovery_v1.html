@@ -228,6 +228,117 @@
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data">
+<code class="descname">delete_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears all training data for this collection.
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:return: Code: 204, All training data removed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data">
+<code class="descname">list_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists the training data for this collection
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:return: Training data for this collection found and returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data_query">
+<code class="descname">add_training_data_query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>natural_language_query</em>, <em>query_id=None</em>, <em>filter=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.add_training_data_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a query to the training data for this collection.
+The query can contain a filter and natural language query
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:param natural_language_query:
+:param filter:
+:param examples:
+:return: Training data for this collection found and returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data_query">
+<code class="descname">delete_training_data_query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_data_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the query and all associated examples from the training data
+set.
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:param query_id: the ID of the query used for training
+:return: Code: 204, Query and all example document references
+successfully removed from the training set for this collection</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data_query">
+<code class="descname">get_training_data_query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_data_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shows details for a specific query, including the query string and all
+examples.
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:param query_id: the ID of the query used for training</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data_query_examples">
+<code class="descname">list_training_data_query_examples</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_data_query_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data_query_examples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all training examples for this query
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:param query_id: the ID of the query used for training</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data_query_example">
+<code class="descname">add_training_data_query_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>document_id</em>, <em>relevance</em>, <em>cross_reference=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.add_training_data_query_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data_query_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new example to this query
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:param query_id: the ID of the query used for training
+:param document_id:
+:param relevance:
+:param cross_reference:
+:return: The example was successfully added to the query.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data_query_example">
+<code class="descname">delete_training_data_query_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_data_query_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data_query_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the example document with the given ID from the query.
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:param query_id: the ID of the query used for training
+:param example_id: the ID of the document as it is indexed
+:return: Code: 204, The example document reference was removed from the
+query</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data_query_example">
+<code class="descname">get_training_data_query_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_data_query_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data_query_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the details for this example.
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:param query_id: the ID of the query used for training
+:param example_id: the ID of the document as it is indexed
+:return: Details for this example successfully found and returned.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_training_data_query_example">
+<code class="descname">update_training_data_query_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>relevance=None</em>, <em>cross_reference=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_training_data_query_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_training_data_query_example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the label or cross reference query for this example.
+:param environment_id: the ID of your environment
+:param collection_id: the ID of your collection
+:param query_id: the ID of the query used for training
+:param example_id: the ID of the document as it is indexed
+:param relevance:
+:param cross_reference:
+:return: The label or cross reference query were successfully applied.</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
