@@ -203,7 +203,7 @@ class TestVisualRecognitionV3(TestCase):
 
         gc_url = "{0}{1}".format(base_url, 'v3/collections/bogusid')
 
-        responses.add(responses.POST,
+        responses.add(responses.GET,
                       gc_url,
                       body=json.dumps({'response': 200}),
                       status=200,
