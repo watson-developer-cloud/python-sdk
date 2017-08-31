@@ -226,7 +226,7 @@ def test_collection():
 
     discovery.get_collection('envid', 'collid')
 
-    called_url = urlparse(responses.calls[3].request.url)
+    called_url = urlparse(responses.calls[2].request.url)
     test_url = urlparse(discovery_url)
 
     assert called_url.netloc == test_url.netloc
@@ -236,7 +236,7 @@ def test_collection():
                                 collection_id='collid')
     discovery.list_collection_fields(environment_id='envid',
                                      collection_id='collid')
-    assert len(responses.calls) == 6
+    assert len(responses.calls) == 5
 
 
 @responses.activate
@@ -297,13 +297,11 @@ def test_configs():
                                                    username='username',
                                                    password='password')
     discovery.list_configurations(environment_id='envid')
-    conf_id = discovery.get_default_configuration_id(environment_id='envid')
-    assert conf_id == 'confid'
 
     discovery.get_configuration(environment_id='envid',
                                 configuration_id='confid')
 
-    assert len(responses.calls) == 3
+    assert len(responses.calls) == 2
 
     discovery.create_configuration(environment_id='envid',
                                    config_data={'name': 'my name'})
@@ -313,43 +311,7 @@ def test_configs():
     discovery.delete_configuration(environment_id='envid',
                                    configuration_id='confid')
 
-    assert len(responses.calls) == 6
-
-
-@responses.activate
-def test_empty_configs():
-    discovery_url = urljoin(base_discovery_url,
-                            'environments/envid/configurations')
-    responses.add(responses.GET, discovery_url,
-                  body="{}",
-                  status=200,
-                  content_type='application/json')
-
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
-
-    conf_id = discovery.get_default_configuration_id(environment_id='envid')
-    assert conf_id is None
-    assert len(responses.calls) == 1
-
-
-@responses.activate
-def test_no_configs():
-    discovery_url = urljoin(base_discovery_url,
-                            'environments/envid/configurations')
-    responses.add(responses.GET, discovery_url,
-                  body="{\"configurations\": []}",
-                  status=200,
-                  content_type='application/json')
-
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
-
-    conf_id = discovery.get_default_configuration_id(environment_id='envid')
-    assert conf_id is None
-    assert len(responses.calls) == 1
+    assert len(responses.calls) == 5
 
 
 @responses.activate
@@ -382,7 +344,7 @@ def test_document():
                                           fileinfo=fileinfo)
         assert conf_id is not None
 
-    assert len(responses.calls) == 3
+    assert len(responses.calls) == 2
 
     add_doc_url = urljoin(base_discovery_url,
                           'environments/envid/collections/collid/documents')
@@ -419,38 +381,38 @@ def test_document():
                                          file_info=fileinfo)
         assert conf_id is not None
 
-    assert len(responses.calls) == 4
+    assert len(responses.calls) == 3
 
     discovery.get_document(environment_id='envid',
                            collection_id='collid',
                            document_id='docid')
 
-    assert len(responses.calls) == 5
+    assert len(responses.calls) == 4
 
     discovery.update_document(environment_id='envid',
                               collection_id='collid',
                               document_id='docid')
 
-    assert len(responses.calls) == 6
+    assert len(responses.calls) == 5
 
     discovery.delete_document(environment_id='envid',
                               collection_id='collid',
                               document_id='docid')
 
-    assert len(responses.calls) == 7
+    assert len(responses.calls) == 6
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
                                      file_data='my string of file')
 
-    assert len(responses.calls) == 8
+    assert len(responses.calls) == 7
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
                                      file_data='my string of file',
                                      mime_type='application/html')
 
-    assert len(responses.calls) == 9
+    assert len(responses.calls) == 8
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
@@ -458,7 +420,7 @@ def test_document():
                                      mime_type='application/html',
                                      metadata={'stuff': 'woot!'})
 
-    assert len(responses.calls) == 10
+    assert len(responses.calls) == 9
 
 
 @responses.activate

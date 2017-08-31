@@ -128,19 +128,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params={'version': self.version},
                             accept_json=True)
 
-    def get_default_configuration_id(self, environment_id):
-        all_configs = self.list_configurations(environment_id=environment_id)
-        try:
-            configs = [x['configuration_id']
-                       for x in all_configs['configurations']
-                       if x['name'] == 'Default Configuration']
-            if configs:
-                return configs[0]
-            return None
-        except KeyError:
-            pass  # this isn't a problem and supress isn't in 2.7
-        return None
-
     def get_configuration(self, environment_id, configuration_id):
 
         format_string = '/v1/environments/{0}/configurations/{1}'
@@ -210,12 +197,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                           name,
                           description="",
                           configuration_id=None):
-
-        if configuration_id is None:
-            default_config = self.get_default_configuration_id(
-                environment_id=environment_id)
-            configuration_id = default_config
-
         data_dict = {'configuration_id': configuration_id,
                      'name': name,
                      'description': description}
@@ -324,16 +305,11 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         url_string = '/v1/environments/{0}/preview'.format(
             environment_id)
 
-        params = {'version': self.version}
+        params = {'version': self.version,
+                  'configuration_id': configuration_id}
 
         if metadata is None:
             metadata = {}
-
-        if configuration_id:
-            params['configuration_id'] = configuration_id
-        else:
-            params['configuration_id'] = self.get_default_configuration_id(
-                environment_id=environment_id)
 
         mime_type = mimetypes.guess_type(
             fileinfo.name)[0] or 'application/octet-stream'
