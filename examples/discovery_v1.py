@@ -23,10 +23,6 @@ configurations = discovery.list_configurations(
     environment_id=news_environment_id)
 print(json.dumps(configurations, indent=2))
 
-default_config = discovery.get_configuration(
-    environment_id=news_environment_id)
-print(json.dumps(default_config, indent=2))
-
 query_options = {'query': 'IBM'}
 query_results = discovery.query(news_environment_id,
                                 news_collections[0]['collection_id'],
