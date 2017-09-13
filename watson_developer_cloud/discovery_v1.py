@@ -196,10 +196,12 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                           environment_id,
                           name,
                           description="",
-                          configuration_id=None):
+                          configuration_id=None,
+                          language="en"):
         data_dict = {'configuration_id': configuration_id,
                      'name': name,
-                     'description': description}
+                     'description': description,
+                     'language': language}
         url_string = '/v1/environments/{0}/collections'.format(
             environment_id)
         return self.request(method='POST',
@@ -380,7 +382,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                 environment_id, collection_id),
             params=query_options, accept_json=True)
 
-
     def delete_training_data(self, environment_id, collection_id):
         """
         Clears all training data for this collection.
@@ -395,7 +396,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         return self.request(method='DELETE',
                             url=url_string,
                             params=params)
-
 
     def list_training_data(self, environment_id, collection_id):
         """
@@ -412,7 +412,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url=url_string,
                             params=params,
                             accept_json=True)
-
 
     def add_training_data_query(self,
                                 environment_id,
@@ -445,7 +444,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             json=data,
                             accept_json=True)
 
-
     def delete_training_data_query(self,
                                    environment_id,
                                    collection_id,
@@ -469,7 +467,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url=url_string,
                             params=params)
 
-
     def get_training_data_query(self,
                                 environment_id,
                                 collection_id,
@@ -492,7 +489,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params=params,
                             accept_json=True)
 
-
     def list_training_data_query_examples(self,
                                           environment_id,
                                           collection_id,
@@ -514,7 +510,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url=url_string,
                             params=params,
                             accept_json=True)
-
 
     def add_training_data_query_example(self,
                                         environment_id,
@@ -549,7 +544,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             json=data,
                             accept_json=True)
 
-
     def delete_training_data_query_example(self,
                                            environment_id,
                                            collection_id,
@@ -576,7 +570,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url=url_string,
                             params=params)
 
-
     def get_training_data_query_example(self,
                                         environment_id,
                                         collection_id,
@@ -602,7 +595,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url=url_string,
                             params=params,
                             accept_json=True)
-
 
     def update_training_data_query_example(self,
                                            environment_id,
