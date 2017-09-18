@@ -238,10 +238,12 @@
                           <span class="n">environment_id</span><span class="p">,</span>
                           <span class="n">name</span><span class="p">,</span>
                           <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-                          <span class="n">configuration_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                          <span class="n">configuration_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">language</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">):</span>
         <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;configuration_id&#39;</span><span class="p">:</span> <span class="n">configuration_id</span><span class="p">,</span>
                      <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-                     <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">}</span>
+                     <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+                     <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">}</span>
         <span class="n">url_string</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/collections&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">environment_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
@@ -422,7 +424,6 @@
                 <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">),</span>
             <span class="n">params</span><span class="o">=</span><span class="n">query_options</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="DiscoveryV1.delete_training_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">delete_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clears all training data for this collection.</span>
@@ -437,7 +438,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
                             <span class="n">url</span><span class="o">=</span><span class="n">url_string</span><span class="p">,</span>
                             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="DiscoveryV1.list_training_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">list_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -454,7 +454,6 @@
                             <span class="n">url</span><span class="o">=</span><span class="n">url_string</span><span class="p">,</span>
                             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="DiscoveryV1.add_training_data_query"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data_query">[docs]</a>    <span class="k">def</span> <span class="nf">add_training_data_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                 <span class="n">environment_id</span><span class="p">,</span>
@@ -487,7 +486,6 @@
                             <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="DiscoveryV1.delete_training_data_query"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data_query">[docs]</a>    <span class="k">def</span> <span class="nf">delete_training_data_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                    <span class="n">environment_id</span><span class="p">,</span>
                                    <span class="n">collection_id</span><span class="p">,</span>
@@ -511,7 +509,6 @@
                             <span class="n">url</span><span class="o">=</span><span class="n">url_string</span><span class="p">,</span>
                             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="DiscoveryV1.get_training_data_query"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data_query">[docs]</a>    <span class="k">def</span> <span class="nf">get_training_data_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                 <span class="n">environment_id</span><span class="p">,</span>
                                 <span class="n">collection_id</span><span class="p">,</span>
@@ -534,7 +531,6 @@
                             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="DiscoveryV1.list_training_data_query_examples"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data_query_examples">[docs]</a>    <span class="k">def</span> <span class="nf">list_training_data_query_examples</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                           <span class="n">environment_id</span><span class="p">,</span>
                                           <span class="n">collection_id</span><span class="p">,</span>
@@ -556,7 +552,6 @@
                             <span class="n">url</span><span class="o">=</span><span class="n">url_string</span><span class="p">,</span>
                             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="DiscoveryV1.add_training_data_query_example"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data_query_example">[docs]</a>    <span class="k">def</span> <span class="nf">add_training_data_query_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                         <span class="n">environment_id</span><span class="p">,</span>
@@ -591,7 +586,6 @@
                             <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="DiscoveryV1.delete_training_data_query_example"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data_query_example">[docs]</a>    <span class="k">def</span> <span class="nf">delete_training_data_query_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                            <span class="n">environment_id</span><span class="p">,</span>
                                            <span class="n">collection_id</span><span class="p">,</span>
@@ -618,7 +612,6 @@
                             <span class="n">url</span><span class="o">=</span><span class="n">url_string</span><span class="p">,</span>
                             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="DiscoveryV1.get_training_data_query_example"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data_query_example">[docs]</a>    <span class="k">def</span> <span class="nf">get_training_data_query_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                         <span class="n">environment_id</span><span class="p">,</span>
                                         <span class="n">collection_id</span><span class="p">,</span>
@@ -644,7 +637,6 @@
                             <span class="n">url</span><span class="o">=</span><span class="n">url_string</span><span class="p">,</span>
                             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="DiscoveryV1.update_training_data_query_example"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.update_training_data_query_example">[docs]</a>    <span class="k">def</span> <span class="nf">update_training_data_query_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                            <span class="n">environment_id</span><span class="p">,</span>
