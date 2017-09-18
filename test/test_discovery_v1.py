@@ -18,6 +18,7 @@ version = '2016-12-01'
 environment_id = 'envid'
 collection_id = 'collid'
 
+
 @responses.activate
 def test_environments():
     discovery_url = urljoin(base_discovery_url, 'environments')
@@ -218,10 +219,12 @@ def test_collection():
     discovery.create_collection(environment_id='envid',
                                 name="name",
                                 description="",
+                                language="",
                                 configuration_id='confid')
 
     discovery.create_collection(environment_id='envid',
                                 name="name",
+                                language="es",
                                 description="")
 
     discovery.get_collection('envid', 'collid')
@@ -326,8 +329,8 @@ def test_document():
                   content_type='application/json')
     responses.add(responses.GET, config_url,
                   body=json.dumps({"configurations":
-                                  [{"name": "Default Configuration",
-                                    "configuration_id": "confid"}]}),
+                                   [{"name": "Default Configuration",
+                                     "configuration_id": "confid"}]}),
                   status=200,
                   content_type='application/json')
 
@@ -532,7 +535,8 @@ def test_add_training_data_query():
 def test_delete_training_data_query():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'
     query_id = 'queryid'
-    endpoint = training_endpoint.format(environment_id, collection_id, query_id)
+    endpoint = training_endpoint.format(
+        environment_id, collection_id, query_id)
     url = '{0}{1}'.format(base_url, endpoint)
     responses.add(responses.DELETE, url, status=204)
 
@@ -550,7 +554,8 @@ def test_delete_training_data_query():
 def test_get_training_data_query():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'
     query_id = 'queryid'
-    endpoint = training_endpoint.format(environment_id, collection_id, query_id)
+    endpoint = training_endpoint.format(
+        environment_id, collection_id, query_id)
     url = '{0}{1}'.format(base_url, endpoint)
     mock_response = {
         "query_id": "string",
@@ -585,7 +590,8 @@ def test_list_training_data_query_examples():
     examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
         '/{2}/examples'
     query_id = 'queryid'
-    endpoint = examples_endpoint.format(environment_id, collection_id, query_id)
+    endpoint = examples_endpoint.format(
+        environment_id, collection_id, query_id)
     url = '{0}{1}'.format(base_url, endpoint)
     mock_response = [
         {
@@ -616,7 +622,8 @@ def test_add_training_data_query_example():
     examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
         '/{2}/examples'
     query_id = 'queryid'
-    endpoint = examples_endpoint.format(environment_id, collection_id, query_id)
+    endpoint = examples_endpoint.format(
+        environment_id, collection_id, query_id)
     url = '{0}{1}'.format(base_url, endpoint)
     document_id = "string"
     relevance = 0
