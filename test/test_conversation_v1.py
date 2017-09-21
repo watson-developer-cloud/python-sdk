@@ -47,7 +47,7 @@ def test_create_counterexample():
         workspace_id='boguswid', text='I want financial advice today.')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert counterexample == response
+    assert counterexample._to_dict() == response
 
 @responses.activate
 def test_rate_limit_exceeded():
@@ -133,7 +133,7 @@ def test_get_counterexample():
         workspace_id='boguswid', text='What are you wearing%3F')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert counterexample == response
+    assert counterexample._to_dict() == response
 
 
 @responses.activate
@@ -168,7 +168,7 @@ def test_list_counterexamples():
     counterexamples = service.list_counterexamples(workspace_id='boguswid')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert counterexamples == response
+    assert counterexamples._to_dict() == response
 
 
 @responses.activate
@@ -195,7 +195,7 @@ def test_update_counterexample():
         new_text='What are you wearing%3F')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert counterexample == response
+    assert counterexample._to_dict() == response
 
 
 #########################
@@ -233,7 +233,7 @@ def test_create_entity():
         fuzzy_match=None)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert entity == response
+    assert entity._to_dict() == response
 
 
 @responses.activate
@@ -279,7 +279,7 @@ def test_get_entity():
     entity = service.get_entity(workspace_id='boguswid', entity='pizza_toppings', export=True)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert entity == response
+    assert entity._to_dict() == response
 
 
 @responses.activate
@@ -320,7 +320,7 @@ def test_list_entities():
         export=True)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert entities == response
+    assert entities._to_dict() == response
 
 
 @responses.activate
@@ -350,7 +350,7 @@ def test_update_entity():
         new_entity='pizza_toppings')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert entity == response
+    assert entity._to_dict() == response
 
 
 #########################
@@ -382,7 +382,7 @@ def test_create_example():
         text='Gimme a pizza with pepperoni')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert example == response
+    assert example._to_dict() == response
 
 
 @responses.activate
@@ -432,7 +432,7 @@ def test_get_example():
         text='Gimme a pizza with pepperoni')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert example == response
+    assert example._to_dict() == response
 
 
 @responses.activate
@@ -469,7 +469,7 @@ def test_list_examples():
         workspace_id='boguswid', intent='pizza_order')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert examples == response
+    assert examples._to_dict() == response
 
 
 @responses.activate
@@ -497,7 +497,7 @@ def test_update_example():
         new_text='Gimme a pizza with pepperoni')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert example == response
+    assert example._to_dict() == response
 
 
 #########################
@@ -529,7 +529,7 @@ def test_create_intent():
         description='User wants to start a new pizza order')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert intent == response
+    assert intent._to_dict() == response
 
 
 @responses.activate
@@ -576,7 +576,7 @@ def test_get_intent():
         workspace_id='boguswid', intent='pizza_order', export=False)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert intent == response
+    assert intent._to_dict() == response
 
 
 @responses.activate
@@ -608,7 +608,7 @@ def test_list_intents():
     intents = service.list_intents(workspace_id='boguswid', export=False)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert intents == response
+    assert intents._to_dict() == response
 
 
 @responses.activate
@@ -637,7 +637,7 @@ def test_update_intent():
         new_description='User wants to start a new pizza order')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert intent == response
+    assert intent._to_dict() == response
 
 
 #########################
@@ -655,7 +655,10 @@ def test_list_logs():
                 "input": {
                     "text": "Can you turn off the AC"
                 },
-                "context": {}
+                "context": {
+                    "conversation_id": "f2c7e362-4cc8-4761-8b0f-9ccd70c63bca",
+                    "system": {}
+                }
             },
             "response": {
                 "input": {
@@ -706,7 +709,7 @@ def test_list_logs():
         workspace_id='boguswid')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert logs == response
+    assert logs._to_dict() == response
 
 
 #########################
@@ -735,7 +738,11 @@ def test_message():
         },
         "intents": [],
         "entities": [],
-        "input": {}
+        "input": {},
+        "output": {
+            "text": "okay",
+            "log_messages": []
+        }
     }
 
     responses.add(
@@ -747,7 +754,7 @@ def test_message():
 
     message = conversation.message(
         workspace_id=workspace_id,
-        message_input={'text': 'Turn on the lights'},
+        input={'text': 'Turn on the lights'},
         context=None)
 
     assert message is not None
@@ -774,7 +781,7 @@ def test_message():
     }
     message = conversation.message(
         workspace_id=workspace_id,
-        message_input={'text': 'Turn on the lights'},
+        input={'text': 'Turn on the lights'},
         context=json.dumps(message_ctx))
 
     assert message is not None
@@ -811,7 +818,7 @@ def test_create_synonym():
         workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert synonym == response
+    assert synonym._to_dict() == response
 
 
 @responses.activate
@@ -857,7 +864,7 @@ def test_get_synonym():
         workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert synonym == response
+    assert synonym._to_dict() == response
 
 
 @responses.activate
@@ -900,7 +907,7 @@ def test_list_synonyms():
         value='bbq')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert synonyms == response
+    assert synonyms._to_dict() == response
 
 
 @responses.activate
@@ -925,7 +932,7 @@ def test_update_synonym():
         workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue', new_synonym='barbecue')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert synonym == response
+    assert synonym._to_dict() == response
 
 
 #########################
@@ -957,7 +964,7 @@ def test_create_value():
         value='aeiou')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert value == response
+    assert value._to_dict() == response
 
 
 @responses.activate
@@ -1006,7 +1013,7 @@ def test_get_value():
         workspace_id='boguswid', entity='grilling', value='bbq', export=True)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert value == response
+    assert value._to_dict() == response
 
 
 @responses.activate
@@ -1047,7 +1054,7 @@ def test_list_values():
         export=True)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert values == response
+    assert values._to_dict() == response
 
 
 @responses.activate
@@ -1060,7 +1067,8 @@ def test_update_value():
         "metadata": {
             "code": 1422
         },
-        "created": "2015-12-06T23:53:59.153Z"
+        "created": "2015-12-06T23:53:59.153Z",
+        "updated": "2015-12-06T23:53:59.153Z"
     }
     responses.add(
         responses.POST,
@@ -1079,7 +1087,7 @@ def test_update_value():
         new_synonyms=None)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert value == response
+    assert value._to_dict() == response
 
 
 #########################
@@ -1112,7 +1120,7 @@ def test_create_workspace():
         name='Pizza app', description='Pizza app', language='en', metadata={})
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert workspace == response
+    assert workspace._to_dict() == response
 
 
 @responses.activate
@@ -1146,6 +1154,7 @@ def test_get_workspace():
         "updated": "2015-12-06T23:53:59.153Z",
         "description": "Pizza app",
         "status": "Available",
+        "learning_opt_out": False,
         "workspace_id": "pizza_app-e0f3"
     }
     responses.add(
@@ -1159,7 +1168,7 @@ def test_get_workspace():
     workspace = service.get_workspace(workspace_id='boguswid', export=False)
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert workspace == response
+    assert workspace._to_dict() == response
 
 
 @responses.activate
@@ -1194,7 +1203,7 @@ def test_list_workspaces():
     workspaces = service.list_workspaces()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert workspaces == response
+    assert workspaces._to_dict() == response
 
 
 @responses.activate
@@ -1226,4 +1235,4 @@ def test_update_workspace():
         metadata={})
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert workspace == response
+    assert workspace._to_dict() == response
