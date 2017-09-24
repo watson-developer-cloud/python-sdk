@@ -38,7 +38,7 @@ from .watson_developer_cloud_service import WatsonDeveloperCloudService
 class VisualRecognitionV3(WatsonDeveloperCloudService):
     """Client for the Visual Recognition service."""
 
-    default_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
+    default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
     latest_version = '2016-05-20'
 
     def __init__(self, version, url=default_url, api_key=None):
@@ -158,15 +158,12 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
 
     def create_classifier(self,
                           name,
-                          classname_positive_examples,
-                          negative_examples=None,
-                          classname_positive_examples_filename=None,
-                          negative_examples_filename=None):
+                          **kwargs):
         """
         Create a classifier.
 
         :param str name: The name of the new classifier. Cannot contain special characters.
-        :param file classname_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
+        :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
         :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
         :param str classname_positive_examples_filename: The filename for classname_positive_examples.
         :param str negative_examples_filename: The filename for negative_examples.
@@ -175,39 +172,14 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         """
         if name is None:
             raise WatsonInvalidArgument('name must be provided')
-        if classname_positive_examples is None:
-            raise WatsonInvalidArgument(
-                'classname_positive_examples must be provided')
         params = {'version': self.version}
-        name_tuple = (None, name, 'text/plain')
-        if not classname_positive_examples_filename and hasattr(
-                classname_positive_examples, 'name'):
-            classname_positive_examples_filename = classname_positive_examples.name
-        mime_type = 'application/octet-stream'
-        classname_positive_examples_tuple = (
-            classname_positive_examples_filename, classname_positive_examples,
-            mime_type)
-        negative_examples_tuple = None
-        if negative_examples:
-            if not negative_examples_filename and hasattr(
-                    negative_examples, 'name'):
-                negative_examples_filename = negative_examples.name
-            if not negative_examples_filename:
-                raise WatsonInvalidArgument(
-                    'negative_examples_filename must be provided')
-            mime_type = 'application/octet-stream'
-            negative_examples_tuple = (negative_examples_filename,
-                                       negative_examples, mime_type)
+        data = {'name': name}
         response = self.request(
             method='POST',
             url='/v3/classifiers',
             params=params,
-            files={
-                'name': name_tuple,
-                'classname_positive_examples':
-                classname_positive_examples_tuple,
-                'negative_examples': negative_examples_tuple
-            },
+            data=data,
+            files=kwargs,
             accept_json=True)
         return response
 
@@ -265,15 +237,12 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
 
     def update_classifier(self,
                           classifier_id,
-                          classname_positive_examples=None,
-                          negative_examples=None,
-                          classname_positive_examples_filename=None,
-                          negative_examples_filename=None):
+                          **kwargs):
         """
         Update a classifier.
 
         :param str classifier_id: The ID of the classifier.
-        :param file classname_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
+        :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
         :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
         :param str classname_positive_examples_filename: The filename for classname_positive_examples.
         :param str negative_examples_filename: The filename for negative_examples.
@@ -283,35 +252,11 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         if classifier_id is None:
             raise WatsonInvalidArgument('classifier_id must be provided')
         params = {'version': self.version}
-        classname_positive_examples_tuple = None
-        if classname_positive_examples:
-            if not classname_positive_examples_filename and hasattr(
-                    classname_positive_examples, 'name'):
-                classname_positive_examples_filename = classname_positive_examples.name
-            mime_type = 'application/octet-stream'
-            classname_positive_examples_tuple = (
-                classname_positive_examples_filename,
-                classname_positive_examples, mime_type)
-        negative_examples_tuple = None
-        if negative_examples:
-            if not negative_examples_filename and hasattr(
-                    negative_examples, 'name'):
-                negative_examples_filename = negative_examples.name
-            if not negative_examples_filename:
-                raise WatsonInvalidArgument(
-                    'negative_examples_filename must be provided')
-            mime_type = 'application/octet-stream'
-            negative_examples_tuple = (negative_examples_filename,
-                                       negative_examples, mime_type)
         response = self.request(
             method='POST',
             url='/v3/classifiers/{0}'.format(classifier_id),
             params=params,
-            files={
-                'classname_positive_examples':
-                classname_positive_examples_tuple,
-                'negative_examples': negative_examples_tuple
-            },
+            files=kwargs,
             accept_json=True)
         return response
 
