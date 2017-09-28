@@ -69,7 +69,7 @@ See [CONTRIBUTING.md][CONTRIBUTING].
 This library is licensed under the [Apache 2.0 license][license].
 
 [wdc]: http://www.ibm.com/watson/developercloud/
-[bluemix]: https://console.ng.bluemix.net
+[bluemix]: https://console.bluemix.net
 [responses]: https://github.com/getsentry/responses
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples

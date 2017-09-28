@@ -58,7 +58,8 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             url='/v1/environments/{0}'.format(environment_id),
                             params={"version": self.version}, accept_json=True)
 
-    def _valid_name_and_description(self, name, description):
+    @staticmethod
+    def _valid_name_and_description(name, description):
         if len(name) not in range(0, 255):
             raise ValueError(
                 "name must be a string having length between 0 and 255 "
@@ -126,19 +127,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         return self.request(method='GET', url=url_string,
                             params={'version': self.version},
                             accept_json=True)
-
-    def get_default_configuration_id(self, environment_id):
-        all_configs = self.list_configurations(environment_id=environment_id)
-        try:
-            configs = [x['configuration_id']
-                       for x in all_configs['configurations']
-                       if x['name'] == 'Default Configuration']
-            if configs:
-                return configs[0]
-            return None
-        except KeyError:
-            pass  # this isn't a problem and supress isn't in 2.7
-        return None
 
     def get_configuration(self, environment_id, configuration_id):
 
@@ -208,16 +196,12 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                           environment_id,
                           name,
                           description="",
-                          configuration_id=None):
-
-        if configuration_id is None:
-            default_config = self.get_default_configuration_id(
-                environment_id=environment_id)
-            configuration_id = default_config
-
+                          configuration_id=None,
+                          language="en"):
         data_dict = {'configuration_id': configuration_id,
                      'name': name,
-                     'description': description}
+                     'description': description,
+                     'language': language}
         url_string = '/v1/environments/{0}/collections'.format(
             environment_id)
         return self.request(method='POST',
@@ -263,8 +247,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         file_tuple = None
 
         if file_info:
-            mime_type = mime_type or mimetypes.guess_type(
-                file_info.name)[0]
+            mime_type = mime_type or 'application/octet-stream'
             file_tuple = (file_info.name, file_info, mime_type)
         elif file_data:
             file_tuple = ('tmpfile', file_data, mime_type or
@@ -279,6 +262,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                                                 json.dumps(metadata),
                                                 'application/json')},
                             accept_json=True)
+
     def update_document(self,
                         environment_id,
                         collection_id,
@@ -323,16 +307,11 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         url_string = '/v1/environments/{0}/preview'.format(
             environment_id)
 
-        params = {'version': self.version}
+        params = {'version': self.version,
+                  'configuration_id': configuration_id}
 
         if metadata is None:
             metadata = {}
-
-        if configuration_id:
-            params['configuration_id'] = configuration_id
-        else:
-            params['configuration_id'] = self.get_default_configuration_id(
-                environment_id=environment_id)
 
         mime_type = mimetypes.guess_type(
             fileinfo.name)[0] or 'application/octet-stream'
@@ -402,3 +381,251 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             url='/v1/environments/{0}/collections/{1}/query'.format(
                 environment_id, collection_id),
             params=query_options, accept_json=True)
+
+    def delete_training_data(self, environment_id, collection_id):
+        """
+        Clears all training data for this collection.
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :return: Code: 204, All training data removed
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data'
+        url_string = format_string.format(environment_id, collection_id)
+        params = {'version': self.version}
+
+        return self.request(method='DELETE',
+                            url=url_string,
+                            params=params)
+
+    def list_training_data(self, environment_id, collection_id):
+        """
+        Lists the training data for this collection
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :return: Training data for this collection found and returned.
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data'
+        url_string = format_string.format(environment_id, collection_id)
+        params = {'version': self.version}
+
+        return self.request(method='GET',
+                            url=url_string,
+                            params=params,
+                            accept_json=True)
+
+    def add_training_data_query(self,
+                                environment_id,
+                                collection_id,
+                                natural_language_query,
+                                query_id=None,
+                                filter=None,
+                                examples=None):
+        """
+        Adds a query to the training data for this collection.
+        The query can contain a filter and natural language query
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :param natural_language_query:
+        :param filter:
+        :param examples:
+        :return: Training data for this collection found and returned.
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data'
+        url_string = format_string.format(environment_id, collection_id)
+        params = {'version': self.version}
+        data = {'natural_language_query': natural_language_query,
+                'filter': filter,
+                'examples': examples,
+                'query_id': query_id}
+
+        return self.request(method='POST',
+                            url=url_string,
+                            params=params,
+                            json=data,
+                            accept_json=True)
+
+    def delete_training_data_query(self,
+                                   environment_id,
+                                   collection_id,
+                                   query_id):
+        """
+        Removes the query and all associated examples from the training data
+        set.
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :param query_id: the ID of the query used for training
+        :return: Code: 204, Query and all example document references
+        successfully removed from the training set for this collection
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data/{2}'
+        url_string = format_string.format(environment_id,
+                                          collection_id,
+                                          query_id)
+        params = {'version': self.version}
+
+        return self.request(method='DELETE',
+                            url=url_string,
+                            params=params)
+
+    def get_training_data_query(self,
+                                environment_id,
+                                collection_id,
+                                query_id):
+        """
+        Shows details for a specific query, including the query string and all
+        examples.
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :param query_id: the ID of the query used for training
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data/{2}'
+        url_string = format_string.format(environment_id,
+                                          collection_id,
+                                          query_id)
+        params = {'version': self.version}
+
+        return self.request(method='GET',
+                            url=url_string,
+                            params=params,
+                            accept_json=True)
+
+    def list_training_data_query_examples(self,
+                                          environment_id,
+                                          collection_id,
+                                          query_id):
+        """
+        Get all training examples for this query
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :param query_id: the ID of the query used for training
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data' + \
+            '/{2}/examples'
+        url_string = format_string.format(environment_id,
+                                          collection_id,
+                                          query_id)
+        params = {'version': self.version}
+
+        return self.request(method='GET',
+                            url=url_string,
+                            params=params,
+                            accept_json=True)
+
+    def add_training_data_query_example(self,
+                                        environment_id,
+                                        collection_id,
+                                        query_id,
+                                        document_id,
+                                        relevance,
+                                        cross_reference=None):
+        """
+        Adds a new example to this query
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :param query_id: the ID of the query used for training
+        :param document_id:
+        :param relevance:
+        :param cross_reference:
+        :return: The example was successfully added to the query.
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data' + \
+            '/{2}/examples'
+        url_string = format_string.format(environment_id,
+                                          collection_id,
+                                          query_id)
+        params = {'version': self.version}
+        data = {'document_id': document_id,
+                'relevance': relevance,
+                'cross_reference': cross_reference}
+
+        return self.request(method='POST',
+                            url=url_string,
+                            params=params,
+                            json=data,
+                            accept_json=True)
+
+    def delete_training_data_query_example(self,
+                                           environment_id,
+                                           collection_id,
+                                           query_id,
+                                           example_id):
+        """
+        Removes the example document with the given ID from the query.
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :param query_id: the ID of the query used for training
+        :param example_id: the ID of the document as it is indexed
+        :return: Code: 204, The example document reference was removed from the
+        query
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data' + \
+            '/{2}/examples/{3}'
+        url_string = format_string.format(environment_id,
+                                          collection_id,
+                                          query_id,
+                                          example_id)
+        params = {'version': self.version}
+
+        return self.request(method='DELETE',
+                            url=url_string,
+                            params=params)
+
+    def get_training_data_query_example(self,
+                                        environment_id,
+                                        collection_id,
+                                        query_id,
+                                        example_id):
+        """
+        Gets the details for this example.
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :param query_id: the ID of the query used for training
+        :param example_id: the ID of the document as it is indexed
+        :return: Details for this example successfully found and returned.
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data' + \
+            '/{2}/examples/{3}'
+        url_string = format_string.format(environment_id,
+                                          collection_id,
+                                          query_id,
+                                          example_id)
+        params = {'version': self.version}
+
+        return self.request(method='GET',
+                            url=url_string,
+                            params=params,
+                            accept_json=True)
+
+    def update_training_data_query_example(self,
+                                           environment_id,
+                                           collection_id,
+                                           query_id,
+                                           example_id,
+                                           relevance=None,
+                                           cross_reference=None):
+        """
+        Changes the label or cross reference query for this example.
+        :param environment_id: the ID of your environment
+        :param collection_id: the ID of your collection
+        :param query_id: the ID of the query used for training
+        :param example_id: the ID of the document as it is indexed
+        :param relevance:
+        :param cross_reference:
+        :return: The label or cross reference query were successfully applied.
+        """
+        format_string = '/v1/environments/{0}/collections/{1}/training_data' + \
+            '/{2}/examples/{3}'
+        url_string = format_string.format(environment_id,
+                                          collection_id,
+                                          query_id,
+                                          example_id)
+        params = {'version': self.version}
+        data = {'document_id': example_id,
+                'relevance': relevance,
+                'cross_reference': cross_reference}
+
+        return self.request(method='PUT',
+                            url=url_string,
+                            params=params,
+                            json=data,
+                            accept_json=True)

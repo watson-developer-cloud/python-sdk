@@ -210,7 +210,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         :param collection_id: a valid collection id
         :return:
         """
-        return self.request(method='POST',
+        return self.request(method='GET',
                             url='/v3/collections/{0}'.format(collection_id),
                             params={'version': self.version},
                             accept_json=True)
