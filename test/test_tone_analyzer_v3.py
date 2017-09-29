@@ -1,106 +1,92 @@
+# Copyright 2017 IBM All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import json
 import responses
 import watson_developer_cloud
-import os
+
+platform_url = 'https://gateway.watsonplatform.net'
+service_path = '/tone-analyzer/api'
+base_url = '{0}{1}'.format(platform_url, service_path)
+
+#########################
+# tone
+#########################
 
 
 @responses.activate
-## Simple test, just calling tone() with some text
 def test_tone():
-    tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
-    tone_args = '?version=2016-05-19'
-    tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
-        tone_response = response_json.read()
-
-    responses.add(responses.POST, tone_url,
-                  body=tone_response, status=200,
-                  content_type='application/json')
-
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
-        tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
-            username="username", password="password")
-        tone_analyzer.tone(tone_text.read())
-
-    assert responses.calls[0].request.url == tone_url + tone_args
-    assert responses.calls[0].response.text == tone_response
-
-    assert len(responses.calls) == 1
-
-
-@responses.activate
-## Invoking tone() with some modifiers given in 'params': specific tones requested, and sentences skipped
-def test_tone_with_args():
-    tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
-    tone_args = { 'version': '2016-05-19', 'tones': 'social', 'sentences': 'false' }
-    tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
-        tone_response = response_json.read()
-
-    responses.add(responses.POST, tone_url,
-                  body=tone_response, status=200,
-                  content_type='application/json')
-
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
-        tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
-            username="username", password="password")
-        tone_analyzer.tone(tone_text.read(), tones="social", sentences=False)
-
-    assert responses.calls[0].request.url.split('?')[0] == tone_url
-    # Compare args. Order is not deterministic!
-    actualArgs = {}
-    for arg in responses.calls[0].request.url.split('?')[1].split('&'):
-        actualArgs[arg.split('=')[0]] = arg.split('=')[1]
-    assert actualArgs == tone_args
-    assert responses.calls[0].response.text == tone_response
-    assert len(responses.calls) == 1
+    endpoint = '/v3/tone'
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "sentences_tone": [{
+            "sentence_id": 6,
+            "tones": [""],
+            "text": "aeiou"
+        }],
+        "document_tone": {
+            "tones": [{
+                "score": 0.8008281904610115,
+                "tone_name": "aeiou",
+                "tone_id": "aeiou"
+            }],
+            "warning":
+            "aeiou"
+        }
+    }
+    responses.add(
+        responses.POST,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ToneAnalyzerV3(
+        username='username', password='password', version='')
+    TODO = conversation.tone(
+        tone_input=TODO,
+        sentences=TODO,)
+    # TODO: Asserts
 
 
 @responses.activate
-## Invoking tone() with some modifiers specified as positional parameters: tones are emotion and social, and sentences is false
-def test_tone_with_positional_args():
-    tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
-    tone_args = { 'version': '2016-05-19', 'tones': 'emotion%2Csocial', 'sentences': 'false' }
-    tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
-        tone_response = response_json.read()
-
-    responses.add(responses.POST, tone_url,
-                  body=tone_response, status=200,
-                  content_type='application/json')
-
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
-        tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
-            username="username", password="password")
-        tone_analyzer.tone(tone_text.read(), 'application/json', ['emotion','social'], False)
-
-    assert responses.calls[0].request.url.split('?')[0] == tone_url
-    # Compare args. Order is not deterministic!
-    actualArgs = {}
-    for arg in responses.calls[0].request.url.split('?')[1].split('&'):
-        actualArgs[arg.split('=')[0]] = arg.split('=')[1]
-    assert actualArgs == tone_args
-    assert responses.calls[0].response.text == tone_response
-    assert len(responses.calls) == 1
-
-
-@responses.activate
-## Invoking tone_chat()
 def test_tone_chat():
-    tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone_chat'
-    tone_args = '?version=2016-05-19'
-    tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect2.json')) as response_json:
-        tone_response = response_json.read()
-
-    responses.add(responses.POST, tone_url,
-                  body=tone_response, status=200,
-                  content_type='application/json')
-
-    tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
-            username="username", password="password")
-    utterances = [{'text': 'I am very happy', 'user': 'glenn'}]
-    tone_analyzer.tone_chat(utterances)
-
-    assert responses.calls[0].request.url == tone_url + tone_args
-    assert responses.calls[0].response.text == tone_response
-    assert len(responses.calls) == 1
+    endpoint = '/v3/tone_chat'
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "utterances_tone": [{
+            "utterance_text":
+            "aeiou",
+            "tones": [{
+                "score": 0.8008281904610115,
+                "tone_name": "aeiou",
+                "tone_id": "aeiou"
+            }],
+            "utterance_id":
+            "aeiou",
+            "error":
+            "aeiou"
+        }],
+        "warning":
+        "aeiou"
+    }
+    responses.add(
+        responses.POST,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ToneAnalyzerV3(
+        username='username', password='password', version='')
+    TODO = conversation.tone_chat(utterances=TODO)
+    # TODO: Asserts
