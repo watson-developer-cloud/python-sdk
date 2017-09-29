@@ -1,0 +1,192 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.tone_analyzer_v3 &#8212; Watson Developer Cloud Python SDK 0.26.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.26.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for watson_developer_cloud.tone_analyzer_v3</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2017 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The IBM Watson Tone Analyzer Service uses linguistic analysis to detect</span>
+<span class="sd">three types of tones from written text: emotions, social tendencies, and</span>
+<span class="sd">language style. Emotions identified include things like anger, cheerfulness</span>
+<span class="sd">and sadness. Identified social tendencies include things from the Big Five</span>
+<span class="sd">personality traits used by some psychologists. These include openness,</span>
+<span class="sd">conscientiousness, extraversion, agreeableness, and neuroticism. Identified</span>
+<span class="sd">language styles include things like confident, analytical, and tentative.</span>
+<span class="sd">Input email and other written media into the Tone Analyzer service, and use</span>
+<span class="sd">the results to determine if your writing comes across with the tone,</span>
+<span class="sd">personality traits, and writing style that you want for your intended</span>
+<span class="sd">audience.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.watson_developer_cloud_service</span> <span class="k">import</span> <span class="n">WatsonDeveloperCloudService</span>
+
+<div class="viewcode-block" id="ToneAnalyzerV3"><a class="viewcode-back" href="../../apis/watson_developer_cloud.tone_analyzer_v3.html#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3">[docs]</a><span class="k">class</span> <span class="nc">ToneAnalyzerV3</span><span class="p">(</span><span class="n">WatsonDeveloperCloudService</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Client for the ToneAnalyzer service.&quot;&quot;&quot;</span>
+
+    <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/tone-analyzer/api&#39;</span>
+    <span class="n">latest_version</span> <span class="o">=</span> <span class="s1">&#39;2016-05-19&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">WatsonDeveloperCloudService</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tone_analyzer&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span>
+                                             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># tone</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="ToneAnalyzerV3.tone"><a class="viewcode-back" href="../../apis/watson_developer_cloud.tone_analyzer_v3.html#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone">[docs]</a>    <span class="k">def</span> <span class="nf">tone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">tones</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sentences</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;text/plain&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The general purpose tone API analyzes the &quot;tone&quot; of input text.</span>
+<span class="sd">        The message is analyzed for several tones (social, emotional, and</span>
+<span class="sd">        writing), with various characteristics derived for each tone.</span>
+<span class="sd">        :param text: The input content to analyze.</span>
+<span class="sd">        :param sentences: If false, sentence-level analysis is omitted; by</span>
+<span class="sd">        default (or if true), each sentence is analyzed.</span>
+<span class="sd">        :param tones: A comma-separated list of one or more of the following</span>
+<span class="sd">        tones for which to analyze the input text, &#39;social&#39;, &#39;language&#39;, and</span>
+<span class="sd">        &#39;emotion&#39;; the default is all tones.</span>
+<span class="sd">        :param content_type: The type of the input content: &quot;text/plain&quot;</span>
+<span class="sd">        (the default), &quot;text/html&quot;, or &quot;application/json&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">tones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tones</span>
+        <span class="k">if</span> <span class="n">sentences</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Cast boolean to &quot;false&quot; / &quot;true&quot;</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;sentences&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>
+            <span class="n">content_type</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;content-type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s1">&#39;application/json&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+                <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/tone&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                <span class="n">json</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Use the equivalent of an &#39;else&#39; rather than checking for explicit</span>
+        <span class="c1"># &#39;text/html&#39; so that the call is made and returns a meaningful error</span>
+        <span class="c1"># for an invalid content type.</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">!=</span> <span class="s1">&#39;application/json&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+                <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/tone&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># tone_chat</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="ToneAnalyzerV3.tone_chat"><a class="viewcode-back" href="../../apis/watson_developer_cloud.tone_analyzer_v3.html#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone_chat">[docs]</a>    <span class="k">def</span> <span class="nf">tone_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">utterances</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyze customer engagement tone.</span>
+
+<span class="sd">        Use the Tone Analyzer for Customer Engagement Endpoint to monitor</span>
+<span class="sd">        customer service and customer support conversations.</span>
+
+<span class="sd">        :param utterances: The content to be analyzed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;utterances&#39;</span><span class="p">:</span> <span class="n">utterances</span><span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v3/tone_chat&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
