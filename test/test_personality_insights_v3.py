@@ -16,7 +16,7 @@ def test_plain_to_json():
         '2016-10-20', username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect1.txt')) as expect_file:
-        profile_response = json.dumps(expect_file.read())
+        profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
@@ -27,7 +27,7 @@ def test_plain_to_json():
             personality_text, content_type='text/plain;charset=utf-8')
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
-    assert responses.calls[0].response.text == profile_response
+    assert responses.calls[0].response.content == profile_response
     assert len(responses.calls) == 1
 
 """
@@ -41,7 +41,7 @@ def test_json_to_json():
         '2016-10-20', username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect2.txt')) as expect_file:
-        profile_response = json.dumps(expect_file.read())
+        profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
@@ -55,7 +55,7 @@ def test_json_to_json():
     assert 'version=2016-10-20' in responses.calls[0].request.url
     assert 'raw_scores=true' in responses.calls[0].request.url
     assert 'consumption_preferences=true' in responses.calls[0].request.url
-    assert responses.calls[0].response.text == profile_response
+    assert responses.calls[0].response.content == profile_response
     assert len(responses.calls) == 1
 
 """
@@ -69,7 +69,7 @@ def test_json_to_csv():
         '2016-10-20', username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect3.txt')) as expect_file:
-        profile_response = json.dumps(expect_file.read())
+        profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
@@ -85,7 +85,7 @@ def test_json_to_csv():
     assert 'raw_scores=true' in responses.calls[0].request.url
     assert 'consumption_preferences=true' in responses.calls[0].request.url
     assert 'csv_headers=true' in responses.calls[0].request.url
-    assert responses.calls[0].response.text == profile_response
+    assert responses.calls[0].response.content == profile_response
     assert len(responses.calls) == 1
 
 """
@@ -99,7 +99,7 @@ def test_plain_to_json_es():
         '2016-10-20', username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect4.txt')) as expect_file:
-        profile_response = json.dumps(expect_file.read())
+        profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
@@ -111,5 +111,5 @@ def test_plain_to_json_es():
             content_language='es', accept_language='es')
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
-    assert responses.calls[0].response.text == profile_response
+    assert responses.calls[0].response.content == profile_response
     assert len(responses.calls) == 1
