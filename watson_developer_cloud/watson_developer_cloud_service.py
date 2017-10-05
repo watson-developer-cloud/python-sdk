@@ -101,7 +101,10 @@ class WatsonDeveloperCloudService(object):
         self.api_key = None
         self.username = None
         self.password = None
-        self.x_watson_learning_opt_out = x_watson_learning_opt_out
+        self.default_headers = None
+
+        if x_watson_learning_opt_out:
+            self.default_headers = {'x-watson-learning-opt-out': 'true'}
 
         if api_key is not None:
             if username is not None or password is not None:
@@ -152,6 +155,16 @@ class WatsonDeveloperCloudService(object):
 
     def set_url(self, url):
         self.url = url
+
+    def set_default_headers(self, headers):
+        """
+        Set http headers to be sent in every request.
+        :param headers: A dictionary of header names and values
+        """
+        if isinstance(headers, dict):
+            self.default_headers = headers
+        else:
+            raise WatsonException("headers parameter must be a dictionary")
 
     # Could make this compute the label_id based on the variable name of the
     # dictionary passed in (using **kwargs), but
@@ -262,6 +275,8 @@ class WatsonDeveloperCloudService(object):
 
         headers = CaseInsensitiveDict(
             {'user-agent': 'watson-developer-cloud-python-' + __version__})
+        if self.default_headers is not None:
+            headers.update(self.default_headers)
         if accept_json:
             headers['accept'] = 'application/json'
         headers.update(input_headers)
@@ -292,9 +307,6 @@ class WatsonDeveloperCloudService(object):
                 params['apikey'] = self.api_key
             else:
                 params['api_key'] = self.api_key
-
-        if self.x_watson_learning_opt_out:
-            headers['x-watson-learning-opt-out'] = 'true'
 
         response = requests.request(method=method, url=full_url,
                                     cookies=self.jar, auth=auth,

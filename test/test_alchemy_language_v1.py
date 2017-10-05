@@ -10,7 +10,6 @@ class TestAlchemyLanguageV1(TestCase):
         default_url = 'https://gateway-a.watsonplatform.net/calls'
         inited = watson_developer_cloud.AlchemyLanguageV1(url=default_url, api_key='boguskey',
                                                           x_watson_learning_opt_out=True)
-        assert inited.x_watson_learning_opt_out
         assert inited.api_key == 'boguskey'
         assert inited.url == default_url
         inited.set_url(url="http://google.com")
