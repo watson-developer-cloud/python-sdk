@@ -1,7 +1,6 @@
 import json
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
-import watson_developer_cloud.natural_language_understanding.features.v1 as \
-    Features
+from watson_developer_cloud.natural_language_understanding_v1 import *
 
 
 natural_language_understanding = NaturalLanguageUnderstandingV1(
@@ -12,6 +11,6 @@ natural_language_understanding = NaturalLanguageUnderstandingV1(
 response = natural_language_understanding.analyze(
     text='Bruce Banner is the Hulk and Bruce Wayne is BATMAN! '
          'Superman fears not Banner, but Wayne.',
-    features=[Features.Entities(), Features.Keywords()])
+    features=Features(entities=EntitiesOptions(), keywords=KeywordsOptions()))
 
 print(json.dumps(response, indent=2))
