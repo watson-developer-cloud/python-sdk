@@ -13,7 +13,7 @@ language_translator = LanguageTranslatorV2(
 #         base_model_id='en-fr', name='test_glossary',
 #         forced_glossary=custom_model), indent=2))
 
-print(json.dumps(language_translator.get_models(), indent=2))
+print(json.dumps(language_translator.list_models(), indent=2))
 
 print(
     json.dumps(language_translator.get_model('en-es-conversational'),
@@ -35,4 +35,4 @@ print(json.dumps(
 
 print(json.dumps(language_translator.identify('你好'), indent=2))
 
-print(json.dumps(language_translator.get_identifiable_languages(), indent=2))
+print(json.dumps(language_translator.list_identifiable_languages(), indent=2))

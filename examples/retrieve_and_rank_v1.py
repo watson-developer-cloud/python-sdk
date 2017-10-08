@@ -16,6 +16,8 @@ print(json.dumps(solr_clusters, indent=2))
 
 # Replace with your own solr_cluster_id
 solr_cluster_id = 'sc1264f746_d0f7_4840_90be_07164e6ed04b'
+if os.getenv("retrieve_and_rank_solr_cluster_id") is not None:
+    solr_cluster_id = os.getenv("retrieve_and_rank_solr_cluster_id")
 
 status = retrieve_and_rank.get_solr_cluster_status(
     solr_cluster_id=solr_cluster_id)

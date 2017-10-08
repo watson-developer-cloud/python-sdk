@@ -7,7 +7,7 @@ discovery = watson_developer_cloud.DiscoveryV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
 
-environments = discovery.get_environments()
+environments = discovery.list_environments()
 print(json.dumps(environments, indent=2))
 
 news_environments = [x for x in environments['environments'] if
@@ -32,7 +32,7 @@ print(json.dumps(query_results, indent=2))
 # new_environment = discovery.create_environment(name="new env", description="bogus env")
 # print(new_environment)
 
-#if (discovery.get_environment(environment_id=new_environment['environment_id'])['status'] == 'active'):
+#if (discovery.list_environment(environment_id=new_environment['environment_id'])['status'] == 'active'):
 #    writable_environment_id = new_environment['environment_id']
 #    new_collection = discovery.create_collection(environment_id=writable_environment_id,
 #                                                name='Example Collection',
