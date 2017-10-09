@@ -57,7 +57,7 @@ def test_tone_with_args():
 
 @responses.activate
 ## Invoking tone() with some modifiers specified as positional parameters: tones are emotion and social, and sentences is false
-def test_tone():
+def test_tone_with_positional_args():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
     tone_args = { 'version': '2016-05-19', 'tones': 'emotion%2Csocial', 'sentences': 'false' }
     tone_response = None
@@ -71,7 +71,7 @@ def test_tone():
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
         tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
             username="username", password="password")
-        tone_analyzer.tone(tone_text.read(), 'emotion,social', False)
+        tone_analyzer.tone(tone_text.read(), 'application/json', ['emotion','social'], False)
 
     assert responses.calls[0].request.url.split('?')[0] == tone_url
     # Compare args. Order is not deterministic!
