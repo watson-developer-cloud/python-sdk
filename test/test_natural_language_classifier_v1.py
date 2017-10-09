@@ -15,10 +15,10 @@ def test_success():
                   body=list_response, status=200,
                   content_type='application/json')
 
-    natural_language_classifier.list()
+    natural_language_classifier.list_classifiers()
 
     assert responses.calls[0].request.url == list_url
-    assert responses.calls[0].response.text == list_response
+    assert responses.calls[0].response.content == list_response
 
     status_url = ('https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers/'
                   '497EF2-nlc-00')
@@ -31,10 +31,10 @@ def test_success():
                   body=status_response, status=200,
                   content_type='application/json')
 
-    natural_language_classifier.status('497EF2-nlc-00')
+    natural_language_classifier.get_classifier('497EF2-nlc-00')
 
     assert responses.calls[1].request.url == status_url
-    assert responses.calls[1].response.text == status_response
+    assert responses.calls[1].response.content == status_response
 
     classify_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers/' \
                    '497EF2-nlc-00/classify'
@@ -50,7 +50,7 @@ def test_success():
     natural_language_classifier.classify('497EF2-nlc-00', 'test')
 
     assert responses.calls[2].request.url == classify_url
-    assert responses.calls[2].response.text == classify_response
+    assert responses.calls[2].response.content == classify_response
 
     create_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers'
     create_response = '{"url": "https://gateway.watsonplatform.net/natural-language-classifier/api/v1/' \
@@ -62,11 +62,11 @@ def test_success():
                   body=create_response, status=200,
                   content_type='application/json')
     with open(os.path.join(os.path.dirname(__file__), '../resources/weather_data_train.csv'), 'rb') as training_data:
-        natural_language_classifier.create(
-            training_data=training_data, language='en')
+        natural_language_classifier.create_classifier(
+            training_data=training_data, metadata='{"language": "en"}')
 
     assert responses.calls[3].request.url == create_url
-    assert responses.calls[3].response.text == create_response
+    assert responses.calls[3].response.content == create_response
 
     remove_url = status_url
     remove_response = '{}'
@@ -75,9 +75,9 @@ def test_success():
                   body=remove_response, status=200,
                   content_type='application/json')
 
-    natural_language_classifier.remove('497EF2-nlc-00')
+    natural_language_classifier.delete_classifier('497EF2-nlc-00')
 
     assert responses.calls[4].request.url == remove_url
-    assert responses.calls[4].response.text == remove_response
+    assert responses.calls[4].response.content == remove_response
 
     assert len(responses.calls) == 5
