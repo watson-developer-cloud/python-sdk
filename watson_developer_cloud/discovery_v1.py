@@ -367,6 +367,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params=params,
                             accept_json=True)
 
+
     def query(self, environment_id, collection_id, query_options):
         """
          Performs a query and returns the results.
@@ -381,6 +382,25 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             url='/v1/environments/{0}/collections/{1}/query'.format(
                 environment_id, collection_id),
             params=query_options, accept_json=True)
+
+    def query_multiple_collections(self, environment_id, query_options):
+        """
+         Performs a multiple collection query and returns the results.
+        :param environment_id: the guid of a valid environment
+        :param query_options: this is a hash of query params and their values
+        :return:
+        """
+        collections = list_collections(parameters["environment_id"])
+        collection_ids = list({collection["collection_id"] for collection in collections})
+        collection_id_list = ", ".join(collection_ids)
+
+        params = {'collections_ids': collection_id_list,
+                  'version': self.version}
+        return self.request(
+            method='GET',
+            url='/v1/environments/{0}/query'.format(
+                environment_id),
+            params=params, accept_json=True)    
 
     def delete_training_data(self, environment_id, collection_id):
         """
