@@ -389,17 +389,14 @@ class DiscoveryV1(WatsonDeveloperCloudService):
         :param query_options: this is a hash of query params and their values
         :return:
         """
-        collections = list_collections(parameters["environment_id"])
-        collection_ids = list({collection["collection_id"] for collection in collections})
-        collection_id_list = ", ".join(collection_ids)
 
-        params = {'collections_ids': collection_id_list,
-                  'version': self.version}
+        query_options["version"] = self.version
+
         return self.request(
             method='GET',
             url='/v1/environments/{0}/query'.format(
                 environment_id),
-            params=params, accept_json=True)
+            params=query_options, accept_json=True)
 
     def delete_training_data(self, environment_id, collection_id):
         """
