@@ -367,7 +367,6 @@ class DiscoveryV1(WatsonDeveloperCloudService):
                             params=params,
                             accept_json=True)
 
-
     def query(self, environment_id, collection_id, query_options):
         """
          Performs a query and returns the results.
@@ -400,7 +399,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
             method='GET',
             url='/v1/environments/{0}/query'.format(
                 environment_id),
-            params=params, accept_json=True)    
+            params=params, accept_json=True)
 
     def delete_training_data(self, environment_id, collection_id):
         """
