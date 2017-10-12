@@ -262,6 +262,33 @@ def test_query():
     assert called_url.path == test_url.path
     assert len(responses.calls) == 1
 
+@responses.activate
+def test_query_multiple_collections():
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/query')
+
+    responses.add(responses.GET, discovery_url,
+                  body="{\"body\": \"hello\"}", status=200,
+                  content_type='application/json')
+    responses.add(responses.GET, discovery_url,
+                  body="{\"body\": \"hello_test\"}", status=200,
+                  content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   username='username',
+                                                   password='password')
+    collection_id_list = ['abc','aaa']
+    collection_ids= ",".join(collection_id_list)
+    send_over = {'collection_ids': collection_ids}
+
+    discovery.query_multiple_collections('envid', send_over)
+
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
 
 @responses.activate
 def test_configs():
