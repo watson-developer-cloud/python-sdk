@@ -1,12 +1,12 @@
 from unittest import TestCase
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 from watson_developer_cloud import WatsonException
-from watson_developer_cloud import WatsonInvalidArgument
 from watson_developer_cloud.natural_language_understanding_v1 import \
      Features, ConceptsOptions, EntitiesOptions, KeywordsOptions, CategoriesOptions, \
      EmotionOptions, MetadataOptions, SemanticRolesOptions, RelationsOptions, \
      SentimentOptions
 
+import os
 import pytest
 import responses
 
@@ -59,25 +59,27 @@ class TestNaturalLanguageUnderstanding(TestCase):
     def test_version_date(self):
         with pytest.raises(TypeError):
             NaturalLanguageUnderstandingV1()
-        # with pytest.raises(WatsonException):
-        #     NaturalLanguageUnderstandingV1(version='2016-01-23')
-        # with pytest.raises(WatsonException):
-        #     NaturalLanguageUnderstandingV1(version='2016-01-23',
-        #                                    url='https://bogus.com')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
                                              username='username',
                                              password='password')
         assert(nlu)
 
+    @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is not None,
+                    reason='credentials may come from VCAP_SERVICES')
+    def test_missing_credentials(self):
+        with pytest.raises(WatsonException):
+            NaturalLanguageUnderstandingV1(version='2016-01-23')
+        with pytest.raises(WatsonException):
+            NaturalLanguageUnderstandingV1(version='2016-01-23',
+                                          url='https://bogus.com')
+
     def test_analyze_throws(self):
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
                                              username='username',
                                              password='password')
-        #with pytest.raises(ValueError):
-        #    nlu.analyze([features.Sentiment()])
-        with pytest.raises(WatsonInvalidArgument):
+        with pytest.raises(ValueError):
             nlu.analyze(None, text="this will not work")
 
     @responses.activate

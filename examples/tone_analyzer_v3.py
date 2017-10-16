@@ -26,15 +26,15 @@ print(json.dumps(tone, indent=2))
 print("\ntone() example 3:\n")
 with open(join(dirname(__file__),
                '../resources/tone-example.json')) as tone_json:
-    tone = tone_analyzer.tone(json.load(tone_json)['text'],
-                              'text/plain', True)
+    tone = tone_analyzer.tone(tone_input=json.load(tone_json)['text'],
+               content_type='text/plain', sentences=True)
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 4:\n")
 with open(join(dirname(__file__),
                '../resources/tone-example.json')) as tone_json:
-    tone = tone_analyzer.tone(json.load(tone_json),
-                              content_type='application/json', )
+    tone = tone_analyzer.tone(tone_input=json.load(tone_json),
+               content_type='application/json')
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 5:\n")

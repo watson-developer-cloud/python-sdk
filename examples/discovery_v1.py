@@ -32,7 +32,7 @@ print(json.dumps(query_results, indent=2))
 # new_environment = discovery.create_environment(name="new env", description="bogus env")
 # print(new_environment)
 
-#if (discovery.list_environment(environment_id=new_environment['environment_id'])['status'] == 'active'):
+#if (discovery.get_environment(environment_id=new_environment['environment_id'])['status'] == 'active'):
 #    writable_environment_id = new_environment['environment_id']
 #    new_collection = discovery.create_collection(environment_id=writable_environment_id,
 #                                                name='Example Collection',

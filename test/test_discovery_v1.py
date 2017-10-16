@@ -98,35 +98,6 @@ def test_create_environment():
                                                    password='password')
 
     discovery.create_environment(name="my name", description="my description")
-    #thrown = False
-    #try:
-    #    badname = "-".join([str(x) for x in range(0, 255)])
-    #    discovery.create_environment(name=badname)
-    #except ValueError as ve:
-    #    thrown = True
-    #    errorstr_first = "name must be a string having length between"
-    #    errorstr = "{0} 0 and 255 characters".format(errorstr_first)
-    #    assert str(ve) == errorstr
-
-    #assert thrown
-
-    #thrown = False
-    #try:
-    #    baddescription = "-".join([str(x) for x in range(0, 255)])
-    #    discovery.create_environment(description=baddescription)
-    #except ValueError as ve:
-    #    thrown = True
-    #    errorstr_first = "description must be a string having length between"
-    #    errorstr = "{0} 0 and 255 characters".format(errorstr_first)
-    #    assert str(ve) == errorstr
-
-    #assert thrown
-
-    #with pytest.raises(ValueError):
-    #    discovery.create_environment(size=14)
-
-    #discovery.create_environment(size=0)
-
     assert len(responses.calls) == 1
 
 

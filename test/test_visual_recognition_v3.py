@@ -166,13 +166,6 @@ class TestVisualRecognitionV3(TestCase):
                       body=json.dumps(response),
                       status=200,
                       content_type='application/json')
-        #thrown = False
-        #try:
-        #    vr_service.classify()
-        #except AssertionError as ae:
-        #    assert str(ae) == 'You must specify either a file or a url'
-        #    thrown = True
-        #assert thrown
 
         vr_service.classify(parameters='{"url": "http://google.com"}')
 
@@ -234,14 +227,6 @@ class TestVisualRecognitionV3(TestCase):
                       body=json.dumps(response),
                       status=200,
                       content_type='application/json')
-
-        #thrown = False
-        #try:
-        #    vr_service.detect_faces()
-        #except AssertionError as ae:
-        #    assert str(ae) == 'You must specify either a file or a url'
-        #    thrown = True
-        #assert thrown
 
         vr_service.detect_faces(parameters='{"url": "http://google.com"}')
         with open(os.path.join(os.path.dirname(__file__), '../resources/test.jpg'), 'rb') as image_file:

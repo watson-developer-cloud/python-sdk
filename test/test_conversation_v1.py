@@ -111,7 +111,7 @@ def test_delete_counterexample():
         workspace_id='boguswid', text='I want financial advice today')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert counterexample == response
+    assert counterexample == None
 
 
 @responses.activate
@@ -259,7 +259,7 @@ def test_delete_entity():
     entity = service.delete_entity(workspace_id='boguswid', entity='pizza_toppings')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert entity == response
+    assert entity == None
 
 
 @responses.activate
@@ -420,7 +420,7 @@ def test_delete_example():
         text='Gimme a pizza with pepperoni')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert example == response
+    assert example == None
 
 
 @responses.activate
@@ -573,7 +573,7 @@ def test_delete_intent():
         workspace_id='boguswid', intent='pizza_order')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert intent == response
+    assert intent == None
 
 
 @responses.activate
@@ -869,7 +869,7 @@ def test_delete_synonym():
         workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert synonym == response
+    assert synonym == None
 
 
 @responses.activate
@@ -1024,7 +1024,7 @@ def test_delete_value():
         workspace_id='boguswid', entity='grilling', value='bbq')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert value == response
+    assert value == None
 
 
 @responses.activate
@@ -1188,7 +1188,7 @@ def test_delete_workspace():
     workspace = service.delete_workspace(workspace_id='boguswid')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert workspace == response
+    assert workspace == None
 
 
 @responses.activate
