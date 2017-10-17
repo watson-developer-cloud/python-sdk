@@ -83,8 +83,7 @@ def test_json_to_csv():
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3.json')) as personality_text:
         response = personality_insights.profile(
-            personality_text, content_type='application/json',
-            accept='text/csv', csv_headers=True,
+            personality_text, content_type='application/json', csv_headers=True,
             raw_scores=True, consumption_preferences=True)
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
@@ -93,8 +92,6 @@ def test_json_to_csv():
     assert 'csv_headers=true' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1
-    # Verify that response can be converted to a Profile
-    profile_model = Profile._from_dict(response)
 
 
 """
