@@ -429,12 +429,7 @@ def test_document():
                                      mime_type='application/html',
                                      metadata={'stuff': 'woot!'})
 
-<<<<<<< HEAD
     assert len(responses.calls) == 10
-||||||| merged common ancestors
-    assert len(responses.calls) == 9
-=======
-    assert len(responses.calls) == 9
 
 
 @responses.activate
@@ -759,4 +754,3 @@ def test_update_training_data_query_example():
         cross_reference=cross_reference)
 
     assert response == mock_response
->>>>>>> 8ba86b8abbff7cd020303b877d730130696ea21d
