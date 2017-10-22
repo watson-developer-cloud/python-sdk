@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import json as json_import
+import platform
 import os
 import requests
 import sys
@@ -101,7 +102,16 @@ class WatsonDeveloperCloudService(object):
         self.api_key = None
         self.username = None
         self.password = None
-        self.x_watson_learning_opt_out = x_watson_learning_opt_out
+        self.default_headers = None
+
+        user_agent_string = 'watson-apis-python-sdk-' + __version__ # SDK version
+        user_agent_string += ' ' + platform.system() # OS
+        user_agent_string += ' ' + platform.release() # OS version
+        user_agent_string += ' ' + platform.python_version() # Python version
+        self.user_agent_header = {'user-agent': user_agent_string}
+
+        if x_watson_learning_opt_out:
+            self.default_headers = {'x-watson-learning-opt-out': 'true'}
 
         if api_key is not None:
             if username is not None or password is not None:
@@ -153,6 +163,16 @@ class WatsonDeveloperCloudService(object):
     def set_url(self, url):
         self.url = url
 
+    def set_default_headers(self, headers):
+        """
+        Set http headers to be sent in every request.
+        :param headers: A dictionary of header names and values
+        """
+        if isinstance(headers, dict):
+            self.default_headers = headers
+        else:
+            raise WatsonException("headers parameter must be a dictionary")
+
     # Could make this compute the label_id based on the variable name of the
     # dictionary passed in (using **kwargs), but
     # this might be confusing to understand.
@@ -192,7 +212,7 @@ class WatsonDeveloperCloudService(object):
             error_message += ', Code: ' + str(response.status_code)
             return error_message
         except:
-            return {'Error: ': response.text or error_message, 'Code': str(response.status_code)}
+            return {'error': response.text or error_message, 'code': str(response.status_code)}
 
 
     def _alchemy_html_request(self, method_name=None, url=None, html=None,
@@ -260,8 +280,9 @@ class WatsonDeveloperCloudService(object):
 
         input_headers = _remove_null_values(headers) if headers else {}
 
-        headers = CaseInsensitiveDict(
-            {'user-agent': 'watson-developer-cloud-python-' + __version__})
+        headers = CaseInsensitiveDict(self.user_agent_header)
+        if self.default_headers is not None:
+            headers.update(self.default_headers)
         if accept_json:
             headers['accept'] = 'application/json'
         headers.update(input_headers)
@@ -292,9 +313,6 @@ class WatsonDeveloperCloudService(object):
                 params['apikey'] = self.api_key
             else:
                 params['api_key'] = self.api_key
-
-        if self.x_watson_learning_opt_out:
-            headers['x-watson-learning-opt-out'] = 'true'
 
         response = requests.request(method=method, url=full_url,
                                     cookies=self.jar, auth=auth,

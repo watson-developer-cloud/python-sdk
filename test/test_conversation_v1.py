@@ -64,7 +64,7 @@ def test_rate_limit_exceeded():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     try:
-        counterexample = service.create_counterexample(
+        service.create_counterexample(
             workspace_id='boguswid', text='I want financial advice today.')
     except WatsonException as ex:
         assert len(responses.calls) == 1
@@ -719,6 +719,7 @@ def test_message():
 
     conversation = watson_developer_cloud.ConversationV1(
         username="username", password="password", version='2016-09-20')
+    conversation.set_default_headers({'x-watson-learning-opt-out': "true"})
 
     workspace_id = 'f8fdbc65-e0bd-4e43-b9f8-2975a366d4ec'
     message_url = '%s/v1/workspaces/%s/message' % (base_url, workspace_id)
@@ -752,6 +753,8 @@ def test_message():
 
     assert message is not None
     assert responses.calls[0].request.url == message_url1
+    assert 'x-watson-learning-opt-out' in responses.calls[0].request.headers
+    assert responses.calls[0].request.headers['x-watson-learning-opt-out'] == 'true'
     assert responses.calls[0].response.text == json.dumps(message_response)
 
     # test context
