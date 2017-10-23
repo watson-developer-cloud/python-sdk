@@ -1,23 +1,20 @@
 language: python
 sudo: false
-notifications:
-  email: false
+
 python:
 - '2.7'
 - '3.4'
 - '3.5'
 - '3.6'
+
+cache: pip
+
 before_install:
 - ! '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_c3e85137836d_key -iv $encrypted_c3e85137836d_iv -in .env.enc -out .env -d || true'
-install:
-- pip install -r requirements-dev.txt
-- pip install pylint
-- pip install codecov
-- pip install git+git://github.com/watson-developer-cloud/python-sdk.git#egg=watson-developer-cloud
-- pip show six
-script:
-- sh pylint.sh
-- py.test test --cov=watson_developer_cloud
+
+install: pip install tox-travis
+script: tox
+
 after_success:
 - codecov
 - docs/publish.sh
