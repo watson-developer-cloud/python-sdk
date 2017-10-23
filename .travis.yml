@@ -9,9 +9,6 @@ python:
 
 cache: pip
 
-before_install:
-- ! '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_c3e85137836d_key -iv $encrypted_c3e85137836d_iv -in .env.enc -out .env -d || true'
-
 install: pip install tox-travis
 script: tox
 
