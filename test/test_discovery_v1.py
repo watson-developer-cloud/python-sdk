@@ -418,7 +418,7 @@ def test_document():
 
 
 @responses.activate
-def test_delete_training_data():
+def test_delete_all_training_data():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
     endpoint = training_endpoint.format(environment_id, collection_id)
     url = '{0}{1}'.format(base_url, endpoint)
@@ -427,7 +427,7 @@ def test_delete_training_data():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.delete_training_data(environment_id=environment_id,
+    response = service.delete_all_training_data(environment_id=environment_id,
                                             collection_id=collection_id)
 
     assert response == None
@@ -579,39 +579,6 @@ def test_get_training_data():
     assert response == mock_response
     # Verify that response can be converted to a TrainingQuery
     training_query = TrainingQuery._from_dict(response)
-
-
-@pytest.mark.skip("list_training_examples excluded from SDK because it violates API guidelines")
-@responses.activate
-def test_list_training_examples():
-    examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
-        '/{2}/examples'
-    query_id = 'queryid'
-    endpoint = examples_endpoint.format(
-        environment_id, collection_id, query_id)
-    url = '{0}{1}'.format(base_url, endpoint)
-    mock_response = [
-        {
-            "document_id": "string",
-            "cross_reference": "string",
-            "relevance": 0
-        }
-    ]
-    responses.add(responses.GET,
-                  url,
-                  body=json.dumps(mock_response),
-                  status=200,
-                  content_type='application/json')
-
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
-    response = service.list_training_examples(
-        environment_id=environment_id,
-        collection_id=collection_id,
-        query_id=query_id)
-
-    assert response == mock_response
 
 
 @responses.activate
