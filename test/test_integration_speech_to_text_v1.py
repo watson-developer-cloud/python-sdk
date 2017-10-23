@@ -11,7 +11,7 @@ class TestSpeechToTextV1(TestCase):
         self.create_custom_model = self.speech_to_text.create_custom_model(name="integration_test_model")
 
     def tearDown(self):
-         self.speech_to_text.delete_custom_model(modelid=self.create_custom_model['customization_id'])
+        self.speech_to_text.delete_custom_model(modelid=self.create_custom_model['customization_id'])
 
     def test_create_custom_model(self):
         current_custom_models = self.speech_to_text.list_custom_models()
