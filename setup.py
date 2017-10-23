@@ -74,16 +74,12 @@ setup(name='watson-developer-cloud',
       packages=['watson_developer_cloud'],
       include_package_data=True,
       keywords='alchemy datanews, language, vision, question and answer' +
-               ' tone_analyzer, natural language classifier, retrieve and '
-               'rank,' +
-               ' tradeoff analytics, text to speech,' +
-               ' language translation, language identification,' +
-               ' concept expansion, machine translation, personality '
-               'insights,' +
-               ' message resonance, watson developer cloud, wdc, watson, '
-               'ibm,' +
-               ' dialog, user modeling, alchemyapi, alchemy, tone analyzer,' +
-               'speech to text, visual recognition',
+      ' tone_analyzer, natural language classifier, retrieve and rank,' +
+      ' tradeoff analytics, text to speech, language translation, ' +
+      'language identification, concept expansion, machine translation, ' +
+      'personality insights, message resonance, watson developer cloud, ' +
+      ' wdc, watson, ibm, dialog, user modeling, alchemyapi, alchemy, ' +
+      'tone analyzer, speech to text, visual recognition',
       classifiers=[
           'Programming Language :: Python',
           'Programming Language :: Python :: 2',
@@ -97,4 +93,4 @@ setup(name='watson-developer-cloud',
           'Frameworks',
       ],
       zip_safe=True
-      )
+    )
