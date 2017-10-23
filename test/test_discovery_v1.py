@@ -380,18 +380,24 @@ def test_document():
 
     assert len(responses.calls) == 5
 
-    discovery.delete_document(environment_id='envid',
+    discovery.update_document(environment_id='envid',
                               collection_id='collid',
                               document_id='docid')
 
     assert len(responses.calls) == 6
+
+    discovery.delete_document(environment_id='envid',
+                              collection_id='collid',
+                              document_id='docid')
+
+    assert len(responses.calls) == 7
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
                                      file=io.StringIO(u'my string of file'),
                                      filename='file.txt')
 
-    assert len(responses.calls) == 7
+    assert len(responses.calls) == 8
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
@@ -399,7 +405,7 @@ def test_document():
                                      filename='file.html',
                                      file_content_type='application/html')
 
-    assert len(responses.calls) == 8
+    assert len(responses.calls) == 9
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
@@ -408,7 +414,7 @@ def test_document():
                                      file_content_type='application/html',
                                      metadata=io.StringIO(u'{"stuff": "woot!"}'))
 
-    assert len(responses.calls) == 9
+    assert len(responses.calls) == 10
 
 
 @responses.activate
