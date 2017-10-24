@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg)](https://travis-ci.org/watson-developer-cloud/python-sdk)
 [![codecov.io](https://codecov.io/github/watson-developer-cloud/python-sdk/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/python-sdk?branch=master)
 [![Latest Stable Version](https://img.shields.io/pypi/v/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
-[![Download Times](https://img.shields.io/pypi/dm/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
 
 Python client library to quickly get started with the various [Watson Developer Cloud][wdc] services.
 
@@ -60,9 +59,11 @@ Copy your credentials from the **Service details** page. To find the the Service
 
 Tested on: Python from 2.7, 3.4, 3.5, and 3.6.
 
-## CHANGELOG
+## Changes for v4.0
+Version 4.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
-See [CHANGELOG](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog).
+## Migration
+This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
 
 ## Known Issues
 
