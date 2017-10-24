@@ -44,8 +44,6 @@ nosetests.xml
 coverage.xml
 *,cover
 
-.vscode
-
 # virtual env
 venv/
 # python 3 virtual env
@@ -62,5 +60,3 @@ docs/apis
 docs/gh-pages
 test/__init__.py
 *~
-
-.sfdx/tools/apex.db

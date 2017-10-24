@@ -1,4 +1,3 @@
-from __future__ import print_function
 import json
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -30,11 +29,11 @@ workspace_id = os.environ.get('WORKSPACE_ID') or 'YOUR WORKSPACE ID'
 
 # This example stores tone for each user utterance in conversation context.
 # Change this to false, if you do not want to maintain history
-global_maintainToneHistoryInContext = True
+maintainToneHistoryInContext = True
 
 # Payload for the Watson Conversation Service
 # user input text required - replace "I am happy" with user input text.
-global_payload = {
+payload = {
     'workspace_id': workspace_id,
     'input': {
         'text': "I am happy"
@@ -58,14 +57,14 @@ def invokeToneConversation(payload, maintainToneHistoryInContext):
      with application-specific code to process the err or data object
      returned by the Conversation Service.
     """
-    tone = tone_analyzer.tone(tone_input=payload['input']['text'])
+    tone = tone_analyzer.tone(text=payload['input']['text'])
     conversation_payload = tone_detection.\
         updateUserTone(payload, tone, maintainToneHistoryInContext)
     response = conversation.message(workspace_id=workspace_id,
-                                    input=conversation_payload['input'],
+                                    message_input=conversation_payload['input'],
                                     context=conversation_payload['context'])
     print(json.dumps(response, indent=2))
 
 
 # synchronous call to conversation with tone included in the context
-invokeToneConversation(global_payload, global_maintainToneHistoryInContext)
+invokeToneConversation(payload, maintainToneHistoryInContext)
