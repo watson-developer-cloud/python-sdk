@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 import os
 from watson_developer_cloud import ConversationV1

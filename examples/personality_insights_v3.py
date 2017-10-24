@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 from os.path import join, dirname
 from watson_developer_cloud import PersonalityInsightsV3

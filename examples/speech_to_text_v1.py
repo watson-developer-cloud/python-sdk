@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 from os.path import join, dirname
 from watson_developer_cloud import SpeechToTextV1
@@ -17,4 +18,4 @@ with open(join(dirname(__file__), '../resources/speech.wav'),
     print(json.dumps(speech_to_text.recognize(
         audio_file, content_type='audio/wav', timestamps=True,
         word_confidence=True),
-        indent=2))
+                     indent=2))
