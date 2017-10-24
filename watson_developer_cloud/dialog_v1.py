@@ -17,17 +17,17 @@ The v1 Dialog service
 (https://www.ibm.com/watson/developercloud/dialog.html)
 """
 from __future__ import print_function
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class DialogV1(WatsonDeveloperCloudService):
+class DialogV1(WatsonService):
     default_url = 'https://gateway.watsonplatform.net/dialog/api'
     dialog_json_format = 'application/wds+json'
     dialog_xml_format = 'application/wds+xml'
     dialog_binary_format = 'application/octet-stream'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'dialog', url, **kwargs)
+        WatsonService.__init__(self, 'dialog', url, **kwargs)
         print(
             'WARNING: The Dialog service was deprecated. Existing instances '
             'of the service stopped functioning on August 9, 2017. '

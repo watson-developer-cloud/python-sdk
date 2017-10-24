@@ -16,12 +16,12 @@
 The v1 Document Conversion service
 (https://www.ibm.com/watson/developercloud/document-conversion.html)
 """
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 import os
 import json
 
 
-class DocumentConversionV1(WatsonDeveloperCloudService):
+class DocumentConversionV1(WatsonService):
     DEFAULT_URL = 'https://gateway.watsonplatform.net/document-conversion/api'
     ANSWER_UNITS = 'answer_units'
     NORMALIZED_HTML = 'normalized_html'
@@ -29,8 +29,7 @@ class DocumentConversionV1(WatsonDeveloperCloudService):
     latest_version = '2016-02-10'
 
     def __init__(self, version, url=DEFAULT_URL, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'document_conversion', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'document_conversion', url, **kwargs)
         self.version = version
 
     def convert_document(self, document, config, media_type=None):
