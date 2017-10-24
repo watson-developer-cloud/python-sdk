@@ -2,7 +2,6 @@ import responses
 import watson_developer_cloud
 import os
 import json
-import pytest
 import codecs
 from watson_developer_cloud.personality_insights_v3 import Profile
 
@@ -70,7 +69,6 @@ Input: JSON (English)
 Output: CSV with raw scores, preferences, and headers (English)
 """
 @responses.activate
-@pytest.mark.skip(reason='we don\'t generate code for multiple producers')
 def test_json_to_csv():
 
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
@@ -95,8 +93,6 @@ def test_json_to_csv():
     assert 'csv_headers=true' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1
-    # Verify that response can be converted to a Profile
-    profile_model = Profile._from_dict(response)
 
 
 """
