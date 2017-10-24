@@ -1,5 +1,4 @@
 # coding: utf-8
-from __future__ import print_function
 import json
 import watson_developer_cloud
 
@@ -8,7 +7,7 @@ discovery = watson_developer_cloud.DiscoveryV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
 
-environments = discovery.list_environments()
+environments = discovery.get_environments()
 print(json.dumps(environments, indent=2))
 
 news_environments = [x for x in environments['environments'] if

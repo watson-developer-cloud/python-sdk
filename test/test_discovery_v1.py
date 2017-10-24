@@ -1,9 +1,7 @@
 import responses
 import os
 import json
-import io
 import watson_developer_cloud
-from watson_developer_cloud.discovery_v1 import *
 import pytest
 try:
     from urllib.parse import urlparse, urljoin
@@ -60,7 +58,7 @@ def test_environments():
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
                                                    password='password')
-    discovery.list_environments()
+    discovery.get_environments()
 
     url_str = "{0}?version=2016-11-07".format(discovery_url)
     assert responses.calls[0].request.url == url_str
@@ -97,8 +95,38 @@ def test_create_environment():
                                                    username='username',
                                                    password='password')
 
+    discovery.create_environment()
     discovery.create_environment(name="my name", description="my description")
-    assert len(responses.calls) == 1
+    thrown = False
+    try:
+        badname = "-".join([str(x) for x in range(0, 255)])
+        discovery.create_environment(name=badname)
+    except ValueError as ve:
+        thrown = True
+        errorstr_first = "name must be a string having length between"
+        errorstr = "{0} 0 and 255 characters".format(errorstr_first)
+        assert str(ve) == errorstr
+
+    assert thrown
+
+    thrown = False
+    try:
+        baddescription = "-".join([str(x) for x in range(0, 255)])
+        discovery.create_environment(description=baddescription)
+    except ValueError as ve:
+        thrown = True
+        errorstr_first = "description must be a string having length between"
+        errorstr = "{0} 0 and 255 characters".format(errorstr_first)
+        assert str(ve) == errorstr
+
+    assert thrown
+
+    with pytest.raises(ValueError):
+        discovery.create_environment(size=14)
+
+    discovery.create_environment(size=0)
+
+    assert len(responses.calls) == 3
 
 
 @responses.activate
@@ -245,26 +273,26 @@ def test_configs():
     results = {"configurations":
                [{"name": "Default Configuration",
                  "configuration_id": "confid"}]}
-
+    json_result = json.dumps(results)
     responses.add(responses.GET, discovery_url,
-                  body=json.dumps(results),
+                  body=json_result,
                   status=200,
                   content_type='application/json')
 
     responses.add(responses.GET, discovery_config_id,
-                  body=json.dumps(results['configurations'][0]),
+                  body=json_result,
                   status=200,
                   content_type='application/json')
     responses.add(responses.POST, discovery_url,
-                  body=json.dumps(results['configurations'][0]),
-                  status=200,
-                  content_type='application/json')
-    responses.add(responses.PUT, discovery_config_id,
-                  body=json.dumps(results['configurations'][0]),
+                  body=json_result,
                   status=200,
                   content_type='application/json')
     responses.add(responses.DELETE, discovery_config_id,
                   body=json.dumps({'deleted': 'bogus -- ok'}),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.PUT, discovery_config_id,
+                  body=json.dumps({'updated': 'bogus -- ok'}),
                   status=200,
                   content_type='application/json')
 
@@ -279,10 +307,10 @@ def test_configs():
     assert len(responses.calls) == 2
 
     discovery.create_configuration(environment_id='envid',
-                                   name='my name')
+                                   config_data={'name': 'my name'})
     discovery.update_configuration(environment_id='envid',
                                    configuration_id='confid',
-                                   name='my new name')
+                                   config_data={'name': 'my new name'})
     discovery.delete_configuration(environment_id='envid',
                                    configuration_id='confid')
 
@@ -311,12 +339,12 @@ def test_document():
                                                    password='password')
     html_path = os.path.join(os.getcwd(), 'resources', 'simple.html')
     with open(html_path) as fileinfo:
-        conf_id = discovery.test_configuration_in_environment(environment_id='envid',
-                                                              configuration_id='bogus',
-                                                              file=fileinfo)
+        conf_id = discovery.test_document(environment_id='envid',
+                                          configuration_id='bogus',
+                                          fileinfo=fileinfo)
         assert conf_id is not None
-        conf_id = discovery.test_configuration_in_environment(environment_id='envid',
-                                                              file=fileinfo)
+        conf_id = discovery.test_document(environment_id='envid',
+                                          fileinfo=fileinfo)
         assert conf_id is not None
 
     assert len(responses.calls) == 2
@@ -334,18 +362,8 @@ def test_document():
                   status=200,
                   content_type='application/json')
 
-    doc_status = {
-                     "document_id": "45556e23-f2b1-449d-8f27-489b514000ff",
-                     "configuration_id": "2e079259-7dd2-40a9-998f-3e716f5a7b88",
-                     "created" : "2016-06-16T10:56:54.957Z",
-                     "updated" : "2017-05-16T13:56:54.957Z",
-                     "status": "available",
-                     "status_description": "Document is successfully ingested and indexed with no warnings",
-                     "notices": []
-                 }
-
     responses.add(responses.GET, del_doc_url,
-                  body=json.dumps(doc_status),
+                  body="{\"body\": []}",
                   status=200,
                   content_type='application/json')
 
@@ -363,12 +381,12 @@ def test_document():
     with open(html_path) as fileinfo:
         conf_id = discovery.add_document(environment_id='envid',
                                          collection_id='collid',
-                                         file=fileinfo)
+                                         file_info=fileinfo)
         assert conf_id is not None
 
     assert len(responses.calls) == 3
 
-    discovery.get_document_status(environment_id='envid',
+    discovery.get_document(environment_id='envid',
                            collection_id='collid',
                            document_id='docid')
 
@@ -394,31 +412,28 @@ def test_document():
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
-                                     file=io.StringIO(u'my string of file'),
-                                     filename='file.txt')
+                                     file_data='my string of file')
 
     assert len(responses.calls) == 8
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
-                                     file=io.StringIO(u'<h1>my string of file</h1>'),
-                                     filename='file.html',
-                                     file_content_type='application/html')
+                                     file_data='my string of file',
+                                     mime_type='application/html')
 
     assert len(responses.calls) == 9
 
     conf_id = discovery.add_document(environment_id='envid',
                                      collection_id='collid',
-                                     file=io.StringIO(u'<h1>my string of file</h1>'),
-                                     filename='file.html',
-                                     file_content_type='application/html',
-                                     metadata=io.StringIO(u'{"stuff": "woot!"}'))
+                                     file_data='my string of file',
+                                     mime_type='application/html',
+                                     metadata={'stuff': 'woot!'})
 
     assert len(responses.calls) == 10
 
 
 @responses.activate
-def test_delete_all_training_data():
+def test_delete_training_data():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
     endpoint = training_endpoint.format(environment_id, collection_id)
     url = '{0}{1}'.format(base_url, endpoint)
@@ -427,10 +442,10 @@ def test_delete_all_training_data():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.delete_all_training_data(environment_id=environment_id,
+    response = service.delete_training_data(environment_id=environment_id,
                                             collection_id=collection_id)
 
-    assert response == None
+    assert response.status_code == 204
 
 
 @responses.activate
@@ -469,12 +484,10 @@ def test_list_training_data():
                                           collection_id=collection_id)
 
     assert response == mock_response
-    # Verify that response can be converted to a TrainingDataSet
-    training_data_set = TrainingDataSet._from_dict(response)
 
 
 @responses.activate
-def test_add_training_data():
+def test_add_training_data_query():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
     endpoint = training_endpoint.format(environment_id, collection_id)
     url = '{0}{1}'.format(base_url, endpoint)
@@ -513,20 +526,19 @@ def test_add_training_data():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.add_training_data(
+    response = service.add_training_data_query(
         environment_id=environment_id,
         collection_id=collection_id,
         natural_language_query=natural_language_query,
+        query_id=query_id,
         filter=filter,
         examples=examples)
 
     assert response == mock_response
-    # Verify that response can be converted to a TrainingQuery
-    training_query = TrainingQuery._from_dict(response)
 
 
 @responses.activate
-def test_delete_training_data():
+def test_delete_training_data_query():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'
     query_id = 'queryid'
     endpoint = training_endpoint.format(
@@ -537,15 +549,15 @@ def test_delete_training_data():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.delete_training_data(environment_id=environment_id,
+    response = service.delete_training_data_query(environment_id=environment_id,
                                                   collection_id=collection_id,
                                                   query_id=query_id)
 
-    assert response == None
+    assert response.status_code == 204
 
 
 @responses.activate
-def test_get_training_data():
+def test_get_training_data_query():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'
     query_id = 'queryid'
     endpoint = training_endpoint.format(
@@ -572,17 +584,47 @@ def test_get_training_data():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.get_training_data(environment_id=environment_id,
+    response = service.get_training_data_query(environment_id=environment_id,
                                                collection_id=collection_id,
                                                query_id=query_id)
 
     assert response == mock_response
-    # Verify that response can be converted to a TrainingQuery
-    training_query = TrainingQuery._from_dict(response)
 
 
 @responses.activate
-def test_create_training_example():
+def test_list_training_data_query_examples():
+    examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
+        '/{2}/examples'
+    query_id = 'queryid'
+    endpoint = examples_endpoint.format(
+        environment_id, collection_id, query_id)
+    url = '{0}{1}'.format(base_url, endpoint)
+    mock_response = [
+        {
+            "document_id": "string",
+            "cross_reference": "string",
+            "relevance": 0
+        }
+    ]
+    responses.add(responses.GET,
+                  url,
+                  body=json.dumps(mock_response),
+                  status=200,
+                  content_type='application/json')
+
+    service = watson_developer_cloud.DiscoveryV1(version,
+                                                 username='username',
+                                                 password='password')
+    response = service.list_training_data_query_examples(
+        environment_id=environment_id,
+        collection_id=collection_id,
+        query_id=query_id)
+
+    assert response == mock_response
+
+
+@responses.activate
+def test_add_training_data_query_example():
     examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
         '/{2}/examples'
     query_id = 'queryid'
@@ -606,7 +648,7 @@ def test_create_training_example():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.create_training_example(
+    response = service.add_training_data_query_example(
         environment_id=environment_id,
         collection_id=collection_id,
         query_id=query_id,
@@ -615,12 +657,10 @@ def test_create_training_example():
         cross_reference=cross_reference)
 
     assert response == mock_response
-    # Verify that response can be converted to a TrainingExample
-    training_example = TrainingExample._from_dict(response)
 
 
 @responses.activate
-def test_delete_training_example():
+def test_delete_training_data_query_example():
     examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
         '/{2}/examples/{3}'
     query_id = 'queryid'
@@ -635,17 +675,17 @@ def test_delete_training_example():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.delete_training_example(
+    response = service.delete_training_data_query_example(
         environment_id=environment_id,
         collection_id=collection_id,
         query_id=query_id,
         example_id=example_id)
 
-    assert response == None
+    assert response.status_code == 204
 
 
 @responses.activate
-def test_get_training_example():
+def test_get_training_data_query_example():
     examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
         '/{2}/examples/{3}'
     query_id = 'queryid'
@@ -669,19 +709,17 @@ def test_get_training_example():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.get_training_example(
+    response = service.get_training_data_query_example(
         environment_id=environment_id,
         collection_id=collection_id,
         query_id=query_id,
         example_id=example_id)
 
     assert response == mock_response
-    # Verify that response can be converted to a TrainingExample
-    training_example = TrainingExample._from_dict(response)
 
 
 @responses.activate
-def test_update_training_example():
+def test_update_training_data_query_example():
     examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
         '/{2}/examples/{3}'
     query_id = 'queryid'
@@ -707,7 +745,7 @@ def test_update_training_example():
     service = watson_developer_cloud.DiscoveryV1(version,
                                                  username='username',
                                                  password='password')
-    response = service.update_training_example(
+    response = service.update_training_data_query_example(
         environment_id=environment_id,
         collection_id=collection_id,
         query_id=query_id,
@@ -716,5 +754,3 @@ def test_update_training_example():
         cross_reference=cross_reference)
 
     assert response == mock_response
-    # Verify that response can be converted to a TrainingExample
-    training_example = TrainingExample._from_dict(response)
