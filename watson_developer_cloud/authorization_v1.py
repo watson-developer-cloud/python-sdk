@@ -17,8 +17,7 @@ The v1 Authorization "service" that enables developers to
 retrieve a temporary access token
 """
 
-from watson_developer_cloud.watson_developer_cloud_service import \
-    WatsonDeveloperCloudService
+from watson_developer_cloud.watson_service import WatsonService
 
 try:
     import urllib.parse as urlparse  # Python 3
@@ -26,7 +25,7 @@ except ImportError:
     import urlparse  # Python 2
 
 
-class AuthorizationV1(WatsonDeveloperCloudService):
+class AuthorizationV1(WatsonService):
     """
     Generates tokens, which can be used client-side to avoid exposing the
     service credentials.
@@ -37,7 +36,7 @@ class AuthorizationV1(WatsonDeveloperCloudService):
 
     def __init__(self, url=default_url,
                  username=None, password=None, use_vcap_services=True):
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self, 'authorization', url, username, password, use_vcap_services)
 
     def get_token(self, url):

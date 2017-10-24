@@ -1,9 +1,9 @@
 # coding: utf-8
 from __future__ import print_function
 import json
-import watson_developer_cloud
+from watson_developer_cloud import DiscoveryV1
 
-discovery = watson_developer_cloud.DiscoveryV1(
+discovery = DiscoveryV1(
     '2016-11-07',
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')

@@ -21,14 +21,14 @@ your language, communicate with your customers in their own language, and more.
 """
 
 import json
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 ##############################################################################
 # Service
 ##############################################################################
 
 
-class LanguageTranslatorV2(WatsonDeveloperCloudService):
+class LanguageTranslatorV2(WatsonService):
     """The Language Translator V2 service."""
 
     default_url = 'https://gateway.watsonplatform.net/language-translator/api'
@@ -56,7 +56,7 @@ class LanguageTranslatorV2(WatsonDeveloperCloudService):
 
         """
 
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self,
             vcap_services_name='language_translator',
             url=url,

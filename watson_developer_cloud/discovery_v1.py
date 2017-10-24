@@ -22,14 +22,13 @@ results.
 """
 
 import json
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 ##############################################################################
 # Service
 ##############################################################################
 
-
-class DiscoveryV1(WatsonDeveloperCloudService):
+class DiscoveryV1(WatsonService):
     """The Discovery V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/discovery/api'
@@ -68,7 +67,7 @@ class DiscoveryV1(WatsonDeveloperCloudService):
 
         """
 
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self,
             vcap_services_name='discovery',
             url=url,

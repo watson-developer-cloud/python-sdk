@@ -56,14 +56,14 @@ profile](https://console.bluemix.net/docs/services/personality-insights/output-c
 """
 
 import json
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 ##############################################################################
 # Service
 ##############################################################################
 
 
-class PersonalityInsightsV3(WatsonDeveloperCloudService):
+class PersonalityInsightsV3(WatsonService):
     """The Personality Insights V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
@@ -102,7 +102,7 @@ class PersonalityInsightsV3(WatsonDeveloperCloudService):
 
         """
 
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self,
             vcap_services_name='personality_insights',
             url=url,

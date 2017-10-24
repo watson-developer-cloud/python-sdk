@@ -27,14 +27,14 @@ provide your `api_key` from your Bluemix service instance.
 """
 
 import json
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 ##############################################################################
 # Service
 ##############################################################################
 
 
-class VisualRecognitionV3(WatsonDeveloperCloudService):
+class VisualRecognitionV3(WatsonService):
     """The Visual Recognition V3 service."""
 
     default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
@@ -63,7 +63,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
 
         """
 
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self,
             vcap_services_name='watson_vision_combined',
             url=url,

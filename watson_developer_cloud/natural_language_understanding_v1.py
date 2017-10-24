@@ -63,14 +63,14 @@ Get author information, publication date, and the title of your text/HTML conten
 """
 
 import json
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 ##############################################################################
 # Service
 ##############################################################################
 
 
-class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
+class NaturalLanguageUnderstandingV1(WatsonService):
     """The Natural Language Understanding V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
@@ -109,7 +109,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
 
         """
 
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self,
             vcap_services_name='natural-language-understanding',
             url=url,

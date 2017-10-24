@@ -16,15 +16,14 @@ The AlchemyAPI Language service
 (https://www.ibm.com/watson/developercloud/alchemy-language.html)
 """
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class AlchemyLanguageV1(WatsonDeveloperCloudService):
+class AlchemyLanguageV1(WatsonService):
     default_url = 'https://gateway-a.watsonplatform.net/calls'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'alchemy_api', url, **kwargs)
 
     def author(self, html=None, url=None, language=None):
         params = {'language': language}

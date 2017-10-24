@@ -84,7 +84,7 @@ def _convert_boolean_values(dictionary):
     return dictionary
 
 
-class WatsonDeveloperCloudService(object):
+class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
                  x_watson_learning_opt_out=False):

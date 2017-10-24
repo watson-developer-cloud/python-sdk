@@ -21,14 +21,14 @@ those classes to new inputs.
 """
 
 import json
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 ##############################################################################
 # Service
 ##############################################################################
 
 
-class NaturalLanguageClassifierV1(WatsonDeveloperCloudService):
+class NaturalLanguageClassifierV1(WatsonService):
     """The Natural Language Classifier V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
@@ -56,7 +56,7 @@ class NaturalLanguageClassifierV1(WatsonDeveloperCloudService):
 
         """
 
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self,
             vcap_services_name='natural_language_classifier',
             url=url,
