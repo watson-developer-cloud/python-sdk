@@ -12,11 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from watson_developer_cloud.watson_developer_cloud_service import \
-    WatsonDeveloperCloudService
+from watson_developer_cloud.watson_service import WatsonService
 
 
-class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
+class NaturalLanguageUnderstandingV1(WatsonService):
     """
     All methods taking features use the feature classes
     from watson_developer_cloud/natural_language_understanding/features/v1
@@ -32,7 +31,7 @@ class NaturalLanguageUnderstandingV1(WatsonDeveloperCloudService):
                  username=None,
                  password=None,
                  **kwargs):
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self, 'natural-language-understanding', url,
             username, password, **kwargs)
         self.version = version

@@ -16,15 +16,14 @@ The AlchemyData News service
 (https://www.ibm.com/watson/developercloud/alchemy-data-news.html)
 """
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class AlchemyDataNewsV1(WatsonDeveloperCloudService):
+class AlchemyDataNewsV1(WatsonService):
     default_url = 'https://gateway-a.watsonplatform.net/calls'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'alchemy_api', url, **kwargs)
 
     def get_news_documents(self, start, end, max_results=10, query_fields=None,
                            return_fields=None, time_slice=None,

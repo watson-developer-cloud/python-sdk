@@ -18,10 +18,10 @@ The v3 Visual Recognition service
 import json
 import mimetypes
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class VisualRecognitionV3(WatsonDeveloperCloudService):
+class VisualRecognitionV3(WatsonService):
     """Client for the Visual Recognition service"""
 
     default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
@@ -37,8 +37,7 @@ class VisualRecognitionV3(WatsonDeveloperCloudService):
         use username and password)
         """
 
-        WatsonDeveloperCloudService.__init__(self, 'watson_vision_combined',
-                                             url, **kwargs)
+        WatsonService.__init__(self, 'watson_vision_combined', url, **kwargs)
         self.version = version
 
     def get_classifier(self, classifier_id):

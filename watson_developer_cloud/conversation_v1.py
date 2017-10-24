@@ -18,17 +18,16 @@ language understanding, and integrated dialog tools to create conversation
 flows between your apps and your users.
 """
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
-class ConversationV1(WatsonDeveloperCloudService):
+class ConversationV1(WatsonService):
     """Client for the Conversation service."""
 
     default_url = 'https://gateway.watsonplatform.net/conversation/api'
     latest_version = '2017-04-21'
 
     def __init__(self, version, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'conversation', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'conversation', url, **kwargs)
         self.version = version
 
     #########################

@@ -16,16 +16,15 @@ The v1 Tradeoff Analytics service
 (https://www.ibm.com/watson/developercloud/tradeoff-analytics.html)
 """
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class TradeoffAnalyticsV1(WatsonDeveloperCloudService):
+class TradeoffAnalyticsV1(WatsonService):
     """Wrapper for the Tradeoff Analytics service"""
     default_url = 'https://gateway.watsonplatform.net/tradeoff-analytics/api'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'tradeoff_analytics', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'tradeoff_analytics', url, **kwargs)
 
     def dilemmas(self, params,
                  generate_visualization=True,

@@ -18,16 +18,15 @@ The v1 Natural Language Classifier service
 """
 
 import json
-from watson_developer_cloud.watson_developer_cloud_service import \
-    WatsonDeveloperCloudService
+from watson_developer_cloud.watson_service import WatsonService
 
 
-class NaturalLanguageClassifierV1(WatsonDeveloperCloudService):
+class NaturalLanguageClassifierV1(WatsonService):
     default_url = 'https://gateway.watsonplatform.net/natural-language' \
                   '-classifier/api'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self, 'natural_language_classifier', url, **kwargs)
 
     def create(self, training_data, name=None, language='en'):

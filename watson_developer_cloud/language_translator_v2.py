@@ -17,16 +17,15 @@ The v2 Language Translator service
 (https://www.ibm.com/watson/developercloud/language-translator.html)
 """
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
-from .watson_developer_cloud_service import WatsonInvalidArgument
+from .watson_service import WatsonService
+from .watson_service import WatsonInvalidArgument
 
 
-class LanguageTranslatorV2(WatsonDeveloperCloudService):
+class LanguageTranslatorV2(WatsonService):
     default_url = "https://gateway.watsonplatform.net/language-translator/api"
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'language_translator', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'language_translator', url, **kwargs)
 
     def identify(self, text):
         """

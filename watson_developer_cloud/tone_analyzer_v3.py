@@ -26,17 +26,16 @@ personality traits, and writing style that you want for your intended
 audience.
 """
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
-class ToneAnalyzerV3(WatsonDeveloperCloudService):
+class ToneAnalyzerV3(WatsonService):
     """Client for the ToneAnalyzer service."""
 
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
     latest_version = '2016-05-19'
 
     def __init__(self, version, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'tone_analyzer', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'tone_analyzer', url, **kwargs)
         self.version = version
 
     #########################

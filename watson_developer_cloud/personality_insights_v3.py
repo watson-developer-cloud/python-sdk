@@ -17,10 +17,10 @@ The v3 Personality Insights service
 """
 
 import json
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class PersonalityInsightsV3(WatsonDeveloperCloudService):
+class PersonalityInsightsV3(WatsonService):
     """Wrapper for the Personality Insights service"""
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
     default_version = '2016-10-20'
@@ -33,8 +33,7 @@ class PersonalityInsightsV3(WatsonDeveloperCloudService):
         format (for example, '2016-10-20')
         """
 
-        WatsonDeveloperCloudService.__init__(self, 'personality_insights', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'personality_insights', url, **kwargs)
         self.version = version
 
     def profile(self, text, content_type='text/plain', content_language=None,
