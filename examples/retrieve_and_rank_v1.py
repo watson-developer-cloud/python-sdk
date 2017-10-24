@@ -1,5 +1,8 @@
+from __future__ import print_function
 import json
 from watson_developer_cloud import RetrieveAndRankV1
+import os
+
 
 retrieve_and_rank = RetrieveAndRankV1(
     username='YOUR SERVICE USERNAME',
@@ -40,7 +43,7 @@ print(json.dumps(configs, indent=2))
 # 'test-collection', 'test-config')
 # print(json.dumps(collection, indent=2))
 
-if len(configs['solr_configs']) > 0:
+if not configs['solr_configs']:
     collections = retrieve_and_rank.list_collections(
         solr_cluster_id=solr_cluster_id)
     print(json.dumps(collections, indent=2))

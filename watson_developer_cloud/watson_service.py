@@ -321,6 +321,8 @@ class WatsonService(object):
                                     **kwargs)
 
         if 200 <= response.status_code <= 299:
+            if response.status_code == 204:
+                return None
             if accept_json:
                 response_json = response.json()
                 if 'status' in response_json and response_json['status'] \

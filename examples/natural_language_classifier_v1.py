@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 import os
 # from os.path import join, dirname
@@ -12,7 +13,7 @@ natural_language_classifier = NaturalLanguageClassifierV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
 
-classifiers = natural_language_classifier.list()
+classifiers = natural_language_classifier.list_classifiers()
 print(json.dumps(classifiers, indent=2))
 
 # create a classifier
@@ -20,7 +21,7 @@ print(json.dumps(classifiers, indent=2))
 #     print(json.dumps(natural_language_classifier.create(
 # training_data=training_data, name='weather'), indent=2))
 
-status = natural_language_classifier.status(classifier_id)
+status = natural_language_classifier.get_classifier(classifier_id)
 print(json.dumps(status, indent=2))
 
 if status['status'] == 'Available':
