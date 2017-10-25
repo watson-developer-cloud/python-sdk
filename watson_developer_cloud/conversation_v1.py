@@ -33,7 +33,11 @@ class ConversationV1(WatsonService):
     """The Conversation V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/conversation/api'
-    latest_version = '2017-05-26'
+    VERSION_DATE_2017_05_26 = '2017-05-26'
+    VERSION_DATE_2017_04_21 = '2017-04-21'
+    VERSION_DATE_2017_02_03 = '2017-02-03'
+    VERSION_DATE_2016_09_20 = '2016-09-20'
+    VERSION_DATE_2016_07_11 = '2016-07-11'
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """

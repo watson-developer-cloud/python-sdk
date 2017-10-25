@@ -69,7 +69,6 @@ class PersonalityInsightsV3(WatsonService):
     """The Personality Insights V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
-    latest_version = ''
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """

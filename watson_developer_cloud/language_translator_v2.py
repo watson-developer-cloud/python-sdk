@@ -34,7 +34,6 @@ class LanguageTranslatorV2(WatsonService):
     """The Language Translator V2 service."""
 
     default_url = 'https://gateway.watsonplatform.net/language-translator/api'
-    latest_version = ''
 
     def __init__(self, url=default_url, username=None, password=None):
         """
