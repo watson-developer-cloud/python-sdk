@@ -20,6 +20,8 @@ and language. Use Language Translator to take news from across the globe and pre
 your language, communicate with your customers in their own language, and more.
 """
 
+from __future__ import absolute_import
+
 import json
 from .watson_service import WatsonService
 
@@ -525,97 +527,27 @@ class IdentifiedLanguages(object):
         return not self == other
 
 
-class TranslateRequest(object):
-    """
-    TranslateRequest.
-
-    :attr list[str] text: Input text in UTF-8 encoding. It is a list so that multiple paragraphs can be submitted. Also accept a single string, instead of an array, as valid input.
-    :attr str model_id: (optional) The unique model_id of the translation model being used to translate text. The model_id inherently specifies source language, target language, and domain. If the model_id is specified, there is no need for the source and target parameters and the values are ignored.
-    :attr str source: (optional) Used in combination with target as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).
-    :attr str target: (optional) Used in combination with source as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).
-    """
-
-    def __init__(self, text, model_id=None, source=None, target=None):
-        """
-        Initialize a TranslateRequest object.
-
-        :param list[str] text: Input text in UTF-8 encoding. It is a list so that multiple paragraphs can be submitted. Also accept a single string, instead of an array, as valid input.
-        :param str model_id: (optional) The unique model_id of the translation model being used to translate text. The model_id inherently specifies source language, target language, and domain. If the model_id is specified, there is no need for the source and target parameters and the values are ignored.
-        :param str source: (optional) Used in combination with target as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).
-        :param str target: (optional) Used in combination with source as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).
-        """
-        self.text = text
-        self.model_id = model_id
-        self.source = source
-        self.target = target
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TranslateRequest object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict['text']
-        else:
-            raise ValueError(
-                'Required property \'text\' not present in TranslateRequest JSON'
-            )
-        if 'model_id' in _dict:
-            args['model_id'] = _dict['model_id']
-        if 'source' in _dict:
-            args['source'] = _dict['source']
-        if 'target' in _dict:
-            args['target'] = _dict['target']
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'model_id') and self.model_id is not None:
-            _dict['model_id'] = self.model_id
-        if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source
-        if hasattr(self, 'target') and self.target is not None:
-            _dict['target'] = self.target
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this TranslateRequest object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class Translation(object):
     """
     Translation.
 
-    :attr str translation: Translation output in UTF-8.
+    :attr str translation_output: Translation output in UTF-8.
     """
 
-    def __init__(self, translation):
+    def __init__(self, translation_output):
         """
         Initialize a Translation object.
 
-        :param str translation: Translation output in UTF-8.
+        :param str translation_output: Translation output in UTF-8.
         """
-        self.translation = translation
+        self.translation_output = translation_output
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Translation object from a json dictionary."""
         args = {}
         if 'translation' in _dict:
-            args['translation'] = _dict['translation']
+            args['translation_output'] = _dict['translation']
         else:
             raise ValueError(
                 'Required property \'translation\' not present in Translation JSON'
@@ -625,8 +557,10 @@ class Translation(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'translation') and self.translation is not None:
-            _dict['translation'] = self.translation
+        if hasattr(
+                self,
+                'translation_output') and self.translation_output is not None:
+            _dict['translation'] = self.translation_output
         return _dict
 
     def __str__(self):

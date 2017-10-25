@@ -62,6 +62,8 @@ are subjects or objects of an action.
 Get author information, publication date, and the title of your text/HTML content.
 """
 
+from __future__ import absolute_import
+
 import json
 from .watson_service import WatsonService
 
@@ -187,17 +189,18 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         Deletes a custom model.
 
         :param str model_id: model_id of the model to delete.
-        :rtype: None
+        :return: A `dict` containing the `InlineResponse200` response.
+        :rtype: dict
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
         params = {'version': self.version}
-        self.request(
+        response = self.request(
             method='DELETE',
             url='/v1/models/{0}'.format(model_id),
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def list_models(self):
         """
@@ -747,21 +750,26 @@ class DocumentSentimentResults(object):
     """
     DocumentSentimentResults.
 
+    :attr str label: (optional) Indicates whether the sentiment is positive, neutral, or negative.
     :attr float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
     """
 
-    def __init__(self, score=None):
+    def __init__(self, label=None, score=None):
         """
         Initialize a DocumentSentimentResults object.
 
+        :param str label: (optional) Indicates whether the sentiment is positive, neutral, or negative.
         :param float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
         """
+        self.label = label
         self.score = score
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a DocumentSentimentResults object from a json dictionary."""
         args = {}
+        if 'label' in _dict:
+            args['label'] = _dict['label']
         if 'score' in _dict:
             args['score'] = _dict['score']
         return cls(**args)
@@ -769,6 +777,8 @@ class DocumentSentimentResults(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'label') and self.label is not None:
+            _dict['label'] = self.label
         if hasattr(self, 'score') and self.score is not None:
             _dict['score'] = self.score
         return _dict
@@ -1296,6 +1306,51 @@ class Features(object):
         return not self == other
 
 
+class InlineResponse200(object):
+    """
+    InlineResponse200.
+
+    :attr str deleted: (optional) model_id of the deleted model.
+    """
+
+    def __init__(self, deleted=None):
+        """
+        Initialize a InlineResponse200 object.
+
+        :param str deleted: (optional) model_id of the deleted model.
+        """
+        self.deleted = deleted
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a InlineResponse200 object from a json dictionary."""
+        args = {}
+        if 'deleted' in _dict:
+            args['deleted'] = _dict['deleted']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'deleted') and self.deleted is not None:
+            _dict['deleted'] = self.deleted
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this InlineResponse200 object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class KeywordsOptions(object):
     """
     An option indicating whether or not important keywords from the analyzed content
@@ -1644,130 +1699,6 @@ class Model(object):
 
     def __str__(self):
         """Return a `str` version of this Model object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class Parameters(object):
-    """
-    An object containing request parameters.
-
-    :attr str text: (optional) The plain text to analyze.
-    :attr str html: (optional) The HTML file to analyze.
-    :attr str url: (optional) The web page to analyze.
-    :attr Features features: Specific features to analyze the document for.
-    :attr bool clean: (optional) Remove website elements, such as links, ads, etc.
-    :attr str xpath: (optional) XPath query for targeting nodes in HTML.
-    :attr bool fallback_to_raw: (optional) Whether to use raw HTML content if text cleaning fails.
-    :attr bool return_analyzed_text: (optional) Whether or not to return the analyzed text.
-    :attr str language: (optional) ISO 639-1 code indicating the language to use in the analysis.
-    :attr int limit_text_characters: (optional) Sets the maximum number of characters that are processed by the service.
-    """
-
-    def __init__(self,
-                 features,
-                 text=None,
-                 html=None,
-                 url=None,
-                 clean=None,
-                 xpath=None,
-                 fallback_to_raw=None,
-                 return_analyzed_text=None,
-                 language=None,
-                 limit_text_characters=None):
-        """
-        Initialize a Parameters object.
-
-        :param Features features: Specific features to analyze the document for.
-        :param str text: (optional) The plain text to analyze.
-        :param str html: (optional) The HTML file to analyze.
-        :param str url: (optional) The web page to analyze.
-        :param bool clean: (optional) Remove website elements, such as links, ads, etc.
-        :param str xpath: (optional) XPath query for targeting nodes in HTML.
-        :param bool fallback_to_raw: (optional) Whether to use raw HTML content if text cleaning fails.
-        :param bool return_analyzed_text: (optional) Whether or not to return the analyzed text.
-        :param str language: (optional) ISO 639-1 code indicating the language to use in the analysis.
-        :param int limit_text_characters: (optional) Sets the maximum number of characters that are processed by the service.
-        """
-        self.text = text
-        self.html = html
-        self.url = url
-        self.features = features
-        self.clean = clean
-        self.xpath = xpath
-        self.fallback_to_raw = fallback_to_raw
-        self.return_analyzed_text = return_analyzed_text
-        self.language = language
-        self.limit_text_characters = limit_text_characters
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a Parameters object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict['text']
-        if 'html' in _dict:
-            args['html'] = _dict['html']
-        if 'url' in _dict:
-            args['url'] = _dict['url']
-        if 'features' in _dict:
-            args['features'] = Features._from_dict(_dict['features'])
-        else:
-            raise ValueError(
-                'Required property \'features\' not present in Parameters JSON')
-        if 'clean' in _dict:
-            args['clean'] = _dict['clean']
-        if 'xpath' in _dict:
-            args['xpath'] = _dict['xpath']
-        if 'fallback_to_raw' in _dict:
-            args['fallback_to_raw'] = _dict['fallback_to_raw']
-        if 'return_analyzed_text' in _dict:
-            args['return_analyzed_text'] = _dict['return_analyzed_text']
-        if 'language' in _dict:
-            args['language'] = _dict['language']
-        if 'limit_text_characters' in _dict:
-            args['limit_text_characters'] = _dict['limit_text_characters']
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'html') and self.html is not None:
-            _dict['html'] = self.html
-        if hasattr(self, 'url') and self.url is not None:
-            _dict['url'] = self.url
-        if hasattr(self, 'features') and self.features is not None:
-            _dict['features'] = self.features._to_dict()
-        if hasattr(self, 'clean') and self.clean is not None:
-            _dict['clean'] = self.clean
-        if hasattr(self, 'xpath') and self.xpath is not None:
-            _dict['xpath'] = self.xpath
-        if hasattr(self,
-                   'fallback_to_raw') and self.fallback_to_raw is not None:
-            _dict['fallback_to_raw'] = self.fallback_to_raw
-        if hasattr(self, 'return_analyzed_text'
-                  ) and self.return_analyzed_text is not None:
-            _dict['return_analyzed_text'] = self.return_analyzed_text
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
-        if hasattr(self, 'limit_text_characters'
-                  ) and self.limit_text_characters is not None:
-            _dict['limit_text_characters'] = self.limit_text_characters
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this Parameters object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
