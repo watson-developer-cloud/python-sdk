@@ -121,6 +121,7 @@ class PersonalityInsightsV3(WatsonService):
                 content,
                 content_type='application/json',
                 content_language=None,
+                accept='application/json',
                 accept_language=None,
                 raw_scores=None,
                 csv_headers=None,
@@ -139,6 +140,7 @@ class PersonalityInsightsV3(WatsonService):
         :param Content content: A maximum of 20 MB of content to analyze, though the service requires much less text; for more information, see [Providing sufficient input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient). A JSON request must conform to the `Content` model.
         :param str content_type: The type of the input: application/json, text/html, or text/plain. A character encoding can be specified by including a `charset` parameter. For example, 'text/html;charset=utf-8'.
         :param str content_language: The language of the input text for the request: Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The effect of the `content_language` header depends on the `Content-Type` header. When `Content-Type` is `text/plain` or `text/html`, `content_language` is the only way to specify the language. When `Content-Type` is `application/json`, `content_language` overrides a language specified with the `language` parameter of a `ContentItem` object, and content items that specify a different language are ignored; omit this header to base the language on the specification of the content items. You can specify any combination of languages for `content_language` and `Accept-Language`.
+        :param accept: Type of the response: 'application/json' (default) or 'text/csv'
         :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for the input and response content.
         :param bool raw_scores: If `true`, a raw score in addition to a normalized percentile is returned for each characteristic; raw scores are not compared with a sample population. If `false` (the default), only normalized percentiles are returned.
         :param bool csv_headers: If `true`, column labels are returned with a CSV response; if `false` (the default), they are not. Applies only when the `Accept` header is set to `text/csv`.
@@ -171,7 +173,7 @@ class PersonalityInsightsV3(WatsonService):
             headers=headers,
             params=params,
             data=data,
-            accept_json=True)
+            accept_json=(accept is None or accept == 'application/json'))
         return response
 
 
