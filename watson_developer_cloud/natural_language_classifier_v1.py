@@ -20,6 +20,8 @@ classifier to connect predefined classes to example texts so that the service ca
 those classes to new inputs.
 """
 
+from __future__ import absolute_import
+
 import json
 from .watson_service import WatsonService
 
@@ -95,9 +97,7 @@ class NaturalLanguageClassifierV1(WatsonService):
     def create_classifier(self,
                           metadata,
                           training_data,
-                          training_metadata_content_type=None,
                           training_metadata_filename=None,
-                          training_data_content_type=None,
                           training_data_filename=None):
         """
         Create classifier.
@@ -107,9 +107,7 @@ class NaturalLanguageClassifierV1(WatsonService):
 
         :param file metadata: Metadata in JSON format. The metadata identifies the language of the data, and an optional name to identify the classifier. For details, see the [API reference](https://www.ibm.com/watson/developercloud/natural-language-classifier/api/v1/#create_classifier).
         :param file training_data: Training data in CSV format. Each text value must have at least one class. The data can include up to 15,000 records. For details, see [Using your own data](https://www.ibm.com/watson/developercloud/doc/natural-language-classifier/using-your-data.html).
-        :param str training_metadata_content_type: The content type of training_metadata.
         :param str training_metadata_filename: The filename for training_metadata.
-        :param str training_data_content_type: The content type of training_data.
         :param str training_data_filename: The filename for training_data.
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
@@ -120,11 +118,11 @@ class NaturalLanguageClassifierV1(WatsonService):
             raise ValueError('training_data must be provided')
         if not training_metadata_filename and hasattr(metadata, 'name'):
             training_metadata_filename = metadata.name
-        mime_type = training_metadata_content_type or 'application/octet-stream'
+        mime_type = 'application/octet-stream'
         metadata_tuple = (training_metadata_filename, metadata, mime_type)
         if not training_data_filename and hasattr(training_data, 'name'):
             training_data_filename = training_data.name
-        mime_type = training_data_content_type or 'application/octet-stream'
+        mime_type = 'application/octet-stream'
         training_data_tuple = (training_data_filename, training_data, mime_type)
         response = self.request(
             method='POST',
@@ -461,54 +459,6 @@ class ClassifierList(object):
 
     def __str__(self):
         """Return a `str` version of this ClassifierList object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ClassifyInput(object):
-    """
-    Request payload to classify.
-
-    :attr str text: The submitted phrase.
-    """
-
-    def __init__(self, text):
-        """
-        Initialize a ClassifyInput object.
-
-        :param str text: The submitted phrase.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ClassifyInput object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict['text']
-        else:
-            raise ValueError(
-                'Required property \'text\' not present in ClassifyInput JSON')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ClassifyInput object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

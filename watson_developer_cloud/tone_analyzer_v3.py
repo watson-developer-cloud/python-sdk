@@ -45,7 +45,13 @@ services](https://console.bluemix.net/docs/services/watson/getting-started-loggi
 
 For more information about the service, see [About Tone
 Analyzer](https://console.bluemix.net/docs/services/tone-analyzer/index.html).
+
+**Note:** Method descriptions apply to the latest version of the interface, `2017-09-21`.
+Where necessary, parameters and models describe differences between versions `2017-09-21`
+and `2016-05-19`.
 """
+
+from __future__ import absolute_import
 
 import json
 from .watson_service import WatsonService
@@ -111,6 +117,7 @@ class ToneAnalyzerV3(WatsonService):
              tone_input,
              content_type='application/json',
              sentences=None,
+             tones=None,
              content_language=None,
              accept_language=None):
         """
@@ -132,14 +139,12 @@ class ToneAnalyzerV3(WatsonService):
         text or HTML, include the `charset` parameter to indicate the character encoding
         of the input text; for example: `Content-Type: text/plain;charset=utf-8`. For
         `text/html`, the service removes HTML tags and analyzes only the textual content.
-         **Note:** The `tones` query parameter is no longer supported. The service
-        continues to accept the parameter for backward-compatibility, but the parameter no
-        longer affects the response.
 
         :param ToneInput tone_input: JSON, plain text, or HTML input that contains the content to be analyzed. For JSON input, provide an object of type `ToneInput`.
         :param str content_type: The type of the input: application/json, text/plain, or text/html. A character encoding can be specified by including a `charset` parameter. For example, 'text/plain;charset=utf-8'.
         :param bool sentences: Indicates whether the service is to return an analysis of each individual sentence in addition to its analysis of the full document. If `true` (the default), the service returns results for each sentence.
-        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `content_language` and `Accept-Language`.
+        :param list[str] tones: **`2017-09-21`:** Deprecated. The service continues to accept the parameter for backward-compatibility, but the parameter no longer affects the response.   **`2016-05-19`:** A comma-separated list of tones for which the service is to return its analysis of the input; the indicated tones apply both to the full document and to individual sentences of the document. You can specify one or more of the valid values. Omit the parameter to request results for all three tones.
+        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `content_language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
         :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for `Content-Language` and `accept_language`.
         :return: A `dict` containing the `ToneAnalysis` response.
         :rtype: dict
@@ -153,7 +158,11 @@ class ToneAnalyzerV3(WatsonService):
             'Content-Language': content_language,
             'Accept-Language': accept_language
         }
-        params = {'version': self.version, 'sentences': sentences}
+        params = {
+            'version': self.version,
+            'sentences': sentences,
+            'tones': ",".join(tones) if isinstance(tones, list) else tones
+        }
         if content_type == 'application/json' and isinstance(tone_input, dict):
             data = json.dumps(tone_input)
         else:
@@ -214,18 +223,21 @@ class DocumentAnalysis(object):
     """
     DocumentAnalysis.
 
-    :attr list[ToneScore] tones: An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the document. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
-    :attr str warning: (optional) A warning message if the overall content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only the first 1000 sentences for document-level analysis and the first 100 sentences for sentence-level analysis.
+    :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the document. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not returned.
+    :attr list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the tone analysis for the full document of the input content. The service returns results only for the tones specified with the `tones` parameter of the request.
+    :attr str warning: (optional) **`2017-09-21`:** A warning message if the overall content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only the first 1000 sentences for document-level analysis and the first 100 sentences for sentence-level analysis. **`2016-05-19`:** Not returned.
     """
 
-    def __init__(self, tones, warning=None):
+    def __init__(self, tones=None, tone_categories=None, warning=None):
         """
         Initialize a DocumentAnalysis object.
 
-        :param list[ToneScore] tones: An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the document. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
-        :param str warning: (optional) A warning message if the overall content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only the first 1000 sentences for document-level analysis and the first 100 sentences for sentence-level analysis.
+        :param list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the document. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not returned.
+        :param list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the tone analysis for the full document of the input content. The service returns results only for the tones specified with the `tones` parameter of the request.
+        :param str warning: (optional) **`2017-09-21`:** A warning message if the overall content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only the first 1000 sentences for document-level analysis and the first 100 sentences for sentence-level analysis. **`2016-05-19`:** Not returned.
         """
         self.tones = tones
+        self.tone_categories = tone_categories
         self.warning = warning
 
     @classmethod
@@ -234,10 +246,10 @@ class DocumentAnalysis(object):
         args = {}
         if 'tones' in _dict:
             args['tones'] = [ToneScore._from_dict(x) for x in _dict['tones']]
-        else:
-            raise ValueError(
-                'Required property \'tones\' not present in DocumentAnalysis JSON'
-            )
+        if 'tone_categories' in _dict:
+            args['tone_categories'] = [
+                ToneCategory._from_dict(x) for x in _dict['tone_categories']
+            ]
         if 'warning' in _dict:
             args['warning'] = _dict['warning']
         return cls(**args)
@@ -247,6 +259,11 @@ class DocumentAnalysis(object):
         _dict = {}
         if hasattr(self, 'tones') and self.tones is not None:
             _dict['tones'] = [x._to_dict() for x in self.tones]
+        if hasattr(self,
+                   'tone_categories') and self.tone_categories is not None:
+            _dict['tone_categories'] = [
+                x._to_dict() for x in self.tone_categories
+            ]
         if hasattr(self, 'warning') and self.warning is not None:
             _dict['warning'] = self.warning
         return _dict
@@ -272,20 +289,35 @@ class SentenceAnalysis(object):
 
     :attr int sentence_id: The unique identifier of a sentence of the input content. The first sentence has ID 0, and the ID of each subsequent sentence is incremented by one.
     :attr str text: The text of the input sentence.
-    :attr list[ToneScore] tones: An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the sentence. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
+    :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the sentence. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not returned.
+    :attr list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the tone analysis for the sentence. The service returns results only for the tones specified with the `tones` parameter of the request.
+    :attr int input_from: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The offset of the first character of the sentence in the overall input content.
+    :attr int input_to: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The offset of the last character of the sentence in the overall input content.
     """
 
-    def __init__(self, sentence_id, text, tones):
+    def __init__(self,
+                 sentence_id,
+                 text,
+                 tones=None,
+                 tone_categories=None,
+                 input_from=None,
+                 input_to=None):
         """
         Initialize a SentenceAnalysis object.
 
         :param int sentence_id: The unique identifier of a sentence of the input content. The first sentence has ID 0, and the ID of each subsequent sentence is incremented by one.
         :param str text: The text of the input sentence.
-        :param list[ToneScore] tones: An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the sentence. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
+        :param list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the sentence. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not returned.
+        :param list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the tone analysis for the sentence. The service returns results only for the tones specified with the `tones` parameter of the request.
+        :param int input_from: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The offset of the first character of the sentence in the overall input content.
+        :param int input_to: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The offset of the last character of the sentence in the overall input content.
         """
         self.sentence_id = sentence_id
         self.text = text
         self.tones = tones
+        self.tone_categories = tone_categories
+        self.input_from = input_from
+        self.input_to = input_to
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -305,10 +337,14 @@ class SentenceAnalysis(object):
             )
         if 'tones' in _dict:
             args['tones'] = [ToneScore._from_dict(x) for x in _dict['tones']]
-        else:
-            raise ValueError(
-                'Required property \'tones\' not present in SentenceAnalysis JSON'
-            )
+        if 'tone_categories' in _dict:
+            args['tone_categories'] = [
+                ToneCategory._from_dict(x) for x in _dict['tone_categories']
+            ]
+        if 'input_from' in _dict:
+            args['input_from'] = _dict['input_from']
+        if 'input_to' in _dict:
+            args['input_to'] = _dict['input_to']
         return cls(**args)
 
     def _to_dict(self):
@@ -320,6 +356,15 @@ class SentenceAnalysis(object):
             _dict['text'] = self.text
         if hasattr(self, 'tones') and self.tones is not None:
             _dict['tones'] = [x._to_dict() for x in self.tones]
+        if hasattr(self,
+                   'tone_categories') and self.tone_categories is not None:
+            _dict['tone_categories'] = [
+                x._to_dict() for x in self.tone_categories
+            ]
+        if hasattr(self, 'input_from') and self.input_from is not None:
+            _dict['input_from'] = self.input_from
+        if hasattr(self, 'input_to') and self.input_to is not None:
+            _dict['input_to'] = self.input_to
         return _dict
 
     def __str__(self):
@@ -342,7 +387,7 @@ class ToneAnalysis(object):
     ToneAnalysis.
 
     :attr DocumentAnalysis document_tone: An object of type `DocumentAnalysis` that provides the results of the analysis for the full input document.
-    :attr list[SentenceAnalysis] sentences_tone: (optional) An array of `SentenceAnalysis` objects that provides the results of the analysis for the individual sentences of the input content. The service returns results only for the first 100 sentences of the input. The field is omitted if the sentences parameter of the request is set to `false`.
+    :attr list[SentenceAnalysis] sentences_tone: (optional) An array of `SentenceAnalysis` objects that provides the results of the analysis for the individual sentences of the input content. The service returns results only for the first 100 sentences of the input. The field is omitted if the `sentences` parameter of the request is set to `false`.
     """
 
     def __init__(self, document_tone, sentences_tone=None):
@@ -350,7 +395,7 @@ class ToneAnalysis(object):
         Initialize a ToneAnalysis object.
 
         :param DocumentAnalysis document_tone: An object of type `DocumentAnalysis` that provides the results of the analysis for the full input document.
-        :param list[SentenceAnalysis] sentences_tone: (optional) An array of `SentenceAnalysis` objects that provides the results of the analysis for the individual sentences of the input content. The service returns results only for the first 100 sentences of the input. The field is omitted if the sentences parameter of the request is set to `false`.
+        :param list[SentenceAnalysis] sentences_tone: (optional) An array of `SentenceAnalysis` objects that provides the results of the analysis for the individual sentences of the input content. The service returns results only for the first 100 sentences of the input. The field is omitted if the `sentences` parameter of the request is set to `false`.
         """
         self.document_tone = document_tone
         self.sentences_tone = sentences_tone
@@ -398,44 +443,63 @@ class ToneAnalysis(object):
         return not self == other
 
 
-class ToneChatInput(object):
+class ToneCategory(object):
     """
-    ToneChatInput.
+    ToneCategory.
 
-    :attr list[Utterance] utterances: An array of `Utterance` objects that provides the input content that the service is to analyze.
+    :attr list[ToneScore] tones: An array of `ToneScore` objects that provides the results for the tones of the category.
+    :attr str category_id: The unique, non-localized identifier of the category for the results. The service can return results for the following category IDs: `emotion_tone`, `language_tone`, and `social_tone`.
+    :attr str category_name: The user-visible, localized name of the category.
     """
 
-    def __init__(self, utterances):
+    def __init__(self, tones, category_id, category_name):
         """
-        Initialize a ToneChatInput object.
+        Initialize a ToneCategory object.
 
-        :param list[Utterance] utterances: An array of `Utterance` objects that provides the input content that the service is to analyze.
+        :param list[ToneScore] tones: An array of `ToneScore` objects that provides the results for the tones of the category.
+        :param str category_id: The unique, non-localized identifier of the category for the results. The service can return results for the following category IDs: `emotion_tone`, `language_tone`, and `social_tone`.
+        :param str category_name: The user-visible, localized name of the category.
         """
-        self.utterances = utterances
+        self.tones = tones
+        self.category_id = category_id
+        self.category_name = category_name
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a ToneChatInput object from a json dictionary."""
+        """Initialize a ToneCategory object from a json dictionary."""
         args = {}
-        if 'utterances' in _dict:
-            args['utterances'] = [
-                Utterance._from_dict(x) for x in _dict['utterances']
-            ]
+        if 'tones' in _dict:
+            args['tones'] = [ToneScore._from_dict(x) for x in _dict['tones']]
         else:
             raise ValueError(
-                'Required property \'utterances\' not present in ToneChatInput JSON'
+                'Required property \'tones\' not present in ToneCategory JSON')
+        if 'category_id' in _dict:
+            args['category_id'] = _dict['category_id']
+        else:
+            raise ValueError(
+                'Required property \'category_id\' not present in ToneCategory JSON'
+            )
+        if 'category_name' in _dict:
+            args['category_name'] = _dict['category_name']
+        else:
+            raise ValueError(
+                'Required property \'category_name\' not present in ToneCategory JSON'
             )
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'utterances') and self.utterances is not None:
-            _dict['utterances'] = [x._to_dict() for x in self.utterances]
+        if hasattr(self, 'tones') and self.tones is not None:
+            _dict['tones'] = [x._to_dict() for x in self.tones]
+        if hasattr(self, 'category_id') and self.category_id is not None:
+            _dict['category_id'] = self.category_id
+        if hasattr(self, 'category_name') and self.category_name is not None:
+            _dict['category_name'] = self.category_name
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this ToneChatInput object."""
+        """Return a `str` version of this ToneCategory object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -571,8 +635,8 @@ class ToneScore(object):
     """
     ToneScore.
 
-    :attr float score: The score for the tone in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the content.
-    :attr str tone_id: The unique, non-localized identifier of the tone. The service can return results for the following tone IDs: `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`, `confident`, and `tentative` (language tones). The service returns results only for tones whose scores meet a minimum threshold of 0.5.
+    :attr float score: The score for the tone. * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the content. * **`2016-05-19`:** The score that is returned lies in the range of 0 to 1. A score less than 0.5 indicates that the tone is unlikely to be perceived in the content; a score greater than 0.75 indicates a high likelihood that the tone is perceived.
+    :attr str tone_id: The unique, non-localized identifier of the tone. * **`2017-09-21`:** The service can return results for the following tone IDs: `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`, `confident`, and `tentative` (language tones). The service returns results only for tones whose scores meet a minimum threshold of 0.5. * **`2016-05-19`:** The service can return results for the following tone IDs of the different categories: for the `emotion` category: `anger`, `disgust`, `fear`, `joy`, and `sadness`; for the `language` category: `analytical`, `confident`, and `tentative`; for the `social` category: `openness_big5`, `conscientiousness_big5`, `extraversion_big5`, `agreeableness_big5`, and `emotional_range_big5`. The service returns scores for all tones of a category, regardless of their values.
     :attr str tone_name: The user-visible, localized name of the tone.
     """
 
@@ -580,8 +644,8 @@ class ToneScore(object):
         """
         Initialize a ToneScore object.
 
-        :param float score: The score for the tone in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the content.
-        :param str tone_id: The unique, non-localized identifier of the tone. The service can return results for the following tone IDs: `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`, `confident`, and `tentative` (language tones). The service returns results only for tones whose scores meet a minimum threshold of 0.5.
+        :param float score: The score for the tone. * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the content. * **`2016-05-19`:** The score that is returned lies in the range of 0 to 1. A score less than 0.5 indicates that the tone is unlikely to be perceived in the content; a score greater than 0.75 indicates a high likelihood that the tone is perceived.
+        :param str tone_id: The unique, non-localized identifier of the tone. * **`2017-09-21`:** The service can return results for the following tone IDs: `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`, `confident`, and `tentative` (language tones). The service returns results only for tones whose scores meet a minimum threshold of 0.5. * **`2016-05-19`:** The service can return results for the following tone IDs of the different categories: for the `emotion` category: `anger`, `disgust`, `fear`, `joy`, and `sadness`; for the `language` category: `analytical`, `confident`, and `tentative`; for the `social` category: `openness_big5`, `conscientiousness_big5`, `extraversion_big5`, `agreeableness_big5`, and `emotional_range_big5`. The service returns scores for all tones of a category, regardless of their values.
         :param str tone_name: The user-visible, localized name of the tone.
         """
         self.score = score
@@ -695,7 +759,7 @@ class UtteranceAnalyses(object):
     UtteranceAnalyses.
 
     :attr list[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis` objects that provides the results for each utterance of the input.
-    :attr str warning: (optional) A warning message if the content contains more than 50 utterances. The service analyzes only the first 50 utterances.
+    :attr str warning: (optional) **`2017-09-21`:** A warning message if the content contains more than 50 utterances. The service analyzes only the first 50 utterances. **`2016-05-19`:** Not returned.
     """
 
     def __init__(self, utterances_tone, warning=None):
@@ -703,7 +767,7 @@ class UtteranceAnalyses(object):
         Initialize a UtteranceAnalyses object.
 
         :param list[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis` objects that provides the results for each utterance of the input.
-        :param str warning: (optional) A warning message if the content contains more than 50 utterances. The service analyzes only the first 50 utterances.
+        :param str warning: (optional) **`2017-09-21`:** A warning message if the content contains more than 50 utterances. The service analyzes only the first 50 utterances. **`2016-05-19`:** Not returned.
         """
         self.utterances_tone = utterances_tone
         self.warning = warning
@@ -759,7 +823,7 @@ class UtteranceAnalysis(object):
     :attr str utterance_id: The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
     :attr str utterance_text: The text of the utterance.
     :attr list[ToneChatScore] tones: An array of `ToneChatScore` objects that provides results for the most prevalent tones of the utterance. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
-    :attr str error: (optional) An error message if the utterance contains more than 500 characters. The service does not analyze the utterance.
+    :attr str error: (optional) **`2017-09-21`:** An error message if the utterance contains more than 500 characters. The service does not analyze the utterance. **`2016-05-19`:** Not returned.
     """
 
     def __init__(self, utterance_id, utterance_text, tones, error=None):
@@ -769,7 +833,7 @@ class UtteranceAnalysis(object):
         :param str utterance_id: The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
         :param str utterance_text: The text of the utterance.
         :param list[ToneChatScore] tones: An array of `ToneChatScore` objects that provides results for the most prevalent tones of the utterance. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
-        :param str error: (optional) An error message if the utterance contains more than 500 characters. The service does not analyze the utterance.
+        :param str error: (optional) **`2017-09-21`:** An error message if the utterance contains more than 500 characters. The service does not analyze the utterance. **`2016-05-19`:** Not returned.
         """
         self.utterance_id = utterance_id
         self.utterance_text = utterance_text

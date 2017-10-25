@@ -55,6 +55,8 @@ profile](https://console.bluemix.net/docs/services/personality-insights/output.h
 profile](https://console.bluemix.net/docs/services/personality-insights/output-csv.html).
 """
 
+from __future__ import absolute_import
+
 import json
 from .watson_service import WatsonService
 
@@ -264,7 +266,7 @@ class ConsumptionPreferences(object):
 
     :attr str consumption_preference_id: The unique identifier of the consumption preference to which the results pertain. IDs have the form `consumption_preferences_{preference}`.
     :attr str name: The user-visible name of the consumption preference.
-    :attr float score: The score for the consumption preference: `0.0` indicates unlikely, `0.5` indicates neutrality, and `1.0` indicates likely. The scores for some preferences are binary and do not allow a neutral value. The score is an indication of preference based on the results inferred from the input text, not a normalized percentile.
+    :attr float score: The score for the consumption preference: * `0.0`: Unlikely * `0.5`: Neutral * `1.0`: Likely   The scores for some preferences are binary and do not allow a neutral value. The score is an indication of preference based on the results inferred from the input text, not a normalized percentile.
     """
 
     def __init__(self, consumption_preference_id, name, score):
@@ -273,7 +275,7 @@ class ConsumptionPreferences(object):
 
         :param str consumption_preference_id: The unique identifier of the consumption preference to which the results pertain. IDs have the form `consumption_preferences_{preference}`.
         :param str name: The user-visible name of the consumption preference.
-        :param float score: The score for the consumption preference: `0.0` indicates unlikely, `0.5` indicates neutrality, and `1.0` indicates likely. The scores for some preferences are binary and do not allow a neutral value. The score is an indication of preference based on the results inferred from the input text, not a normalized percentile.
+        :param float score: The score for the consumption preference: * `0.0`: Unlikely * `0.5`: Neutral * `1.0`: Likely   The scores for some preferences are binary and do not allow a neutral value. The score is an indication of preference based on the results inferred from the input text, not a normalized percentile.
         """
         self.consumption_preference_id = consumption_preference_id
         self.name = name
@@ -727,10 +729,10 @@ class Trait(object):
 
     :attr str trait_id: The unique identifier of the characteristic to which the results pertain. IDs have the form `big5_{characteristic}` for Big Five personality characteristics, `need_{characteristic}` for Needs, or `value_{characteristic}` for Values.
     :attr str name: The user-visible name of the characteristic.
-    :attr str category: The category of the characteristic: `personality` for Big Five personality characteristics, `needs` for Needs, or `values` for Values.
+    :attr str category: The category of the characteristic: * `personality` for Big Five personality characteristics * `needs` for Needs * `values` for Values.
     :attr float percentile: The normalized percentile score for the characteristic. The range is 0 to 1. For example, if the percentage for Openness is 0.60, the author scored in the 60th percentile; the author is more open than 59 percent of the population and less open than 39 percent of the population.
     :attr float raw_score: (optional) The raw score for the characteristic. The range is 0 to 1. A higher score generally indicates a greater likelihood that the author has that characteristic, but raw scores must be considered in aggregate: The range of values in practice might be much smaller than 0 to 1, so an individual score must be considered in the context of the overall scores and their range. The raw score is computed based on the input and the service model; it is not normalized or compared with a sample population. The raw score enables comparison of the results against a different sampling population and with a custom normalization approach.
-    :attr bool significant: (optional) Indicates whether the characteristic is meaningful for the input language. The field is always `true` for all characteristics of English, Spanish, and Japanese input. The field is `false` for the subset of characteristics of Arabic and Korean input for which the service's models are unable to generate meaningful results.
+    :attr bool significant: (optional) **`2017-10-13`**: Indicates whether the characteristic is meaningful for the input language. The field is always `true` for all characteristics of English, Spanish, and Japanese input. The field is `false` for the subset of characteristics of Arabic and Korean input for which the service's models are unable to generate meaningful results. **`2016-10-20`**: Not returned.
     :attr list[Trait] children: (optional) For `personality` (Big Five) dimensions, more detailed results for the facets of each dimension as inferred from the input text.
     """
 
@@ -747,10 +749,10 @@ class Trait(object):
 
         :param str trait_id: The unique identifier of the characteristic to which the results pertain. IDs have the form `big5_{characteristic}` for Big Five personality characteristics, `need_{characteristic}` for Needs, or `value_{characteristic}` for Values.
         :param str name: The user-visible name of the characteristic.
-        :param str category: The category of the characteristic: `personality` for Big Five personality characteristics, `needs` for Needs, or `values` for Values.
+        :param str category: The category of the characteristic: * `personality` for Big Five personality characteristics * `needs` for Needs * `values` for Values.
         :param float percentile: The normalized percentile score for the characteristic. The range is 0 to 1. For example, if the percentage for Openness is 0.60, the author scored in the 60th percentile; the author is more open than 59 percent of the population and less open than 39 percent of the population.
         :param float raw_score: (optional) The raw score for the characteristic. The range is 0 to 1. A higher score generally indicates a greater likelihood that the author has that characteristic, but raw scores must be considered in aggregate: The range of values in practice might be much smaller than 0 to 1, so an individual score must be considered in the context of the overall scores and their range. The raw score is computed based on the input and the service model; it is not normalized or compared with a sample population. The raw score enables comparison of the results against a different sampling population and with a custom normalization approach.
-        :param bool significant: (optional) Indicates whether the characteristic is meaningful for the input language. The field is always `true` for all characteristics of English, Spanish, and Japanese input. The field is `false` for the subset of characteristics of Arabic and Korean input for which the service's models are unable to generate meaningful results.
+        :param bool significant: (optional) **`2017-10-13`**: Indicates whether the characteristic is meaningful for the input language. The field is always `true` for all characteristics of English, Spanish, and Japanese input. The field is `false` for the subset of characteristics of Arabic and Korean input for which the service's models are unable to generate meaningful results. **`2016-10-20`**: Not returned.
         :param list[Trait] children: (optional) For `personality` (Big Five) dimensions, more detailed results for the facets of each dimension as inferred from the input text.
         """
         self.trait_id = trait_id
@@ -831,16 +833,16 @@ class Warning(object):
     """
     Warning.
 
-    :attr str warning_id: The identifier of the warning message, one of `WORD_COUNT_MESSAGE`, `JSON_AS_TEXT`, `CONTENT_TRUNCATED`, or `PARTIAL_TEXT_USED`.
-    :attr str message: The message associated with the `warning_id`. For `WORD_COUNT_MESSAGE`, "There were {number} words in the input. We need a minimum of 600, preferably 1,200 or more, to compute statistically significant estimates."; for `JSON_AS_TEXT`, "Request input was processed as text/plain as indicated, however detected a JSON input. Did you mean application/json?"; for `CONTENT_TRUNCATED`, "For maximum accuracy while also optimizing processing time, only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels off at approximately 3,000 words so this did not affect the accuracy of the profile."; and for `PARTIAL_TEXT_USED`, "The text provided to compute the profile was trimmed for performance reasons. This action does not affect the accuracy of the output, as not all of the input text was required." The `PARTIAL_TEXT_USED` warning applies only when Arabic input text exceeds a threshold at which additional words do not contribute to the accuracy of the profile.
+    :attr str warning_id: The identifier of the warning message.
+    :attr str message: The message associated with the `warning_id`: * `WORD_COUNT_MESSAGE`: "There were {number} words in the input. We need a minimum of 600, preferably 1,200 or more, to compute statistically significant estimates." * `JSON_AS_TEXT`: "Request input was processed as text/plain as indicated, however detected a JSON input. Did you mean application/json?" * `CONTENT_TRUNCATED`: "For maximum accuracy while also optimizing processing time, only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels off at approximately 3,000 words so this did not affect the accuracy of the profile." * `PARTIAL_TEXT_USED`, "The text provided to compute the profile was trimmed for performance reasons. This action does not affect the accuracy of the output, as not all of the input text was required." Applies only when Arabic input text exceeds a threshold at which additional words do not contribute to the accuracy of the profile.
     """
 
     def __init__(self, warning_id, message):
         """
         Initialize a Warning object.
 
-        :param str warning_id: The identifier of the warning message, one of `WORD_COUNT_MESSAGE`, `JSON_AS_TEXT`, `CONTENT_TRUNCATED`, or `PARTIAL_TEXT_USED`.
-        :param str message: The message associated with the `warning_id`. For `WORD_COUNT_MESSAGE`, "There were {number} words in the input. We need a minimum of 600, preferably 1,200 or more, to compute statistically significant estimates."; for `JSON_AS_TEXT`, "Request input was processed as text/plain as indicated, however detected a JSON input. Did you mean application/json?"; for `CONTENT_TRUNCATED`, "For maximum accuracy while also optimizing processing time, only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels off at approximately 3,000 words so this did not affect the accuracy of the profile."; and for `PARTIAL_TEXT_USED`, "The text provided to compute the profile was trimmed for performance reasons. This action does not affect the accuracy of the output, as not all of the input text was required." The `PARTIAL_TEXT_USED` warning applies only when Arabic input text exceeds a threshold at which additional words do not contribute to the accuracy of the profile.
+        :param str warning_id: The identifier of the warning message.
+        :param str message: The message associated with the `warning_id`: * `WORD_COUNT_MESSAGE`: "There were {number} words in the input. We need a minimum of 600, preferably 1,200 or more, to compute statistically significant estimates." * `JSON_AS_TEXT`: "Request input was processed as text/plain as indicated, however detected a JSON input. Did you mean application/json?" * `CONTENT_TRUNCATED`: "For maximum accuracy while also optimizing processing time, only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels off at approximately 3,000 words so this did not affect the accuracy of the profile." * `PARTIAL_TEXT_USED`, "The text provided to compute the profile was trimmed for performance reasons. This action does not affect the accuracy of the output, as not all of the input text was required." Applies only when Arabic input text exceeds a threshold at which additional words do not contribute to the accuracy of the profile.
         """
         self.warning_id = warning_id
         self.message = message

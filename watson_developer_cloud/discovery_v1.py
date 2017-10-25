@@ -21,12 +21,15 @@ content, and use a simplified query language to eliminate the need for manual fi
 results.
 """
 
+from __future__ import absolute_import
+
 import json
 from .watson_service import WatsonService
 
 ##############################################################################
 # Service
 ##############################################################################
+
 
 class DiscoveryV1(WatsonService):
     """The Discovery V1 service."""
@@ -1870,144 +1873,6 @@ class Conversions(object):
         return not self == other
 
 
-class CreateCollectionRequest(object):
-    """
-    CreateCollectionRequest.
-
-    :attr str name: The name of the collection to be created.
-    :attr str description: (optional) A description of the collection.
-    :attr str configuration_id: (optional) The ID of the configuration in which the collection is to be created.
-    :attr str language: (optional) The language of the documents stored in the collection, in the form of an ISO 639-1 language code.
-    """
-
-    def __init__(self,
-                 name,
-                 description=None,
-                 configuration_id=None,
-                 language=None):
-        """
-        Initialize a CreateCollectionRequest object.
-
-        :param str name: The name of the collection to be created.
-        :param str description: (optional) A description of the collection.
-        :param str configuration_id: (optional) The ID of the configuration in which the collection is to be created.
-        :param str language: (optional) The language of the documents stored in the collection, in the form of an ISO 639-1 language code.
-        """
-        self.name = name
-        self.description = description
-        self.configuration_id = configuration_id
-        self.language = language
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a CreateCollectionRequest object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict['name']
-        else:
-            raise ValueError(
-                'Required property \'name\' not present in CreateCollectionRequest JSON'
-            )
-        if 'description' in _dict:
-            args['description'] = _dict['description']
-        if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict['configuration_id']
-        if 'language' in _dict:
-            args['language'] = _dict['language']
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self,
-                   'configuration_id') and self.configuration_id is not None:
-            _dict['configuration_id'] = self.configuration_id
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this CreateCollectionRequest object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class CreateEnvironmentRequest(object):
-    """
-    CreateEnvironmentRequest.
-
-    :attr str name: Name that identifies the environment.
-    :attr str description: (optional) Description of the environment.
-    :attr int size: (optional) **Deprecated**: Size of the environment.
-    """
-
-    def __init__(self, name, description=None, size=None):
-        """
-        Initialize a CreateEnvironmentRequest object.
-
-        :param str name: Name that identifies the environment.
-        :param str description: (optional) Description of the environment.
-        :param int size: (optional) **Deprecated**: Size of the environment.
-        """
-        self.name = name
-        self.description = description
-        self.size = size
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a CreateEnvironmentRequest object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict['name']
-        else:
-            raise ValueError(
-                'Required property \'name\' not present in CreateEnvironmentRequest JSON'
-            )
-        if 'description' in _dict:
-            args['description'] = _dict['description']
-        if 'size' in _dict:
-            args['size'] = _dict['size']
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'size') and self.size is not None:
-            _dict['size'] = self.size
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this CreateEnvironmentRequest object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class DeleteCollectionResponse(object):
     """
     DeleteCollectionResponse.
@@ -3591,68 +3456,6 @@ class MemoryUsage(object):
         return not self == other
 
 
-class NewTrainingQuery(object):
-    """
-    NewTrainingQuery.
-
-    :attr str natural_language_query: (optional)
-    :attr str filter: (optional)
-    :attr list[TrainingExample] examples: (optional)
-    """
-
-    def __init__(self, natural_language_query=None, filter=None, examples=None):
-        """
-        Initialize a NewTrainingQuery object.
-
-        :param str natural_language_query: (optional)
-        :param str filter: (optional)
-        :param list[TrainingExample] examples: (optional)
-        """
-        self.natural_language_query = natural_language_query
-        self.filter = filter
-        self.examples = examples
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a NewTrainingQuery object from a json dictionary."""
-        args = {}
-        if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict['natural_language_query']
-        if 'filter' in _dict:
-            args['filter'] = _dict['filter']
-        if 'examples' in _dict:
-            args['examples'] = [
-                TrainingExample._from_dict(x) for x in _dict['examples']
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'natural_language_query'
-                  ) and self.natural_language_query is not None:
-            _dict['natural_language_query'] = self.natural_language_query
-        if hasattr(self, 'filter') and self.filter is not None:
-            _dict['filter'] = self.filter
-        if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this NewTrainingQuery object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class NormalizationOperation(object):
     """
     NormalizationOperation.
@@ -4651,59 +4454,6 @@ class TrainingExample(object):
         return not self == other
 
 
-class TrainingExamplePatch(object):
-    """
-    TrainingExamplePatch.
-
-    :attr str cross_reference: (optional)
-    :attr int relevance: (optional)
-    """
-
-    def __init__(self, cross_reference=None, relevance=None):
-        """
-        Initialize a TrainingExamplePatch object.
-
-        :param str cross_reference: (optional)
-        :param int relevance: (optional)
-        """
-        self.cross_reference = cross_reference
-        self.relevance = relevance
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TrainingExamplePatch object from a json dictionary."""
-        args = {}
-        if 'cross_reference' in _dict:
-            args['cross_reference'] = _dict['cross_reference']
-        if 'relevance' in _dict:
-            args['relevance'] = _dict['relevance']
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'cross_reference') and self.cross_reference is not None:
-            _dict['cross_reference'] = self.cross_reference
-        if hasattr(self, 'relevance') and self.relevance is not None:
-            _dict['relevance'] = self.relevance
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this TrainingExamplePatch object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class TrainingQuery(object):
     """
     TrainingQuery.
@@ -4880,122 +4630,6 @@ class TrainingStatus(object):
 
     def __str__(self):
         """Return a `str` version of this TrainingStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class UpdateCollectionRequest(object):
-    """
-    UpdateCollectionRequest.
-
-    :attr str name: The name of the collection.
-    :attr str description: (optional) A description of the collection.
-    :attr str configuration_id: (optional) The ID of the configuration in which the collection is to be updated.
-    """
-
-    def __init__(self, name, description=None, configuration_id=None):
-        """
-        Initialize a UpdateCollectionRequest object.
-
-        :param str name: The name of the collection.
-        :param str description: (optional) A description of the collection.
-        :param str configuration_id: (optional) The ID of the configuration in which the collection is to be updated.
-        """
-        self.name = name
-        self.description = description
-        self.configuration_id = configuration_id
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a UpdateCollectionRequest object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict['name']
-        else:
-            raise ValueError(
-                'Required property \'name\' not present in UpdateCollectionRequest JSON'
-            )
-        if 'description' in _dict:
-            args['description'] = _dict['description']
-        if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict['configuration_id']
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self,
-                   'configuration_id') and self.configuration_id is not None:
-            _dict['configuration_id'] = self.configuration_id
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this UpdateCollectionRequest object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class UpdateEnvironmentRequest(object):
-    """
-    UpdateEnvironmentRequest.
-
-    :attr str name: (optional) Name that identifies the environment.
-    :attr str description: (optional) Description of the environment.
-    """
-
-    def __init__(self, name=None, description=None):
-        """
-        Initialize a UpdateEnvironmentRequest object.
-
-        :param str name: (optional) Name that identifies the environment.
-        :param str description: (optional) Description of the environment.
-        """
-        self.name = name
-        self.description = description
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a UpdateEnvironmentRequest object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict['name']
-        if 'description' in _dict:
-            args['description'] = _dict['description']
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this UpdateEnvironmentRequest object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
