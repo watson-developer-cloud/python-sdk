@@ -44,7 +44,7 @@ global_payload = {
 
 def invokeToneConversation(payload, maintainToneHistoryInContext):
     """
-     invokeToneConversation calls the the Tone Analyzer service to get the
+     invokeToneConversation calls the Tone Analyzer service to get the
      tone information for the user's input text (input['text'] in the payload
      json object), adds/updates the user's tone in the payload's context,
      and sends the payload to the

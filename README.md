@@ -59,8 +59,8 @@ Copy your credentials from the **Service details** page. To find the the Service
 
 Tested on: Python from 2.7, 3.4, 3.5, and 3.6.
 
-## Changes for v4.0
-Version 4.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
+## Changes for v1.0
+Version 1.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
 ## Migration
 This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
