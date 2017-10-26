@@ -96,7 +96,7 @@ class NaturalLanguageClassifierV1(WatsonService):
     def create_classifier(self,
                           metadata,
                           training_data,
-                          training_metadata_filename=None,
+                          metadata_filename=None,
                           training_data_filename=None):
         """
         Create classifier.
@@ -106,7 +106,7 @@ class NaturalLanguageClassifierV1(WatsonService):
 
         :param file metadata: Metadata in JSON format. The metadata identifies the language of the data, and an optional name to identify the classifier. For details, see the [API reference](https://www.ibm.com/watson/developercloud/natural-language-classifier/api/v1/#create_classifier).
         :param file training_data: Training data in CSV format. Each text value must have at least one class. The data can include up to 15,000 records. For details, see [Using your own data](https://www.ibm.com/watson/developercloud/doc/natural-language-classifier/using-your-data.html).
-        :param str training_metadata_filename: The filename for training_metadata.
+        :param str metadata_filename: The filename for training_metadata.
         :param str training_data_filename: The filename for training_data.
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
@@ -115,10 +115,10 @@ class NaturalLanguageClassifierV1(WatsonService):
             raise ValueError('metadata must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
-        if not training_metadata_filename and hasattr(metadata, 'name'):
-            training_metadata_filename = metadata.name
+        if not metadata_filename and hasattr(metadata, 'name'):
+            metadata_filename = metadata.name
         mime_type = 'application/octet-stream'
-        metadata_tuple = (training_metadata_filename, metadata, mime_type)
+        metadata_tuple = (metadata_filename, metadata, mime_type)
         if not training_data_filename and hasattr(training_data, 'name'):
             training_data_filename = training_data.name
         mime_type = 'application/octet-stream'
