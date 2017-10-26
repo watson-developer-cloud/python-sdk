@@ -35,7 +35,11 @@ class DiscoveryV1(WatsonService):
     """The Discovery V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/discovery/api'
-    latest_version = '2017-09-01'
+    VERSION_DATE_2017_09_01 = '2017-09-01'
+    VERSION_DATE_2017_08_01 = '2017-08-01'
+    VERSION_DATE_2017_07_19 = '2017-07-19'
+    VERSION_DATE_2017_06_25 = '2017-06-25'
+    VERSION_DATE_2016_12_01 = '2016-12-01'
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """

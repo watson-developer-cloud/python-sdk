@@ -65,7 +65,6 @@ class ToneAnalyzerV3(WatsonService):
     """The Tone Analyzer V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
-    latest_version = ''
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """

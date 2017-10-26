@@ -34,7 +34,6 @@ class NaturalLanguageClassifierV1(WatsonService):
     """The Natural Language Classifier V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
-    latest_version = ''
 
     def __init__(self, url=default_url, username=None, password=None):
         """

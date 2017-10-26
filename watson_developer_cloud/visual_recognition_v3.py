@@ -40,7 +40,7 @@ class VisualRecognitionV3(WatsonService):
     """The Visual Recognition V3 service."""
 
     default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
-    latest_version = '2016-05-20'
+    VERSION_DATE_2016_05_20 = '2016-05-20'
 
     def __init__(self, version, url=default_url, api_key=None):
         """

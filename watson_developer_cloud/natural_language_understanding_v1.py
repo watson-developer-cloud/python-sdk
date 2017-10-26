@@ -76,7 +76,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
     """The Natural Language Understanding V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
-    latest_version = '2017-02-27'
+    VERSION_DATE_2017_02_27 = '2017-02-27'
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """
