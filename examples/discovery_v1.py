@@ -4,7 +4,7 @@ import json
 from watson_developer_cloud import DiscoveryV1
 
 discovery = DiscoveryV1(
-    '2016-11-07',
+    version='2017-10-16',
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
 
