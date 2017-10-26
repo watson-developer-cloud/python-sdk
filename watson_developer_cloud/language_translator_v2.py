@@ -140,11 +140,8 @@ class LanguageTranslatorV2(WatsonService):
                      forced_glossary=None,
                      parallel_corpus=None,
                      monolingual_corpus=None,
-                     forced_glossary_content_type=None,
                      forced_glossary_filename=None,
-                     parallel_corpus_content_type=None,
                      parallel_corpus_filename=None,
-                     monolingual_corpus_content_type=None,
                      monolingual_corpus_filename=None):
         """
         Uploads a TMX glossary file on top of a domain to customize a translation model.
@@ -154,11 +151,8 @@ class LanguageTranslatorV2(WatsonService):
         :param file forced_glossary: A TMX file with your customizations. The customizations in the file completely overwrite the domain data translation, including high frequency or high confidence phrase translations. You can upload only one glossary with a file size less than 10 MB per call.
         :param file parallel_corpus: A TMX file that contains entries that are treated as a parallel corpus instead of a glossary.
         :param file monolingual_corpus: A UTF-8 encoded plain text file that is used to customize the target language model.
-        :param str forced_glossary_content_type: The content type of forced_glossary.
         :param str forced_glossary_filename: The filename for forced_glossary.
-        :param str parallel_corpus_content_type: The content type of parallel_corpus.
         :param str parallel_corpus_filename: The filename for parallel_corpus.
-        :param str monolingual_corpus_content_type: The content type of monolingual_corpus.
         :param str monolingual_corpus_filename: The filename for monolingual_corpus.
         :return: A `dict` containing the `TranslationModel` response.
         :rtype: dict
@@ -171,7 +165,7 @@ class LanguageTranslatorV2(WatsonService):
             if not forced_glossary_filename and hasattr(forced_glossary,
                                                         'name'):
                 forced_glossary_filename = forced_glossary.name
-            mime_type = forced_glossary_content_type or 'application/octet-stream'
+            mime_type = 'application/octet-stream'
             forced_glossary_tuple = (forced_glossary_filename, forced_glossary,
                                      mime_type)
         parallel_corpus_tuple = None
@@ -179,7 +173,7 @@ class LanguageTranslatorV2(WatsonService):
             if not parallel_corpus_filename and hasattr(parallel_corpus,
                                                         'name'):
                 parallel_corpus_filename = parallel_corpus.name
-            mime_type = parallel_corpus_content_type or 'application/octet-stream'
+            mime_type = 'application/octet-stream'
             parallel_corpus_tuple = (parallel_corpus_filename, parallel_corpus,
                                      mime_type)
         monolingual_corpus_tuple = None
@@ -187,7 +181,7 @@ class LanguageTranslatorV2(WatsonService):
             if not monolingual_corpus_filename and hasattr(
                     monolingual_corpus, 'name'):
                 monolingual_corpus_filename = monolingual_corpus.name
-            mime_type = monolingual_corpus_content_type or 'application/octet-stream'
+            mime_type = 'text/plain'
             monolingual_corpus_tuple = (monolingual_corpus_filename,
                                         monolingual_corpus, mime_type)
         response = self.request(
