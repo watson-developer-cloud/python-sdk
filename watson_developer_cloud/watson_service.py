@@ -84,7 +84,7 @@ def _convert_boolean_values(dictionary):
     return dictionary
 
 
-class WatsonDeveloperCloudService(object):
+class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
                  x_watson_learning_opt_out=False):
@@ -321,6 +321,8 @@ class WatsonDeveloperCloudService(object):
                                     **kwargs)
 
         if 200 <= response.status_code <= 299:
+            if response.status_code == 204:
+                return None
             if accept_json:
                 response_json = response.json()
                 if 'status' in response_json and response_json['status'] \

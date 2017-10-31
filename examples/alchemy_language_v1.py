@@ -1,5 +1,4 @@
 import json
-from os.path import join, dirname
 from watson_developer_cloud import AlchemyLanguageV1
 
 alchemy_language = AlchemyLanguageV1(api_key='YOUR API KEY')

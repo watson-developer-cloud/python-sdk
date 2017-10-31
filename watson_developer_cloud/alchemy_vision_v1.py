@@ -16,17 +16,16 @@ The AlchemyAPI Vision service
 (https://www.ibm.com/watson/developercloud/visual-recognition.html)
 """
 from __future__ import print_function
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class AlchemyVisionV1(WatsonDeveloperCloudService):
+class AlchemyVisionV1(WatsonService):
     """AlchemyVision was deprecated, migrate your application to use
     VisualRecognition."""
     default_url = 'https://gateway-a.watsonplatform.net/calls'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'alchemy_api', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'alchemy_api', url, **kwargs)
         print(
             'WARNING: The AlchemyVision service was deprecated, '
             'use VisualRecognitionV3 instead')

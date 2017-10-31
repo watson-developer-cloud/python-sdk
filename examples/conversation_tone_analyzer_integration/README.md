@@ -15,7 +15,7 @@ Requirements to run the sample code
 
 Credentials & the Workspace ID can be set in environment properties, a .env file, or directly in the code.
 
-Dependencies provided in 
+Dependencies provided in
 `init.py`
 
 Command to run the sample code
