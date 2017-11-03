@@ -14,6 +14,7 @@
 
 from .watson_service import WatsonService
 from .watson_service import WatsonException
+from .watson_service import WatsonApiException
 from .watson_service import WatsonInvalidArgument
 from .alchemy_data_news_v1 import AlchemyDataNewsV1
 from .alchemy_language_v1 import AlchemyLanguageV1

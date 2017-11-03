@@ -1,6 +1,9 @@
 import responses
 import watson_developer_cloud
+from watson_developer_cloud import WatsonException
+from watson_developer_cloud import WatsonApiException
 import os
+import json
 
 
 @responses.activate
@@ -104,3 +107,40 @@ def test_tone_chat():
     assert responses.calls[0].request.url == tone_url + tone_args
     assert responses.calls[0].response.text == tone_response
     assert len(responses.calls) == 1
+
+
+#########################
+# error response
+#########################
+
+
+@responses.activate
+def test_error():
+    tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
+    tone_args = '?version=2016-05-19'
+    error_code = 400
+    error_message = "Invalid JSON input at line 2, column 12"
+    tone_response = {
+            "code": error_code,
+            "sub_code": "C00012",
+            "error": error_message
+        }
+    responses.add(responses.POST,
+                  tone_url,
+                  body=json.dumps(tone_response),
+                  status=error_code,
+                  content_type='application/json')
+
+    tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
+            username="username", password="password")
+    text = "Team, I know that times are tough!"
+    try:
+        tone_analyzer.tone(text)
+    except WatsonException as ex:
+        assert len(responses.calls) == 1
+        assert isinstance(ex, WatsonApiException)
+        assert ex.code == error_code
+        assert ex.message == error_message
+        assert len(ex.info) == 1
+        assert ex.info['sub_code'] == 'C00012'
+
