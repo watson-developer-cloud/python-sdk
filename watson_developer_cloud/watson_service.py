@@ -183,6 +183,12 @@ class WatsonService(object):
         return dictionary
 
     @staticmethod
+    def _convert_model(val):
+        if hasattr(val, "_to_dict"):
+            return val._to_dict()
+        return val
+
+    @staticmethod
     def _get_error_message(response):
         """
         Gets the error message from a JSON response.
