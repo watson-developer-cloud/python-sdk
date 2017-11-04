@@ -258,18 +258,11 @@ class DiscoveryV1(WatsonService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = conversions._to_dict() if hasattr(
-                conversions, '_to_dict') else conversions
+            conversions = self._convert_model(conversions)
         if enrichments is not None:
-            enrichments = [
-                x._to_dict() if hasattr(x, "_to_dict") else x
-                for x in enrichments
-            ]
+            enrichments = [self._convert_model(x) for x in enrichments]
         if normalizations is not None:
-            normalizations = [
-                x._to_dict() if hasattr(x, "_to_dict") else x
-                for x in normalizations
-            ]
+            normalizations = [self._convert_model(x) for x in normalizations]
         params = {'version': self.version}
         data = {
             'name': name,
@@ -394,18 +387,11 @@ class DiscoveryV1(WatsonService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = conversions._to_dict() if hasattr(
-                conversions, '_to_dict') else conversions
+            conversions = self._convert_model(conversions)
         if enrichments is not None:
-            enrichments = [
-                x._to_dict() if hasattr(x, "_to_dict") else x
-                for x in enrichments
-            ]
+            enrichments = [self._convert_model(x) for x in enrichments]
         if normalizations is not None:
-            normalizations = [
-                x._to_dict() if hasattr(x, "_to_dict") else x
-                for x in normalizations
-            ]
+            normalizations = [self._convert_model(x) for x in normalizations]
         params = {'version': self.version}
         data = {
             'name': name,
@@ -1195,9 +1181,7 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if examples is not None:
-            examples = [
-                x._to_dict() if hasattr(x, "_to_dict") else x for x in examples
-            ]
+            examples = [self._convert_model(x) for x in examples]
         params = {'version': self.version}
         data = {
             'natural_language_query': natural_language_query,
@@ -1402,6 +1386,32 @@ class DiscoveryV1(WatsonService):
             method='GET',
             url='/v1/environments/{0}/collections/{1}/training_data'.format(
                 environment_id, collection_id),
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_training_examples(self, environment_id, collection_id, query_id):
+        """
+        List all examples for this training data query.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str query_id: The ID of the query used for training.
+        :return: A `dict` containing the `TrainingExampleList` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if query_id is None:
+            raise ValueError('query_id must be provided')
+        params = {'version': self.version}
+        response = self.request(
+            method='GET',
+            url=
+            '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.
+            format(environment_id, collection_id, query_id),
             params=params,
             accept_json=True)
         return response
@@ -4445,6 +4455,53 @@ class TrainingExample(object):
 
     def __str__(self):
         """Return a `str` version of this TrainingExample object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TrainingExampleList(object):
+    """
+    TrainingExampleList.
+
+    :attr list[TrainingExample] examples: (optional)
+    """
+
+    def __init__(self, examples=None):
+        """
+        Initialize a TrainingExampleList object.
+
+        :param list[TrainingExample] examples: (optional)
+        """
+        self.examples = examples
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingExampleList object from a json dictionary."""
+        args = {}
+        if 'examples' in _dict:
+            args['examples'] = [
+                TrainingExample._from_dict(x) for x in _dict['examples']
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'examples') and self.examples is not None:
+            _dict['examples'] = [x._to_dict() for x in self.examples]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this TrainingExampleList object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

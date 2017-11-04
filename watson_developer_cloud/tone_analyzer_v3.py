@@ -197,9 +197,7 @@ class ToneAnalyzerV3(WatsonService):
         """
         if utterances is None:
             raise ValueError('utterances must be provided')
-        utterances = [
-            x._to_dict() if hasattr(x, "_to_dict") else x for x in utterances
-        ]
+        utterances = [self._convert_model(x) for x in utterances]
         headers = {'Accept-Language': accept_language}
         params = {'version': self.version}
         data = {'utterances': utterances}

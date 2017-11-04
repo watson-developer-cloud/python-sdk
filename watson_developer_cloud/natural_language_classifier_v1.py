@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The The IBM Watson Natural Language Classifier service uses machine learning algorithms to
-return the top matching predefined classes for short text input. You create and train a
-classifier to connect predefined classes to example texts so that the service can apply
-those classes to new inputs.
+IBM Watson Natural Language Classifier uses machine learning algorithms to return the top
+matching predefined classes for short text input. You create and train a classifier to
+connect predefined classes to example texts so that the service can apply those classes to
+new inputs.
 """
 
 from __future__ import absolute_import
@@ -117,11 +117,11 @@ class NaturalLanguageClassifierV1(WatsonService):
             raise ValueError('training_data must be provided')
         if not metadata_filename and hasattr(metadata, 'name'):
             metadata_filename = metadata.name
-        mime_type = 'application/octet-stream'
+        mime_type = 'application/json'
         metadata_tuple = (metadata_filename, metadata, mime_type)
         if not training_data_filename and hasattr(training_data, 'name'):
             training_data_filename = training_data.name
-        mime_type = 'application/octet-stream'
+        mime_type = 'text/csv'
         training_data_tuple = (training_data_filename, training_data, mime_type)
         response = self.request(
             method='POST',

@@ -155,8 +155,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         """
         if features is None:
             raise ValueError('features must be provided')
-        features = features._to_dict() if hasattr(features,
-                                                  '_to_dict') else features
+        features = self._convert_model(features)
         params = {'version': self.version}
         data = {
             'features': features,
