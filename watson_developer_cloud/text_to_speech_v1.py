@@ -16,10 +16,10 @@ The v1 Text to Speech service
 (https://www.ibm.com/watson/developercloud/text-to-speech.html)
 """
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class TextToSpeechV1(WatsonDeveloperCloudService):
+class TextToSpeechV1(WatsonService):
     """Client for the Text to Speech service"""
     default_url = "https://stream.watsonplatform.net/text-to-speech/api"
 
@@ -28,8 +28,7 @@ class TextToSpeechV1(WatsonDeveloperCloudService):
         Construct an instance. Fetches service parameters from VCAP_SERVICES
         runtime variable for Bluemix, or it defaults to local URLs.
         """
-        WatsonDeveloperCloudService.__init__(self, 'text_to_speech', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'text_to_speech', url, **kwargs)
 
     def synthesize(self, text, voice=None, accept=None, customization_id=None):
         """

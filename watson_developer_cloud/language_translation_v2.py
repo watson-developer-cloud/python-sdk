@@ -18,16 +18,15 @@ The v2 Language Translation service
 """
 
 from __future__ import print_function
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
-from .watson_developer_cloud_service import WatsonInvalidArgument
+from .watson_service import WatsonService
+from .watson_service import WatsonInvalidArgument
 
 
-class LanguageTranslationV2(WatsonDeveloperCloudService):
+class LanguageTranslationV2(WatsonService):
     default_url = "https://gateway.watsonplatform.net/language-translation/api"
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'language_translation', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'language_translation', url, **kwargs)
         print(
             'WARNING: The Language Translation service was deprecated, '
             'please migrate to Language Translator.')

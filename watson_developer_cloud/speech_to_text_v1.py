@@ -16,16 +16,15 @@ The v1 Speech to Text service
 (https://www.ibm.com/watson/developercloud/speech-to-text.html)
 """
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 import json
 
 
-class SpeechToTextV1(WatsonDeveloperCloudService):
+class SpeechToTextV1(WatsonService):
     default_url = "https://stream.watsonplatform.net/speech-to-text/api"
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'speech_to_text', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'speech_to_text', url, **kwargs)
 
     def recognize(self, audio, content_type, continuous=None, model=None,
                   customization_id=None,

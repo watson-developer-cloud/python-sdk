@@ -20,8 +20,6 @@
  * These thresholds can be adjusted to client/domain requirements.
 """
 
-import json
-
 PRIMARY_EMOTION_SCORE_THRESHOLD = 0.5
 WRITING_HIGH_SCORE_THRESHOLD = 0.75
 WRITING_NO_SCORE_THRESHOLD = 0.0
@@ -54,13 +52,13 @@ def updateUserTone(conversationPayload, toneAnalyzerPayload, maintainHistory):
 
     # if there is no context in a
     if 'context' not in conversationPayload:
-        conversationPayload['context'] = {};
+        conversationPayload['context'] = {}
 
     if 'user' not in conversationPayload['context']:
         conversationPayload['context'] = initUser()
 
     # For convenience sake, define a variable for the user object
-    user = conversationPayload['context']['user'];
+    user = conversationPayload['context']['user']
 
     # Extract the tones - emotion, writing and social
     if toneAnalyzerPayload and toneAnalyzerPayload['document_tone']:
@@ -79,7 +77,7 @@ def updateUserTone(conversationPayload, toneAnalyzerPayload, maintainHistory):
 
     conversationPayload['context']['user'] = user
 
-    return conversationPayload;
+    return conversationPayload
 
 
 '''
@@ -139,7 +137,7 @@ def updateEmotionTone(user, emotionTone, maintainHistory):
         primaryEmotionScore = None
 
     # update user emotion tone
-    user['tone']['emotion']['current'] = primaryEmotion;
+    user['tone']['emotion']['current'] = primaryEmotion
 
     if maintainHistory:
         if 'history' not in user['tone']['emotion']:
@@ -161,8 +159,8 @@ def updateEmotionTone(user, emotionTone, maintainHistory):
 
 
 def updateWritingTone(user, writingTone, maintainHistory):
-    currentWriting = [];
-    currentWritingObject = [];
+    currentWriting = []
+    currentWritingObject = []
 
     # Process each writing tone and determine if it is high or low
     for tone in writingTone['tones']:
@@ -219,7 +217,7 @@ def updateSocialTone(user, socialTone, maintainHistory):
                 'interpretation': 'likely high'
             })
         elif tone['score'] <= SOCIAL_LOW_SCORE_THRESHOLD:
-            currentSocial.append(tone['tone_name'].lower() + '_low');
+            currentSocial.append(tone['tone_name'].lower() + '_low')
             currentSocialObject.append({
                 'tone_name': tone['tone_name'].lower(),
                 'score': tone['score'],
@@ -236,5 +234,5 @@ def updateSocialTone(user, socialTone, maintainHistory):
     user['tone']['social']['current'] = currentSocial
     if maintainHistory:
         if not user['tone']['social']['current']:
-            user['tone']['social']['current'] = [];
-        user['tone']['social']['current'].append(currentSocialObject);
+            user['tone']['social']['current'] = []
+        user['tone']['social']['current'].append(currentSocialObject)

@@ -1,4 +1,4 @@
-# Copyright 2016 IBM All Rights Reserved.
+# Copyright 2017 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -84,7 +84,7 @@ def _convert_boolean_values(dictionary):
     return dictionary
 
 
-class WatsonDeveloperCloudService(object):
+class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
                  x_watson_learning_opt_out=False):
@@ -181,6 +181,12 @@ class WatsonDeveloperCloudService(object):
         if isinstance(dictionary, dict) and label_id in dictionary:
             return dictionary[label_id]
         return dictionary
+
+    @staticmethod
+    def _convert_model(val):
+        if hasattr(val, "_to_dict"):
+            return val._to_dict()
+        return val
 
     @staticmethod
     def _get_error_message(response):
@@ -321,6 +327,8 @@ class WatsonDeveloperCloudService(object):
                                     **kwargs)
 
         if 200 <= response.status_code <= 299:
+            if response.status_code == 204:
+                return None
             if accept_json:
                 response_json = response.json()
                 if 'status' in response_json and response_json['status'] \
