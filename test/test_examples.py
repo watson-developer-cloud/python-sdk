@@ -52,7 +52,7 @@ def test_examples():
 
         try:
             service_file = open(example).read()
-            exec(re.sub('# coding=utf-8', '', service_file), globals())
+            exec(re.sub('# coding[:=]\s*utf-8', '', service_file), globals())
         except Exception as e:
             assert False, 'example in file ' + name + ' failed with error: '\
                           + str(e) + '\n' + traceback.format_exc()
