@@ -16,6 +16,7 @@ import json
 import responses
 import watson_developer_cloud
 from watson_developer_cloud import WatsonException
+from watson_developer_cloud import WatsonApiException
 from watson_developer_cloud.conversation_v1 import *
 
 platform_url = 'https://gateway.watsonplatform.net'
