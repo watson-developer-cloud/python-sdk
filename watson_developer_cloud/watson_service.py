@@ -62,6 +62,7 @@ class WatsonApiException(WatsonException):
     def __init__(self, code, message, info=None):
         # Call the base class constructor with the parameters it needs
         super(WatsonApiException, self).__init__(message)
+        self.message = message
         self.code = code
         self.info = info
 
@@ -232,7 +233,7 @@ class WatsonService(object):
                 error_message = error_json['statusInfo']
             return error_message
         except:
-            return (response.text or error_message)
+            return response.text or error_message
 
 
     @staticmethod
