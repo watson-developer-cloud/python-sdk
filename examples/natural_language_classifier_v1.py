@@ -33,7 +33,7 @@ if status['status'] == 'Available':
 # delete = natural_language_classifier.remove('2374f9x68-nlc-2697')
 # print(json.dumps(delete, indent=2))
 
-# example of raising a WatsonException
+# example of raising a ValueError
 # print(json.dumps(
 #     natural_language_classifier.create(training_data='', name='weather3'),
 #     indent=2))

@@ -68,9 +68,9 @@ class TestNaturalLanguageUnderstanding(TestCase):
     @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is not None,
                     reason='credentials may come from VCAP_SERVICES')
     def test_missing_credentials(self):
-        with pytest.raises(WatsonException):
+        with pytest.raises(ValueError):
             NaturalLanguageUnderstandingV1(version='2016-01-23')
-        with pytest.raises(WatsonException):
+        with pytest.raises(ValueError):
             NaturalLanguageUnderstandingV1(version='2016-01-23',
                                           url='https://bogus.com')
 
