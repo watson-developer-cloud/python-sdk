@@ -1,6 +1,5 @@
 from unittest import TestCase
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
-from watson_developer_cloud import WatsonException
 from watson_developer_cloud.natural_language_understanding_v1 import \
      Features, ConceptsOptions, EntitiesOptions, KeywordsOptions, CategoriesOptions, \
      EmotionOptions, MetadataOptions, SemanticRolesOptions, RelationsOptions, \
@@ -18,61 +17,61 @@ default_url = '{0}/natural-language-understanding/api'.format(base_url)
 class TestFeatures(TestCase):
     def test_concepts(self):
         c = Features(concepts=ConceptsOptions())
-        assert(c._to_dict() == {'concepts': {}})
+        assert c._to_dict() == {'concepts': {}}
         c = Features(concepts=ConceptsOptions(limit=10))
-        assert(c._to_dict() == {'concepts': {'limit': 10}})
+        assert c._to_dict() == {'concepts': {'limit': 10}}
 
     def test_entities(self):
         e = Features(entities=EntitiesOptions())
-        assert(e._to_dict() == {'entities': {}})
+        assert e._to_dict() == {'entities': {}}
 
     def test_keywords(self):
         k = Features(keywords=KeywordsOptions())
-        assert(k._to_dict() == {'keywords': {}})
+        assert k._to_dict() == {'keywords': {}}
 
     def test_categories(self):
         c = Features(categories=CategoriesOptions())
-        assert(c._to_dict() == {'categories': {}})
+        assert c._to_dict() == {'categories': {}}
 
     def test_emotion(self):
         e = Features(emotion=EmotionOptions())
-        assert(e._to_dict() == {'emotion': {}})
+        assert e._to_dict() == {'emotion': {}}
 
     def test_metadata(self):
         m = Features(metadata=MetadataOptions())
-        assert(m._to_dict() == {'metadata': {}})
+        assert m._to_dict() == {'metadata': {}}
 
     def test_semantic_roles(self):
         s = Features(semantic_roles=SemanticRolesOptions())
-        assert(s._to_dict() == {'semantic_roles': {}})
+        assert s._to_dict() == {'semantic_roles': {}}
 
     def test_relations(self):
         r = Features(relations=RelationsOptions())
-        assert(r._to_dict() == {'relations': {}})
+        assert r._to_dict() == {'relations': {}}
 
     def test_sentiment(self):
         s = Features(sentiment=SentimentOptions())
-        assert(s._to_dict() == {'sentiment': {}})
+        assert s._to_dict() == {'sentiment': {}}
 
 
 class TestNaturalLanguageUnderstanding(TestCase):
     def test_version_date(self):
         with pytest.raises(TypeError):
-            NaturalLanguageUnderstandingV1()
+            NaturalLanguageUnderstandingV1() # pylint: disable=E1120
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
                                              username='username',
                                              password='password')
-        assert(nlu)
+        assert nlu
 
     @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is not None,
-                    reason='credentials may come from VCAP_SERVICES')
+                        reason='credentials may come from VCAP_SERVICES')
     def test_missing_credentials(self):
         with pytest.raises(ValueError):
             NaturalLanguageUnderstandingV1(version='2016-01-23')
         with pytest.raises(ValueError):
             NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                          url='https://bogus.com')
+                                           url='https://bogus.com')
 
     def test_analyze_throws(self):
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
@@ -106,7 +105,7 @@ class TestNaturalLanguageUnderstanding(TestCase):
                                              username='username',
                                              password='password')
         nlu.analyze(Features(sentiment=SentimentOptions(),
-                     emotion=EmotionOptions(document=False)),
+                             emotion=EmotionOptions(document=False)),
                     html="<span>hello this is a test</span>")
         assert len(responses.calls) == 1
 
@@ -121,7 +120,7 @@ class TestNaturalLanguageUnderstanding(TestCase):
                                              username='username',
                                              password='password')
         nlu.analyze(Features(sentiment=SentimentOptions(),
-                    emotion=EmotionOptions(document=False)),
+                             emotion=EmotionOptions(document=False)),
                     url="http://cnn.com",
                     xpath="/bogus/xpath", language="en")
         assert len(responses.calls) == 1

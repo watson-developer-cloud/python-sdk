@@ -17,9 +17,7 @@
 import json
 import responses
 import watson_developer_cloud
-from watson_developer_cloud import LanguageTranslatorV2
-from watson_developer_cloud import WatsonException
-from watson_developer_cloud.language_translator_v2 import *
+from watson_developer_cloud.language_translator_v2 import TranslationResult, TranslationModels, TranslationModel, IdentifiedLanguages, IdentifiableLanguages
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/language-translator/api'
@@ -36,13 +34,9 @@ def test_translate_source_target():
     endpoint = '/v2/translate'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
-      "character_count": 19,
-      "translations": [
-        {
-          "translation": "Hello, how are you ? \u20ac"
-        }
-      ],
-      "word_count": 4
+        "character_count": 19,
+        "translations": [{"translation": u"Hello, how are you ? \u20ac"}],
+        "word_count": 4
     }
     responses.add(
         responses.POST,
@@ -55,7 +49,7 @@ def test_translate_source_target():
     assert responses.calls[0].request.url.startswith(url)
     assert response == expected
     # Verify that response can be converted to a TranslationResult
-    translation_result = TranslationResult._from_dict(response)
+    TranslationResult._from_dict(response)
 
 @responses.activate
 def test_translate_model_id():
@@ -64,13 +58,13 @@ def test_translate_model_id():
     endpoint = '/v2/translate'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
-      "character_count": 22,
-      "translations": [
-        {
-          "translation": "Messi es el mejor"
-        }
-      ],
-      "word_count": 5
+        "character_count": 22,
+        "translations": [
+            {
+                "translation": "Messi es el mejor"
+            }
+        ],
+        "word_count": 5
     }
     responses.add(
         responses.POST,
@@ -79,12 +73,12 @@ def test_translate_model_id():
         status=200,
         content_type='application/json')
     response = service.translate('Messi is the best ever',
-                                  model_id='en-es-conversational')
+                                 model_id='en-es-conversational')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert response == expected
     # Verify that response can be converted to a TranslationResult
-    translation_result = TranslationResult._from_dict(response)
+    TranslationResult._from_dict(response)
 
 @responses.activate
 def test_list_models():
@@ -93,32 +87,32 @@ def test_list_models():
     endpoint = '/v2/models'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
-      "models": [
-        {
-          "status": "available",
-          "model_id": "en-es-conversational",
-          "domain": "conversational",
-          "target": "es",
-          "customizable": False,
-          "source": "en",
-          "base_model_id": "",
-          "owner": "",
-          "default_model": False,
-          "name": "en-es-conversational"
-        },
-        {
-          "status": "available",
-          "model_id": "es-en",
-          "domain": "news",
-          "target": "en",
-          "customizable": True,
-          "source": "es",
-          "base_model_id": "",
-          "owner": "",
-          "default_model": True,
-          "name": "es-en"
-        }
-      ]
+        "models": [
+            {
+                "status": "available",
+                "model_id": "en-es-conversational",
+                "domain": "conversational",
+                "target": "es",
+                "customizable": False,
+                "source": "en",
+                "base_model_id": "",
+                "owner": "",
+                "default_model": False,
+                "name": "en-es-conversational"
+            },
+            {
+                "status": "available",
+                "model_id": "es-en",
+                "domain": "news",
+                "target": "en",
+                "customizable": True,
+                "source": "es",
+                "base_model_id": "",
+                "owner": "",
+                "default_model": True,
+                "name": "es-en"
+            }
+        ]
     }
     responses.add(
         responses.GET,
@@ -131,7 +125,7 @@ def test_list_models():
     assert responses.calls[0].request.url.startswith(url)
     assert response == expected
     # Verify that response can be converted to a TranslationModels
-    translation_models = TranslationModels._from_dict(response)
+    TranslationModels._from_dict(response)
 
 @responses.activate
 def test_get_model():
@@ -141,16 +135,16 @@ def test_get_model():
     endpoint = '/v2/models/' + model_id
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
-      "status": "available",
-      "model_id": "en-es-conversational",
-      "domain": "conversational",
-      "target": "es",
-      "customizable": False,
-      "source": "en",
-      "base_model_id": "",
-      "owner": "",
-      "default_model": False,
-      "name": "en-es-conversational"
+        "status": "available",
+        "model_id": "en-es-conversational",
+        "domain": "conversational",
+        "target": "es",
+        "customizable": False,
+        "source": "en",
+        "base_model_id": "",
+        "owner": "",
+        "default_model": False,
+        "name": "en-es-conversational"
     }
     responses.add(
         responses.GET,
@@ -163,7 +157,7 @@ def test_get_model():
     assert responses.calls[0].request.url.startswith(url)
     assert response == expected
     # Verify that response can be converted to a TranslationModel
-    translation_model = TranslationModel._from_dict(response)
+    TranslationModel._from_dict(response)
 
 # print(json.dumps(language_translator.identify('你好'), indent=2))
 
@@ -174,20 +168,20 @@ def test_identify():
     endpoint = '/v2/identify'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
-      "languages": [
-        {
-          "confidence": 0.477673,
-          "language": "zh"
-        },
-        {
-          "confidence": 0.262053,
-          "language": "zh-TW"
-        },
-        {
-          "confidence": 0.00958378,
-          "language": "en"
-        }
-      ]
+        "languages": [
+            {
+                "confidence": 0.477673,
+                "language": "zh"
+            },
+            {
+                "confidence": 0.262053,
+                "language": "zh-TW"
+            },
+            {
+                "confidence": 0.00958378,
+                "language": "en"
+            }
+        ]
     }
     responses.add(
         responses.POST,
@@ -200,7 +194,7 @@ def test_identify():
     assert responses.calls[0].request.url.startswith(url)
     assert response == expected
     # Verify that response can be converted to a IdentifiedLanguages
-    identified_languages = IdentifiedLanguages._from_dict(response)
+    IdentifiedLanguages._from_dict(response)
 
 # print(json.dumps(language_translator.get_identifiable_languages(), indent=2))
 
@@ -211,32 +205,32 @@ def test_list_identifiable_languages():
     endpoint = '/v2/identifiable_languages'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
-      "languages": [
-        {
-          "name": "German",
-          "language": "de"
-        },
-        {
-          "name": "Greek",
-          "language": "el"
-        },
-        {
-          "name": "English",
-          "language": "en"
-        },
-        {
-          "name": "Esperanto",
-          "language": "eo"
-        },
-        {
-          "name": "Spanish",
-          "language": "es"
-        },
-        {
-          "name": "Chinese",
-          "language": "zh"
-        }
-      ]
+        "languages": [
+            {
+                "name": "German",
+                "language": "de"
+            },
+            {
+                "name": "Greek",
+                "language": "el"
+            },
+            {
+                "name": "English",
+                "language": "en"
+            },
+            {
+                "name": "Esperanto",
+                "language": "eo"
+            },
+            {
+                "name": "Spanish",
+                "language": "es"
+            },
+            {
+                "name": "Chinese",
+                "language": "zh"
+            }
+            ]
     }
     responses.add(
         responses.GET,
@@ -249,4 +243,4 @@ def test_list_identifiable_languages():
     assert responses.calls[0].request.url.startswith(url)
     assert response == expected
     # Verify that response can be converted to a IdentifiableLanguages
-    identifiable_languages = IdentifiableLanguages._from_dict(response)
+    IdentifiableLanguages._from_dict(response)

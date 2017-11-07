@@ -54,15 +54,15 @@ def test_no_visualization_preferable_options():
     responses.add(responses.POST, dilemmas_url,
                   body=dilemmas_response, status=200,
                   content_type='application/json')
-    
+
     tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1(
         username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/problem.json')) as data_file:
         tradeoff_analytics.dilemmas(
-        json.load(data_file),
-        generate_visualization=False,
-        find_preferable_options=True)
+            json.load(data_file),
+            generate_visualization=False,
+            find_preferable_options=True)
 
     assert 'find_preferable_options=true' in responses.calls[0].request.url
     assert responses.calls[0].response.text == dilemmas_response
@@ -77,15 +77,13 @@ def test_visualization_preferable_options():
     responses.add(responses.POST, dilemmas_url,
                   body=dilemmas_response, status=200,
                   content_type='application/json')
-    
     tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1(
         username="username", password="password")
-    
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/problem.json')) as data_file:
         tradeoff_analytics.dilemmas(
-        json.load(data_file),
-        find_preferable_options=True)
+            json.load(data_file),
+            find_preferable_options=True)
 
     assert 'generate_visualization=true' in responses.calls[0].request.url
     assert 'find_preferable_options=true' in responses.calls[0].request.url

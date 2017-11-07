@@ -14,13 +14,13 @@ class TestVisualRecognitionV3(TestCase):
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
-        response= {
-                "classifier_id": "bogusnumber",
-                "name": "Dog Breeds",
-                "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
-                "status": "failed",
-                "created": "2017-08-25T06:39:01.968Z",
-                "classes": [{"class": "goldenretriever"}]
+        response = {
+            "classifier_id": "bogusnumber",
+            "name": "Dog Breeds",
+            "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
+            "status": "failed",
+            "created": "2017-08-25T06:39:01.968Z",
+            "classes": [{"class": "goldenretriever"}]
             }
 
         responses.add(responses.GET,
@@ -53,7 +53,7 @@ class TestVisualRecognitionV3(TestCase):
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
-        response= { "classifiers": [
+        response = {"classifiers": [
             {
                 "classifier_id": "InsuranceClaims_1362331461",
                 "name": "Insurance Claims",
@@ -81,13 +81,13 @@ class TestVisualRecognitionV3(TestCase):
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
-        response= {
-                "classifier_id": "DogBreeds_2014254824",
-                "name": "Dog Breeds",
-                "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
-                "status": "failed",
-                "created": "2017-08-25T06:39:01.968Z",
-                "classes": [{"class": "goldenretriever"}]
+        response = {
+            "classifier_id": "DogBreeds_2014254824",
+            "name": "Dog Breeds",
+            "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
+            "status": "failed",
+            "created": "2017-08-25T06:39:01.968Z",
+            "classes": [{"class": "goldenretriever"}]
             }
 
         responses.add(responses.POST,
@@ -108,16 +108,16 @@ class TestVisualRecognitionV3(TestCase):
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusid')
 
-        response= {
-                "classifier_id": "bogusid",
-                "name": "Insurance Claims",
-                "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
-                "status": "ready",
-                "created": "2017-07-17T22:17:14.860Z",
-                "classes": [
-                    {"class": "motorcycleaccident"},
-                    {"class": "flattire"},
-                    {"class": "brokenwinshield"}
+        response = {
+            "classifier_id": "bogusid",
+            "name": "Insurance Claims",
+            "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
+            "status": "ready",
+            "created": "2017-07-17T22:17:14.860Z",
+            "classes": [
+                {"class": "motorcycleaccident"},
+                {"class": "flattire"},
+                {"class": "brokenwinshield"}
                 ]
             }
 
@@ -137,24 +137,24 @@ class TestVisualRecognitionV3(TestCase):
         gc_url = "{0}{1}".format(base_url, 'v3/classify')
 
         response = {"images": [
-                {"image": "test.jpg",
-                 "classifiers": [
-                    {"classes": [
-                        {"score": 0.95, "class": "tiger", "type_hierarchy": "/animal/mammal/carnivore/feline/big cat/tiger"},
-                        {"score": 0.997, "class": "big cat"},
-                        {"score": 0.998, "class": "feline"},
-                        {"score": 0.998, "class": "carnivore"},
-                        {"score": 0.998, "class": "mammal"},
-                        {"score": 0.999, "class": "animal"}
-                    ],
-                    "classifier_id": "default",
-                    "name": "default"}
+            {"image": "test.jpg",
+             "classifiers": [
+                 {"classes": [
+                     {"score": 0.95, "class": "tiger", "type_hierarchy": "/animal/mammal/carnivore/feline/big cat/tiger"},
+                     {"score": 0.997, "class": "big cat"},
+                     {"score": 0.998, "class": "feline"},
+                     {"score": 0.998, "class": "carnivore"},
+                     {"score": 0.998, "class": "mammal"},
+                     {"score": 0.999, "class": "animal"}
+                     ],
+                  "classifier_id": "default",
+                  "name": "default"}
                  ]
-                }
+            }
             ],
-            "custom_classes": 0,
-            "images_processed": 1
-        }
+                    "custom_classes": 0,
+                    "images_processed": 1
+                   }
 
         responses.add(responses.GET,
                       gc_url,
@@ -232,4 +232,3 @@ class TestVisualRecognitionV3(TestCase):
         with open(os.path.join(os.path.dirname(__file__), '../resources/test.jpg'), 'rb') as image_file:
             vr_service.detect_faces(images_file=image_file)
         assert len(responses.calls) == 2
-

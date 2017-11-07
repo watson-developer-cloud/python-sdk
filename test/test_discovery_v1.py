@@ -3,8 +3,8 @@ import os
 import json
 import io
 import watson_developer_cloud
-from watson_developer_cloud.discovery_v1 import *
-import pytest
+from watson_developer_cloud.discovery_v1 import TrainingDataSet, TrainingQuery, TrainingExample
+
 try:
     from urllib.parse import urlparse, urljoin
 except ImportError:
@@ -335,14 +335,14 @@ def test_document():
                   content_type='application/json')
 
     doc_status = {
-                     "document_id": "45556e23-f2b1-449d-8f27-489b514000ff",
-                     "configuration_id": "2e079259-7dd2-40a9-998f-3e716f5a7b88",
-                     "created" : "2016-06-16T10:56:54.957Z",
-                     "updated" : "2017-05-16T13:56:54.957Z",
-                     "status": "available",
-                     "status_description": "Document is successfully ingested and indexed with no warnings",
-                     "notices": []
-                 }
+        "document_id": "45556e23-f2b1-449d-8f27-489b514000ff",
+        "configuration_id": "2e079259-7dd2-40a9-998f-3e716f5a7b88",
+        "created" : "2016-06-16T10:56:54.957Z",
+        "updated" : "2017-05-16T13:56:54.957Z",
+        "status": "available",
+        "status_description": "Document is successfully ingested and indexed with no warnings",
+        "notices": []
+        }
 
     responses.add(responses.GET, del_doc_url,
                   body=json.dumps(doc_status),
@@ -369,8 +369,8 @@ def test_document():
     assert len(responses.calls) == 3
 
     discovery.get_document_status(environment_id='envid',
-                           collection_id='collid',
-                           document_id='docid')
+                                  collection_id='collid',
+                                  document_id='docid')
 
     assert len(responses.calls) == 4
 
@@ -428,9 +428,9 @@ def test_delete_all_training_data():
                                                  username='username',
                                                  password='password')
     response = service.delete_all_training_data(environment_id=environment_id,
-                                            collection_id=collection_id)
+                                                collection_id=collection_id)
 
-    assert response == None
+    assert response is None
 
 
 @responses.activate
@@ -470,7 +470,7 @@ def test_list_training_data():
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingDataSet
-    training_data_set = TrainingDataSet._from_dict(response)
+    TrainingDataSet._from_dict(response)
 
 
 @responses.activate
@@ -478,7 +478,6 @@ def test_add_training_data():
     training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
     endpoint = training_endpoint.format(environment_id, collection_id)
     url = '{0}{1}'.format(base_url, endpoint)
-    query_id = "some_unique_id"
     natural_language_query = "why is the sky blue"
     filter = "text:meteorology"
     examples = [
@@ -522,7 +521,7 @@ def test_add_training_data():
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingQuery
-    training_query = TrainingQuery._from_dict(response)
+    TrainingQuery._from_dict(response)
 
 
 @responses.activate
@@ -538,10 +537,10 @@ def test_delete_training_data():
                                                  username='username',
                                                  password='password')
     response = service.delete_training_data(environment_id=environment_id,
-                                                  collection_id=collection_id,
-                                                  query_id=query_id)
+                                            collection_id=collection_id,
+                                            query_id=query_id)
 
-    assert response == None
+    assert response is None
 
 
 @responses.activate
@@ -573,12 +572,12 @@ def test_get_training_data():
                                                  username='username',
                                                  password='password')
     response = service.get_training_data(environment_id=environment_id,
-                                               collection_id=collection_id,
-                                               query_id=query_id)
+                                         collection_id=collection_id,
+                                         query_id=query_id)
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingQuery
-    training_query = TrainingQuery._from_dict(response)
+    TrainingQuery._from_dict(response)
 
 
 @responses.activate
@@ -616,7 +615,7 @@ def test_create_training_example():
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingExample
-    training_example = TrainingExample._from_dict(response)
+    TrainingExample._from_dict(response)
 
 
 @responses.activate
@@ -641,7 +640,7 @@ def test_delete_training_example():
         query_id=query_id,
         example_id=example_id)
 
-    assert response == None
+    assert response is None
 
 
 @responses.activate
@@ -677,7 +676,7 @@ def test_get_training_example():
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingExample
-    training_example = TrainingExample._from_dict(response)
+    TrainingExample._from_dict(response)
 
 
 @responses.activate
@@ -717,4 +716,4 @@ def test_update_training_example():
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingExample
-    training_example = TrainingExample._from_dict(response)
+    TrainingExample._from_dict(response)

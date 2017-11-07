@@ -1,16 +1,11 @@
 import responses
 import watson_developer_cloud
 import os
-import json
 import codecs
 from watson_developer_cloud.personality_insights_v3 import Profile
 
 profile_url = 'https://gateway.watsonplatform.net/personality-insights/api/v3/profile'
 
-"""
-Input: Plain text (English)
-Output: JSON, no raw scores or preferences (English)
-"""
 @responses.activate
 def test_plain_to_json():
 
@@ -32,12 +27,8 @@ def test_plain_to_json():
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1
     # Verify that response can be converted to a Profile
-    profile_model = Profile._from_dict(response)
+    Profile._from_dict(response)
 
-"""
-Input: JSON (English)
-Output: JSON with raw scores and preferences (English)
-"""
 @responses.activate
 def test_json_to_json():
 
@@ -62,12 +53,8 @@ def test_json_to_json():
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1
     # Verify that response can be converted to a Profile
-    profile_model = Profile._from_dict(response)
+    Profile._from_dict(response)
 
-"""
-Input: JSON (English)
-Output: CSV with raw scores, preferences, and headers (English)
-"""
 @responses.activate
 def test_json_to_csv():
 
@@ -82,7 +69,7 @@ def test_json_to_csv():
                   content_type='text/csv')
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3.json')) as personality_text:
-        response = personality_insights.profile(
+        personality_insights.profile(
             personality_text, content_type='application/json',
             accept='text/csv', csv_headers=True,
             raw_scores=True, consumption_preferences=True)
@@ -95,10 +82,6 @@ def test_json_to_csv():
     assert len(responses.calls) == 1
 
 
-"""
-Input: Plain text (Spanish)
-Output: JSON, no raw scores or preferences (Spanish)
-"""
 @responses.activate
 def test_plain_to_json_es():
 
@@ -122,5 +105,4 @@ def test_plain_to_json_es():
     assert responses.calls[0].response.text == profile_response
     assert len(responses.calls) == 1
     # Verify that response can be converted to a Profile
-    profile_model = Profile._from_dict(response)
-
+    Profile._from_dict(response)
