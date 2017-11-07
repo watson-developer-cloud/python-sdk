@@ -1,0 +1,250 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.alchemy_data_news_v1 module &#8212; Watson Developer Cloud Python SDK 0.26.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.26.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.alchemy_language_v1 module" href="watson_developer_cloud.alchemy_language_v1.html" />
+    <link rel="prev" title="Python SDK 0.26.1" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.alchemy_data_news_v1">
+<span id="watson-developer-cloud-alchemy-data-news-v1-module"></span><h1>watson_developer_cloud.alchemy_data_news_v1 module<a class="headerlink" href="#module-watson_developer_cloud.alchemy_data_news_v1" title="Permalink to this headline">¶</a></h1>
+<p>The AlchemyData News service
+(<a class="reference external" href="https://www.ibm.com/watson/developercloud/alchemy-data-news.html">https://www.ibm.com/watson/developercloud/alchemy-data-news.html</a>)</p>
+<dl class="class">
+<dt id="watson_developer_cloud.alchemy_data_news_v1.AlchemyDataNewsV1">
+<em class="property">class </em><code class="descname">AlchemyDataNewsV1</code><span class="sig-paren">(</span><em>url='https://gateway-a.watsonplatform.net/calls'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/alchemy_data_news_v1.html#AlchemyDataNewsV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.alchemy_data_news_v1.AlchemyDataNewsV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.alchemy_data_news_v1.AlchemyDataNewsV1.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://gateway-a.watsonplatform.net/calls'</em><a class="headerlink" href="#watson_developer_cloud.alchemy_data_news_v1.AlchemyDataNewsV1.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.alchemy_data_news_v1.AlchemyDataNewsV1.get_news_documents">
+<code class="descname">get_news_documents</code><span class="sig-paren">(</span><em>start</em>, <em>end</em>, <em>max_results=10</em>, <em>query_fields=None</em>, <em>return_fields=None</em>, <em>time_slice=None</em>, <em>next_page=None</em>, <em>dedup=None</em>, <em>dedup_threshold=None</em>, <em>rank=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/alchemy_data_news_v1.html#AlchemyDataNewsV1.get_news_documents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.alchemy_data_news_v1.AlchemyDataNewsV1.get_news_documents" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>start</strong> – The time (in UTC seconds) of the beginning date and time</td>
+</tr>
+</tbody>
+</table>
+<p>of the query. Valid values are UTC times and relative times:
+now (current time), now-{time value}, s (seconds), m (minutes),
+h (hours), d (days), M (months), and y (years)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>end</strong> – The time (in UTC seconds) of the end date and time of the</td>
+</tr>
+</tbody>
+</table>
+<p>query. Valid values are UTC times and relative times:
+now (current time), now-{time value}, s (seconds), m (minutes),
+h (hours), d (days), M (months), and y (years)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>max_results</strong> – The maximum number of results that are returned</td>
+</tr>
+</tbody>
+</table>
+<p>from your query. If None, all matching results are returned</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>query_fields</strong> – There are nearly 400 variations of entity,</td>
+</tr>
+</tbody>
+</table>
+<p>taxonomy, sentiment analysis, concepts, and keywords. The full list
+of parameters is available in the Developer Cloud API documentation.
+Common fields include q.enriched.url.enrichedTitle.relations.relation,
+q.enriched.url.enrichedTitle.entities.entity,
+q.enriched.url.enrichedTitle.taxonomy.taxonomy,
+q.enriched.url.enrichedTitle.docSentiment.type,
+q.enriched.url.concepts.concept.text,
+q.enriched.url.enrichedTitle.keywords.keyword.text</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fields</strong> (<em>return</em>) – A comma-separated list of document fields to</td>
+</tr>
+</tbody>
+</table>
+<p>return for each matching document. Any available document fields can
+be retrieved. To return multiple fields, use a comma separated list.
+Common fields to return are enriched.url.url (URL), enriched.url.title
+(title), enriched.url.text(full article text), and enriched.url.author
+(author name). If you do not specify fields to be returned or a
+timeSlice, the AlchemyData News API only returns the total number of
+matching results within the start and end date range</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time_slice</strong> – The interval to divide the returned data. The</td>
+</tr>
+</tbody>
+</table>
+<p>default is that the query engine returns the total count over the time
+duration specified with start and end. If you specify a value, it
+returns a time series representing the count (max 1000) in each slice
+of time: now (current time), s (seconds), m (minutes), h (hours),
+d (days), M (months), and y (years)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>next_page</strong> – If a query is too broad or spans a long time period,</td>
+</tr>
+</tbody>
+</table>
+<p>the number of results can be very large and more results may be
+available than those which were returned. If there are more matching
+results available, a next parameter is returned in the response. To
+get the next page of results, execute the query again and append the
+next parameter to your query</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dedup</strong> – Many news articles are published by a single source,</td>
+</tr>
+</tbody>
+</table>
+<p>such as Associated Press, and then syndicated widely across the web.
+dedup removes duplicate results based on a comparison of their cleaned
+titles: False (Default) turns off dudup, True turns on dedup</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dedup_threshold</strong> – Defines how strictly the algorithm defines a</td>
+</tr>
+</tbody>
+</table>
+<p>duplicate. Valid values are between 0 and 1. The default value is 0.4.
+A value of 0.0 allows only titles that exactly match those of other
+articles to be tagged as duplicate. 0.4 allows articles that are very
+similar but not necessarily identical to be tagged as duplicates. A
+value of 1.0 allows articles to be aggressively labeled as duplicates,
+sometimes even when the titles are very dissimilar</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rank</strong> – The News API monitors and ranks 60,000 top-level domains,</td>
+</tr>
+</tbody>
+</table>
+<p>each with a varying range of page views. rank allows you to specify to
+only return articles from well-known, high-traffic publishers. If the
+rank parameter is not specified, articles of all ranks are returned:
+high, medium, low, or unknown</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">result elements depend on the parameters that you passed to</td>
+</tr>
+</tbody>
+</table>
+<p>the query. If return fields are requested, the result element contains
+a docs element that contains the matching documents, a next element
+that contains an identifier for the next matching result in the
+AlchemyData News data set, and a status element that provides status
+information about retrieving the requested number of results. If no
+return fields are requested in your query, the result element contains
+a count of matching news items and the status of querying the
+AlchemyData News data set.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Python SDK 0.26.1</a></li>
+      <li>Next: <a href="watson_developer_cloud.alchemy_language_v1.html" title="next chapter">watson_developer_cloud.alchemy_language_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
