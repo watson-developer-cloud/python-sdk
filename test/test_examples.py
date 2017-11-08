@@ -1,4 +1,5 @@
 # coding=utf-8
+
 from __future__ import print_function
 import re
 import traceback
@@ -17,15 +18,15 @@ examples_path = join(dirname(__file__), '../', 'examples', '*.py')
 
 # environment variables
 try:
-    from dotenv import load_dotenv
+    from dotenv import load_dotenv  # pylint: disable=C0413
 except:
-    print('warning: dotenv module could not be imported')
+    print ('warning: dotenv module could not be imported')
 
 try:
     dotenv_path = join(dirname(__file__), '../', '.env')
     load_dotenv(dotenv_path)
 except:
-    print('warning: no .env file loaded')
+    print ('warning: no .env file loaded')
 
 
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
