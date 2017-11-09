@@ -23,6 +23,7 @@ new inputs.
 from __future__ import absolute_import
 
 import json
+from .watson_service import datetime_to_string, string_to_datetime
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -377,7 +378,7 @@ class Classifier(object):
                 'Required property \'classifier_id\' not present in Classifier JSON'
             )
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         if 'status_description' in _dict:
             args['status_description'] = _dict['status_description']
         if 'language' in _dict:
@@ -396,7 +397,7 @@ class Classifier(object):
         if hasattr(self, 'classifier_id') and self.classifier_id is not None:
             _dict['classifier_id'] = self.classifier_id
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(
                 self,
                 'status_description') and self.status_description is not None:
