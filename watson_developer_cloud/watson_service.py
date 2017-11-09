@@ -17,6 +17,7 @@ import os
 import requests
 import sys
 from requests.structures import CaseInsensitiveDict
+import dateutil.parser as date_parser
 
 try:
     from http.cookiejar import CookieJar  # Python 3
@@ -72,6 +73,23 @@ class WatsonApiException(WatsonException):
 
 class WatsonInvalidArgument(WatsonException):
     pass
+
+def datetime_to_string(datetime):
+    """
+    Serializes a datetime to a string.
+    :param datetime: datetime value
+    :return: string. containing iso8601 format date string
+    """
+    return datetime.isoformat().replace('+00:00', 'Z')
+
+
+def string_to_datetime(string):
+    """
+    Deserializes string to datetime.
+    :param string: string containing datetime in iso8601 format
+    :return: datetime.
+    """
+    return date_parser.parse(string)
 
 
 def _cleanup_param_value(value):
