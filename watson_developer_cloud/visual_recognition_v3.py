@@ -29,6 +29,7 @@ provide your `api_key` from your Bluemix service instance.
 from __future__ import absolute_import
 
 import json
+from .watson_service import datetime_to_string, string_to_datetime
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -460,19 +461,26 @@ class ClassifiedImages(object):
     """
     Classify results for multiple images.
 
+    :attr int custom_classes: (optional) The number of custom classes identified in the images.
     :attr int images_processed: (optional) Number of images processed for the API call.
     :attr list[ClassifiedImage] images: The array of classified images.
     :attr list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.
     """
 
-    def __init__(self, images, images_processed=None, warnings=None):
+    def __init__(self,
+                 images,
+                 custom_classes=None,
+                 images_processed=None,
+                 warnings=None):
         """
         Initialize a ClassifiedImages object.
 
         :param list[ClassifiedImage] images: The array of classified images.
+        :param int custom_classes: (optional) The number of custom classes identified in the images.
         :param int images_processed: (optional) Number of images processed for the API call.
         :param list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.
         """
+        self.custom_classes = custom_classes
         self.images_processed = images_processed
         self.images = images
         self.warnings = warnings
@@ -481,6 +489,8 @@ class ClassifiedImages(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifiedImages object from a json dictionary."""
         args = {}
+        if 'custom_classes' in _dict:
+            args['custom_classes'] = _dict['custom_classes']
         if 'images_processed' in _dict:
             args['images_processed'] = _dict['images_processed']
         if 'images' in _dict:
@@ -500,6 +510,8 @@ class ClassifiedImages(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'custom_classes') and self.custom_classes is not None:
+            _dict['custom_classes'] = self.custom_classes
         if hasattr(self,
                    'images_processed') and self.images_processed is not None:
             _dict['images_processed'] = self.images_processed
@@ -586,7 +598,7 @@ class Classifier(object):
         if 'explanation' in _dict:
             args['explanation'] = _dict['explanation']
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         if 'classes' in _dict:
             args['classes'] = [Class._from_dict(x) for x in _dict['classes']]
         return cls(**args)
@@ -605,7 +617,7 @@ class Classifier(object):
         if hasattr(self, 'explanation') and self.explanation is not None:
             _dict['explanation'] = self.explanation
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'classes') and self.classes is not None:
             _dict['classes'] = [x._to_dict() for x in self.classes]
         return _dict

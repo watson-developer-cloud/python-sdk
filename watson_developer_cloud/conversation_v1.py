@@ -22,6 +22,7 @@ and your users.
 from __future__ import absolute_import
 
 import json
+from .watson_service import datetime_to_string, string_to_datetime
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -1727,13 +1728,13 @@ class Counterexample(object):
             raise ValueError(
                 'Required property \'text\' not present in Counterexample JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in Counterexample JSON'
             )
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in Counterexample JSON'
@@ -1746,9 +1747,9 @@ class Counterexample(object):
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
     def __str__(self):
@@ -2446,12 +2447,12 @@ class DialogNode(object):
                 'Required property \'next_step\' not present in DialogNode JSON'
             )
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in DialogNode JSON')
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         if 'actions' in _dict:
             args['actions'] = [
                 DialogNodeAction._from_dict(x) for x in _dict['actions']
@@ -2492,9 +2493,9 @@ class DialogNode(object):
         if hasattr(self, 'next_step') and self.next_step is not None:
             _dict['next_step'] = self.next_step._to_dict()
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'actions') and self.actions is not None:
             _dict['actions'] = [x._to_dict() for x in self.actions]
         if hasattr(self, 'title') and self.title is not None:
@@ -2780,12 +2781,12 @@ class Entity(object):
             raise ValueError(
                 'Required property \'entity\' not present in Entity JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in Entity JSON')
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in Entity JSON')
@@ -2803,9 +2804,9 @@ class Entity(object):
         if hasattr(self, 'entity_name') and self.entity_name is not None:
             _dict['entity'] = self.entity_name
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'metadata') and self.metadata is not None:
@@ -2941,13 +2942,13 @@ class EntityExport(object):
             raise ValueError(
                 'Required property \'entity\' not present in EntityExport JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in EntityExport JSON'
             )
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in EntityExport JSON'
@@ -2970,9 +2971,9 @@ class EntityExport(object):
         if hasattr(self, 'entity_name') and self.entity_name is not None:
             _dict['entity'] = self.entity_name
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'metadata') and self.metadata is not None:
@@ -3029,12 +3030,12 @@ class Example(object):
             raise ValueError(
                 'Required property \'text\' not present in Example JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in Example JSON')
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in Example JSON')
@@ -3046,9 +3047,9 @@ class Example(object):
         if hasattr(self, 'example_text') and self.example_text is not None:
             _dict['text'] = self.example_text
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
     def __str__(self):
@@ -3210,12 +3211,12 @@ class Intent(object):
             raise ValueError(
                 'Required property \'intent\' not present in Intent JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in Intent JSON')
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in Intent JSON')
@@ -3229,9 +3230,9 @@ class Intent(object):
         if hasattr(self, 'intent_name') and self.intent_name is not None:
             _dict['intent'] = self.intent_name
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         return _dict
@@ -3355,13 +3356,13 @@ class IntentExport(object):
             raise ValueError(
                 'Required property \'intent\' not present in IntentExport JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in IntentExport JSON'
             )
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in IntentExport JSON'
@@ -3380,9 +3381,9 @@ class IntentExport(object):
         if hasattr(self, 'intent_name') and self.intent_name is not None:
             _dict['intent'] = self.intent_name
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'examples') and self.examples is not None:
@@ -4366,12 +4367,12 @@ class Synonym(object):
             raise ValueError(
                 'Required property \'synonym\' not present in Synonym JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in Synonym JSON')
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in Synonym JSON')
@@ -4383,9 +4384,9 @@ class Synonym(object):
         if hasattr(self, 'synonym_text') and self.synonym_text is not None:
             _dict['synonym'] = self.synonym_text
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
     def __str__(self):
@@ -4574,12 +4575,12 @@ class Value(object):
         if 'metadata' in _dict:
             args['metadata'] = _dict['metadata']
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in Value JSON')
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in Value JSON')
@@ -4602,9 +4603,9 @@ class Value(object):
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'synonyms') and self.synonyms is not None:
             _dict['synonyms'] = self.synonyms
         if hasattr(self, 'patterns') and self.patterns is not None:
@@ -4742,12 +4743,12 @@ class ValueExport(object):
         if 'metadata' in _dict:
             args['metadata'] = _dict['metadata']
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in ValueExport JSON')
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in ValueExport JSON')
@@ -4770,9 +4771,9 @@ class ValueExport(object):
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'synonyms') and self.synonyms is not None:
             _dict['synonyms'] = self.synonyms
         if hasattr(self, 'patterns') and self.patterns is not None:
@@ -4855,12 +4856,12 @@ class Workspace(object):
             raise ValueError(
                 'Required property \'language\' not present in Workspace JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in Workspace JSON')
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in Workspace JSON')
@@ -4886,9 +4887,9 @@ class Workspace(object):
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'workspace_id') and self.workspace_id is not None:
             _dict['workspace_id'] = self.workspace_id
         if hasattr(self, 'description') and self.description is not None:
@@ -5070,13 +5071,13 @@ class WorkspaceExport(object):
                 'Required property \'metadata\' not present in WorkspaceExport JSON'
             )
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in WorkspaceExport JSON'
             )
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in WorkspaceExport JSON'
@@ -5129,9 +5130,9 @@ class WorkspaceExport(object):
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'workspace_id') and self.workspace_id is not None:
             _dict['workspace_id'] = self.workspace_id
         if hasattr(self, 'status') and self.status is not None:

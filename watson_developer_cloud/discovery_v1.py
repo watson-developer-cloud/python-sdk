@@ -24,6 +24,7 @@ results.
 from __future__ import absolute_import
 
 import json
+from .watson_service import datetime_to_string, string_to_datetime
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -1590,9 +1591,9 @@ class Collection(object):
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         if 'status' in _dict:
             args['status'] = _dict['status']
         if 'configuration_id' in _dict:
@@ -1620,9 +1621,9 @@ class Collection(object):
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self,
@@ -1756,9 +1757,9 @@ class Configuration(object):
             raise ValueError(
                 'Required property \'name\' not present in Configuration JSON')
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'conversions' in _dict:
@@ -1783,9 +1784,9 @@ class Configuration(object):
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'conversions') and self.conversions is not None:
@@ -2453,13 +2454,13 @@ class DocumentStatus(object):
                 'Required property \'configuration_id\' not present in DocumentStatus JSON'
             )
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
                 'Required property \'created\' not present in DocumentStatus JSON'
             )
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
                 'Required property \'updated\' not present in DocumentStatus JSON'
@@ -2499,9 +2500,9 @@ class DocumentStatus(object):
                    'configuration_id') and self.configuration_id is not None:
             _dict['configuration_id'] = self.configuration_id
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(
@@ -2799,9 +2800,9 @@ class Environment(object):
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         if 'updated' in _dict:
-            args['updated'] = _dict['updated']
+            args['updated'] = string_to_datetime(_dict['updated'])
         if 'status' in _dict:
             args['status'] = _dict['status']
         if 'read_only' in _dict:
@@ -2823,9 +2824,9 @@ class Environment(object):
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'read_only') and self.read_only is not None:
@@ -3580,7 +3581,7 @@ class Notice(object):
         if 'notice_id' in _dict:
             args['notice_id'] = _dict['notice_id']
         if 'created' in _dict:
-            args['created'] = _dict['created']
+            args['created'] = string_to_datetime(_dict['created'])
         if 'document_id' in _dict:
             args['document_id'] = _dict['document_id']
         if 'query_id' in _dict:
@@ -3599,7 +3600,7 @@ class Notice(object):
         if hasattr(self, 'notice_id') and self.notice_id is not None:
             _dict['notice_id'] = self.notice_id
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'document_id') and self.document_id is not None:
             _dict['document_id'] = self.document_id
         if hasattr(self, 'query_id') and self.query_id is not None:
@@ -4656,9 +4657,10 @@ class TrainingStatus(object):
         if 'notices' in _dict:
             args['notices'] = _dict['notices']
         if 'successfully_trained' in _dict:
-            args['successfully_trained'] = _dict['successfully_trained']
+            args['successfully_trained'] = string_to_datetime(
+                _dict['successfully_trained'])
         if 'data_updated' in _dict:
-            args['data_updated'] = _dict['data_updated']
+            args['data_updated'] = string_to_datetime(_dict['data_updated'])
         return cls(**args)
 
     def _to_dict(self):
@@ -4684,9 +4686,10 @@ class TrainingStatus(object):
             _dict['notices'] = self.notices
         if hasattr(self, 'successfully_trained'
                   ) and self.successfully_trained is not None:
-            _dict['successfully_trained'] = self.successfully_trained
+            _dict['successfully_trained'] = datetime_to_string(
+                self.successfully_trained)
         if hasattr(self, 'data_updated') and self.data_updated is not None:
-            _dict['data_updated'] = self.data_updated
+            _dict['data_updated'] = datetime_to_string(self.data_updated)
         return _dict
 
     def __str__(self):
