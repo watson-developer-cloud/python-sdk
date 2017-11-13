@@ -24,9 +24,4 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
 
     def test_speak(self):
         output = self.text_to_speech.synthesize(text="my voice is my passport")
-        assert len(output) > 0
-
-
-
-
-
+        assert not output

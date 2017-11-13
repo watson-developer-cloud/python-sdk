@@ -1,11 +1,11 @@
+"""
+The example returns a JSON response whose content is the same as that in
+  ../resources/personality-v3-expect2.txt
+"""
+from __future__ import print_function
 import json
 from os.path import join, dirname
 from watson_developer_cloud import PersonalityInsightsV3
-
-"""
-The example returns a JSON response whose content is the same as that in
-   ../resources/personality-v3-expect2.txt
-"""
 
 personality_insights = PersonalityInsightsV3(
     version='2016-10-20',

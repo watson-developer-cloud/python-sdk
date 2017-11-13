@@ -18,16 +18,14 @@ The v2 Language Translation service
 """
 
 from __future__ import print_function
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
-from .watson_developer_cloud_service import WatsonInvalidArgument
+from .watson_service import WatsonService
 
 
-class LanguageTranslationV2(WatsonDeveloperCloudService):
+class LanguageTranslationV2(WatsonService):
     default_url = "https://gateway.watsonplatform.net/language-translation/api"
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'language_translation', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'language_translation', url, **kwargs)
         print(
             'WARNING: The Language Translation service was deprecated, '
             'please migrate to Language Translator.')
@@ -57,8 +55,7 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
                      monolingual_corpus=None):
         if forced_glossary is None and parallel_corpus is None and \
                         monolingual_corpus is None:
-            raise WatsonInvalidArgument(
-                'A glossary or corpus must be provided')
+            raise ValueError('A glossary or corpus must be provided')
         params = {'name': name,
                   'base_model_id': base_model_id}
         files = {'forced_glossary': forced_glossary,
@@ -81,7 +78,7 @@ class LanguageTranslationV2(WatsonDeveloperCloudService):
         Translates text from a source language to a target language
         """
         if model_id is None and (source is None or target is None):
-            raise WatsonInvalidArgument(
+            raise ValueError(
                 'Either model_id or source and target must be specified')
 
         data = {'text': text, 'source': source, 'target': target,

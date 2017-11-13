@@ -1,4 +1,4 @@
-# Copyright 2016 IBM All Rights Reserved.
+# Copyright 2017 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ import os
 import requests
 import sys
 from requests.structures import CaseInsensitiveDict
+import dateutil.parser as date_parser
 
 try:
     from http.cookiejar import CookieJar  # Python 3
@@ -45,11 +46,50 @@ def load_from_vcap_services(service_name):
 
 
 class WatsonException(Exception):
+    """
+    Custom exception class for Watson Services.
+    """
     pass
+
+
+class WatsonApiException(WatsonException):
+    """
+    Custom exception class for errors returned from Watson APIs.
+
+    :param int code: The HTTP status code returned.
+    :param str message: A message describing the error.
+    :param dict info: A dictionary of additional information about the error.
+    """
+    def __init__(self, code, message, info=None):
+        # Call the base class constructor with the parameters it needs
+        super(WatsonApiException, self).__init__(message)
+        self.message = message
+        self.code = code
+        self.info = info
+
+    def __str__(self):
+        return 'Error: ' + self.message + ', Code: ' + str(self.code)
 
 
 class WatsonInvalidArgument(WatsonException):
     pass
+
+def datetime_to_string(datetime):
+    """
+    Serializes a datetime to a string.
+    :param datetime: datetime value
+    :return: string. containing iso8601 format date string
+    """
+    return datetime.isoformat().replace('+00:00', 'Z')
+
+
+def string_to_datetime(string):
+    """
+    Deserializes string to datetime.
+    :param string: string containing datetime in iso8601 format
+    :return: datetime.
+    """
+    return date_parser.parse(string)
 
 
 def _cleanup_param_value(value):
@@ -84,7 +124,7 @@ def _convert_boolean_values(dictionary):
     return dictionary
 
 
-class WatsonDeveloperCloudService(object):
+class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
                  x_watson_learning_opt_out=False):
@@ -115,7 +155,7 @@ class WatsonDeveloperCloudService(object):
 
         if api_key is not None:
             if username is not None or password is not None:
-                raise WatsonInvalidArgument(
+                raise ValueError(
                     'Cannot set api_key and username and password together')
             self.set_api_key(api_key)
         else:
@@ -138,10 +178,9 @@ class WatsonDeveloperCloudService(object):
 
         if (self.username is None or self.password is None)\
                 and self.api_key is None:
-            raise WatsonException(
+            raise ValueError(
                 'You must specify your username and password service '
-                'credentials ' +
-                '(Note: these are different from your Bluemix id)')
+                'credentials (Note: these are different from your Bluemix id)')
 
     def set_username_and_password(self, username=None, password=None):
         if username == 'YOUR SERVICE USERNAME':
@@ -171,7 +210,7 @@ class WatsonDeveloperCloudService(object):
         if isinstance(headers, dict):
             self.default_headers = headers
         else:
-            raise WatsonException("headers parameter must be a dictionary")
+            raise TypeError("headers parameter must be a dictionary")
 
     # Could make this compute the label_id based on the variable name of the
     # dictionary passed in (using **kwargs), but
@@ -183,13 +222,21 @@ class WatsonDeveloperCloudService(object):
         return dictionary
 
     @staticmethod
+    def _convert_model(val):
+        if hasattr(val, "_to_dict"):
+            return val._to_dict()
+        return val
+
+    @staticmethod
+    def _encode_path_vars(*args):
+        return (requests.utils.quote(x, safe='') for x in args)
+
+    @staticmethod
     def _get_error_message(response):
         """
         Gets the error message from a JSON response.
-        {
-            code: 400
-            error: 'Bad request'
-        }
+        :return: the error message
+        :rtype: string
         """
         error_message = 'Unknown error'
         try:
@@ -197,22 +244,36 @@ class WatsonDeveloperCloudService(object):
             if 'error' in error_json:
                 if isinstance(error_json['error'], dict) and 'description' in \
                         error_json['error']:
-                    error_message = 'Error: ' + error_json['error'][
-                        'description']
+                    error_message = error_json['error']['description']
                 else:
-                    error_message = 'Error: ' + error_json['error']
+                    error_message = error_json['error']
             elif 'error_message' in error_json:
-                error_message = 'Error: ' + error_json['error_message']
+                error_message = error_json['error_message']
             elif 'msg' in error_json:
-                error_message = 'Error: ' + error_json['msg']
+                error_message = error_json['msg']
             elif 'statusInfo' in error_json:
-                error_message = 'Error: ' + error_json['statusInfo']
-            if 'description' in error_json:
-                error_message += ', Description: ' + error_json['description']
-            error_message += ', Code: ' + str(response.status_code)
+                error_message = error_json['statusInfo']
             return error_message
         except:
-            return {'error': response.text or error_message, 'code': str(response.status_code)}
+            return response.text or error_message
+
+
+    @staticmethod
+    def _get_error_info(response):
+        """
+        Gets the error info (if any) from a JSON response.
+        :return: A `dict` containing additional information about the error.
+        :rtype: dict
+        """
+        info_keys = ['code_description', 'description', 'errors', 'help',
+                     'sub_code', 'warnings']
+        error_info = {}
+        try:
+            error_json = response.json()
+            error_info = {k:v for k, v in error_json.items() if k in info_keys}
+        except:
+            pass
+        return error_info if any(error_info) else None
 
 
     def _alchemy_html_request(self, method_name=None, url=None, html=None,
@@ -321,17 +382,20 @@ class WatsonDeveloperCloudService(object):
                                     **kwargs)
 
         if 200 <= response.status_code <= 299:
+            if response.status_code == 204:
+                return None
             if accept_json:
                 response_json = response.json()
                 if 'status' in response_json and response_json['status'] \
                         == 'ERROR':
-                    response.status_code = 400
+                    status_code = 400
                     error_message = 'Unknown error'
+
                     if 'statusInfo' in response_json:
                         error_message = response_json['statusInfo']
                     if error_message == 'invalid-api-key':
-                        response.status_code = 401
-                    raise WatsonException('Error: ' + error_message)
+                        status_code = 401
+                    raise WatsonApiException(status_code, error_message)
                 return response_json
             return response
         else:
@@ -340,4 +404,6 @@ class WatsonDeveloperCloudService(object):
                                 'invalid credentials '
             else:
                 error_message = self._get_error_message(response)
-            raise WatsonException(error_message)
+            error_info = self._get_error_info(response)
+            raise WatsonApiException(response.status_code, error_message,
+                                     error_info)

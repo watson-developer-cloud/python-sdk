@@ -12,9 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
-from .watson_developer_cloud_service import WatsonException
-from .watson_developer_cloud_service import WatsonInvalidArgument
+from .watson_service import WatsonService
+from .watson_service import WatsonException
 from .conversation_v1 import ConversationV1
 from .tone_analyzer_v3 import ToneAnalyzerV3
 
