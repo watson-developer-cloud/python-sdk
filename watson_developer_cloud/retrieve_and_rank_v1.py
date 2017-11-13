@@ -19,16 +19,14 @@ The v1 Retrieve and Rank service
 
 import json
 import pysolr
-from watson_developer_cloud.watson_developer_cloud_service import \
-    WatsonDeveloperCloudService
+from watson_developer_cloud.watson_service import WatsonService
 
 
-class RetrieveAndRankV1(WatsonDeveloperCloudService):
+class RetrieveAndRankV1(WatsonService):
     default_url = 'https://gateway.watsonplatform.net/retrieve-and-rank/api'
 
     def __init__(self, url=default_url, **kwargs):
-        WatsonDeveloperCloudService.__init__(self, 'retrieve_and_rank', url,
-                                             **kwargs)
+        WatsonService.__init__(self, 'retrieve_and_rank', url, **kwargs)
 
     def list_solr_clusters(self):
         return self.request(method='GET', url='/v1/solr_clusters',

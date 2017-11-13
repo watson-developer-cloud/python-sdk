@@ -15,7 +15,7 @@ def test_success():
                   body=list_response, status=200,
                   content_type='application/json')
 
-    natural_language_classifier.list()
+    natural_language_classifier.list_classifiers()
 
     assert responses.calls[0].request.url == list_url
     assert responses.calls[0].response.text == list_response
@@ -31,7 +31,7 @@ def test_success():
                   body=status_response, status=200,
                   content_type='application/json')
 
-    natural_language_classifier.status('497EF2-nlc-00')
+    natural_language_classifier.get_classifier('497EF2-nlc-00')
 
     assert responses.calls[1].request.url == status_url
     assert responses.calls[1].response.text == status_response
@@ -62,8 +62,8 @@ def test_success():
                   body=create_response, status=200,
                   content_type='application/json')
     with open(os.path.join(os.path.dirname(__file__), '../resources/weather_data_train.csv'), 'rb') as training_data:
-        natural_language_classifier.create(
-            training_data=training_data, language='en')
+        natural_language_classifier.create_classifier(
+            training_data=training_data, metadata='{"language": "en"}')
 
     assert responses.calls[3].request.url == create_url
     assert responses.calls[3].response.text == create_response
@@ -75,7 +75,7 @@ def test_success():
                   body=remove_response, status=200,
                   content_type='application/json')
 
-    natural_language_classifier.remove('497EF2-nlc-00')
+    natural_language_classifier.delete_classifier('497EF2-nlc-00')
 
     assert responses.calls[4].request.url == remove_url
     assert responses.calls[4].response.text == remove_response

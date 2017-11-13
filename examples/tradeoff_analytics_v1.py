@@ -1,6 +1,6 @@
+from __future__ import print_function
 import json
 import os
-from os.path import join, dirname
 from watson_developer_cloud import TradeoffAnalyticsV1
 
 tradeoff_analytics = TradeoffAnalyticsV1(
@@ -14,4 +14,3 @@ with open(os.path.join(os.path.dirname(__file__),
                                           find_preferable_options=True)
 
 print(json.dumps(dilemma, indent=2))
-

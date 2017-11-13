@@ -20,8 +20,6 @@
  * These thresholds can be adjusted to client/domain requirements.
 """
 
-import json
-
 PRIMARY_EMOTION_SCORE_THRESHOLD = 0.5
 WRITING_HIGH_SCORE_THRESHOLD = 0.75
 WRITING_NO_SCORE_THRESHOLD = 0.0
@@ -33,34 +31,33 @@ EMOTION_TONE_LABEL = 'emotion_tone'
 WRITING_TONE_LABEL = 'writing_tone'
 SOCIAL_TONE_LABEL = 'social_tone'
 
-"""
-updateUserTone processes the Tone Analyzer payload to pull out the emotion,
-writing and social tones, and identify the meaningful tones (i.e.,
-those tones that meet the specified thresholds).
-The conversationPayload json object is updated to include these tones.
-@param conversationPayload json object returned by the Watson Conversation
-Service
-@param toneAnalyzerPayload json object returned by the Watson Tone Analyzer
-Service
-@returns conversationPayload where the user object has been updated with tone
-information from the toneAnalyzerPayload
-"""
-
 
 def updateUserTone(conversationPayload, toneAnalyzerPayload, maintainHistory):
+    """
+    updateUserTone processes the Tone Analyzer payload to pull out the emotion,
+    writing and social tones, and identify the meaningful tones (i.e.,
+    those tones that meet the specified thresholds).
+    The conversationPayload json object is updated to include these tones.
+    @param conversationPayload json object returned by the Watson Conversation
+    Service
+    @param toneAnalyzerPayload json object returned by the Watson Tone Analyzer
+    Service
+    @returns conversationPayload where the user object has been updated with tone
+    information from the toneAnalyzerPayload
+    """
     emotionTone = None
     writingTone = None
     socialTone = None
 
     # if there is no context in a
     if 'context' not in conversationPayload:
-        conversationPayload['context'] = {};
+        conversationPayload['context'] = {}
 
     if 'user' not in conversationPayload['context']:
         conversationPayload['context'] = initUser()
 
     # For convenience sake, define a variable for the user object
-    user = conversationPayload['context']['user'];
+    user = conversationPayload['context']['user']
 
     # Extract the tones - emotion, writing and social
     if toneAnalyzerPayload and toneAnalyzerPayload['document_tone']:
@@ -79,21 +76,18 @@ def updateUserTone(conversationPayload, toneAnalyzerPayload, maintainHistory):
 
     conversationPayload['context']['user'] = user
 
-    return conversationPayload;
-
-
-'''
- initToneContext initializes a user object containing tone data (from the
- Watson Tone Analyzer)
- @returns user json object with the emotion, writing and social tones.  The
- current
- tone identifies the tone for a specific conversation turn, and the history
- provides the conversation for
- all tones up to the current tone for a conversation instance with a user.
- '''
+    return conversationPayload
 
 
 def initUser():
+    """
+    initUser initializes a user object containing tone data (from the
+    Watson Tone Analyzer)
+    @returns user json object with the emotion, writing and social tones.  The
+    current tone identifies the tone for a specific conversation turn, and the
+    history provides the conversation for all tones up to the current tone for a
+    conversation instance with a user.
+    """
     return {
         'user': {
             'tone': {
@@ -111,19 +105,18 @@ def initUser():
     }
 
 
-'''
- updateEmotionTone updates the user emotion tone with the primary emotion -
- the emotion tone that has
- a score greater than or equal to the EMOTION_SCORE_THRESHOLD; otherwise
- primary emotion will be 'neutral'
- @param user a json object representing user information (tone) to be used in
- conversing with the Conversation Service
- @param emotionTone a json object containing the emotion tones in the payload
- returned by the Tone Analyzer
- '''
 
 
 def updateEmotionTone(user, emotionTone, maintainHistory):
+    """
+    updateEmotionTone updates the user emotion tone with the primary emotion -
+    the emotion tone that has a score greater than or equal to the
+    EMOTION_SCORE_THRESHOLD; otherwise primary emotion will be 'neutral'
+    @param user a json object representing user information (tone) to be used in
+    conversing with the Conversation Service
+    @param emotionTone a json object containing the emotion tones in the payload
+    returned by the Tone Analyzer
+    """
     maxScore = 0.0
     primaryEmotion = None
     primaryEmotionScore = None
@@ -139,7 +132,7 @@ def updateEmotionTone(user, emotionTone, maintainHistory):
         primaryEmotionScore = None
 
     # update user emotion tone
-    user['tone']['emotion']['current'] = primaryEmotion;
+    user['tone']['emotion']['current'] = primaryEmotion
 
     if maintainHistory:
         if 'history' not in user['tone']['emotion']:
@@ -150,19 +143,17 @@ def updateEmotionTone(user, emotionTone, maintainHistory):
             })
 
 
-'''
- updateWritingTone updates the user with the writing tones interpreted based
- on the specified thresholds
- @param: user a json object representing user information (tone) to be used
- in conversing with the Conversation Service
- @param: writingTone a json object containing the writing tones in the
- payload returned by the Tone Analyzer
-'''
-
-
 def updateWritingTone(user, writingTone, maintainHistory):
-    currentWriting = [];
-    currentWritingObject = [];
+    """
+    updateWritingTone updates the user with the writing tones interpreted based
+    on the specified thresholds
+    @param: user a json object representing user information (tone) to be used
+    in conversing with the Conversation Service
+    @param: writingTone a json object containing the writing tones in the
+    payload returned by the Tone Analyzer
+    """
+    currentWriting = []
+    currentWritingObject = []
 
     # Process each writing tone and determine if it is high or low
     for tone in writingTone['tones']:
@@ -191,21 +182,18 @@ def updateWritingTone(user, writingTone, maintainHistory):
     if maintainHistory:
         if 'history' not in user['tone']['writing']:
             user['tone']['writing']['history'] = []
-    user['tone']['writing']['history'].append(currentWritingObject)  # TODO -
-    # is this the correct location??? AW
-
-
-"""
- updateSocialTone updates the user with the social tones interpreted based on
- the specified thresholds
- @param user a json object representing user information (tone) to be used in
- conversing with the Conversation Service
- @param socialTone a json object containing the social tones in the payload
- returned by the Tone Analyzer
-"""
+    user['tone']['writing']['history'].append(currentWritingObject)
 
 
 def updateSocialTone(user, socialTone, maintainHistory):
+    """
+    updateSocialTone updates the user with the social tones interpreted based on
+    the specified thresholds
+    @param user a json object representing user information (tone) to be used in
+    conversing with the Conversation Service
+    @param socialTone a json object containing the social tones in the payload
+    returned by the Tone Analyzer
+    """
     currentSocial = []
     currentSocialObject = []
 
@@ -219,7 +207,7 @@ def updateSocialTone(user, socialTone, maintainHistory):
                 'interpretation': 'likely high'
             })
         elif tone['score'] <= SOCIAL_LOW_SCORE_THRESHOLD:
-            currentSocial.append(tone['tone_name'].lower() + '_low');
+            currentSocial.append(tone['tone_name'].lower() + '_low')
             currentSocialObject.append({
                 'tone_name': tone['tone_name'].lower(),
                 'score': tone['score'],
@@ -236,5 +224,5 @@ def updateSocialTone(user, socialTone, maintainHistory):
     user['tone']['social']['current'] = currentSocial
     if maintainHistory:
         if not user['tone']['social']['current']:
-            user['tone']['social']['current'] = [];
-        user['tone']['social']['current'].append(currentSocialObject);
+            user['tone']['social']['current'] = []
+        user['tone']['social']['current'].append(currentSocialObject)

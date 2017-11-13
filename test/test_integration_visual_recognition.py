@@ -18,7 +18,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
 
     def tearDown(self):
         results = self.visual_recognition.delete_collection(collection_id=self.collection_id)
-        assert not(results)
+        assert not results
 
     def test_list_collections(self):
         results = self.visual_recognition.list_collections()
@@ -33,21 +33,21 @@ class IntegrationTestVisualRecognitionV3(TestCase):
 
         image_id = images['images'][0]['image_id']
         meta = self.visual_recognition.get_image_metadata(collection_id=self.collection_id, image_id=image_id)
-        assert not (meta) == False
+        assert not meta
 
         assert meta['name'] == 'face'
         assert 'neverland' not in meta
 
         self.visual_recognition.set_image_metadata(collection_id=self.collection_id, image_id=image_id, metadata={'location': 'neverland'})
         meta = self.visual_recognition.get_image_metadata(collection_id=self.collection_id, image_id=image_id)
-        assert not (meta) == False
+        assert not meta
         assert 'name' not in meta
         assert meta['location'] == 'neverland'
 
         self.visual_recognition.delete_image(collection_id=self.collection_id, image_id=image_id)
 
         images = self.visual_recognition.list_images(self.collection_id)
-        assert len(images['images']) == 0
+        assert images['images']
 
     def test_find_similar(self):
         with open(join(dirname(__file__), '../resources/face.jpg'), 'rb') as image_file:

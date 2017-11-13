@@ -1,5 +1,6 @@
 from unittest import TestCase
-import pytest, os
+import pytest
+import os
 import watson_developer_cloud
 
 @pytest.mark.skip("These are destructive, so run them manually")

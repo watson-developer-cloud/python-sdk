@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -29,11 +30,11 @@ workspace_id = os.environ.get('WORKSPACE_ID') or 'YOUR WORKSPACE ID'
 
 # This example stores tone for each user utterance in conversation context.
 # Change this to false, if you do not want to maintain history
-maintainToneHistoryInContext = True
+global_maintainToneHistoryInContext = True
 
 # Payload for the Watson Conversation Service
 # user input text required - replace "I am happy" with user input text.
-payload = {
+global_payload = {
     'workspace_id': workspace_id,
     'input': {
         'text': "I am happy"
@@ -43,7 +44,7 @@ payload = {
 
 def invokeToneConversation(payload, maintainToneHistoryInContext):
     """
-     invokeToneConversation calls the the Tone Analyzer service to get the
+     invokeToneConversation calls the Tone Analyzer service to get the
      tone information for the user's input text (input['text'] in the payload
      json object), adds/updates the user's tone in the payload's context,
      and sends the payload to the
@@ -57,14 +58,14 @@ def invokeToneConversation(payload, maintainToneHistoryInContext):
      with application-specific code to process the err or data object
      returned by the Conversation Service.
     """
-    tone = tone_analyzer.tone(text=payload['input']['text'])
+    tone = tone_analyzer.tone(tone_input=payload['input']['text'])
     conversation_payload = tone_detection.\
         updateUserTone(payload, tone, maintainToneHistoryInContext)
     response = conversation.message(workspace_id=workspace_id,
-                                    message_input=conversation_payload['input'],
+                                    input=conversation_payload['input'],
                                     context=conversation_payload['context'])
     print(json.dumps(response, indent=2))
 
 
 # synchronous call to conversation with tone included in the context
-invokeToneConversation(payload, maintainToneHistoryInContext)
+invokeToneConversation(global_payload, global_maintainToneHistoryInContext)

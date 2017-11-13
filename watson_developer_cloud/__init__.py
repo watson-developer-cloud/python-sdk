@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
-from .watson_developer_cloud_service import WatsonException
-from .watson_developer_cloud_service import WatsonInvalidArgument
+from .watson_service import WatsonService
+from .watson_service import WatsonException
+from .watson_service import WatsonApiException
+from .watson_service import WatsonInvalidArgument
 from .alchemy_data_news_v1 import AlchemyDataNewsV1
 from .alchemy_language_v1 import AlchemyLanguageV1
 from .alchemy_vision_v1 import AlchemyVisionV1

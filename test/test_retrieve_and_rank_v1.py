@@ -19,9 +19,9 @@ def test_list_rankers():
     listrank_response = '{"rankers":[{"ranker_id":"3b140ax14-rank-10383","name":"pythonRank"}]}'
 
     responses.add(responses.GET, URL_RANKERS,
-              match_querystring=True,
-              body=listrank_response, status=200,
-              content_type='application/json')
+                  match_querystring=True,
+                  body=listrank_response, status=200,
+                  content_type='application/json')
 
     ranker_list = retrieve_and_rank.list_rankers()
 
@@ -53,7 +53,7 @@ def test_ranker_status():
 def test_rank():
 
     rank_url = URL_RANKER + '/rank'
-    rank_response =  '{"ranker_id":"3b140ax14-rank-10383",' \
+    rank_response = '{"ranker_id":"3b140ax14-rank-10383",' \
                      '"top_answer":"30965a00-5415-4ef5-8e4a-bb21a7aeab44", "answers":[' \
                      '{"answer_id":"30965a00-5415-4ef5-8e4a-bb21a7aeab44","score":180.0,"confidence":0.2636349925008873},' \
                      '{"answer_id":"30965a00-5415-4ef5-8e4a-bb21a7aeab44","score":178.0,"confidence":0.25972667610243827}]}'
@@ -113,9 +113,9 @@ def test_list_cluster():
     listcluster_response = '{"clusters":[{"solr_cluster_id":"sc0747112c_f978_4e1f_b97e_0e3a8101ac5b","cluster_name":"","cluster_size":"","solr_cluster_status":"READY"}]}'
 
     responses.add(responses.GET, URL_CLUSTERS,
-              match_querystring=True,
-              body=listcluster_response, status=200,
-              content_type='application/json')
+                  match_querystring=True,
+                  body=listcluster_response, status=200,
+                  content_type='application/json')
 
     clusters = retrieve_and_rank.list_solr_clusters()
 
@@ -128,9 +128,9 @@ def test_create_cluster():
     createcluster_response = '{"solr_cluster_id":"sc0747112c_f978_4e1f_b97e_0e3a8101ac5b","cluster_name":"","cluster_size":"","solr_cluster_status":"NOT_AVAILABLE"}'
 
     responses.add(responses.POST, URL_CLUSTERS,
-              match_querystring=True,
-              body=createcluster_response, status=200,
-              content_type='application/json')
+                  match_querystring=True,
+                  body=createcluster_response, status=200,
+                  content_type='application/json')
 
     retrieve_and_rank.create_solr_cluster(cluster_name='pythonCluster', cluster_size=None)
 
@@ -193,7 +193,7 @@ def test_create_config():
                   content_type='application/json')
 
     with open(os.path.join(os.path.dirname(__file__), '../resources/solr_config.zip'), 'rb') as config_data:
-        config = retrieve_and_rank.create_config(CLUSTER_ID, 'exampleconfig',   config=config_data)
+        config = retrieve_and_rank.create_config(CLUSTER_ID, 'exampleconfig', config=config_data)
 
     assert config is not None
     assert responses.calls[00].request.url == createconfig_url
@@ -254,7 +254,7 @@ def test_create_collection():
                   body=createcollection_response, status=200,
                   content_type='application/json')
 
-    collection = retrieve_and_rank.create_collection(CLUSTER_ID, 'examplecollection',  'exampleconfig')
+    collection = retrieve_and_rank.create_collection(CLUSTER_ID, 'examplecollection', 'exampleconfig')
 
     assert collection is not None
     assert responses.calls[0].response.text == createcollection_response

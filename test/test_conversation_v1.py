@@ -13,9 +13,16 @@
 # limitations under the License.
 
 import json
+import datetime
+from dateutil.tz import tzutc
 import responses
 import watson_developer_cloud
 from watson_developer_cloud import WatsonException
+from watson_developer_cloud import WatsonApiException
+from watson_developer_cloud.conversation_v1 import Context, Counterexample, \
+    CounterexampleCollection, Entity, EntityCollection, Example, \
+    ExampleCollection, InputData, Intent, IntentCollection, Synonym, \
+    SynonymCollection, Value, ValueCollection, Workspace, WorkspaceCollection
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/conversation/api'
@@ -48,18 +55,20 @@ def test_create_counterexample():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
+    # Verify that response can be converted to a Counterexample
+    Counterexample._from_dict(counterexample)
 
 @responses.activate
 def test_rate_limit_exceeded():
     endpoint = '/v1/workspaces/{0}/counterexamples'.format('boguswid')
     url = '{0}{1}'.format(base_url, endpoint)
-    error_code = "'code': '407'"
+    error_code = 429
     error_msg = 'Rate limit exceeded'
     responses.add(
         responses.POST,
         url,
         body='Rate limit exceeded',
-        status=407,
+        status=429,
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
@@ -68,7 +77,8 @@ def test_rate_limit_exceeded():
             workspace_id='boguswid', text='I want financial advice today.')
     except WatsonException as ex:
         assert len(responses.calls) == 1
-        assert error_code in str(ex)
+        assert isinstance(ex, WatsonApiException)
+        assert error_code == ex.code
         assert error_msg in str(ex)
 
 @responses.activate
@@ -108,7 +118,7 @@ def test_delete_counterexample():
         workspace_id='boguswid', text='I want financial advice today')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert counterexample == response
+    assert counterexample is None
 
 
 @responses.activate
@@ -130,11 +140,12 @@ def test_get_counterexample():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.get_counterexample(
-        workspace_id='boguswid', text='What are you wearing%3F')
+        workspace_id='boguswid', text='What are you wearing?')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
-
+    # Verify that response can be converted to a Counterexample
+    Counterexample._from_dict(counterexample)
 
 @responses.activate
 def test_list_counterexamples():
@@ -169,7 +180,8 @@ def test_list_counterexamples():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexamples == response
-
+    # Verify that response can be converted to a CounterexampleCollection
+    CounterexampleCollection._from_dict(counterexamples)
 
 @responses.activate
 def test_update_counterexample():
@@ -191,12 +203,13 @@ def test_update_counterexample():
         username='username', password='password', version='2017-02-03')
     counterexample = service.update_counterexample(
         workspace_id='boguswid',
-        text='What are you wearing%3F',
-        new_text='What are you wearing%3F')
+        text='What are you wearing?',
+        new_text='What are you wearing?')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
-
+    # Verify that response can be converted to a Counterexample
+    Counterexample._from_dict(counterexample)
 
 #########################
 # entities
@@ -234,7 +247,8 @@ def test_create_entity():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entity == response
-
+    # Verify that response can be converted to an Entity
+    Entity._from_dict(entity)
 
 @responses.activate
 def test_delete_entity():
@@ -252,7 +266,7 @@ def test_delete_entity():
     entity = service.delete_entity(workspace_id='boguswid', entity='pizza_toppings')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert entity == response
+    assert entity is None
 
 
 @responses.activate
@@ -280,6 +294,8 @@ def test_get_entity():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entity == response
+    # Verify that response can be converted to an Entity
+    Entity._from_dict(entity)
 
 
 @responses.activate
@@ -321,6 +337,8 @@ def test_list_entities():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entities == response
+    # Verify that response can be converted to an EntityCollection
+    EntityCollection._from_dict(entities)
 
 
 @responses.activate
@@ -351,6 +369,8 @@ def test_update_entity():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entity == response
+    # Verify that response can be converted to an Entity
+    Entity._from_dict(entity)
 
 
 #########################
@@ -383,6 +403,8 @@ def test_create_example():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
+    # Verify that response can be converted to an Example
+    Example._from_dict(example)
 
 
 @responses.activate
@@ -405,7 +427,7 @@ def test_delete_example():
         text='Gimme a pizza with pepperoni')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert example == response
+    assert example is None
 
 
 @responses.activate
@@ -433,6 +455,8 @@ def test_get_example():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
+    # Verify that response can be converted to an Example
+    Example._from_dict(example)
 
 
 @responses.activate
@@ -470,6 +494,8 @@ def test_list_examples():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert examples == response
+    # Verify that response can be converted to an ExampleCollection
+    ExampleCollection._from_dict(examples)
 
 
 @responses.activate
@@ -498,6 +524,8 @@ def test_update_example():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
+    # Verify that response can be converted to an Example
+    Example._from_dict(example)
 
 
 #########################
@@ -530,6 +558,8 @@ def test_create_intent():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intent == response
+    # Verify that response can be converted to an Intent
+    Intent._from_dict(intent)
 
 
 @responses.activate
@@ -550,7 +580,7 @@ def test_delete_intent():
         workspace_id='boguswid', intent='pizza_order')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert intent == response
+    assert intent is None
 
 
 @responses.activate
@@ -577,7 +607,8 @@ def test_get_intent():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intent == response
-
+    # Verify that response can be converted to an Intent
+    Intent._from_dict(intent)
 
 @responses.activate
 def test_list_intents():
@@ -609,7 +640,8 @@ def test_list_intents():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intents == response
-
+    # Verify that response can be converted to an IntentCollection
+    IntentCollection._from_dict(intents)
 
 @responses.activate
 def test_update_intent():
@@ -638,6 +670,17 @@ def test_update_intent():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intent == response
+    # Verify that response can be converted to an Intent
+    Intent._from_dict(intent)
+
+def test_intent_models():
+    intent = Intent(intent_name="pizza_order",
+                    created=datetime.datetime(2015, 12, 6, 23, 53, 59, 15300, tzinfo=tzutc()),
+                    updated=datetime.datetime(2015, 12, 7, 18, 53, 59, 15300, tzinfo=tzutc()),
+                    description="User wants to start a new pizza order")
+    intentDict = intent._to_dict()
+    check = Intent._from_dict(intentDict)
+    assert intent == check
 
 
 #########################
@@ -655,7 +698,10 @@ def test_list_logs():
                 "input": {
                     "text": "Can you turn off the AC"
                 },
-                "context": {}
+                "context": {
+                    "conversation_id": "f2c7e362-4cc8-4761-8b0f-9ccd70c63bca",
+                    "system": {}
+                }
             },
             "response": {
                 "input": {
@@ -736,7 +782,11 @@ def test_message():
         },
         "intents": [],
         "entities": [],
-        "input": {}
+        "input": {},
+        "output": {
+            "text": "okay",
+            "log_messages": []
+        }
     }
 
     responses.add(
@@ -748,7 +798,7 @@ def test_message():
 
     message = conversation.message(
         workspace_id=workspace_id,
-        message_input={'text': 'Turn on the lights'},
+        input={'text': 'Turn on the lights'},
         context=None)
 
     assert message is not None
@@ -777,8 +827,75 @@ def test_message():
     }
     message = conversation.message(
         workspace_id=workspace_id,
-        message_input={'text': 'Turn on the lights'},
+        input={'text': 'Turn on the lights'},
         context=json.dumps(message_ctx))
+
+    assert message is not None
+    assert responses.calls[1].request.url == message_url1
+    assert responses.calls[1].response.text == json.dumps(message_response)
+
+    assert len(responses.calls) == 2
+
+@responses.activate
+def test_message_with_models():
+
+    conversation = watson_developer_cloud.ConversationV1(
+        username="username", password="password", version='2016-09-20')
+    conversation.set_default_headers({'x-watson-learning-opt-out': "true"})
+
+    workspace_id = 'f8fdbc65-e0bd-4e43-b9f8-2975a366d4ec'
+    message_url = '%s/v1/workspaces/%s/message' % (base_url, workspace_id)
+    url1_str = '%s/v1/workspaces/%s/message?version=2016-09-20'
+    message_url1 = url1_str % (base_url, workspace_id)
+    message_response = {
+        "context": {
+            "conversation_id": "1b7b67c0-90ed-45dc-8508-9488bc483d5b",
+            "system": {
+                "dialog_stack": ["root"],
+                "dialog_turn_counter": 1,
+                "dialog_request_counter": 1
+            }
+        },
+        "intents": [],
+        "entities": [],
+        "input": {},
+        "output": {
+            "text": "okay",
+            "log_messages": []
+        }
+    }
+
+    responses.add(
+        responses.POST,
+        message_url,
+        body=json.dumps(message_response),
+        status=200,
+        content_type='application/json')
+
+    message = conversation.message(
+        workspace_id=workspace_id,
+        input=InputData(text='Turn on the lights'),
+        context=None)
+
+    assert message is not None
+    assert responses.calls[0].request.url == message_url1
+    assert 'x-watson-learning-opt-out' in responses.calls[0].request.headers
+    assert responses.calls[0].request.headers['x-watson-learning-opt-out'] == 'true'
+    assert responses.calls[0].response.text == json.dumps(message_response)
+
+    # test context
+    responses.add(
+        responses.POST,
+        message_url,
+        body=message_response,
+        status=200,
+        content_type='application/json')
+
+    message_ctx = Context._from_dict(message_response['context'])
+    message = conversation.message(
+        workspace_id=workspace_id,
+        input=InputData(text='Turn on the lights'),
+        context=message_ctx)
 
     assert message is not None
     assert responses.calls[1].request.url == message_url1
@@ -815,7 +932,8 @@ def test_create_synonym():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonym == response
-
+    # Verify that response can be converted to a Synonym
+    Synonym._from_dict(synonym)
 
 @responses.activate
 def test_delete_synonym():
@@ -835,7 +953,7 @@ def test_delete_synonym():
         workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert synonym == response
+    assert synonym is None
 
 
 @responses.activate
@@ -861,6 +979,8 @@ def test_get_synonym():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonym == response
+    # Verify that response can be converted to a Synonym
+    Synonym._from_dict(synonym)
 
 
 @responses.activate
@@ -904,6 +1024,8 @@ def test_list_synonyms():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonyms == response
+    # Verify that response can be converted to a SynonymCollection
+    SynonymCollection._from_dict(synonyms)
 
 
 @responses.activate
@@ -929,6 +1051,8 @@ def test_update_synonym():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonym == response
+    # Verify that response can be converted to a Synonym
+    Synonym._from_dict(synonym)
 
 
 #########################
@@ -944,6 +1068,7 @@ def test_create_value():
         "metadata": "{}",
         "created": "2000-01-23T04:56:07.000+00:00",
         "value": "aeiou",
+        "type": "synonyms",
         "updated": "2000-01-23T04:56:07.000+00:00"
     }
     responses.add(
@@ -961,6 +1086,8 @@ def test_create_value():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert value == response
+    # Verify that response can be converted to a Value
+    Value._from_dict(value)
 
 
 @responses.activate
@@ -981,7 +1108,7 @@ def test_delete_value():
         workspace_id='boguswid', entity='grilling', value='bbq')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert value == response
+    assert value is None
 
 
 @responses.activate
@@ -994,6 +1121,7 @@ def test_get_value():
         "metadata": {
             "code": 1422
         },
+        "type": "synonyms",
         "created": "2015-12-06T23:53:59.153Z",
         "updated": "2015-12-07T18:53:59.153Z"
     }
@@ -1010,6 +1138,8 @@ def test_get_value():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert value == response
+    # Verify that response can be converted to a Value
+    Value._from_dict(value)
 
 
 @responses.activate
@@ -1022,6 +1152,7 @@ def test_list_values():
             "metadata": {
                 "code": 1422
             },
+            "type": "synonyms",
             "created": "2015-12-06T23:53:59.153Z",
             "updated": "2015-12-07T18:53:59.153Z"
         }],
@@ -1051,6 +1182,8 @@ def test_list_values():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert values == response
+    # Verify that response can be converted to a ValueCollection
+    ValueCollection._from_dict(values)
 
 
 @responses.activate
@@ -1063,7 +1196,9 @@ def test_update_value():
         "metadata": {
             "code": 1422
         },
-        "created": "2015-12-06T23:53:59.153Z"
+        "type": "synonyms",
+        "created": "2015-12-06T23:53:59.153Z",
+        "updated": "2015-12-06T23:53:59.153Z"
     }
     responses.add(
         responses.POST,
@@ -1083,6 +1218,8 @@ def test_update_value():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert value == response
+    # Verify that response can be converted to a Value
+    Value._from_dict(value)
 
 
 #########################
@@ -1116,7 +1253,8 @@ def test_create_workspace():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
-
+    # Verify that response can be converted to a Workspace
+    Workspace._from_dict(workspace)
 
 @responses.activate
 def test_delete_workspace():
@@ -1134,7 +1272,7 @@ def test_delete_workspace():
     workspace = service.delete_workspace(workspace_id='boguswid')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert workspace == response
+    assert workspace is None
 
 
 @responses.activate
@@ -1149,6 +1287,7 @@ def test_get_workspace():
         "updated": "2015-12-06T23:53:59.153Z",
         "description": "Pizza app",
         "status": "Available",
+        "learning_opt_out": False,
         "workspace_id": "pizza_app-e0f3"
     }
     responses.add(
@@ -1163,6 +1302,8 @@ def test_get_workspace():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
+    # Verify that response can be converted to a Workspace
+    Workspace._from_dict(workspace)
 
 
 @responses.activate
@@ -1198,6 +1339,8 @@ def test_list_workspaces():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspaces == response
+    # Verify that response can be converted to a WorkspaceCollection
+    WorkspaceCollection._from_dict(workspaces)
 
 
 @responses.activate
@@ -1230,3 +1373,5 @@ def test_update_workspace():
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
+    # Verify that response can be converted to a Workspace
+    Workspace._from_dict(workspace)

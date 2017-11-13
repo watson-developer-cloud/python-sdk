@@ -17,10 +17,10 @@ The v2 Personality Insights service
 """
 
 import json
-from .watson_developer_cloud_service import WatsonDeveloperCloudService
+from .watson_service import WatsonService
 
 
-class PersonalityInsightsV2(WatsonDeveloperCloudService):
+class PersonalityInsightsV2(WatsonService):
     """Wrapper of the Personality Insights service"""
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
 
@@ -30,7 +30,7 @@ class PersonalityInsightsV2(WatsonDeveloperCloudService):
         runtime variable for Bluemix, or it defaults to local URLs.
         """
 
-        WatsonDeveloperCloudService.__init__(
+        WatsonService.__init__(
             self, 'personality_insights', url, **kwargs)
 
     def profile(self, text, content_type='text/plain',
