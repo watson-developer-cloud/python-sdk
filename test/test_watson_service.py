@@ -1,7 +1,6 @@
 # coding=utf-8
 import json
 
-import watson_developer_cloud
 from watson_developer_cloud import WatsonService
 
 import responses
@@ -31,8 +30,9 @@ class AnyServiceV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/foo/{0}/bar/{1}/baz'.format(
             *self._encode_path_vars(path0, path1))
-        self.request(method='GET', url=url, params=params, accept_json=True)
-        return None
+        response = self.request(
+            method='GET', url=url, params=params, accept_json=True)
+        return response
 
 
 @responses.activate
@@ -51,12 +51,13 @@ def test_url_encoding():
 
     responses.add(responses.GET,
                   test_url,
-                  status = 200,
-                  body = json.dumps({"foobar": "baz"}),
-                  content_type = 'application/json')
+                  status=200,
+                  body=json.dumps({"foobar": "baz"}),
+                  content_type='application/json')
 
     response = service.op_with_path_params(path0, path1)
 
+    assert response is not None
     assert len(responses.calls) == 1
     assert path_encoded in responses.calls[0].request.url
     assert 'version=2017-07-07' in responses.calls[0].request.url
