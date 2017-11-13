@@ -1,6 +1,7 @@
 # Watson Developer Cloud Python SDK
 
 [![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg)](https://travis-ci.org/watson-developer-cloud/python-sdk)
+[![Slack](https://wdc-slack-inviter.mybluemix.net/badge.svg)](https://wdc-slack-inviter.mybluemix.net)
 [![codecov.io](https://codecov.io/github/watson-developer-cloud/python-sdk/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/python-sdk?branch=master)
 [![Latest Stable Version](https://img.shields.io/pypi/v/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
 
@@ -57,7 +58,7 @@ Copy your credentials from the **Service details** page. To find the the Service
 
 ## Python Version
 
-Tested on: Python from 2.7, 3.4, 3.5, and 3.6.
+Tested on Python 2.7, 3.4, 3.5, and 3.6.
 
 ## Changes for v1.0
 Version 1.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
@@ -75,6 +76,7 @@ See [issues](https://github.com/watson-developer-cloud/python-sdk/issues).
 * `pysolr` >=3.3, <4.0
 * `argparse` >=1.3.0
 * `pyOpenSSL` >=16.2.0
+* `python_dateutil` >= 2.5.3
 * [responses] for testing
 
 ## Contributing
