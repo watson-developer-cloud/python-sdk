@@ -140,7 +140,7 @@ def test_get_counterexample():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.get_counterexample(
-        workspace_id='boguswid', text='What are you wearing%3F')
+        workspace_id='boguswid', text='What are you wearing?')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
@@ -203,8 +203,8 @@ def test_update_counterexample():
         username='username', password='password', version='2017-02-03')
     counterexample = service.update_counterexample(
         workspace_id='boguswid',
-        text='What are you wearing%3F',
-        new_text='What are you wearing%3F')
+        text='What are you wearing?',
+        new_text='What are you wearing?')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
