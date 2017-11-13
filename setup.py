@@ -64,8 +64,8 @@ setup(name='watson-developer-cloud',
       version=__version__,
       description='Client library to use the IBM Watson Services',
       license='Apache 2.0',
-      install_requires=['requests>=2.0, <3.0', 'pysolr>= 3.3, <4.0', 'pyOpenSSL>=16.2.0'],
-      tests_require=['responses', 'pytest', 'python_dotenv'],
+      install_requires=['requests>=2.0, <3.0', 'pysolr>= 3.3, <4.0', 'pyOpenSSL>=16.2.0', 'python_dateutil>=2.5.3'],
+      tests_require=['responses', 'pytest', 'python_dotenv', 'pytest-rerunfailures', 'tox'],
       cmdclass={'test': PyTest},
       author='Jeffrey Stylos',
       author_email='jsstylos@us.ibm.com',
@@ -93,4 +93,4 @@ setup(name='watson-developer-cloud',
           'Frameworks',
       ],
       zip_safe=True
-    )
+     )
