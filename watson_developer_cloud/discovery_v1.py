@@ -105,12 +105,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('name must be provided')
         params = {'version': self.version}
         data = {'name': name, 'description': description, 'size': size}
+        url = '/v1/environments'
         response = self.request(
-            method='POST',
-            url='/v1/environments',
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_environment(self, environment_id):
@@ -124,11 +121,10 @@ class DiscoveryV1(WatsonService):
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='DELETE',
-            url='/v1/environments/{0}'.format(environment_id),
-            params=params,
-            accept_json=True)
+            method='DELETE', url=url, params=params, accept_json=True)
         return response
 
     def get_environment(self, environment_id):
@@ -142,11 +138,10 @@ class DiscoveryV1(WatsonService):
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}'.format(environment_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_environments(self, name=None):
@@ -160,11 +155,9 @@ class DiscoveryV1(WatsonService):
         :rtype: dict
         """
         params = {'version': self.version, 'name': name}
+        url = '/v1/environments'
         response = self.request(
-            method='GET',
-            url='/v1/environments',
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_fields(self, environment_id, collection_ids):
@@ -190,11 +183,10 @@ class DiscoveryV1(WatsonService):
             ",".join(collection_ids)
             if isinstance(collection_ids, list) else collection_ids
         }
+        url = '/v1/environments/{0}/fields'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/fields'.format(environment_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_environment(self, environment_id, name=None, description=None):
@@ -214,12 +206,10 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         params = {'version': self.version}
         data = {'name': name, 'description': description}
+        url = '/v1/environments/{0}'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='PUT',
-            url='/v1/environments/{0}'.format(environment_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='PUT', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -272,12 +262,10 @@ class DiscoveryV1(WatsonService):
             'enrichments': enrichments,
             'normalizations': normalizations
         }
+        url = '/v1/environments/{0}/configurations'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='POST',
-            url='/v1/environments/{0}/configurations'.format(environment_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_configuration(self, environment_id, configuration_id):
@@ -301,12 +289,10 @@ class DiscoveryV1(WatsonService):
         if configuration_id is None:
             raise ValueError('configuration_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/configurations/{1}'.format(
+            *self._encode_path_vars(environment_id, configuration_id))
         response = self.request(
-            method='DELETE',
-            url='/v1/environments/{0}/configurations/{1}'.format(
-                environment_id, configuration_id),
-            params=params,
-            accept_json=True)
+            method='DELETE', url=url, params=params, accept_json=True)
         return response
 
     def get_configuration(self, environment_id, configuration_id):
@@ -323,12 +309,10 @@ class DiscoveryV1(WatsonService):
         if configuration_id is None:
             raise ValueError('configuration_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/configurations/{1}'.format(
+            *self._encode_path_vars(environment_id, configuration_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/configurations/{1}'.format(
-                environment_id, configuration_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_configurations(self, environment_id, name=None):
@@ -345,11 +329,10 @@ class DiscoveryV1(WatsonService):
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         params = {'version': self.version, 'name': name}
+        url = '/v1/environments/{0}/configurations'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/configurations'.format(environment_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_configuration(self,
@@ -401,13 +384,10 @@ class DiscoveryV1(WatsonService):
             'enrichments': enrichments,
             'normalizations': normalizations
         }
+        url = '/v1/environments/{0}/configurations/{1}'.format(
+            *self._encode_path_vars(environment_id, configuration_id))
         response = self.request(
-            method='PUT',
-            url='/v1/environments/{0}/configurations/{1}'.format(
-                environment_id, configuration_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='PUT', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -462,9 +442,11 @@ class DiscoveryV1(WatsonService):
         metadata_tuple = None
         if metadata:
             metadata_tuple = (None, metadata, 'text/plain')
+        url = '/v1/environments/{0}/preview'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
             method='POST',
-            url='/v1/environments/{0}/preview'.format(environment_id),
+            url=url,
             params=params,
             files={
                 'configuration': configuration_tuple,
@@ -506,12 +488,10 @@ class DiscoveryV1(WatsonService):
             'configuration_id': configuration_id,
             'language': language
         }
+        url = '/v1/environments/{0}/collections'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='POST',
-            url='/v1/environments/{0}/collections'.format(environment_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_collection(self, environment_id, collection_id):
@@ -528,12 +508,10 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='DELETE',
-            url='/v1/environments/{0}/collections/{1}'.format(
-                environment_id, collection_id),
-            params=params,
-            accept_json=True)
+            method='DELETE', url=url, params=params, accept_json=True)
         return response
 
     def get_collection(self, environment_id, collection_id):
@@ -550,12 +528,10 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/collections/{1}'.format(
-                environment_id, collection_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_collection_fields(self, environment_id, collection_id):
@@ -574,12 +550,10 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/fields'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/collections/{1}/fields'.format(
-                environment_id, collection_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_collections(self, environment_id, name=None):
@@ -596,11 +570,10 @@ class DiscoveryV1(WatsonService):
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         params = {'version': self.version, 'name': name}
+        url = '/v1/environments/{0}/collections'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/collections'.format(environment_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_collection(self,
@@ -630,13 +603,10 @@ class DiscoveryV1(WatsonService):
             'description': description,
             'configuration_id': configuration_id
         }
+        url = '/v1/environments/{0}/collections/{1}'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='PUT',
-            url='/v1/environments/{0}/collections/{1}'.format(
-                environment_id, collection_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='PUT', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -693,10 +663,11 @@ class DiscoveryV1(WatsonService):
         metadata_tuple = None
         if metadata:
             metadata_tuple = (None, metadata, 'text/plain')
+        url = '/v1/environments/{0}/collections/{1}/documents'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
             method='POST',
-            url='/v1/environments/{0}/collections/{1}/documents'.format(
-                environment_id, collection_id),
+            url=url,
             params=params,
             files={'file': file_tuple,
                    'metadata': metadata_tuple},
@@ -724,12 +695,10 @@ class DiscoveryV1(WatsonService):
         if document_id is None:
             raise ValueError('document_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
+            *self._encode_path_vars(environment_id, collection_id, document_id))
         response = self.request(
-            method='DELETE',
-            url='/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-                environment_id, collection_id, document_id),
-            params=params,
-            accept_json=True)
+            method='DELETE', url=url, params=params, accept_json=True)
         return response
 
     def get_document_status(self, environment_id, collection_id, document_id):
@@ -754,12 +723,10 @@ class DiscoveryV1(WatsonService):
         if document_id is None:
             raise ValueError('document_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
+            *self._encode_path_vars(environment_id, collection_id, document_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-                environment_id, collection_id, document_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_document(self,
@@ -803,10 +770,11 @@ class DiscoveryV1(WatsonService):
         metadata_tuple = None
         if metadata:
             metadata_tuple = (None, metadata, 'text/plain')
+        url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
+            *self._encode_path_vars(environment_id, collection_id, document_id))
         response = self.request(
             method='POST',
-            url='/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-                environment_id, collection_id, document_id),
+            url=url,
             params=params,
             files={'file': file_tuple,
                    'metadata': metadata_tuple},
@@ -888,11 +856,10 @@ class DiscoveryV1(WatsonService):
             'deduplicate.field':
             deduplicate_field
         }
+        url = '/v1/environments/{0}/query'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/query'.format(environment_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def federated_query_notices(self,
@@ -964,11 +931,10 @@ class DiscoveryV1(WatsonService):
             'deduplicate.field':
             deduplicate_field
         }
+        url = '/v1/environments/{0}/notices'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/notices'.format(environment_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def query(self,
@@ -1056,12 +1022,10 @@ class DiscoveryV1(WatsonService):
             'deduplicate.field':
             deduplicate_field
         }
+        url = '/v1/environments/{0}/collections/{1}/query'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/collections/{1}/query'.format(
-                environment_id, collection_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def query_notices(self,
@@ -1147,12 +1111,10 @@ class DiscoveryV1(WatsonService):
             'deduplicate.field':
             deduplicate_field
         }
+        url = '/v1/environments/{0}/collections/{1}/notices'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/collections/{1}/notices'.format(
-                environment_id, collection_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     #########################
@@ -1189,13 +1151,10 @@ class DiscoveryV1(WatsonService):
             'filter': filter,
             'examples': examples
         }
+        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='POST',
-            url='/v1/environments/{0}/collections/{1}/training_data'.format(
-                environment_id, collection_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def create_training_example(self,
@@ -1229,14 +1188,10 @@ class DiscoveryV1(WatsonService):
             'cross_reference': cross_reference,
             'relevance': relevance
         }
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id))
         response = self.request(
-            method='POST',
-            url=
-            '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.
-            format(environment_id, collection_id, query_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_all_training_data(self, environment_id, collection_id):
@@ -1252,12 +1207,9 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/environments/{0}/collections/{1}/training_data'.format(
-                environment_id, collection_id),
-            params=params,
-            accept_json=True)
+        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def delete_training_data(self, environment_id, collection_id, query_id):
@@ -1276,12 +1228,9 @@ class DiscoveryV1(WatsonService):
         if query_id is None:
             raise ValueError('query_id must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
-                environment_id, collection_id, query_id),
-            params=params,
-            accept_json=True)
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def delete_training_example(self, environment_id, collection_id, query_id,
@@ -1304,13 +1253,10 @@ class DiscoveryV1(WatsonService):
         if example_id is None:
             raise ValueError('example_id must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url=
-            '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.
-            format(environment_id, collection_id, query_id, example_id),
-            params=params,
-            accept_json=True)
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id,
+                                    example_id))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_training_data(self, environment_id, collection_id, query_id):
@@ -1331,12 +1277,10 @@ class DiscoveryV1(WatsonService):
         if query_id is None:
             raise ValueError('query_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
-                environment_id, collection_id, query_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def get_training_example(self, environment_id, collection_id, query_id,
@@ -1360,13 +1304,11 @@ class DiscoveryV1(WatsonService):
         if example_id is None:
             raise ValueError('example_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id,
+                                    example_id))
         response = self.request(
-            method='GET',
-            url=
-            '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.
-            format(environment_id, collection_id, query_id, example_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_training_data(self, environment_id, collection_id):
@@ -1383,12 +1325,10 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET',
-            url='/v1/environments/{0}/collections/{1}/training_data'.format(
-                environment_id, collection_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_training_examples(self, environment_id, collection_id, query_id):
@@ -1408,13 +1348,10 @@ class DiscoveryV1(WatsonService):
         if query_id is None:
             raise ValueError('query_id must be provided')
         params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id))
         response = self.request(
-            method='GET',
-            url=
-            '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.
-            format(environment_id, collection_id, query_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_training_example(self,
@@ -1446,14 +1383,11 @@ class DiscoveryV1(WatsonService):
             raise ValueError('example_id must be provided')
         params = {'version': self.version}
         data = {'cross_reference': cross_reference, 'relevance': relevance}
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id,
+                                    example_id))
         response = self.request(
-            method='PUT',
-            url=
-            '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.
-            format(environment_id, collection_id, query_id, example_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='PUT', url=url, params=params, json=data, accept_json=True)
         return response
 
 

@@ -166,9 +166,10 @@ class PersonalityInsightsV3(WatsonService):
             data = json.dumps(content)
         else:
             data = content
+        url = '/v3/profile'
         response = self.request(
             method='POST',
-            url='/v3/profile',
+            url=url,
             headers=headers,
             params=params,
             data=data,

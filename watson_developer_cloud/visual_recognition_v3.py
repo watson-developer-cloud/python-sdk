@@ -106,9 +106,10 @@ class VisualRecognitionV3(WatsonService):
         parameters_tuple = None
         if parameters:
             parameters_tuple = (None, parameters, 'text/plain')
+        url = '/v3/classify'
         response = self.request(
             method='POST',
-            url='/v3/classify',
+            url=url,
             headers=headers,
             params=params,
             files={
@@ -143,9 +144,10 @@ class VisualRecognitionV3(WatsonService):
         parameters_tuple = None
         if parameters:
             parameters_tuple = (None, parameters, 'text/plain')
+        url = '/v3/detect_faces'
         response = self.request(
             method='POST',
-            url='/v3/detect_faces',
+            url=url,
             params=params,
             files={
                 'images_file': images_file_tuple,
@@ -174,9 +176,10 @@ class VisualRecognitionV3(WatsonService):
             raise ValueError('name must be provided')
         params = {'version': self.version}
         data = {'name': name}
+        url = '/v3/classifiers'
         response = self.request(
             method='POST',
-            url='/v3/classifiers',
+            url=url,
             params=params,
             data=data,
             files=kwargs,
@@ -193,11 +196,9 @@ class VisualRecognitionV3(WatsonService):
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v3/classifiers/{0}'.format(classifier_id),
-            params=params,
-            accept_json=True)
+        url = '/v3/classifiers/{0}'.format(
+            *self._encode_path_vars(classifier_id))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_classifier(self, classifier_id):
@@ -211,11 +212,10 @@ class VisualRecognitionV3(WatsonService):
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         params = {'version': self.version}
+        url = '/v3/classifiers/{0}'.format(
+            *self._encode_path_vars(classifier_id))
         response = self.request(
-            method='GET',
-            url='/v3/classifiers/{0}'.format(classifier_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_classifiers(self, verbose=None):
@@ -227,11 +227,9 @@ class VisualRecognitionV3(WatsonService):
         :rtype: dict
         """
         params = {'version': self.version, 'verbose': verbose}
+        url = '/v3/classifiers'
         response = self.request(
-            method='GET',
-            url='/v3/classifiers',
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_classifier(self,
@@ -249,9 +247,11 @@ class VisualRecognitionV3(WatsonService):
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         params = {'version': self.version}
+        url = '/v3/classifiers/{0}'.format(
+            *self._encode_path_vars(classifier_id))
         response = self.request(
             method='POST',
-            url='/v3/classifiers/{0}'.format(classifier_id),
+            url=url,
             params=params,
             files=kwargs,
             accept_json=True)

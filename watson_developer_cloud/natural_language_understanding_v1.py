@@ -169,12 +169,9 @@ class NaturalLanguageUnderstandingV1(WatsonService):
             'language': language,
             'limit_text_characters': limit_text_characters
         }
+        url = '/v1/analyze'
         response = self.request(
-            method='POST',
-            url='/v1/analyze',
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -194,11 +191,9 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         if model_id is None:
             raise ValueError('model_id must be provided')
         params = {'version': self.version}
+        url = '/v1/models/{0}'.format(*self._encode_path_vars(model_id))
         response = self.request(
-            method='DELETE',
-            url='/v1/models/{0}'.format(model_id),
-            params=params,
-            accept_json=True)
+            method='DELETE', url=url, params=params, accept_json=True)
         return response
 
     def list_models(self):
@@ -213,8 +208,9 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         :rtype: dict
         """
         params = {'version': self.version}
+        url = '/v1/models'
         response = self.request(
-            method='GET', url='/v1/models', params=params, accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
 
