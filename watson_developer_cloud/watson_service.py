@@ -228,6 +228,10 @@ class WatsonService(object):
         return val
 
     @staticmethod
+    def _encode_path_vars(*args):
+        return (requests.utils.quote(x, safe='') for x in args)
+
+    @staticmethod
     def _get_error_message(response):
         """
         Gets the error message from a JSON response.

@@ -87,11 +87,10 @@ class NaturalLanguageClassifierV1(WatsonService):
         if text is None:
             raise ValueError('text must be provided')
         data = {'text': text}
+        url = '/v1/classifiers/{0}/classify'.format(
+            *self._encode_path_vars(classifier_id))
         response = self.request(
-            method='POST',
-            url='/v1/classifiers/{0}/classify'.format(classifier_id),
-            json=data,
-            accept_json=True)
+            method='POST', url=url, json=data, accept_json=True)
         return response
 
     def create_classifier(self,
@@ -124,9 +123,10 @@ class NaturalLanguageClassifierV1(WatsonService):
             training_data_filename = training_data.name
         mime_type = 'text/csv'
         training_data_tuple = (training_data_filename, training_data, mime_type)
+        url = '/v1/classifiers'
         response = self.request(
             method='POST',
-            url='/v1/classifiers',
+            url=url,
             files={
                 'metadata': metadata_tuple,
                 'training_data': training_data_tuple
@@ -143,10 +143,9 @@ class NaturalLanguageClassifierV1(WatsonService):
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-        self.request(
-            method='DELETE',
-            url='/v1/classifiers/{0}'.format(classifier_id),
-            accept_json=True)
+        url = '/v1/classifiers/{0}'.format(
+            *self._encode_path_vars(classifier_id))
+        self.request(method='DELETE', url=url, accept_json=True)
         return None
 
     def get_classifier(self, classifier_id):
@@ -161,10 +160,9 @@ class NaturalLanguageClassifierV1(WatsonService):
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-        response = self.request(
-            method='GET',
-            url='/v1/classifiers/{0}'.format(classifier_id),
-            accept_json=True)
+        url = '/v1/classifiers/{0}'.format(
+            *self._encode_path_vars(classifier_id))
+        response = self.request(method='GET', url=url, accept_json=True)
         return response
 
     def list_classifiers(self):
@@ -176,8 +174,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         :return: A `dict` containing the `ClassifierList` response.
         :rtype: dict
         """
-        response = self.request(
-            method='GET', url='/v1/classifiers', accept_json=True)
+        url = '/v1/classifiers'
+        response = self.request(method='GET', url=url, accept_json=True)
         return response
 
 

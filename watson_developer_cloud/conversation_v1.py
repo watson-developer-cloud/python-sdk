@@ -134,12 +134,9 @@ class ConversationV1(WatsonService):
             'metadata': metadata,
             'learning_opt_out': learning_opt_out
         }
+        url = '/v1/workspaces'
         response = self.request(
-            method='POST',
-            url='/v1/workspaces',
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_workspace(self, workspace_id):
@@ -154,11 +151,8 @@ class ConversationV1(WatsonService):
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/workspaces/{0}'.format(workspace_id),
-            params=params,
-            accept_json=True)
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_workspace(self, workspace_id, export=None):
@@ -175,11 +169,9 @@ class ConversationV1(WatsonService):
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         params = {'version': self.version, 'export': export}
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}'.format(workspace_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_workspaces(self,
@@ -206,8 +198,9 @@ class ConversationV1(WatsonService):
             'sort': sort,
             'cursor': cursor
         }
+        url = '/v1/workspaces'
         response = self.request(
-            method='GET', url='/v1/workspaces', params=params, accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_workspace(self,
@@ -262,12 +255,9 @@ class ConversationV1(WatsonService):
             'metadata': metadata,
             'learning_opt_out': learning_opt_out
         }
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}'.format(workspace_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -316,12 +306,10 @@ class ConversationV1(WatsonService):
             'intents': intents,
             'output': output
         }
+        url = '/v1/workspaces/{0}/message'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/message'.format(workspace_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -357,12 +345,10 @@ class ConversationV1(WatsonService):
             'description': description,
             'examples': examples
         }
+        url = '/v1/workspaces/{0}/intents'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/intents'.format(workspace_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_intent(self, workspace_id, intent):
@@ -380,11 +366,9 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
-            params=params,
-            accept_json=True)
+        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
+            workspace_id, intent))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_intent(self, workspace_id, intent, export=None):
@@ -404,11 +388,10 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         params = {'version': self.version, 'export': export}
+        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
+            workspace_id, intent))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_intents(self,
@@ -442,11 +425,10 @@ class ConversationV1(WatsonService):
             'sort': sort,
             'cursor': cursor
         }
+        url = '/v1/workspaces/{0}/intents'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/intents'.format(workspace_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_intent(self,
@@ -481,12 +463,10 @@ class ConversationV1(WatsonService):
             'description': new_description,
             'examples': new_examples
         }
+        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
+            workspace_id, intent))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/intents/{1}'.format(workspace_id, intent),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -513,13 +493,10 @@ class ConversationV1(WatsonService):
             raise ValueError('text must be provided')
         params = {'version': self.version}
         data = {'text': text}
+        url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/intents/{1}/examples'.format(
-                workspace_id, intent),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_example(self, workspace_id, intent, text):
@@ -540,12 +517,9 @@ class ConversationV1(WatsonService):
         if text is None:
             raise ValueError('text must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-                workspace_id, intent, text),
-            params=params,
-            accept_json=True)
+        url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+            *self._encode_path_vars(workspace_id, intent, text))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_example(self, workspace_id, intent, text):
@@ -567,12 +541,10 @@ class ConversationV1(WatsonService):
         if text is None:
             raise ValueError('text must be provided')
         params = {'version': self.version}
+        url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+            *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-                workspace_id, intent, text),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_examples(self,
@@ -607,12 +579,10 @@ class ConversationV1(WatsonService):
             'sort': sort,
             'cursor': cursor
         }
+        url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/intents/{1}/examples'.format(
-                workspace_id, intent),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_example(self, workspace_id, intent, text, new_text=None):
@@ -636,13 +606,10 @@ class ConversationV1(WatsonService):
             raise ValueError('text must be provided')
         params = {'version': self.version}
         data = {'text': new_text}
+        url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+            *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-                workspace_id, intent, text),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -684,12 +651,10 @@ class ConversationV1(WatsonService):
             'values': values,
             'fuzzy_match': fuzzy_match
         }
+        url = '/v1/workspaces/{0}/entities'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/entities'.format(workspace_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_entity(self, workspace_id, entity):
@@ -707,11 +672,9 @@ class ConversationV1(WatsonService):
         if entity is None:
             raise ValueError('entity must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/workspaces/{0}/entities/{1}'.format(workspace_id, entity),
-            params=params,
-            accept_json=True)
+        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
+            workspace_id, entity))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_entity(self, workspace_id, entity, export=None):
@@ -731,11 +694,10 @@ class ConversationV1(WatsonService):
         if entity is None:
             raise ValueError('entity must be provided')
         params = {'version': self.version, 'export': export}
+        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
+            workspace_id, entity))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/entities/{1}'.format(workspace_id, entity),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_entities(self,
@@ -769,11 +731,10 @@ class ConversationV1(WatsonService):
             'sort': sort,
             'cursor': cursor
         }
+        url = '/v1/workspaces/{0}/entities'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/entities'.format(workspace_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_entity(self,
@@ -813,12 +774,10 @@ class ConversationV1(WatsonService):
             'fuzzy_match': new_fuzzy_match,
             'values': new_values
         }
+        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
+            workspace_id, entity))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/entities/{1}'.format(workspace_id, entity),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -862,13 +821,10 @@ class ConversationV1(WatsonService):
             'patterns': patterns,
             'type': value_type
         }
+        url = '/v1/workspaces/{0}/entities/{1}/values'.format(
+            *self._encode_path_vars(workspace_id, entity))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/entities/{1}/values'.format(
-                workspace_id, entity),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_value(self, workspace_id, entity, value):
@@ -889,12 +845,9 @@ class ConversationV1(WatsonService):
         if value is None:
             raise ValueError('value must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
-                workspace_id, entity, value),
-            params=params,
-            accept_json=True)
+        url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+            *self._encode_path_vars(workspace_id, entity, value))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_value(self, workspace_id, entity, value, export=None):
@@ -917,12 +870,10 @@ class ConversationV1(WatsonService):
         if value is None:
             raise ValueError('value must be provided')
         params = {'version': self.version, 'export': export}
+        url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+            *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
-                workspace_id, entity, value),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_values(self,
@@ -960,12 +911,10 @@ class ConversationV1(WatsonService):
             'sort': sort,
             'cursor': cursor
         }
+        url = '/v1/workspaces/{0}/entities/{1}/values'.format(
+            *self._encode_path_vars(workspace_id, entity))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/entities/{1}/values'.format(
-                workspace_id, entity),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_value(self,
@@ -1007,13 +956,10 @@ class ConversationV1(WatsonService):
             'synonyms': new_synonyms,
             'patterns': new_patterns
         }
+        url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+            *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
-                workspace_id, entity, value),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -1043,13 +989,10 @@ class ConversationV1(WatsonService):
             raise ValueError('synonym must be provided')
         params = {'version': self.version}
         data = {'synonym': synonym}
+        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
+            *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
-                workspace_id, entity, value),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_synonym(self, workspace_id, entity, value, synonym):
@@ -1073,12 +1016,9 @@ class ConversationV1(WatsonService):
         if synonym is None:
             raise ValueError('synonym must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.
-            format(workspace_id, entity, value, synonym),
-            params=params,
-            accept_json=True)
+        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+            *self._encode_path_vars(workspace_id, entity, value, synonym))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_synonym(self, workspace_id, entity, value, synonym):
@@ -1103,12 +1043,10 @@ class ConversationV1(WatsonService):
         if synonym is None:
             raise ValueError('synonym must be provided')
         params = {'version': self.version}
+        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+            *self._encode_path_vars(workspace_id, entity, value, synonym))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.
-            format(workspace_id, entity, value, synonym),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_synonyms(self,
@@ -1147,12 +1085,10 @@ class ConversationV1(WatsonService):
             'sort': sort,
             'cursor': cursor
         }
+        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
+            *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
-                workspace_id, entity, value),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_synonym(self,
@@ -1184,13 +1120,10 @@ class ConversationV1(WatsonService):
             raise ValueError('synonym must be provided')
         params = {'version': self.version}
         data = {'synonym': new_synonym}
+        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+            *self._encode_path_vars(workspace_id, entity, value, synonym))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.
-            format(workspace_id, entity, value, synonym),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -1261,12 +1194,10 @@ class ConversationV1(WatsonService):
             'event_name': event_name,
             'variable': variable
         }
+        url = '/v1/workspaces/{0}/dialog_nodes'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/dialog_nodes'.format(workspace_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_dialog_node(self, workspace_id, dialog_node):
@@ -1284,12 +1215,9 @@ class ConversationV1(WatsonService):
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/workspaces/{0}/dialog_nodes/{1}'.format(
-                workspace_id, dialog_node),
-            params=params,
-            accept_json=True)
+        url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
+            *self._encode_path_vars(workspace_id, dialog_node))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_dialog_node(self, workspace_id, dialog_node):
@@ -1308,12 +1236,10 @@ class ConversationV1(WatsonService):
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
         params = {'version': self.version}
+        url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
+            *self._encode_path_vars(workspace_id, dialog_node))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/dialog_nodes/{1}'.format(
-                workspace_id, dialog_node),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_dialog_nodes(self,
@@ -1344,11 +1270,10 @@ class ConversationV1(WatsonService):
             'sort': sort,
             'cursor': cursor
         }
+        url = '/v1/workspaces/{0}/dialog_nodes'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/dialog_nodes'.format(workspace_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_dialog_node(self,
@@ -1419,13 +1344,10 @@ class ConversationV1(WatsonService):
             'variable': new_variable,
             'actions': new_actions
         }
+        url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
+            *self._encode_path_vars(workspace_id, dialog_node))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/dialog_nodes/{1}'.format(
-                workspace_id, dialog_node),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -1460,11 +1382,10 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'cursor': cursor
         }
+        url = '/v1/workspaces/{0}/logs'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/logs'.format(workspace_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     #########################
@@ -1489,12 +1410,10 @@ class ConversationV1(WatsonService):
             raise ValueError('text must be provided')
         params = {'version': self.version}
         data = {'text': text}
+        url = '/v1/workspaces/{0}/counterexamples'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/counterexamples'.format(workspace_id),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def delete_counterexample(self, workspace_id, text):
@@ -1513,12 +1432,9 @@ class ConversationV1(WatsonService):
         if text is None:
             raise ValueError('text must be provided')
         params = {'version': self.version}
-        self.request(
-            method='DELETE',
-            url='/v1/workspaces/{0}/counterexamples/{1}'.format(
-                workspace_id, text),
-            params=params,
-            accept_json=True)
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
     def get_counterexample(self, workspace_id, text):
@@ -1538,12 +1454,10 @@ class ConversationV1(WatsonService):
         if text is None:
             raise ValueError('text must be provided')
         params = {'version': self.version}
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/counterexamples/{1}'.format(
-                workspace_id, text),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def list_counterexamples(self,
@@ -1575,11 +1489,10 @@ class ConversationV1(WatsonService):
             'sort': sort,
             'cursor': cursor
         }
+        url = '/v1/workspaces/{0}/counterexamples'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET',
-            url='/v1/workspaces/{0}/counterexamples'.format(workspace_id),
-            params=params,
-            accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
     def update_counterexample(self, workspace_id, text, new_text=None):
@@ -1601,13 +1514,10 @@ class ConversationV1(WatsonService):
             raise ValueError('text must be provided')
         params = {'version': self.version}
         data = {'text': new_text}
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
         response = self.request(
-            method='POST',
-            url='/v1/workspaces/{0}/counterexamples/{1}'.format(
-                workspace_id, text),
-            params=params,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
 

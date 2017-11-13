@@ -166,9 +166,10 @@ class ToneAnalyzerV3(WatsonService):
             data = json.dumps(tone_input)
         else:
             data = tone_input
+        url = '/v3/tone'
         response = self.request(
             method='POST',
-            url='/v3/tone',
+            url=url,
             headers=headers,
             params=params,
             data=data,
@@ -201,9 +202,10 @@ class ToneAnalyzerV3(WatsonService):
         headers = {'Accept-Language': accept_language}
         params = {'version': self.version}
         data = {'utterances': utterances}
+        url = '/v3/tone_chat'
         response = self.request(
             method='POST',
-            url='/v3/tone_chat',
+            url=url,
             headers=headers,
             params=params,
             json=data,

@@ -88,8 +88,9 @@ class LanguageTranslatorV2(WatsonService):
             'source': source,
             'target': target
         }
+        url = '/v2/translate'
         response = self.request(
-            method='POST', url='/v2/translate', json=data, accept_json=True)
+            method='POST', url=url, json=data, accept_json=True)
         return response
 
     #########################
@@ -108,9 +109,10 @@ class LanguageTranslatorV2(WatsonService):
             raise ValueError('text must be provided')
         data = text
         headers = {'content-type': 'text/plain'}
+        url = '/v2/identify'
         response = self.request(
             method='POST',
-            url='/v2/identify',
+            url=url,
             headers=headers,
             data=data,
             accept_json=True)
@@ -126,8 +128,8 @@ class LanguageTranslatorV2(WatsonService):
         :return: A `dict` containing the `IdentifiableLanguages` response.
         :rtype: dict
         """
-        response = self.request(
-            method='GET', url='/v2/identifiable_languages', accept_json=True)
+        url = '/v2/identifiable_languages'
+        response = self.request(method='GET', url=url, accept_json=True)
         return response
 
     #########################
@@ -184,9 +186,10 @@ class LanguageTranslatorV2(WatsonService):
             mime_type = 'text/plain'
             monolingual_corpus_tuple = (monolingual_corpus_filename,
                                         monolingual_corpus, mime_type)
+        url = '/v2/models'
         response = self.request(
             method='POST',
-            url='/v2/models',
+            url=url,
             params=params,
             files={
                 'forced_glossary': forced_glossary_tuple,
@@ -206,10 +209,8 @@ class LanguageTranslatorV2(WatsonService):
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
-        response = self.request(
-            method='DELETE',
-            url='/v2/models/{0}'.format(model_id),
-            accept_json=True)
+        url = '/v2/models/{0}'.format(*self._encode_path_vars(model_id))
+        response = self.request(method='DELETE', url=url, accept_json=True)
         return response
 
     def get_model(self, model_id):
@@ -222,10 +223,8 @@ class LanguageTranslatorV2(WatsonService):
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
-        response = self.request(
-            method='GET',
-            url='/v2/models/{0}'.format(model_id),
-            accept_json=True)
+        url = '/v2/models/{0}'.format(*self._encode_path_vars(model_id))
+        response = self.request(method='GET', url=url, accept_json=True)
         return response
 
     def list_models(self, source=None, target=None, default_models=None):
@@ -239,8 +238,9 @@ class LanguageTranslatorV2(WatsonService):
         :rtype: dict
         """
         params = {'source': source, 'target': target, 'default': default_models}
+        url = '/v2/models'
         response = self.request(
-            method='GET', url='/v2/models', params=params, accept_json=True)
+            method='GET', url=url, params=params, accept_json=True)
         return response
 
 
