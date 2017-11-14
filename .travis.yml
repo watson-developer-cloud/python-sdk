@@ -11,6 +11,7 @@ before_install:
 install: pip install tox-travis
 script: tox
 before_deploy:
+- pip install -r requirements.txt
 - pip install -r requirements-dev.txt
 - pip install --editable .
 deploy:
