@@ -17,7 +17,7 @@ classifiers = natural_language_classifier.list_classifiers()
 print(json.dumps(classifiers, indent=2))
 
 # create a classifier
-# with open('weather_data_train.csv', 'rb') as training_data:
+# with open('../resources/weather_data_train.csv', 'rb') as training_data:
 #     metadata = json.dumps({'name': 'my-classifier', 'language': 'en'})
 #     classifier = natural_language_classifier.create_classifier(
 #         metadata=metadata,
