@@ -128,7 +128,7 @@ class NaturalLanguageClassifierV1(WatsonService):
             method='POST',
             url=url,
             files={
-                'metadata': metadata_tuple,
+                'training_metadata': metadata_tuple,
                 'training_data': training_data_tuple
             },
             accept_json=True)
