@@ -18,8 +18,12 @@ print(json.dumps(classifiers, indent=2))
 
 # create a classifier
 # with open('../resources/weather_data_train.csv', 'rb') as training_data:
-#     print(json.dumps(natural_language_classifier.create(
-# training_data=training_data, name='weather'), indent=2))
+#     metadata = json.dumps({'name': 'my-classifier', 'language': 'en'})
+#     classifier = natural_language_classifier.create_classifier(
+#         metadata=metadata,
+#         training_data=training_data
+#     )
+#     print(json.dumps(classifier, indent=2))
 
 status = natural_language_classifier.get_classifier(classifier_id)
 print(json.dumps(status, indent=2))
@@ -30,10 +34,10 @@ if status['status'] == 'Available':
                                                    'tomorrow?')
     print(json.dumps(classes, indent=2))
 
-# delete = natural_language_classifier.remove('2374f9x68-nlc-2697')
+# delete = natural_language_classifier.delete_classifier('2374f9x68-nlc-2697')
 # print(json.dumps(delete, indent=2))
 
 # example of raising a ValueError
 # print(json.dumps(
-#     natural_language_classifier.create(training_data='', name='weather3'),
+#     natural_language_classifier.create_classifier(training_data='', name='weather3'),
 #     indent=2))
