@@ -54,11 +54,8 @@ class SpeechToTextV1(WatsonService):
                   'interim_results': interim_results,
                   'profanity_filter': profanity_filter,
                   'smart_formatting': smart_formatting,
-                  'speaker_labels': speaker_labels}
-
-        if (params['customization_id'] is not None and 
-            customization_weight is not None):
-            params['customization_weight'] = customization_weight
+                  'speaker_labels': speaker_labels,
+                  'customization_weight': customization_weight}
 
         return self.request(method='POST', url='/v1/recognize',
                             headers=headers,
