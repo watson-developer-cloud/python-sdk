@@ -192,7 +192,7 @@ class SpeechToTextV1(WatsonService):
 
         custom_word_fragment = {'sounds_like': custom_word.sounds_like,
                                 'display_as': custom_word.display_as}
-        return self.request(method='POST',
+        return self.request(method='PUT',
                             url=url.format(customization_id,
                                            custom_word.word),
                             data=json.dumps(custom_word_fragment),
