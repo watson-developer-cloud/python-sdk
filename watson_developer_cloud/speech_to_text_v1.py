@@ -35,7 +35,8 @@ class SpeechToTextV1(WatsonService):
                   word_confidence=None, timestamps=None, interim_results=None,
                   profanity_filter=None,
                   smart_formatting=None,
-                  speaker_labels=None):
+                  speaker_labels=None,
+                  customization_weight=None):
         """
         Returns the recognized text from the audio input
         """
@@ -53,7 +54,8 @@ class SpeechToTextV1(WatsonService):
                   'interim_results': interim_results,
                   'profanity_filter': profanity_filter,
                   'smart_formatting': smart_formatting,
-                  'speaker_labels': speaker_labels}
+                  'speaker_labels': speaker_labels,
+                  'customization_weight': customization_weight}
 
         return self.request(method='POST', url='/v1/recognize',
                             headers=headers,
