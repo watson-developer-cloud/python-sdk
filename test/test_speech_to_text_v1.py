@@ -154,7 +154,7 @@ def test_custom_words():
     words_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/customizations/{0}/words'
     word_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/customizations/{0}/words/{1}'
 
-    responses.add(responses.POST, word_url.format('custid', 'IEEE'),
+    responses.add(responses.PUT, word_url.format('custid', 'IEEE'),
                   body='{"get response": "yep"}',
                   status=200,
                   content_type='application/json')
