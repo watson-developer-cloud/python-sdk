@@ -77,7 +77,8 @@
                   <span class="n">word_confidence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interim_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">profanity_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">smart_formatting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">speaker_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                  <span class="n">speaker_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">customization_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the recognized text from the audio input</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -95,7 +96,8 @@
                   <span class="s1">&#39;interim_results&#39;</span><span class="p">:</span> <span class="n">interim_results</span><span class="p">,</span>
                   <span class="s1">&#39;profanity_filter&#39;</span><span class="p">:</span> <span class="n">profanity_filter</span><span class="p">,</span>
                   <span class="s1">&#39;smart_formatting&#39;</span><span class="p">:</span> <span class="n">smart_formatting</span><span class="p">,</span>
-                  <span class="s1">&#39;speaker_labels&#39;</span><span class="p">:</span> <span class="n">speaker_labels</span><span class="p">}</span>
+                  <span class="s1">&#39;speaker_labels&#39;</span><span class="p">:</span> <span class="n">speaker_labels</span><span class="p">,</span>
+                  <span class="s1">&#39;customization_weight&#39;</span><span class="p">:</span> <span class="n">customization_weight</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/recognize&#39;</span><span class="p">,</span>
                             <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
