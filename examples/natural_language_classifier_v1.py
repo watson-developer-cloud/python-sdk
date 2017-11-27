@@ -5,7 +5,7 @@ import os
 from watson_developer_cloud import NaturalLanguageClassifierV1
 
 # replace with your own classifier_id
-classifier_id = '9ddbcfx239-nlc-17541'
+classifier_id = 'e552ebx250-nlc-13834'
 if os.getenv("natural_language_classifier_classifier_id") is not None:
     classifier_id = os.getenv("natural_language_classifier_classifier_id")
 
