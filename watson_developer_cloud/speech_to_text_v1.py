@@ -86,6 +86,20 @@ class SpeechToTextV1(WatsonService):
                             headers={'content-type': 'application/json'},
                             data=json_body, accept_json=True)
 
+    def train_custom_model(self, customization_id,
+                           customization_weight=None,
+                           word_type=None):
+        """
+        Trains a custom language model
+        """
+        params = {'customization_weight': customization_weight,
+                  'word_type': word_type}
+
+        return self.request(method='POST',
+                            url=('/v1/customizations/{0}/train'
+                                 .format(customization_id)), params=params,
+                            accept_json=True)
+
     def list_custom_models(self):
         return self.request(method='GET', url='/v1/customizations',
                             accept_json=True)

@@ -65,6 +65,8 @@ def _decode_body(body):
 @responses.activate
 def test_custom_model():
     customization_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/customizations'
+    train_url = "{0}/{1}/train".format(customization_url,'customid')
+
     responses.add(responses.GET, customization_url,
                   body='{"get response": "yep"}', status=200,
                   content_type='application/json')
@@ -80,6 +82,9 @@ def test_custom_model():
     responses.add(responses.DELETE, "{0}/modelid".format(customization_url),
                   body='{"bogus_response": "yep"}', status=200,
                   content_type='application/json')
+
+    responses.add(responses.POST, train_url, body='{"bogus_response": "yep"}',
+                  status=200, content_type='application/json')
 
     speech_to_text = watson_developer_cloud.SpeechToTextV1(
         username="username", password="password")
@@ -99,10 +104,11 @@ def test_custom_model():
     assert parsed_body['description'] == ''
     assert parsed_body['base_model_name'] == 'en-US_BroadbandModel'
 
+    speech_to_text.train_custom_model('customid')
     speech_to_text.get_custom_model(modelid='modelid')
     speech_to_text.delete_custom_model(modelid='modelid')
 
-    assert len(responses.calls) == 5
+    assert len(responses.calls) == 6
 
 
 def test_custom_corpora():
