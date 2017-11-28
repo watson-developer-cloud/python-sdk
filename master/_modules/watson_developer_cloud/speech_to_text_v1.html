@@ -128,6 +128,20 @@
                             <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;content-type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">},</span>
                             <span class="n">data</span><span class="o">=</span><span class="n">json_body</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="SpeechToTextV1.train_custom_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.train_custom_model">[docs]</a>    <span class="k">def</span> <span class="nf">train_custom_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span>
+                           <span class="n">customization_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">word_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Trains a custom language model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;customization_weight&#39;</span><span class="p">:</span> <span class="n">customization_weight</span><span class="p">,</span>
+                  <span class="s1">&#39;word_type&#39;</span><span class="p">:</span> <span class="n">word_type</span><span class="p">}</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+                            <span class="n">url</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/train&#39;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">customization_id</span><span class="p">)),</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="SpeechToTextV1.list_custom_models"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_custom_models">[docs]</a>    <span class="k">def</span> <span class="nf">list_custom_models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/customizations&#39;</span><span class="p">,</span>
                             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
@@ -220,7 +234,7 @@
 
         <span class="n">custom_word_fragment</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sounds_like&#39;</span><span class="p">:</span> <span class="n">custom_word</span><span class="o">.</span><span class="n">sounds_like</span><span class="p">,</span>
                                 <span class="s1">&#39;display_as&#39;</span><span class="p">:</span> <span class="n">custom_word</span><span class="o">.</span><span class="n">display_as</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span>
                             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">customization_id</span><span class="p">,</span>
                                            <span class="n">custom_word</span><span class="o">.</span><span class="n">word</span><span class="p">),</span>
                             <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">custom_word_fragment</span><span class="p">),</span>
