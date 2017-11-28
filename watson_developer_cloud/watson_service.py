@@ -228,6 +228,12 @@ class WatsonService(object):
         return val
 
     @staticmethod
+    def _convert_list(val):
+        if isinstance(val, list):
+            return ",".join(val)
+        return val
+
+    @staticmethod
     def _encode_path_vars(*args):
         return (requests.utils.quote(x, safe='') for x in args)
 
