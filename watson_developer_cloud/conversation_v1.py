@@ -276,7 +276,7 @@ class ConversationV1(WatsonService):
         Get a response to a user's input.
 
         :param str workspace_id: Unique identifier of the workspace.
-        :param InputData input: An input object that includes the input text.
+        :param JSON input: A JSON object that includes the input text in the field 'text' (for example: {"text": "Hi!"})
         :param bool alternate_intents: Whether to return more than one intent. Set to `true` to return all matching intents.
         :param Context context: State information for the conversation. Continue a conversation by including the context object from the previous response.
         :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
