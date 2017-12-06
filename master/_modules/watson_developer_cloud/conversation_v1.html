@@ -318,7 +318,7 @@
 <span class="sd">        Get a response to a user&#39;s input.</span>
 
 <span class="sd">        :param str workspace_id: Unique identifier of the workspace.</span>
-<span class="sd">        :param InputData input: An input object that includes the input text.</span>
+<span class="sd">        :param JSON input: A JSON object that includes the input text in the field &#39;text&#39; (for example: {&quot;text&quot;: &quot;Hi!&quot;})</span>
 <span class="sd">        :param bool alternate_intents: Whether to return more than one intent. Set to `true` to return all matching intents.</span>
 <span class="sd">        :param Context context: State information for the conversation. Continue a conversation by including the context object from the previous response.</span>
 <span class="sd">        :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.</span>
