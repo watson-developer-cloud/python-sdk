@@ -42,7 +42,7 @@ class DiscoveryV1(WatsonService):
     VERSION_DATE_2017_06_25 = '2017-06-25'
     VERSION_DATE_2016_12_01 = '2016-12-01'
 
-    def __init__(self, version, url=default_url, username=None, password=None):
+    def __init__(self, version, url=default_url, username=None, password=None, http_config={}):
         """
         Construct a new client for the Discovery service.
 
@@ -73,6 +73,8 @@ class DiscoveryV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
+        :param dict http_config: Extra arguments to pass to requests.request() method on 
+               every api request.
         """
 
         WatsonService.__init__(
@@ -81,7 +83,8 @@ class DiscoveryV1(WatsonService):
             url=url,
             username=username,
             password=password,
-            use_vcap_services=True)
+            use_vcap_services=True,
+            http_config=http_config)
         self.version = version
 
     #########################
