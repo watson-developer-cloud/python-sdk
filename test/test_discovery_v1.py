@@ -234,6 +234,52 @@ def test_query():
     assert called_url.path == test_url.path
     assert len(responses.calls) == 1
 
+@responses.activate
+def test_query_relations():
+    discovery_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/query_relations')
+
+    responses.add(
+        responses.POST,
+        discovery_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1(
+        '2016-11-07', username='username', password='password')
+
+    discovery.query_relations('envid', 'collid', {'count': 10})
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
+
+
+@responses.activate
+def test_query_entities():
+    discovery_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/query_entities')
+
+    responses.add(
+        responses.POST,
+        discovery_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1(
+        '2016-11-07', username='username', password='password')
+
+    discovery.query_entities('envid', 'collid', {'count': 10})
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
 
 @responses.activate
 def test_configs():
