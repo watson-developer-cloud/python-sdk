@@ -36,6 +36,7 @@ class DiscoveryV1(WatsonService):
     """The Discovery V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/discovery/api'
+    VERSION_DATE_2017_11_07 = '2017-11-07'
     VERSION_DATE_2017_09_01 = '2017-09-01'
     VERSION_DATE_2017_08_01 = '2017-08-01'
     VERSION_DATE_2017_07_19 = '2017-07-19'
@@ -177,11 +178,8 @@ class DiscoveryV1(WatsonService):
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
         params = {
-            'version':
-            self.version,
-            'collection_ids':
-            ",".join(collection_ids)
-            if isinstance(collection_ids, list) else collection_ids
+            'version': self.version,
+            'collection_ids': self._convert_list(collection_ids)
         }
         url = '/v1/environments/{0}/fields'.format(
             *self._encode_path_vars(environment_id))
@@ -827,34 +825,19 @@ class DiscoveryV1(WatsonService):
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
         params = {
-            'version':
-            self.version,
-            'collection_ids':
-            ",".join(collection_ids)
-            if isinstance(collection_ids, list) else collection_ids,
-            'filter':
-            filter,
-            'query':
-            query,
-            'natural_language_query':
-            natural_language_query,
-            'aggregation':
-            aggregation,
-            'count':
-            count,
-            'return_fields':
-            ",".join(return_fields)
-            if isinstance(return_fields, list) else return_fields,
-            'offset':
-            offset,
-            'sort':
-            ",".join(sort) if isinstance(sort, list) else sort,
-            'highlight':
-            highlight,
-            'deduplicate':
-            deduplicate,
-            'deduplicate.field':
-            deduplicate_field
+            'version': self.version,
+            'collection_ids': self._convert_list(collection_ids),
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'aggregation': aggregation,
+            'count': count,
+            'return_fields': self._convert_list(return_fields),
+            'offset': offset,
+            'sort': self._convert_list(sort),
+            'highlight': highlight,
+            'deduplicate': deduplicate,
+            'deduplicate.field': deduplicate_field
         }
         url = '/v1/environments/{0}/query'.format(
             *self._encode_path_vars(environment_id))
@@ -904,32 +887,18 @@ class DiscoveryV1(WatsonService):
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
         params = {
-            'version':
-            self.version,
-            'collection_ids':
-            ",".join(collection_ids)
-            if isinstance(collection_ids, list) else collection_ids,
-            'filter':
-            filter,
-            'query':
-            query,
-            'natural_language_query':
-            natural_language_query,
-            'aggregation':
-            aggregation,
-            'count':
-            count,
-            'return_fields':
-            ",".join(return_fields)
-            if isinstance(return_fields, list) else return_fields,
-            'offset':
-            offset,
-            'sort':
-            ",".join(sort) if isinstance(sort, list) else sort,
-            'highlight':
-            highlight,
-            'deduplicate.field':
-            deduplicate_field
+            'version': self.version,
+            'collection_ids': self._convert_list(collection_ids),
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'aggregation': aggregation,
+            'count': count,
+            'return_fields': self._convert_list(return_fields),
+            'offset': offset,
+            'sort': self._convert_list(sort),
+            'highlight': highlight,
+            'deduplicate.field': deduplicate_field
         }
         url = '/v1/environments/{0}/notices'.format(
             *self._encode_path_vars(environment_id))
@@ -987,45 +956,71 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         params = {
-            'version':
-            self.version,
-            'filter':
-            filter,
-            'query':
-            query,
-            'natural_language_query':
-            natural_language_query,
-            'passages':
-            passages,
-            'aggregation':
-            aggregation,
-            'count':
-            count,
-            'return':
-            ",".join(return_fields)
-            if isinstance(return_fields, list) else return_fields,
-            'offset':
-            offset,
-            'sort':
-            ",".join(sort) if isinstance(sort, list) else sort,
-            'highlight':
-            highlight,
-            'passages.fields':
-            ",".join(passages_fields)
-            if isinstance(passages_fields, list) else passages_fields,
-            'passages.count':
-            passages_count,
-            'passages.characters':
-            passages_characters,
-            'deduplicate':
-            deduplicate,
-            'deduplicate.field':
-            deduplicate_field
+            'version': self.version,
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'passages': passages,
+            'aggregation': aggregation,
+            'count': count,
+            'return': self._convert_list(return_fields),
+            'offset': offset,
+            'sort': self._convert_list(sort),
+            'highlight': highlight,
+            'passages.fields': self._convert_list(passages_fields),
+            'passages.count': passages_count,
+            'passages.characters': passages_characters,
+            'deduplicate': deduplicate,
+            'deduplicate.field': deduplicate_field
         }
         url = '/v1/environments/{0}/collections/{1}/query'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
+        return response
+
+    def query_entities(self,
+                       environment_id,
+                       collection_id,
+                       feature=None,
+                       entity=None,
+                       context=None,
+                       count=None):
+        """
+        Knowledge Graph entity query.
+
+        See the [Knowledge Graph
+        documentation](https://console.bluemix.net/docs/services/discovery/building-kg.html)
+        for more details.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str feature: The entity query feature to perform. Must be `disambiguate`.
+        :param QueryEntitiesEntity entity: A text string that appears within the entity text field.
+        :param QueryEntitiesContext context: Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
+        :param int count: The number of results to return. The default is `10`. The maximum is `1000`.
+        :return: A `dict` containing the `QueryEntitiesResponse` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if entity is not None:
+            entity = self._convert_model(entity)
+        if context is not None:
+            context = self._convert_model(context)
+        params = {'version': self.version}
+        data = {
+            'feature': feature,
+            'entity': entity,
+            'context': context,
+            'count': count
+        }
+        url = '/v1/environments/{0}/collections/{1}/query_entities'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     def query_notices(self,
@@ -1078,43 +1073,75 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         params = {
-            'version':
-            self.version,
-            'filter':
-            filter,
-            'query':
-            query,
-            'natural_language_query':
-            natural_language_query,
-            'passages':
-            passages,
-            'aggregation':
-            aggregation,
-            'count':
-            count,
-            'return_fields':
-            ",".join(return_fields)
-            if isinstance(return_fields, list) else return_fields,
-            'offset':
-            offset,
-            'sort':
-            ",".join(sort) if isinstance(sort, list) else sort,
-            'highlight':
-            highlight,
-            'passages.fields':
-            ",".join(passages_fields)
-            if isinstance(passages_fields, list) else passages_fields,
-            'passages.count':
-            passages_count,
-            'passages.characters':
-            passages_characters,
-            'deduplicate.field':
-            deduplicate_field
+            'version': self.version,
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'passages': passages,
+            'aggregation': aggregation,
+            'count': count,
+            'return_fields': self._convert_list(return_fields),
+            'offset': offset,
+            'sort': self._convert_list(sort),
+            'highlight': highlight,
+            'passages.fields': self._convert_list(passages_fields),
+            'passages.count': passages_count,
+            'passages.characters': passages_characters,
+            'deduplicate.field': deduplicate_field
         }
         url = '/v1/environments/{0}/collections/{1}/notices'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
+        return response
+
+    def query_relations(self,
+                        environment_id,
+                        collection_id,
+                        entities=None,
+                        context=None,
+                        sort=None,
+                        filter=None,
+                        count=None):
+        """
+        Knowledge Graph relationship query.
+
+        See the [Knowledge Graph
+        documentation](https://console.bluemix.net/docs/services/discovery/building-kg.html)
+        for more details.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param list[QueryRelationsEntity] entities: An array of entities to find relationships for.
+        :param QueryEntitiesContext context: Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
+        :param str sort: The sorting method for the relationships, can be `score` or `frequency`. `frequency` is the number of unique times each entity is identified. The default is `score`.
+        :param QueryRelationsFilter filter: Filters to apply to the relationship query.
+        :param int count: The number of results to return. The default is `10`. The maximum is `1000`.
+        :return: A `dict` containing the `QueryRelationsResponse` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if entities is not None:
+            entities = [self._convert_model(x) for x in entities]
+        if context is not None:
+            context = self._convert_model(context)
+        if filter is not None:
+            filter = self._convert_model(filter)
+        params = {'version': self.version}
+        data = {
+            'entities': entities,
+            'context': context,
+            'sort': sort,
+            'filter': filter,
+            'count': count
+        }
+        url = '/v1/environments/{0}/collections/{1}/query_relations'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
     #########################
@@ -1622,6 +1649,59 @@ class CollectionDiskUsage(object):
 
     def __str__(self):
         """Return a `str` version of this CollectionDiskUsage object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CollectionUsage(object):
+    """
+    Summary of the collection usage in the environment.
+
+    :attr int available: (optional) Number of active collections in the environment.
+    :attr int maximum_allowed: (optional) Total number of collections allowed in the environment.
+    """
+
+    def __init__(self, available=None, maximum_allowed=None):
+        """
+        Initialize a CollectionUsage object.
+
+        :param int available: (optional) Number of active collections in the environment.
+        :param int maximum_allowed: (optional) Total number of collections allowed in the environment.
+        """
+        self.available = available
+        self.maximum_allowed = maximum_allowed
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CollectionUsage object from a json dictionary."""
+        args = {}
+        if 'available' in _dict:
+            args['available'] = _dict['available']
+        if 'maximum_allowed' in _dict:
+            args['maximum_allowed'] = _dict['maximum_allowed']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'available') and self.available is not None:
+            _dict['available'] = self.available
+        if hasattr(self,
+                   'maximum_allowed') and self.maximum_allowed is not None:
+            _dict['maximum_allowed'] = self.maximum_allowed
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CollectionUsage object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2476,7 +2556,7 @@ class Enrichment(object):
     :attr str destination_field: Field where enrichments will be stored. This field must already exist or be at most 1 level deeper than an existing field. For example, if `text` is a top-level field with no sub-fields, `text.foo` is a valid destination but `text.foo.bar` is not.
     :attr str source_field: Field to be enriched.
     :attr bool overwrite: (optional) Indicates that the enrichments will overwrite the destination_field field if it already exists.
-    :attr str enrichment_name: Name of the enrichment service to call. Currently the only valid value is `alchemy_language`.
+    :attr str enrichment_name: Name of the enrichment service to call. Currently the only valid value is `natural_language_understanding`. Previous API versions also supported `alchemy_language`.
     :attr bool ignore_downstream_errors: (optional) If true, then most errors generated during the enrichment process will be treated as warnings and will not cause the document to fail processing.
     :attr EnrichmentOptions options: (optional) A list of options specific to the enrichment.
     """
@@ -2494,7 +2574,7 @@ class Enrichment(object):
 
         :param str destination_field: Field where enrichments will be stored. This field must already exist or be at most 1 level deeper than an existing field. For example, if `text` is a top-level field with no sub-fields, `text.foo` is a valid destination but `text.foo.bar` is not.
         :param str source_field: Field to be enriched.
-        :param str enrichment_name: Name of the enrichment service to call. Currently the only valid value is `alchemy_language`.
+        :param str enrichment_name: Name of the enrichment service to call. Currently the only valid value is `natural_language_understanding`. Previous API versions also supported `alchemy_language`.
         :param str description: (optional) Describes what the enrichment step does.
         :param bool overwrite: (optional) Indicates that the enrichments will overwrite the destination_field field if it already exists.
         :param bool ignore_downstream_errors: (optional) If true, then most errors generated during the enrichment process will be treated as warnings and will not cause the document to fail processing.
@@ -2579,85 +2659,25 @@ class Enrichment(object):
 
 class EnrichmentOptions(object):
     """
-    Options which are specific to a particular enrichment.
+    EnrichmentOptions.
 
-    :attr list[str] extract: (optional) A comma-separated list of analyses that will be applied when using the `alchemy_language` enrichment. See the service documentation for details on each extract option.  Possible values include:    * entity   * keyword   * taxonomy   * concept   * relation   * doc-sentiment   * doc-emotion   * typed-rels.
-    :attr bool sentiment: (optional)
-    :attr bool quotations: (optional)
-    :attr bool show_source_text: (optional)
-    :attr bool hierarchical_typed_relations: (optional)
-    :attr str model: (optional) Required when using the `typed-rel` extract option. Should be set to the ID of a previously published custom Watson Knowledge Studio model.
-    :attr str language: (optional) If provided, then do not attempt to detect the language of the input document. Instead, assume the language is the one specified in this field.  You can set this property to work around `unsupported-text-language` errors.  Supported languages include English, German, French, Italian, Portuguese, Russian, Spanish and Swedish. Supported language codes are the ISO-639-1, ISO-639-2, ISO-639-3, and the plain english name of the language (for example "russian").
     """
 
-    def __init__(self,
-                 extract=None,
-                 sentiment=None,
-                 quotations=None,
-                 show_source_text=None,
-                 hierarchical_typed_relations=None,
-                 model=None,
-                 language=None):
+    def __init__(self):
         """
         Initialize a EnrichmentOptions object.
 
-        :param list[str] extract: (optional) A comma-separated list of analyses that will be applied when using the `alchemy_language` enrichment. See the service documentation for details on each extract option.  Possible values include:    * entity   * keyword   * taxonomy   * concept   * relation   * doc-sentiment   * doc-emotion   * typed-rels.
-        :param bool sentiment: (optional)
-        :param bool quotations: (optional)
-        :param bool show_source_text: (optional)
-        :param bool hierarchical_typed_relations: (optional)
-        :param str model: (optional) Required when using the `typed-rel` extract option. Should be set to the ID of a previously published custom Watson Knowledge Studio model.
-        :param str language: (optional) If provided, then do not attempt to detect the language of the input document. Instead, assume the language is the one specified in this field.  You can set this property to work around `unsupported-text-language` errors.  Supported languages include English, German, French, Italian, Portuguese, Russian, Spanish and Swedish. Supported language codes are the ISO-639-1, ISO-639-2, ISO-639-3, and the plain english name of the language (for example "russian").
         """
-        self.extract = extract
-        self.sentiment = sentiment
-        self.quotations = quotations
-        self.show_source_text = show_source_text
-        self.hierarchical_typed_relations = hierarchical_typed_relations
-        self.model = model
-        self.language = language
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a EnrichmentOptions object from a json dictionary."""
         args = {}
-        if 'extract' in _dict:
-            args['extract'] = _dict['extract']
-        if 'sentiment' in _dict:
-            args['sentiment'] = _dict['sentiment']
-        if 'quotations' in _dict:
-            args['quotations'] = _dict['quotations']
-        if 'showSourceText' in _dict:
-            args['show_source_text'] = _dict['showSourceText']
-        if 'hierarchicalTypedRelations' in _dict:
-            args['hierarchical_typed_relations'] = _dict[
-                'hierarchicalTypedRelations']
-        if 'model' in _dict:
-            args['model'] = _dict['model']
-        if 'language' in _dict:
-            args['language'] = _dict['language']
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'extract') and self.extract is not None:
-            _dict['extract'] = self.extract
-        if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment
-        if hasattr(self, 'quotations') and self.quotations is not None:
-            _dict['quotations'] = self.quotations
-        if hasattr(self,
-                   'show_source_text') and self.show_source_text is not None:
-            _dict['showSourceText'] = self.show_source_text
-        if hasattr(self, 'hierarchical_typed_relations'
-                  ) and self.hierarchical_typed_relations is not None:
-            _dict[
-                'hierarchicalTypedRelations'] = self.hierarchical_typed_relations
-        if hasattr(self, 'model') and self.model is not None:
-            _dict['model'] = self.model
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
         return _dict
 
     def __str__(self):
@@ -3078,19 +3098,26 @@ class IndexCapacity(object):
 
     :attr EnvironmentDocuments documents: (optional) Summary of the document usage statistics for the environment.
     :attr DiskUsage disk_usage: (optional) Summary of the disk usage of the environment.
+    :attr CollectionUsage collections: (optional) Summary of the collection usage in the environment.
     :attr MemoryUsage memory_usage: (optional) **Deprecated**: Summary of the memory usage of the environment.
     """
 
-    def __init__(self, documents=None, disk_usage=None, memory_usage=None):
+    def __init__(self,
+                 documents=None,
+                 disk_usage=None,
+                 collections=None,
+                 memory_usage=None):
         """
         Initialize a IndexCapacity object.
 
         :param EnvironmentDocuments documents: (optional) Summary of the document usage statistics for the environment.
         :param DiskUsage disk_usage: (optional) Summary of the disk usage of the environment.
+        :param CollectionUsage collections: (optional) Summary of the collection usage in the environment.
         :param MemoryUsage memory_usage: (optional) **Deprecated**: Summary of the memory usage of the environment.
         """
         self.documents = documents
         self.disk_usage = disk_usage
+        self.collections = collections
         self.memory_usage = memory_usage
 
     @classmethod
@@ -3102,6 +3129,9 @@ class IndexCapacity(object):
                 _dict['documents'])
         if 'disk_usage' in _dict:
             args['disk_usage'] = DiskUsage._from_dict(_dict['disk_usage'])
+        if 'collections' in _dict:
+            args['collections'] = CollectionUsage._from_dict(
+                _dict['collections'])
         if 'memory_usage' in _dict:
             args['memory_usage'] = MemoryUsage._from_dict(_dict['memory_usage'])
         return cls(**args)
@@ -3113,6 +3143,8 @@ class IndexCapacity(object):
             _dict['documents'] = self.documents._to_dict()
         if hasattr(self, 'disk_usage') and self.disk_usage is not None:
             _dict['disk_usage'] = self.disk_usage._to_dict()
+        if hasattr(self, 'collections') and self.collections is not None:
+            _dict['collections'] = self.collections._to_dict()
         if hasattr(self, 'memory_usage') and self.memory_usage is not None:
             _dict['memory_usage'] = self.memory_usage._to_dict()
         return _dict
@@ -3743,6 +3775,204 @@ class QueryAggregation(object):
         return not self == other
 
 
+class QueryEntitiesContext(object):
+    """
+    Entity text to provide context for the queried entity and rank based on that
+    association. For example, if you wanted to query the city of London in England your
+    query would look for `London` with the context of `England`.
+
+    :attr str text: (optional) Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a QueryEntitiesContext object.
+
+        :param str text: (optional) Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryEntitiesContext object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict['text']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryEntitiesContext object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryEntitiesEntity(object):
+    """
+    A text string that appears within the entity text field.
+
+    :attr str text: (optional) Entity text content.
+    :attr str type: (optional) The type of the specified entity.
+    """
+
+    def __init__(self, text=None, type=None):
+        """
+        Initialize a QueryEntitiesEntity object.
+
+        :param str text: (optional) Entity text content.
+        :param str type: (optional) The type of the specified entity.
+        """
+        self.text = text
+        self.type = type
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryEntitiesEntity object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict['text']
+        if 'type' in _dict:
+            args['type'] = _dict['type']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryEntitiesEntity object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryEntitiesResponse(object):
+    """
+    An array of entities resulting from the query.
+
+    :attr list[QueryEntitiesEntity] entities: (optional)
+    """
+
+    def __init__(self, entities=None):
+        """
+        Initialize a QueryEntitiesResponse object.
+
+        :param list[QueryEntitiesEntity] entities: (optional)
+        """
+        self.entities = entities
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryEntitiesResponse object from a json dictionary."""
+        args = {}
+        if 'entities' in _dict:
+            args['entities'] = [
+                QueryEntitiesEntity._from_dict(x) for x in _dict['entities']
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryEntitiesResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryFilterType(object):
+    """
+    QueryFilterType.
+
+    :attr list[str] exclude: (optional) A comma-separated list of types to exclude.
+    :attr list[str] include: (optional) A comma-separated list of types to include. All other types are excluded.
+    """
+
+    def __init__(self, exclude=None, include=None):
+        """
+        Initialize a QueryFilterType object.
+
+        :param list[str] exclude: (optional) A comma-separated list of types to exclude.
+        :param list[str] include: (optional) A comma-separated list of types to include. All other types are excluded.
+        """
+        self.exclude = exclude
+        self.include = include
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryFilterType object from a json dictionary."""
+        args = {}
+        if 'exclude' in _dict:
+            args['exclude'] = _dict['exclude']
+        if 'include' in _dict:
+            args['include'] = _dict['include']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'exclude') and self.exclude is not None:
+            _dict['exclude'] = self.exclude
+        if hasattr(self, 'include') and self.include is not None:
+            _dict['include'] = self.include
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryFilterType object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class QueryNoticesResponse(object):
     """
     QueryNoticesResponse.
@@ -3830,100 +4060,6 @@ class QueryNoticesResponse(object):
         return not self == other
 
 
-class QueryNoticesResult(object):
-    """
-    QueryNoticesResult.
-
-    :attr str id: (optional) The unique identifier of the document.
-    :attr float score: (optional) The confidence score of the result's analysis. Scores range from 0 to 1, with a higher score indicating greater confidence.
-    :attr object metadata: (optional) Metadata of the document.
-    :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
-    """
-
-    def __init__(self,
-                 id=None,
-                 score=None,
-                 metadata=None,
-                 collection_id=None,
-                 **kwargs):
-        """
-        Initialize a QueryNoticesResult object.
-
-        :param str id: (optional) The unique identifier of the document.
-        :param float score: (optional) The confidence score of the result's analysis. Scores range from 0 to 1, with a higher score indicating greater confidence.
-        :param object metadata: (optional) Metadata of the document.
-        :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
-        :param **kwargs: (optional) Any additional properties.
-        """
-        self.id = id
-        self.score = score
-        self.metadata = metadata
-        self.collection_id = collection_id
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryNoticesResult object from a json dictionary."""
-        args = {}
-        xtra = _dict.copy()
-        if 'id' in _dict:
-            args['id'] = _dict['id']
-            del xtra['id']
-        if 'score' in _dict:
-            args['score'] = _dict['score']
-            del xtra['score']
-        if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
-            del xtra['metadata']
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict['collection_id']
-            del xtra['collection_id']
-        args.update(xtra)
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'score') and self.score is not None:
-            _dict['score'] = self.score
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
-        if hasattr(self, 'collection_id') and self.collection_id is not None:
-            _dict['collection_id'] = self.collection_id
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
-        return _dict
-
-    def __setattr__(self, name, value):
-        properties = {'id', 'score', 'metadata', 'collection_id'}
-        if not hasattr(self, '_additionalProperties'):
-            super(QueryNoticesResult, self).__setattr__('_additionalProperties',
-                                                        set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(QueryNoticesResult, self).__setattr__(name, value)
-
-    def __str__(self):
-        """Return a `str` version of this QueryNoticesResult object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class QueryPassages(object):
     """
     QueryPassages.
@@ -3931,8 +4067,8 @@ class QueryPassages(object):
     :attr str document_id: (optional) The unique identifier of the document from which the passage has been extracted.
     :attr float passage_score: (optional) The confidence score of the passages's analysis. A higher score indicates greater confidence.
     :attr str passage_text: (optional) The content of the extracted passage.
-    :attr float start_offset: (optional) The position of the first character of the extracted passage in the originating field.
-    :attr float end_offset: (optional) The position of the last character of the extracted passage in the originating field.
+    :attr int start_offset: (optional) The position of the first character of the extracted passage in the originating field.
+    :attr int end_offset: (optional) The position of the last character of the extracted passage in the originating field.
     :attr str field: (optional) The label of the field from which the passage has been extracted.
     """
 
@@ -3949,8 +4085,8 @@ class QueryPassages(object):
         :param str document_id: (optional) The unique identifier of the document from which the passage has been extracted.
         :param float passage_score: (optional) The confidence score of the passages's analysis. A higher score indicates greater confidence.
         :param str passage_text: (optional) The content of the extracted passage.
-        :param float start_offset: (optional) The position of the first character of the extracted passage in the originating field.
-        :param float end_offset: (optional) The position of the last character of the extracted passage in the originating field.
+        :param int start_offset: (optional) The position of the first character of the extracted passage in the originating field.
+        :param int end_offset: (optional) The position of the last character of the extracted passage in the originating field.
         :param str field: (optional) The label of the field from which the passage has been extracted.
         """
         self.document_id = document_id
@@ -3997,6 +4133,285 @@ class QueryPassages(object):
 
     def __str__(self):
         """Return a `str` version of this QueryPassages object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryRelationsArgument(object):
+    """
+    QueryRelationsArgument.
+
+    :attr list[QueryEntitiesEntity] entities: (optional)
+    """
+
+    def __init__(self, entities=None):
+        """
+        Initialize a QueryRelationsArgument object.
+
+        :param list[QueryEntitiesEntity] entities: (optional)
+        """
+        self.entities = entities
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryRelationsArgument object from a json dictionary."""
+        args = {}
+        if 'entities' in _dict:
+            args['entities'] = [
+                QueryEntitiesEntity._from_dict(x) for x in _dict['entities']
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryRelationsArgument object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryRelationsEntity(object):
+    """
+    QueryRelationsEntity.
+
+    :attr str text: (optional) Entity text content.
+    :attr str type: (optional) The type of the specified entity.
+    :attr bool exact: (optional) If false, implicit disambiguation is performed. The default is `false`.
+    """
+
+    def __init__(self, text=None, type=None, exact=None):
+        """
+        Initialize a QueryRelationsEntity object.
+
+        :param str text: (optional) Entity text content.
+        :param str type: (optional) The type of the specified entity.
+        :param bool exact: (optional) If false, implicit disambiguation is performed. The default is `false`.
+        """
+        self.text = text
+        self.type = type
+        self.exact = exact
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryRelationsEntity object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict['text']
+        if 'type' in _dict:
+            args['type'] = _dict['type']
+        if 'exact' in _dict:
+            args['exact'] = _dict['exact']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'exact') and self.exact is not None:
+            _dict['exact'] = self.exact
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryRelationsEntity object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryRelationsFilter(object):
+    """
+    QueryRelationsFilter.
+
+    :attr QueryFilterType relation_types: (optional) A list of relation types to include or exclude from the query.
+    :attr QueryFilterType entity_types: (optional) A list of entity types to include or exclude from the query.
+    :attr list[str] document_ids: (optional) A comma-separated list of document IDs to include in the query.
+    """
+
+    def __init__(self,
+                 relation_types=None,
+                 entity_types=None,
+                 document_ids=None):
+        """
+        Initialize a QueryRelationsFilter object.
+
+        :param QueryFilterType relation_types: (optional) A list of relation types to include or exclude from the query.
+        :param QueryFilterType entity_types: (optional) A list of entity types to include or exclude from the query.
+        :param list[str] document_ids: (optional) A comma-separated list of document IDs to include in the query.
+        """
+        self.relation_types = relation_types
+        self.entity_types = entity_types
+        self.document_ids = document_ids
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryRelationsFilter object from a json dictionary."""
+        args = {}
+        if 'relation_types' in _dict:
+            args['relation_types'] = QueryFilterType._from_dict(
+                _dict['relation_types'])
+        if 'entity_types' in _dict:
+            args['entity_types'] = QueryFilterType._from_dict(
+                _dict['entity_types'])
+        if 'document_ids' in _dict:
+            args['document_ids'] = _dict['document_ids']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'relation_types') and self.relation_types is not None:
+            _dict['relation_types'] = self.relation_types._to_dict()
+        if hasattr(self, 'entity_types') and self.entity_types is not None:
+            _dict['entity_types'] = self.entity_types._to_dict()
+        if hasattr(self, 'document_ids') and self.document_ids is not None:
+            _dict['document_ids'] = self.document_ids
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryRelationsFilter object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryRelationsRelationship(object):
+    """
+    QueryRelationsRelationship.
+
+    :attr str type: (optional) The identified relationship type.
+    :attr int frequency: (optional) The number of times the relationship is mentioned.
+    :attr list[QueryRelationsArgument] arguments: (optional) Information about the relationship.
+    """
+
+    def __init__(self, type=None, frequency=None, arguments=None):
+        """
+        Initialize a QueryRelationsRelationship object.
+
+        :param str type: (optional) The identified relationship type.
+        :param int frequency: (optional) The number of times the relationship is mentioned.
+        :param list[QueryRelationsArgument] arguments: (optional) Information about the relationship.
+        """
+        self.type = type
+        self.frequency = frequency
+        self.arguments = arguments
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryRelationsRelationship object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict['type']
+        if 'frequency' in _dict:
+            args['frequency'] = _dict['frequency']
+        if 'arguments' in _dict:
+            args['arguments'] = [
+                QueryRelationsArgument._from_dict(x) for x in _dict['arguments']
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'frequency') and self.frequency is not None:
+            _dict['frequency'] = self.frequency
+        if hasattr(self, 'arguments') and self.arguments is not None:
+            _dict['arguments'] = [x._to_dict() for x in self.arguments]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryRelationsRelationship object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryRelationsResponse(object):
+    """
+    QueryRelationsResponse.
+
+    :attr list[QueryRelationsRelationship] relations: (optional)
+    """
+
+    def __init__(self, relations=None):
+        """
+        Initialize a QueryRelationsResponse object.
+
+        :param list[QueryRelationsRelationship] relations: (optional)
+        """
+        self.relations = relations
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryRelationsResponse object from a json dictionary."""
+        args = {}
+        if 'relations' in _dict:
+            args['relations'] = [
+                QueryRelationsRelationship._from_dict(x)
+                for x in _dict['relations']
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'relations') and self.relations is not None:
+            _dict['relations'] = [x._to_dict() for x in self.relations]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryRelationsResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4102,9 +4517,10 @@ class QueryResult(object):
     QueryResult.
 
     :attr str id: (optional) The unique identifier of the document.
-    :attr float score: (optional) The confidence score of the result's analysis. Scores range from 0 to 1, with a higher score indicating greater confidence.
+    :attr float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
+    :attr QueryResultResultMetadata result_metadata: (optional)
     """
 
     def __init__(self,
@@ -4112,20 +4528,23 @@ class QueryResult(object):
                  score=None,
                  metadata=None,
                  collection_id=None,
+                 result_metadata=None,
                  **kwargs):
         """
         Initialize a QueryResult object.
 
         :param str id: (optional) The unique identifier of the document.
-        :param float score: (optional) The confidence score of the result's analysis. Scores range from 0 to 1, with a higher score indicating greater confidence.
+        :param float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
+        :param QueryResultResultMetadata result_metadata: (optional)
         :param **kwargs: (optional) Any additional properties.
         """
         self.id = id
         self.score = score
         self.metadata = metadata
         self.collection_id = collection_id
+        self.result_metadata = result_metadata
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -4146,6 +4565,10 @@ class QueryResult(object):
         if 'collection_id' in _dict:
             args['collection_id'] = _dict['collection_id']
             del xtra['collection_id']
+        if 'result_metadata' in _dict:
+            args['result_metadata'] = QueryResultResultMetadata._from_dict(
+                _dict['result_metadata'])
+            del xtra['result_metadata']
         args.update(xtra)
         return cls(**args)
 
@@ -4160,6 +4583,9 @@ class QueryResult(object):
             _dict['metadata'] = self.metadata
         if hasattr(self, 'collection_id') and self.collection_id is not None:
             _dict['collection_id'] = self.collection_id
+        if hasattr(self,
+                   'result_metadata') and self.result_metadata is not None:
+            _dict['result_metadata'] = self.result_metadata._to_dict()
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -4168,7 +4594,9 @@ class QueryResult(object):
         return _dict
 
     def __setattr__(self, name, value):
-        properties = {'id', 'score', 'metadata', 'collection_id'}
+        properties = {
+            'id', 'score', 'metadata', 'collection_id', 'result_metadata'
+        }
         if not hasattr(self, '_additionalProperties'):
             super(QueryResult, self).__setattr__('_additionalProperties', set())
         if name not in properties:
@@ -4177,6 +4605,51 @@ class QueryResult(object):
 
     def __str__(self):
         """Return a `str` version of this QueryResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryResultResultMetadata(object):
+    """
+    QueryResultResultMetadata.
+
+    :attr float score: (optional) The confidence score of the result's analysis. A higher score indicating greater confidence.
+    """
+
+    def __init__(self, score=None):
+        """
+        Initialize a QueryResultResultMetadata object.
+
+        :param float score: (optional) The confidence score of the result's analysis. A higher score indicating greater confidence.
+        """
+        self.score = score
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryResultResultMetadata object from a json dictionary."""
+        args = {}
+        if 'score' in _dict:
+            args['score'] = _dict['score']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'score') and self.score is not None:
+            _dict['score'] = self.score
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryResultResultMetadata object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4822,6 +5295,113 @@ class XPathPatterns(object):
 
     def __str__(self):
         """Return a `str` version of this XPathPatterns object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryNoticesResult(object):
+    """
+    QueryNoticesResult.
+
+    :attr str id: (optional) The unique identifier of the document.
+    :attr float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
+    :attr object metadata: (optional) Metadata of the document.
+    :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
+    :attr QueryResultResultMetadata result_metadata: (optional)
+    """
+
+    def __init__(self,
+                 id=None,
+                 score=None,
+                 metadata=None,
+                 collection_id=None,
+                 result_metadata=None,
+                 **kwargs):
+        """
+        Initialize a QueryNoticesResult object.
+
+        :param str id: (optional) The unique identifier of the document.
+        :param float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
+        :param object metadata: (optional) Metadata of the document.
+        :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
+        :param QueryResultResultMetadata result_metadata: (optional)
+        :param **kwargs: (optional) Any additional properties.
+        """
+        self.id = id
+        self.score = score
+        self.metadata = metadata
+        self.collection_id = collection_id
+        self.result_metadata = result_metadata
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryNoticesResult object from a json dictionary."""
+        args = {}
+        xtra = _dict.copy()
+        if 'id' in _dict:
+            args['id'] = _dict['id']
+            del xtra['id']
+        if 'score' in _dict:
+            args['score'] = _dict['score']
+            del xtra['score']
+        if 'metadata' in _dict:
+            args['metadata'] = _dict['metadata']
+            del xtra['metadata']
+        if 'collection_id' in _dict:
+            args['collection_id'] = _dict['collection_id']
+            del xtra['collection_id']
+        if 'result_metadata' in _dict:
+            args['result_metadata'] = QueryResultResultMetadata._from_dict(
+                _dict['result_metadata'])
+            del xtra['result_metadata']
+        args.update(xtra)
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'score') and self.score is not None:
+            _dict['score'] = self.score
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'collection_id') and self.collection_id is not None:
+            _dict['collection_id'] = self.collection_id
+        if hasattr(self,
+                   'result_metadata') and self.result_metadata is not None:
+            _dict['result_metadata'] = self.result_metadata._to_dict()
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
+        return _dict
+
+    def __setattr__(self, name, value):
+        properties = {
+            'id', 'score', 'metadata', 'collection_id', 'result_metadata'
+        }
+        if not hasattr(self, '_additionalProperties'):
+            super(QueryNoticesResult, self).__setattr__('_additionalProperties',
+                                                        set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(QueryNoticesResult, self).__setattr__(name, value)
+
+    def __str__(self):
+        """Return a `str` version of this QueryNoticesResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
