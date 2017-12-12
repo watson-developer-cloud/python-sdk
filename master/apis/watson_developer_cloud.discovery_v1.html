@@ -59,6 +59,11 @@ results.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.VERSION_DATE_2017_11_07">
+<code class="descname">VERSION_DATE_2017_11_07</code><em class="property"> = '2017-11-07'</em><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.VERSION_DATE_2017_11_07" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.VERSION_DATE_2017_09_01">
 <code class="descname">VERSION_DATE_2017_09_01</code><em class="property"> = '2017-09-01'</em><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.VERSION_DATE_2017_09_01" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -803,6 +808,37 @@ more details.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query_entities">
+<code class="descname">query_entities</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>feature=None</em>, <em>entity=None</em>, <em>context=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_entities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Knowledge Graph entity query.</p>
+<p>See the [Knowledge Graph
+documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/building-kg.html">https://console.bluemix.net/docs/services/discovery/building-kg.html</a>)
+for more details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>feature</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The entity query feature to perform. Must be <cite>disambiguate</cite>.</li>
+<li><strong>entity</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.QueryEntitiesEntity" title="watson_developer_cloud.discovery_v1.QueryEntitiesEntity"><em>QueryEntitiesEntity</em></a>) – A text string that appears within the entity text field.</li>
+<li><strong>context</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.QueryEntitiesContext" title="watson_developer_cloud.discovery_v1.QueryEntitiesContext"><em>QueryEntitiesContext</em></a>) – Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for <cite>London</cite> with the context of <cite>England</cite>.</li>
+<li><strong>count</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – The number of results to return. The default is <cite>10</cite>. The maximum is <cite>1000</cite>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>QueryEntitiesResponse</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query_notices">
 <code class="descname">query_notices</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>passages=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>deduplicate_field=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_notices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_notices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query system notices.</p>
@@ -836,6 +872,38 @@ more details on the query language.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>QueryNoticesResponse</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query_relations">
+<code class="descname">query_relations</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>entities=None</em>, <em>context=None</em>, <em>sort=None</em>, <em>filter=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_relations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_relations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Knowledge Graph relationship query.</p>
+<p>See the [Knowledge Graph
+documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/building-kg.html">https://console.bluemix.net/docs/services/discovery/building-kg.html</a>)
+for more details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>entities</strong> (<em>list</em><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.QueryRelationsEntity" title="watson_developer_cloud.discovery_v1.QueryRelationsEntity"><em>QueryRelationsEntity</em></a><em>]</em>) – An array of entities to find relationships for.</li>
+<li><strong>context</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.QueryEntitiesContext" title="watson_developer_cloud.discovery_v1.QueryEntitiesContext"><em>QueryEntitiesContext</em></a>) – Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for <cite>London</cite> with the context of <cite>England</cite>.</li>
+<li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The sorting method for the relationships, can be <cite>score</cite> or <cite>frequency</cite>. <cite>frequency</cite> is the number of unique times each entity is identified. The default is <cite>score</cite>.</li>
+<li><strong>filter</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.QueryRelationsFilter" title="watson_developer_cloud.discovery_v1.QueryRelationsFilter"><em>QueryRelationsFilter</em></a>) – Filters to apply to the relationship query.</li>
+<li><strong>count</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – The number of results to return. The default is <cite>10</cite>. The maximum is <cite>1000</cite>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>QueryRelationsResponse</cite> response.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
@@ -1181,6 +1249,25 @@ all examples.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.CollectionUsage">
+<em class="property">class </em><code class="descname">CollectionUsage</code><span class="sig-paren">(</span><em>available=None</em>, <em>maximum_allowed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#CollectionUsage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.CollectionUsage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Summary of the collection usage in the environment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int available:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of active collections in the environment.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int maximum_allowed:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Total number of collections allowed in the environment.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.Configuration">
 <em class="property">class </em><code class="descname">Configuration</code><span class="sig-paren">(</span><em>name</em>, <em>configuration_id=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -1475,7 +1562,7 @@ all examples.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Indicates that the enrichments will overwrite the destination_field field if it already exists.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str enrichment_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">Name of the enrichment service to call. Currently the only valid value is <cite>alchemy_language</cite>.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Name of the enrichment service to call. Currently the only valid value is <cite>natural_language_understanding</cite>. Previous API versions also supported <cite>alchemy_language</cite>.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr bool ignore_downstream_errors:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If true, then most errors generated during the enrichment process will be treated as warnings and will not cause the document to fail processing.</td>
@@ -1489,35 +1576,9 @@ all examples.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.EnrichmentOptions">
-<em class="property">class </em><code class="descname">EnrichmentOptions</code><span class="sig-paren">(</span><em>extract=None</em>, <em>sentiment=None</em>, <em>quotations=None</em>, <em>show_source_text=None</em>, <em>hierarchical_typed_relations=None</em>, <em>model=None</em>, <em>language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#EnrichmentOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.EnrichmentOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">EnrichmentOptions</code><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#EnrichmentOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.EnrichmentOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Options which are specific to a particular enrichment.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] extract:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A comma-separated list of analyses that will be applied when using the <cite>alchemy_language</cite> enrichment. See the service documentation for details on each extract option.  Possible values include:    * entity   * keyword   * taxonomy   * concept   * relation   * doc-sentiment   * doc-emotion   * typed-rels.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr bool sentiment:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool quotations:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr bool show_source_text:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool hierarchical_typed_relations:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str model:</th><td class="field-body">(optional) Required when using the <cite>typed-rel</cite> extract option. Should be set to the ID of a previously published custom Watson Knowledge Studio model.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str language:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If provided, then do not attempt to detect the language of the input document. Instead, assume the language is the one specified in this field.  You can set this property to work around <cite>unsupported-text-language</cite> errors.  Supported languages include English, German, French, Italian, Portuguese, Russian, Spanish and Swedish. Supported language codes are the ISO-639-1, ISO-639-2, ISO-639-3, and the plain english name of the language (for example “russian”).</td>
-</tr>
-</tbody>
-</table>
+<p>EnrichmentOptions.</p>
 </dd></dl>
 
 <dl class="class">
@@ -1657,7 +1718,7 @@ all examples.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.IndexCapacity">
-<em class="property">class </em><code class="descname">IndexCapacity</code><span class="sig-paren">(</span><em>documents=None</em>, <em>disk_usage=None</em>, <em>memory_usage=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#IndexCapacity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.IndexCapacity" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">IndexCapacity</code><span class="sig-paren">(</span><em>documents=None</em>, <em>disk_usage=None</em>, <em>collections=None</em>, <em>memory_usage=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#IndexCapacity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.IndexCapacity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Details about the resource usage and capacity of the environment.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1670,8 +1731,11 @@ all examples.</p>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr DiskUsage disk_usage:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Summary of the disk usage of the environment.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr MemoryUsage memory_usage:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>Deprecated</strong>: Summary of the memory usage of the environment.</td>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr CollectionUsage collections:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Summary of the collection usage in the environment.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr MemoryUsage memory_usage:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>Deprecated</strong>: Summary of the memory usage of the environment.</td>
 </tr>
 </tbody>
 </table>
@@ -1894,6 +1958,75 @@ format, however, the format differs slightly from that used by the query operati
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryEntitiesContext">
+<em class="property">class </em><code class="descname">QueryEntitiesContext</code><span class="sig-paren">(</span><em>text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryEntitiesContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryEntitiesContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Entity text to provide context for the queried entity and rank based on that
+association. For example, if you wanted to query the city of London in England your
+query would look for <cite>London</cite> with the context of <cite>England</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for <cite>London</cite> with the context of <cite>England</cite>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryEntitiesEntity">
+<em class="property">class </em><code class="descname">QueryEntitiesEntity</code><span class="sig-paren">(</span><em>text=None</em>, <em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryEntitiesEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryEntitiesEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>A text string that appears within the entity text field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) Entity text content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The type of the specified entity.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryEntitiesResponse">
+<em class="property">class </em><code class="descname">QueryEntitiesResponse</code><span class="sig-paren">(</span><em>entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryEntitiesResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryEntitiesResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>An array of entities resulting from the query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryEntitiesEntity] entities:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryFilterType">
+<em class="property">class </em><code class="descname">QueryFilterType</code><span class="sig-paren">(</span><em>exclude=None</em>, <em>include=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryFilterType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryFilterType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>QueryFilterType.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] exclude:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A comma-separated list of types to exclude.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] include:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A comma-separated list of types to include. All other types are excluded.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.QueryNoticesResponse">
 <em class="property">class </em><code class="descname">QueryNoticesResponse</code><span class="sig-paren">(</span><em>matching_results=None</em>, <em>results=None</em>, <em>aggregations=None</em>, <em>passages=None</em>, <em>duplicates_removed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryNoticesResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryNoticesResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -1922,30 +2055,6 @@ format, however, the format differs slightly from that used by the query operati
 </dd></dl>
 
 <dl class="class">
-<dt id="watson_developer_cloud.discovery_v1.QueryNoticesResult">
-<em class="property">class </em><code class="descname">QueryNoticesResult</code><span class="sig-paren">(</span><em>id=None</em>, <em>score=None</em>, <em>metadata=None</em>, <em>collection_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryNoticesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryNoticesResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>QueryNoticesResult.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attr str id:</th><td class="field-body">(optional) The unique identifier of the document.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The confidence score of the result’s analysis. Scores range from 0 to 1, with a higher score indicating greater confidence.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Metadata of the document.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str collection_id:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The collection ID of the collection containing the document for this result.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.QueryPassages">
 <em class="property">class </em><code class="descname">QueryPassages</code><span class="sig-paren">(</span><em>document_id=None</em>, <em>passage_score=None</em>, <em>passage_text=None</em>, <em>start_offset=None</em>, <em>end_offset=None</em>, <em>field=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryPassages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryPassages" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -1963,13 +2072,108 @@ format, however, the format differs slightly from that used by the query operati
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str passage_text:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The content of the extracted passage.</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr float start_offset:</th></tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int start_offset:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The position of the first character of the extracted passage in the originating field.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr float end_offset:</th></tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int end_offset:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The position of the last character of the extracted passage in the originating field.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Attr str field:</th><td class="field-body">(optional) The label of the field from which the passage has been extracted.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryRelationsArgument">
+<em class="property">class </em><code class="descname">QueryRelationsArgument</code><span class="sig-paren">(</span><em>entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryRelationsArgument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryRelationsArgument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>QueryRelationsArgument.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryEntitiesEntity] entities:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryRelationsEntity">
+<em class="property">class </em><code class="descname">QueryRelationsEntity</code><span class="sig-paren">(</span><em>text=None</em>, <em>type=None</em>, <em>exact=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryRelationsEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryRelationsEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>QueryRelationsEntity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) Entity text content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The type of the specified entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool exact:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If false, implicit disambiguation is performed. The default is <cite>false</cite>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryRelationsFilter">
+<em class="property">class </em><code class="descname">QueryRelationsFilter</code><span class="sig-paren">(</span><em>relation_types=None</em>, <em>entity_types=None</em>, <em>document_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryRelationsFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryRelationsFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>QueryRelationsFilter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr QueryFilterType relation_types:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A list of relation types to include or exclude from the query.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr QueryFilterType entity_types:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A list of entity types to include or exclude from the query.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] document_ids:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A comma-separated list of document IDs to include in the query.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryRelationsRelationship">
+<em class="property">class </em><code class="descname">QueryRelationsRelationship</code><span class="sig-paren">(</span><em>type=None</em>, <em>frequency=None</em>, <em>arguments=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryRelationsRelationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryRelationsRelationship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>QueryRelationsRelationship.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The identified relationship type.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int frequency:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The number of times the relationship is mentioned.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryRelationsArgument] arguments:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Information about the relationship.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryRelationsResponse">
+<em class="property">class </em><code class="descname">QueryRelationsResponse</code><span class="sig-paren">(</span><em>relations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryRelationsResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryRelationsResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>QueryRelationsResponse.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryRelationsRelationship] relations:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 </tbody>
 </table>
@@ -2005,7 +2209,7 @@ format, however, the format differs slightly from that used by the query operati
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.QueryResult">
-<em class="property">class </em><code class="descname">QueryResult</code><span class="sig-paren">(</span><em>id=None</em>, <em>score=None</em>, <em>metadata=None</em>, <em>collection_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryResult" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">QueryResult</code><span class="sig-paren">(</span><em>id=None</em>, <em>score=None</em>, <em>metadata=None</em>, <em>collection_id=None</em>, <em>result_metadata=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>QueryResult.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2015,13 +2219,32 @@ format, however, the format differs slightly from that used by the query operati
 <tr class="field-odd field"><th class="field-name">Attr str id:</th><td class="field-body">(optional) The unique identifier of the document.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The confidence score of the result’s analysis. Scores range from 0 to 1, with a higher score indicating greater confidence.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <em>Deprecated</em> This field is now part of the <cite>result_metadata</cite> object.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Metadata of the document.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str collection_id:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The collection ID of the collection containing the document for this result.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr QueryResultResultMetadata result_metadata:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryResultResultMetadata">
+<em class="property">class </em><code class="descname">QueryResultResultMetadata</code><span class="sig-paren">(</span><em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryResultResultMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryResultResultMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>QueryResultResultMetadata.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr float score:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The confidence score of the result’s analysis. A higher score indicating greater confidence.</td>
 </tr>
 </tbody>
 </table>
@@ -2246,6 +2469,33 @@ format, however, the format differs slightly from that used by the query operati
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] xpaths:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryNoticesResult">
+<em class="property">class </em><code class="descname">QueryNoticesResult</code><span class="sig-paren">(</span><em>id=None</em>, <em>score=None</em>, <em>metadata=None</em>, <em>collection_id=None</em>, <em>result_metadata=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryNoticesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryNoticesResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>QueryNoticesResult.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str id:</th><td class="field-body">(optional) The unique identifier of the document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <em>Deprecated</em> This field is now part of the <cite>result_metadata</cite> object.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Metadata of the document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str collection_id:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The collection ID of the collection containing the document for this result.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr QueryResultResultMetadata result_metadata:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 </tbody>
