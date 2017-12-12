@@ -261,163 +261,6 @@
 <span class="c1">##############################################################################</span>
 
 
-<div class="viewcode-block" id="AnalysisResults"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.AnalysisResults">[docs]</a><span class="k">class</span> <span class="nc">AnalysisResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Results of the analysis, organized by feature.</span>
-
-<span class="sd">    :attr str language: (optional) Language used to analyze the text.</span>
-<span class="sd">    :attr str analyzed_text: (optional) Text that was used in the analysis.</span>
-<span class="sd">    :attr str retrieved_url: (optional) URL that was used to retrieve HTML content.</span>
-<span class="sd">    :attr Usage usage: (optional) API usage information for the request.</span>
-<span class="sd">    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.</span>
-<span class="sd">    :attr list[EntitiesResult] entities: (optional) The important entities in the specified content.</span>
-<span class="sd">    :attr list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.</span>
-<span class="sd">    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.</span>
-<span class="sd">    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</span>
-<span class="sd">    :attr MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.</span>
-<span class="sd">    :attr list[RelationsResult] relations: (optional) The relationships between entities in the content.</span>
-<span class="sd">    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.</span>
-<span class="sd">    :attr SentimentResult sentiment: (optional) The sentiment of the content.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">concepts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">keywords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">categories</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">relations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">semantic_roles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">sentiment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">analyzed_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">retrieved_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">usage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a AnalysisResults object.</span>
-
-<span class="sd">        :param list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.</span>
-<span class="sd">        :param list[EntitiesResult] entities: (optional) The important entities in the specified content.</span>
-<span class="sd">        :param list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.</span>
-<span class="sd">        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.</span>
-<span class="sd">        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</span>
-<span class="sd">        :param MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.</span>
-<span class="sd">        :param list[RelationsResult] relations: (optional) The relationships between entities in the content.</span>
-<span class="sd">        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.</span>
-<span class="sd">        :param SentimentResult sentiment: (optional) The sentiment of the content.</span>
-<span class="sd">        :param str language: (optional) Language used to analyze the text.</span>
-<span class="sd">        :param str analyzed_text: (optional) Text that was used in the analysis.</span>
-<span class="sd">        :param str retrieved_url: (optional) URL that was used to retrieve HTML content.</span>
-<span class="sd">        :param Usage usage: (optional) API usage information for the request.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzed_text</span> <span class="o">=</span> <span class="n">analyzed_text</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">retrieved_url</span> <span class="o">=</span> <span class="n">retrieved_url</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">usage</span> <span class="o">=</span> <span class="n">usage</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">concepts</span> <span class="o">=</span> <span class="n">concepts</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="n">entities</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="n">keywords</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">relations</span> <span class="o">=</span> <span class="n">relations</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">semantic_roles</span> <span class="o">=</span> <span class="n">semantic_roles</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="o">=</span> <span class="n">sentiment</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize a AnalysisResults object from a json dictionary.&quot;&quot;&quot;</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="s1">&#39;language&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;analyzed_text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;analyzed_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;analyzed_text&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;retrieved_url&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;retrieved_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;retrieved_url&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;usage&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;usage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Usage</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;usage&#39;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="s1">&#39;concepts&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;concepts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">ConceptsResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;concepts&#39;</span><span class="p">]</span>
-            <span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;entities&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">EntitiesResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span>
-            <span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;keywords&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">KeywordsResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span>
-            <span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;categories&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">CategoriesResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span>
-            <span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;emotion&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EmotionResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="s1">&#39;metadata&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MetadataResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">])</span>
-        <span class="k">if</span> <span class="s1">&#39;relations&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;relations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">RelationsResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;relations&#39;</span><span class="p">]</span>
-            <span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;semantic_roles&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;semantic_roles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">SemanticRolesResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;semantic_roles&#39;</span><span class="p">]</span>
-            <span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;sentiment&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SentimentResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">])</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
-        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;language&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;analyzed_text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzed_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;analyzed_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzed_text</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;retrieved_url&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieved_url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;retrieved_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieved_url</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;usage&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;usage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;concepts&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">concepts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;concepts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">concepts</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;entities&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;categories&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;emotion&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;relations&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">relations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;relations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;semantic_roles&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">semantic_roles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;semantic_roles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">semantic_roles</span>
-            <span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;sentiment&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">_dict</span>
-
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a `str` version of this AnalysisResults object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
-
-    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
-
-
 <div class="viewcode-block" id="Author"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.Author">[docs]</a><span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The author of the analyzed content.</span>
@@ -1028,21 +871,29 @@
 <span class="sd">    detected in the analyzed content.</span>
 
 <span class="sd">    :attr int limit: (optional) Maximum number of entities to return.</span>
+<span class="sd">    :attr bool mentions: (optional) Set this to true to return locations of entity mentions.</span>
 <span class="sd">    :attr str model: (optional) Enter a custom model ID to override the standard entity detection model.</span>
 <span class="sd">    :attr bool sentiment: (optional) Set this to true to return sentiment information for detected entities.</span>
 <span class="sd">    :attr bool emotion: (optional) Set this to true to analyze emotion for detected keywords.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sentiment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mentions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">sentiment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a EntitiesOptions object.</span>
 
 <span class="sd">        :param int limit: (optional) Maximum number of entities to return.</span>
+<span class="sd">        :param bool mentions: (optional) Set this to true to return locations of entity mentions.</span>
 <span class="sd">        :param str model: (optional) Enter a custom model ID to override the standard entity detection model.</span>
 <span class="sd">        :param bool sentiment: (optional) Set this to true to return sentiment information for detected entities.</span>
 <span class="sd">        :param bool emotion: (optional) Set this to true to analyze emotion for detected keywords.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mentions</span> <span class="o">=</span> <span class="n">mentions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="o">=</span> <span class="n">sentiment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
@@ -1053,6 +904,8 @@
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;limit&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;limit&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;mentions&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;model&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;sentiment&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
@@ -1066,6 +919,8 @@
         <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;limit&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;limit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;mentions&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mentions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mentions</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;sentiment&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1095,9 +950,10 @@
 <span class="sd">    your content.</span>
 
 <span class="sd">    :attr str type: (optional) Entity type.</span>
-<span class="sd">    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</span>
-<span class="sd">    :attr int count: (optional) How many times the entity was mentioned in the text.</span>
 <span class="sd">    :attr str text: (optional) The name of the entity.</span>
+<span class="sd">    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</span>
+<span class="sd">    :attr list[EntityMention] mentions: (optional) Entity mentions and locations.</span>
+<span class="sd">    :attr int count: (optional) How many times the entity was mentioned in the text.</span>
 <span class="sd">    :attr EmotionScores emotion: (optional) Emotion analysis results for the entity, enabled with the &quot;emotion&quot; option.</span>
 <span class="sd">    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the entity, enabled with the &quot;sentiment&quot; option.</span>
 <span class="sd">    :attr DisambiguationResult disambiguation: (optional) Disambiguation information for the entity.</span>
@@ -1105,9 +961,10 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">relevance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">relevance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">mentions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">sentiment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">disambiguation</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1115,17 +972,19 @@
 <span class="sd">        Initialize a EntitiesResult object.</span>
 
 <span class="sd">        :param str type: (optional) Entity type.</span>
-<span class="sd">        :param float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</span>
-<span class="sd">        :param int count: (optional) How many times the entity was mentioned in the text.</span>
 <span class="sd">        :param str text: (optional) The name of the entity.</span>
+<span class="sd">        :param float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</span>
+<span class="sd">        :param list[EntityMention] mentions: (optional) Entity mentions and locations.</span>
+<span class="sd">        :param int count: (optional) How many times the entity was mentioned in the text.</span>
 <span class="sd">        :param EmotionScores emotion: (optional) Emotion analysis results for the entity, enabled with the &quot;emotion&quot; option.</span>
 <span class="sd">        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the entity, enabled with the &quot;sentiment&quot; option.</span>
 <span class="sd">        :param DisambiguationResult disambiguation: (optional) Disambiguation information for the entity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">relevance</span> <span class="o">=</span> <span class="n">relevance</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">count</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relevance</span> <span class="o">=</span> <span class="n">relevance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mentions</span> <span class="o">=</span> <span class="n">mentions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">count</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="o">=</span> <span class="n">sentiment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disambiguation</span> <span class="o">=</span> <span class="n">disambiguation</span>
@@ -1136,12 +995,16 @@
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;relevance&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;relevance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;relevance&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s1">&#39;count&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;relevance&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;relevance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;relevance&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;mentions&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">EntityMention</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;count&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;emotion&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EmotionScores</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="s1">&#39;sentiment&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
@@ -1157,12 +1020,14 @@
         <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;relevance&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">relevance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;relevance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relevance</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;relevance&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">relevance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;relevance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relevance</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;mentions&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">mentions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;mentions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mentions</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;emotion&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;sentiment&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1173,6 +1038,58 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a `str` version of this EntitiesResult object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="EntityMention"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.EntityMention">[docs]</a><span class="k">class</span> <span class="nc">EntityMention</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EntityMention.</span>
+
+<span class="sd">    :attr str text: (optional) Entity mention text.</span>
+<span class="sd">    :attr list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a EntityMention object.</span>
+
+<span class="sd">        :param str text: (optional) Entity mention text.</span>
+<span class="sd">        :param list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a EntityMention object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;location&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this EntityMention object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -1330,6 +1247,51 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a `str` version of this Features object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="Feed"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.Feed">[docs]</a><span class="k">class</span> <span class="nc">Feed</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    RSS or ATOM feed found on the webpage.</span>
+
+<span class="sd">    :attr str link: (optional) URL of the RSS or ATOM feed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Feed object.</span>
+
+<span class="sd">        :param str link: (optional) URL of the RSS or ATOM feed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">link</span> <span class="o">=</span> <span class="n">link</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Feed object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;link&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;link&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;link&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;link&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">link</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;link&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">link</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Feed object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -1626,19 +1588,30 @@
 <span class="sd">    :attr list[Author] authors: (optional) The authors of the document.</span>
 <span class="sd">    :attr str publication_date: (optional) The publication date in the format ISO 8601.</span>
 <span class="sd">    :attr str title: (optional) The title of the document.</span>
+<span class="sd">    :attr str image: (optional) URL of a prominent image on the webpage.</span>
+<span class="sd">    :attr list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">authors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">publication_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">authors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">publication_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">image</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">feeds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a MetadataResult object.</span>
 
 <span class="sd">        :param list[Author] authors: (optional) The authors of the document.</span>
 <span class="sd">        :param str publication_date: (optional) The publication date in the format ISO 8601.</span>
 <span class="sd">        :param str title: (optional) The title of the document.</span>
+<span class="sd">        :param str image: (optional) URL of a prominent image on the webpage.</span>
+<span class="sd">        :param list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">authors</span> <span class="o">=</span> <span class="n">authors</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">publication_date</span> <span class="o">=</span> <span class="n">publication_date</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feeds</span> <span class="o">=</span> <span class="n">feeds</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
@@ -1650,6 +1623,10 @@
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;publication_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;publication_date&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;title&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;image&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;feeds&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;feeds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Feed</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;feeds&#39;</span><span class="p">]]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1662,6 +1639,10 @@
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;publication_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publication_date</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;feeds&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">feeds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;feeds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">feeds</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">_dict</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1754,17 +1735,20 @@
 <span class="sd">    RelationArgument.</span>
 
 <span class="sd">    :attr list[RelationEntity] entities: (optional)</span>
+<span class="sd">    :attr list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</span>
 <span class="sd">    :attr str text: (optional) Text that corresponds to the argument.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a RelationArgument object.</span>
 
 <span class="sd">        :param list[RelationEntity] entities: (optional)</span>
+<span class="sd">        :param list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</span>
 <span class="sd">        :param str text: (optional) Text that corresponds to the argument.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="n">entities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
 
     <span class="nd">@classmethod</span>
@@ -1775,6 +1759,8 @@
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">RelationEntity</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span>
             <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;location&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
@@ -1784,6 +1770,8 @@
         <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;entities&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;location&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">location</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
         <span class="k">return</span> <span class="n">_dict</span>
@@ -1805,7 +1793,7 @@
 
 <div class="viewcode-block" id="RelationEntity"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.RelationEntity">[docs]</a><span class="k">class</span> <span class="nc">RelationEntity</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The entities extracted from a sentence in a given document.</span>
+<span class="sd">    An entity that corresponds with an argument in a relation.</span>
 
 <span class="sd">    :attr str text: (optional) Text that corresponds to the entity.</span>
 <span class="sd">    :attr str type: (optional) Entity type.</span>
@@ -2679,6 +2667,163 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a `str` version of this Usage object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.AnalysisResults">[docs]</a><span class="k">class</span> <span class="nc">AnalysisResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Results of the analysis, organized by feature.</span>
+
+<span class="sd">    :attr str language: (optional) Language used to analyze the text.</span>
+<span class="sd">    :attr str analyzed_text: (optional) Text that was used in the analysis.</span>
+<span class="sd">    :attr str retrieved_url: (optional) URL that was used to retrieve HTML content.</span>
+<span class="sd">    :attr Usage usage: (optional) API usage information for the request.</span>
+<span class="sd">    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.</span>
+<span class="sd">    :attr list[EntitiesResult] entities: (optional) The important entities in the specified content.</span>
+<span class="sd">    :attr list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.</span>
+<span class="sd">    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.</span>
+<span class="sd">    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</span>
+<span class="sd">    :attr MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.</span>
+<span class="sd">    :attr list[RelationsResult] relations: (optional) The relationships between entities in the content.</span>
+<span class="sd">    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.</span>
+<span class="sd">    :attr SentimentResult sentiment: (optional) The sentiment of the content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">concepts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">keywords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">categories</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">relations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">semantic_roles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">sentiment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">analyzed_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">retrieved_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">usage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a AnalysisResults object.</span>
+
+<span class="sd">        :param list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.</span>
+<span class="sd">        :param list[EntitiesResult] entities: (optional) The important entities in the specified content.</span>
+<span class="sd">        :param list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.</span>
+<span class="sd">        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.</span>
+<span class="sd">        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</span>
+<span class="sd">        :param MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.</span>
+<span class="sd">        :param list[RelationsResult] relations: (optional) The relationships between entities in the content.</span>
+<span class="sd">        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.</span>
+<span class="sd">        :param SentimentResult sentiment: (optional) The sentiment of the content.</span>
+<span class="sd">        :param str language: (optional) Language used to analyze the text.</span>
+<span class="sd">        :param str analyzed_text: (optional) Text that was used in the analysis.</span>
+<span class="sd">        :param str retrieved_url: (optional) URL that was used to retrieve HTML content.</span>
+<span class="sd">        :param Usage usage: (optional) API usage information for the request.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyzed_text</span> <span class="o">=</span> <span class="n">analyzed_text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">retrieved_url</span> <span class="o">=</span> <span class="n">retrieved_url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">usage</span> <span class="o">=</span> <span class="n">usage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">concepts</span> <span class="o">=</span> <span class="n">concepts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="n">entities</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="n">keywords</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="n">categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relations</span> <span class="o">=</span> <span class="n">relations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">semantic_roles</span> <span class="o">=</span> <span class="n">semantic_roles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="o">=</span> <span class="n">sentiment</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a AnalysisResults object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;language&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;analyzed_text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;analyzed_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;analyzed_text&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;retrieved_url&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;retrieved_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;retrieved_url&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;usage&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;usage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Usage</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;usage&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;concepts&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;concepts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ConceptsResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;concepts&#39;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;entities&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">EntitiesResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;keywords&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">KeywordsResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;categories&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">CategoriesResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;emotion&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EmotionResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;metadata&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MetadataResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s1">&#39;relations&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;relations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">RelationsResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;relations&#39;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;semantic_roles&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;semantic_roles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">SemanticRolesResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;semantic_roles&#39;</span><span class="p">]</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;sentiment&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SentimentResult</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;language&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;analyzed_text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzed_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;analyzed_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analyzed_text</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;retrieved_url&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieved_url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;retrieved_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrieved_url</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;usage&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;usage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;concepts&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">concepts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;concepts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">concepts</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;entities&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;entities&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;keywords&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;categories&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;emotion&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;emotion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;relations&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">relations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;relations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">relations</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;semantic_roles&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">semantic_roles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;semantic_roles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">semantic_roles</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;sentiment&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;sentiment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this AnalysisResults object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
