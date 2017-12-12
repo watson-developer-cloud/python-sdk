@@ -234,6 +234,203 @@ def test_query():
     assert called_url.path == test_url.path
     assert len(responses.calls) == 1
 
+@responses.activate
+def test_query_relations():
+    discovery_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/query_relations')
+
+    responses.add(
+        responses.POST,
+        discovery_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1(
+        '2016-11-07', username='username', password='password')
+
+    discovery.query_relations('envid', 'collid', {'count': 10})
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
+
+
+@responses.activate
+def test_query_entities():
+    discovery_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/query_entities')
+
+    responses.add(
+        responses.POST,
+        discovery_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1(
+        '2016-11-07', username='username', password='password')
+
+    discovery.query_entities('envid', 'collid', {'count': 10})
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
+
+
+@responses.activate
+def test_training_data():
+    discovery_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/training_data')
+    examples_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/training_data/qid/examples')
+    example_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/training_data/qid/examples/exid')
+    data_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/training_data/qid')
+
+    responses.add(
+        responses.POST,
+        discovery_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.DELETE,
+        discovery_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        discovery_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.POST,
+        examples_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        examples_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.DELETE,
+        example_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        example_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.PUT,
+        example_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.DELETE,
+        data_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        data_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1(
+        '2016-11-07', username='username', password='password')
+
+    discovery.add_training_data('envid', 'collid')
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.get_training_data('envid', 'collid', 'qid')
+    called_url = urlparse(responses.calls[1].request.url)
+    test_url = urlparse(data_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.delete_training_data('envid', 'collid', 'qid')
+    called_url = urlparse(responses.calls[2].request.url)
+    test_url = urlparse(data_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.list_training_data('envid', 'collid')
+    called_url = urlparse(responses.calls[3].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.delete_all_training_data('envid', 'collid')
+    called_url = urlparse(responses.calls[4].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.create_training_example('envid', 'collid', 'qid')
+    called_url = urlparse(responses.calls[5].request.url)
+    test_url = urlparse(examples_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.get_training_example('envid', 'collid', 'qid', 'exid')
+    called_url = urlparse(responses.calls[6].request.url)
+    test_url = urlparse(example_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.update_training_example('envid', 'collid', 'qid', 'exid')
+    called_url = urlparse(responses.calls[7].request.url)
+    test_url = urlparse(example_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.delete_training_example('envid', 'collid', 'qid', 'exid')
+    called_url = urlparse(responses.calls[8].request.url)
+    test_url = urlparse(example_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    discovery.list_training_examples('envid', 'collid', 'qid')
+    called_url = urlparse(responses.calls[9].request.url)
+    test_url = urlparse(examples_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+
+    assert len(responses.calls) == 10
 
 @responses.activate
 def test_configs():
