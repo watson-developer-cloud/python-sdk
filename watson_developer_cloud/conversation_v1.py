@@ -276,7 +276,7 @@ class ConversationV1(WatsonService):
         Get a response to a user's input.
 
         :param str workspace_id: Unique identifier of the workspace.
-        :param JSON input: A JSON object that includes the input text in the field 'text' (for example: {"text": "Hi!"})
+        :param InputData input: An input object that includes the input text.
         :param bool alternate_intents: Whether to return more than one intent. Set to `true` to return all matching intents.
         :param Context context: State information for the conversation. Continue a conversation by including the context object from the previous response.
         :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
@@ -1353,6 +1353,33 @@ class ConversationV1(WatsonService):
     #########################
     # logs
     #########################
+
+    def list_all_logs(self, filter, sort=None, page_limit=None, cursor=None):
+        """
+        List log events in all workspaces.
+
+        List log events in all workspaces in the service instance.
+
+        :param str filter: A cacheable parameter that limits the results to those matching the specified filter. You must specify a filter query that includes a value for `language`, as well as a value for `workspace_id` or `request.context.metadata.deployment`. For more information, see the [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
+        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
+        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str cursor: A token identifying the last value from the previous page of results.
+        :return: A `dict` containing the `LogCollection` response.
+        :rtype: dict
+        """
+        if filter is None:
+            raise ValueError('filter must be provided')
+        params = {
+            'version': self.version,
+            'filter': filter,
+            'sort': sort,
+            'page_limit': page_limit,
+            'cursor': cursor
+        }
+        url = '/v1/logs'
+        response = self.request(
+            method='GET', url=url, params=params, accept_json=True)
+        return response
 
     def list_logs(self,
                   workspace_id,
@@ -2802,113 +2829,6 @@ class EntityCollection(object):
         return not self == other
 
 
-class EntityExport(object):
-    """
-    EntityExport.
-
-    :attr str entity_name: The name of the entity.
-    :attr datetime created: The timestamp for creation of the entity.
-    :attr datetime updated: The timestamp for the last update to the entity.
-    :attr str description: (optional) The description of the entity.
-    :attr object metadata: (optional) Any metadata related to the entity.
-    :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
-    :attr list[ValueExport] values: (optional) An array of entity values.
-    """
-
-    def __init__(self,
-                 entity_name,
-                 created,
-                 updated,
-                 description=None,
-                 metadata=None,
-                 fuzzy_match=None,
-                 values=None):
-        """
-        Initialize a EntityExport object.
-
-        :param str entity_name: The name of the entity.
-        :param datetime created: The timestamp for creation of the entity.
-        :param datetime updated: The timestamp for the last update to the entity.
-        :param str description: (optional) The description of the entity.
-        :param object metadata: (optional) Any metadata related to the entity.
-        :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
-        :param list[ValueExport] values: (optional) An array of entity values.
-        """
-        self.entity_name = entity_name
-        self.created = created
-        self.updated = updated
-        self.description = description
-        self.metadata = metadata
-        self.fuzzy_match = fuzzy_match
-        self.values = values
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a EntityExport object from a json dictionary."""
-        args = {}
-        if 'entity' in _dict:
-            args['entity_name'] = _dict['entity']
-        else:
-            raise ValueError(
-                'Required property \'entity\' not present in EntityExport JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in EntityExport JSON'
-            )
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in EntityExport JSON'
-            )
-        if 'description' in _dict:
-            args['description'] = _dict['description']
-        if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
-        if 'fuzzy_match' in _dict:
-            args['fuzzy_match'] = _dict['fuzzy_match']
-        if 'values' in _dict:
-            args['values'] = [
-                ValueExport._from_dict(x) for x in _dict['values']
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'entity_name') and self.entity_name is not None:
-            _dict['entity'] = self.entity_name
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
-        if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
-            _dict['fuzzy_match'] = self.fuzzy_match
-        if hasattr(self, 'values') and self.values is not None:
-            _dict['values'] = [x._to_dict() for x in self.values]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this EntityExport object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class Example(object):
     """
     Example.
@@ -3224,97 +3144,6 @@ class IntentCollection(object):
         return not self == other
 
 
-class IntentExport(object):
-    """
-    IntentExport.
-
-    :attr str intent_name: The name of the intent.
-    :attr datetime created: The timestamp for creation of the intent.
-    :attr datetime updated: The timestamp for the last update to the intent.
-    :attr str description: (optional) The description of the intent.
-    :attr list[Example] examples: (optional) An array of user input examples.
-    """
-
-    def __init__(self,
-                 intent_name,
-                 created,
-                 updated,
-                 description=None,
-                 examples=None):
-        """
-        Initialize a IntentExport object.
-
-        :param str intent_name: The name of the intent.
-        :param datetime created: The timestamp for creation of the intent.
-        :param datetime updated: The timestamp for the last update to the intent.
-        :param str description: (optional) The description of the intent.
-        :param list[Example] examples: (optional) An array of user input examples.
-        """
-        self.intent_name = intent_name
-        self.created = created
-        self.updated = updated
-        self.description = description
-        self.examples = examples
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a IntentExport object from a json dictionary."""
-        args = {}
-        if 'intent' in _dict:
-            args['intent_name'] = _dict['intent']
-        else:
-            raise ValueError(
-                'Required property \'intent\' not present in IntentExport JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in IntentExport JSON'
-            )
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in IntentExport JSON'
-            )
-        if 'description' in _dict:
-            args['description'] = _dict['description']
-        if 'examples' in _dict:
-            args['examples'] = [
-                Example._from_dict(x) for x in _dict['examples']
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'intent_name') and self.intent_name is not None:
-            _dict['intent'] = self.intent_name
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this IntentExport object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class LogCollection(object):
     """
     LogCollection.
@@ -3361,121 +3190,6 @@ class LogCollection(object):
 
     def __str__(self):
         """Return a `str` version of this LogCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class LogExport(object):
-    """
-    LogExport.
-
-    :attr MessageRequest request: A request formatted for the Conversation service.
-    :attr MessageResponse response: A response from the Conversation service.
-    :attr str log_id: A unique identifier for the logged message.
-    :attr str request_timestamp: The timestamp for receipt of the message.
-    :attr str response_timestamp: The timestamp for the system response to the message.
-    :attr str workspace_id: The workspace ID.
-    :attr str language: The language of the workspace where the message request was made.
-    """
-
-    def __init__(self, request, response, log_id, request_timestamp,
-                 response_timestamp, workspace_id, language):
-        """
-        Initialize a LogExport object.
-
-        :param MessageRequest request: A request formatted for the Conversation service.
-        :param MessageResponse response: A response from the Conversation service.
-        :param str log_id: A unique identifier for the logged message.
-        :param str request_timestamp: The timestamp for receipt of the message.
-        :param str response_timestamp: The timestamp for the system response to the message.
-        :param str workspace_id: The workspace ID.
-        :param str language: The language of the workspace where the message request was made.
-        """
-        self.request = request
-        self.response = response
-        self.log_id = log_id
-        self.request_timestamp = request_timestamp
-        self.response_timestamp = response_timestamp
-        self.workspace_id = workspace_id
-        self.language = language
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a LogExport object from a json dictionary."""
-        args = {}
-        if 'request' in _dict:
-            args['request'] = MessageRequest._from_dict(_dict['request'])
-        else:
-            raise ValueError(
-                'Required property \'request\' not present in LogExport JSON')
-        if 'response' in _dict:
-            args['response'] = MessageResponse._from_dict(_dict['response'])
-        else:
-            raise ValueError(
-                'Required property \'response\' not present in LogExport JSON')
-        if 'log_id' in _dict:
-            args['log_id'] = _dict['log_id']
-        else:
-            raise ValueError(
-                'Required property \'log_id\' not present in LogExport JSON')
-        if 'request_timestamp' in _dict:
-            args['request_timestamp'] = _dict['request_timestamp']
-        else:
-            raise ValueError(
-                'Required property \'request_timestamp\' not present in LogExport JSON'
-            )
-        if 'response_timestamp' in _dict:
-            args['response_timestamp'] = _dict['response_timestamp']
-        else:
-            raise ValueError(
-                'Required property \'response_timestamp\' not present in LogExport JSON'
-            )
-        if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict['workspace_id']
-        else:
-            raise ValueError(
-                'Required property \'workspace_id\' not present in LogExport JSON'
-            )
-        if 'language' in _dict:
-            args['language'] = _dict['language']
-        else:
-            raise ValueError(
-                'Required property \'language\' not present in LogExport JSON')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'request') and self.request is not None:
-            _dict['request'] = self.request._to_dict()
-        if hasattr(self, 'response') and self.response is not None:
-            _dict['response'] = self.response._to_dict()
-        if hasattr(self, 'log_id') and self.log_id is not None:
-            _dict['log_id'] = self.log_id
-        if hasattr(self,
-                   'request_timestamp') and self.request_timestamp is not None:
-            _dict['request_timestamp'] = self.request_timestamp
-        if hasattr(
-                self,
-                'response_timestamp') and self.response_timestamp is not None:
-            _dict['response_timestamp'] = self.response_timestamp
-        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
-            _dict['workspace_id'] = self.workspace_id
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this LogExport object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -3742,142 +3456,6 @@ class MessageRequest(object):
 
     def __str__(self):
         """Return a `str` version of this MessageRequest object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageResponse(object):
-    """
-    A response from the Conversation service.
-
-    :attr MessageInput input: (optional) The user input from the request.
-    :attr list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
-    :attr list[RuntimeEntity] entities: An array of entities identified in the user input.
-    :attr bool alternate_intents: (optional) Whether to return more than one intent. `true` indicates that all matching intents are returned.
-    :attr Context context: State information for the conversation.
-    :attr OutputData output: Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.
-    """
-
-    def __init__(self,
-                 intents,
-                 entities,
-                 context,
-                 output,
-                 input=None,
-                 alternate_intents=None,
-                 **kwargs):
-        """
-        Initialize a MessageResponse object.
-
-        :param list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
-        :param list[RuntimeEntity] entities: An array of entities identified in the user input.
-        :param Context context: State information for the conversation.
-        :param OutputData output: Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.
-        :param MessageInput input: (optional) The user input from the request.
-        :param bool alternate_intents: (optional) Whether to return more than one intent. `true` indicates that all matching intents are returned.
-        :param **kwargs: (optional) Any additional properties.
-        """
-        self.input = input
-        self.intents = intents
-        self.entities = entities
-        self.alternate_intents = alternate_intents
-        self.context = context
-        self.output = output
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageResponse object from a json dictionary."""
-        args = {}
-        xtra = _dict.copy()
-        if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict['input'])
-            del xtra['input']
-        if 'intents' in _dict:
-            args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in _dict['intents']
-            ]
-            del xtra['intents']
-        else:
-            raise ValueError(
-                'Required property \'intents\' not present in MessageResponse JSON'
-            )
-        if 'entities' in _dict:
-            args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in _dict['entities']
-            ]
-            del xtra['entities']
-        else:
-            raise ValueError(
-                'Required property \'entities\' not present in MessageResponse JSON'
-            )
-        if 'alternate_intents' in _dict:
-            args['alternate_intents'] = _dict['alternate_intents']
-            del xtra['alternate_intents']
-        if 'context' in _dict:
-            args['context'] = Context._from_dict(_dict['context'])
-            del xtra['context']
-        else:
-            raise ValueError(
-                'Required property \'context\' not present in MessageResponse JSON'
-            )
-        if 'output' in _dict:
-            args['output'] = OutputData._from_dict(_dict['output'])
-            del xtra['output']
-        else:
-            raise ValueError(
-                'Required property \'output\' not present in MessageResponse JSON'
-            )
-        args.update(xtra)
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
-        if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        if hasattr(self,
-                   'alternate_intents') and self.alternate_intents is not None:
-            _dict['alternate_intents'] = self.alternate_intents
-        if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context._to_dict()
-        if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output._to_dict()
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
-        return _dict
-
-    def __setattr__(self, name, value):
-        properties = {
-            'input', 'intents', 'entities', 'alternate_intents', 'context',
-            'output'
-        }
-        if not hasattr(self, '_additionalProperties'):
-            super(MessageResponse, self).__setattr__('_additionalProperties',
-                                                     set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(MessageResponse, self).__setattr__(name, value)
-
-    def __str__(self):
-        """Return a `str` version of this MessageResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4601,112 +4179,6 @@ class ValueCollection(object):
         return not self == other
 
 
-class ValueExport(object):
-    """
-    ValueExport.
-
-    :attr str value_text: The text of the entity value.
-    :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr datetime created: The timestamp for creation of the entity value.
-    :attr datetime updated: The timestamp for the last update to the entity value.
-    :attr list[str] synonyms: (optional) An array of synonyms.
-    :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-    :attr str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
-    """
-
-    def __init__(self,
-                 value_text,
-                 created,
-                 updated,
-                 value_type,
-                 metadata=None,
-                 synonyms=None,
-                 patterns=None):
-        """
-        Initialize a ValueExport object.
-
-        :param str value_text: The text of the entity value.
-        :param datetime created: The timestamp for creation of the entity value.
-        :param datetime updated: The timestamp for the last update to the entity value.
-        :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
-        :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array of synonyms.
-        :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-        """
-        self.value_text = value_text
-        self.metadata = metadata
-        self.created = created
-        self.updated = updated
-        self.synonyms = synonyms
-        self.patterns = patterns
-        self.value_type = value_type
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ValueExport object from a json dictionary."""
-        args = {}
-        if 'value' in _dict:
-            args['value_text'] = _dict['value']
-        else:
-            raise ValueError(
-                'Required property \'value\' not present in ValueExport JSON')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in ValueExport JSON')
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in ValueExport JSON')
-        if 'synonyms' in _dict:
-            args['synonyms'] = _dict['synonyms']
-        if 'patterns' in _dict:
-            args['patterns'] = _dict['patterns']
-        if 'type' in _dict:
-            args['value_type'] = _dict['type']
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in ValueExport JSON')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'value_text') and self.value_text is not None:
-            _dict['value'] = self.value_text
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'synonyms') and self.synonyms is not None:
-            _dict['synonyms'] = self.synonyms
-        if hasattr(self, 'patterns') and self.patterns is not None:
-            _dict['patterns'] = self.patterns
-        if hasattr(self, 'value_type') and self.value_type is not None:
-            _dict['type'] = self.value_type
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ValueExport object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class Workspace(object):
     """
     Workspace.
@@ -4875,6 +4347,561 @@ class WorkspaceCollection(object):
 
     def __str__(self):
         """Return a `str` version of this WorkspaceCollection object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class EntityExport(object):
+    """
+    EntityExport.
+
+    :attr str entity_name: The name of the entity.
+    :attr datetime created: The timestamp for creation of the entity.
+    :attr datetime updated: The timestamp for the last update to the entity.
+    :attr str description: (optional) The description of the entity.
+    :attr object metadata: (optional) Any metadata related to the entity.
+    :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
+    :attr list[ValueExport] values: (optional) An array of entity values.
+    """
+
+    def __init__(self,
+                 entity_name,
+                 created,
+                 updated,
+                 description=None,
+                 metadata=None,
+                 fuzzy_match=None,
+                 values=None):
+        """
+        Initialize a EntityExport object.
+
+        :param str entity_name: The name of the entity.
+        :param datetime created: The timestamp for creation of the entity.
+        :param datetime updated: The timestamp for the last update to the entity.
+        :param str description: (optional) The description of the entity.
+        :param object metadata: (optional) Any metadata related to the entity.
+        :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
+        :param list[ValueExport] values: (optional) An array of entity values.
+        """
+        self.entity_name = entity_name
+        self.created = created
+        self.updated = updated
+        self.description = description
+        self.metadata = metadata
+        self.fuzzy_match = fuzzy_match
+        self.values = values
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EntityExport object from a json dictionary."""
+        args = {}
+        if 'entity' in _dict:
+            args['entity_name'] = _dict['entity']
+        else:
+            raise ValueError(
+                'Required property \'entity\' not present in EntityExport JSON')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict['created'])
+        else:
+            raise ValueError(
+                'Required property \'created\' not present in EntityExport JSON'
+            )
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict['updated'])
+        else:
+            raise ValueError(
+                'Required property \'updated\' not present in EntityExport JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict['description']
+        if 'metadata' in _dict:
+            args['metadata'] = _dict['metadata']
+        if 'fuzzy_match' in _dict:
+            args['fuzzy_match'] = _dict['fuzzy_match']
+        if 'values' in _dict:
+            args['values'] = [
+                ValueExport._from_dict(x) for x in _dict['values']
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'entity_name') and self.entity_name is not None:
+            _dict['entity'] = self.entity_name
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
+            _dict['fuzzy_match'] = self.fuzzy_match
+        if hasattr(self, 'values') and self.values is not None:
+            _dict['values'] = [x._to_dict() for x in self.values]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this EntityExport object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class IntentExport(object):
+    """
+    IntentExport.
+
+    :attr str intent_name: The name of the intent.
+    :attr datetime created: The timestamp for creation of the intent.
+    :attr datetime updated: The timestamp for the last update to the intent.
+    :attr str description: (optional) The description of the intent.
+    :attr list[Example] examples: (optional) An array of user input examples.
+    """
+
+    def __init__(self,
+                 intent_name,
+                 created,
+                 updated,
+                 description=None,
+                 examples=None):
+        """
+        Initialize a IntentExport object.
+
+        :param str intent_name: The name of the intent.
+        :param datetime created: The timestamp for creation of the intent.
+        :param datetime updated: The timestamp for the last update to the intent.
+        :param str description: (optional) The description of the intent.
+        :param list[Example] examples: (optional) An array of user input examples.
+        """
+        self.intent_name = intent_name
+        self.created = created
+        self.updated = updated
+        self.description = description
+        self.examples = examples
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a IntentExport object from a json dictionary."""
+        args = {}
+        if 'intent' in _dict:
+            args['intent_name'] = _dict['intent']
+        else:
+            raise ValueError(
+                'Required property \'intent\' not present in IntentExport JSON')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict['created'])
+        else:
+            raise ValueError(
+                'Required property \'created\' not present in IntentExport JSON'
+            )
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict['updated'])
+        else:
+            raise ValueError(
+                'Required property \'updated\' not present in IntentExport JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict['description']
+        if 'examples' in _dict:
+            args['examples'] = [
+                Example._from_dict(x) for x in _dict['examples']
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'intent_name') and self.intent_name is not None:
+            _dict['intent'] = self.intent_name
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'examples') and self.examples is not None:
+            _dict['examples'] = [x._to_dict() for x in self.examples]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this IntentExport object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogExport(object):
+    """
+    LogExport.
+
+    :attr MessageRequest request: A request formatted for the Conversation service.
+    :attr MessageResponse response: A response from the Conversation service.
+    :attr str log_id: A unique identifier for the logged message.
+    :attr str request_timestamp: The timestamp for receipt of the message.
+    :attr str response_timestamp: The timestamp for the system response to the message.
+    :attr str workspace_id: The workspace ID.
+    :attr str language: The language of the workspace where the message request was made.
+    """
+
+    def __init__(self, request, response, log_id, request_timestamp,
+                 response_timestamp, workspace_id, language):
+        """
+        Initialize a LogExport object.
+
+        :param MessageRequest request: A request formatted for the Conversation service.
+        :param MessageResponse response: A response from the Conversation service.
+        :param str log_id: A unique identifier for the logged message.
+        :param str request_timestamp: The timestamp for receipt of the message.
+        :param str response_timestamp: The timestamp for the system response to the message.
+        :param str workspace_id: The workspace ID.
+        :param str language: The language of the workspace where the message request was made.
+        """
+        self.request = request
+        self.response = response
+        self.log_id = log_id
+        self.request_timestamp = request_timestamp
+        self.response_timestamp = response_timestamp
+        self.workspace_id = workspace_id
+        self.language = language
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogExport object from a json dictionary."""
+        args = {}
+        if 'request' in _dict:
+            args['request'] = MessageRequest._from_dict(_dict['request'])
+        else:
+            raise ValueError(
+                'Required property \'request\' not present in LogExport JSON')
+        if 'response' in _dict:
+            args['response'] = MessageResponse._from_dict(_dict['response'])
+        else:
+            raise ValueError(
+                'Required property \'response\' not present in LogExport JSON')
+        if 'log_id' in _dict:
+            args['log_id'] = _dict['log_id']
+        else:
+            raise ValueError(
+                'Required property \'log_id\' not present in LogExport JSON')
+        if 'request_timestamp' in _dict:
+            args['request_timestamp'] = _dict['request_timestamp']
+        else:
+            raise ValueError(
+                'Required property \'request_timestamp\' not present in LogExport JSON'
+            )
+        if 'response_timestamp' in _dict:
+            args['response_timestamp'] = _dict['response_timestamp']
+        else:
+            raise ValueError(
+                'Required property \'response_timestamp\' not present in LogExport JSON'
+            )
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict['workspace_id']
+        else:
+            raise ValueError(
+                'Required property \'workspace_id\' not present in LogExport JSON'
+            )
+        if 'language' in _dict:
+            args['language'] = _dict['language']
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in LogExport JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'request') and self.request is not None:
+            _dict['request'] = self.request._to_dict()
+        if hasattr(self, 'response') and self.response is not None:
+            _dict['response'] = self.response._to_dict()
+        if hasattr(self, 'log_id') and self.log_id is not None:
+            _dict['log_id'] = self.log_id
+        if hasattr(self,
+                   'request_timestamp') and self.request_timestamp is not None:
+            _dict['request_timestamp'] = self.request_timestamp
+        if hasattr(
+                self,
+                'response_timestamp') and self.response_timestamp is not None:
+            _dict['response_timestamp'] = self.response_timestamp
+        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
+            _dict['workspace_id'] = self.workspace_id
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this LogExport object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageResponse(object):
+    """
+    A response from the Conversation service.
+
+    :attr MessageInput input: (optional) The user input from the request.
+    :attr list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
+    :attr list[RuntimeEntity] entities: An array of entities identified in the user input.
+    :attr bool alternate_intents: (optional) Whether to return more than one intent. `true` indicates that all matching intents are returned.
+    :attr Context context: State information for the conversation.
+    :attr OutputData output: Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.
+    """
+
+    def __init__(self,
+                 intents,
+                 entities,
+                 context,
+                 output,
+                 input=None,
+                 alternate_intents=None,
+                 **kwargs):
+        """
+        Initialize a MessageResponse object.
+
+        :param list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
+        :param list[RuntimeEntity] entities: An array of entities identified in the user input.
+        :param Context context: State information for the conversation.
+        :param OutputData output: Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.
+        :param MessageInput input: (optional) The user input from the request.
+        :param bool alternate_intents: (optional) Whether to return more than one intent. `true` indicates that all matching intents are returned.
+        :param **kwargs: (optional) Any additional properties.
+        """
+        self.input = input
+        self.intents = intents
+        self.entities = entities
+        self.alternate_intents = alternate_intents
+        self.context = context
+        self.output = output
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageResponse object from a json dictionary."""
+        args = {}
+        xtra = _dict.copy()
+        if 'input' in _dict:
+            args['input'] = MessageInput._from_dict(_dict['input'])
+            del xtra['input']
+        if 'intents' in _dict:
+            args['intents'] = [
+                RuntimeIntent._from_dict(x) for x in _dict['intents']
+            ]
+            del xtra['intents']
+        else:
+            raise ValueError(
+                'Required property \'intents\' not present in MessageResponse JSON'
+            )
+        if 'entities' in _dict:
+            args['entities'] = [
+                RuntimeEntity._from_dict(x) for x in _dict['entities']
+            ]
+            del xtra['entities']
+        else:
+            raise ValueError(
+                'Required property \'entities\' not present in MessageResponse JSON'
+            )
+        if 'alternate_intents' in _dict:
+            args['alternate_intents'] = _dict['alternate_intents']
+            del xtra['alternate_intents']
+        if 'context' in _dict:
+            args['context'] = Context._from_dict(_dict['context'])
+            del xtra['context']
+        else:
+            raise ValueError(
+                'Required property \'context\' not present in MessageResponse JSON'
+            )
+        if 'output' in _dict:
+            args['output'] = OutputData._from_dict(_dict['output'])
+            del xtra['output']
+        else:
+            raise ValueError(
+                'Required property \'output\' not present in MessageResponse JSON'
+            )
+        args.update(xtra)
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input') and self.input is not None:
+            _dict['input'] = self.input._to_dict()
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self,
+                   'alternate_intents') and self.alternate_intents is not None:
+            _dict['alternate_intents'] = self.alternate_intents
+        if hasattr(self, 'context') and self.context is not None:
+            _dict['context'] = self.context._to_dict()
+        if hasattr(self, 'output') and self.output is not None:
+            _dict['output'] = self.output._to_dict()
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
+        return _dict
+
+    def __setattr__(self, name, value):
+        properties = {
+            'input', 'intents', 'entities', 'alternate_intents', 'context',
+            'output'
+        }
+        if not hasattr(self, '_additionalProperties'):
+            super(MessageResponse, self).__setattr__('_additionalProperties',
+                                                     set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(MessageResponse, self).__setattr__(name, value)
+
+    def __str__(self):
+        """Return a `str` version of this MessageResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ValueExport(object):
+    """
+    ValueExport.
+
+    :attr str value_text: The text of the entity value.
+    :attr object metadata: (optional) Any metadata related to the entity value.
+    :attr datetime created: The timestamp for creation of the entity value.
+    :attr datetime updated: The timestamp for the last update to the entity value.
+    :attr list[str] synonyms: (optional) An array of synonyms.
+    :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
+    :attr str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+    """
+
+    def __init__(self,
+                 value_text,
+                 created,
+                 updated,
+                 value_type,
+                 metadata=None,
+                 synonyms=None,
+                 patterns=None):
+        """
+        Initialize a ValueExport object.
+
+        :param str value_text: The text of the entity value.
+        :param datetime created: The timestamp for creation of the entity value.
+        :param datetime updated: The timestamp for the last update to the entity value.
+        :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param object metadata: (optional) Any metadata related to the entity value.
+        :param list[str] synonyms: (optional) An array of synonyms.
+        :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
+        """
+        self.value_text = value_text
+        self.metadata = metadata
+        self.created = created
+        self.updated = updated
+        self.synonyms = synonyms
+        self.patterns = patterns
+        self.value_type = value_type
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ValueExport object from a json dictionary."""
+        args = {}
+        if 'value' in _dict:
+            args['value_text'] = _dict['value']
+        else:
+            raise ValueError(
+                'Required property \'value\' not present in ValueExport JSON')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict['metadata']
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict['created'])
+        else:
+            raise ValueError(
+                'Required property \'created\' not present in ValueExport JSON')
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict['updated'])
+        else:
+            raise ValueError(
+                'Required property \'updated\' not present in ValueExport JSON')
+        if 'synonyms' in _dict:
+            args['synonyms'] = _dict['synonyms']
+        if 'patterns' in _dict:
+            args['patterns'] = _dict['patterns']
+        if 'type' in _dict:
+            args['value_type'] = _dict['type']
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in ValueExport JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'value_text') and self.value_text is not None:
+            _dict['value'] = self.value_text
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'synonyms') and self.synonyms is not None:
+            _dict['synonyms'] = self.synonyms
+        if hasattr(self, 'patterns') and self.patterns is not None:
+            _dict['patterns'] = self.patterns
+        if hasattr(self, 'value_type') and self.value_type is not None:
+            _dict['type'] = self.value_type
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ValueExport object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
