@@ -127,7 +127,7 @@ def _convert_boolean_values(dictionary):
 class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
-                 x_watson_learning_opt_out=False):
+                 x_watson_learning_opt_out=False, http_config=http_config):
         """
         Loads credentials from the VCAP_SERVICES environment variable if
         available, preferring credentials explicitly
@@ -143,6 +143,7 @@ class WatsonService(object):
         self.username = None
         self.password = None
         self.default_headers = None
+        self.http_config = http_config
 
         user_agent_string = 'watson-apis-python-sdk-' + __version__ # SDK version
         user_agent_string += ' ' + platform.system() # OS
@@ -385,6 +386,7 @@ class WatsonService(object):
                                     cookies=self.jar, auth=auth,
                                     headers=headers,
                                     params=params, data=data, files=files,
+                                    **self.http_config,
                                     **kwargs)
 
         if 200 <= response.status_code <= 299:
