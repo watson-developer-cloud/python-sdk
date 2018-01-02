@@ -1,7 +1,8 @@
 # coding=utf-8
 import json
-
+import pytest
 from watson_developer_cloud import WatsonService
+from watson_developer_cloud import NaturalLanguageUnderstandingV1
 
 import responses
 
@@ -34,6 +35,10 @@ class AnyServiceV1(WatsonService):
             method='GET', url=url, params=params, accept_json=True)
         return response
 
+    def with_http_config(self, http_config):
+        self.set_http_config(http_config)
+        response = self.request(method='GET', url='', accept_json=True)
+        return response
 
 @responses.activate
 def test_url_encoding():
@@ -61,3 +66,22 @@ def test_url_encoding():
     assert len(responses.calls) == 1
     assert path_encoded in responses.calls[0].request.url
     assert 'version=2017-07-07' in responses.calls[0].request.url
+
+@responses.activate
+def test_http_config():
+    service = AnyServiceV1('2017-07-07', username='username', password='password')
+    responses.add(responses.GET,
+                  service.default_url,
+                  status=200,
+                  body=json.dumps({"foobar": "baz"}),
+                  content_type='application/json')
+
+    response = service.with_http_config({'timeout': 100})
+    assert response is not None
+    assert len(responses.calls) == 1
+
+@responses.activate
+def test_fail_http_config():
+    service = AnyServiceV1('2017-07-07', username='username', password='password')
+    with pytest.raises(TypeError):
+        service.with_http_config(None)
