@@ -2,7 +2,6 @@
 import json
 import pytest
 from watson_developer_cloud import WatsonService
-from watson_developer_cloud import NaturalLanguageUnderstandingV1
 
 import responses
 
