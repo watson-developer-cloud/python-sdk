@@ -39,7 +39,7 @@ try:
         return convert(f, 'rst')
 
     # read_md = lambda f: convert(f, 'rst')
-except ImportError:
+except:
     print('warning: pypandoc module not found, '
           'could not convert Markdown to RST')
 
