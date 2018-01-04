@@ -1264,6 +1264,24 @@ marked as irrelevant input.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CaptureGroup">
+<em class="property">class </em><code class="descname">CaptureGroup</code><span class="sig-paren">(</span><em>group</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CaptureGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CaptureGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>CaptureGroup.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str group:</th><td class="field-body">A recognized capture group for the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[int] location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Zero-based character offsets that indicate where the entity value begins and ends in the input text.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.Context">
 <em class="property">class </em><code class="descname">Context</code><span class="sig-paren">(</span><em>conversation_id</em>, <em>system</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Context" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -1663,6 +1681,40 @@ maintain state for the conversation.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.EntityExport">
+<em class="property">class </em><code class="descname">EntityExport</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em>, <em>values=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#EntityExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.EntityExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>EntityExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str entity_name:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool fuzzy_match:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether fuzzy matching is used for the entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ValueExport] values:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of entity values.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.Example">
 <em class="property">class </em><code class="descname">Example</code><span class="sig-paren">(</span><em>example_text</em>, <em>created</em>, <em>updated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -1763,6 +1815,34 @@ maintain state for the conversation.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.IntentExport">
+<em class="property">class </em><code class="descname">IntentExport</code><span class="sig-paren">(</span><em>intent_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#IntentExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.IntentExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>IntentExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str intent_name:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the intent.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the intent.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the intent.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the intent.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Example] examples:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of user input examples.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.LogCollection">
 <em class="property">class </em><code class="descname">LogCollection</code><span class="sig-paren">(</span><em>logs</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#LogCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.LogCollection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -1776,6 +1856,40 @@ maintain state for the conversation.</p>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr LogPagination pagination:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">An object defining the pagination data for the returned objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.LogExport">
+<em class="property">class </em><code class="descname">LogExport</code><span class="sig-paren">(</span><em>request</em>, <em>response</em>, <em>log_id</em>, <em>request_timestamp</em>, <em>response_timestamp</em>, <em>workspace_id</em>, <em>language</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#LogExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.LogExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>LogExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr MessageRequest request:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A request formatted for the Conversation service.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr MessageResponse response:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A response from the Conversation service.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str log_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A unique identifier for the logged message.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str request_timestamp:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for receipt of the message.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str response_timestamp:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the system response to the message.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str workspace_id:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The workspace ID.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str language:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The language of the workspace where the message request was made.</td>
 </tr>
 </tbody>
 </table>
@@ -1864,6 +1978,37 @@ maintain state for the conversation.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.MessageResponse">
+<em class="property">class </em><code class="descname">MessageResponse</code><span class="sig-paren">(</span><em>intents</em>, <em>entities</em>, <em>context</em>, <em>output</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#MessageResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.MessageResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>A response from the Conversation service.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr MessageInput input:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The user input from the request.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[RuntimeIntent] intents:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of intents recognized in the user input, sorted in descending order of confidence.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[RuntimeEntity] entities:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of entities identified in the user input.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool alternate_intents:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether to return more than one intent. <cite>true</cite> indicates that all matching intents are returned.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr Context context:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">State information for the conversation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr OutputData output:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.OutputData">
 <em class="property">class </em><code class="descname">OutputData</code><span class="sig-paren">(</span><em>log_messages</em>, <em>text</em>, <em>nodes_visited=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#OutputData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.OutputData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -1912,7 +2057,7 @@ messages from the log.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.RuntimeEntity">
-<em class="property">class </em><code class="descname">RuntimeEntity</code><span class="sig-paren">(</span><em>entity</em>, <em>location</em>, <em>value</em>, <em>confidence=None</em>, <em>metadata=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#RuntimeEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.RuntimeEntity" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">RuntimeEntity</code><span class="sig-paren">(</span><em>entity</em>, <em>location</em>, <em>value</em>, <em>confidence=None</em>, <em>metadata=None</em>, <em>groups=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#RuntimeEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.RuntimeEntity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>A term from the request that was identified as an entity.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1932,6 +2077,9 @@ messages from the log.</p>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The metadata for the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[CaptureGroup] groups:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The recognized capture groups for the entity, as defined by the entity pattern.</td>
 </tr>
 </tbody>
 </table>
@@ -2058,6 +2206,40 @@ messages from the log.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.ValueExport">
+<em class="property">class </em><code class="descname">ValueExport</code><span class="sig-paren">(</span><em>value_text</em>, <em>created</em>, <em>updated</em>, <em>value_type</em>, <em>metadata=None</em>, <em>synonyms=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ValueExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ValueExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>ValueExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str value_text:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the entity value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity value.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for creation of the entity value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity value.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] synonyms:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of synonyms for the entity value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] patterns:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of patterns for the entity value. A pattern is specified as a regular expression.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str value_type:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Specifies the type of value (<cite>synonyms</cite> or <cite>patterns</cite>). The default value is <cite>synonyms</cite>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.Workspace">
 <em class="property">class </em><code class="descname">Workspace</code><span class="sig-paren">(</span><em>name</em>, <em>language</em>, <em>created</em>, <em>updated</em>, <em>workspace_id</em>, <em>description=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -2107,167 +2289,6 @@ messages from the log.</p>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr Pagination pagination:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">An object defining the pagination data for the returned objects.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="watson_developer_cloud.conversation_v1.EntityExport">
-<em class="property">class </em><code class="descname">EntityExport</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em>, <em>values=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#EntityExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.EntityExport" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>EntityExport.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str entity_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the entity.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the entity.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the entity.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr bool fuzzy_match:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether fuzzy matching is used for the entity.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ValueExport] values:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of entity values.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="watson_developer_cloud.conversation_v1.IntentExport">
-<em class="property">class </em><code class="descname">IntentExport</code><span class="sig-paren">(</span><em>intent_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#IntentExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.IntentExport" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>IntentExport.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str intent_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the intent.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the intent.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the intent.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the intent.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Example] examples:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of user input examples.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="watson_developer_cloud.conversation_v1.LogExport">
-<em class="property">class </em><code class="descname">LogExport</code><span class="sig-paren">(</span><em>request</em>, <em>response</em>, <em>log_id</em>, <em>request_timestamp</em>, <em>response_timestamp</em>, <em>workspace_id</em>, <em>language</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#LogExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.LogExport" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>LogExport.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr MessageRequest request:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">A request formatted for the Conversation service.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr MessageResponse response:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">A response from the Conversation service.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str log_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">A unique identifier for the logged message.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str request_timestamp:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for receipt of the message.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str response_timestamp:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the system response to the message.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str workspace_id:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The workspace ID.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str language:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The language of the workspace where the message request was made.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="watson_developer_cloud.conversation_v1.MessageResponse">
-<em class="property">class </em><code class="descname">MessageResponse</code><span class="sig-paren">(</span><em>intents</em>, <em>entities</em>, <em>context</em>, <em>output</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#MessageResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.MessageResponse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>A response from the Conversation service.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr MessageInput input:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The user input from the request.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[RuntimeIntent] intents:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of intents recognized in the user input, sorted in descending order of confidence.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[RuntimeEntity] entities:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of entities identified in the user input.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr bool alternate_intents:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether to return more than one intent. <cite>true</cite> indicates that all matching intents are returned.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr Context context:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">State information for the conversation.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr OutputData output:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="watson_developer_cloud.conversation_v1.ValueExport">
-<em class="property">class </em><code class="descname">ValueExport</code><span class="sig-paren">(</span><em>value_text</em>, <em>created</em>, <em>updated</em>, <em>value_type</em>, <em>metadata=None</em>, <em>synonyms=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ValueExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ValueExport" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>ValueExport.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str value_text:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the entity value.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity value.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for creation of the entity value.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity value.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] synonyms:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of synonyms.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] patterns:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of patterns for the entity value. A pattern is specified as a regular expression.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str value_type:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">Specifies the type of value (<cite>synonyms</cite> or <cite>patterns</cite>). The default value is <cite>synonyms</cite>.</td>
 </tr>
 </tbody>
 </table>
