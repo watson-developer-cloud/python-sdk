@@ -1,13 +1,6 @@
 watson\_developer\_cloud\.natural\_language\_understanding package
 ==================================================================
 
-Subpackages
------------
-
-.. toctree::
-
-    watson_developer_cloud.natural_language_understanding.features
-
 Module contents
 ---------------
 

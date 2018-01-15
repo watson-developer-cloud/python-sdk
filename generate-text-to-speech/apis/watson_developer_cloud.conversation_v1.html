@@ -227,7 +227,7 @@ objects defining the content of the updated workspace.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Unique identifier of the workspace.</li>
-<li><strong>input</strong> (<em>JSON</em>) – A JSON object that includes the input text in the field ‘text’ (for example: {“text”: “Hi!”})</li>
+<li><strong>input</strong> (<a class="reference internal" href="#watson_developer_cloud.conversation_v1.InputData" title="watson_developer_cloud.conversation_v1.InputData"><em>InputData</em></a>) – An input object that includes the input text.</li>
 <li><strong>alternate_intents</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Whether to return more than one intent. Set to <cite>true</cite> to return all matching intents.</li>
 <li><strong>context</strong> (<a class="reference internal" href="#watson_developer_cloud.conversation_v1.Context" title="watson_developer_cloud.conversation_v1.Context"><em>Context</em></a>) – State information for the conversation. Continue a conversation by including the context object from the previous response.</li>
 <li><strong>entities</strong> (<em>list</em><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.RuntimeEntity" title="watson_developer_cloud.conversation_v1.RuntimeEntity"><em>RuntimeEntity</em></a><em>]</em>) – Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.</li>
@@ -1076,6 +1076,33 @@ defining the content of the updated intent.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_all_logs">
+<code class="descname">list_all_logs</code><span class="sig-paren">(</span><em>filter</em>, <em>sort=None</em>, <em>page_limit=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_all_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_all_logs" title="Permalink to this definition">¶</a></dt>
+<dd><p>List log events in all workspaces.</p>
+<p>List log events in all workspaces in the service instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filter</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – A cacheable parameter that limits the results to those matching the specified filter. You must specify a filter query that includes a value for <cite>language</cite>, as well as a value for <cite>workspace_id</cite> or <cite>request.context.metadata.deployment</cite>. For more information, see the [documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax">https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax</a>).</li>
+<li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
+<li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – The number of records to return in each page of results. The default page limit is 100.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>LogCollection</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_logs">
 <code class="descname">list_logs</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>sort=None</em>, <em>filter=None</em>, <em>page_limit=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_logs" title="Permalink to this definition">¶</a></dt>
 <dd><p>List log events in a workspace.</p>
@@ -1234,6 +1261,24 @@ marked as irrelevant input.</p>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CaptureGroup">
+<em class="property">class </em><code class="descname">CaptureGroup</code><span class="sig-paren">(</span><em>group</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CaptureGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CaptureGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>CaptureGroup.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str group:</th><td class="field-body">A recognized capture group for the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[int] location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Zero-based character offsets that indicate where the entity value begins and ends in the input text.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -2012,7 +2057,7 @@ messages from the log.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.RuntimeEntity">
-<em class="property">class </em><code class="descname">RuntimeEntity</code><span class="sig-paren">(</span><em>entity</em>, <em>location</em>, <em>value</em>, <em>confidence=None</em>, <em>metadata=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#RuntimeEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.RuntimeEntity" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">RuntimeEntity</code><span class="sig-paren">(</span><em>entity</em>, <em>location</em>, <em>value</em>, <em>confidence=None</em>, <em>metadata=None</em>, <em>groups=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#RuntimeEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.RuntimeEntity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>A term from the request that was identified as an entity.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2032,6 +2077,9 @@ messages from the log.</p>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The metadata for the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[CaptureGroup] groups:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The recognized capture groups for the entity, as defined by the entity pattern.</td>
 </tr>
 </tbody>
 </table>
@@ -2179,7 +2227,7 @@ messages from the log.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity value.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] synonyms:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of synonyms.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of synonyms for the entity value.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] patterns:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of patterns for the entity value. A pattern is specified as a regular expression.</td>

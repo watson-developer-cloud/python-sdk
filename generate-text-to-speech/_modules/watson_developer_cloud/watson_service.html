@@ -185,6 +185,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http_config</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="n">user_agent_string</span> <span class="o">=</span> <span class="s1">&#39;watson-apis-python-sdk-&#39;</span> <span class="o">+</span> <span class="n">__version__</span> <span class="c1"># SDK version</span>
         <span class="n">user_agent_string</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="c1"># OS</span>
@@ -253,6 +254,15 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="o">=</span> <span class="n">headers</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;headers parameter must be a dictionary&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WatsonService.set_http_config"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.set_http_config">[docs]</a>    <span class="k">def</span> <span class="nf">set_http_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the http client config like timeout, proxies, etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">http_config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">http_config</span> <span class="o">=</span> <span class="n">http_config</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;http_config parameter must be a dictionary&quot;</span><span class="p">)</span></div>
 
     <span class="c1"># Could make this compute the label_id based on the variable name of the</span>
     <span class="c1"># dictionary passed in (using **kwargs), but</span>
@@ -423,6 +433,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">params</span><span class="p">[</span><span class="s1">&#39;api_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span>
 
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">http_config</span><span class="p">)</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">full_url</span><span class="p">,</span>
                                     <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">jar</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span>
                                     <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
