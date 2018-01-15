@@ -754,6 +754,77 @@ def test_list_logs():
     assert responses.calls[0].request.url.startswith(url)
     assert logs == response
 
+@responses.activate
+def test_list_all_logs():
+    endpoint = '/v1/logs'
+    url = '{0}{1}'.format(base_url, endpoint)
+    response = {
+        "logs": [{
+            "request": {
+                "input": {
+                    "text": "Good morning"
+                },
+                "context": {
+                    "metadata": {
+                        "deployment": "deployment_1"
+                    }
+                }
+            },
+            "response": {
+                "intents": [{
+                    "intent": "hello",
+                    "confidence": 1
+                }],
+                "entities": [],
+                "input": {
+                    "text": "Good morning"
+                },
+                "output": {
+                    "text": ["Hi! What can I do for you?"],
+                    "nodes_visited": ["node_2_1501875253968"],
+                    "log_messages": []
+                },
+                "context": {
+                    "metadata": {
+                        "deployment": "deployment_1"
+                    },
+                    "conversation_id": "81a43b48-7dca-4a7d-a0d7-6fed03fcee69",
+                    "system": {
+                        "dialog_stack": [{
+                            "dialog_node": "root"
+                        }],
+                        "dialog_turn_counter": 1,
+                        "dialog_request_counter": 1,
+                        "_node_output_map": {
+                            "node_2_1501875253968": [0]
+                        },
+                        "branch_exited": True,
+                        "branch_exited_reason": "completed"
+                    }
+                }
+            },
+            "language": "en",
+            "workspace_id": "9978a49e-ea89-4493-b33d-82298d3db20d",
+            "request_timestamp": "2017-09-13T19:52:32.611Z",
+            "response_timestamp": "2017-09-13T19:52:32.628Z",
+            "log_id": "aa886a8a-bac5-4b91-8323-2fd61a69c9d3"
+        }],
+        "pagination": {}
+    }
+    responses.add(
+        responses.GET,
+        url,
+        body=json.dumps(response),
+        status=200,
+        content_type='application/json')
+    service = watson_developer_cloud.ConversationV1(
+        username='username', password='password', version='2017-04-21')
+    logs = service.list_all_logs(
+        'language::en,request.context.metadata.deployment::deployment_1')
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.url.startswith(url)
+    assert logs == response
+
 
 #########################
 # message

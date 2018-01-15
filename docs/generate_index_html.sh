@@ -17,8 +17,8 @@ echo '<!DOCTYPE html>
         <h1>IBM Watson Developer Cloud Python SDK</h1>
     </div>
 
-    <p><a href="http://www.ibm.com/watson/developercloud/">Info</a>
-        | <a href="http://www.ibm.com/watson/developercloud/doc/">Documentation</a>
+    <p><a href="https://www.ibm.com/watson/developer/">Info</a>
+        | <a href="https://console.bluemix.net/developer/watson/documentation">Documentation</a>
         | <a href="https://github.com/watson-developer-cloud/python-sdk">GitHub</a>
         | <a href="https://pypi.python.org/pypi/watson-developer-cloud">pypi</a>
     </p>

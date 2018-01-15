@@ -276,7 +276,7 @@ class ConversationV1(WatsonService):
         Get a response to a user's input.
 
         :param str workspace_id: Unique identifier of the workspace.
-        :param JSON input: A JSON object that includes the input text in the field 'text' (for example: {"text": "Hi!"})
+        :param InputData input: An input object that includes the input text.
         :param bool alternate_intents: Whether to return more than one intent. Set to `true` to return all matching intents.
         :param Context context: State information for the conversation. Continue a conversation by including the context object from the previous response.
         :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
@@ -1354,6 +1354,33 @@ class ConversationV1(WatsonService):
     # logs
     #########################
 
+    def list_all_logs(self, filter, sort=None, page_limit=None, cursor=None):
+        """
+        List log events in all workspaces.
+
+        List log events in all workspaces in the service instance.
+
+        :param str filter: A cacheable parameter that limits the results to those matching the specified filter. You must specify a filter query that includes a value for `language`, as well as a value for `workspace_id` or `request.context.metadata.deployment`. For more information, see the [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
+        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
+        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str cursor: A token identifying the last value from the previous page of results.
+        :return: A `dict` containing the `LogCollection` response.
+        :rtype: dict
+        """
+        if filter is None:
+            raise ValueError('filter must be provided')
+        params = {
+            'version': self.version,
+            'filter': filter,
+            'sort': sort,
+            'page_limit': page_limit,
+            'cursor': cursor
+        }
+        url = '/v1/logs'
+        response = self.request(
+            method='GET', url=url, params=params, accept_json=True)
+        return response
+
     def list_logs(self,
                   workspace_id,
                   sort=None,
@@ -1524,6 +1551,60 @@ class ConversationV1(WatsonService):
 ##############################################################################
 # Models
 ##############################################################################
+
+class CaptureGroup(object):
+    """
+    CaptureGroup.
+
+    :attr str group: A recognized capture group for the entity.
+    :attr list[int] location: (optional) Zero-based character offsets that indicate where the entity value begins and ends in the input text.
+    """
+
+    def __init__(self, group, location=None):
+        """
+        Initialize a CaptureGroup object.
+
+        :param str group: A recognized capture group for the entity.
+        :param list[int] location: (optional) Zero-based character offsets that indicate where the entity value begins and ends in the input text.
+        """
+        self.group = group
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CaptureGroup object from a json dictionary."""
+        args = {}
+        if 'group' in _dict:
+            args['group'] = _dict['group']
+        else:
+            raise ValueError(
+                'Required property \'group\' not present in CaptureGroup JSON')
+        if 'location' in _dict:
+            args['location'] = _dict['location']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'group') and self.group is not None:
+            _dict['group'] = self.group
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CaptureGroup object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class Context(object):
@@ -4060,6 +4141,7 @@ class RuntimeEntity(object):
     :attr str value: The term in the input text that was recognized.
     :attr float confidence: (optional) A decimal percentage that represents Watson's confidence in the entity.
     :attr object metadata: (optional) The metadata for the entity.
+    :attr list[CaptureGroup] groups: (optional) The recognized capture groups for the entity, as defined by the entity pattern.
     """
 
     def __init__(self,
@@ -4068,6 +4150,7 @@ class RuntimeEntity(object):
                  value,
                  confidence=None,
                  metadata=None,
+                 groups=None,
                  **kwargs):
         """
         Initialize a RuntimeEntity object.
@@ -4077,6 +4160,7 @@ class RuntimeEntity(object):
         :param str value: The term in the input text that was recognized.
         :param float confidence: (optional) A decimal percentage that represents Watson's confidence in the entity.
         :param object metadata: (optional) The metadata for the entity.
+        :param list[CaptureGroup] groups: (optional) The recognized capture groups for the entity, as defined by the entity pattern.
         :param **kwargs: (optional) Any additional properties.
         """
         self.entity = entity
@@ -4084,6 +4168,7 @@ class RuntimeEntity(object):
         self.value = value
         self.confidence = confidence
         self.metadata = metadata
+        self.groups = groups
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -4118,6 +4203,11 @@ class RuntimeEntity(object):
         if 'metadata' in _dict:
             args['metadata'] = _dict['metadata']
             del xtra['metadata']
+        if 'groups' in _dict:
+            args['groups'] = [
+                CaptureGroup._from_dict(x) for x in _dict['groups']
+            ]
+            del xtra['groups']
         args.update(xtra)
         return cls(**args)
 
@@ -4134,6 +4224,8 @@ class RuntimeEntity(object):
             _dict['confidence'] = self.confidence
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
+        if hasattr(self, 'groups') and self.groups is not None:
+            _dict['groups'] = [x._to_dict() for x in self.groups]
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -4142,7 +4234,9 @@ class RuntimeEntity(object):
         return _dict
 
     def __setattr__(self, name, value):
-        properties = {'entity', 'location', 'value', 'confidence', 'metadata'}
+        properties = {
+            'entity', 'location', 'value', 'confidence', 'metadata', 'groups'
+        }
         if not hasattr(self, '_additionalProperties'):
             super(RuntimeEntity, self).__setattr__('_additionalProperties',
                                                    set())
@@ -4609,7 +4703,7 @@ class ValueExport(object):
     :attr object metadata: (optional) Any metadata related to the entity value.
     :attr datetime created: The timestamp for creation of the entity value.
     :attr datetime updated: The timestamp for the last update to the entity value.
-    :attr list[str] synonyms: (optional) An array of synonyms.
+    :attr list[str] synonyms: (optional) An array of synonyms for the entity value.
     :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
     :attr str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
     """
@@ -4630,7 +4724,7 @@ class ValueExport(object):
         :param datetime updated: The timestamp for the last update to the entity value.
         :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
         :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array of synonyms.
+        :param list[str] synonyms: (optional) An array of synonyms for the entity value.
         :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
         """
         self.value_text = value_text

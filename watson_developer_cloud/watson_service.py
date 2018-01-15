@@ -143,6 +143,7 @@ class WatsonService(object):
         self.username = None
         self.password = None
         self.default_headers = None
+        self.http_config = {}
 
         user_agent_string = 'watson-apis-python-sdk-' + __version__ # SDK version
         user_agent_string += ' ' + platform.system() # OS
@@ -211,6 +212,15 @@ class WatsonService(object):
             self.default_headers = headers
         else:
             raise TypeError("headers parameter must be a dictionary")
+
+    def set_http_config(self, http_config):
+        """
+        Sets the http client config like timeout, proxies, etc.
+        """
+        if isinstance(http_config, dict):
+            self.http_config = http_config
+        else:
+            raise TypeError("http_config parameter must be a dictionary")
 
     # Could make this compute the label_id based on the variable name of the
     # dictionary passed in (using **kwargs), but
@@ -381,6 +391,7 @@ class WatsonService(object):
             else:
                 params['api_key'] = self.api_key
 
+        kwargs = dict(kwargs, **self.http_config)
         response = requests.request(method=method, url=full_url,
                                     cookies=self.jar, auth=auth,
                                     headers=headers,
