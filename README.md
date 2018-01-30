@@ -66,6 +66,22 @@ Version 1.0 focuses on the move to programmatically-generated code for many of t
 ## Migration
 This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
 
+## Configuring the http client
+To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs.
+
+```python
+from watson_developer_cloud import ConversationV1
+
+conversation = ConversationV1(
+    username='xxx',
+    password='yyy',
+    version='2017-04-21')
+
+conversation.set_http_config({'timeout': 100});
+response = conversation.message(workspace_id=workspace_id, input={
+    'text': 'What\'s the weather like?'})
+print(json.dumps(response, indent=2))
+```
 ## Known Issues
 
 See [issues](https://github.com/watson-developer-cloud/python-sdk/issues).
