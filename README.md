@@ -77,7 +77,7 @@ conversation = ConversationV1(
     password='yyy',
     version='2017-04-21')
 
-conversation.set_http_config({'timeout': 100});
+conversation.set_http_config({'timeout': 100})
 response = conversation.message(workspace_id=workspace_id, input={
     'text': 'What\'s the weather like?'})
 print(json.dumps(response, indent=2))
