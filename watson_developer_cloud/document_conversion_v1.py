@@ -16,19 +16,10 @@
 The v1 Document Conversion service
 (https://www.ibm.com/watson/developercloud/document-conversion.html)
 """
-import warnings
+from .utils import deprecated
 from .watson_service import WatsonService
 import os
 import json
-
-def deprecated(func):
-    def deprecated_func(*args, **kwargs):
-        warnings.warn("{} retired in  October 2017. To continue using document conversion capabilities, please use Watson Discovery.".format(func.__name__),
-                      category=DeprecationWarning,
-                      stacklevel=2)
-        warnings.simplefilter('default', DeprecationWarning)
-        return func(*args, **kwargs)
-    return deprecated_func
 
 class DocumentConversionV1(WatsonService):
     DEFAULT_URL = 'https://gateway.watsonplatform.net/document-conversion/api'
@@ -37,12 +28,12 @@ class DocumentConversionV1(WatsonService):
     NORMALIZED_TEXT = 'normalized_text'
     latest_version = '2016-02-10'
 
-    @deprecated
+    @deprecated("To continue using document conversion capabilities, please use Watson Discovery.")
     def __init__(self, version, url=DEFAULT_URL, **kwargs):
         WatsonService.__init__(self, 'document_conversion', url, **kwargs)
         self.version = version
 
-    @deprecated
+    @deprecated("To continue using document conversion capabilities, please use Watson Discovery.")
     def convert_document(self, document, config, media_type=None):
         params = {'version': self.version}
         filename = os.path.basename(document.name)
@@ -56,7 +47,7 @@ class DocumentConversionV1(WatsonService):
         return self.request(method='POST', url='/v1/convert_document',
                             files=files, params=params,
                             accept_json=accept_json)
-    @deprecated
+    @deprecated("To continue using document conversion capabilities, please use Watson Discovery.")
     def index_document(self, config, document=None, metadata=None,
                        media_type=None):
         if document is None and metadata is None:
