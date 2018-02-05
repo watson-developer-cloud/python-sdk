@@ -154,7 +154,8 @@ class PersonalityInsightsV3(WatsonService):
         headers = {
             'content-type': content_type,
             'Content-Language': content_language,
-            'Accept-Language': accept_language
+            'Accept-Language': accept_language,
+            'Accept': accept
         }
         params = {
             'version': self.version,
