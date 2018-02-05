@@ -62,6 +62,7 @@
 <span class="kn">from</span> <span class="nn">.watson_service</span> <span class="k">import</span> <span class="n">WatsonService</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="n">DEPRECATION_MESSAGE</span> <span class="o">=</span> <span class="s2">&quot;Since Document Conversion Service was retired in October 2017, we have continued to improve document conversion capabilities within Watson Discovery. If you are a Document Conversion user, get started with Discovery today. Refer to the migration guide: https://console.bluemix.net/docs/services/discovery/migrate-dcs-rr.html&quot;</span>
 
 <div class="viewcode-block" id="DocumentConversionV1"><a class="viewcode-back" href="../../apis/watson_developer_cloud.document_conversion_v1.html#watson_developer_cloud.document_conversion_v1.DocumentConversionV1">[docs]</a><span class="k">class</span> <span class="nc">DocumentConversionV1</span><span class="p">(</span><span class="n">WatsonService</span><span class="p">):</span>
     <span class="n">DEFAULT_URL</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/document-conversion/api&#39;</span>
@@ -70,12 +71,12 @@
     <span class="n">NORMALIZED_TEXT</span> <span class="o">=</span> <span class="s1">&#39;normalized_text&#39;</span>
     <span class="n">latest_version</span> <span class="o">=</span> <span class="s1">&#39;2016-02-10&#39;</span>
 
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;To continue using document conversion capabilities, please use Watson Discovery.&quot;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">DEPRECATION_MESSAGE</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">DEFAULT_URL</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">WatsonService</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;document_conversion&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
 
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;To continue using document conversion capabilities, please use Watson Discovery.&quot;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">DEPRECATION_MESSAGE</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">convert_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">media_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -89,7 +90,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;/v1/convert_document&#39;</span><span class="p">,</span>
                             <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
                             <span class="n">accept_json</span><span class="o">=</span><span class="n">accept_json</span><span class="p">)</span>
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;To continue using document conversion capabilities, please use Watson Discovery.&quot;</span><span class="p">)</span>
+    <span class="nd">@deprecated</span><span class="p">(</span><span class="n">DEPRECATION_MESSAGE</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">index_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">media_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">document</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
