@@ -182,8 +182,13 @@ voice, use the <cite>GET /v1/voices/{voice}</cite> method.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.voices">
+<code class="descname">voices</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.voices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.synthesize">
-<code class="descname">synthesize</code><span class="sig-paren">(</span><em>text</em>, <em>accept=None</em>, <em>accept2=None</em>, <em>voice=None</em>, <em>customization_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.synthesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.synthesize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">synthesize</code><span class="sig-paren">(</span><em>text</em>, <em>accept=None</em>, <em>voice=None</em>, <em>customization_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.synthesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.synthesize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Streaming speech synthesis of the text in the body parameter.</p>
 <p>Synthesizes text to spoken audio, returning the synthesized audio stream as an
 array of bytes. Identical to the <cite>GET</cite> method but passes longer text in the body
@@ -201,7 +206,6 @@ despite the warnings.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The text to synthesize.</li>
 <li><strong>accept</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The requested audio format (MIME type) of the audio. You can use this header or the <cite>accept</cite> query parameter to specify the audio format. (For the <cite>audio/l16</cite> format, you can optionally specify <cite>endianness=big-endian</cite> or <cite>endianness=little-endian</cite>; the default is little endian.).</li>
-<li><strong>accept2</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The requested audio format (MIME type) of the audio. You can use this query parameter or the <cite>Accept</cite> header to specify the audio format. (For the <cite>audio/l16</cite> format, you can optionally specify <cite>endianness=big-endian</cite> or <cite>endianness=little-endian</cite>; the default is little endian.).</li>
 <li><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The voice to use for synthesis. Retrieve available voices with the <cite>GET /v1/voices</cite> method.</li>
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The GUID of a custom voice model to use for the synthesis. If a custom voice model is specified, it is guaranteed to work only if it matches the language of the indicated voice. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to use the specified voice with no customization.</li>
 </ul>
@@ -249,6 +253,11 @@ voice model.   <strong>Note:</strong> This method is currently a beta release.</
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.pronunciation">
+<code class="descname">pronunciation</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.pronunciation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_voice_model">
 <code class="descname">create_voice_model</code><span class="sig-paren">(</span><em>name</em>, <em>language=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.create_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_voice_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new custom voice model.</p>
@@ -277,6 +286,11 @@ currently a beta release.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_customization">
+<code class="descname">create_customization</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_customization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_voice_model">
 <code class="descname">delete_voice_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_voice_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes a custom voice model.</p>
@@ -294,6 +308,11 @@ credentials for the instance of the service that owns a model to delete it.
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_customization">
+<code class="descname">delete_customization</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_customization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice_model">
@@ -321,6 +340,11 @@ currently a beta release.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_customization">
+<code class="descname">get_customization</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_customization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models">
 <code class="descname">list_voice_models</code><span class="sig-paren">(</span><em>language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_voice_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lists all available custom voice models for a language or for all languages.</p>
@@ -344,6 +368,11 @@ information about it.   <strong>Note:</strong> This method is currently a beta r
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.customizations">
+<code class="descname">customizations</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.customizations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.update_voice_model">
@@ -377,6 +406,11 @@ release.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.update_customization">
+<code class="descname">update_customization</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.update_customization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_word">
 <code class="descname">add_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em>, <em>translation</em>, <em>part_of_speech=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.add_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_word" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a word to a custom voice model.</p>
@@ -406,6 +440,11 @@ method is currently a beta release.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.set_customization_word">
+<code class="descname">set_customization_word</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.set_customization_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_words">
 <code class="descname">add_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>words</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.add_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds one or more words to a custom voice model.</p>
@@ -433,6 +472,11 @@ method is currently a beta release.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_customization_words">
+<code class="descname">add_customization_words</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_customization_words" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_word">
 <code class="descname">delete_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_word" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes a word from a custom voice model.</p>
@@ -455,6 +499,11 @@ owns a model to delete it.   <strong>Note:</strong> This method is currently a b
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_customization_word">
+<code class="descname">delete_customization_word</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_customization_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_word">
@@ -486,6 +535,11 @@ release.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_customization_word">
+<code class="descname">get_customization_word</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_customization_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_words">
 <code class="descname">list_words</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Queries details about the words in a custom voice model.</p>
@@ -507,6 +561,11 @@ currently a beta release.</p>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_customization_words">
+<code class="descname">get_customization_words</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_customization_words" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
