@@ -106,6 +106,7 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
@@ -187,6 +188,10 @@ class TextToSpeechV1(WatsonService):
         response = self.request(method='GET', url=url, accept_json=True)
         return response
 
+    @deprecated('Use list_voices() instead')
+    def voices(self):
+        return self.list_voices()
+
     #########################
     # synthesize
     #########################
@@ -194,7 +199,6 @@ class TextToSpeechV1(WatsonService):
     def synthesize(self,
                    text,
                    accept=None,
-                   accept2=None,
                    voice=None,
                    customization_id=None):
         """
@@ -212,7 +216,6 @@ class TextToSpeechV1(WatsonService):
 
         :param str text: The text to synthesize.
         :param str accept: The requested audio format (MIME type) of the audio. You can use this header or the `accept` query parameter to specify the audio format. (For the `audio/l16` format, you can optionally specify `endianness=big-endian` or `endianness=little-endian`; the default is little endian.).
-        :param str accept2: The requested audio format (MIME type) of the audio. You can use this query parameter or the `Accept` header to specify the audio format. (For the `audio/l16` format, you can optionally specify `endianness=big-endian` or `endianness=little-endian`; the default is little endian.).
         :param str voice: The voice to use for synthesis. Retrieve available voices with the `GET /v1/voices` method.
         :param str customization_id: The GUID of a custom voice model to use for the synthesis. If a custom voice model is specified, it is guaranteed to work only if it matches the language of the indicated voice. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to use the specified voice with no customization.
         :return: A `Response <Response>` object representing the response.
@@ -222,7 +225,6 @@ class TextToSpeechV1(WatsonService):
             raise ValueError('text must be provided')
         headers = {'Accept': accept}
         params = {
-            'accept': accept2,
             'voice': voice,
             'customization_id': customization_id
         }
@@ -235,6 +237,7 @@ class TextToSpeechV1(WatsonService):
             params=params,
             json=data,
             accept_json=False)
+
         return response
 
     #########################
@@ -275,6 +278,10 @@ class TextToSpeechV1(WatsonService):
             method='GET', url=url, params=params, accept_json=True)
         return response
 
+    @deprecated('Use get_pronunciation() instead')
+    def pronunciation(self, text, voice=None, pronunciation_format='ipa'):
+        return self.get_pronunciation(text, voice, pronunciation_format)
+
     #########################
     # customVoiceModels
     #########################
@@ -301,6 +308,10 @@ class TextToSpeechV1(WatsonService):
             method='POST', url=url, json=data, accept_json=True)
         return response
 
+    @deprecated('Use create_voice_model() instead.')
+    def create_customization(self, name, language=None, description=None):
+        return self.create_voice_model(name, language, description)
+
     def delete_voice_model(self, customization_id):
         """
         Deletes a custom voice model.
@@ -318,6 +329,10 @@ class TextToSpeechV1(WatsonService):
             *self._encode_path_vars(customization_id))
         self.request(method='DELETE', url=url, accept_json=True)
         return None
+
+    @deprecated('Use delete_voice_model() instead.')
+    def delete_customization(self, customization_id):
+        return self.delete_voice_model(customization_id)
 
     def get_voice_model(self, customization_id):
         """
@@ -342,6 +357,10 @@ class TextToSpeechV1(WatsonService):
         response = self.request(method='GET', url=url, accept_json=True)
         return response
 
+    @deprecated('Use get_voice_model instead.')
+    def get_customization(self, customization_id):
+        return self.get_voice_model(customization_id)
+
     def list_voice_models(self, language=None):
         """
         Lists all available custom voice models for a language or for all languages.
@@ -363,6 +382,10 @@ class TextToSpeechV1(WatsonService):
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
         return response
+
+    @deprecated('Use list_voice_models() instead.')
+    def customizations(self, language=None):
+        return self.list_voice_models(language)
 
     def update_voice_model(self,
                            customization_id,
@@ -396,6 +419,11 @@ class TextToSpeechV1(WatsonService):
             *self._encode_path_vars(customization_id))
         self.request(method='POST', url=url, json=data, accept_json=True)
         return None
+
+    @deprecated('Use update_voice_model() instead')
+    def update_customization(self, customization_id, name=None,
+                             description=None, words=None):
+        return self.update_voice_model(customization_id, name, description, words)
 
     #########################
     # customWords
@@ -431,6 +459,10 @@ class TextToSpeechV1(WatsonService):
         self.request(method='PUT', url=url, json=data, accept_json=True)
         return None
 
+    @deprecated('Use add_word() instead.')
+    def set_customization_word(self, customization_id, word, translation):
+        return self.add_word(customization_id, word, translation)
+
     def add_words(self, customization_id, words):
         """
         Adds one or more words to a custom voice model.
@@ -457,6 +489,10 @@ class TextToSpeechV1(WatsonService):
         self.request(method='POST', url=url, json=data, accept_json=True)
         return None
 
+    @deprecated('Use add_words() instead.')
+    def add_customization_words(self, customization_id, words):
+        return self.add_words(customization_id, words)
+
     def delete_word(self, customization_id, word):
         """
         Deletes a word from a custom voice model.
@@ -477,6 +513,10 @@ class TextToSpeechV1(WatsonService):
             customization_id, word))
         self.request(method='DELETE', url=url, accept_json=True)
         return None
+
+    @deprecated('Use delete_word() instead.')
+    def delete_customization_word(self, customization_id, word):
+        return self.delete_word(customization_id, word)
 
     def get_word(self, customization_id, word):
         """
@@ -502,6 +542,10 @@ class TextToSpeechV1(WatsonService):
         response = self.request(method='GET', url=url, accept_json=True)
         return response
 
+    @deprecated('Use get_word() instead.')
+    def get_customization_word(self, customization_id, word):
+        return self.get_word(customization_id, word)
+
     def list_words(self, customization_id):
         """
         Queries details about the words in a custom voice model.
@@ -522,6 +566,10 @@ class TextToSpeechV1(WatsonService):
             *self._encode_path_vars(customization_id))
         response = self.request(method='GET', url=url, accept_json=True)
         return response
+
+    @deprecated('Use list_words() instead.')
+    def get_customization_words(self, customization_id):
+        return self.list_words(customization_id)
 
 
 ##############################################################################
