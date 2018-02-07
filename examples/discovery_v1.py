@@ -11,9 +11,7 @@ discovery = DiscoveryV1(
 environments = discovery.list_environments()
 print(json.dumps(environments, indent=2))
 
-news_environments = [x for x in environments['environments'] if
-                     x['name'] == 'Watson News Environment']
-news_environment_id = news_environments[0]['environment_id']
+news_environment_id = 'system'
 print(json.dumps(news_environment_id, indent=2))
 
 collections = discovery.list_collections(news_environment_id)
