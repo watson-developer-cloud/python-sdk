@@ -1,5 +1,5 @@
 ## Examples
-To run the examples, you will need the `username` and `password` credentials and the `url`. To get your service credentials, follow these steps:
+To run the examples, you will need a `username`, `password`, and `url`. To get your service credentials, follow these steps:
  1. Log in to IBM Cloud at https://console.bluemix.net.
 
  1. Create an instance of the service:
