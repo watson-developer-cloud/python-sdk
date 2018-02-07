@@ -51,7 +51,7 @@ To create an instance of the service:
 
 To get your service credentials:
 
-Copy your credentials from the **Service details** page. To find the the Service details page for an existing service, navigate to your Bluemix dashboard and click the service name.
+Copy your credentials from the **Service details** page. To find the the Service details page for an existing service, navigate to your IBM Cloud dashboard and click the service name.
 
 1. On the **Service Details** page, click **Service Credentials**, and then **View credentials**.
 1. Copy `username`, `password`, and `url`.
