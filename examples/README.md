@@ -3,7 +3,7 @@ To run the examples, you will need the `username` and `password` credentials and
  1. Log in to IBM Cloud at https://console.bluemix.net.
 
  1. Create an instance of the service:
-     1. In the IBM CLoud **Catalog**, select the Natural Language Classifier service.
+     1. In the IBM Cloud **Catalog**, select the Natural Language Classifier service.
      1. Click **Create**.
 
  1. Copy your credentials:
