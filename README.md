@@ -37,15 +37,15 @@ The [examples][examples] folder has basic and advanced examples.
 
 Service credentials are required to access the APIs.
 
-If you run your app in Bluemix, you don't need to specify the username and password. In that case, the SDK uses the `VCAP_SERVICES` environment variable to load the credentials.
+If you run your app in IBM Cloud, you don't need to specify the username and password. In that case, the SDK uses the `VCAP_SERVICES` environment variable to load the credentials.
 
-To run locally or outside of Bluemix you need the `username` and `password` credentials for each service. (Service credentials are different from your Bluemix account email and password.)
+To run locally or outside of IBM Cloud you need the `username` and `password` credentials for each service. (Service credentials are different from your IBM Cloud account email and password.)
 
 To create an instance of the service:
 
-1. Log in to [Bluemix][bluemix].
+1. Log in to [IBM Cloud][ibm_cloud].
 1. Create an instance of the service:
-   1. In the Bluemix **Catalog**, select the Watson service you want to use. For example, select the Conversation service.
+   1. In the IBM Cloud **Catalog**, select the Watson service you want to use. For example, select the Conversation service.
    1. Type a unique name for the service instance in the **Service name** field. For example, type `my-service-name`. Leave the default values for the other options.
    1. Click **Create**.
 
@@ -54,7 +54,7 @@ To get your service credentials:
 Copy your credentials from the **Service details** page. To find the the Service details page for an existing service, navigate to your Bluemix dashboard and click the service name.
 
 1. On the **Service Details** page, click **Service Credentials**, and then **View credentials**.
-1. Copy `username` and `password`.
+1. Copy `username`, `password`, and `url`.
 
 ## Python Version
 
@@ -82,9 +82,6 @@ response = conversation.message(workspace_id=workspace_id, input={
     'text': 'What\'s the weather like?'})
 print(json.dumps(response, indent=2))
 ```
-## Known Issues
-
-See [issues](https://github.com/watson-developer-cloud/python-sdk/issues).
 
 ## Dependencies
 
@@ -104,7 +101,7 @@ See [CONTRIBUTING.md][CONTRIBUTING].
 This library is licensed under the [Apache 2.0 license][license].
 
 [wdc]: http://www.ibm.com/watson/developercloud/
-[bluemix]: https://console.bluemix.net
+[ibm_cloud]: https://console.bluemix.net
 [responses]: https://github.com/getsentry/responses
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
