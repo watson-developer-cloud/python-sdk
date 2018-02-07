@@ -1,0 +1,513 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.watson_service &#8212; Watson Developer Cloud Python SDK 1.0.2 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for watson_developer_cloud.watson_service</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2017 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="kn">import</span> <span class="nn">json</span> <span class="k">as</span> <span class="nn">json_import</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">requests.structures</span> <span class="k">import</span> <span class="n">CaseInsensitiveDict</span>
+<span class="kn">import</span> <span class="nn">dateutil.parser</span> <span class="k">as</span> <span class="nn">date_parser</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">http.cookiejar</span> <span class="k">import</span> <span class="n">CookieJar</span>  <span class="c1"># Python 3</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">cookielib</span> <span class="k">import</span> <span class="n">CookieJar</span>  <span class="c1"># Python 2</span>
+<span class="kn">from</span> <span class="nn">.version</span> <span class="k">import</span> <span class="n">__version__</span>
+
+
+<span class="c1"># Uncomment this to enable http debugging</span>
+<span class="c1"># try:</span>
+<span class="c1">#    import http.client as http_client</span>
+<span class="c1"># except ImportError:</span>
+<span class="c1">#    # Python 2</span>
+<span class="c1">#    import httplib as http_client</span>
+<span class="c1"># http_client.HTTPConnection.debuglevel = 1</span>
+
+
+<div class="viewcode-block" id="load_from_vcap_services"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.load_from_vcap_services">[docs]</a><span class="k">def</span> <span class="nf">load_from_vcap_services</span><span class="p">(</span><span class="n">service_name</span><span class="p">):</span>
+    <span class="n">vcap_services</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;VCAP_SERVICES&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">vcap_services</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">services</span> <span class="o">=</span> <span class="n">json_import</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">vcap_services</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">service_name</span> <span class="ow">in</span> <span class="n">services</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">services</span><span class="p">[</span><span class="n">service_name</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;credentials&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="WatsonException"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonException">[docs]</a><span class="k">class</span> <span class="nc">WatsonException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom exception class for Watson Services.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="WatsonApiException"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonApiException">[docs]</a><span class="k">class</span> <span class="nc">WatsonApiException</span><span class="p">(</span><span class="n">WatsonException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom exception class for errors returned from Watson APIs.</span>
+
+<span class="sd">    :param int code: The HTTP status code returned.</span>
+<span class="sd">    :param str message: A message describing the error.</span>
+<span class="sd">    :param dict info: A dictionary of additional information about the error.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Call the base class constructor with the parameters it needs</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">WatsonApiException</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;Error: &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">+</span> <span class="s1">&#39;, Code: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">code</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="WatsonInvalidArgument"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonInvalidArgument">[docs]</a><span class="k">class</span> <span class="nc">WatsonInvalidArgument</span><span class="p">(</span><span class="n">WatsonException</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="datetime_to_string"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.datetime_to_string">[docs]</a><span class="k">def</span> <span class="nf">datetime_to_string</span><span class="p">(</span><span class="n">datetime</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Serializes a datetime to a string.</span>
+<span class="sd">    :param datetime: datetime value</span>
+<span class="sd">    :return: string. containing iso8601 format date string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;+00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="string_to_datetime"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.string_to_datetime">[docs]</a><span class="k">def</span> <span class="nf">string_to_datetime</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deserializes string to datetime.</span>
+<span class="sd">    :param string: string containing datetime in iso8601 format</span>
+<span class="sd">    :return: datetime.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">date_parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_cleanup_param_value</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;true&#39;</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="s1">&#39;false&#39;</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span> <span class="nf">_cleanup_param_values</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">_cleanup_param_value</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="k">return</span> <span class="n">dictionary</span>
+
+
+<span class="k">def</span> <span class="nf">_remove_null_values</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">dictionary</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_boolean_value</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_boolean_values</span><span class="p">(</span><span class="n">dictionary</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">_convert_boolean_value</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+    <span class="k">return</span> <span class="n">dictionary</span>
+
+
+<div class="viewcode-block" id="WatsonService"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService">[docs]</a><span class="k">class</span> <span class="nc">WatsonService</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcap_services_name</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">use_vcap_services</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">x_watson_learning_opt_out</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads credentials from the VCAP_SERVICES environment variable if</span>
+<span class="sd">        available, preferring credentials explicitly</span>
+<span class="sd">        set in the request.</span>
+<span class="sd">        If VCAP_SERVICES is not found (or use_vcap_services is set to False),</span>
+<span class="sd">        username and password credentials must</span>
+<span class="sd">        be specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jar</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http_config</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">user_agent_string</span> <span class="o">=</span> <span class="s1">&#39;watson-apis-python-sdk-&#39;</span> <span class="o">+</span> <span class="n">__version__</span> <span class="c1"># SDK version</span>
+        <span class="n">user_agent_string</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="c1"># OS</span>
+        <span class="n">user_agent_string</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">platform</span><span class="o">.</span><span class="n">release</span><span class="p">()</span> <span class="c1"># OS version</span>
+        <span class="n">user_agent_string</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version</span><span class="p">()</span> <span class="c1"># Python version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_agent_header</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;user-agent&#39;</span><span class="p">:</span> <span class="n">user_agent_string</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">x_watson_learning_opt_out</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x-watson-learning-opt-out&#39;</span><span class="p">:</span> <span class="s1">&#39;true&#39;</span><span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">username</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">password</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s1">&#39;Cannot set api_key and username and password together&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_api_key</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_username_and_password</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">use_vcap_services</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span> <span class="o">=</span> <span class="n">load_from_vcap_services</span><span class="p">(</span>
+                <span class="n">vcap_services_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;username&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;password&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;apikey&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">[</span><span class="s1">&#39;apikey&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s1">&#39;api_key&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vcap_service_credentials</span><span class="p">[</span><span class="s1">&#39;api_key&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>\
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;You must specify your username and password service &#39;</span>
+                <span class="s1">&#39;credentials (Note: these are different from your Bluemix id)&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WatsonService.set_username_and_password"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.set_username_and_password">[docs]</a>    <span class="k">def</span> <span class="nf">set_username_and_password</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">username</span> <span class="o">==</span> <span class="s1">&#39;YOUR SERVICE USERNAME&#39;</span><span class="p">:</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">password</span> <span class="o">==</span> <span class="s1">&#39;YOUR SERVICE PASSWORD&#39;</span><span class="p">:</span>
+            <span class="n">password</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jar</span> <span class="o">=</span> <span class="n">CookieJar</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WatsonService.set_api_key"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.set_api_key">[docs]</a>    <span class="k">def</span> <span class="nf">set_api_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">api_key</span> <span class="o">==</span> <span class="s1">&#39;YOUR API KEY&#39;</span><span class="p">:</span>
+            <span class="n">api_key</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jar</span> <span class="o">=</span> <span class="n">CookieJar</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WatsonService.set_url"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.set_url">[docs]</a>    <span class="k">def</span> <span class="nf">set_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span></div>
+
+<div class="viewcode-block" id="WatsonService.set_default_headers"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.set_default_headers">[docs]</a>    <span class="k">def</span> <span class="nf">set_default_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set http headers to be sent in every request.</span>
+<span class="sd">        :param headers: A dictionary of header names and values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="o">=</span> <span class="n">headers</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;headers parameter must be a dictionary&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WatsonService.set_http_config"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.set_http_config">[docs]</a>    <span class="k">def</span> <span class="nf">set_http_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">http_config</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the http client config like timeout, proxies, etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">http_config</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">http_config</span> <span class="o">=</span> <span class="n">http_config</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;http_config parameter must be a dictionary&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># Could make this compute the label_id based on the variable name of the</span>
+    <span class="c1"># dictionary passed in (using **kwargs), but</span>
+    <span class="c1"># this might be confusing to understand.</span>
+<div class="viewcode-block" id="WatsonService.unpack_id"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.unpack_id">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">unpack_id</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">label_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">label_id</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">label_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">dictionary</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_convert_model</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s2">&quot;_to_dict&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">val</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_convert_list</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">val</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_encode_path_vars</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_error_message</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the error message from a JSON response.</span>
+<span class="sd">        :return: the error message</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">error_message</span> <span class="o">=</span> <span class="s1">&#39;Unknown error&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">error_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">error_json</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">error_json</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;description&#39;</span> <span class="ow">in</span> \
+                        <span class="n">error_json</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]:</span>
+                    <span class="n">error_message</span> <span class="o">=</span> <span class="n">error_json</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">][</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">error_message</span> <span class="o">=</span> <span class="n">error_json</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s1">&#39;error_message&#39;</span> <span class="ow">in</span> <span class="n">error_json</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">=</span> <span class="n">error_json</span><span class="p">[</span><span class="s1">&#39;error_message&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s1">&#39;msg&#39;</span> <span class="ow">in</span> <span class="n">error_json</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">=</span> <span class="n">error_json</span><span class="p">[</span><span class="s1">&#39;msg&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="s1">&#39;statusInfo&#39;</span> <span class="ow">in</span> <span class="n">error_json</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">=</span> <span class="n">error_json</span><span class="p">[</span><span class="s1">&#39;statusInfo&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">error_message</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span> <span class="ow">or</span> <span class="n">error_message</span>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_error_info</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the error info (if any) from a JSON response.</span>
+<span class="sd">        :return: A `dict` containing additional information about the error.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">info_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;code_description&#39;</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="s1">&#39;errors&#39;</span><span class="p">,</span> <span class="s1">&#39;help&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;sub_code&#39;</span><span class="p">,</span> <span class="s1">&#39;warnings&#39;</span><span class="p">]</span>
+        <span class="n">error_info</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">error_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="n">error_info</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">error_json</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">info_keys</span><span class="p">}</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">error_info</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">error_info</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+
+
+    <span class="k">def</span> <span class="nf">_alchemy_html_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+                              <span class="n">method_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;outputMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;json&#39;</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;content-type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/x-www-form-urlencoded&#39;</span><span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">_convert_boolean_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">url_encoded_params</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+            <span class="n">url_encoded_params</span> <span class="o">=</span> <span class="n">params</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">url_encoded_params</span><span class="p">[</span><span class="s1">&#39;html&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">html</span>
+        <span class="n">url_encoded_params</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+
+        <span class="k">if</span> <span class="n">method_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">url</span><span class="p">:</span>
+                <span class="n">params</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+                <span class="n">method_url</span> <span class="o">=</span> <span class="s1">&#39;/url/URL&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
+            <span class="k">elif</span> <span class="n">html</span><span class="p">:</span>
+                <span class="n">method_url</span> <span class="o">=</span> <span class="s1">&#39;/html/HTML&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
+            <span class="k">elif</span> <span class="n">text</span><span class="p">:</span>
+                <span class="n">method_url</span> <span class="o">=</span> <span class="s1">&#39;/text/Text&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">WatsonInvalidArgument</span><span class="p">(</span>
+                    <span class="s1">&#39;url, html or text must be specified&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">method_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">data</span><span class="o">=</span><span class="n">url_encoded_params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_alchemy_image_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">image_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">image_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;outputMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;json&#39;</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">_convert_boolean_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">image_contents</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">image_file</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;imagePostMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;raw&#39;</span>
+            <span class="n">image_contents</span> <span class="o">=</span> <span class="n">image_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="c1"># headers[&#39;content-length&#39;] = sys.getsizeof(image_contents)</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/image/Image&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
+        <span class="k">elif</span> <span class="n">image_url</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;imagePostMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;not-raw&#39;</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_url</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/url/URL&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">WatsonInvalidArgument</span><span class="p">(</span>
+                <span class="s1">&#39;image_file or image_url must be specified&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                            <span class="n">data</span><span class="o">=</span><span class="n">image_contents</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WatsonService.request"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.request">[docs]</a>    <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">full_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="n">url</span>
+
+        <span class="n">input_headers</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="k">if</span> <span class="n">headers</span> <span class="k">else</span> <span class="p">{}</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">CaseInsensitiveDict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_agent_header</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">accept_json</span><span class="p">:</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;accept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
+        <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">input_headers</span><span class="p">)</span>
+
+        <span class="c1"># Remove keys with None values</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">_cleanup_param_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Support versions of requests older than 2.4.2 without the json input</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span> <span class="ow">and</span> <span class="n">json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json_import</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;content-type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">})</span>
+
+        <span class="n">auth</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">:</span>
+            <span class="n">auth</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">full_url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+                    <span class="s1">&#39;https://gateway-a.watsonplatform.net/calls&#39;</span><span class="p">):</span>
+                <span class="n">params</span><span class="p">[</span><span class="s1">&#39;apikey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">params</span><span class="p">[</span><span class="s1">&#39;api_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">http_config</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">full_url</span><span class="p">,</span>
+                                    <span class="n">cookies</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">jar</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span>
+                                    <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">,</span>
+                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="mi">200</span> <span class="o">&lt;=</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">&lt;=</span> <span class="mi">299</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">204</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">accept_json</span><span class="p">:</span>
+                <span class="n">response_json</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="s1">&#39;status&#39;</span> <span class="ow">in</span> <span class="n">response_json</span> <span class="ow">and</span> <span class="n">response_json</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> \
+                        <span class="o">==</span> <span class="s1">&#39;ERROR&#39;</span><span class="p">:</span>
+                    <span class="n">status_code</span> <span class="o">=</span> <span class="mi">400</span>
+                    <span class="n">error_message</span> <span class="o">=</span> <span class="s1">&#39;Unknown error&#39;</span>
+
+                    <span class="k">if</span> <span class="s1">&#39;statusInfo&#39;</span> <span class="ow">in</span> <span class="n">response_json</span><span class="p">:</span>
+                        <span class="n">error_message</span> <span class="o">=</span> <span class="n">response_json</span><span class="p">[</span><span class="s1">&#39;statusInfo&#39;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">error_message</span> <span class="o">==</span> <span class="s1">&#39;invalid-api-key&#39;</span><span class="p">:</span>
+                        <span class="n">status_code</span> <span class="o">=</span> <span class="mi">401</span>
+                    <span class="k">raise</span> <span class="n">WatsonApiException</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span> <span class="n">error_message</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">response_json</span>
+            <span class="k">return</span> <span class="n">response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">=</span> <span class="s1">&#39;Unauthorized: Access is denied due to &#39;</span> \
+                                <span class="s1">&#39;invalid credentials &#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_error_message</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="n">error_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_error_info</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">WatsonApiException</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">,</span> <span class="n">error_message</span><span class="p">,</span>
+                                     <span class="n">error_info</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
