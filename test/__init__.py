@@ -11,3 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from dotenv import load_dotenv, find_dotenv
+
+# load the .env file containing your environment variables for the required
+load_dotenv(find_dotenv())
