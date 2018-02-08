@@ -3,9 +3,7 @@ from __future__ import print_function
 import json
 from watson_developer_cloud import DialogV1
 
-dialog = DialogV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+dialog = DialogV1()
 
 print(json.dumps(dialog.get_dialogs(), indent=2))
 

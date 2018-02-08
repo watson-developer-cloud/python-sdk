@@ -9,9 +9,7 @@ classifier_id = 'e552ebx250-nlc-13834'
 if os.getenv("natural_language_classifier_classifier_id") is not None:
     classifier_id = os.getenv("natural_language_classifier_classifier_id")
 
-natural_language_classifier = NaturalLanguageClassifierV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+natural_language_classifier = NaturalLanguageClassifierV1()
 
 classifiers = natural_language_classifier.list_classifiers()
 print(json.dumps(classifiers, indent=2))

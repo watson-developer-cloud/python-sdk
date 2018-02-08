@@ -5,9 +5,7 @@ from watson_developer_cloud.natural_language_understanding_v1 import Features, E
 
 
 natural_language_understanding = NaturalLanguageUnderstandingV1(
-    version='2017-02-27',
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+    version='2017-02-27')
 
 response = natural_language_understanding.analyze(
     text='Bruce Banner is the Hulk and Bruce Wayne is BATMAN! '

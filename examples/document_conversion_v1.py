@@ -4,10 +4,7 @@ from os.path import join, dirname
 from io import open
 from watson_developer_cloud import DocumentConversionV1
 
-document_conversion = DocumentConversionV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
-    version='2016-02-09')
+document_conversion = DocumentConversionV1(version='2016-02-09')
 
 # Example of retrieving html or plain text
 with open(join(dirname(__file__), '../resources/example.html'),

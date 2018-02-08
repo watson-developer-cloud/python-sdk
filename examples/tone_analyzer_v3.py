@@ -3,10 +3,7 @@ import json
 from os.path import join, dirname
 from watson_developer_cloud import ToneAnalyzerV3
 
-tone_analyzer = ToneAnalyzerV3(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
-    version='2017-09-26')
+tone_analyzer = ToneAnalyzerV3(version='2017-09-26')
 
 print("\ntone_chat() example 1:\n")
 utterances = [{'text': 'I am very happy.', 'user': 'glenn'},

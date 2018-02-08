@@ -4,9 +4,7 @@ import json
 from os.path import join, dirname
 from watson_developer_cloud import TextToSpeechV1
 
-text_to_speech = TextToSpeechV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+text_to_speech = TextToSpeechV1()
 
 print(json.dumps(text_to_speech.list_voices(), indent=2))
 

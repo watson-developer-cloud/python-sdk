@@ -7,10 +7,7 @@ from watson_developer_cloud import ConversationV1
 # message
 #########################
 
-conversation = ConversationV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
-    version='2017-04-21')
+conversation = ConversationV1(version='2017-04-21')
 
 # replace with your own workspace_id
 workspace_id = '506e4a2e-3d5d-4dca-b374-38edbb4139ab'
