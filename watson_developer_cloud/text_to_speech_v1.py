@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -72,11 +72,6 @@ class TextToSpeechV1(WatsonService):
         """
         Retrieves a specific voice available for speech synthesis.
 
-        Lists information about the voice specified with the `voice` path parameter.
-        Specify the `customization_id` query parameter to obtain information for that
-        custom voice model of the specified voice. Use the `GET /v1/voices` method to see
-        a list of all available voices.
-
         :param str voice: The voice for which information is to be returned. Retrieve available voices with the `GET /v1/voices` method.
         :param str customization_id: The GUID of a custom voice model for which information is to be returned. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see information about the specified voice with no customization.
         :return: A `dict` containing the `Voice` response.
@@ -93,9 +88,6 @@ class TextToSpeechV1(WatsonService):
     def list_voices(self):
         """
         Retrieves all voices available for speech synthesis.
-
-        Lists information about all available voices. To see information about a specific
-        voice, use the `GET /v1/voices/{voice}` method.
 
         :return: A `dict` containing the `Voices` response.
         :rtype: dict
@@ -118,17 +110,7 @@ class TextToSpeechV1(WatsonService):
                    voice=None,
                    customization_id=None):
         """
-        Streaming speech synthesis of the text in the body parameter.
-
-        Synthesizes text to spoken audio, returning the synthesized audio stream as an
-        array of bytes. Identical to the `GET` method but passes longer text in the body
-        of the request, not with the URL. Text size is limited to 5 KB.   If a request
-        includes invalid query parameters, the service returns a `Warnings` response
-        header that provides messages about the invalid parameters. The warning includes a
-        descriptive message and a list of invalid argument strings. For example, a message
-        such as `\"Unknown arguments:\"` or `\"Unknown url query arguments:\"` followed by
-        a list of the form `\"invalid_arg_1, invalid_arg_2.\"` The request succeeds
-        despite the warnings.
+        Streaming speech synthesis of the text in the body parameter. Synthesizes text to spoken audio, returning the synthesized audio stream as an array of bytes.
 
         :param str text: The text to synthesize.
         :param str accept: The requested audio format (MIME type) of the audio. You can use this header or the `accept` query parameter to specify the audio format. (For the `audio/l16` format, you can optionally specify `endianness=big-endian` or `endianness=little-endian`; the default is little endian.).
@@ -257,10 +239,7 @@ class TextToSpeechV1(WatsonService):
         Lists all information about the custom voice model with the specified
         `customization_id`. In addition to metadata such as the name and description of
         the voice model, the output includes the words in the model and their translations
-        as defined in the model. To see just the metadata for a voice model, use the `GET
-        /v1/customizations` method. You must use credentials for the instance of the
-        service that owns a model to list information about it.   **Note:** This method is
-        currently a beta release.
+        as defined in the model.   **Note:** This method is currently a beta release.
 
         :param str customization_id: The GUID of the custom voice model that is to be queried. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :return: A `dict` containing the `VoiceModel` response.
@@ -280,14 +259,7 @@ class TextToSpeechV1(WatsonService):
     def list_voice_models(self, language=None):
         """
         Lists all available custom voice models for a language or for all languages.
-
-        Lists metadata such as the name and description for the custom voice models that
-        you own. Use the `language` query parameter to list the voice models that you own
-        for the specified language only. Omit the parameter to see all voice models that
-        you own for all languages. To see the words in addition to the metadata for a
-        specific voice model, use the `GET /v1/customizations/{customization_id}` method.
-        You must use credentials for the instance of the service that owns a model to list
-        information about it.   **Note:** This method is currently a beta release.
+        **Note:** This method is currently a beta release.
 
         :param str language: The language for which custom voice models that are owned by the requesting service credentials are to be returned. Omit the parameter to see all custom voice models that are owned by the requester.
         :return: A `dict` containing the `VoiceModels` response.
