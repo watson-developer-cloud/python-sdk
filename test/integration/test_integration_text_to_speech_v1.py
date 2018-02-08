@@ -3,7 +3,6 @@ import unittest
 import watson_developer_cloud
 import os
 
-@pytest.mark.skip("These are destructive, so run them manually")
 class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def setUp(self):
         self.text_to_speech = watson_developer_cloud.TextToSpeechV1()
