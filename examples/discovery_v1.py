@@ -3,7 +3,10 @@ from __future__ import print_function
 import json
 from watson_developer_cloud import DiscoveryV1
 
-discovery = DiscoveryV1(version='2017-10-16')
+discovery = DiscoveryV1(
+    version='2017-10-16',
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 environments = discovery.list_environments()
 print(json.dumps(environments, indent=2))

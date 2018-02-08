@@ -8,7 +8,9 @@ from os.path import join, dirname
 from watson_developer_cloud import PersonalityInsightsV3
 
 personality_insights = PersonalityInsightsV3(
-    version='2016-10-20')
+    version='2016-10-20',
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD')
 
 with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
         profile_json:

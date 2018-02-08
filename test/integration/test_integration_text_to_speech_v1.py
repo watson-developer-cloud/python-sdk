@@ -6,7 +6,9 @@ import os
 
 class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def setUp(self):
-        self.text_to_speech = watson_developer_cloud.TextToSpeechV1()
+        self.text_to_speech = watson_developer_cloud.TextToSpeechV1(
+            username=os.getenv('TEXT_TO_SPEECH_USERNAME'),
+            password=os.getenv('TEXT_TO_SPEECH_PASSWORD'))
         self.original_customizations = self.text_to_speech.list_voice_models()
         self.created_customization = self.text_to_speech.create_voice_model(
             name="test_integration_customization",

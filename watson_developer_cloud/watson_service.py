@@ -40,7 +40,7 @@ def load_from_vcap_services(service_name):
     if vcap_services is not None:
         services = json_import.loads(vcap_services)
         if service_name in services:
-            return services[service_name]
+            return services[service_name][0]["credentials"]
     else:
         return None
 
