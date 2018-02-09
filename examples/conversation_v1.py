@@ -3,23 +3,10 @@ import json
 import os
 from watson_developer_cloud import ConversationV1
 
-#########################
-# message
-#########################
-
 conversation = ConversationV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
     version='2017-04-21')
-
-# replace with your own workspace_id
-workspace_id = '506e4a2e-3d5d-4dca-b374-38edbb4139ab'
-if os.getenv("conversation_workspace_id") is not None:
-    workspace_id = os.getenv("conversation_workspace_id")
-
-response = conversation.message(workspace_id=workspace_id, input={
-    'text': 'What\'s the weather like?'})
-print(json.dumps(response, indent=2))
 
 # When you send multiple requests for the same conversation, include the
 # context object from the previous response.
@@ -41,6 +28,11 @@ print(json.dumps(response, indent=2))
 workspace_id = response['workspace_id']
 
 response = conversation.get_workspace(workspace_id=workspace_id, export=True)
+print(json.dumps(response, indent=2))
+
+#  message
+response = conversation.message(workspace_id=workspace_id, input={
+    'text': 'What\'s the weather like?'})
 print(json.dumps(response, indent=2))
 
 response = conversation.list_workspaces()
