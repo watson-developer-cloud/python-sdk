@@ -42,7 +42,7 @@
   <h1>Source code for watson_developer_cloud.text_to_speech_v1</h1><div class="highlight"><pre>
 <span></span><span class="c1"># coding: utf-8</span>
 
-<span class="c1"># Copyright 2017 IBM All Rights Reserved.</span>
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
@@ -114,11 +114,6 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves a specific voice available for speech synthesis.</span>
 
-<span class="sd">        Lists information about the voice specified with the `voice` path parameter.</span>
-<span class="sd">        Specify the `customization_id` query parameter to obtain information for that</span>
-<span class="sd">        custom voice model of the specified voice. Use the `GET /v1/voices` method to see</span>
-<span class="sd">        a list of all available voices.</span>
-
 <span class="sd">        :param str voice: The voice for which information is to be returned. Retrieve available voices with the `GET /v1/voices` method.</span>
 <span class="sd">        :param str customization_id: The GUID of a custom voice model for which information is to be returned. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see information about the specified voice with no customization.</span>
 <span class="sd">        :return: A `dict` containing the `Voice` response.</span>
@@ -135,9 +130,6 @@
 <div class="viewcode-block" id="TextToSpeechV1.list_voices"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voices">[docs]</a>    <span class="k">def</span> <span class="nf">list_voices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieves all voices available for speech synthesis.</span>
-
-<span class="sd">        Lists information about all available voices. To see information about a specific</span>
-<span class="sd">        voice, use the `GET /v1/voices/{voice}` method.</span>
 
 <span class="sd">        :return: A `dict` containing the `Voices` response.</span>
 <span class="sd">        :rtype: dict</span>
@@ -160,17 +152,7 @@
                    <span class="n">voice</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">customization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Streaming speech synthesis of the text in the body parameter.</span>
-
-<span class="sd">        Synthesizes text to spoken audio, returning the synthesized audio stream as an</span>
-<span class="sd">        array of bytes. Identical to the `GET` method but passes longer text in the body</span>
-<span class="sd">        of the request, not with the URL. Text size is limited to 5 KB.   If a request</span>
-<span class="sd">        includes invalid query parameters, the service returns a `Warnings` response</span>
-<span class="sd">        header that provides messages about the invalid parameters. The warning includes a</span>
-<span class="sd">        descriptive message and a list of invalid argument strings. For example, a message</span>
-<span class="sd">        such as `\&quot;Unknown arguments:\&quot;` or `\&quot;Unknown url query arguments:\&quot;` followed by</span>
-<span class="sd">        a list of the form `\&quot;invalid_arg_1, invalid_arg_2.\&quot;` The request succeeds</span>
-<span class="sd">        despite the warnings.</span>
+<span class="sd">        Streaming speech synthesis of the text in the body parameter. Synthesizes text to spoken audio, returning the synthesized audio stream as an array of bytes.</span>
 
 <span class="sd">        :param str text: The text to synthesize.</span>
 <span class="sd">        :param str accept: The requested audio format (MIME type) of the audio. You can use this header or the `accept` query parameter to specify the audio format. (For the `audio/l16` format, you can optionally specify `endianness=big-endian` or `endianness=little-endian`; the default is little endian.).</span>
@@ -299,10 +281,7 @@
 <span class="sd">        Lists all information about the custom voice model with the specified</span>
 <span class="sd">        `customization_id`. In addition to metadata such as the name and description of</span>
 <span class="sd">        the voice model, the output includes the words in the model and their translations</span>
-<span class="sd">        as defined in the model. To see just the metadata for a voice model, use the `GET</span>
-<span class="sd">        /v1/customizations` method. You must use credentials for the instance of the</span>
-<span class="sd">        service that owns a model to list information about it.   **Note:** This method is</span>
-<span class="sd">        currently a beta release.</span>
+<span class="sd">        as defined in the model.   **Note:** This method is currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The GUID of the custom voice model that is to be queried. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :return: A `dict` containing the `VoiceModel` response.</span>
@@ -322,14 +301,7 @@
 <div class="viewcode-block" id="TextToSpeechV1.list_voice_models"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models">[docs]</a>    <span class="k">def</span> <span class="nf">list_voice_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Lists all available custom voice models for a language or for all languages.</span>
-
-<span class="sd">        Lists metadata such as the name and description for the custom voice models that</span>
-<span class="sd">        you own. Use the `language` query parameter to list the voice models that you own</span>
-<span class="sd">        for the specified language only. Omit the parameter to see all voice models that</span>
-<span class="sd">        you own for all languages. To see the words in addition to the metadata for a</span>
-<span class="sd">        specific voice model, use the `GET /v1/customizations/{customization_id}` method.</span>
-<span class="sd">        You must use credentials for the instance of the service that owns a model to list</span>
-<span class="sd">        information about it.   **Note:** This method is currently a beta release.</span>
+<span class="sd">        **Note:** This method is currently a beta release.</span>
 
 <span class="sd">        :param str language: The language for which custom voice models that are owned by the requesting service credentials are to be returned. Omit the parameter to see all custom voice models that are owned by the requester.</span>
 <span class="sd">        :return: A `dict` containing the `VoiceModels` response.</span>
