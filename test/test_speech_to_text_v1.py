@@ -75,6 +75,95 @@ def _decode_body(body):
 
 
 @responses.activate
+def test_recognitions():
+    url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/recognitions'
+    get_response = '{"recognitions": [{"created": "2018-02-01T17:43:15.432Z","id": "6193190c-0777-11e8-9b4b-43ad845196dd","updated": "2018-02-01T17:43:17.998Z","status": "failed"}]}'
+    responses.add(
+        responses.GET,
+        url,
+        body=get_response,
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.POST,
+        url,
+        body='{"status": "waiting"}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.DELETE,
+        "{0}/jobid".format(url),
+        body='{"description": "deleted successfully"}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        "{0}/jobid".format(url),
+        body='{"status": "waiting"}',
+        status=200,
+        content_type='application/json')
+
+    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+        username="username", password="password")
+
+    speech_to_text.check_jobs()
+    assert responses.calls[0].response.json()['recognitions'][0][
+        'id'] == '6193190c-0777-11e8-9b4b-43ad845196dd'
+
+    speech_to_text.check_job('jobid')
+    assert responses.calls[1].response.json() == {'status': 'waiting'}
+
+    with open(
+            os.path.join(os.path.dirname(__file__), '../resources/speech.wav'),
+            'rb') as audio_file:
+        speech_to_text.create_job(audio=audio_file)
+    assert responses.calls[2].response.json() == {'status': 'waiting'}
+
+    speech_to_text.delete_job('jobid')
+    assert responses.calls[3].response.json() == {
+        "description": "deleted successfully"
+    }
+
+    assert len(responses.calls) == 4
+
+
+@responses.activate
+def test_callbacks():
+    base_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1'
+    responses.add(
+        responses.POST,
+        "{0}/register_callback".format(base_url),
+        body='{"status": "created", "url": "monitorcalls.com"}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.POST,
+        "{0}/unregister_callback".format(base_url),
+        body='{"response": "The callback URL was successfully unregistered"}',
+        status=200,
+        content_type='application/json')
+
+    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+        username="username", password="password")
+    speech_to_text.register_callback("monitorcalls.com")
+    assert responses.calls[0].response.json() == {
+        "status": "created",
+        "url": "monitorcalls.com"
+    }
+
+    speech_to_text.unregister_callback("monitorcalls.com")
+    assert responses.calls[1].response.json() == {
+        "response": "The callback URL was successfully unregistered"
+    }
+
+    assert len(responses.calls) == 2
+
+
+@responses.activate
 def test_custom_model():
     customization_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/customizations'
     train_url = "{0}/{1}/train".format(customization_url, 'customid')
@@ -217,7 +306,8 @@ def test_acoustic_model():
 def test_custom_corpora():
 
     corpora_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/customizations/{0}/corpora'
-    get_corpora_url = '{0}/{1}'.format(corpora_url.format('customid'), 'corpus')
+    get_corpora_url = '{0}/{1}'.format(
+        corpora_url.format('customid'), 'corpus')
 
     with responses.RequestsMock(assert_all_requests_are_fired=True) as rsps:
         rsps.add(
@@ -339,7 +429,9 @@ def test_custom_words():
         customization_id='custid',
         word_name="IEEE",
         content_type="application/json",
-        word=custom_word)
+        word="IEEE",
+        sounds_like=["i triple e"],
+        display_as="IEEE")
 
     speech_to_text.delete_word(customization_id='custid', word_name="wordname")
 
@@ -357,15 +449,62 @@ def test_custom_words():
 
     speech_to_text.list_words(customization_id='custid')
     speech_to_text.list_words(customization_id='custid', sort='alphabetical')
-    with pytest.raises(KeyError) as keyerror:
-        speech_to_text.list_words(customization_id='custid', sort='badsort')
-    assert 'sort must be alphabetical or count' in str(keyerror.value)
 
     speech_to_text.list_words(customization_id='custid', word_type='all')
 
-    with pytest.raises(KeyError) as keyerror:
-        speech_to_text.list_words(
-            customization_id='custid', word_type='badwordtype')
-    assert 'word type must be all, user, or corpora' in str(keyerror.value)
-
     assert len(responses.calls) == 9
+
+
+@responses.activate
+def test_custom_audio_resources():
+    url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/acoustic_customizations/{0}/audio/{1}'
+
+    responses.add(
+        responses.POST,
+        url.format('custid', 'hiee'),
+        body='{"post response": "done"}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.DELETE,
+        url.format('custid', 'hiee'),
+        body='{"delete response": "done"}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        url.format('custid', 'hiee'),
+        body='{"get response": "done"}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        'https://stream.watsonplatform.net/speech-to-text/api/v1/acoustic_customizations/custid/audio',
+        body='{"get response all": "done"}',
+        status=200,
+        content_type='application/json')
+
+    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+        username="username", password="password")
+
+    with open(
+            os.path.join(os.path.dirname(__file__), '../resources/speech.wav'),
+            'rb') as audio_file:
+        speech_to_text.add_audio(
+            customization_id='custid',
+            audio_name="hiee",
+            audio_resource=audio_file,
+            content_type="application/json")
+    assert responses.calls[0].response.json() == {"post response": "done"}
+
+    speech_to_text.delete_audio('custid', 'hiee')
+    assert responses.calls[1].response.json() == {"delete response": "done"}
+
+    speech_to_text.get_audio('custid', 'hiee')
+    assert responses.calls[2].response.json() == {"get response": "done"}
+
+    speech_to_text.list_audio('custid')
+    assert responses.calls[3].response.json() == {"get response all": "done"}
