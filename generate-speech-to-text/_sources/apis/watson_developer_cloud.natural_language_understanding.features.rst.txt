@@ -1,5 +1,5 @@
-watson\_developer\_cloud\.natural\_language\_understanding\.features package
-============================================================================
+watson\_developer\_cloud.natural\_language\_understanding.features package
+==========================================================================
 
 Subpackages
 -----------
