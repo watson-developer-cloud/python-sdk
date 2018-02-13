@@ -224,15 +224,6 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks the status of the specified asynchronous job.</span>
 
-<span class="sd">        Returns information about the specified job. The response always includes the</span>
-<span class="sd">        status of the job and its creation and update times. If the status is `completed`,</span>
-<span class="sd">        the response includes the results of the recognition request. You must submit the</span>
-<span class="sd">        request with the service credentials of the user who created the job.   You can</span>
-<span class="sd">        use the method to retrieve the results of any job, regardless of whether it was</span>
-<span class="sd">        submitted with a callback URL and the `recognitions.completed_with_results` event,</span>
-<span class="sd">        and you can retrieve the results multiple times for as long as they remain</span>
-<span class="sd">        available.</span>
-
 <span class="sd">        :param str id: The ID of the job whose status is to be checked.</span>
 <span class="sd">        :return: A `dict` containing the `RecognitionJob` response.</span>
 <span class="sd">        :rtype: dict</span>
@@ -246,14 +237,6 @@
 <div class="viewcode-block" id="SpeechToTextV1.check_jobs"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_jobs">[docs]</a>    <span class="k">def</span> <span class="nf">check_jobs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Checks the status of all asynchronous jobs.</span>
-
-<span class="sd">        Returns the ID and status of all outstanding jobs associated with the service</span>
-<span class="sd">        credentials with which it is called. The method also returns the creation and</span>
-<span class="sd">        update times of each job, and, if a job was created with a callback URL and a user</span>
-<span class="sd">        token, the user token for the job. To obtain the results for a job whose status is</span>
-<span class="sd">        `completed`, use the `GET /v1/recognitions/{id}` method. A job and its results</span>
-<span class="sd">        remain available until you delete them with the `DELETE /v1/recognitions/{id}`</span>
-<span class="sd">        method or until the job&#39;s time to live expires, whichever comes first.</span>
 
 <span class="sd">        :return: A `dict` containing the `RecognitionJobs` response.</span>
 <span class="sd">        :rtype: dict</span>
@@ -704,8 +687,6 @@
 <div class="viewcode-block" id="SpeechToTextV1.add_word"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_word">[docs]</a>    <span class="k">def</span> <span class="nf">add_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">customization_id</span><span class="p">,</span>
                  <span class="n">word_name</span><span class="p">,</span>
-                 <span class="n">content_type</span><span class="p">,</span>
-                 <span class="n">word</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">sounds_like</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">display_as</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -713,8 +694,6 @@
 
 <span class="sd">        :param str customization_id: The GUID of the custom language model to which a word is to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :param str word_name: The custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words.</span>
-<span class="sd">        :param str content_type: The type of the input.</span>
-<span class="sd">        :param str word: **When specifying an array of one or more words,** you must specify the custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words. **When adding or updating a single word directly,** omit this field.</span>
 <span class="sd">        :param list[str] sounds_like: An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service&#39;s base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service&#39;s base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.</span>
 <span class="sd">        :param str display_as: An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.</span>
 <span class="sd">        :rtype: None</span>
@@ -723,11 +702,9 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customization_id must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">word_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;word_name must be provided&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;content_type must be provided&#39;</span><span class="p">)</span>
-        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">}</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;word&#39;</span><span class="p">:</span> <span class="n">word</span><span class="p">,</span>
+            <span class="s1">&#39;word&#39;</span><span class="p">:</span> <span class="n">word_name</span><span class="p">,</span>
             <span class="s1">&#39;sounds_like&#39;</span><span class="p">:</span> <span class="n">sounds_like</span><span class="p">,</span>
             <span class="s1">&#39;display_as&#39;</span><span class="p">:</span> <span class="n">display_as</span>
         <span class="p">}</span>
@@ -743,25 +720,22 @@
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use add_word instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">add_custom_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">custom_word</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_word</span><span class="p">(</span><span class="n">customization_id</span><span class="p">,</span> <span class="n">custom_word</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_word</span><span class="p">(</span><span class="n">customization_id</span><span class="p">,</span> <span class="n">custom_word</span><span class="p">)</span>
 
-<div class="viewcode-block" id="SpeechToTextV1.add_words"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_words">[docs]</a>    <span class="k">def</span> <span class="nf">add_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">content_type</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
+<div class="viewcode-block" id="SpeechToTextV1.add_words"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_words">[docs]</a>    <span class="k">def</span> <span class="nf">add_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds one or more custom words to a custom language model.</span>
 
 <span class="sd">        :param str customization_id: The GUID of the custom language model to which words are to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
-<span class="sd">        :param str content_type: The type of the input.</span>
 <span class="sd">        :param list[CustomWord] words: An array of objects that provides information about each custom word that is to be added to or updated in the custom language model.</span>
 <span class="sd">        :rtype: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">customization_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customization_id must be provided&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;content_type must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">words</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;words must be provided&#39;</span><span class="p">)</span>
         <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
-        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">}</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/words&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">))</span>
@@ -775,7 +749,7 @@
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use add_words() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">add_custom_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">custom_words</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_words</span><span class="p">(</span><span class="n">customization_id</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span> <span class="n">custom_words</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_words</span><span class="p">(</span><span class="n">customization_id</span><span class="p">,</span> <span class="n">custom_words</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SpeechToTextV1.delete_word"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_word">[docs]</a>    <span class="k">def</span> <span class="nf">delete_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">word_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

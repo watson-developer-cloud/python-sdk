@@ -140,14 +140,6 @@ Hertz, among other things.</p>
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_job">
 <code class="descname">check_job</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.check_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_job" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks the status of the specified asynchronous job.</p>
-<p>Returns information about the specified job. The response always includes the
-status of the job and its creation and update times. If the status is <cite>completed</cite>,
-the response includes the results of the recognition request. You must submit the
-request with the service credentials of the user who created the job.   You can
-use the method to retrieve the results of any job, regardless of whether it was
-submitted with a callback URL and the <cite>recognitions.completed_with_results</cite> event,
-and you can retrieve the results multiple times for as long as they remain
-available.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -166,13 +158,6 @@ available.</p>
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_jobs">
 <code class="descname">check_jobs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.check_jobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_jobs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks the status of all asynchronous jobs.</p>
-<p>Returns the ID and status of all outstanding jobs associated with the service
-credentials with which it is called. The method also returns the creation and
-update times of each job, and, if a job was created with a callback URL and a user
-token, the user token for the job. To obtain the results for a job whose status is
-<cite>completed</cite>, use the <cite>GET /v1/recognitions/{id}</cite> method. A job and its results
-remain available until you delete them with the <cite>DELETE /v1/recognitions/{id}</cite>
-method or until the job’s time to live expires, whichever comes first.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -570,7 +555,7 @@ that owns a model to list its corpora.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_word">
-<code class="descname">add_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word_name</em>, <em>content_type</em>, <em>word=None</em>, <em>sounds_like=None</em>, <em>display_as=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.add_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_word" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word_name</em>, <em>sounds_like=None</em>, <em>display_as=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.add_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_word" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a custom word to a custom language model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -579,8 +564,6 @@ that owns a model to list its corpora.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The GUID of the custom language model to which a word is to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
 <li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words.</li>
-<li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The type of the input.</li>
-<li><strong>word</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – <strong>When specifying an array of one or more words,</strong> you must specify the custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words. <strong>When adding or updating a single word directly,</strong> omit this field.</li>
 <li><strong>sounds_like</strong> (<em>list</em><em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a><em>]</em>) – An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service’s base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service’s base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.</li>
 <li><strong>display_as</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.</li>
 </ul>
@@ -600,7 +583,7 @@ that owns a model to list its corpora.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_words">
-<code class="descname">add_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>content_type</em>, <em>words</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.add_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_words" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>words</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.add_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds one or more custom words to a custom language model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -608,7 +591,6 @@ that owns a model to list its corpora.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The GUID of the custom language model to which words are to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
-<li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The type of the input.</li>
 <li><strong>words</strong> (<em>list</em><em>[</em><a class="reference internal" href="watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.CustomWord" title="watson_developer_cloud.text_to_speech_v1.CustomWord"><em>CustomWord</em></a><em>]</em>) – An array of objects that provides information about each custom word that is to be added to or updated in the custom language model.</li>
 </ul>
 </td>
