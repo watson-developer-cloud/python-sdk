@@ -428,8 +428,6 @@ def test_custom_words():
     speech_to_text.add_word(
         customization_id='custid',
         word_name="IEEE",
-        content_type="application/json",
-        word="IEEE",
         sounds_like=["i triple e"],
         display_as="IEEE")
 
@@ -440,7 +438,6 @@ def test_custom_words():
     custom_words = [custom_word, custom_word, custom_word]
     speech_to_text.add_words(
         customization_id='custid',
-        content_type='application/json',
         words=custom_words)
 
     speech_to_text.get_word(customization_id='custid', word_name="IEEE")

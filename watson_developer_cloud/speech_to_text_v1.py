@@ -191,15 +191,6 @@ class SpeechToTextV1(WatsonService):
         """
         Checks the status of the specified asynchronous job.
 
-        Returns information about the specified job. The response always includes the
-        status of the job and its creation and update times. If the status is `completed`,
-        the response includes the results of the recognition request. You must submit the
-        request with the service credentials of the user who created the job.   You can
-        use the method to retrieve the results of any job, regardless of whether it was
-        submitted with a callback URL and the `recognitions.completed_with_results` event,
-        and you can retrieve the results multiple times for as long as they remain
-        available.
-
         :param str id: The ID of the job whose status is to be checked.
         :return: A `dict` containing the `RecognitionJob` response.
         :rtype: dict
@@ -213,14 +204,6 @@ class SpeechToTextV1(WatsonService):
     def check_jobs(self):
         """
         Checks the status of all asynchronous jobs.
-
-        Returns the ID and status of all outstanding jobs associated with the service
-        credentials with which it is called. The method also returns the creation and
-        update times of each job, and, if a job was created with a callback URL and a user
-        token, the user token for the job. To obtain the results for a job whose status is
-        `completed`, use the `GET /v1/recognitions/{id}` method. A job and its results
-        remain available until you delete them with the `DELETE /v1/recognitions/{id}`
-        method or until the job's time to live expires, whichever comes first.
 
         :return: A `dict` containing the `RecognitionJobs` response.
         :rtype: dict
@@ -671,8 +654,6 @@ class SpeechToTextV1(WatsonService):
     def add_word(self,
                  customization_id,
                  word_name,
-                 content_type,
-                 word=None,
                  sounds_like=None,
                  display_as=None):
         """
@@ -680,8 +661,6 @@ class SpeechToTextV1(WatsonService):
 
         :param str customization_id: The GUID of the custom language model to which a word is to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param str word_name: The custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words.
-        :param str content_type: The type of the input.
-        :param str word: **When specifying an array of one or more words,** you must specify the custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words. **When adding or updating a single word directly,** omit this field.
         :param list[str] sounds_like: An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service's base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service's base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.
         :param str display_as: An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.
         :rtype: None
@@ -690,11 +669,9 @@ class SpeechToTextV1(WatsonService):
             raise ValueError('customization_id must be provided')
         if word_name is None:
             raise ValueError('word_name must be provided')
-        if content_type is None:
-            raise ValueError('content_type must be provided')
-        headers = {'Content-Type': content_type}
+        headers = {'Content-Type': 'application/json'}
         data = {
-            'word': word,
+            'word': word_name,
             'sounds_like': sounds_like,
             'display_as': display_as
         }
@@ -710,25 +687,22 @@ class SpeechToTextV1(WatsonService):
 
     @deprecated('Use add_word instead.')
     def add_custom_word(self, customization_id, custom_word):
-        return self.add_word(customization_id, custom_word, 'application/json')
+        return self.add_word(customization_id, custom_word)
 
-    def add_words(self, customization_id, content_type, words):
+    def add_words(self, customization_id, words):
         """
         Adds one or more custom words to a custom language model.
 
         :param str customization_id: The GUID of the custom language model to which words are to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str content_type: The type of the input.
         :param list[CustomWord] words: An array of objects that provides information about each custom word that is to be added to or updated in the custom language model.
         :rtype: None
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
-        if content_type is None:
-            raise ValueError('content_type must be provided')
         if words is None:
             raise ValueError('words must be provided')
         words = [self._convert_model(x) for x in words]
-        headers = {'Content-Type': content_type}
+        headers = {'Content-Type': 'application/json'}
         data = {'words': words}
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
@@ -742,7 +716,7 @@ class SpeechToTextV1(WatsonService):
 
     @deprecated('Use add_words() instead.')
     def add_custom_words(self, customization_id, custom_words):
-        return self.add_words(customization_id, 'application/json', custom_words)
+        return self.add_words(customization_id, custom_words)
 
     def delete_word(self, customization_id, word_name):
         """
