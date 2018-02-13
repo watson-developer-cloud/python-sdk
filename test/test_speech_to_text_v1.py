@@ -210,17 +210,14 @@ def test_custom_model():
 
     speech_to_text.create_language_model(
         name="Example model",
-        base_model_name="en-US_BroadbandModel",
-        description="Example custom language model",
-        content_type='Example content type')
+        base_model_name="en-US_BroadbandModel")
 
     parsed_body = json.loads(_decode_body(responses.calls[1].request.body))
     assert parsed_body['name'] == 'Example model'
 
     speech_to_text.create_language_model(
         name="Example model Two",
-        base_model_name="en-US_BroadbandModel",
-        content_type='Example content type')
+        base_model_name="en-US_BroadbandModel")
 
     parsed_body = json.loads(_decode_body(responses.calls[2].request.body))
     assert parsed_body['name'] == 'Example model Two'
@@ -281,16 +278,14 @@ def test_acoustic_model():
     speech_to_text.create_acoustic_model(
         name="Example model",
         base_model_name="en-US_BroadbandModel",
-        description="Example custom language model",
-        content_type='Example content type')
+        description="Example custom language model")
 
     parsed_body = json.loads(_decode_body(responses.calls[1].request.body))
     assert parsed_body['name'] == 'Example model'
 
     speech_to_text.create_acoustic_model(
         name="Example model Two",
-        base_model_name="en-US_BroadbandModel",
-        content_type='Example content type')
+        base_model_name="en-US_BroadbandModel")
 
     parsed_body = json.loads(_decode_body(responses.calls[2].request.body))
     assert parsed_body['name'] == 'Example model Two'
