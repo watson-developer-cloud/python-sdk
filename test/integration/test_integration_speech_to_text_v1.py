@@ -2,18 +2,67 @@ from unittest import TestCase
 import pytest
 import os
 import watson_developer_cloud
+from watson_developer_cloud.speech_to_text_v1 import SpeechRecognitionResults
 
-@pytest.mark.skip("These are destructive, so run them manually")
+
 class TestSpeechToTextV1(TestCase):
     def setUp(self):
-        self.speech_to_text = watson_developer_cloud.SpeechToTextV1(username=os.getenv('SPEECH_TO_TEXT_USERNAME'),
-                                                                    password=os.getenv('SPEECH_TO_TEXT_PASSWORD'))
-        self.custom_models = self.speech_to_text.list_custom_models()
-        self.create_custom_model = self.speech_to_text.create_custom_model(name="integration_test_model")
+        self.speech_to_text = watson_developer_cloud.SpeechToTextV1(
+            username=os.getenv('SPEECH_TO_TEXT_USERNAME'),
+            password=os.getenv('SPEECH_TO_TEXT_PASSWORD'))
+        self.custom_models = self.speech_to_text.list_language_models()
+        self.create_custom_model = self.speech_to_text.create_language_model(
+            name="integration_test_model",
+            base_model_name="en-US_BroadbandModel")
+        self.customization_id = self.create_custom_model['customization_id']
 
     def tearDown(self):
-        self.speech_to_text.delete_custom_model(modelid=self.create_custom_model['customization_id'])
+        self.speech_to_text.delete_language_model(
+            customization_id=self.create_custom_model['customization_id'])
+
+    def test_models(self):
+        output = self.speech_to_text.list_models()
+        assert output is not None
+        model = self.speech_to_text.get_model('ko-KR_BroadbandModel')
+        assert model is not None
 
     def test_create_custom_model(self):
-        current_custom_models = self.speech_to_text.list_custom_models()
-        assert len(current_custom_models['customizations']) - len(self.custom_models['customizations']) == 1
+        current_custom_models = self.speech_to_text.list_language_models()
+        assert len(current_custom_models['customizations']) - len(
+            self.custom_models['customizations']) >= 1
+
+    def test_recognize(self):
+        with open(
+                os.path.join(
+                    os.path.dirname(__file__), '../../resources/speech.wav'),
+                'rb') as audio_file:
+            output = self.speech_to_text.recognize(
+                audio=audio_file, content_type='audio/l16; rate=44100')
+        assert output['results'][0]['alternatives'][0][
+            'transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
+
+    def test_recognitions(self):
+        output = self.speech_to_text.check_jobs()
+        assert output is not None
+
+    def test_custom_corpora(self):
+        output = self.speech_to_text.list_corpora(self.customization_id)
+        assert len(output['corpora']) == 0
+
+    def test_acoustic_model(self):
+        list_models = self.speech_to_text.list_acoustic_models()
+        assert list_models is not None
+
+        create_acoustic_model = self.speech_to_text.create_acoustic_model(
+            name="integration_test_model_python",
+            base_model_name="en-US_BroadbandModel")
+        assert create_acoustic_model is not None
+
+        get_acoustic_model = self.speech_to_text.get_acoustic_model(
+            create_acoustic_model['customization_id'])
+        assert get_acoustic_model is not None
+
+        self.speech_to_text.reset_acoustic_model(
+            get_acoustic_model['customization_id'])
+
+        self.speech_to_text.delete_acoustic_model(get_acoustic_model['customization_id'])
