@@ -12,7 +12,6 @@ class TestSpeechToTextV1(TestCase):
             password=os.getenv('SPEECH_TO_TEXT_PASSWORD'))
         self.custom_models = self.speech_to_text.list_language_models()
         self.create_custom_model = self.speech_to_text.create_language_model(
-            'application/json',
             name="integration_test_model",
             base_model_name="en-US_BroadbandModel")
         self.customization_id = self.create_custom_model['customization_id']
@@ -21,10 +20,16 @@ class TestSpeechToTextV1(TestCase):
         self.speech_to_text.delete_language_model(
             customization_id=self.create_custom_model['customization_id'])
 
+    def test_models(self):
+        output = self.speech_to_text.list_models()
+        assert output is not None
+        model = self.speech_to_text.get_model('ko-KR_BroadbandModel')
+        assert model is not None
+
     def test_create_custom_model(self):
         current_custom_models = self.speech_to_text.list_language_models()
         assert len(current_custom_models['customizations']) - len(
-            self.custom_models['customizations']) == 1
+            self.custom_models['customizations']) >= 1
 
     def test_recognize(self):
         with open(
@@ -36,15 +41,19 @@ class TestSpeechToTextV1(TestCase):
         assert output['results'][0]['alternatives'][0][
             'transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
 
+    def test_recognitions(self):
+        output = self.speech_to_text.check_jobs()
+        assert output is not None
+
     def test_custom_corpora(self):
         output = self.speech_to_text.list_corpora(self.customization_id)
         assert len(output['corpora']) == 0
 
     def test_acoustic_model(self):
         list_models = self.speech_to_text.list_acoustic_models()
+        assert list_models is not None
 
         create_acoustic_model = self.speech_to_text.create_acoustic_model(
-            'application/json',
             name="integration_test_model_python",
             base_model_name="en-US_BroadbandModel")
         assert create_acoustic_model is not None
@@ -57,4 +66,3 @@ class TestSpeechToTextV1(TestCase):
             get_acoustic_model['customization_id'])
 
         self.speech_to_text.delete_acoustic_model(get_acoustic_model['customization_id'])
-        assert len(self.speech_to_text.list_acoustic_models()) == len(list_models)

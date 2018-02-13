@@ -358,7 +358,6 @@ class SpeechToTextV1(WatsonService):
     #########################
 
     def create_language_model(self,
-                              content_type,
                               name,
                               base_model_name,
                               dialect=None,
@@ -371,7 +370,6 @@ class SpeechToTextV1(WatsonService):
         model is owned by the instance of the service whose credentials are used to create
         it.
 
-        :param str content_type: The type of the input.
         :param str name: A user-defined name for the new custom language model. Use a name that is unique among all custom language models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the domain of the custom model, such as `Medical custom model` or `Legal custom model`.
         :param str base_model_name: The name of the base language model that is to be customized by the new custom language model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports language model customization, request information about the base model and check that the attribute `custom_language_model` is set to `true`, or refer to [Language support for customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
         :param str dialect: The dialect of the specified language that is to be used with the custom language model. The parameter is meaningful only for Spanish models, for which the service creates a custom language model that is suited for speech in one of the following dialects: * `es-ES` for Castilian Spanish (the default) * `es-LA` for Latin American Spanish * `es-US` for North American (Mexican) Spanish   A specified dialect must be valid for the base model. By default, the dialect matches the language of the base model; for example, `en-US` for either of the US English language models.
@@ -379,13 +377,10 @@ class SpeechToTextV1(WatsonService):
         :return: A `dict` containing the `LanguageModel` response.
         :rtype: dict
         """
-        if content_type is None:
-            raise ValueError('content_type must be provided')
         if name is None:
             raise ValueError('name must be provided')
         if base_model_name is None:
             raise ValueError('base_model_name must be provided')
-        headers = {'Content-Type': content_type}
         data = {
             'name': name,
             'base_model_name': base_model_name,
@@ -396,7 +391,6 @@ class SpeechToTextV1(WatsonService):
         response = self.request(
             method='POST',
             url=url,
-            headers=headers,
             json=data,
             accept_json=True)
         return response
@@ -406,8 +400,7 @@ class SpeechToTextV1(WatsonService):
                             name,
                             description="",
                             base_model="en-US_BroadbandModel"):
-        return self.create_language_model(
-            'application/json', name, base_model, description=description)
+        return self.create_language_model(name, base_model, description=description)
 
     def delete_language_model(self, customization_id):
         """
@@ -426,7 +419,7 @@ class SpeechToTextV1(WatsonService):
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
         self.request(method='DELETE', url=url, accept_json=True)
-        return
+        return None
 
     @deprecated('Use delete_language_model() instead.')
     def delete_custom_model(self, modelid):
@@ -669,7 +662,6 @@ class SpeechToTextV1(WatsonService):
             raise ValueError('customization_id must be provided')
         if word_name is None:
             raise ValueError('word_name must be provided')
-        headers = {'Content-Type': 'application/json'}
         data = {
             'word': word_name,
             'sounds_like': sounds_like,
@@ -680,7 +672,6 @@ class SpeechToTextV1(WatsonService):
         self.request(
             method='PUT',
             url=url,
-            headers=headers,
             json=data,
             accept_json=True)
         return None
@@ -702,14 +693,12 @@ class SpeechToTextV1(WatsonService):
         if words is None:
             raise ValueError('words must be provided')
         words = [self._convert_model(x) for x in words]
-        headers = {'Content-Type': 'application/json'}
         data = {'words': words}
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
         self.request(
             method='POST',
             url=url,
-            headers=headers,
             json=data,
             accept_json=True)
         return None
@@ -800,7 +789,6 @@ class SpeechToTextV1(WatsonService):
     #########################
 
     def create_acoustic_model(self,
-                              content_type,
                               name,
                               base_model_name,
                               description=None):
@@ -812,20 +800,16 @@ class SpeechToTextV1(WatsonService):
         model is owned by the instance of the service whose credentials are used to create
         it.
 
-        :param str content_type: The type of the input.
         :param str name: A user-defined name for the new custom acoustic model. Use a name that is unique among all custom acoustic models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the acoustic environment of the custom model, such as `Mobile custom model` or `Noisy car custom model`.
         :param str base_model_name: The name of the base language model that is to be customized by the new custom acoustic model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports acoustic model customization, refer to [Language support for customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
         :param str description: A description of the new custom acoustic model. Use a localized description that matches the language of the custom model.
         :return: A `dict` containing the `AcousticModel` response.
         :rtype: dict
         """
-        if content_type is None:
-            raise ValueError('content_type must be provided')
         if name is None:
             raise ValueError('name must be provided')
         if base_model_name is None:
             raise ValueError('base_model_name must be provided')
-        headers = {'Content-Type': content_type}
         data = {
             'name': name,
             'base_model_name': base_model_name,
@@ -835,7 +819,6 @@ class SpeechToTextV1(WatsonService):
         response = self.request(
             method='POST',
             url=url,
-            headers=headers,
             json=data,
             accept_json=True)
         return response
