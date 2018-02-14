@@ -86,9 +86,6 @@ print(json.dumps(response, indent=2))
 ## Dependencies
 
 * [requests]
-* `pysolr` >=3.3, <4.0
-* `argparse` >=1.3.0
-* `pyOpenSSL` >=16.2.0
 * `python_dateutil` >= 2.5.3
 * [responses] for testing
 
