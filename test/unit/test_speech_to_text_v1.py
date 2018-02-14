@@ -40,7 +40,7 @@ def test_success():
         content_type='application/json')
 
     with open(
-            os.path.join(os.path.dirname(__file__), '../resources/speech.wav'),
+            os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'),
             'rb') as audio_file:
         speech_to_text.recognize(
             audio=audio_file, content_type='audio/l16; rate=44100')
@@ -117,7 +117,7 @@ def test_recognitions():
     assert responses.calls[1].response.json() == {'status': 'waiting'}
 
     with open(
-            os.path.join(os.path.dirname(__file__), '../resources/speech.wav'),
+            os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'),
             'rb') as audio_file:
         speech_to_text.create_job(audio=audio_file)
     assert responses.calls[2].response.json() == {'status': 'waiting'}
@@ -338,7 +338,7 @@ def test_custom_corpora():
 
         speech_to_text.list_corpora(customization_id='customid')
 
-        file_path = '../resources/speech_to_text/corpus-short-1.txt'
+        file_path = '../../resources/speech_to_text/corpus-short-1.txt'
         full_path = os.path.join(os.path.dirname(__file__), file_path)
         with open(full_path) as corpus_file:
             speech_to_text.add_corpus(
@@ -483,7 +483,7 @@ def test_custom_audio_resources():
         username="username", password="password")
 
     with open(
-            os.path.join(os.path.dirname(__file__), '../resources/speech.wav'),
+            os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'),
             'rb') as audio_file:
         speech_to_text.add_audio(
             customization_id='custid',

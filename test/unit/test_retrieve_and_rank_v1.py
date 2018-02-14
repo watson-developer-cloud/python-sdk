@@ -65,7 +65,7 @@ def test_rank():
 
     ranker_answer = None
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/ranker_answer_data.csv'), 'rb') as answer_data:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/ranker_answer_data.csv'), 'rb') as answer_data:
         ranker_answer = retrieve_and_rank.rank('3b140ax14-rank-10383', answer_data=answer_data, top_answers=3)
 
     assert ranker_answer is not None
@@ -84,7 +84,7 @@ def test_create_ranker():
                   content_type='application/json')
 
     ranker = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/ranker_training_data.csv'), 'rb') as training_data:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/ranker_training_data.csv'), 'rb') as training_data:
         ranker = retrieve_and_rank.create_ranker(training_data=training_data, name='pythonRank')
 
     assert ranker is not None
@@ -192,7 +192,7 @@ def test_create_config():
                   match_querystring=True,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/solr_config.zip'), 'rb') as config_data:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/solr_config.zip'), 'rb') as config_data:
         config = retrieve_and_rank.create_config(CLUSTER_ID, 'exampleconfig', config=config_data)
 
     assert config is not None

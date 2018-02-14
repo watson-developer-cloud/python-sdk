@@ -96,8 +96,8 @@ class TestVisualRecognitionV3(TestCase):
                       status=200,
                       content_type='application/json')
 
-        with open(os.path.join(os.path.dirname(__file__), '../resources/cars.zip'), 'rb') as cars, \
-            open(os.path.join(os.path.dirname(__file__), '../resources/trucks.zip'), 'rb') as trucks:
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
+            open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
             vr_service.create_classifier('Cars vs Trucks', cars_positive_examples=cars, negative_examples=trucks)
 
         assert len(responses.calls) == 1
@@ -172,7 +172,7 @@ class TestVisualRecognitionV3(TestCase):
         vr_service.classify(parameters=json.dumps({'url': 'http://google.com', 'classifier_ids': ['one', 'two', 'three']}))
         vr_service.classify(parameters=json.dumps({'url': 'http://google.com', 'owners': ['me', 'IBM']}))
 
-        with open(os.path.join(os.path.dirname(__file__), '../resources/test.jpg'), 'rb') as image_file:
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/test.jpg'), 'rb') as image_file:
             vr_service.classify(images_file=image_file)
         assert len(responses.calls) == 4
 
@@ -229,6 +229,6 @@ class TestVisualRecognitionV3(TestCase):
                       content_type='application/json')
 
         vr_service.detect_faces(parameters='{"url": "http://google.com"}')
-        with open(os.path.join(os.path.dirname(__file__), '../resources/test.jpg'), 'rb') as image_file:
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/test.jpg'), 'rb') as image_file:
             vr_service.detect_faces(images_file=image_file)
         assert len(responses.calls) == 2

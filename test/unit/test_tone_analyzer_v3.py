@@ -12,14 +12,14 @@ def test_tone():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
     tone_args = '?version=2016-05-19'
     tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/tone-v3-expect1.json')) as response_json:
         tone_response = response_json.read()
 
     responses.add(responses.POST, tone_url,
                   body=tone_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as tone_text:
         tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
                                                               username="username", password="password")
         tone_analyzer.tone(tone_text.read())
@@ -36,14 +36,14 @@ def test_tone_with_args():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
     tone_args = {'version': '2016-05-19', 'sentences': 'false'}
     tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/tone-v3-expect1.json')) as response_json:
         tone_response = response_json.read()
 
     responses.add(responses.POST, tone_url,
                   body=tone_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as tone_text:
         tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
                                                               username="username", password="password")
         tone_analyzer.tone(tone_text.read(), sentences=False)
@@ -64,14 +64,14 @@ def test_tone_with_positional_args():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone'
     tone_args = {'version': '2016-05-19', 'sentences': 'false'}
     tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect1.json')) as response_json:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/tone-v3-expect1.json')) as response_json:
         tone_response = response_json.read()
 
     responses.add(responses.POST, tone_url,
                   body=tone_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as tone_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as tone_text:
         tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
                                                               username="username", password="password")
         tone_analyzer.tone(tone_text.read(), 'application/json', False)
@@ -92,7 +92,7 @@ def test_tone_chat():
     tone_url = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone_chat'
     tone_args = '?version=2016-05-19'
     tone_response = None
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tone-v3-expect2.json')) as response_json:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/tone-v3-expect2.json')) as response_json:
         tone_response = response_json.read()
 
     responses.add(responses.POST, tone_url,

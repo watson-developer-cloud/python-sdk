@@ -7,6 +7,7 @@ tone_analyzer = ToneAnalyzerV3(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
     version='2017-09-26')
+tone_analyzer.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 print("\ntone_chat() example 1:\n")
 utterances = [{'text': 'I am very happy.', 'user': 'glenn'},
