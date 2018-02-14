@@ -64,7 +64,7 @@ setup(name='watson-developer-cloud',
       version=__version__,
       description='Client library to use the IBM Watson Services',
       license='Apache 2.0',
-      install_requires=['requests>=2.0, <3.0', 'pysolr>= 3.3, <4.0', 'pyOpenSSL>=16.2.0', 'python_dateutil>=2.5.3'],
+      install_requires=['requests>=2.0, <3.0', 'python_dateutil>=2.5.3'],
       tests_require=['responses', 'pytest', 'python_dotenv', 'pytest-rerunfailures', 'tox'],
       cmdclass={'test': PyTest},
       author='Jeffrey Stylos',
@@ -73,12 +73,12 @@ setup(name='watson-developer-cloud',
       url='https://github.com/watson-developer-cloud/python-sdk',
       packages=['watson_developer_cloud'],
       include_package_data=True,
-      keywords='alchemy datanews, language, vision, question and answer' +
-      ' tone_analyzer, natural language classifier, retrieve and rank,' +
-      ' tradeoff analytics, text to speech, language translation, ' +
+      keywords='language, vision, question and answer' +
+      ' tone_analyzer, natural language classifier,' +
+      ' text to speech, language translation, ' +
       'language identification, concept expansion, machine translation, ' +
       'personality insights, message resonance, watson developer cloud, ' +
-      ' wdc, watson, ibm, dialog, user modeling, alchemyapi, alchemy, ' +
+      ' wdc, watson, ibm, dialog, user modeling,' +
       'tone analyzer, speech to text, visual recognition',
       classifiers=[
           'Programming Language :: Python',
