@@ -7,7 +7,6 @@ discovery = DiscoveryV1(
     version='2017-10-16',
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
-discovery.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 environments = discovery.list_environments()
 print(json.dumps(environments, indent=2))

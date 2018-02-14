@@ -6,7 +6,6 @@ from watson_developer_cloud import SpeechToTextV1
 speech_to_text = SpeechToTextV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
-speech_to_text.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 print(json.dumps(speech_to_text.list_models(), indent=2))
 
