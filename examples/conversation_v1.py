@@ -7,7 +7,6 @@ conversation = ConversationV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
     version='2017-04-21')
-conversation.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 # When you send multiple requests for the same conversation, include the
 # context object from the previous response.

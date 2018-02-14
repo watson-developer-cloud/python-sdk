@@ -11,7 +11,6 @@ personality_insights = PersonalityInsightsV3(
     version='2016-10-20',
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
-personality_insights.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
         profile_json:

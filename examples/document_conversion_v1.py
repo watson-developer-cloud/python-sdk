@@ -8,7 +8,6 @@ document_conversion = DocumentConversionV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
     version='2016-02-09')
-document_conversion.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 # Example of retrieving html or plain text
 with open(join(dirname(__file__), '../resources/example.html'),
