@@ -68,8 +68,8 @@ class WatsonApiException(WatsonException):
         self.code = code
         self.info = info
         self.httpResponse = httpResponse
-        self.transactionId = ''
-        self.globalTransactionId = ''
+        self.transactionId = None
+        self.globalTransactionId = None
         if httpResponse is not None:
             self.transactionId = httpResponse.headers.get('X-DP-Watson-Tran-ID')
             self.globalTransactionId = httpResponse.headers.get('X-Global-Transaction-ID')
@@ -77,9 +77,9 @@ class WatsonApiException(WatsonException):
 
     def __str__(self):
         msg = 'Error: ' + self.message + ', Code: ' + str(self.code)
-        if (self.transactionId):
+        if self.transactionId is not None:
             msg += ' , X-dp-watson-tran-id: ' + str(self.transactionId)
-        if (self.globalTransactionId):
+        if self.globalTransactionId is not None:
             msg += ' , X-global-transaction-id: ' + str(self.globalTransactionId)
         return  msg
 

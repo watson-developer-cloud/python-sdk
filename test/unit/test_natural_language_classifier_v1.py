@@ -61,7 +61,7 @@ def test_success():
     responses.add(responses.POST, create_url,
                   body=create_response, status=200,
                   content_type='application/json')
-    with open(os.path.join(os.path.dirname(__file__), '../resources/weather_data_train.csv'), 'rb') as training_data:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/weather_data_train.csv'), 'rb') as training_data:
         natural_language_classifier.create_classifier(
             training_data=training_data, metadata='{"language": "en"}')
 

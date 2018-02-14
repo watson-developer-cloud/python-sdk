@@ -11,6 +11,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
     def setUp(self):
         self.visual_recognition = watson_developer_cloud.VisualRecognitionV3('2016-05-20', api_key=os.environ.get(
             'VISUAL_RECOGNITION_API_KEY'))
+        self.visual_recognition.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
         self.collections = self.visual_recognition.list_collections()
 
         collection_json = self.visual_recognition.create_collection(name="test_integration_collection")

@@ -18,12 +18,14 @@ conversation = ConversationV1(
     username=os.environ.get('CONVERSATION_USERNAME') or 'YOUR SERVICE NAME',
     password=os.environ.get('CONVERSATION_PASSWORD') or 'YOUR PASSWORD',
     version='2016-09-20')
+conversation.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 # replace with your own tone analyzer credentials
 tone_analyzer = ToneAnalyzerV3(
     username=os.environ.get('TONE_ANALYZER_USERNAME') or 'YOUR SERVICE NAME',
     password=os.environ.get('TONE_ANALYZER_PASSWORD') or 'YOUR SERVICE NAME',
     version='2016-02-11')
+tone_analyzer.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 # replace with your own workspace_id
 workspace_id = os.environ.get('WORKSPACE_ID') or 'YOUR WORKSPACE ID'

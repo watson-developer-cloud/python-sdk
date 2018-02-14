@@ -6,6 +6,7 @@ from watson_developer_cloud import LanguageTranslatorV2
 language_translator = LanguageTranslatorV2(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
+language_translator.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
 
 # create new custom model
 # with open('../resources/language_translator_model.tmx', 'rb') as \

@@ -9,7 +9,7 @@ dilemmas_url = 'https://gateway.watsonplatform.net/tradeoff-analytics/api/v1/dil
 @responses.activate
 def test_visualization_no_preferable_options():
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tradeoff-expect1.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/tradeoff-expect1.txt')) as expect_file:
         dilemmas_response = expect_file.read()
 
     responses.add(responses.POST, dilemmas_url,
@@ -19,7 +19,7 @@ def test_visualization_no_preferable_options():
     tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1(
         username="username", password="password")
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/problem.json')) as data_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/problem.json')) as data_file:
         tradeoff_analytics.dilemmas(json.load(data_file))
 
     assert 'generate_visualization=true' in responses.calls[0].request.url
@@ -29,7 +29,7 @@ def test_visualization_no_preferable_options():
 @responses.activate
 def test_no_visualization_no_preferable_options():
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tradeoff-expect2.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/tradeoff-expect2.txt')) as expect_file:
         dilemmas_response = expect_file.read()
 
     responses.add(responses.POST, dilemmas_url,
@@ -39,7 +39,7 @@ def test_no_visualization_no_preferable_options():
     tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1(
         username="username", password="password")
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/problem.json')) as data_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/problem.json')) as data_file:
         tradeoff_analytics.dilemmas(json.load(data_file), generate_visualization=False)
 
     assert 'generate_visualization=false' in responses.calls[0].request.url
@@ -48,7 +48,7 @@ def test_no_visualization_no_preferable_options():
 
 @responses.activate
 def test_no_visualization_preferable_options():
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tradeoff-expect3.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/tradeoff-expect3.txt')) as expect_file:
         dilemmas_response = expect_file.read()
 
     responses.add(responses.POST, dilemmas_url,
@@ -58,7 +58,7 @@ def test_no_visualization_preferable_options():
     tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1(
         username="username", password="password")
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/problem.json')) as data_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/problem.json')) as data_file:
         tradeoff_analytics.dilemmas(
             json.load(data_file),
             generate_visualization=False,
@@ -71,7 +71,7 @@ def test_no_visualization_preferable_options():
 
 @responses.activate
 def test_visualization_preferable_options():
-    with open(os.path.join(os.path.dirname(__file__), '../resources/tradeoff-expect4.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/tradeoff-expect4.txt')) as expect_file:
         dilemmas_response = expect_file.read()
 
     responses.add(responses.POST, dilemmas_url,
@@ -80,7 +80,7 @@ def test_visualization_preferable_options():
     tradeoff_analytics = watson_developer_cloud.TradeoffAnalyticsV1(
         username="username", password="password")
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/problem.json')) as data_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/problem.json')) as data_file:
         tradeoff_analytics.dilemmas(
             json.load(data_file),
             find_preferable_options=True)

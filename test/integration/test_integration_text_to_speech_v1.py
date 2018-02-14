@@ -6,6 +6,7 @@ import os
 class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def setUp(self):
         self.text_to_speech = watson_developer_cloud.TextToSpeechV1()
+        self.text_to_speech.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
         self.original_customizations = self.text_to_speech.list_voice_models()
         self.created_customization = self.text_to_speech.create_voice_model(
             name="test_integration_customization",

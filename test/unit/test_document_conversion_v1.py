@@ -17,7 +17,7 @@ def test_success():
                   body=convert_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/simple.html'), 'r') as document:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/simple.html'), 'r') as document:
         convertConfig = {'conversion_target': watson_developer_cloud.DocumentConversionV1.NORMALIZED_HTML}
         document_conversion.convert_document(document=document, config=convertConfig, media_type='text/html')
 
@@ -31,7 +31,7 @@ def test_success():
                   body=index_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/example.html'), 'r') as document:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/example.html'), 'r') as document:
         indexConfig = {
             'retrieve_and_rank': {
                 'dry_run':'false',
