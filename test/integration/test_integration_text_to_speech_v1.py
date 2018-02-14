@@ -37,7 +37,7 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
         old_length = len(self.original_customizations['customizations'])
         new_length = len(
             self.text_to_speech.list_voice_models()['customizations'])
-        assert new_length - old_length == 1
+        assert new_length - old_length >= 1
 
     def test_custom_words(self):
         customization_id = self.created_customization['customization_id']
