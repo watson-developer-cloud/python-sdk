@@ -338,65 +338,6 @@
         <span class="k">return</span> <span class="n">error_info</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">error_info</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
 
 
-    <span class="k">def</span> <span class="nf">_alchemy_html_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                              <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-                              <span class="n">method_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;outputMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;json&#39;</span>
-        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;content-type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/x-www-form-urlencoded&#39;</span><span class="p">}</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">_convert_boolean_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-        <span class="n">url_encoded_params</span> <span class="o">=</span> <span class="p">{}</span>
-
-        <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
-            <span class="n">url_encoded_params</span> <span class="o">=</span> <span class="n">params</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
-
-        <span class="n">url_encoded_params</span><span class="p">[</span><span class="s1">&#39;html&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">html</span>
-        <span class="n">url_encoded_params</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
-
-        <span class="k">if</span> <span class="n">method_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">url</span><span class="p">:</span>
-                <span class="n">params</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
-                <span class="n">method_url</span> <span class="o">=</span> <span class="s1">&#39;/url/URL&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
-            <span class="k">elif</span> <span class="n">html</span><span class="p">:</span>
-                <span class="n">method_url</span> <span class="o">=</span> <span class="s1">&#39;/html/HTML&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
-            <span class="k">elif</span> <span class="n">text</span><span class="p">:</span>
-                <span class="n">method_url</span> <span class="o">=</span> <span class="s1">&#39;/text/Text&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">WatsonInvalidArgument</span><span class="p">(</span>
-                    <span class="s1">&#39;url, html or text must be specified&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">method_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-                            <span class="n">data</span><span class="o">=</span><span class="n">url_encoded_params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
-                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_alchemy_image_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">image_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                               <span class="n">image_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;outputMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;json&#39;</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">_convert_boolean_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">image_contents</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="k">if</span> <span class="n">image_file</span><span class="p">:</span>
-            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;imagePostMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;raw&#39;</span>
-            <span class="n">image_contents</span> <span class="o">=</span> <span class="n">image_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-            <span class="c1"># headers[&#39;content-length&#39;] = sys.getsizeof(image_contents)</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/image/Image&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
-        <span class="k">elif</span> <span class="n">image_url</span><span class="p">:</span>
-            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;imagePostMode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;not-raw&#39;</span>
-            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_url</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/url/URL&#39;</span> <span class="o">+</span> <span class="n">method_name</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">WatsonInvalidArgument</span><span class="p">(</span>
-                <span class="s1">&#39;image_file or image_url must be specified&#39;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-                            <span class="n">data</span><span class="o">=</span><span class="n">image_contents</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
-                            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
 <div class="viewcode-block" id="WatsonService.request"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.request">[docs]</a>    <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">full_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="n">url</span>
