@@ -25,6 +25,10 @@ class TestSpeechToTextV1(TestCase):
         assert output is not None
         model = self.speech_to_text.get_model('ko-KR_BroadbandModel')
         assert model is not None
+        try:
+            self.speech_to_text.get_model('bogus')
+        except Exception as e:
+            assert 'X-global-transaction-id:' in str(e)
 
     def test_create_custom_model(self):
         current_custom_models = self.speech_to_text.list_language_models()

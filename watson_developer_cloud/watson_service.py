@@ -59,16 +59,29 @@ class WatsonApiException(WatsonException):
     :param int code: The HTTP status code returned.
     :param str message: A message describing the error.
     :param dict info: A dictionary of additional information about the error.
+    :param response httpResponse: response
     """
-    def __init__(self, code, message, info=None):
+    def __init__(self, code, message, info=None, httpResponse=None):
         # Call the base class constructor with the parameters it needs
         super(WatsonApiException, self).__init__(message)
         self.message = message
         self.code = code
         self.info = info
+        self.httpResponse = httpResponse
+        self.transactionId = ''
+        self.globalTransactionId = ''
+        if httpResponse is not None:
+            self.transactionId = httpResponse.headers.get('X-DP-Watson-Tran-ID')
+            self.globalTransactionId = httpResponse.headers.get('X-Global-Transaction-ID')
+
 
     def __str__(self):
-        return 'Error: ' + self.message + ', Code: ' + str(self.code)
+        msg = 'Error: ' + self.message + ', Code: ' + str(self.code)
+        if (self.transactionId):
+            msg += ' , X-dp-watson-tran-id: ' + str(self.transactionId)
+        if (self.globalTransactionId):
+            msg += ' , X-global-transaction-id: ' + str(self.globalTransactionId)
+        return  msg
 
 
 class WatsonInvalidArgument(WatsonException):
@@ -412,7 +425,7 @@ class WatsonService(object):
                         error_message = response_json['statusInfo']
                     if error_message == 'invalid-api-key':
                         status_code = 401
-                    raise WatsonApiException(status_code, error_message)
+                    raise WatsonApiException(status_code, error_message, httpResponse=response)
                 return response_json
             return response
         else:
@@ -423,4 +436,4 @@ class WatsonService(object):
                 error_message = self._get_error_message(response)
             error_info = self._get_error_info(response)
             raise WatsonApiException(response.status_code, error_message,
-                                     error_info)
+                                     info=error_info, httpResponse=response)
