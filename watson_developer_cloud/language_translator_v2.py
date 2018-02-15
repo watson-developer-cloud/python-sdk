@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -73,10 +73,10 @@ class LanguageTranslatorV2(WatsonService):
         """
         Translates the input text from the source language to the target language.
 
-        :param list[str] text: Input text in UTF-8 encoding. It is a list so that multiple paragraphs can be submitted. Also accept a single string, instead of an array, as valid input.
-        :param str model_id: The unique model_id of the translation model being used to translate text. The model_id inherently specifies source language, target language, and domain. If the model_id is specified, there is no need for the source and target parameters and the values are ignored.
-        :param str source: Used in combination with target as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).
-        :param str target: Used in combination with source as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).
+        :param list[str] text: Input text in UTF-8 encoding. Multiple entries will result in multiple translations in the response.
+        :param str model_id: Model ID of the translation model to use. If this is specified, the `source` and `target` parameters will be ignored. The method requires either a model ID or both the `source` and `target` parameters.
+        :param str source: Language code of the source text language. Use with `target` as an alternative way to select a translation model. When `source` and `target` are set, and a model ID is not set, the system chooses a default model for the language pair (usually the model based on the news domain).
+        :param str target: Language code of the translation target language. Use with source as an alternative way to select a translation model.
         :return: A `dict` containing the `TranslationResult` response.
         :rtype: dict
         """
@@ -120,10 +120,10 @@ class LanguageTranslatorV2(WatsonService):
 
     def list_identifiable_languages(self):
         """
-        Lists all languages that can be identified by the API.
+        List identifiable languages.
 
-        Lists all languages that the service can identify. Returns the two-letter code
-        (for example, `en` for English or `es` for Spanish) and name of each language.
+        Lists the languages that the service can identify. Returns the language code (for
+        example, `en` for English or `es` for Spanish) and name of each language.
 
         :return: A `dict` containing the `IdentifiableLanguages` response.
         :rtype: dict
@@ -147,10 +147,14 @@ class LanguageTranslatorV2(WatsonService):
                      monolingual_corpus_filename=None):
         """
         Uploads a TMX glossary file on top of a domain to customize a translation model.
+        Depending on the size of the file, training can range from minutes for a glossary
+        to several hours for a large parallel corpus. Glossary files must be less than 10
+        MB. The cumulative file size of all uploaded glossary and corpus files is limited
+        to 250 MB.
 
-        :param str base_model_id: Specifies the domain model that is used as the base for the training. To see current supported domain models, use the GET /v2/models parameter.
-        :param str name: The model name. Valid characters are letters, numbers, -, and _. No spaces.
-        :param file forced_glossary: A TMX file with your customizations. The customizations in the file completely overwrite the domain data translation, including high frequency or high confidence phrase translations. You can upload only one glossary with a file size less than 10 MB per call.
+        :param str base_model_id: The model ID of the model to use as the base for customization. To see available models, use the `List models` method.
+        :param str name: An optional model name that you can use to identify the model. Valid characters are letters, numbers, dashes, underscores, spaces and apostrophes. The maximum length is 32 characters.
+        :param file forced_glossary: A TMX file with your customizations. The customizations in the file completely overwrite the domain translaton data, including high frequency or high confidence phrase translations. You can upload only one glossary with a file size less than 10 MB per call.
         :param file parallel_corpus: A TMX file that contains entries that are treated as a parallel corpus instead of a glossary.
         :param file monolingual_corpus: A UTF-8 encoded plain text file that is used to customize the target language model.
         :param str forced_glossary_filename: The filename for forced_glossary.
@@ -164,16 +168,16 @@ class LanguageTranslatorV2(WatsonService):
         params = {'base_model_id': base_model_id, 'name': name}
         forced_glossary_tuple = None
         if forced_glossary:
-            if not forced_glossary_filename and hasattr(forced_glossary,
-                                                        'name'):
+            if not forced_glossary_filename and hasattr(
+                    forced_glossary, 'name'):
                 forced_glossary_filename = forced_glossary.name
             mime_type = 'application/octet-stream'
             forced_glossary_tuple = (forced_glossary_filename, forced_glossary,
                                      mime_type)
         parallel_corpus_tuple = None
         if parallel_corpus:
-            if not parallel_corpus_filename and hasattr(parallel_corpus,
-                                                        'name'):
+            if not parallel_corpus_filename and hasattr(
+                    parallel_corpus, 'name'):
                 parallel_corpus_filename = parallel_corpus.name
             mime_type = 'application/octet-stream'
             parallel_corpus_tuple = (parallel_corpus_filename, parallel_corpus,
@@ -203,7 +207,7 @@ class LanguageTranslatorV2(WatsonService):
         """
         Deletes a custom translation model.
 
-        :param str model_id: The model identifier.
+        :param str model_id: Model ID of the model to delete.
         :return: A `dict` containing the `DeleteModelResult` response.
         :rtype: dict
         """
@@ -231,9 +235,9 @@ class LanguageTranslatorV2(WatsonService):
         """
         Lists available standard and custom models by source or target language.
 
-        :param str source: Filter models by source language.
-        :param str target: Filter models by target language.
-        :param bool default_models: Valid values are leaving it unset, `true`, and `false`. When `true`, it filters models to return the default_models model or models. When `false`, it returns the non-default_models model or models. If not set, it returns all models, default_models and non-default_models.
+        :param str source: Specify a language code to filter results by source language.
+        :param str target: Specify a language code to filter results by target language.
+        :param bool default_models: If the default_models parameter isn't specified, the service will return all models (default_models and non-default_models) for each language pair. To return only default_models models, set this to `true`. To return only non-default_models models, set this to `false`.
         :return: A `dict` containing the `TranslationModels` response.
         :rtype: dict
         """
@@ -302,7 +306,7 @@ class IdentifiableLanguage(object):
     """
     IdentifiableLanguage.
 
-    :attr str language: The code for an identifiable language.
+    :attr str language: The language code for an identifiable language.
     :attr str name: The name of the identifiable language.
     """
 
@@ -310,7 +314,7 @@ class IdentifiableLanguage(object):
         """
         Initialize a IdentifiableLanguage object.
 
-        :param str language: The code for an identifiable language.
+        :param str language: The language code for an identifiable language.
         :param str name: The name of the identifiable language.
         """
         self.language = language
@@ -413,7 +417,7 @@ class IdentifiedLanguage(object):
     """
     IdentifiedLanguage.
 
-    :attr str language: The code for an identified language.
+    :attr str language: The language code for an identified language.
     :attr float confidence: The confidence score for the identified language.
     """
 
@@ -421,7 +425,7 @@ class IdentifiedLanguage(object):
         """
         Initialize a IdentifiedLanguage object.
 
-        :param str language: The code for an identified language.
+        :param str language: The language code for an identified language.
         :param float confidence: The confidence score for the identified language.
         """
         self.language = language
@@ -575,15 +579,15 @@ class TranslationModel(object):
     """
     Response payload for models.
 
-    :attr str model_id: A globally unique string that identifies the underlying model that is used for translation. This string contains all the information about source language, target language, domain, and various other related configurations.
-    :attr str name: (optional) If a model is trained by a user, there might be an optional “name” parameter attached during training to help the user identify the model.
-    :attr str source: (optional) Source language in two letter language code. Use the five letter code when clarifying between multiple supported languages. When model_id is used directly, it will override the source-target language combination. Also, when a two letter language code is used, but no suitable default is found, it returns an error.
-    :attr str target: (optional) Target language in two letter language code.
-    :attr str base_model_id: (optional) If this model is a custom model, this returns the base model that it is trained on. For a base model, this response value is empty.
+    :attr str model_id: A globally unique string that identifies the underlying model that is used for translation.
+    :attr str name: (optional) Optional name that can be specified when the model is created.
+    :attr str source: (optional) Translation source language code.
+    :attr str target: (optional) Translation target language code.
+    :attr str base_model_id: (optional) Model ID of the base model that was used to customize the model. If the model is not a custom model, this will be an empty string.
     :attr str domain: (optional) The domain of the translation model.
-    :attr bool customizable: (optional) Whether this model can be used as a base for customization. Customized models are not further customizable, and we don't allow the customization of certain base models.
-    :attr bool default_model: (optional) Whether this model is considered a default model and is used when the source and target languages are specified without the model_id.
-    :attr str owner: (optional) Returns the Bluemix ID of the instance that created the model, or an empty string if it is a model that is trained by IBM.
+    :attr bool customizable: (optional) Whether this model can be used as a base for customization. Customized models are not further customizable, and some base models are not customizable.
+    :attr bool default_model: (optional) Whether or not the model is a default model. A default model is the model for a given language pair that will be used when that language pair is specified in the source and target parameters.
+    :attr str owner: (optional) Either an empty string, indicating the model is not a custom model, or the ID of the service instance that created the model.
     :attr str status: (optional) Availability of a model.
     """
 
@@ -601,15 +605,15 @@ class TranslationModel(object):
         """
         Initialize a TranslationModel object.
 
-        :param str model_id: A globally unique string that identifies the underlying model that is used for translation. This string contains all the information about source language, target language, domain, and various other related configurations.
-        :param str name: (optional) If a model is trained by a user, there might be an optional “name” parameter attached during training to help the user identify the model.
-        :param str source: (optional) Source language in two letter language code. Use the five letter code when clarifying between multiple supported languages. When model_id is used directly, it will override the source-target language combination. Also, when a two letter language code is used, but no suitable default is found, it returns an error.
-        :param str target: (optional) Target language in two letter language code.
-        :param str base_model_id: (optional) If this model is a custom model, this returns the base model that it is trained on. For a base model, this response value is empty.
+        :param str model_id: A globally unique string that identifies the underlying model that is used for translation.
+        :param str name: (optional) Optional name that can be specified when the model is created.
+        :param str source: (optional) Translation source language code.
+        :param str target: (optional) Translation target language code.
+        :param str base_model_id: (optional) Model ID of the base model that was used to customize the model. If the model is not a custom model, this will be an empty string.
         :param str domain: (optional) The domain of the translation model.
-        :param bool customizable: (optional) Whether this model can be used as a base for customization. Customized models are not further customizable, and we don't allow the customization of certain base models.
-        :param bool default_model: (optional) Whether this model is considered a default model and is used when the source and target languages are specified without the model_id.
-        :param str owner: (optional) Returns the Bluemix ID of the instance that created the model, or an empty string if it is a model that is trained by IBM.
+        :param bool customizable: (optional) Whether this model can be used as a base for customization. Customized models are not further customizable, and some base models are not customizable.
+        :param bool default_model: (optional) Whether or not the model is a default model. A default model is the model for a given language pair that will be used when that language pair is specified in the source and target parameters.
+        :param str owner: (optional) Either an empty string, indicating the model is not a custom model, or the ID of the service instance that created the model.
         :param str status: (optional) Availability of a model.
         """
         self.model_id = model_id
@@ -748,18 +752,18 @@ class TranslationResult(object):
     """
     TranslationResult.
 
-    :attr int word_count: Number of words of the complete input text.
-    :attr int character_count: Number of characters of the complete input text.
-    :attr list[Translation] translations: List of translation output in UTF-8, corresponding to the list of input text.
+    :attr int word_count: Number of words in the input text.
+    :attr int character_count: Number of characters in the input text.
+    :attr list[Translation] translations: List of translation output in UTF-8, corresponding to the input text entries.
     """
 
     def __init__(self, word_count, character_count, translations):
         """
         Initialize a TranslationResult object.
 
-        :param int word_count: Number of words of the complete input text.
-        :param int character_count: Number of characters of the complete input text.
-        :param list[Translation] translations: List of translation output in UTF-8, corresponding to the list of input text.
+        :param int word_count: Number of words in the input text.
+        :param int character_count: Number of characters in the input text.
+        :param list[Translation] translations: List of translation output in UTF-8, corresponding to the input text entries.
         """
         self.word_count = word_count
         self.character_count = character_count
