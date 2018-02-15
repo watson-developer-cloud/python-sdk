@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-**Important**: As of September 8, 2017, the beta period for Similarity Search is closed.
+**Important:** As of September 8, 2017, the beta period for Similarity Search is closed.
 For more information, see [Visual Recognition API – Similarity Search
 Update](https://www.ibm.com/blogs/bluemix/2017/08/visual-recognition-api-similarity-search-update).
 
@@ -22,8 +22,8 @@ The IBM Watson Visual Recognition service uses deep learning algorithms to ident
 scenes, objects, and faces  in images you upload to the service. You can create and train
 a custom classifier to identify subjects that suit your needs.
 
-**Tip**: To test calls to the **Custom classifiers** methods with the API explorer,
-provide your `api_key` from your Bluemix service instance.
+**Tip:** To test calls to the **Custom classifiers** methods with the API explorer,
+provide your `api_key` from your IBM&reg; Cloud service instance.
 """
 
 from __future__ import absolute_import
@@ -75,7 +75,7 @@ class VisualRecognitionV3(WatsonService):
         self.version = version
 
     #########################
-    # classify
+    # general
     #########################
 
     def classify(self,
@@ -87,8 +87,10 @@ class VisualRecognitionV3(WatsonService):
         """
         Classify images.
 
-        :param file images_file: An image file (.jpg, .png) or .zip file with images. Include no more than 20 images and limit the .zip file to 5 MB. You can also include images with the `url` property in the **parameters** object.
-        :param str parameters: Specifies input parameters. The parameter can include these inputs in a JSON object:  - url: A string with the image URL to analyze. You can also include images in the **images_file** parameter. - classifier_ids: An array of classifier IDs to classify the images against. - owners: An array with the values IBM, me, or both to specify which classifiers to run. - threshold: A floating point value that specifies the minimum score a class must have to be displayed in the response.  For example: {\"url\": \"...\", \"classifier_ids\": [\"...\",\"...\"], \"owners\": [\"IBM\", \"me\"], \"threshold\": 0.4}.
+        Classify images with built-in or custom classifiers.
+
+        :param file images_file: An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters. You can also include images with the `url` property in the **parameters** object.
+        :param str parameters: A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - **url**: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter. - **threshold**: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values. - **owners**: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.      The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `{\"classifier_ids\":[\"CarsvsTrucks_1479118188\",\"explicit\"],\"threshold\":0.6}`.
         :param str accept_language: Specifies the language of the output class names.  Can be `en` (English), `ar` (Arabic), `de` (German), `es` (Spanish), `it` (Italian), `ja` (Japanese), or `ko` (Korean).  Classes for which no translation is available are omitted.  The response might not be in the specified language under these conditions: - English is returned when the requested language is not supported. - Classes are not returned when there is no translation for them. - Custom classifiers returned with this method return tags in the language of the custom classifier.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
@@ -119,16 +121,25 @@ class VisualRecognitionV3(WatsonService):
             accept_json=True)
         return response
 
+    #########################
+    # face
+    #########################
+
     def detect_faces(self,
                      images_file=None,
                      parameters=None,
                      images_file_content_type=None,
                      images_filename=None):
         """
-        Detect faces in an image.
+        Detect faces in images.
+
+        Analyze and get data about faces in images. Responses can include estimated age
+        and gender, and the service can identify celebrities. This feature uses a built-in
+        classifier, so you do not train it on custom classifiers. The Detect faces method
+        does not support general biometric facial recognition.
 
         :param file images_file: An image file (.jpg, .png) or .zip file with images. Include no more than 15 images. You can also include images with the `url` property in the **parameters** object.  All faces are detected, but if there are more than 10 faces in an image, age and gender confidence scores might return scores of 0.
-        :param str parameters: A JSON string containing the image URL to analyze.   For example: {\"url\": \"...\"}.
+        :param str parameters: A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: `{\"url\":\"http://www.example.com/images/myimage.jpg\"}`.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
         :return: A `dict` containing the `DetectedFaces` response.
@@ -157,7 +168,7 @@ class VisualRecognitionV3(WatsonService):
         return response
 
     #########################
-    # customClassifiers
+    # custom
     #########################
 
     def create_classifier(self,
@@ -165,7 +176,6 @@ class VisualRecognitionV3(WatsonService):
                           **kwargs):
         """
         Create a classifier.
-
         :param str name: The name of the new classifier. Cannot contain special characters.
         :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
         :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
@@ -188,7 +198,7 @@ class VisualRecognitionV3(WatsonService):
 
     def delete_classifier(self, classifier_id):
         """
-        Delete a custom classifier.
+        Delete a classifier.
 
         :param str classifier_id: The ID of the classifier.
         :rtype: None
@@ -222,7 +232,7 @@ class VisualRecognitionV3(WatsonService):
         """
         Retrieve a list of custom classifiers.
 
-        :param bool verbose: Specify true to return classifier details. Omit this parameter to return a brief list of classifiers.
+        :param bool verbose: Specify `true` to return details about the classifiers. Omit this parameter to return a brief list of classifiers.
         :return: A `dict` containing the `Classifiers` response.
         :rtype: dict
         """
@@ -237,7 +247,6 @@ class VisualRecognitionV3(WatsonService):
                           **kwargs):
         """
         Update a classifier.
-
         :param str classifier_id: The ID of the classifier.
         :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
         :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
@@ -256,7 +265,6 @@ class VisualRecognitionV3(WatsonService):
             files=kwargs,
             accept_json=True)
         return response
-
 
 ##############################################################################
 # Models
@@ -316,7 +324,7 @@ class ClassResult(object):
     Result of a class within a classifier.
 
     :attr str class_name: The name of the class.
-    :attr float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.
+    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
     :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.
     """
 
@@ -325,7 +333,7 @@ class ClassResult(object):
         Initialize a ClassResult object.
 
         :param str class_name: The name of the class.
-        :param float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.
+        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
         :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.
         """
         self.class_name = class_name
@@ -540,13 +548,14 @@ class Classifier(object):
     """
     Information about a classifier.
 
-    :attr str classifier_id: The ID of the classifier.
-    :attr str name: The name of the classifier.
-    :attr str owner: (optional) Unique ID of the account who owns the classifier.
+    :attr str classifier_id: ID of a classifier identified in the image.
+    :attr str name: Name of the classifier.
+    :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.
     :attr str status: (optional) The training status of classifier.
     :attr str explanation: (optional) If classifier training has failed, this field may explain why.
-    :attr datetime created: (optional) The time and date when classifier was created.
-    :attr list[Class] classes: (optional) An array of classes that define a classifier.
+    :attr datetime created: (optional) Date and time in Coordinated Universal Time that the classifier was created.
+    :attr list[Class] classes: (optional) Array of classes that define a classifier.
+    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests.
     """
 
     def __init__(self,
@@ -556,17 +565,19 @@ class Classifier(object):
                  status=None,
                  explanation=None,
                  created=None,
-                 classes=None):
+                 classes=None,
+                 retrained=None):
         """
         Initialize a Classifier object.
 
-        :param str classifier_id: The ID of the classifier.
-        :param str name: The name of the classifier.
-        :param str owner: (optional) Unique ID of the account who owns the classifier.
+        :param str classifier_id: ID of a classifier identified in the image.
+        :param str name: Name of the classifier.
+        :param str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.
         :param str status: (optional) The training status of classifier.
         :param str explanation: (optional) If classifier training has failed, this field may explain why.
-        :param datetime created: (optional) The time and date when classifier was created.
-        :param list[Class] classes: (optional) An array of classes that define a classifier.
+        :param datetime created: (optional) Date and time in Coordinated Universal Time that the classifier was created.
+        :param list[Class] classes: (optional) Array of classes that define a classifier.
+        :param datetime retrained: (optional) Date and time in Coordinated Universal Time that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests.
         """
         self.classifier_id = classifier_id
         self.name = name
@@ -575,6 +586,7 @@ class Classifier(object):
         self.explanation = explanation
         self.created = created
         self.classes = classes
+        self.retrained = retrained
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -601,6 +613,8 @@ class Classifier(object):
             args['created'] = string_to_datetime(_dict['created'])
         if 'classes' in _dict:
             args['classes'] = [Class._from_dict(x) for x in _dict['classes']]
+        if 'retrained' in _dict:
+            args['retrained'] = string_to_datetime(_dict['retrained'])
         return cls(**args)
 
     def _to_dict(self):
@@ -620,6 +634,8 @@ class Classifier(object):
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'classes') and self.classes is not None:
             _dict['classes'] = [x._to_dict() for x in self.classes]
+        if hasattr(self, 'retrained') and self.retrained is not None:
+            _dict['retrained'] = datetime_to_string(self.retrained)
         return _dict
 
     def __str__(self):
@@ -642,8 +658,8 @@ class ClassifierResult(object):
     Classifier and score combination.
 
     :attr str name: Name of the classifier.
-    :attr str classifier_id: Classifier ID.  Only returned if custom classifier.
-    :attr list[ClassResult] classes: An array of classes within a classifier.
+    :attr str classifier_id: The ID of a classifier identified in the image.
+    :attr list[ClassResult] classes: An array of classes within the classifier.
     """
 
     def __init__(self, name, classifier_id, classes):
@@ -651,8 +667,8 @@ class ClassifierResult(object):
         Initialize a ClassifierResult object.
 
         :param str name: Name of the classifier.
-        :param str classifier_id: Classifier ID.  Only returned if custom classifier.
-        :param list[ClassResult] classes: An array of classes within a classifier.
+        :param str classifier_id: The ID of a classifier identified in the image.
+        :param list[ClassResult] classes: An array of classes within the classifier.
         """
         self.name = name
         self.classifier_id = classifier_id
@@ -834,44 +850,54 @@ class ErrorInfo(object):
     Information about what might have caused a failure, such as an image that is too
     large. Not returned when there is no error.
 
-    :attr str error_id: Codified error string. For example, `limit_exceeded`.
+    :attr int code: HTTP status code.
     :attr str description: Human-readable error description. For example, `File size limit exceeded`.
+    :attr str error_id: Codified error string. For example, `limit_exceeded`.
     """
 
-    def __init__(self, error_id, description):
+    def __init__(self, code, description, error_id):
         """
         Initialize a ErrorInfo object.
 
-        :param str error_id: Codified error string. For example, `limit_exceeded`.
+        :param int code: HTTP status code.
         :param str description: Human-readable error description. For example, `File size limit exceeded`.
+        :param str error_id: Codified error string. For example, `limit_exceeded`.
         """
-        self.error_id = error_id
+        self.code = code
         self.description = description
+        self.error_id = error_id
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a ErrorInfo object from a json dictionary."""
         args = {}
-        if 'error_id' in _dict:
-            args['error_id'] = _dict['error_id']
+        if 'code' in _dict:
+            args['code'] = _dict['code']
         else:
             raise ValueError(
-                'Required property \'error_id\' not present in ErrorInfo JSON')
+                'Required property \'code\' not present in ErrorInfo JSON')
         if 'description' in _dict:
             args['description'] = _dict['description']
         else:
             raise ValueError(
                 'Required property \'description\' not present in ErrorInfo JSON'
             )
+        if 'error_id' in _dict:
+            args['error_id'] = _dict['error_id']
+        else:
+            raise ValueError(
+                'Required property \'error_id\' not present in ErrorInfo JSON')
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'error_id') and self.error_id is not None:
-            _dict['error_id'] = self.error_id
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
+        if hasattr(self, 'error_id') and self.error_id is not None:
+            _dict['error_id'] = self.error_id
         return _dict
 
     def __str__(self):
@@ -964,7 +990,7 @@ class FaceAge(object):
 
     :attr int min: (optional) Estimated minimum age.
     :attr int max: (optional) Estimated maximum age.
-    :attr float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.
+    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
     """
 
     def __init__(self, min=None, max=None, score=None):
@@ -973,7 +999,7 @@ class FaceAge(object):
 
         :param int min: (optional) Estimated minimum age.
         :param int max: (optional) Estimated maximum age.
-        :param float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.
+        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
         """
         self.min = min
         self.max = max
@@ -1023,7 +1049,7 @@ class FaceGender(object):
     an image, the response might return the confidence score 0.
 
     :attr str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
-    :attr float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.
+    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
     """
 
     def __init__(self, gender, score=None):
@@ -1031,7 +1057,7 @@ class FaceGender(object):
         Initialize a FaceGender object.
 
         :param str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
-        :param float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.
+        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
         """
         self.gender = gender
         self.score = score
@@ -1079,7 +1105,7 @@ class FaceIdentity(object):
     a celebrity is not detected.
 
     :attr str name: Name of the person.
-    :attr float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.
+    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
     :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.
     """
 
@@ -1088,7 +1114,7 @@ class FaceIdentity(object):
         Initialize a FaceIdentity object.
 
         :param str name: Name of the person.
-        :param float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.
+        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
         :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.
         """
         self.name = name
