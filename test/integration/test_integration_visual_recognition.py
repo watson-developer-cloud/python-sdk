@@ -3,54 +3,41 @@ import watson_developer_cloud
 import os
 from os.path import join, dirname
 from unittest import TestCase
+import json
 
 pytestmark = pytest.mark.skip('Run These Manually, they are destructive')
-
 class IntegrationTestVisualRecognitionV3(TestCase):
 
     def setUp(self):
         self.visual_recognition = watson_developer_cloud.VisualRecognitionV3('2016-05-20', api_key=os.environ.get(
-            'VISUAL_RECOGNITION_API_KEY'))
+            'YOUR API KEY'))
         self.visual_recognition.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
-        self.collections = self.visual_recognition.list_collections()
 
-        collection_json = self.visual_recognition.create_collection(name="test_integration_collection")
-        self.collection_id = collection_json['collection_id']
+    def test_classify(self):
+        car_path = join(dirname(__file__), '../../resources/cars.zip')
+        with open(car_path, 'rb') as images_file:
+            parameters = json.dumps({'threshold': 0.1, 'classifier_ids': ['CarsvsTrucks_1479118188', 'default']})
+            car_results = self.visual_recognition.classify(images_file=images_file,
+                                                        parameters=parameters)
+        assert car_results is not None
 
-    def tearDown(self):
-        results = self.visual_recognition.delete_collection(collection_id=self.collection_id)
-        assert not results
+    def test_detect_faces(self):
+        output = self.visual_recognition.detect_faces(parameters=json.dumps({'url': 'https://www.ibm.com/ibm/ginni/images/ginni_bio_780x981_v4_03162016.jpg'}))
+        assert output is not None
 
-    def test_list_collections(self):
-        results = self.visual_recognition.list_collections()
-        assert len(results['collections']) - len(self.collections['collections']) == 1
+    def test_custom_classifier(self):
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
+            open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
+            classifier = self.visual_recognition.create_classifier('Cars vs Trucks', classname_positive_examples=cars, negative_examples=trucks)
 
-    def test_add_image_check_metadata_delete_image(self):
-        with open(join(dirname(__file__), '../resources/face.jpg'), 'rb') as image_file:
-            self.visual_recognition.add_image(collection_id=self.collection_id, image_file=image_file, metadata={'name': 'face'})
+        assert classifier is not None
 
-        images = self.visual_recognition.list_images(self.collection_id)
-        assert len(images['images']) == 1
+        classifier_id = classifier['classifier_id']
+        output = self.visual_recognition.get_classifier(classifier_id)
+        assert output is not None
 
-        image_id = images['images'][0]['image_id']
-        meta = self.visual_recognition.get_image_metadata(collection_id=self.collection_id, image_id=image_id)
-        assert not meta
+        classifiers = self.visual_recognition.list_classifiers()
+        assert classifiers is not None
 
-        assert meta['name'] == 'face'
-        assert 'neverland' not in meta
-
-        self.visual_recognition.set_image_metadata(collection_id=self.collection_id, image_id=image_id, metadata={'location': 'neverland'})
-        meta = self.visual_recognition.get_image_metadata(collection_id=self.collection_id, image_id=image_id)
-        assert not meta
-        assert 'name' not in meta
-        assert meta['location'] == 'neverland'
-
-        self.visual_recognition.delete_image(collection_id=self.collection_id, image_id=image_id)
-
-        images = self.visual_recognition.list_images(self.collection_id)
-        assert images['images']
-
-    def test_find_similar(self):
-        with open(join(dirname(__file__), '../resources/face.jpg'), 'rb') as image_file:
-            results = self.visual_recognition.find_similar(collection_id=self.collection_id, image_file=image_file)
-            assert results['images_processed'] == 1
+        output = self.visual_recognition.delete_classifier(classifier_id)
+        assert output is not None
