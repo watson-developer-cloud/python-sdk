@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@
 # limitations under the License.
 """
 ### Service Overview
-The IBM Watson Personality Insights service provides a Representational State Transfer
-(REST) Application Programming Interface (API) that enables applications to derive
+The IBM Watson Personality Insights service enables applications to derive
 insights from social media, enterprise data, or other digital communications. The service
 uses linguistic analytics to infer individuals' intrinsic personality characteristics,
 including Big Five, Needs, and Values, from digital communications such as email, text
@@ -24,35 +23,6 @@ messages, tweets, and forum posts. The service can automatically infer, from pot
 noisy social media, portraits of individuals that reflect their personality
 characteristics. The service can report consumption preferences based on the results of
 its analysis, and for JSON content that is timestamped, it can report temporal behavior.
-### API Usage
-The following information provides details about using the service to obtain a personality
-profile:
-* **The profile method:** The service offers a single `/v3/profile` method that accepts up
-to 20 MB of input data and produces results in JSON or CSV format. The service accepts
-input in Arabic, English, Japanese, Korean, or Spanish and can produce output in a variety
-of languages.
-* **Authentication:** You authenticate to the service by using your service credentials.
-You can use your credentials to authenticate via a proxy server that resides in Bluemix,
-or you can use your credentials to obtain a token and contact the service directly. See
-[Service credentials for Watson
-services](https://console.bluemix.net/docs/services/watson/getting-started-credentials.html)
-and [Tokens for
-authentication](https://console.bluemix.net/docs/services/watson/getting-started-tokens.html).
-* **Request Logging:** By default, all Watson services log requests and their results.
-Data is collected only to improve the Watson services. If you do not want to share your
-data, set the header parameter `X-Watson-Learning-Opt-Out` to `true` for each request.
-Data is collected for any request that omits this header. See [Controlling request logging
-for Watson
-services](https://console.bluemix.net/docs/services/watson/getting-started-logging.html).
-
-For more information about the service, see [About Personality
-Insights](https://console.bluemix.net/docs/services/personality-insights/index.html). For
-information about calling the service and the responses it can generate, see [Requesting a
-profile](https://console.bluemix.net/docs/services/personality-insights/input.html),
-[Understanding a JSON
-profile](https://console.bluemix.net/docs/services/personality-insights/output.html), and
-[Understanding a CSV
-profile](https://console.bluemix.net/docs/services/personality-insights/output-csv.html).
 """
 
 from __future__ import absolute_import
@@ -120,7 +90,6 @@ class PersonalityInsightsV3(WatsonService):
                 content,
                 content_type='application/json',
                 content_language=None,
-                accept='application/json',
                 accept_language=None,
                 raw_scores=None,
                 csv_headers=None,
@@ -139,7 +108,6 @@ class PersonalityInsightsV3(WatsonService):
         :param Content content: A maximum of 20 MB of content to analyze, though the service requires much less text; for more information, see [Providing sufficient input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient). A JSON request must conform to the `Content` model.
         :param str content_type: The type of the input: application/json, text/html, or text/plain. A character encoding can be specified by including a `charset` parameter. For example, 'text/html;charset=utf-8'.
         :param str content_language: The language of the input text for the request: Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The effect of the `content_language` header depends on the `Content-Type` header. When `Content-Type` is `text/plain` or `text/html`, `content_language` is the only way to specify the language. When `Content-Type` is `application/json`, `content_language` overrides a language specified with the `language` parameter of a `ContentItem` object, and content items that specify a different language are ignored; omit this header to base the language on the specification of the content items. You can specify any combination of languages for `content_language` and `Accept-Language`.
-        :param accept: Type of the response: 'application/json' (default) or 'text/csv'
         :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for the input and response content.
         :param bool raw_scores: If `true`, a raw score in addition to a normalized percentile is returned for each characteristic; raw scores are not compared with a sample population. If `false` (the default), only normalized percentiles are returned.
         :param bool csv_headers: If `true`, column labels are returned with a CSV response; if `false` (the default), they are not. Applies only when the `Accept` header is set to `text/csv`.
@@ -152,10 +120,9 @@ class PersonalityInsightsV3(WatsonService):
         if content_type is None:
             raise ValueError('content_type must be provided')
         headers = {
-            'content-type': content_type,
+            'Content-Type': content_type,
             'Content-Language': content_language,
-            'Accept-Language': accept_language,
-            'Accept': accept
+            'Accept-Language': accept_language
         }
         params = {
             'version': self.version,
@@ -174,7 +141,7 @@ class PersonalityInsightsV3(WatsonService):
             headers=headers,
             params=params,
             data=data,
-            accept_json=(accept is None or accept == 'application/json'))
+            accept_json=True)
         return response
 
 
@@ -733,7 +700,7 @@ class Trait(object):
     :attr str category: The category of the characteristic: * `personality` for Big Five personality characteristics * `needs` for Needs * `values` for Values.
     :attr float percentile: The normalized percentile score for the characteristic. The range is 0 to 1. For example, if the percentage for Openness is 0.60, the author scored in the 60th percentile; the author is more open than 59 percent of the population and less open than 39 percent of the population.
     :attr float raw_score: (optional) The raw score for the characteristic. The range is 0 to 1. A higher score generally indicates a greater likelihood that the author has that characteristic, but raw scores must be considered in aggregate: The range of values in practice might be much smaller than 0 to 1, so an individual score must be considered in the context of the overall scores and their range. The raw score is computed based on the input and the service model; it is not normalized or compared with a sample population. The raw score enables comparison of the results against a different sampling population and with a custom normalization approach.
-    :attr bool significant: (optional) **`2017-10-13`**: Indicates whether the characteristic is meaningful for the input language. The field is always `true` for all characteristics of English, Spanish, and Japanese input. The field is `false` for the subset of characteristics of Arabic and Korean input for which the service's models are unable to generate meaningful results. **`2016-10-20`**: Not returned.
+    :attr bool significant: (optional) **`2017-10-13`**: Indicates whether the characteristic is meaningful for the input language. The field is always `true` for all characteristics of English, Spanish, and Japanese input. The field is `false` for the subset of characteristics of Arabic and Korean input for which the service's models are unable to generate meaningful results. **`2016-10-19`**: Not returned.
     :attr list[Trait] children: (optional) For `personality` (Big Five) dimensions, more detailed results for the facets of each dimension as inferred from the input text.
     """
 
@@ -753,7 +720,7 @@ class Trait(object):
         :param str category: The category of the characteristic: * `personality` for Big Five personality characteristics * `needs` for Needs * `values` for Values.
         :param float percentile: The normalized percentile score for the characteristic. The range is 0 to 1. For example, if the percentage for Openness is 0.60, the author scored in the 60th percentile; the author is more open than 59 percent of the population and less open than 39 percent of the population.
         :param float raw_score: (optional) The raw score for the characteristic. The range is 0 to 1. A higher score generally indicates a greater likelihood that the author has that characteristic, but raw scores must be considered in aggregate: The range of values in practice might be much smaller than 0 to 1, so an individual score must be considered in the context of the overall scores and their range. The raw score is computed based on the input and the service model; it is not normalized or compared with a sample population. The raw score enables comparison of the results against a different sampling population and with a custom normalization approach.
-        :param bool significant: (optional) **`2017-10-13`**: Indicates whether the characteristic is meaningful for the input language. The field is always `true` for all characteristics of English, Spanish, and Japanese input. The field is `false` for the subset of characteristics of Arabic and Korean input for which the service's models are unable to generate meaningful results. **`2016-10-20`**: Not returned.
+        :param bool significant: (optional) **`2017-10-13`**: Indicates whether the characteristic is meaningful for the input language. The field is always `true` for all characteristics of English, Spanish, and Japanese input. The field is `false` for the subset of characteristics of Arabic and Korean input for which the service's models are unable to generate meaningful results. **`2016-10-19`**: Not returned.
         :param list[Trait] children: (optional) For `personality` (Big Five) dimensions, more detailed results for the facets of each dimension as inferred from the input text.
         """
         self.trait_id = trait_id
