@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -492,6 +492,35 @@ class DiscoveryV1(WatsonService):
             method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
+    def create_expansions(self, environment_id, collection_id, expansions):
+        """
+        Set the expansion list.
+
+        Create or replace the Expansion list for this collection. The maximum number of
+        expanded terms per collection is `500`. The current expansion list is replaced
+        with the uploaded content.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param list[Expansion] expansions: An array of query expansion definitions.    Each object in the `expansions` array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an `expanded_terms` array. When found in a query, all items in the `expanded_terms` array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of `input_terms` and an array of `expanded_terms`. When items in the `input_terms` array are present in a query, they are expanded using the items listed in the `expanded_terms` array.
+        :return: A `dict` containing the `Expansions` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if expansions is None:
+            raise ValueError('expansions must be provided')
+        expansions = [self._convert_model(x) for x in expansions]
+        params = {'version': self.version}
+        data = {'expansions': expansions}
+        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='POST', url=url, params=params, json=data, accept_json=True)
+        return response
+
     def delete_collection(self, environment_id, collection_id):
         """
         Delete a collection.
@@ -511,6 +540,27 @@ class DiscoveryV1(WatsonService):
         response = self.request(
             method='DELETE', url=url, params=params, accept_json=True)
         return response
+
+    def delete_expansions(self, environment_id, collection_id):
+        """
+        Delete the expansions list.
+
+        Remove the expansion information for this collection. The expansion list must be
+        deleted to disable query expansion for a collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :rtype: None
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        return None
 
     def get_collection(self, environment_id, collection_id):
         """
@@ -570,6 +620,29 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version, 'name': name}
         url = '/v1/environments/{0}/collections'.format(
             *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='GET', url=url, params=params, accept_json=True)
+        return response
+
+    def list_expansions(self, environment_id, collection_id):
+        """
+        List current expansions.
+
+        Returns the current expansion list for the specified collection. If an expansion
+        list is not specified, an object with empty expansion arrays is returned.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :return: A `dict` containing the `Expansions` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
         return response
@@ -1496,7 +1569,7 @@ class Collection(object):
     :attr datetime updated: (optional) The timestamp of when the collection was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str status: (optional) The status of the collection.
     :attr str configuration_id: (optional) The unique identifier of the collection's configuration.
-    :attr str language: (optional) The language of the documents stored in the collection. Permitted values include `en_us` (U.S. English), `de` (German), and `es` (Spanish).
+    :attr str language: (optional) The language of the documents stored in the collection. Permitted values include `en` (English), `de` (German), and `es` (Spanish).
     :attr DocumentCounts document_counts: (optional) The object providing information about the documents in the collection. Present only when retrieving details of a collection.
     :attr CollectionDiskUsage disk_usage: (optional) The object providing information about the disk usage of the collection. Present only when retrieving details of a collection.
     :attr TrainingStatus training_status: (optional) Provides information about the status of relevance training for collection.
@@ -1524,7 +1597,7 @@ class Collection(object):
         :param datetime updated: (optional) The timestamp of when the collection was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str status: (optional) The status of the collection.
         :param str configuration_id: (optional) The unique identifier of the collection's configuration.
-        :param str language: (optional) The language of the documents stored in the collection. Permitted values include `en_us` (U.S. English), `de` (German), and `es` (Spanish).
+        :param str language: (optional) The language of the documents stored in the collection. Permitted values include `en` (English), `de` (German), and `es` (Spanish).
         :param DocumentCounts document_counts: (optional) The object providing information about the documents in the collection. Present only when retrieving details of a collection.
         :param CollectionDiskUsage disk_usage: (optional) The object providing information about the disk usage of the collection. Present only when retrieving details of a collection.
         :param TrainingStatus training_status: (optional) Provides information about the status of relevance training for collection.
@@ -2556,7 +2629,7 @@ class Enrichment(object):
     :attr str destination_field: Field where enrichments will be stored. This field must already exist or be at most 1 level deeper than an existing field. For example, if `text` is a top-level field with no sub-fields, `text.foo` is a valid destination but `text.foo.bar` is not.
     :attr str source_field: Field to be enriched.
     :attr bool overwrite: (optional) Indicates that the enrichments will overwrite the destination_field field if it already exists.
-    :attr str enrichment_name: Name of the enrichment service to call. Currently the only valid value is `natural_language_understanding`. Previous API versions also supported `alchemy_language`.
+    :attr str enrichment_name: Name of the enrichment service to call. Current options are `natural_language_understanding` and `elements`.   When using `natual_language_understanding`, the `options` object must contain Natural Language Understanding Options.   When using `elements` the `options` object must contain Element Classification options. Additionally, when using the `elements` enrichment the configuration specified and files ingested must meet all the criteria specified in [the documentation](https://console.bluemix.net/docs/services/discovery/element-classification.html)     Previous API versions also supported `alchemy_language`.
     :attr bool ignore_downstream_errors: (optional) If true, then most errors generated during the enrichment process will be treated as warnings and will not cause the document to fail processing.
     :attr EnrichmentOptions options: (optional) A list of options specific to the enrichment.
     """
@@ -2574,7 +2647,7 @@ class Enrichment(object):
 
         :param str destination_field: Field where enrichments will be stored. This field must already exist or be at most 1 level deeper than an existing field. For example, if `text` is a top-level field with no sub-fields, `text.foo` is a valid destination but `text.foo.bar` is not.
         :param str source_field: Field to be enriched.
-        :param str enrichment_name: Name of the enrichment service to call. Currently the only valid value is `natural_language_understanding`. Previous API versions also supported `alchemy_language`.
+        :param str enrichment_name: Name of the enrichment service to call. Current options are `natural_language_understanding` and `elements`.   When using `natual_language_understanding`, the `options` object must contain Natural Language Understanding Options.   When using `elements` the `options` object must contain Element Classification options. Additionally, when using the `elements` enrichment the configuration specified and files ingested must meet all the criteria specified in [the documentation](https://console.bluemix.net/docs/services/discovery/element-classification.html)     Previous API versions also supported `alchemy_language`.
         :param str description: (optional) Describes what the enrichment step does.
         :param bool overwrite: (optional) Indicates that the enrichments will overwrite the destination_field field if it already exists.
         :param bool ignore_downstream_errors: (optional) If true, then most errors generated during the enrichment process will be treated as warnings and will not cause the document to fail processing.
@@ -2659,25 +2732,40 @@ class Enrichment(object):
 
 class EnrichmentOptions(object):
     """
-    EnrichmentOptions.
+    Options which are specific to a particular enrichment.
 
+    :attr NluEnrichmentFeatures features: (optional) An object representing the enrichment features that will be applied to the specified field.
+    :attr str model: (optional) *For use with `elements` enrichments only.* The element extraction model to use. Models available are: `contract`.
     """
 
-    def __init__(self):
+    def __init__(self, features=None, model=None):
         """
         Initialize a EnrichmentOptions object.
 
+        :param NluEnrichmentFeatures features: (optional) An object representing the enrichment features that will be applied to the specified field.
+        :param str model: (optional) *For use with `elements` enrichments only.* The element extraction model to use. Models available are: `contract`.
         """
+        self.features = features
+        self.model = model
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a EnrichmentOptions object from a json dictionary."""
         args = {}
+        if 'features' in _dict:
+            args['features'] = NluEnrichmentFeatures._from_dict(
+                _dict['features'])
+        if 'model' in _dict:
+            args['model'] = _dict['model']
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'features') and self.features is not None:
+            _dict['features'] = self.features._to_dict()
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
         return _dict
 
     def __str__(self):
@@ -2846,6 +2934,115 @@ class EnvironmentDocuments(object):
 
     def __str__(self):
         """Return a `str` version of this EnvironmentDocuments object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Expansion(object):
+    """
+    An expansion definition. Each object respresents one set of expandable strings. For
+    example, you could have expansions for the word `hot` in one object, and expansions
+    for the word `cold` in another.
+
+    :attr list[str] input_terms: (optional) A list of terms that will be expanded for this expansion. If specified, only the items in this list are expanded.
+    :attr list[str] expanded_terms: A list of terms that this expansion will be expanded to. If specified without `input_terms`, it also functions as the input term list.
+    """
+
+    def __init__(self, expanded_terms, input_terms=None):
+        """
+        Initialize a Expansion object.
+
+        :param list[str] expanded_terms: A list of terms that this expansion will be expanded to. If specified without `input_terms`, it also functions as the input term list.
+        :param list[str] input_terms: (optional) A list of terms that will be expanded for this expansion. If specified, only the items in this list are expanded.
+        """
+        self.input_terms = input_terms
+        self.expanded_terms = expanded_terms
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Expansion object from a json dictionary."""
+        args = {}
+        if 'input_terms' in _dict:
+            args['input_terms'] = _dict['input_terms']
+        if 'expanded_terms' in _dict:
+            args['expanded_terms'] = _dict['expanded_terms']
+        else:
+            raise ValueError(
+                'Required property \'expanded_terms\' not present in Expansion JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input_terms') and self.input_terms is not None:
+            _dict['input_terms'] = self.input_terms
+        if hasattr(self, 'expanded_terms') and self.expanded_terms is not None:
+            _dict['expanded_terms'] = self.expanded_terms
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Expansion object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Expansions(object):
+    """
+    The query expansion definitions for the specified collection.
+
+    :attr list[Expansion] expansions: An array of query expansion definitions.    Each object in the `expansions` array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an `expanded_terms` array. When found in a query, all items in the `expanded_terms` array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of `input_terms` and an array of `expanded_terms`. When items in the `input_terms` array are present in a query, they are expanded using the items listed in the `expanded_terms` array.
+    """
+
+    def __init__(self, expansions):
+        """
+        Initialize a Expansions object.
+
+        :param list[Expansion] expansions: An array of query expansion definitions.    Each object in the `expansions` array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an `expanded_terms` array. When found in a query, all items in the `expanded_terms` array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of `input_terms` and an array of `expanded_terms`. When items in the `input_terms` array are present in a query, they are expanded using the items listed in the `expanded_terms` array.
+        """
+        self.expansions = expansions
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Expansions object from a json dictionary."""
+        args = {}
+        if 'expansions' in _dict:
+            args['expansions'] = [
+                Expansion._from_dict(x) for x in _dict['expansions']
+            ]
+        else:
+            raise ValueError(
+                'Required property \'expansions\' not present in Expansions JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'expansions') and self.expansions is not None:
+            _dict['expansions'] = [x._to_dict() for x in self.expansions]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Expansions object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -3424,6 +3621,526 @@ class MemoryUsage(object):
 
     def __str__(self):
         """Return a `str` version of this MemoryUsage object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class NluEnrichmentCategories(object):
+    """
+    An object that indicates the Categories enrichment will be applied to the specified
+    field.
+
+    """
+
+    def __init__(self, **kwargs):
+        """
+        Initialize a NluEnrichmentCategories object.
+
+        :param **kwargs: (optional) Any additional properties.
+        """
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentCategories object from a json dictionary."""
+        args = {}
+        xtra = _dict.copy()
+        args.update(xtra)
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
+        return _dict
+
+    def __setattr__(self, name, value):
+        properties = {}
+        if not hasattr(self, '_additionalProperties'):
+            super(NluEnrichmentCategories, self).__setattr__(
+                '_additionalProperties', set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(NluEnrichmentCategories, self).__setattr__(name, value)
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentCategories object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class NluEnrichmentEmotion(object):
+    """
+    An object specifying the emotion detection enrichment and related parameters.
+
+    :attr bool document: (optional) When `true`, emotion detection is performed on the entire field.
+    :attr list[str] targets: (optional) A comma-separated list of target strings that will have any associated emotions detected.
+    """
+
+    def __init__(self, document=None, targets=None):
+        """
+        Initialize a NluEnrichmentEmotion object.
+
+        :param bool document: (optional) When `true`, emotion detection is performed on the entire field.
+        :param list[str] targets: (optional) A comma-separated list of target strings that will have any associated emotions detected.
+        """
+        self.document = document
+        self.targets = targets
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentEmotion object from a json dictionary."""
+        args = {}
+        if 'document' in _dict:
+            args['document'] = _dict['document']
+        if 'targets' in _dict:
+            args['targets'] = _dict['targets']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'document') and self.document is not None:
+            _dict['document'] = self.document
+        if hasattr(self, 'targets') and self.targets is not None:
+            _dict['targets'] = self.targets
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentEmotion object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class NluEnrichmentEntities(object):
+    """
+    An object speficying the Entities enrichment and related parameters.
+
+    :attr bool sentiment: (optional) When `true`, sentiment analysis of entities will be performed on the specified field.
+    :attr bool emotion: (optional) When `true`, emotion detection of entities will be performed on the specified field.
+    :attr int limit: (optional) The maximum number of entities to extract for each instance of the specified field.
+    :attr bool mentions: (optional) When `true`, the number of mentions of each identified entity is recorded. The default is `false`.
+    :attr bool mention_types: (optional) When `true`, the types of mentions for each idetifieid entity is recorded. The default is `false`.
+    :attr bool sentence_location: (optional) When `true`, a list of sentence locations for each instance of each identified entity is recorded. The default is `false`.
+    :attr str model: (optional) The enrichement model to use with entity extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph `en-news`, or the default public model `alchemy`.
+    """
+
+    def __init__(self,
+                 sentiment=None,
+                 emotion=None,
+                 limit=None,
+                 mentions=None,
+                 mention_types=None,
+                 sentence_location=None,
+                 model=None):
+        """
+        Initialize a NluEnrichmentEntities object.
+
+        :param bool sentiment: (optional) When `true`, sentiment analysis of entities will be performed on the specified field.
+        :param bool emotion: (optional) When `true`, emotion detection of entities will be performed on the specified field.
+        :param int limit: (optional) The maximum number of entities to extract for each instance of the specified field.
+        :param bool mentions: (optional) When `true`, the number of mentions of each identified entity is recorded. The default is `false`.
+        :param bool mention_types: (optional) When `true`, the types of mentions for each idetifieid entity is recorded. The default is `false`.
+        :param bool sentence_location: (optional) When `true`, a list of sentence locations for each instance of each identified entity is recorded. The default is `false`.
+        :param str model: (optional) The enrichement model to use with entity extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph `en-news`, or the default public model `alchemy`.
+        """
+        self.sentiment = sentiment
+        self.emotion = emotion
+        self.limit = limit
+        self.mentions = mentions
+        self.mention_types = mention_types
+        self.sentence_location = sentence_location
+        self.model = model
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentEntities object from a json dictionary."""
+        args = {}
+        if 'sentiment' in _dict:
+            args['sentiment'] = _dict['sentiment']
+        if 'emotion' in _dict:
+            args['emotion'] = _dict['emotion']
+        if 'limit' in _dict:
+            args['limit'] = _dict['limit']
+        if 'mentions' in _dict:
+            args['mentions'] = _dict['mentions']
+        if 'mention_types' in _dict:
+            args['mention_types'] = _dict['mention_types']
+        if 'sentence_location' in _dict:
+            args['sentence_location'] = _dict['sentence_location']
+        if 'model' in _dict:
+            args['model'] = _dict['model']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'sentiment') and self.sentiment is not None:
+            _dict['sentiment'] = self.sentiment
+        if hasattr(self, 'emotion') and self.emotion is not None:
+            _dict['emotion'] = self.emotion
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        if hasattr(self, 'mentions') and self.mentions is not None:
+            _dict['mentions'] = self.mentions
+        if hasattr(self, 'mention_types') and self.mention_types is not None:
+            _dict['mention_types'] = self.mention_types
+        if hasattr(self,
+                   'sentence_location') and self.sentence_location is not None:
+            _dict['sentence_location'] = self.sentence_location
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentEntities object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class NluEnrichmentFeatures(object):
+    """
+    NluEnrichmentFeatures.
+
+    :attr NluEnrichmentKeywords keywords: (optional) An object specifying the Keyword enrichment and related parameters.
+    :attr NluEnrichmentEntities entities: (optional) An object speficying the Entities enrichment and related parameters.
+    :attr NluEnrichmentSentiment sentiment: (optional) An object specifying the sentiment extraction enrichment and related parameters.
+    :attr NluEnrichmentEmotion emotion: (optional) An object specifying the emotion detection enrichment and related parameters.
+    :attr NluEnrichmentCategories categories: (optional) An object specifying the categories enrichment and related parameters.
+    :attr NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying the semantic roles enrichment and related parameters.
+    :attr NluEnrichmentRelations relations: (optional) An object specifying the relations enrichment and related parameters.
+    """
+
+    def __init__(self,
+                 keywords=None,
+                 entities=None,
+                 sentiment=None,
+                 emotion=None,
+                 categories=None,
+                 semantic_roles=None,
+                 relations=None):
+        """
+        Initialize a NluEnrichmentFeatures object.
+
+        :param NluEnrichmentKeywords keywords: (optional) An object specifying the Keyword enrichment and related parameters.
+        :param NluEnrichmentEntities entities: (optional) An object speficying the Entities enrichment and related parameters.
+        :param NluEnrichmentSentiment sentiment: (optional) An object specifying the sentiment extraction enrichment and related parameters.
+        :param NluEnrichmentEmotion emotion: (optional) An object specifying the emotion detection enrichment and related parameters.
+        :param NluEnrichmentCategories categories: (optional) An object specifying the categories enrichment and related parameters.
+        :param NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying the semantic roles enrichment and related parameters.
+        :param NluEnrichmentRelations relations: (optional) An object specifying the relations enrichment and related parameters.
+        """
+        self.keywords = keywords
+        self.entities = entities
+        self.sentiment = sentiment
+        self.emotion = emotion
+        self.categories = categories
+        self.semantic_roles = semantic_roles
+        self.relations = relations
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentFeatures object from a json dictionary."""
+        args = {}
+        if 'keywords' in _dict:
+            args['keywords'] = NluEnrichmentKeywords._from_dict(
+                _dict['keywords'])
+        if 'entities' in _dict:
+            args['entities'] = NluEnrichmentEntities._from_dict(
+                _dict['entities'])
+        if 'sentiment' in _dict:
+            args['sentiment'] = NluEnrichmentSentiment._from_dict(
+                _dict['sentiment'])
+        if 'emotion' in _dict:
+            args['emotion'] = NluEnrichmentEmotion._from_dict(_dict['emotion'])
+        if 'categories' in _dict:
+            args['categories'] = NluEnrichmentCategories._from_dict(
+                _dict['categories'])
+        if 'semantic_roles' in _dict:
+            args['semantic_roles'] = NluEnrichmentSemanticRoles._from_dict(
+                _dict['semantic_roles'])
+        if 'relations' in _dict:
+            args['relations'] = NluEnrichmentRelations._from_dict(
+                _dict['relations'])
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'keywords') and self.keywords is not None:
+            _dict['keywords'] = self.keywords._to_dict()
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = self.entities._to_dict()
+        if hasattr(self, 'sentiment') and self.sentiment is not None:
+            _dict['sentiment'] = self.sentiment._to_dict()
+        if hasattr(self, 'emotion') and self.emotion is not None:
+            _dict['emotion'] = self.emotion._to_dict()
+        if hasattr(self, 'categories') and self.categories is not None:
+            _dict['categories'] = self.categories._to_dict()
+        if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
+            _dict['semantic_roles'] = self.semantic_roles._to_dict()
+        if hasattr(self, 'relations') and self.relations is not None:
+            _dict['relations'] = self.relations._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentFeatures object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class NluEnrichmentKeywords(object):
+    """
+    An object specifying the Keyword enrichment and related parameters.
+
+    :attr bool sentiment: (optional) When `true`, sentiment analysis of keywords will be performed on the specified field.
+    :attr bool emotion: (optional) When `true`, emotion detection of keywords will be performed on the specified field.
+    :attr int limit: (optional) The maximum number of keywords to extract for each instance of the specified field.
+    """
+
+    def __init__(self, sentiment=None, emotion=None, limit=None):
+        """
+        Initialize a NluEnrichmentKeywords object.
+
+        :param bool sentiment: (optional) When `true`, sentiment analysis of keywords will be performed on the specified field.
+        :param bool emotion: (optional) When `true`, emotion detection of keywords will be performed on the specified field.
+        :param int limit: (optional) The maximum number of keywords to extract for each instance of the specified field.
+        """
+        self.sentiment = sentiment
+        self.emotion = emotion
+        self.limit = limit
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentKeywords object from a json dictionary."""
+        args = {}
+        if 'sentiment' in _dict:
+            args['sentiment'] = _dict['sentiment']
+        if 'emotion' in _dict:
+            args['emotion'] = _dict['emotion']
+        if 'limit' in _dict:
+            args['limit'] = _dict['limit']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'sentiment') and self.sentiment is not None:
+            _dict['sentiment'] = self.sentiment
+        if hasattr(self, 'emotion') and self.emotion is not None:
+            _dict['emotion'] = self.emotion
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentKeywords object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class NluEnrichmentRelations(object):
+    """
+    An object specifying the relations enrichment and related parameters.
+
+    :attr str model: (optional) *For use with `natural_language_understanding` enrichments only.* The enrichement model to use with relationship extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph `en-news`, the default is`en-news`.
+    """
+
+    def __init__(self, model=None):
+        """
+        Initialize a NluEnrichmentRelations object.
+
+        :param str model: (optional) *For use with `natural_language_understanding` enrichments only.* The enrichement model to use with relationship extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph `en-news`, the default is`en-news`.
+        """
+        self.model = model
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentRelations object from a json dictionary."""
+        args = {}
+        if 'model' in _dict:
+            args['model'] = _dict['model']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentRelations object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class NluEnrichmentSemanticRoles(object):
+    """
+    An object specifiying the semantic roles enrichment and related parameters.
+
+    :attr bool entities: (optional) When `true` entities are extracted from the identified sentence parts.
+    :attr bool keywords: (optional) When `true`, keywords are extracted from the identified sentence parts.
+    :attr int limit: (optional) The maximum number of semantic roles enrichments to extact from each instance of the specified field.
+    """
+
+    def __init__(self, entities=None, keywords=None, limit=None):
+        """
+        Initialize a NluEnrichmentSemanticRoles object.
+
+        :param bool entities: (optional) When `true` entities are extracted from the identified sentence parts.
+        :param bool keywords: (optional) When `true`, keywords are extracted from the identified sentence parts.
+        :param int limit: (optional) The maximum number of semantic roles enrichments to extact from each instance of the specified field.
+        """
+        self.entities = entities
+        self.keywords = keywords
+        self.limit = limit
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentSemanticRoles object from a json dictionary."""
+        args = {}
+        if 'entities' in _dict:
+            args['entities'] = _dict['entities']
+        if 'keywords' in _dict:
+            args['keywords'] = _dict['keywords']
+        if 'limit' in _dict:
+            args['limit'] = _dict['limit']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = self.entities
+        if hasattr(self, 'keywords') and self.keywords is not None:
+            _dict['keywords'] = self.keywords
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentSemanticRoles object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class NluEnrichmentSentiment(object):
+    """
+    An object specifying the sentiment extraction enrichment and related parameters.
+
+    :attr bool document: (optional) When `true`, sentiment analysis is performed on the entire field.
+    :attr list[str] targets: (optional) A comma-separated list of target strings that will have any associated sentiment analyzed.
+    """
+
+    def __init__(self, document=None, targets=None):
+        """
+        Initialize a NluEnrichmentSentiment object.
+
+        :param bool document: (optional) When `true`, sentiment analysis is performed on the entire field.
+        :param list[str] targets: (optional) A comma-separated list of target strings that will have any associated sentiment analyzed.
+        """
+        self.document = document
+        self.targets = targets
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentSentiment object from a json dictionary."""
+        args = {}
+        if 'document' in _dict:
+            args['document'] = _dict['document']
+        if 'targets' in _dict:
+            args['targets'] = _dict['targets']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'document') and self.document is not None:
+            _dict['document'] = self.document
+        if hasattr(self, 'targets') and self.targets is not None:
+            _dict['targets'] = self.targets
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentSentiment object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4047,6 +4764,114 @@ class QueryNoticesResponse(object):
 
     def __str__(self):
         """Return a `str` version of this QueryNoticesResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+
+class QueryNoticesResult(object):
+    """
+    QueryNoticesResult.
+
+    :attr str id: (optional) The unique identifier of the document.
+    :attr float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
+    :attr object metadata: (optional) Metadata of the document.
+    :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
+    :attr QueryResultResultMetadata result_metadata: (optional)
+    """
+
+    def __init__(self,
+                 id=None,
+                 score=None,
+                 metadata=None,
+                 collection_id=None,
+                 result_metadata=None,
+                 **kwargs):
+        """
+        Initialize a QueryNoticesResult object.
+
+        :param str id: (optional) The unique identifier of the document.
+        :param float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
+        :param object metadata: (optional) Metadata of the document.
+        :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
+        :param QueryResultResultMetadata result_metadata: (optional)
+        :param **kwargs: (optional) Any additional properties.
+        """
+        self.id = id
+        self.score = score
+        self.metadata = metadata
+        self.collection_id = collection_id
+        self.result_metadata = result_metadata
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryNoticesResult object from a json dictionary."""
+        args = {}
+        xtra = _dict.copy()
+        if 'id' in _dict:
+            args['id'] = _dict['id']
+            del xtra['id']
+        if 'score' in _dict:
+            args['score'] = _dict['score']
+            del xtra['score']
+        if 'metadata' in _dict:
+            args['metadata'] = _dict['metadata']
+            del xtra['metadata']
+        if 'collection_id' in _dict:
+            args['collection_id'] = _dict['collection_id']
+            del xtra['collection_id']
+        if 'result_metadata' in _dict:
+            args['result_metadata'] = QueryResultResultMetadata._from_dict(
+                _dict['result_metadata'])
+            del xtra['result_metadata']
+        args.update(xtra)
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self, 'score') and self.score is not None:
+            _dict['score'] = self.score
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'collection_id') and self.collection_id is not None:
+            _dict['collection_id'] = self.collection_id
+        if hasattr(self,
+                   'result_metadata') and self.result_metadata is not None:
+            _dict['result_metadata'] = self.result_metadata._to_dict()
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
+        return _dict
+
+    def __setattr__(self, name, value):
+        properties = {
+            'id', 'score', 'metadata', 'collection_id', 'result_metadata'
+        }
+        if not hasattr(self, '_additionalProperties'):
+            super(QueryNoticesResult, self).__setattr__('_additionalProperties',
+                                                        set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(QueryNoticesResult, self).__setattr__(name, value)
+
+    def __str__(self):
+        """Return a `str` version of this QueryNoticesResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -5295,113 +6120,6 @@ class XPathPatterns(object):
 
     def __str__(self):
         """Return a `str` version of this XPathPatterns object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryNoticesResult(object):
-    """
-    QueryNoticesResult.
-
-    :attr str id: (optional) The unique identifier of the document.
-    :attr float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
-    :attr object metadata: (optional) Metadata of the document.
-    :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional)
-    """
-
-    def __init__(self,
-                 id=None,
-                 score=None,
-                 metadata=None,
-                 collection_id=None,
-                 result_metadata=None,
-                 **kwargs):
-        """
-        Initialize a QueryNoticesResult object.
-
-        :param str id: (optional) The unique identifier of the document.
-        :param float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
-        :param object metadata: (optional) Metadata of the document.
-        :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional)
-        :param **kwargs: (optional) Any additional properties.
-        """
-        self.id = id
-        self.score = score
-        self.metadata = metadata
-        self.collection_id = collection_id
-        self.result_metadata = result_metadata
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryNoticesResult object from a json dictionary."""
-        args = {}
-        xtra = _dict.copy()
-        if 'id' in _dict:
-            args['id'] = _dict['id']
-            del xtra['id']
-        if 'score' in _dict:
-            args['score'] = _dict['score']
-            del xtra['score']
-        if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
-            del xtra['metadata']
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict['collection_id']
-            del xtra['collection_id']
-        if 'result_metadata' in _dict:
-            args['result_metadata'] = QueryResultResultMetadata._from_dict(
-                _dict['result_metadata'])
-            del xtra['result_metadata']
-        args.update(xtra)
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        if hasattr(self, 'score') and self.score is not None:
-            _dict['score'] = self.score
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
-        if hasattr(self, 'collection_id') and self.collection_id is not None:
-            _dict['collection_id'] = self.collection_id
-        if hasattr(self,
-                   'result_metadata') and self.result_metadata is not None:
-            _dict['result_metadata'] = self.result_metadata._to_dict()
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
-        return _dict
-
-    def __setattr__(self, name, value):
-        properties = {
-            'id', 'score', 'metadata', 'collection_id', 'result_metadata'
-        }
-        if not hasattr(self, '_additionalProperties'):
-            super(QueryNoticesResult, self).__setattr__('_additionalProperties',
-                                                        set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(QueryNoticesResult, self).__setattr__(name, value)
-
-    def __str__(self):
-        """Return a `str` version of this QueryNoticesResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
