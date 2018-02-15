@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="watson_developer_cloud.dialog_v1 module" href="watson_developer_cloud.dialog_v1.html" />
+    <link rel="next" title="watson_developer_cloud.discovery_v1 module" href="watson_developer_cloud.discovery_v1.html" />
     <link rel="prev" title="watson_developer_cloud.authorization_v1 module" href="watson_developer_cloud.authorization_v1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -176,7 +176,7 @@ components defining the content of the new workspace.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.update_workspace">
-<code class="descname">update_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em>, <em>append=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update workspace.</p>
 <p>Update an existing workspace with new or modified data. You must provide component
 objects defining the content of the updated workspace.</p>
@@ -195,6 +195,7 @@ objects defining the content of the updated workspace.</p>
 <li><strong>counterexamples</strong> (<em>list</em><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.CreateCounterexample" title="watson_developer_cloud.conversation_v1.CreateCounterexample"><em>CreateCounterexample</em></a><em>]</em>) – An array of objects defining input examples that have been marked as irrelevant input.</li>
 <li><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) – Any metadata related to the workspace.</li>
 <li><strong>learning_opt_out</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Whether training data from the workspace can be used by IBM for general service improvements. <cite>true</cite> indicates that workspace training data is not to be used.</li>
+<li><strong>append</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Specifies that the elements included in the request body are to be appended to the existing data in the workspace. The default value is <cite>false</cite>.</li>
 </ul>
 </td>
 </tr>
@@ -210,7 +211,7 @@ objects defining the content of the updated workspace.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.message">
-<code class="descname">message</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">message</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em>, <em>nodes_visited_details=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a response to a user’s input.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -224,6 +225,7 @@ objects defining the content of the updated workspace.</p>
 <li><strong>entities</strong> (<em>list</em><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.RuntimeEntity" title="watson_developer_cloud.conversation_v1.RuntimeEntity"><em>RuntimeEntity</em></a><em>]</em>) – Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.</li>
 <li><strong>intents</strong> (<em>list</em><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.RuntimeIntent" title="watson_developer_cloud.conversation_v1.RuntimeIntent"><em>RuntimeIntent</em></a><em>]</em>) – An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.</li>
 <li><strong>output</strong> (<a class="reference internal" href="#watson_developer_cloud.conversation_v1.OutputData" title="watson_developer_cloud.conversation_v1.OutputData"><em>OutputData</em></a>) – System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.</li>
+<li><strong>nodes_visited_details</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.</li>
 </ul>
 </td>
 </tr>
@@ -1049,7 +1051,7 @@ defining the content of the updated intent.</p>
 <li><strong>new_metadata</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) – The metadata for the dialog node.</li>
 <li><strong>new_next_step</strong> (<a class="reference internal" href="#watson_developer_cloud.conversation_v1.DialogNodeNextStep" title="watson_developer_cloud.conversation_v1.DialogNodeNextStep"><em>DialogNodeNextStep</em></a>) – The next step to execute following this dialog node.</li>
 <li><strong>new_title</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The alias used to identify the dialog node.</li>
-<li><strong>new_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – How the node is processed.</li>
+<li><strong>new_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – How the dialog node is processed.</li>
 <li><strong>new_event_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – How an <cite>event_handler</cite> node is processed.</li>
 <li><strong>new_variable</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The location in the dialog context where output is stored.</li>
 <li><strong>new_actions</strong> (<em>list</em><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.DialogNodeAction" title="watson_developer_cloud.conversation_v1.DialogNodeAction"><em>DialogNodeAction</em></a><em>]</em>) – The actions for the dialog node.</li>
@@ -1622,6 +1624,24 @@ maintain state for the conversation.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeVisitedDetails">
+<em class="property">class </em><code class="descname">DialogNodeVisitedDetails</code><span class="sig-paren">(</span><em>dialog_node=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeVisitedDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeVisitedDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeVisitedDetails.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str dialog_node:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A dialog node that was triggered during processing of the input message.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str title:</th><td class="field-body">(optional) The title of the dialog node.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.Entity">
 <em class="property">class </em><code class="descname">Entity</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Entity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
@@ -2001,7 +2021,7 @@ maintain state for the conversation.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.OutputData">
-<em class="property">class </em><code class="descname">OutputData</code><span class="sig-paren">(</span><em>log_messages</em>, <em>text</em>, <em>nodes_visited=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#OutputData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.OutputData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">OutputData</code><span class="sig-paren">(</span><em>log_messages</em>, <em>text</em>, <em>nodes_visited=None</em>, <em>nodes_visited_details=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#OutputData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.OutputData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An output object that includes the response to the user, the nodes that were hit, and
 messages from the log.</p>
@@ -2017,6 +2037,9 @@ messages from the log.</p>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] nodes_visited:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of the nodes that were triggered to create the response.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[DialogNodeVisitedDetails] nodes_visited_details:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.</td>
 </tr>
 </tbody>
 </table>
@@ -2354,7 +2377,7 @@ messages from the log.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="watson_developer_cloud.authorization_v1.html" title="previous chapter">watson_developer_cloud.authorization_v1 module</a></li>
-      <li>Next: <a href="watson_developer_cloud.dialog_v1.html" title="next chapter">watson_developer_cloud.dialog_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.discovery_v1.html" title="next chapter">watson_developer_cloud.discovery_v1 module</a></li>
   </ul></li>
 </ul>
 </div>

@@ -33,7 +33,7 @@
   <h1>Source code for watson_developer_cloud.conversation_v1</h1><div class="highlight"><pre>
 <span></span><span class="c1"># coding: utf-8</span>
 
-<span class="c1"># Copyright 2017 IBM All Rights Reserved.</span>
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
@@ -246,7 +246,8 @@
                          <span class="n">dialog_nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">counterexamples</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">learning_opt_out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                         <span class="n">learning_opt_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">append</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update workspace.</span>
 
@@ -263,6 +264,7 @@
 <span class="sd">        :param list[CreateCounterexample] counterexamples: An array of objects defining input examples that have been marked as irrelevant input.</span>
 <span class="sd">        :param object metadata: Any metadata related to the workspace.</span>
 <span class="sd">        :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.</span>
+<span class="sd">        :param bool append: Specifies that the elements included in the request body are to be appended to the existing data in the workspace. The default value is `false`.</span>
 <span class="sd">        :return: A `dict` containing the `Workspace` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -276,7 +278,7 @@
             <span class="n">dialog_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">dialog_nodes</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">counterexamples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">counterexamples</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">counterexamples</span><span class="p">]</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span> <span class="s1">&#39;append&#39;</span><span class="p">:</span> <span class="n">append</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
             <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
@@ -297,6 +299,7 @@
     <span class="c1"># message</span>
     <span class="c1">#########################</span>
 
+
 <div class="viewcode-block" id="ConversationV1.message"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.ConversationV1.message">[docs]</a>    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">workspace_id</span><span class="p">,</span>
                 <span class="nb">input</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -304,7 +307,8 @@
                 <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">intents</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                <span class="n">output</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">nodes_visited_details</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a response to a user&#39;s input.</span>
 
@@ -315,6 +319,7 @@
 <span class="sd">        :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.</span>
 <span class="sd">        :param list[RuntimeIntent] intents: An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.</span>
 <span class="sd">        :param OutputData output: System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.</span>
+<span class="sd">        :param bool nodes_visited_details: Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.</span>
 <span class="sd">        :return: A `dict` containing the `MessageResponse` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -330,7 +335,10 @@
             <span class="n">intents</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">intents</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+            <span class="s1">&#39;nodes_visited_details&#39;</span><span class="p">:</span> <span class="n">nodes_visited_details</span>
+        <span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;input&#39;</span><span class="p">:</span> <span class="nb">input</span><span class="p">,</span>
             <span class="s1">&#39;alternate_intents&#39;</span><span class="p">:</span> <span class="n">alternate_intents</span><span class="p">,</span>
@@ -1343,7 +1351,7 @@
 <span class="sd">        :param object new_metadata: The metadata for the dialog node.</span>
 <span class="sd">        :param DialogNodeNextStep new_next_step: The next step to execute following this dialog node.</span>
 <span class="sd">        :param str new_title: The alias used to identify the dialog node.</span>
-<span class="sd">        :param str new_type: How the node is processed.</span>
+<span class="sd">        :param str new_type: How the dialog node is processed.</span>
 <span class="sd">        :param str new_event_name: How an `event_handler` node is processed.</span>
 <span class="sd">        :param str new_variable: The location in the dialog context where output is stored.</span>
 <span class="sd">        :param list[DialogNodeAction] new_actions: The actions for the dialog node.</span>
@@ -2759,6 +2767,58 @@
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
 
 
+<div class="viewcode-block" id="DialogNodeVisitedDetails"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.DialogNodeVisitedDetails">[docs]</a><span class="k">class</span> <span class="nc">DialogNodeVisitedDetails</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DialogNodeVisitedDetails.</span>
+
+<span class="sd">    :attr str dialog_node: (optional) A dialog node that was triggered during processing of the input message.</span>
+<span class="sd">    :attr str title: (optional) The title of the dialog node.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dialog_node</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a DialogNodeVisitedDetails object.</span>
+
+<span class="sd">        :param str dialog_node: (optional) A dialog node that was triggered during processing of the input message.</span>
+<span class="sd">        :param str title: (optional) The title of the dialog node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dialog_node</span> <span class="o">=</span> <span class="n">dialog_node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a DialogNodeVisitedDetails object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;dialog_node&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;dialog_node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;dialog_node&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;title&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;dialog_node&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">dialog_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;dialog_node&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dialog_node</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this DialogNodeVisitedDetails object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+
+
 <div class="viewcode-block" id="Entity"><a class="viewcode-back" href="../../apis/watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.Entity">[docs]</a><span class="k">class</span> <span class="nc">Entity</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Entity.</span>
@@ -4013,20 +4073,28 @@
 <span class="sd">    :attr list[LogMessage] log_messages: Up to 50 messages logged with the request.</span>
 <span class="sd">    :attr list[str] text: An array of responses to the user.</span>
 <span class="sd">    :attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.</span>
+<span class="sd">    :attr list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_messages</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">nodes_visited</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">log_messages</span><span class="p">,</span>
+                 <span class="n">text</span><span class="p">,</span>
+                 <span class="n">nodes_visited</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">nodes_visited_details</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a OutputData object.</span>
 
 <span class="sd">        :param list[LogMessage] log_messages: Up to 50 messages logged with the request.</span>
 <span class="sd">        :param list[str] text: An array of responses to the user.</span>
 <span class="sd">        :param list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.</span>
+<span class="sd">        :param list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.</span>
 <span class="sd">        :param **kwargs: (optional) Any additional properties.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log_messages</span> <span class="o">=</span> <span class="n">log_messages</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes_visited</span> <span class="o">=</span> <span class="n">nodes_visited</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes_visited_details</span> <span class="o">=</span> <span class="n">nodes_visited_details</span>
         <span class="k">for</span> <span class="n">_key</span><span class="p">,</span> <span class="n">_value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_key</span><span class="p">,</span> <span class="n">_value</span><span class="p">)</span>
 
@@ -4053,6 +4121,12 @@
         <span class="k">if</span> <span class="s1">&#39;nodes_visited&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;nodes_visited&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;nodes_visited&#39;</span><span class="p">]</span>
             <span class="k">del</span> <span class="n">xtra</span><span class="p">[</span><span class="s1">&#39;nodes_visited&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;nodes_visited_details&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;nodes_visited_details&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">DialogNodeVisitedDetails</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;nodes_visited_details&#39;</span><span class="p">]</span>
+            <span class="p">]</span>
+            <span class="k">del</span> <span class="n">xtra</span><span class="p">[</span><span class="s1">&#39;nodes_visited_details&#39;</span><span class="p">]</span>
         <span class="n">args</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">xtra</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 
@@ -4065,6 +4139,11 @@
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;nodes_visited&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_visited</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;nodes_visited&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_visited</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;nodes_visited_details&#39;</span>
+                  <span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_visited_details</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;nodes_visited_details&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes_visited_details</span>
+            <span class="p">]</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_additionalProperties&#39;</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_additionalProperties</span><span class="p">:</span>
                 <span class="n">_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -4073,7 +4152,9 @@
         <span class="k">return</span> <span class="n">_dict</span>
 
     <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;log_messages&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;nodes_visited&#39;</span><span class="p">}</span>
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;log_messages&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;nodes_visited&#39;</span><span class="p">,</span> <span class="s1">&#39;nodes_visited_details&#39;</span>
+        <span class="p">}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_additionalProperties&#39;</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">OutputData</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s1">&#39;_additionalProperties&#39;</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span>
