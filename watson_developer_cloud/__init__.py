@@ -18,7 +18,6 @@ from .watson_service import WatsonApiException
 from .watson_service import WatsonInvalidArgument
 from .authorization_v1 import AuthorizationV1
 from .conversation_v1 import ConversationV1
-from .dialog_v1 import DialogV1
 from .language_translation_v2 import LanguageTranslationV2
 from .language_translator_v2 import LanguageTranslatorV2
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
