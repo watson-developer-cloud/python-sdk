@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -213,7 +213,8 @@ class ConversationV1(WatsonService):
                          dialog_nodes=None,
                          counterexamples=None,
                          metadata=None,
-                         learning_opt_out=None):
+                         learning_opt_out=None,
+                         append=None):
         """
         Update workspace.
 
@@ -230,6 +231,7 @@ class ConversationV1(WatsonService):
         :param list[CreateCounterexample] counterexamples: An array of objects defining input examples that have been marked as irrelevant input.
         :param object metadata: Any metadata related to the workspace.
         :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param bool append: Specifies that the elements included in the request body are to be appended to the existing data in the workspace. The default value is `false`.
         :return: A `dict` containing the `Workspace` response.
         :rtype: dict
         """
@@ -243,7 +245,7 @@ class ConversationV1(WatsonService):
             dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
             counterexamples = [self._convert_model(x) for x in counterexamples]
-        params = {'version': self.version}
+        params = {'version': self.version, 'append': append}
         data = {
             'name': name,
             'description': description,
@@ -264,6 +266,7 @@ class ConversationV1(WatsonService):
     # message
     #########################
 
+
     def message(self,
                 workspace_id,
                 input=None,
@@ -271,7 +274,8 @@ class ConversationV1(WatsonService):
                 context=None,
                 entities=None,
                 intents=None,
-                output=None):
+                output=None,
+                nodes_visited_details=None):
         """
         Get a response to a user's input.
 
@@ -282,6 +286,7 @@ class ConversationV1(WatsonService):
         :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
         :param list[RuntimeIntent] intents: An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
         :param OutputData output: System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
+        :param bool nodes_visited_details: Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.
         :return: A `dict` containing the `MessageResponse` response.
         :rtype: dict
         """
@@ -297,7 +302,10 @@ class ConversationV1(WatsonService):
             intents = [self._convert_model(x) for x in intents]
         if output is not None:
             output = self._convert_model(output)
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+            'nodes_visited_details': nodes_visited_details
+        }
         data = {
             'input': input,
             'alternate_intents': alternate_intents,
@@ -1310,7 +1318,7 @@ class ConversationV1(WatsonService):
         :param object new_metadata: The metadata for the dialog node.
         :param DialogNodeNextStep new_next_step: The next step to execute following this dialog node.
         :param str new_title: The alias used to identify the dialog node.
-        :param str new_type: How the node is processed.
+        :param str new_type: How the dialog node is processed.
         :param str new_event_name: How an `event_handler` node is processed.
         :param str new_variable: The location in the dialog context where output is stored.
         :param list[DialogNodeAction] new_actions: The actions for the dialog node.
@@ -2726,6 +2734,58 @@ class DialogNodeNextStep(object):
         return not self == other
 
 
+class DialogNodeVisitedDetails(object):
+    """
+    DialogNodeVisitedDetails.
+
+    :attr str dialog_node: (optional) A dialog node that was triggered during processing of the input message.
+    :attr str title: (optional) The title of the dialog node.
+    """
+
+    def __init__(self, dialog_node=None, title=None):
+        """
+        Initialize a DialogNodeVisitedDetails object.
+
+        :param str dialog_node: (optional) A dialog node that was triggered during processing of the input message.
+        :param str title: (optional) The title of the dialog node.
+        """
+        self.dialog_node = dialog_node
+        self.title = title
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeVisitedDetails object from a json dictionary."""
+        args = {}
+        if 'dialog_node' in _dict:
+            args['dialog_node'] = _dict['dialog_node']
+        if 'title' in _dict:
+            args['title'] = _dict['title']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
+            _dict['dialog_node'] = self.dialog_node
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogNodeVisitedDetails object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Entity(object):
     """
     Entity.
@@ -3980,20 +4040,28 @@ class OutputData(object):
     :attr list[LogMessage] log_messages: Up to 50 messages logged with the request.
     :attr list[str] text: An array of responses to the user.
     :attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.
+    :attr list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
     """
 
-    def __init__(self, log_messages, text, nodes_visited=None, **kwargs):
+    def __init__(self,
+                 log_messages,
+                 text,
+                 nodes_visited=None,
+                 nodes_visited_details=None,
+                 **kwargs):
         """
         Initialize a OutputData object.
 
         :param list[LogMessage] log_messages: Up to 50 messages logged with the request.
         :param list[str] text: An array of responses to the user.
         :param list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.
+        :param list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
         :param **kwargs: (optional) Any additional properties.
         """
         self.log_messages = log_messages
         self.text = text
         self.nodes_visited = nodes_visited
+        self.nodes_visited_details = nodes_visited_details
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -4020,6 +4088,12 @@ class OutputData(object):
         if 'nodes_visited' in _dict:
             args['nodes_visited'] = _dict['nodes_visited']
             del xtra['nodes_visited']
+        if 'nodes_visited_details' in _dict:
+            args['nodes_visited_details'] = [
+                DialogNodeVisitedDetails._from_dict(x)
+                for x in _dict['nodes_visited_details']
+            ]
+            del xtra['nodes_visited_details']
         args.update(xtra)
         return cls(**args)
 
@@ -4032,6 +4106,11 @@ class OutputData(object):
             _dict['text'] = self.text
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
             _dict['nodes_visited'] = self.nodes_visited
+        if hasattr(self, 'nodes_visited_details'
+                  ) and self.nodes_visited_details is not None:
+            _dict['nodes_visited_details'] = [
+                x._to_dict() for x in self.nodes_visited_details
+            ]
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -4040,7 +4119,9 @@ class OutputData(object):
         return _dict
 
     def __setattr__(self, name, value):
-        properties = {'log_messages', 'text', 'nodes_visited'}
+        properties = {
+            'log_messages', 'text', 'nodes_visited', 'nodes_visited_details'
+        }
         if not hasattr(self, '_additionalProperties'):
             super(OutputData, self).__setattr__('_additionalProperties', set())
         if name not in properties:

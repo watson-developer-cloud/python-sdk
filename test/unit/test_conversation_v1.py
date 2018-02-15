@@ -1446,3 +1446,51 @@ def test_update_workspace():
     assert workspace == response
     # Verify that response can be converted to a Workspace
     Workspace._from_dict(workspace)
+
+@responses.activate
+def test_dialog_nodes():
+    url = 'https://gateway.watsonplatform.net/conversation/api/v1/workspaces/id/dialog_nodes'
+    responses.add(
+        responses.GET,
+        url,
+        body='{ "application/json": { "dialog_node": "location-atm" }}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.POST,
+        "{0}?version=2017-05-26".format(url),
+        body='{ "application/json": { "dialog_node": "location-done" }}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.DELETE,
+        "{0}/location-done?version=2017-05-26".format(url),
+        body='{"description": "deleted successfully"}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        "{0}/location-done?version=2017-05-26".format(url),
+        body='{ "application/json": { "dialog_node": "location-atm" }}',
+        status=200,
+        content_type='application/json')
+
+    conversation = watson_developer_cloud.ConversationV1('2017-05-26',
+        username="username", password="password")
+
+    conversation.create_dialog_node('id', 'location-done')
+    assert responses.calls[0].response.json()['application/json']['dialog_node'] == 'location-done'
+
+    conversation.delete_dialog_node('id', 'location-done')
+    assert responses.calls[1].response.json() == {"description": "deleted successfully"}
+
+    conversation.get_dialog_node('id', 'location-done')
+    assert responses.calls[2].response.json() == { "application/json": { "dialog_node": "location-atm" }}
+
+    conversation.list_dialog_nodes('id')
+    assert responses.calls[3].response.json() == { "application/json": { "dialog_node": "location-atm" }}
+
+    assert len(responses.calls) == 4
