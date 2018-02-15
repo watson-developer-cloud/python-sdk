@@ -172,65 +172,29 @@ class VisualRecognitionV3(WatsonService):
     #########################
 
     def create_classifier(self,
-                            name,
-                            classname_positive_examples,
-                            negative_examples=None,
-                            classname_positive_examples_filename=None,
-                            negative_examples_filename=None):
-            """
-            Create a classifier.
-
-            Train a new multi-faceted classifier on the uploaded image data. Create your
-            custom classifier with positive or negative examples. Include at least two sets of
-            examples, either two positive example files or one positive and one negative file.
-            You can upload a maximum of 256 MB per call.  Encode all names in UTF-8 if they
-            contain non-ASCII characters (.zip and image file names, and classifier and class
-            names). The service assumes UTF-8 encoding if it encounters non-ASCII characters.
-
-            :param str name: The name of the new classifier. Encode special characters in UTF-8.
-            :param file classname_positive_examples: A .zip file of images that depict the visual subject of a class in the new classifier. You can include more than one positive example file in a call. Append `_positive_examples` to the form name. The prefix is used as the class name. For example, `goldenretriever_positive_examples` creates the class **goldenretriever**.  Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file.  Encode special characters in the file name in UTF-8.  The API explorer limits you to training only one class. To train more classes, use the API functionality.
-            :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.  Encode special characters in the file name in UTF-8.
-            :param str classname_positive_examples_filename: The filename for classname_positive_examples.
-            :param str negative_examples_filename: The filename for negative_examples.
-            :return: A `dict` containing the `Classifier` response.
-            :rtype: dict
-            """
-            if name is None:
-                raise ValueError('name must be provided')
-            if classname_positive_examples is None:
-                raise ValueError('classname_positive_examples must be provided')
-            params = {'version': self.version}
-            name_tuple = (None, name, 'text/plain')
-            if not classname_positive_examples_filename and hasattr(
-                    classname_positive_examples, 'name'):
-                classname_positive_examples_filename = classname_positive_examples.name
-            mime_type = 'application/octet-stream'
-            classname_positive_examples_tuple = (
-                classname_positive_examples_filename, classname_positive_examples,
-                mime_type)
-            negative_examples_tuple = None
-            if negative_examples:
-                if not negative_examples_filename and hasattr(
-                        negative_examples, 'name'):
-                    negative_examples_filename = negative_examples.name
-                if not negative_examples_filename:
-                    raise ValueError('negative_examples_filename must be provided')
-                mime_type = 'application/octet-stream'
-                negative_examples_tuple = (negative_examples_filename,
-                                        negative_examples, mime_type)
-            url = '/v3/classifiers'
-            response = self.request(
-                method='POST',
-                url=url,
-                params=params,
-                files={
-                    'name': name_tuple,
-                    'classname_positive_examples':
-                    classname_positive_examples_tuple,
-                    'negative_examples': negative_examples_tuple
-                },
-                accept_json=True)
-            return response
+                          name,
+                          **kwargs):
+        """
+        Create a classifier.
+        :param str name: The name of the new classifier. Cannot contain special characters.
+        :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
+        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+        :return: A `dict` containing the `Classifier` response.
+        :rtype: dict
+        """
+        if name is None:
+            raise ValueError('name must be provided')
+        params = {'version': self.version}
+        data = {'name': name}
+        url = '/v3/classifiers'
+        response = self.request(
+            method='POST',
+            url=url,
+            params=params,
+            data=data,
+            files=kwargs,
+            accept_json=True)
+        return response
 
     def delete_classifier(self, classifier_id):
         """
@@ -280,68 +244,25 @@ class VisualRecognitionV3(WatsonService):
 
     def update_classifier(self,
                           classifier_id,
-                          classname_positive_examples=None,
-                          negative_examples=None,
-                          classname_positive_examples_filename=None,
-                          negative_examples_filename=None):
+                          **kwargs):
         """
         Update a classifier.
-
-        Update a custom classifier by adding new positive or negative classes (examples)
-        or by adding new images to existing classes. You must supply at least one set of
-        positive or negative examples. For details, see [Updating custom
-        classifiers](https://console.bluemix.net/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
-         Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
-        file names, and classifier and class names). The service assumes UTF-8 encoding if
-        it encounters non-ASCII characters.  **Important:** You can't update a custom
-        classifier with an API key for a Lite plan. To update a custom classifer on a Lite
-        plan, create another service instance on a Standard plan and re-create your custom
-        classifier.  **Tip:** Don't make retraining calls on a classifier until the status
-        is ready. When you submit retraining requests in parallel, the last request
-        overwrites the previous requests. The retrained property shows the last time the
-        classifier retraining finished.
-
         :param str classifier_id: The ID of the classifier.
-        :param file classname_positive_examples: A .zip file of images that depict the visual subject of a class in the classifier. The positive examples create or update classes in the classifier. You can include more than one positive example file in a call. Append `_positive_examples` to the form name. The prefix is used to name the class. For example, `goldenretriever_positive_examples` creates the class `goldenretriever`.  Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file.  Encode special characters in the file name in UTF-8.
-        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.  Encode special characters in the file name in UTF-8.
-        :param str classname_positive_examples_filename: The filename for classname_positive_examples.
-        :param str negative_examples_filename: The filename for negative_examples.
+        :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
+        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         params = {'version': self.version}
-        classname_positive_examples_tuple = None
-        if classname_positive_examples:
-            if not classname_positive_examples_filename and hasattr(
-                    classname_positive_examples, 'name'):
-                classname_positive_examples_filename = classname_positive_examples.name
-            mime_type = 'application/octet-stream'
-            classname_positive_examples_tuple = (
-                classname_positive_examples_filename,
-                classname_positive_examples, mime_type)
-        negative_examples_tuple = None
-        if negative_examples:
-            if not negative_examples_filename and hasattr(
-                    negative_examples, 'name'):
-                negative_examples_filename = negative_examples.name
-            if not negative_examples_filename:
-                raise ValueError('negative_examples_filename must be provided')
-            mime_type = 'application/octet-stream'
-            negative_examples_tuple = (negative_examples_filename,
-                                       negative_examples, mime_type)
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
             method='POST',
             url=url,
             params=params,
-            files={
-                'classname_positive_examples':
-                classname_positive_examples_tuple,
-                'negative_examples': negative_examples_tuple
-            },
+            files=kwargs,
             accept_json=True)
         return response
 

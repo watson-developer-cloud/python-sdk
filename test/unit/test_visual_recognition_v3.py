@@ -98,7 +98,7 @@ class TestVisualRecognitionV3(TestCase):
 
         with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
             open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
-            vr_service.create_classifier('Cars vs Trucks', classname_positive_examples=cars, negative_examples=trucks)
+            vr_service.create_classifier('Cars vs Trucks', cars_positive_examples=cars, negative_examples=trucks)
 
         assert len(responses.calls) == 1
 

@@ -28,7 +28,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
     def test_custom_classifier(self):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
             open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
-            classifier = self.visual_recognition.create_classifier('Cars vs Trucks', classname_positive_examples=cars, negative_examples=trucks)
+            classifier = self.visual_recognition.create_classifier('Cars vs Trucks', cars_positive_examples=cars, negative_examples=trucks)
 
         assert classifier is not None
 
