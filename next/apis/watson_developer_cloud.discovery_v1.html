@@ -426,6 +426,34 @@ processed. The document is not added to the index.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions">
+<code class="descname">create_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>expansions</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the expansion list.</p>
+<p>Create or replace the Expansion list for this collection. The maximum number of
+expanded terms per collection is <cite>500</cite>. The current expansion list is replaced
+with the uploaded content.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>expansions</strong> (<em>list</em><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.Expansion" title="watson_developer_cloud.discovery_v1.Expansion"><em>Expansion</em></a><em>]</em>) – An array of query expansion definitions.    Each object in the <cite>expansions</cite> array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an <cite>expanded_terms</cite> array. When found in a query, all items in the <cite>expanded_terms</cite> array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of <cite>input_terms</cite> and an array of <cite>expanded_terms</cite>. When items in the <cite>input_terms</cite> array are present in a query, they are expanded using the items listed in the <cite>expanded_terms</cite> array.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Expansions</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_collection">
 <code class="descname">delete_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a collection.</p>
@@ -443,6 +471,29 @@ processed. The document is not added to the index.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions">
+<code class="descname">delete_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the expansions list.</p>
+<p>Remove the expansion information for this collection. The expansion list must be
+deleted to disable query expansion for a collection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the collection.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
 </td>
 </tr>
 </tbody>
@@ -514,6 +565,32 @@ processed. The document is not added to the index.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>ListCollectionsResponse</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions">
+<code class="descname">list_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions" title="Permalink to this definition">¶</a></dt>
+<dd><p>List current expansions.</p>
+<p>Returns the current expansion list for the specified collection. If an expansion
+list is not specified, an object with empty expansion arrays is returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The ID of the collection.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Expansions</cite> response.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
@@ -1208,7 +1285,7 @@ all examples.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The unique identifier of the collection’s configuration.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str language:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The language of the documents stored in the collection. Permitted values include <cite>en_us</cite> (U.S. English), <cite>de</cite> (German), and <cite>es</cite> (Spanish).</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The language of the documents stored in the collection. Permitted values include <cite>en</cite> (English), <cite>de</cite> (German), and <cite>es</cite> (Spanish).</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr DocumentCounts document_counts:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The object providing information about the documents in the collection. Present only when retrieving details of a collection.</td>
@@ -1553,7 +1630,7 @@ all examples.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Indicates that the enrichments will overwrite the destination_field field if it already exists.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str enrichment_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">Name of the enrichment service to call. Currently the only valid value is <cite>natural_language_understanding</cite>. Previous API versions also supported <cite>alchemy_language</cite>.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Name of the enrichment service to call. Current options are <cite>natural_language_understanding</cite> and <cite>elements</cite>.   When using <cite>natual_language_understanding</cite>, the <cite>options</cite> object must contain Natural Language Understanding Options.   When using <cite>elements</cite> the <cite>options</cite> object must contain Element Classification options. Additionally, when using the <cite>elements</cite> enrichment the configuration specified and files ingested must meet all the criteria specified in [the documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/element-classification.html">https://console.bluemix.net/docs/services/discovery/element-classification.html</a>)     Previous API versions also supported <cite>alchemy_language</cite>.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr bool ignore_downstream_errors:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If true, then most errors generated during the enrichment process will be treated as warnings and will not cause the document to fail processing.</td>
@@ -1567,9 +1644,20 @@ all examples.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.EnrichmentOptions">
-<em class="property">class </em><code class="descname">EnrichmentOptions</code><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#EnrichmentOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.EnrichmentOptions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">EnrichmentOptions</code><span class="sig-paren">(</span><em>features=None</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#EnrichmentOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.EnrichmentOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>EnrichmentOptions.</p>
+<p>Options which are specific to a particular enrichment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr NluEnrichmentFeatures features:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An object representing the enrichment features that will be applied to the specified field.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str model:</th><td class="field-body">(optional) <em>For use with `elements` enrichments only.</em> The element extraction model to use. Models available are: <cite>contract</cite>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -1624,6 +1712,43 @@ all examples.</p>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr int maximum_allowed:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Total number of documents allowed in the environment’s capacity.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Expansion">
+<em class="property">class </em><code class="descname">Expansion</code><span class="sig-paren">(</span><em>expanded_terms</em>, <em>input_terms=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Expansion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Expansion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An expansion definition. Each object respresents one set of expandable strings. For
+example, you could have expansions for the word <cite>hot</cite> in one object, and expansions
+for the word <cite>cold</cite> in another.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] input_terms:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A list of terms that will be expanded for this expansion. If specified, only the items in this list are expanded.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] expanded_terms:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A list of terms that this expansion will be expanded to. If specified without <cite>input_terms</cite>, it also functions as the input term list.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Expansions">
+<em class="property">class </em><code class="descname">Expansions</code><span class="sig-paren">(</span><em>expansions</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Expansions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The query expansion definitions for the specified collection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Expansion] expansions:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of query expansion definitions.    Each object in the <cite>expansions</cite> array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an <cite>expanded_terms</cite> array. When found in a query, all items in the <cite>expanded_terms</cite> array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of <cite>input_terms</cite> and an array of <cite>expanded_terms</cite>. When items in the <cite>input_terms</cite> array are present in a query, they are expanded using the items listed in the <cite>expanded_terms</cite> array.</td>
 </tr>
 </tbody>
 </table>
@@ -1828,6 +1953,175 @@ format, however, the format differs slightly from that used by the query operati
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float percent_used:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>Deprecated</strong>: Percentage of the environment’s memory capacity that is being used.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.NluEnrichmentCategories">
+<em class="property">class </em><code class="descname">NluEnrichmentCategories</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#NluEnrichmentCategories"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.NluEnrichmentCategories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object that indicates the Categories enrichment will be applied to the specified
+field.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.NluEnrichmentEmotion">
+<em class="property">class </em><code class="descname">NluEnrichmentEmotion</code><span class="sig-paren">(</span><em>document=None</em>, <em>targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#NluEnrichmentEmotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.NluEnrichmentEmotion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object specifying the emotion detection enrichment and related parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool document:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, emotion detection is performed on the entire field.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] targets:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A comma-separated list of target strings that will have any associated emotions detected.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.NluEnrichmentEntities">
+<em class="property">class </em><code class="descname">NluEnrichmentEntities</code><span class="sig-paren">(</span><em>sentiment=None</em>, <em>emotion=None</em>, <em>limit=None</em>, <em>mentions=None</em>, <em>mention_types=None</em>, <em>sentence_location=None</em>, <em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#NluEnrichmentEntities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.NluEnrichmentEntities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object speficying the Entities enrichment and related parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool sentiment:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, sentiment analysis of entities will be performed on the specified field.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool emotion:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, emotion detection of entities will be performed on the specified field.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr int limit:</th><td class="field-body">(optional) The maximum number of entities to extract for each instance of the specified field.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool mentions:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, the number of mentions of each identified entity is recorded. The default is <cite>false</cite>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool mention_types:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, the types of mentions for each idetifieid entity is recorded. The default is <cite>false</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool sentence_location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, a list of sentence locations for each instance of each identified entity is recorded. The default is <cite>false</cite>.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr str model:</th><td class="field-body">(optional) The enrichement model to use with entity extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph <cite>en-news</cite>, or the default public model <cite>alchemy</cite>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.NluEnrichmentFeatures">
+<em class="property">class </em><code class="descname">NluEnrichmentFeatures</code><span class="sig-paren">(</span><em>keywords=None</em>, <em>entities=None</em>, <em>sentiment=None</em>, <em>emotion=None</em>, <em>categories=None</em>, <em>semantic_roles=None</em>, <em>relations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#NluEnrichmentFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.NluEnrichmentFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>NluEnrichmentFeatures.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr NluEnrichmentKeywords keywords:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An object specifying the Keyword enrichment and related parameters.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr NluEnrichmentEntities entities:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An object speficying the Entities enrichment and related parameters.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr NluEnrichmentSentiment sentiment:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An object specifying the sentiment extraction enrichment and related parameters.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr NluEnrichmentEmotion emotion:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An object specifying the emotion detection enrichment and related parameters.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr NluEnrichmentCategories categories:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An object specifying the categories enrichment and related parameters.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr NluEnrichmentSemanticRoles semantic_roles:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An object specifiying the semantic roles enrichment and related parameters.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr NluEnrichmentRelations relations:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An object specifying the relations enrichment and related parameters.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.NluEnrichmentKeywords">
+<em class="property">class </em><code class="descname">NluEnrichmentKeywords</code><span class="sig-paren">(</span><em>sentiment=None</em>, <em>emotion=None</em>, <em>limit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#NluEnrichmentKeywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.NluEnrichmentKeywords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object specifying the Keyword enrichment and related parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool sentiment:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, sentiment analysis of keywords will be performed on the specified field.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool emotion:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, emotion detection of keywords will be performed on the specified field.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr int limit:</th><td class="field-body">(optional) The maximum number of keywords to extract for each instance of the specified field.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.NluEnrichmentRelations">
+<em class="property">class </em><code class="descname">NluEnrichmentRelations</code><span class="sig-paren">(</span><em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#NluEnrichmentRelations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.NluEnrichmentRelations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object specifying the relations enrichment and related parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str model:</th><td class="field-body">(optional) <em>For use with `natural_language_understanding` enrichments only.</em> The enrichement model to use with relationship extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph <cite>en-news</cite>, the default is`en-news`.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.NluEnrichmentSemanticRoles">
+<em class="property">class </em><code class="descname">NluEnrichmentSemanticRoles</code><span class="sig-paren">(</span><em>entities=None</em>, <em>keywords=None</em>, <em>limit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#NluEnrichmentSemanticRoles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.NluEnrichmentSemanticRoles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object specifiying the semantic roles enrichment and related parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool entities:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite> entities are extracted from the identified sentence parts.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool keywords:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, keywords are extracted from the identified sentence parts.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr int limit:</th><td class="field-body">(optional) The maximum number of semantic roles enrichments to extact from each instance of the specified field.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.NluEnrichmentSentiment">
+<em class="property">class </em><code class="descname">NluEnrichmentSentiment</code><span class="sig-paren">(</span><em>document=None</em>, <em>targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#NluEnrichmentSentiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.NluEnrichmentSentiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object specifying the sentiment extraction enrichment and related parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool document:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, sentiment analysis is performed on the entire field.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] targets:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A comma-separated list of target strings that will have any associated sentiment analyzed.</td>
 </tr>
 </tbody>
 </table>
@@ -2039,6 +2333,33 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int duplicates_removed:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryNoticesResult">
+<em class="property">class </em><code class="descname">QueryNoticesResult</code><span class="sig-paren">(</span><em>id=None</em>, <em>score=None</em>, <em>metadata=None</em>, <em>collection_id=None</em>, <em>result_metadata=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryNoticesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryNoticesResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>QueryNoticesResult.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str id:</th><td class="field-body">(optional) The unique identifier of the document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <em>Deprecated</em> This field is now part of the <cite>result_metadata</cite> object.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Metadata of the document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str collection_id:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The collection ID of the collection containing the document for this result.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr QueryResultResultMetadata result_metadata:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 </tbody>
@@ -2460,33 +2781,6 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] xpaths:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="watson_developer_cloud.discovery_v1.QueryNoticesResult">
-<em class="property">class </em><code class="descname">QueryNoticesResult</code><span class="sig-paren">(</span><em>id=None</em>, <em>score=None</em>, <em>metadata=None</em>, <em>collection_id=None</em>, <em>result_metadata=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryNoticesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryNoticesResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>QueryNoticesResult.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attr str id:</th><td class="field-body">(optional) The unique identifier of the document.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <em>Deprecated</em> This field is now part of the <cite>result_metadata</cite> object.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Metadata of the document.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str collection_id:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The collection ID of the collection containing the document for this result.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr QueryResultResultMetadata result_metadata:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 </tbody>
