@@ -40,33 +40,7 @@ language tones in written text. The service can analyze tone at both the documen
 sentence levels. You can use the service to understand how your written communications are
 perceived and then to improve the tone of your communications. Businesses can use the
 service to learn the tone of their customers’ communications and to respond to each
-customer appropriately, or to understand and improve their customer conversations.
-### API Usage
-The following information provides details about using the service to analyze tone:
-* <strong>The tone method:</strong> The service offers <cite>GET</cite> and <cite>POST /v3/tone</cite> methods that use the
-general purpose endpoint to analyze the tone of input content. The methods accept content
-in JSON, plain text, or HTML format.
-* <strong>The tone_chat method:</strong> The service offers a <cite>POST /v3/tone_chat</cite> method that uses the
-customer engagement endpoint to analyze the tone of customer service and customer support
-conversations. The method accepts content in JSON format.
-* <strong>Authentication:</strong> You authenticate to the service by using your service credentials.
-You can use your credentials to authenticate via a proxy server that resides in Bluemix,
-or you can use your credentials to obtain a token and contact the service directly. See
-[Service credentials for Watson
-services](<a class="reference external" href="https://console.bluemix.net/docs/services/watson/getting-started-credentials.html">https://console.bluemix.net/docs/services/watson/getting-started-credentials.html</a>)
-and [Tokens for
-authentication](<a class="reference external" href="https://console.bluemix.net/docs/services/watson/getting-started-tokens.html">https://console.bluemix.net/docs/services/watson/getting-started-tokens.html</a>).
-* <strong>Request Logging:</strong> By default, all Watson services log requests and their results.
-Data is collected only to improve the Watson services. If you do not want to share your
-data, set the header parameter <cite>X-Watson-Learning-Opt-Out</cite> to <cite>true</cite> for each request.
-Data is collected for any request that omits this header. See [Controlling request logging
-for Watson
-services](<a class="reference external" href="https://console.bluemix.net/docs/services/watson/getting-started-logging.html">https://console.bluemix.net/docs/services/watson/getting-started-logging.html</a>).</p>
-<p>For more information about the service, see [About Tone
-Analyzer](<a class="reference external" href="https://console.bluemix.net/docs/services/tone-analyzer/index.html">https://console.bluemix.net/docs/services/tone-analyzer/index.html</a>).</p>
-<p><strong>Note:</strong> Method descriptions apply to the latest version of the interface, <cite>2017-09-21</cite>.
-Where necessary, parameters and models describe differences between versions <cite>2017-09-21</cite>
-and <cite>2016-05-19</cite>.</p>
+customer appropriately, or to understand and improve their customer conversations.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3">
 <em class="property">class </em><code class="descname">ToneAnalyzerV3</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/tone-analyzer/api'</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneAnalyzerV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3" title="Permalink to this definition">¶</a></dt>
@@ -81,22 +55,6 @@ and <cite>2016-05-19</cite>.</p>
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone">
 <code class="descname">tone</code><span class="sig-paren">(</span><em>tone_input</em>, <em>content_type='application/json'</em>, <em>sentences=None</em>, <em>tones=None</em>, <em>content_language=None</em>, <em>accept_language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneAnalyzerV3.tone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Analyze general purpose tone.</p>
-<p>Uses the general purpose endpoint to analyze the tone of your input content. The
-service analyzes the content for emotional and language tones. The method always
-analyzes the tone of the full document; by default, it also analyzes the tone of
-each individual sentence of the content.   You can submit no more than 128 KB of
-total input content and no more than 1000 individual sentences in JSON, plain
-text, or HTML format. The service analyzes the first 1000 sentences for
-document-level analysis and only the first 100 sentences for sentence-level
-analysis.   Use the <cite>POST</cite> request method to analyze larger amounts of content in
-any of the available formats. Use the <cite>GET</cite> request method to analyze smaller
-quantities of plain text content.   Per the JSON specification, the default
-character encoding for JSON content is effectively always UTF-8; per the HTTP
-specification, the default encoding for plain text and HTML is ISO-8859-1
-(effectively, the ASCII character set). When specifying a content type of plain
-text or HTML, include the <cite>charset</cite> parameter to indicate the character encoding
-of the input text; for example: <cite>Content-Type: text/plain;charset=utf-8</cite>. For
-<cite>text/html</cite>, the service removes HTML tags and analyzes only the textual content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -354,7 +312,7 @@ content is effectively always UTF-8.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str utterance_id:</th></tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int utterance_id:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str utterance_text:</th></tr>
