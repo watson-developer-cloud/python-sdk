@@ -1,7 +1,7 @@
 from __future__ import print_function
 import json
 from os.path import join, dirname
-from watson_developer_cloud import SpeechToTextV1
+from watson_developer_cloud import SpeechToTextV1, SpeechToTextWithWebSockets, Recognize, SttListener
 
 speech_to_text = SpeechToTextV1(
     username='YOUR SERVICE USERNAME',
@@ -21,3 +21,9 @@ with open(join(dirname(__file__), '../resources/speech.wav'),
                 timestamps=True,
                 word_confidence=True),
             indent=2))
+
+# For running speech to text with web sockets
+sttListener = SttListener()
+recognize = Recognize('YOUR SERVICE USERNAME', 'YOUR SERVICE PASSWORD', join(dirname(__file__),'../resources/speech.wav'))
+recognize.addListener(sttListener)
+recognize.run()
