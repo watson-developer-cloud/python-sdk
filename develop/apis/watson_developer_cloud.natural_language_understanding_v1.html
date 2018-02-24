@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>watson_developer_cloud.natural_language_understanding_v1 module &#8212; Watson Developer Cloud Python SDK 1.0.2 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.0.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -32,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -82,7 +73,7 @@ Get author information, publication date, and the title of your text/HTML conten
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1">
 <em class="property">class </em><code class="descname">NaturalLanguageUnderstandingV1</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/natural-language-understanding/api'</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#NaturalLanguageUnderstandingV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
 <p>The Natural Language Understanding V1 service.</p>
 <dl class="attribute">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.default_url">
@@ -105,22 +96,22 @@ Get author information, publication date, and the title of your text/HTML conten
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>features</strong> (<a class="reference internal" href="#watson_developer_cloud.natural_language_understanding_v1.Features" title="watson_developer_cloud.natural_language_understanding_v1.Features"><em>Features</em></a>) – Specific features to analyze the document for.</li>
-<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The plain text to analyze.</li>
-<li><strong>html</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The HTML file to analyze.</li>
-<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The web page to analyze.</li>
-<li><strong>clean</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Remove website elements, such as links, ads, etc.</li>
-<li><strong>xpath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – XPath query for targeting nodes in HTML.</li>
-<li><strong>fallback_to_raw</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Whether to use raw HTML content if text cleaning fails.</li>
-<li><strong>return_analyzed_text</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Whether or not to return the analyzed text.</li>
-<li><strong>language</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – ISO 639-1 code indicating the language to use in the analysis.</li>
-<li><strong>limit_text_characters</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) – Sets the maximum number of characters that are processed by the service.</li>
+<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The plain text to analyze.</li>
+<li><strong>html</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The HTML file to analyze.</li>
+<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The web page to analyze.</li>
+<li><strong>clean</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Remove website elements, such as links, ads, etc.</li>
+<li><strong>xpath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – XPath query for targeting nodes in HTML.</li>
+<li><strong>fallback_to_raw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to use raw HTML content if text cleaning fails.</li>
+<li><strong>return_analyzed_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether or not to return the analyzed text.</li>
+<li><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ISO 639-1 code indicating the language to use in the analysis.</li>
+<li><strong>limit_text_characters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Sets the maximum number of characters that are processed by the service.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>AnalysisResults</cite> response.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
 </td>
 </tr>
 </tbody>
@@ -136,11 +127,11 @@ Get author information, publication date, and the title of your text/HTML conten
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – model_id of the model to delete.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – model_id of the model to delete.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>InlineResponse200</cite> response.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -159,7 +150,7 @@ Language Understanding service.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>ListModelsResults</cite> response.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -170,7 +161,7 @@ Language Understanding service.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.Author">
 <em class="property">class </em><code class="descname">Author</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#Author"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.Author" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The author of the analyzed content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -185,14 +176,14 @@ Language Understanding service.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.CategoriesOptions">
 <em class="property">class </em><code class="descname">CategoriesOptions</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#CategoriesOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.CategoriesOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The hierarchical 5-level taxonomy the content is categorized into.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.CategoriesResult">
 <em class="property">class </em><code class="descname">CategoriesResult</code><span class="sig-paren">(</span><em>label=None</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#CategoriesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.CategoriesResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The hierarchical 5-level taxonomy the content is categorized into.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -210,7 +201,7 @@ Language Understanding service.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.ConceptsOptions">
 <em class="property">class </em><code class="descname">ConceptsOptions</code><span class="sig-paren">(</span><em>limit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#ConceptsOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.ConceptsOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Whether or not to analyze content for general concepts that are referenced or alluded
 to.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -226,7 +217,7 @@ to.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.ConceptsResult">
 <em class="property">class </em><code class="descname">ConceptsResult</code><span class="sig-paren">(</span><em>text=None</em>, <em>relevance=None</em>, <em>dbpedia_resource=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#ConceptsResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.ConceptsResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The general concepts referenced or alluded to in the specified content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -247,7 +238,7 @@ to.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.DisambiguationResult">
 <em class="property">class </em><code class="descname">DisambiguationResult</code><span class="sig-paren">(</span><em>name=None</em>, <em>dbpedia_resource=None</em>, <em>subtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#DisambiguationResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.DisambiguationResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Disambiguation information for the entity.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -268,7 +259,7 @@ to.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.DocumentEmotionResults">
 <em class="property">class </em><code class="descname">DocumentEmotionResults</code><span class="sig-paren">(</span><em>emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#DocumentEmotionResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.DocumentEmotionResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An object containing the emotion results of a document.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -284,7 +275,7 @@ to.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.DocumentSentimentResults">
 <em class="property">class </em><code class="descname">DocumentSentimentResults</code><span class="sig-paren">(</span><em>label=None</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#DocumentSentimentResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.DocumentSentimentResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>DocumentSentimentResults.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -302,7 +293,7 @@ to.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.EmotionOptions">
 <em class="property">class </em><code class="descname">EmotionOptions</code><span class="sig-paren">(</span><em>document=None</em>, <em>targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#EmotionOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.EmotionOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Whether or not to return emotion analysis of the content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -321,7 +312,7 @@ to.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.EmotionResult">
 <em class="property">class </em><code class="descname">EmotionResult</code><span class="sig-paren">(</span><em>document=None</em>, <em>targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#EmotionResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.EmotionResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The detected anger, disgust, fear, joy, or sadness that is conveyed by the content.
 Emotion information can be returned for detected entities, keywords, or user-specified
 target phrases found in the text.</p>
@@ -342,7 +333,7 @@ target phrases found in the text.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.EmotionScores">
 <em class="property">class </em><code class="descname">EmotionScores</code><span class="sig-paren">(</span><em>anger=None</em>, <em>disgust=None</em>, <em>fear=None</em>, <em>joy=None</em>, <em>sadness=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#EmotionScores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.EmotionScores" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>EmotionScores.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -369,7 +360,7 @@ target phrases found in the text.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.EntitiesOptions">
 <em class="property">class </em><code class="descname">EntitiesOptions</code><span class="sig-paren">(</span><em>limit=None</em>, <em>mentions=None</em>, <em>model=None</em>, <em>sentiment=None</em>, <em>emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#EntitiesOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.EntitiesOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Whether or not to return important people, places, geopolitical, and other entities
 detected in the analyzed content.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -396,7 +387,7 @@ detected in the analyzed content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.EntitiesResult">
 <em class="property">class </em><code class="descname">EntitiesResult</code><span class="sig-paren">(</span><em>type=None</em>, <em>text=None</em>, <em>relevance=None</em>, <em>mentions=None</em>, <em>count=None</em>, <em>emotion=None</em>, <em>sentiment=None</em>, <em>disambiguation=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#EntitiesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.EntitiesResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The important people, places, geopolitical entities and other types of entities in
 your content.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -431,7 +422,7 @@ your content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.EntityMention">
 <em class="property">class </em><code class="descname">EntityMention</code><span class="sig-paren">(</span><em>text=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#EntityMention"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.EntityMention" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>EntityMention.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -449,7 +440,7 @@ your content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.FeatureSentimentResults">
 <em class="property">class </em><code class="descname">FeatureSentimentResults</code><span class="sig-paren">(</span><em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#FeatureSentimentResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.FeatureSentimentResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>FeatureSentimentResults.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -465,7 +456,7 @@ your content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.Features">
 <em class="property">class </em><code class="descname">Features</code><span class="sig-paren">(</span><em>concepts=None</em>, <em>emotion=None</em>, <em>entities=None</em>, <em>keywords=None</em>, <em>metadata=None</em>, <em>relations=None</em>, <em>semantic_roles=None</em>, <em>sentiment=None</em>, <em>categories=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#Features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.Features" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Analysis features and options.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -505,7 +496,7 @@ your content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.Feed">
 <em class="property">class </em><code class="descname">Feed</code><span class="sig-paren">(</span><em>link=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#Feed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.Feed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>RSS or ATOM feed found on the webpage.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -520,7 +511,7 @@ your content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.InlineResponse200">
 <em class="property">class </em><code class="descname">InlineResponse200</code><span class="sig-paren">(</span><em>deleted=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#InlineResponse200"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.InlineResponse200" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>InlineResponse200.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -536,7 +527,7 @@ your content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.KeywordsOptions">
 <em class="property">class </em><code class="descname">KeywordsOptions</code><span class="sig-paren">(</span><em>limit=None</em>, <em>sentiment=None</em>, <em>emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#KeywordsOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.KeywordsOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An option indicating whether or not important keywords from the analyzed content
 should be returned.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -558,7 +549,7 @@ should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.KeywordsResult">
 <em class="property">class </em><code class="descname">KeywordsResult</code><span class="sig-paren">(</span><em>relevance=None</em>, <em>text=None</em>, <em>emotion=None</em>, <em>sentiment=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#KeywordsResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.KeywordsResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The most important keywords in the content, organized by relevance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -582,7 +573,7 @@ should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.ListModelsResults">
 <em class="property">class </em><code class="descname">ListModelsResults</code><span class="sig-paren">(</span><em>models=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#ListModelsResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.ListModelsResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Models available for Relations and Entities features.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -598,7 +589,7 @@ should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.MetadataOptions">
 <em class="property">class </em><code class="descname">MetadataOptions</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#MetadataOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.MetadataOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The Authors, Publication Date, and Title of the document. Supports URL and HTML input
 types.</p>
 </dd></dl>
@@ -606,7 +597,7 @@ types.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.MetadataResult">
 <em class="property">class </em><code class="descname">MetadataResult</code><span class="sig-paren">(</span><em>authors=None</em>, <em>publication_date=None</em>, <em>title=None</em>, <em>image=None</em>, <em>feeds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#MetadataResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.MetadataResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The Authors, Publication Date, and Title of the document. Supports URL and HTML input
 types.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -633,7 +624,7 @@ types.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.Model">
 <em class="property">class </em><code class="descname">Model</code><span class="sig-paren">(</span><em>status=None</em>, <em>model_id=None</em>, <em>language=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.Model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -658,7 +649,7 @@ types.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.RelationArgument">
 <em class="property">class </em><code class="descname">RelationArgument</code><span class="sig-paren">(</span><em>entities=None</em>, <em>location=None</em>, <em>text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#RelationArgument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.RelationArgument" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>RelationArgument.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -679,7 +670,7 @@ types.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.RelationEntity">
 <em class="property">class </em><code class="descname">RelationEntity</code><span class="sig-paren">(</span><em>text=None</em>, <em>type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#RelationEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.RelationEntity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An entity that corresponds with an argument in a relation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -696,7 +687,7 @@ types.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.RelationsOptions">
 <em class="property">class </em><code class="descname">RelationsOptions</code><span class="sig-paren">(</span><em>model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#RelationsOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.RelationsOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An option specifying if the relationships found between entities in the analyzed
 content should be returned.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -712,7 +703,7 @@ content should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.RelationsResult">
 <em class="property">class </em><code class="descname">RelationsResult</code><span class="sig-paren">(</span><em>score=None</em>, <em>sentence=None</em>, <em>type=None</em>, <em>arguments=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#RelationsResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.RelationsResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The relations between entities found in the content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -736,7 +727,7 @@ content should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SemanticRolesAction">
 <em class="property">class </em><code class="descname">SemanticRolesAction</code><span class="sig-paren">(</span><em>text=None</em>, <em>normalized=None</em>, <em>verb=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SemanticRolesAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesAction" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>SemanticRolesAction.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -757,7 +748,7 @@ content should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SemanticRolesEntity">
 <em class="property">class </em><code class="descname">SemanticRolesEntity</code><span class="sig-paren">(</span><em>type=None</em>, <em>text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SemanticRolesEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesEntity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>SemanticRolesEntity.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -774,7 +765,7 @@ content should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SemanticRolesKeyword">
 <em class="property">class </em><code class="descname">SemanticRolesKeyword</code><span class="sig-paren">(</span><em>text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SemanticRolesKeyword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesKeyword" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>SemanticRolesKeyword.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -789,7 +780,7 @@ content should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SemanticRolesObject">
 <em class="property">class </em><code class="descname">SemanticRolesObject</code><span class="sig-paren">(</span><em>text=None</em>, <em>keywords=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SemanticRolesObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesObject" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>SemanticRolesObject.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -807,7 +798,7 @@ content should be returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SemanticRolesOptions">
 <em class="property">class </em><code class="descname">SemanticRolesOptions</code><span class="sig-paren">(</span><em>limit=None</em>, <em>keywords=None</em>, <em>entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SemanticRolesOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An option specifying whether or not to identify the subjects, actions, and verbs in
 the analyzed content.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -829,7 +820,7 @@ the analyzed content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SemanticRolesResult">
 <em class="property">class </em><code class="descname">SemanticRolesResult</code><span class="sig-paren">(</span><em>sentence=None</em>, <em>subject=None</em>, <em>action=None</em>, <em>object=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SemanticRolesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The object containing the actions and the objects the actions act upon.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -854,7 +845,7 @@ the analyzed content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SemanticRolesSubject">
 <em class="property">class </em><code class="descname">SemanticRolesSubject</code><span class="sig-paren">(</span><em>text=None</em>, <em>entities=None</em>, <em>keywords=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SemanticRolesSubject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesSubject" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>SemanticRolesSubject.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -875,7 +866,7 @@ the analyzed content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SemanticRolesVerb">
 <em class="property">class </em><code class="descname">SemanticRolesVerb</code><span class="sig-paren">(</span><em>text=None</em>, <em>tense=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SemanticRolesVerb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesVerb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>SemanticRolesVerb.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -892,7 +883,7 @@ the analyzed content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SentimentOptions">
 <em class="property">class </em><code class="descname">SentimentOptions</code><span class="sig-paren">(</span><em>document=None</em>, <em>targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SentimentOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SentimentOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An option specifying if sentiment of detected entities, keywords, or phrases should be
 returned.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -912,7 +903,7 @@ returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.SentimentResult">
 <em class="property">class </em><code class="descname">SentimentResult</code><span class="sig-paren">(</span><em>document=None</em>, <em>targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#SentimentResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.SentimentResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The sentiment of the content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -931,7 +922,7 @@ returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.TargetedEmotionResults">
 <em class="property">class </em><code class="descname">TargetedEmotionResults</code><span class="sig-paren">(</span><em>text=None</em>, <em>emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#TargetedEmotionResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.TargetedEmotionResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An object containing the emotion results for the target.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -949,7 +940,7 @@ returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.TargetedSentimentResults">
 <em class="property">class </em><code class="descname">TargetedSentimentResults</code><span class="sig-paren">(</span><em>text=None</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#TargetedSentimentResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.TargetedSentimentResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>TargetedSentimentResults.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -967,7 +958,7 @@ returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.Usage">
 <em class="property">class </em><code class="descname">Usage</code><span class="sig-paren">(</span><em>features=None</em>, <em>text_characters=None</em>, <em>text_units=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#Usage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.Usage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Usage information.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -989,7 +980,7 @@ returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.AnalysisResults">
 <em class="property">class </em><code class="descname">AnalysisResults</code><span class="sig-paren">(</span><em>concepts=None</em>, <em>entities=None</em>, <em>keywords=None</em>, <em>categories=None</em>, <em>emotion=None</em>, <em>metadata=None</em>, <em>relations=None</em>, <em>semantic_roles=None</em>, <em>sentiment=None</em>, <em>language=None</em>, <em>analyzed_text=None</em>, <em>retrieved_url=None</em>, <em>usage=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#AnalysisResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.AnalysisResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Results of the analysis, organized by feature.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1062,12 +1053,14 @@ returned.</p>
 </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>

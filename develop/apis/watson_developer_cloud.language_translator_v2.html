@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>watson_developer_cloud.language_translator_v2 module &#8212; Watson Developer Cloud Python SDK 1.0.2 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.0.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -32,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -50,7 +41,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2">
 <em class="property">class </em><code class="descname">LanguageTranslatorV2</code><span class="sig-paren">(</span><em>url='https://gateway.watsonplatform.net/language-translator/api'</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
 <p>The Language Translator V2 service.</p>
 <dl class="attribute">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.default_url">
@@ -66,17 +57,17 @@ your language, communicate with your customers in their own language, and more.<
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>text</strong> (<em>list</em><em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a><em>]</em>) – Input text in UTF-8 encoding. It is a list so that multiple paragraphs can be submitted. Also accept a single string, instead of an array, as valid input.</li>
-<li><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The unique model_id of the translation model being used to translate text. The model_id inherently specifies source language, target language, and domain. If the model_id is specified, there is no need for the source and target parameters and the values are ignored.</li>
-<li><strong>source</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Used in combination with target as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).</li>
-<li><strong>target</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Used in combination with source as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).</li>
+<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Input text in UTF-8 encoding. It is a list so that multiple paragraphs can be submitted. Also accept a single string, instead of an array, as valid input.</li>
+<li><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The unique model_id of the translation model being used to translate text. The model_id inherently specifies source language, target language, and domain. If the model_id is specified, there is no need for the source and target parameters and the values are ignored.</li>
+<li><strong>source</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Used in combination with target as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).</li>
+<li><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Used in combination with source as an alternative way to select the model for translation. When target and source are set, and model_id is not set, the system chooses a default model with the right language pair to translate (usually the model based on the news domain).</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>TranslationResult</cite> response.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
 </td>
 </tr>
 </tbody>
@@ -91,11 +82,11 @@ your language, communicate with your customers in their own language, and more.<
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Input text in UTF-8 format.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Input text in UTF-8 format.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>IdentifiedLanguages</cite> response.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -113,7 +104,7 @@ your language, communicate with your customers in their own language, and more.<
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>IdentifiableLanguages</cite> response.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -128,21 +119,21 @@ your language, communicate with your customers in their own language, and more.<
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>base_model_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Specifies the domain model that is used as the base for the training. To see current supported domain models, use the GET /v2/models parameter.</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The model name. Valid characters are letters, numbers, -, and _. No spaces.</li>
-<li><strong>forced_glossary</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#file" title="(in Python v2.7)"><em>file</em></a>) – A TMX file with your customizations. The customizations in the file completely overwrite the domain data translation, including high frequency or high confidence phrase translations. You can upload only one glossary with a file size less than 10 MB per call.</li>
-<li><strong>parallel_corpus</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#file" title="(in Python v2.7)"><em>file</em></a>) – A TMX file that contains entries that are treated as a parallel corpus instead of a glossary.</li>
-<li><strong>monolingual_corpus</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#file" title="(in Python v2.7)"><em>file</em></a>) – A UTF-8 encoded plain text file that is used to customize the target language model.</li>
-<li><strong>forced_glossary_filename</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The filename for forced_glossary.</li>
-<li><strong>parallel_corpus_filename</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The filename for parallel_corpus.</li>
-<li><strong>monolingual_corpus_filename</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The filename for monolingual_corpus.</li>
+<li><strong>base_model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Specifies the domain model that is used as the base for the training. To see current supported domain models, use the GET /v2/models parameter.</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The model name. Valid characters are letters, numbers, -, and _. No spaces.</li>
+<li><strong>forced_glossary</strong> (<em>file</em>) – A TMX file with your customizations. The customizations in the file completely overwrite the domain data translation, including high frequency or high confidence phrase translations. You can upload only one glossary with a file size less than 10 MB per call.</li>
+<li><strong>parallel_corpus</strong> (<em>file</em>) – A TMX file that contains entries that are treated as a parallel corpus instead of a glossary.</li>
+<li><strong>monolingual_corpus</strong> (<em>file</em>) – A UTF-8 encoded plain text file that is used to customize the target language model.</li>
+<li><strong>forced_glossary_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for forced_glossary.</li>
+<li><strong>parallel_corpus_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for parallel_corpus.</li>
+<li><strong>monolingual_corpus_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for monolingual_corpus.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>TranslationModel</cite> response.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
 </td>
 </tr>
 </tbody>
@@ -157,11 +148,11 @@ your language, communicate with your customers in their own language, and more.<
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – The model identifier.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The model identifier.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>DeleteModelResult</cite> response.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -175,11 +166,11 @@ your language, communicate with your customers in their own language, and more.<
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Model ID to use.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Model ID to use.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>TranslationModel</cite> response.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -194,16 +185,16 @@ your language, communicate with your customers in their own language, and more.<
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>source</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Filter models by source language.</li>
-<li><strong>target</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – Filter models by target language.</li>
-<li><strong>default_models</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – Valid values are leaving it unset, <cite>true</cite>, and <cite>false</cite>. When <cite>true</cite>, it filters models to return the default_models model or models. When <cite>false</cite>, it returns the non-default_models model or models. If not set, it returns all models, default_models and non-default_models.</li>
+<li><strong>source</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filter models by source language.</li>
+<li><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filter models by target language.</li>
+<li><strong>default_models</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Valid values are leaving it unset, <cite>true</cite>, and <cite>false</cite>. When <cite>true</cite>, it filters models to return the default_models model or models. When <cite>false</cite>, it returns the non-default_models model or models. If not set, it returns all models, default_models and non-default_models.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>TranslationModels</cite> response.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
 </td>
 </tr>
 </tbody>
@@ -215,7 +206,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.DeleteModelResult">
 <em class="property">class </em><code class="descname">DeleteModelResult</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#DeleteModelResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.DeleteModelResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>DeleteModelResult.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -231,7 +222,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.IdentifiableLanguage">
 <em class="property">class </em><code class="descname">IdentifiableLanguage</code><span class="sig-paren">(</span><em>language</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#IdentifiableLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.IdentifiableLanguage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>IdentifiableLanguage.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -249,7 +240,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.IdentifiableLanguages">
 <em class="property">class </em><code class="descname">IdentifiableLanguages</code><span class="sig-paren">(</span><em>languages</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#IdentifiableLanguages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.IdentifiableLanguages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>IdentifiableLanguages.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -265,7 +256,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.IdentifiedLanguage">
 <em class="property">class </em><code class="descname">IdentifiedLanguage</code><span class="sig-paren">(</span><em>language</em>, <em>confidence</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#IdentifiedLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.IdentifiedLanguage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>IdentifiedLanguage.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -284,7 +275,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.IdentifiedLanguages">
 <em class="property">class </em><code class="descname">IdentifiedLanguages</code><span class="sig-paren">(</span><em>languages</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#IdentifiedLanguages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.IdentifiedLanguages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>IdentifiedLanguages.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -300,7 +291,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.Translation">
 <em class="property">class </em><code class="descname">Translation</code><span class="sig-paren">(</span><em>translation_output</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#Translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.Translation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Translation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -316,7 +307,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.TranslationModel">
 <em class="property">class </em><code class="descname">TranslationModel</code><span class="sig-paren">(</span><em>model_id</em>, <em>name=None</em>, <em>source=None</em>, <em>target=None</em>, <em>base_model_id=None</em>, <em>domain=None</em>, <em>customizable=None</em>, <em>default_model=None</em>, <em>owner=None</em>, <em>status=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#TranslationModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.TranslationModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Response payload for models.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -357,7 +348,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.TranslationModels">
 <em class="property">class </em><code class="descname">TranslationModels</code><span class="sig-paren">(</span><em>models</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#TranslationModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.TranslationModels" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The response type for listing existing translation models.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -373,7 +364,7 @@ your language, communicate with your customers in their own language, and more.<
 <dl class="class">
 <dt id="watson_developer_cloud.language_translator_v2.TranslationResult">
 <em class="property">class </em><code class="descname">TranslationResult</code><span class="sig-paren">(</span><em>word_count</em>, <em>character_count</em>, <em>translations</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#TranslationResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.TranslationResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>TranslationResult.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -416,12 +407,14 @@ your language, communicate with your customers in their own language, and more.<
 </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>

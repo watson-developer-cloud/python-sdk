@@ -1,5 +1,5 @@
-watson\_developer\_cloud\.visual\_recognition\_v3 module
-========================================================
+watson\_developer\_cloud.visual\_recognition\_v3 module
+=======================================================
 
 .. automodule:: watson_developer_cloud.visual_recognition_v3
     :members:
