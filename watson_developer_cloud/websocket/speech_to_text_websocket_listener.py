@@ -32,7 +32,7 @@ class RecognizeListener:
         self.url = url
         self.headers = headers
 
-        factory = self.WSInterfaceFactory(self.audio, self.options,
+        factory = self.WebSocketClientFactory(self.audio, self.options,
                                           self.callback, self.url, self.headers)
         factory.protocol = self.WebSocketClient
 
@@ -55,6 +55,7 @@ class RecognizeListener:
             self.ONE_KB = 1000  # in bytes
             self.TIMEOUT_PREFIX = "No speech detected for"
             self.CLOSE_SIGNAL = 1000
+            self.TEN_MILLISECONDS = 0.01
             super(self.__class__, self).__init__()
 
         def build_start_message(self, options):
@@ -78,7 +79,7 @@ class RecognizeListener:
                     return
 
             send_chunk(data[self.bytes_sent:self.bytes_sent + self.ONE_KB])
-            self.factory.reactor.callLater(0.01, self.send_audio, data=data)
+            self.factory.reactor.callLater(self.TEN_MILLISECONDS, self.send_audio, data=data)
             return
 
         def extract_transcripts(self, alternatives):
@@ -128,6 +129,7 @@ class RecognizeListener:
                     self.sendMessage(self.build_close_message())
                     self.callback.on_transcription_complete()
                     self.sendClose(self.CLOSE_SIGNAL)
+                    self.sendClose(self.CLOSE_SIGNAL)
 
             # if in streaming
             elif 'results' in json_object or 'speaker_labels' in json_object:
@@ -153,7 +155,7 @@ class RecognizeListener:
                     "code: ", code, "clean: ", wasClean, "reason: ", reason)
             self.factory.endReactor()
 
-    class WSInterfaceFactory(WebSocketClientFactory):
+    class WebSocketClientFactory(WebSocketClientFactory):
         def __init__(self, audio, options, callback, url=None, headers=None):
             WebSocketClientFactory.__init__(self, url=url, headers=headers)
             self.audio = audio
