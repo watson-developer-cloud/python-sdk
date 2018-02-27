@@ -1,11 +1,13 @@
 from __future__ import print_function
 import json
 from os.path import join, dirname
-from watson_developer_cloud import SpeechToTextV1, SpeechToTextWithWebSockets, Recognize, SttListener
+from watson_developer_cloud import SpeechToTextV1
+from watson_developer_cloud.websocket import RecognizeAbstractCallback, RecognizeListener
 
 speech_to_text = SpeechToTextV1(
     username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+    password='YOUR SERVICE PASSWORD',
+    url='https://stream.watsonplatform.net/speech-to-text/api')
 
 print(json.dumps(speech_to_text.list_models(), indent=2))
 
@@ -22,8 +24,34 @@ with open(join(dirname(__file__), '../resources/speech.wav'),
                 word_confidence=True),
             indent=2))
 
-# For running speech to text with web sockets
-sttListener = SttListener()
-recognize = Recognize('YOUR SERVICE USERNAME', 'YOUR SERVICE PASSWORD', join(dirname(__file__),'../resources/speech.wav'))
-recognize.addListener(sttListener)
-recognize.run()
+# Example using websockets
+class MyRecognizeCallback(RecognizeAbstractCallback):
+    def __init__(self):
+        pass
+
+    def on_transcription(self, transcript):
+        print(transcript)
+
+    def on_connected(self):
+        print('Connection was successful')
+
+    def on_error(self):
+        print('Error received: {}'.format(error))
+
+    def on_inactivity_timeout(self):
+        print('Timeout!')
+
+    def on_listening(self):
+        print('Service is listening')
+
+    def on_transcription_complete(self):
+        print('Transcription completed')
+
+    def on_hypothesis(self, hypothesis):
+        print(hypothesis)
+
+mycallback = MyRecognizeCallback()
+with open(join(dirname(__file__), '../resources/speech.wav'),
+          'rb') as audio_file:
+    speech_to_text.recognize_with_websocket(
+        audio=audio_file, recognize_callback=mycallback)

@@ -29,6 +29,4 @@ from .text_to_speech_v1 import TextToSpeechV1
 from .tone_analyzer_v3 import ToneAnalyzerV3
 from .visual_recognition_v3 import VisualRecognitionV3
 from .discovery_v1 import DiscoveryV1
-from .speech_to_text_with_web_sockets.recognize_with_web_sockets import SpeechToTextWithWebSockets, Recognize
-from .speech_to_text_with_web_sockets.listener import SttListener
 from .version import __version__

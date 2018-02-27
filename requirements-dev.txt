@@ -19,5 +19,4 @@ bumpversion>=0.5.3
 # Web sockets
 autobahn>=0.10.9
 Twisted>=13.2.0
-zope.interface>=4.2.0
 service-identity>=17.0.0
