@@ -129,7 +129,6 @@ class RecognizeListener:
                     self.sendMessage(self.build_close_message())
                     self.callback.on_transcription_complete()
                     self.sendClose(self.CLOSE_SIGNAL)
-                    self.sendClose(self.CLOSE_SIGNAL)
 
             # if in streaming
             elif 'results' in json_object or 'speaker_labels' in json_object:
