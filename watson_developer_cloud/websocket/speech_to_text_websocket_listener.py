@@ -34,7 +34,7 @@ class RecognizeListener:
 
         factory = self.WSInterfaceFactory(self.audio, self.options,
                                           self.callback, self.url, self.headers)
-        factory.protocol = self.WSInterfaceProtocol
+        factory.protocol = self.WebSocketClient
 
         if factory.isSecure:
             contextFactory = ssl.ClientContextFactory()
@@ -44,16 +44,17 @@ class RecognizeListener:
 
         reactor.run()
 
-    class WSInterfaceProtocol(WebSocketClientProtocol):
+    class WebSocketClient(WebSocketClientProtocol):
         def __init__(self, factory, audio, options, callback):
             self.factory = factory
             self.audio = audio
             self.options = options
             self.callback = callback
-            self.listening_messages = 0
+            self.isListening = False
             self.bytes_sent = 0
             self.ONE_KB = 1000  # in bytes
             self.TIMEOUT_PREFIX = "No speech detected for"
+            self.CLOSE_SIGNAL = 1000
             super(self.__class__, self).__init__()
 
         def build_start_message(self, options):
@@ -120,22 +121,20 @@ class RecognizeListener:
 
             # if uninitialized, receive the initialization response from the server
             elif 'state' in json_object:
-                self.listening_messages += 1
-                if self.listening_messages == 1:
-                    self.callback.on_listening()
-
-                elif self.listening_messages == 2:
+                if not self.isListening:
+                    self.isListening = True
+                else:
                     # close the connection
                     self.sendMessage(self.build_close_message())
                     self.callback.on_transcription_complete()
-                    self.sendClose(1000)
+                    self.sendClose(self.CLOSE_SIGNAL)
 
             # if in streaming
             elif 'results' in json_object or 'speaker_labels' in json_object:
-                hypothesis = ""
+                hypothesis = ''
                 # empty hypothesis
                 if len(json_object['results']) == 0:
-                    print("empty hypothesis!")
+                    print('empty hypothesis!')
                 # regular hypothesis
                 else:
                     hypothesis = json_object['results'][0]['alternatives'][0][
@@ -160,15 +159,15 @@ class RecognizeListener:
             self.audio = audio
             self.options = options
             self.callback = callback
-
-            self.openHandshakeTimeout = 6
-            self.closeHandshakeTimeout = 6
+            self.SIX_SECONDS = 6
+            self.openHandshakeTimeout = self.SIX_SECONDS
+            self.closeHandshakeTimeout = self.SIX_SECONDS
 
         def endReactor(self):
             reactor.stop()
 
         # this function gets called every time connectWS is called (once per WebSocket connection/session)
         def buildProtocol(self, addr):
-            proto = RecognizeListener.WSInterfaceProtocol(
+            proto = RecognizeListener.WebSocketClient(
                 self, self.audio, self.options, self.callback)
             return proto
