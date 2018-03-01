@@ -20,9 +20,12 @@ import json
 
 # WebSockets
 from autobahn.twisted.websocket import WebSocketClientProtocol, WebSocketClientFactory, connectWS
-from twisted.python import log
 from twisted.internet import ssl, reactor
 
+ONE_KB = 1024
+TIMEOUT_PREFIX = "No speech detected for"
+CLOSE_SIGNAL = 1000
+TEN_MILLISECONDS = 0.01
 
 class RecognizeListener:
     def __init__(self, audio, options, recognize_callback, url, headers):
@@ -52,10 +55,7 @@ class RecognizeListener:
             self.callback = callback
             self.isListening = False
             self.bytes_sent = 0
-            self.ONE_KB = 1000  # in bytes
-            self.TIMEOUT_PREFIX = "No speech detected for"
-            self.CLOSE_SIGNAL = 1000
-            self.TEN_MILLISECONDS = 0.01
+
             super(self.__class__, self).__init__()
 
         def build_start_message(self, options):
@@ -73,14 +73,13 @@ class RecognizeListener:
                 if final:
                     self.sendMessage(b'', isBinary=True)
 
-            if (self.bytes_sent + self.ONE_KB >= len(data)):
+            if (self.bytes_sent + ONE_KB >= len(data)):
                 if (len(data) > self.bytes_sent):
                     send_chunk(data[self.bytes_sent:len(data)], True)
                     return
 
-            send_chunk(data[self.bytes_sent:self.bytes_sent + self.ONE_KB])
-            self.factory.reactor.callLater(self.TEN_MILLISECONDS, self.send_audio, data=data)
-            return
+            send_chunk(data[self.bytes_sent:self.bytes_sent + ONE_KB])
+            self.factory.reactor.callLater(TEN_MILLISECONDS, self.send_audio, data=data)
 
         def extract_transcripts(self, alternatives):
             transcripts = []
@@ -93,32 +92,28 @@ class RecognizeListener:
             return transcripts
 
         def onConnect(self, response):
-            log.msg("onConnect, server connected: {}".format(response.peer))
             self.callback.on_connected()
 
         def onOpen(self):
-            log.msg("onOpen, Websocket connection open")
             # send the initialization parameters
             init_data = self.build_start_message(self.options)
             self.sendMessage(json.dumps(init_data).encode('utf8'))
 
             # start sending audio right away (it will get buffered in the STT service)
             self.send_audio(self.audio.read())
-            log.msg("onOpen ends")
 
         def onMessage(self, payload, isBinary):
             json_object = json.loads(payload.decode('utf8'))
 
             if 'error' in json_object:
-                log.msg('Error : {}'.format(json_object['error']))
                 # Only call on_error() if a real error occurred. The STT service sends
                 # // {"error" : "No speech detected for 5s"} for valid timeouts, configured by
                 # options.inactivity_timeout
                 error = json_object['error']
-                if error.startswith(self.TIMEOUT_PREFIX):
-                    self.callback.on_inactivity_timeout()
+                if error.startswith(TIMEOUT_PREFIX):
+                    self.callback.on_inactivity_timeout(error)
                 else:
-                    self.callback.on_error()
+                    self.callback.on_error(error)
 
             # if uninitialized, receive the initialization response from the server
             elif 'state' in json_object:
@@ -128,7 +123,7 @@ class RecognizeListener:
                     # close the connection
                     self.sendMessage(self.build_close_message())
                     self.callback.on_transcription_complete()
-                    self.sendClose(self.CLOSE_SIGNAL)
+                    self.sendClose(CLOSE_SIGNAL)
 
             # if in streaming
             elif 'results' in json_object or 'speaker_labels' in json_object:
@@ -150,8 +145,6 @@ class RecognizeListener:
                         self.callback.on_transcription(transcripts)
 
         def onClose(self, wasClean, code, reason):
-            log.msg("onClose, WebSocket connection closed: {0}".format(reason),
-                    "code: ", code, "clean: ", wasClean, "reason: ", reason)
             self.factory.endReactor()
 
     class WebSocketClientFactory(WebSocketClientFactory):
@@ -169,6 +162,5 @@ class RecognizeListener:
 
         # this function gets called every time connectWS is called (once per WebSocket connection/session)
         def buildProtocol(self, addr):
-            proto = RecognizeListener.WebSocketClient(
+            return RecognizeListener.WebSocketClient(
                 self, self.audio, self.options, self.callback)
-            return proto

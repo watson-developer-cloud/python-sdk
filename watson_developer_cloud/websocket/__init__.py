@@ -14,5 +14,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .recognize_abstract_callback import RecognizeAbstractCallback
+from .recognize_abstract_callback import RecognizeCallback
 from .speech_to_text_websocket_listener import RecognizeListener

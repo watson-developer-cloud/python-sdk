@@ -14,47 +14,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from abc import abstractmethod, ABCMeta
+class RecognizeCallback:
 
-class RecognizeAbstractCallback:
-  __metaclass__ = ABCMeta
-
-  @abstractmethod
   def on_transcription(self, transcript):
     """
     Called when an interim result is received
     """
     pass
 
-  @abstractmethod
   def on_connected(self):
     """
     Called when a WebSocket connection was made
     """
     pass
 
-  @abstractmethod
   def on_error(self, error):
     """
     Called when there is an error in the Web Socket connection.
     """
     pass
 
-  @abstractmethod
   def on_inactivity_timeout(self):
     """
     Called when there is an inactivity timeout.
     """
     pass
 
-  @abstractmethod
   def on_listening(self):
     """
     Called when the service is listening for audio.
     """
     pass
 
-  @abstractmethod
   def on_transcription_complete(self):
     """
     Called after the service returns the final result for the transcription.

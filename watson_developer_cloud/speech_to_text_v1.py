@@ -27,7 +27,7 @@ from __future__ import absolute_import
 import json
 from .watson_service import WatsonService, _remove_null_values
 from .utils import deprecated
-from watson_developer_cloud.websocket import RecognizeAbstractCallback, RecognizeListener
+from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener
 from os.path import isfile
 import base64
 import urllib
@@ -212,7 +212,7 @@ class SpeechToTextV1(WatsonService):
         :param str audio: Audio to transcribe in the format specified by the `Content-Type` header.
         :param str content_type: The type of the input: audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, audio/webm;codecs=vorbis, or multipart/form-data.
         :param str model: The identifier of the model to be used for the recognition request.
-        :param RecognizeAbstractCallback recognize_callback: The instance handling events returned from the service.
+        :param RecognizeCallback recognize_callback: The instance handling events returned from the service.
         :param str customization_id: The GUID of a custom language model that is to be used with the request. The base model of the specified custom language model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom language model is used.
         :param str acoustic_customization_id: The GUID of a custom acoustic model that is to be used with the request. The base model of the specified custom acoustic model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom acoustic model is used.
         :param float customization_weight: If you specify a `customization_id` with the request, you can use the `customization_weight` parameter to tell the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition.   Specify a value between 0.0 and 1.0. Unless a different customization weight was specified for the custom model when it was trained, the default value is 0.3. A customization weight that you specify overrides a weight that was specified when the custom model was trained.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model's domain, but it can negatively affect performance on non-domain phrases.
@@ -234,8 +234,8 @@ class SpeechToTextV1(WatsonService):
             raise ValueError('Audio must be provided')
         if recognize_callback is None:
             raise ValueError('Recognize callback must be provided')
-        if not isinstance(recognize_callback, RecognizeAbstractCallback):
-            raise Exception('Callback is not a derived class of RecognizeAbstractCallback')
+        if not isinstance(recognize_callback, RecognizeCallback):
+            raise Exception('Callback is not a derived class of RecognizeCallback')
 
         headers = {}
         if self.default_headers is not None:

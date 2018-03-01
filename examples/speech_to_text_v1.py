@@ -2,7 +2,7 @@ from __future__ import print_function
 import json
 from os.path import join, dirname
 from watson_developer_cloud import SpeechToTextV1
-from watson_developer_cloud.websocket import RecognizeAbstractCallback, RecognizeListener
+from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener
 
 speech_to_text = SpeechToTextV1(
     username='YOUR SERVICE USERNAME',
@@ -25,7 +25,7 @@ with open(join(dirname(__file__), '../resources/speech.wav'),
             indent=2))
 
 # Example using websockets
-class MyRecognizeCallback(RecognizeAbstractCallback):
+class MyRecognizeCallback(RecognizeCallback):
     def __init__(self):
         pass
 
@@ -35,11 +35,11 @@ class MyRecognizeCallback(RecognizeAbstractCallback):
     def on_connected(self):
         print('Connection was successful')
 
-    def on_error(self):
+    def on_error(self, error):
         print('Error received: {}'.format(error))
 
-    def on_inactivity_timeout(self):
-        print('Timeout!')
+    def on_inactivity_timeout(self, error):
+        print('Inactivity timeout: {}'.format(error))
 
     def on_listening(self):
         print('Service is listening')
