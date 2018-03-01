@@ -129,10 +129,7 @@ class RecognizeListener:
             elif 'results' in json_object or 'speaker_labels' in json_object:
                 hypothesis = ''
                 # empty hypothesis
-                if len(json_object['results']) == 0:
-                    print('empty hypothesis!')
-                # regular hypothesis
-                else:
+                if len(json_object['results']) != 0:
                     hypothesis = json_object['results'][0]['alternatives'][0][
                         'transcript']
                     b_final = (json_object['results'][0]['final'] == True)
