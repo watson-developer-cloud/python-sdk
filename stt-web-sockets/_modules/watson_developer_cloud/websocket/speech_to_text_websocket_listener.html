@@ -162,10 +162,7 @@
             <span class="k">elif</span> <span class="s1">&#39;results&#39;</span> <span class="ow">in</span> <span class="n">json_object</span> <span class="ow">or</span> <span class="s1">&#39;speaker_labels&#39;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
                 <span class="n">hypothesis</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
                 <span class="c1"># empty hypothesis</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;empty hypothesis!&#39;</span><span class="p">)</span>
-                <span class="c1"># regular hypothesis</span>
-                <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">hypothesis</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;alternatives&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span>
                         <span class="s1">&#39;transcript&#39;</span><span class="p">]</span>
                     <span class="n">b_final</span> <span class="o">=</span> <span class="p">(</span><span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;final&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span>
