@@ -60,7 +60,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">from</span> <span class="nn">.watson_service</span> <span class="k">import</span> <span class="n">WatsonService</span><span class="p">,</span> <span class="n">_remove_null_values</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">deprecated</span>
-<span class="kn">from</span> <span class="nn">watson_developer_cloud.websocket</span> <span class="k">import</span> <span class="n">RecognizeAbstractCallback</span><span class="p">,</span> <span class="n">RecognizeListener</span>
+<span class="kn">from</span> <span class="nn">watson_developer_cloud.websocket</span> <span class="k">import</span> <span class="n">RecognizeCallback</span><span class="p">,</span> <span class="n">RecognizeListener</span>
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">isfile</span>
 <span class="kn">import</span> <span class="nn">base64</span>
 <span class="kn">import</span> <span class="nn">urllib</span>
@@ -245,7 +245,7 @@
 <span class="sd">        :param str audio: Audio to transcribe in the format specified by the `Content-Type` header.</span>
 <span class="sd">        :param str content_type: The type of the input: audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, audio/webm;codecs=vorbis, or multipart/form-data.</span>
 <span class="sd">        :param str model: The identifier of the model to be used for the recognition request.</span>
-<span class="sd">        :param RecognizeAbstractCallback recognize_callback: The instance handling events returned from the service.</span>
+<span class="sd">        :param RecognizeCallback recognize_callback: The instance handling events returned from the service.</span>
 <span class="sd">        :param str customization_id: The GUID of a custom language model that is to be used with the request. The base model of the specified custom language model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom language model is used.</span>
 <span class="sd">        :param str acoustic_customization_id: The GUID of a custom acoustic model that is to be used with the request. The base model of the specified custom acoustic model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom acoustic model is used.</span>
 <span class="sd">        :param float customization_weight: If you specify a `customization_id` with the request, you can use the `customization_weight` parameter to tell the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition.   Specify a value between 0.0 and 1.0. Unless a different customization weight was specified for the custom model when it was trained, the default value is 0.3. A customization weight that you specify overrides a weight that was specified when the custom model was trained.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model&#39;s domain, but it can negatively affect performance on non-domain phrases.</span>
@@ -267,8 +267,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Audio must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">recognize_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Recognize callback must be provided&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recognize_callback</span><span class="p">,</span> <span class="n">RecognizeAbstractCallback</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Callback is not a derived class of RecognizeAbstractCallback&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recognize_callback</span><span class="p">,</span> <span class="n">RecognizeCallback</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Callback is not a derived class of RecognizeCallback&#39;</span><span class="p">)</span>
 
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
