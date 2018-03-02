@@ -1,2 +1,6 @@
 requests>=2.0,<3.0
 python_dateutil>=2.5.3
+autobahn>=0.10.9
+Twisted>=13.2.0
+pyOpenSSL>=16.2.0
+service-identity>=17.0.0
