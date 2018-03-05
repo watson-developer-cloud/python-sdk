@@ -251,6 +251,14 @@ class WatsonService(object):
         return val
 
     @staticmethod
+    def _convert_model(val, classname=None):
+        if classname is not None:
+            val = classname(**val)
+        if hasattr(val, "_to_dict"):
+            return val._to_dict()
+        return val
+
+    @staticmethod
     def _convert_list(val):
         if isinstance(val, list):
             return ",".join(val)

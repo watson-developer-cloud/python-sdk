@@ -134,6 +134,31 @@ response = conversation.create_entity(workspace_id=workspace_id,
                                       values=values)
 print(json.dumps(response, indent=2))
 
+entities = [{
+    'entity': 'pattern_entity',
+    'values': [{
+        'value': 'value0', 'patterns': ['\\d{6}\\w{1}\\d{7}'], 'value_type': 'patterns'
+     },
+     {'value': 'value1',
+      'patterns': ['[-9][0-9][0-9][0-9][0-9]~! [1-9][1-9][1-9][1-9][1-9][1-9]'],
+      'value_type': 'patterns'},
+     {'value': 'value2',
+      'patterns': ['[a-z-9]{17}'],
+      'value_type': 'patterns'},
+     {'value': 'value3',
+      'patterns': [
+           '\\d{3}(\\ |-)\\d{3}(\\ |-)\\d{4}',
+           '\\(\\d{3}\\)(\\ |-)\\d{3}(\\ |-)\\d{4}'],
+      'value_type': 'patterns'},
+     {'value': 'value4',
+      'patterns': ['\\b\\d{5}\\b'],
+      'value_type': 'patterns'}]
+}]
+response = conversation.create_entity(workspace_id,
+                                     entity=entities[0]['entity'],
+                                     values=entities[0]['values'])
+print(json.dumps(response, indent=2))
+
 response = conversation.get_entity(workspace_id=workspace_id,
                                    entity='test_entity',
                                    export=True)

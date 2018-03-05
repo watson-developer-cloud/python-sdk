@@ -34,11 +34,6 @@ class ConversationV1(WatsonService):
     """The Conversation V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/conversation/api'
-    VERSION_DATE_2017_05_26 = '2017-05-26'
-    VERSION_DATE_2017_04_21 = '2017-04-21'
-    VERSION_DATE_2017_02_03 = '2017-02-03'
-    VERSION_DATE_2016_09_20 = '2016-09-20'
-    VERSION_DATE_2016_07_11 = '2016-07-11'
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """
@@ -115,13 +110,18 @@ class ConversationV1(WatsonService):
         :rtype: dict
         """
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [self._convert_model(x, CreateIntent) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
+            entities = [self._convert_model(x, CreateEntity) for x in entities]
         if dialog_nodes is not None:
-            dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
+            dialog_nodes = [
+                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
+            ]
         if counterexamples is not None:
-            counterexamples = [self._convert_model(x) for x in counterexamples]
+            counterexamples = [
+                self._convert_model(x, CreateCounterexample)
+                for x in counterexamples
+            ]
         params = {'version': self.version}
         data = {
             'name': name,
@@ -238,13 +238,18 @@ class ConversationV1(WatsonService):
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [self._convert_model(x, CreateIntent) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
+            entities = [self._convert_model(x, CreateEntity) for x in entities]
         if dialog_nodes is not None:
-            dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
+            dialog_nodes = [
+                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
+            ]
         if counterexamples is not None:
-            counterexamples = [self._convert_model(x) for x in counterexamples]
+            counterexamples = [
+                self._convert_model(x, CreateCounterexample)
+                for x in counterexamples
+            ]
         params = {'version': self.version, 'append': append}
         data = {
             'name': name,
@@ -265,7 +270,6 @@ class ConversationV1(WatsonService):
     #########################
     # message
     #########################
-
 
     def message(self,
                 workspace_id,
@@ -293,15 +297,15 @@ class ConversationV1(WatsonService):
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if input is not None:
-            input = self._convert_model(input)
+            input = self._convert_model(input, InputData)
         if context is not None:
-            context = self._convert_model(context)
+            context = self._convert_model(context, Context)
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
+            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [self._convert_model(x, RuntimeIntent) for x in intents]
         if output is not None:
-            output = self._convert_model(output)
+            output = self._convert_model(output, OutputData)
         params = {
             'version': self.version,
             'nodes_visited_details': nodes_visited_details
@@ -346,7 +350,7 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [self._convert_model(x) for x in examples]
+            examples = [self._convert_model(x, CreateExample) for x in examples]
         params = {'version': self.version}
         data = {
             'intent': intent,
@@ -464,7 +468,7 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if new_examples is not None:
-            new_examples = [self._convert_model(x) for x in new_examples]
+            new_examples = [self._convert_model(x, CreateExample) for x in new_examples]
         params = {'version': self.version}
         data = {
             'intent': new_intent,
@@ -650,7 +654,7 @@ class ConversationV1(WatsonService):
         if entity is None:
             raise ValueError('entity must be provided')
         if values is not None:
-            values = [self._convert_model(x) for x in values]
+            values = [self._convert_model(x, CreateValue) for x in values]
         params = {'version': self.version}
         data = {
             'entity': entity,
@@ -773,7 +777,7 @@ class ConversationV1(WatsonService):
         if entity is None:
             raise ValueError('entity must be provided')
         if new_values is not None:
-            new_values = [self._convert_model(x) for x in new_values]
+            new_values = [self._convert_model(x, CreateValue) for x in new_values]
         params = {'version': self.version}
         data = {
             'entity': new_entity,
@@ -1182,9 +1186,9 @@ class ConversationV1(WatsonService):
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
         if next_step is not None:
-            next_step = self._convert_model(next_step)
+            next_step = self._convert_model(next_step, DialogNodeNextStep)
         if actions is not None:
-            actions = [self._convert_model(x) for x in actions]
+            actions = [self._convert_model(x, DialogNodeAction) for x in actions]
         params = {'version': self.version}
         data = {
             'dialog_node': dialog_node,
@@ -1332,9 +1336,9 @@ class ConversationV1(WatsonService):
         if new_dialog_node is None:
             raise ValueError('new_dialog_node must be provided')
         if new_next_step is not None:
-            new_next_step = self._convert_model(new_next_step)
+            new_next_step = self._convert_model(new_next_step, DialogNodeNextStep)
         if new_actions is not None:
-            new_actions = [self._convert_model(x) for x in new_actions]
+            new_actions = [self._convert_model(x, DialogNodeAction) for x in new_actions]
         params = {'version': self.version}
         data = {
             'dialog_node': new_dialog_node,
