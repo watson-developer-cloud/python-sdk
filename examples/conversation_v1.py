@@ -19,13 +19,50 @@ conversation = ConversationV1(
 # workspaces
 #########################
 
-response = conversation.create_workspace(name='test_workspace',
-                                         description='Test workspace.',
-                                         language='en',
-                                         metadata={})
+create_workspace_data = {
+  "name": "test_workspace",
+  "description": "integration tests",
+  "language": "en",
+  "intents": [
+    {
+      "intent": "hello",
+      "description": "string",
+      "examples": [
+        {
+          "text": "good morning"
+        }
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "entity": "pizza_toppings",
+      "description": "Tasty pizza toppings",
+      "metadata": {
+        "property": "value"
+      }
+    }
+  ],
+  "counterexamples": [
+    {
+      "text": "string"
+    }
+  ],
+  "metadata": {},
+}
+
+
+response = conversation.create_workspace(name=create_workspace_data['name'],
+                                        description=create_workspace_data['description'],
+                                        language='en',
+                                        intents=create_workspace_data['intents'],
+                                        entities=create_workspace_data['entities'],
+                                        counterexamples=create_workspace_data['counterexamples'],
+                                        metadata=create_workspace_data['metadata'])
 print(json.dumps(response, indent=2))
 
 workspace_id = response['workspace_id']
+print("Workspace id ".format(workspace_id))
 
 response = conversation.get_workspace(workspace_id=workspace_id, export=True)
 print(json.dumps(response, indent=2))
@@ -48,9 +85,11 @@ print(json.dumps(response, indent=2))
 # intents
 #########################
 
+examples = [{ "text": "good morning"}]
 response = conversation.create_intent(workspace_id=workspace_id,
                                       intent='test_intent',
-                                      description='Test intent.')
+                                      description='Test intent.',
+                                      examples=examples)
 print(json.dumps(response, indent=2))
 
 response = conversation.get_intent(workspace_id=workspace_id,
@@ -160,7 +199,7 @@ response = conversation.create_entity(workspace_id,
 print(json.dumps(response, indent=2))
 
 response = conversation.get_entity(workspace_id=workspace_id,
-                                   entity='test_entity',
+                                   entity=entities[0]['entity'],
                                    export=True)
 print(json.dumps(response, indent=2))
 
@@ -222,6 +261,43 @@ response = conversation.delete_value(workspace_id, 'test_entity', 'example')
 print(json.dumps(response, indent=2))
 
 conversation.delete_entity(workspace_id, 'test_entity')
+
+#########################
+# Dialog nodes
+#########################
+create_dialog_node = {
+  "dialog_node": "greeting",
+  "description": "greeting messages",
+  "actions": [
+    {
+      "name": "hello",
+      "type": "client",
+      "parameters": {},
+      "result_variable": "string",
+      "credentials": "string"
+    }
+  ]
+}
+response = conversation.create_dialog_node(workspace_id,
+                                           create_dialog_node['dialog_node'],
+                                           create_dialog_node['description'],
+                                           actions=create_dialog_node['actions'])
+print(json.dumps(response, indent=2))
+
+response = conversation.get_dialog_node(workspace_id,
+                                        create_dialog_node['dialog_node'])
+print(json.dumps(response, indent=2))
+
+response = conversation.list_dialog_nodes(workspace_id)
+print(json.dumps(response, indent=2))
+
+response = conversation.update_dialog_node(workspace_id,
+                                           create_dialog_node['dialog_node'],
+                                           new_dialog_node='updated_node')
+print(json.dumps(response, indent=2))
+
+response = conversation.delete_dialog_node(workspace_id, 'updated_node')
+print(json.dumps(response, indent=2))
 
 #########################
 # logs
