@@ -899,7 +899,7 @@ def test_message():
     message = conversation.message(
         workspace_id=workspace_id,
         input={'text': 'Turn on the lights'},
-        context=json.dumps(message_ctx))
+        context=json.dumps(message_ctx['context']))
 
     assert message is not None
     assert responses.calls[1].request.url == message_url1
