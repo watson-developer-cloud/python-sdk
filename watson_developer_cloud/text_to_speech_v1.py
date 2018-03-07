@@ -106,7 +106,7 @@ class TextToSpeechV1(WatsonService):
 
     def synthesize(self,
                    text,
-                   accept,
+                   accept=None,
                    voice=None,
                    customization_id=None):
         """
@@ -121,8 +121,6 @@ class TextToSpeechV1(WatsonService):
         """
         if text is None:
             raise ValueError('text must be provided')
-        if accept is None:
-            raise ValueError('accept must be provided')
         headers = {'Accept': accept}
         params = {
             'voice': voice,

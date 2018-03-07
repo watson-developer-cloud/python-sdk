@@ -99,7 +99,7 @@ def test_success():
     assert responses.calls[1].request.url == voice_url
     assert responses.calls[1].response.text == json.dumps(voice_response)
 
-    text_to_speech.synthesize('hello', 'audio/basic')
+    text_to_speech.synthesize('hello')
     assert responses.calls[2].request.url == synthesize_url
     assert responses.calls[2].response.text == synthesize_response_body
 
