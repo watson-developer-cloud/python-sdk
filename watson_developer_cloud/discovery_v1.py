@@ -36,12 +36,6 @@ class DiscoveryV1(WatsonService):
     """The Discovery V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/discovery/api'
-    VERSION_DATE_2017_11_07 = '2017-11-07'
-    VERSION_DATE_2017_09_01 = '2017-09-01'
-    VERSION_DATE_2017_08_01 = '2017-08-01'
-    VERSION_DATE_2017_07_19 = '2017-07-19'
-    VERSION_DATE_2017_06_25 = '2017-06-25'
-    VERSION_DATE_2016_12_01 = '2016-12-01'
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """
@@ -163,10 +157,10 @@ class DiscoveryV1(WatsonService):
 
     def list_fields(self, environment_id, collection_ids):
         """
-        List fields in specified collecitons.
+        List fields in specified collections.
 
         Gets a list of the unique fields (and their types) stored in the indexes of the
-        specified collecitons.
+        specified collections.
 
         :param str environment_id: The ID of the environment.
         :param list[str] collection_ids: A comma-separated list of collection IDs to be queried against.
@@ -247,11 +241,16 @@ class DiscoveryV1(WatsonService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = self._convert_model(conversions)
+            conversions = self._convert_model(conversions, Conversions)
         if enrichments is not None:
-            enrichments = [self._convert_model(x) for x in enrichments]
+            enrichments = [
+                self._convert_model(x, Enrichment) for x in enrichments
+            ]
         if normalizations is not None:
-            normalizations = [self._convert_model(x) for x in normalizations]
+            normalizations = [
+                self._convert_model(x, NormalizationOperation)
+                for x in normalizations
+            ]
         params = {'version': self.version}
         data = {
             'name': name,
@@ -369,11 +368,16 @@ class DiscoveryV1(WatsonService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = self._convert_model(conversions)
+            conversions = self._convert_model(conversions, Conversions)
         if enrichments is not None:
-            enrichments = [self._convert_model(x) for x in enrichments]
+            enrichments = [
+                self._convert_model(x, Enrichment) for x in enrichments
+            ]
         if normalizations is not None:
-            normalizations = [self._convert_model(x) for x in normalizations]
+            normalizations = [
+                self._convert_model(x, NormalizationOperation)
+                for x in normalizations
+            ]
         params = {'version': self.version}
         data = {
             'name': name,
@@ -512,7 +516,7 @@ class DiscoveryV1(WatsonService):
             raise ValueError('collection_id must be provided')
         if expansions is None:
             raise ValueError('expansions must be provided')
-        expansions = [self._convert_model(x) for x in expansions]
+        expansions = [self._convert_model(x, Expansion) for x in expansions]
         params = {'version': self.version}
         data = {'expansions': expansions}
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
@@ -869,7 +873,10 @@ class DiscoveryV1(WatsonService):
                         sort=None,
                         highlight=None,
                         deduplicate=None,
-                        deduplicate_field=None):
+                        deduplicate_field=None,
+                        similar=None,
+                        similar_document_ids=None,
+                        similar_fields=None):
         """
         Query documents in multiple collections.
 
@@ -890,6 +897,9 @@ class DiscoveryV1(WatsonService):
         :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `<em></em>` tags around the matching query terms. Defaults to false.
         :param bool deduplicate: When `true` and used with a Watson Discovery News collection, duplicate results (based on the contents of the `title` field) are removed. Duplicate comparison is limited to the current query only, `offset` is not considered. Defaults to `false`. This parameter is currently Beta functionality.
         :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
         """
@@ -910,7 +920,10 @@ class DiscoveryV1(WatsonService):
             'sort': self._convert_list(sort),
             'highlight': highlight,
             'deduplicate': deduplicate,
-            'deduplicate.field': deduplicate_field
+            'deduplicate.field': deduplicate_field,
+            'similar': similar,
+            'similar.document_ids': self._convert_list(similar_document_ids),
+            'similar.fields': self._convert_list(similar_fields)
         }
         url = '/v1/environments/{0}/query'.format(
             *self._encode_path_vars(environment_id))
@@ -930,7 +943,10 @@ class DiscoveryV1(WatsonService):
                                 offset=None,
                                 sort=None,
                                 highlight=None,
-                                deduplicate_field=None):
+                                deduplicate_field=None,
+                                similar=None,
+                                similar_document_ids=None,
+                                similar_fields=None):
         """
         Query multiple collection system notices.
 
@@ -952,6 +968,9 @@ class DiscoveryV1(WatsonService):
         :param list[str] sort: A comma separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the default sort direction if no prefix is specified.
         :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `<em></em>` tags around the matching query terms. Defaults to false.
         :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
         :return: A `dict` containing the `QueryNoticesResponse` response.
         :rtype: dict
         """
@@ -971,7 +990,10 @@ class DiscoveryV1(WatsonService):
             'offset': offset,
             'sort': self._convert_list(sort),
             'highlight': highlight,
-            'deduplicate.field': deduplicate_field
+            'deduplicate.field': deduplicate_field,
+            'similar': similar,
+            'similar.document_ids': self._convert_list(similar_document_ids),
+            'similar.fields': self._convert_list(similar_fields)
         }
         url = '/v1/environments/{0}/notices'.format(
             *self._encode_path_vars(environment_id))
@@ -996,7 +1018,10 @@ class DiscoveryV1(WatsonService):
               passages_count=None,
               passages_characters=None,
               deduplicate=None,
-              deduplicate_field=None):
+              deduplicate_field=None,
+              similar=None,
+              similar_document_ids=None,
+              similar_fields=None):
         """
         Query documents.
 
@@ -1021,6 +1046,9 @@ class DiscoveryV1(WatsonService):
         :param int passages_characters: The approximate number of characters that any one passage will have. The default is `400`. The minimum is `50`. The maximum is `2000`.
         :param bool deduplicate: When `true` and used with a Watson Discovery News collection, duplicate results (based on the contents of the `title` field) are removed. Duplicate comparison is limited to the current query only, `offset` is not considered. Defaults to `false`. This parameter is currently Beta functionality.
         :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
         """
@@ -1044,7 +1072,10 @@ class DiscoveryV1(WatsonService):
             'passages.count': passages_count,
             'passages.characters': passages_characters,
             'deduplicate': deduplicate,
-            'deduplicate.field': deduplicate_field
+            'deduplicate.field': deduplicate_field,
+            'similar': similar,
+            'similar.document_ids': self._convert_list(similar_document_ids),
+            'similar.fields': self._convert_list(similar_fields)
         }
         url = '/v1/environments/{0}/collections/{1}/query'.format(
             *self._encode_path_vars(environment_id, collection_id))
@@ -1080,9 +1111,9 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if entity is not None:
-            entity = self._convert_model(entity)
+            entity = self._convert_model(entity, QueryEntitiesEntity)
         if context is not None:
-            context = self._convert_model(context)
+            context = self._convert_model(context, QueryEntitiesContext)
         params = {'version': self.version}
         data = {
             'feature': feature,
@@ -1112,7 +1143,10 @@ class DiscoveryV1(WatsonService):
                       passages_fields=None,
                       passages_count=None,
                       passages_characters=None,
-                      deduplicate_field=None):
+                      deduplicate_field=None,
+                      similar=None,
+                      similar_document_ids=None,
+                      similar_fields=None):
         """
         Query system notices.
 
@@ -1138,6 +1172,9 @@ class DiscoveryV1(WatsonService):
         :param int passages_count: The maximum number of passages to return. The search returns fewer passages if the requested total is not found. The default is `10`. The maximum is `100`.
         :param int passages_characters: The approximate number of characters that any one passage will have. The default is `400`. The minimum is `50`. The maximum is `2000`.
         :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
         :return: A `dict` containing the `QueryNoticesResponse` response.
         :rtype: dict
         """
@@ -1160,7 +1197,10 @@ class DiscoveryV1(WatsonService):
             'passages.fields': self._convert_list(passages_fields),
             'passages.count': passages_count,
             'passages.characters': passages_characters,
-            'deduplicate.field': deduplicate_field
+            'deduplicate.field': deduplicate_field,
+            'similar': similar,
+            'similar.document_ids': self._convert_list(similar_document_ids),
+            'similar.fields': self._convert_list(similar_fields)
         }
         url = '/v1/environments/{0}/collections/{1}/notices'.format(
             *self._encode_path_vars(environment_id, collection_id))
@@ -1198,11 +1238,13 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
+            entities = [
+                self._convert_model(x, QueryRelationsEntity) for x in entities
+            ]
         if context is not None:
-            context = self._convert_model(context)
+            context = self._convert_model(context, QueryEntitiesContext)
         if filter is not None:
-            filter = self._convert_model(filter)
+            filter = self._convert_model(filter, QueryRelationsFilter)
         params = {'version': self.version}
         data = {
             'entities': entities,
@@ -1244,7 +1286,9 @@ class DiscoveryV1(WatsonService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if examples is not None:
-            examples = [self._convert_model(x) for x in examples]
+            examples = [
+                self._convert_model(x, TrainingExample) for x in examples
+            ]
         params = {'version': self.version}
         data = {
             'natural_language_query': natural_language_query,
@@ -2681,6 +2725,8 @@ class Enrichment(object):
             )
         if 'overwrite' in _dict:
             args['overwrite'] = _dict['overwrite']
+        if 'enrichment_name' in _dict:
+            args['enrichment_name'] = _dict['enrichment_name']
         if 'enrichment' in _dict:
             args['enrichment_name'] = _dict['enrichment']
         else:
@@ -3078,8 +3124,12 @@ class Field(object):
     def _from_dict(cls, _dict):
         """Initialize a Field object from a json dictionary."""
         args = {}
+        if 'field_name' in _dict:
+            args['field_name'] = _dict['field_name']
         if 'field' in _dict:
             args['field_name'] = _dict['field']
+        if 'field_type' in _dict:
+            args['field_type'] = _dict['field_type']
         if 'type' in _dict:
             args['field_type'] = _dict['type']
         return cls(**args)
@@ -4775,7 +4825,6 @@ class QueryNoticesResponse(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
 
 
 class QueryNoticesResult(object):

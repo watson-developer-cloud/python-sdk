@@ -22,10 +22,10 @@ configurations = discovery.list_configurations(
     environment_id=news_environment_id)
 print(json.dumps(configurations, indent=2))
 
-query_options = {'query': 'IBM'}
 query_results = discovery.query(news_environment_id,
                                 news_collections[0]['collection_id'],
-                                query_options)
+                                filter='extracted_metadata.sha1::f5*',
+                                return_fields='extracted_metadata.sha1')
 print(json.dumps(query_results, indent=2))
 
 # new_environment = discovery.create_environment(name="new env", description="bogus env")
