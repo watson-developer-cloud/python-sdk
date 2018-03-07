@@ -76,7 +76,6 @@ class NaturalLanguageUnderstandingV1(WatsonService):
     """The Natural Language Understanding V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
-    VERSION_DATE_2017_02_27 = '2017-02-27'
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """
@@ -155,7 +154,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         """
         if features is None:
             raise ValueError('features must be provided')
-        features = self._convert_model(features)
+        features = self._convert_model(features, Features)
         params = {'version': self.version}
         data = {
             'features': features,
