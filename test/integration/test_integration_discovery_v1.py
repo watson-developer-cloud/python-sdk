@@ -7,8 +7,8 @@ class Discoveryv1(TestCase):
     def setUp(self):
         self.discovery = watson_developer_cloud.DiscoveryV1(
             version='2017-10-16',
-            username=os.getenv('SPEECH_TO_TEXT_USERNAME'),
-            password=os.getenv('SPEECH_TO_TEXT_PASSWORD'))
+            username=os.getenv('DISCOVERY_TO_TEXT_USERNAME'),
+            password=os.getenv('DISCOVERY_TO_TEXT_PASSWORD'))
         self.discovery.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
         self.environment_id = 'e15f6424-f887-4f50-b4ea-68267c36fc9c' # This environment is created for integration testing
         self.collection_id = self.discovery.list_collections(self.environment_id)['collections'][0]['collection_id']
