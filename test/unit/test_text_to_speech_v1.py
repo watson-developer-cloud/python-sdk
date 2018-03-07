@@ -99,7 +99,7 @@ def test_success():
     assert responses.calls[1].request.url == voice_url
     assert responses.calls[1].response.text == json.dumps(voice_response)
 
-    text_to_speech.synthesize('hello')
+    text_to_speech.synthesize('hello', 'audio/basic')
     assert responses.calls[2].request.url == synthesize_url
     assert responses.calls[2].response.text == synthesize_response_body
 
@@ -220,7 +220,7 @@ def test_custom_words():
 
     text_to_speech.list_words(customization_id="custid")
     text_to_speech.add_words(
-        customization_id="custid", words=["one", "two", "three"])
+        customization_id="custid", words=[{"word": "one", "translation": "one"}, {"word": "two", "translation": "two"}])
     text_to_speech.get_word(customization_id="custid", word="word")
     text_to_speech.add_word(
         customization_id='custid', word="word", translation="I'm translated")
