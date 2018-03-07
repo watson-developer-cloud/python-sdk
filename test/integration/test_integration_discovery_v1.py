@@ -1,7 +1,10 @@
+# coding: utf-8
+
 from unittest import TestCase
 import os
 import watson_developer_cloud
 import json
+import random
 
 class Discoveryv1(TestCase):
     def setUp(self):
@@ -34,7 +37,7 @@ class Discoveryv1(TestCase):
 
     def test_collections_and_expansions(self):
         new_collection_id = self.discovery.create_collection(self.environment_id,
-                                                    name='Example collection for python',
+                                                    name='Example collection for python' + random.choice('ABCDEFGHIJKLMNOPQ'),
                                                     description="Integration test for python sdk")['collection_id']
         assert new_collection_id is not None
         self.discovery.get_collection(self.environment_id, new_collection_id)
