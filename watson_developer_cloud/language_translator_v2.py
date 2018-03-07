@@ -66,7 +66,7 @@ class LanguageTranslatorV2(WatsonService):
             use_vcap_services=True)
 
     #########################
-    # translate
+    # Translate
     #########################
 
     def translate(self, text, model_id=None, source=None, target=None):
@@ -94,7 +94,7 @@ class LanguageTranslatorV2(WatsonService):
         return response
 
     #########################
-    # identify
+    # Identify
     #########################
 
     def identify(self, text):
@@ -133,7 +133,7 @@ class LanguageTranslatorV2(WatsonService):
         return response
 
     #########################
-    # models
+    # Models
     #########################
 
     def create_model(self,
@@ -219,9 +219,10 @@ class LanguageTranslatorV2(WatsonService):
 
     def get_model(self, model_id):
         """
-        Get information about the given translation model, including training status.
+        Gets information about a translation model, including training status for custom
+        models.
 
-        :param str model_id: Model ID to use.
+        :param str model_id: Model ID of the model to get.
         :return: A `dict` containing the `TranslationModel` response.
         :rtype: dict
         """
@@ -233,15 +234,19 @@ class LanguageTranslatorV2(WatsonService):
 
     def list_models(self, source=None, target=None, default_models=None):
         """
-        Lists available standard and custom models by source or target language.
+        Lists available translation models.
 
         :param str source: Specify a language code to filter results by source language.
         :param str target: Specify a language code to filter results by target language.
-        :param bool default_models: If the default_models parameter isn't specified, the service will return all models (default_models and non-default_models) for each language pair. To return only default_models models, set this to `true`. To return only non-default_models models, set this to `false`.
+        :param bool default_models: If the default parameter isn't specified, the service will return all models (default and non-default) for each language pair. To return only default models, set this to `true`. To return only non-default models, set this to `false`.
         :return: A `dict` containing the `TranslationModels` response.
         :rtype: dict
         """
-        params = {'source': source, 'target': target, 'default': default_models}
+        params = {
+            'source': source,
+            'target': target,
+            'default': default_models
+        }
         url = '/v2/models'
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
@@ -543,6 +548,8 @@ class Translation(object):
     def _from_dict(cls, _dict):
         """Initialize a Translation object from a json dictionary."""
         args = {}
+        if 'translation_output' in _dict:
+            args['translation_output'] = _dict['translation_output']
         if 'translation' in _dict:
             args['translation_output'] = _dict['translation']
         else:
