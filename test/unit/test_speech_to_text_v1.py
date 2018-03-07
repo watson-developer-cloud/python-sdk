@@ -119,7 +119,7 @@ def test_recognitions():
     with open(
             os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'),
             'rb') as audio_file:
-        speech_to_text.create_job(audio=audio_file)
+        speech_to_text.create_job(audio=audio_file, content_type='audio/basic')
     assert responses.calls[2].response.json() == {'status': 'waiting'}
 
     speech_to_text.delete_job('jobid')
