@@ -41,7 +41,6 @@ class VisualRecognitionV3(WatsonService):
     """The Visual Recognition V3 service."""
 
     default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
-    VERSION_DATE_2016_05_20 = '2016-05-20'
 
     def __init__(self, version, url=default_url, api_key=None):
         """
@@ -75,7 +74,7 @@ class VisualRecognitionV3(WatsonService):
         self.version = version
 
     #########################
-    # general
+    # General
     #########################
 
     def classify(self,
@@ -83,17 +82,25 @@ class VisualRecognitionV3(WatsonService):
                  parameters=None,
                  accept_language=None,
                  images_file_content_type=None,
-                 images_filename=None):
+                 images_filename=None,
+                 url=None,
+                 threshold=None,
+                 owners=None,
+                 classifier_ids=None):
         """
         Classify images.
 
         Classify images with built-in or custom classifiers.
 
         :param file images_file: An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters. You can also include images with the `url` property in the **parameters** object.
-        :param str parameters: A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - **url**: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter. - **threshold**: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values. - **owners**: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.      The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `{\"classifier_ids\":[\"CarsvsTrucks_1479118188\",\"explicit\"],\"threshold\":0.6}`.
+        :param str parameters: (Deprecated) A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - **url**: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter. - **threshold**: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values. - **owners**: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.      The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `{\"classifier_ids\":[\"CarsvsTrucks_1479118188\",\"explicit\"],\"threshold\":0.6}`.
         :param str accept_language: Specifies the language of the output class names.  Can be `en` (English), `ar` (Arabic), `de` (German), `es` (Spanish), `it` (Italian), `ja` (Japanese), or `ko` (Korean).  Classes for which no translation is available are omitted.  The response might not be in the specified language under these conditions: - English is returned when the requested language is not supported. - Classes are not returned when there is no translation for them. - Custom classifiers returned with this method return tags in the language of the custom classifier.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
+        :param str url: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter.
+        :param float threshold: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values.
+        :param list[str] owners: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`.   The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty.
+        :param list[str] classifier_ids: The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `\"classifier_ids=\"CarsvsTrucks_1479118188\",\"explicit\"`.
         :return: A `dict` containing the `ClassifiedImages` response.
         :rtype: dict
         """
@@ -105,9 +112,24 @@ class VisualRecognitionV3(WatsonService):
                 images_filename = images_file.name
             mime_type = images_file_content_type or 'application/octet-stream'
             images_file_tuple = (images_filename, images_file, mime_type)
+
         parameters_tuple = None
-        if parameters:
+        if parameters is not None:
             parameters_tuple = (None, parameters, 'text/plain')
+
+        url_tuple = None
+        if url is not None:
+            url_tuple = (None, url, 'text/plain')
+        threshold_tuple = None
+        if threshold is not None:
+            threshold_tuple = (None, threshold, 'application/json')
+        owners_tuple = None
+        if owners is not None:
+            owners_tuple = (None, owners, 'application/json')
+        classifier_ids_tuple = None
+        if classifier_ids is not None:
+            classifier_ids_tuple = (None, classifier_ids, 'application/json')
+
         url = '/v3/classify'
         response = self.request(
             method='POST',
@@ -115,21 +137,26 @@ class VisualRecognitionV3(WatsonService):
             headers=headers,
             params=params,
             files={
+                'parameters': parameters_tuple,
                 'images_file': images_file_tuple,
-                'parameters': parameters_tuple
+                'url': url_tuple,
+                'threshold': threshold_tuple,
+                'owners': owners_tuple,
+                'classifier_ids': classifier_ids_tuple
             },
             accept_json=True)
         return response
 
     #########################
-    # face
+    # Face
     #########################
 
     def detect_faces(self,
                      images_file=None,
                      parameters=None,
                      images_file_content_type=None,
-                     images_filename=None):
+                     images_filename=None,
+                     url=None):
         """
         Detect faces in images.
 
@@ -139,9 +166,10 @@ class VisualRecognitionV3(WatsonService):
         does not support general biometric facial recognition.
 
         :param file images_file: An image file (.jpg, .png) or .zip file with images. Include no more than 15 images. You can also include images with the `url` property in the **parameters** object.  All faces are detected, but if there are more than 10 faces in an image, age and gender confidence scores might return scores of 0.
-        :param str parameters: A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: `{\"url\":\"http://www.example.com/images/myimage.jpg\"}`.
+        :param str parameters: (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: `{\"url\":\"http://www.example.com/images/myimage.jpg\"}`.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
+        :param str url: A string with the image URL to analyze.
         :return: A `dict` containing the `DetectedFaces` response.
         :rtype: dict
         """
@@ -153,22 +181,24 @@ class VisualRecognitionV3(WatsonService):
             mime_type = images_file_content_type or 'application/octet-stream'
             images_file_tuple = (images_filename, images_file, mime_type)
         parameters_tuple = None
-        if parameters:
+        if parameters is not None:
             parameters_tuple = (None, parameters, 'text/plain')
+        url_tuple = None
+        if url is not None:
+            url_tuple = (None, url, 'text/plain')
         url = '/v3/detect_faces'
         response = self.request(
             method='POST',
             url=url,
             params=params,
-            files={
-                'images_file': images_file_tuple,
-                'parameters': parameters_tuple
-            },
+            files={'images_file': images_file_tuple,
+                   'parameters': parameters_tuple,
+                   'url': url_tuple},
             accept_json=True)
         return response
 
     #########################
-    # custom
+    # Custom
     #########################
 
     def create_classifier(self,
@@ -290,6 +320,8 @@ class Class(object):
     def _from_dict(cls, _dict):
         """Initialize a Class object from a json dictionary."""
         args = {}
+        if 'class_name' in _dict:
+            args['class_name'] = _dict['class_name']
         if 'class' in _dict:
             args['class_name'] = _dict['class']
         else:
@@ -344,6 +376,8 @@ class ClassResult(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassResult object from a json dictionary."""
         args = {}
+        if 'class_name' in _dict:
+            args['class_name'] = _dict['class_name']
         if 'class' in _dict:
             args['class_name'] = _dict['class']
         else:
