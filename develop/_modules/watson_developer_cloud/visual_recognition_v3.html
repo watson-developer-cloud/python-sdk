@@ -33,7 +33,7 @@
   <h1>Source code for watson_developer_cloud.visual_recognition_v3</h1><div class="highlight"><pre>
 <span></span><span class="c1"># coding: utf-8</span>
 
-<span class="c1"># Copyright 2017 IBM All Rights Reserved.</span>
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
@@ -47,7 +47,7 @@
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">**Important**: As of September 8, 2017, the beta period for Similarity Search is closed.</span>
+<span class="sd">**Important:** As of September 8, 2017, the beta period for Similarity Search is closed.</span>
 <span class="sd">For more information, see [Visual Recognition API – Similarity Search</span>
 <span class="sd">Update](https://www.ibm.com/blogs/bluemix/2017/08/visual-recognition-api-similarity-search-update).</span>
 
@@ -55,8 +55,8 @@
 <span class="sd">scenes, objects, and faces  in images you upload to the service. You can create and train</span>
 <span class="sd">a custom classifier to identify subjects that suit your needs.</span>
 
-<span class="sd">**Tip**: To test calls to the **Custom classifiers** methods with the API explorer,</span>
-<span class="sd">provide your `api_key` from your Bluemix service instance.</span>
+<span class="sd">**Tip:** To test calls to the **Custom classifiers** methods with the API explorer,</span>
+<span class="sd">provide your `api_key` from your IBM&amp;reg; Cloud service instance.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
@@ -74,7 +74,6 @@
     <span class="sd">&quot;&quot;&quot;The Visual Recognition V3 service.&quot;&quot;&quot;</span>
 
     <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway-a.watsonplatform.net/visual-recognition/api&#39;</span>
-    <span class="n">VERSION_DATE_2016_05_20</span> <span class="o">=</span> <span class="s1">&#39;2016-05-20&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -108,7 +107,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># classify</span>
+    <span class="c1"># General</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="VisualRecognitionV3.classify"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.classify">[docs]</a>    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -116,15 +115,25 @@
                  <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">accept_language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">images_file_content_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">images_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">images_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">owners</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">classifier_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Classify images.</span>
 
-<span class="sd">        :param file images_file: An image file (.jpg, .png) or .zip file with images. Include no more than 20 images and limit the .zip file to 5 MB. You can also include images with the `url` property in the **parameters** object.</span>
-<span class="sd">        :param str parameters: Specifies input parameters. The parameter can include these inputs in a JSON object:  - url: A string with the image URL to analyze. You can also include images in the **images_file** parameter. - classifier_ids: An array of classifier IDs to classify the images against. - owners: An array with the values IBM, me, or both to specify which classifiers to run. - threshold: A floating point value that specifies the minimum score a class must have to be displayed in the response.  For example: {\&quot;url\&quot;: \&quot;...\&quot;, \&quot;classifier_ids\&quot;: [\&quot;...\&quot;,\&quot;...\&quot;], \&quot;owners\&quot;: [\&quot;IBM\&quot;, \&quot;me\&quot;], \&quot;threshold\&quot;: 0.4}.</span>
+<span class="sd">        Classify images with built-in or custom classifiers.</span>
+
+<span class="sd">        :param file images_file: An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters. You can also include images with the `url` property in the **parameters** object.</span>
+<span class="sd">        :param str parameters: (Deprecated) A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - **url**: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter. - **threshold**: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values. - **owners**: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.      The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `{\&quot;classifier_ids\&quot;:[\&quot;CarsvsTrucks_1479118188\&quot;,\&quot;explicit\&quot;],\&quot;threshold\&quot;:0.6}`.</span>
 <span class="sd">        :param str accept_language: Specifies the language of the output class names.  Can be `en` (English), `ar` (Arabic), `de` (German), `es` (Spanish), `it` (Italian), `ja` (Japanese), or `ko` (Korean).  Classes for which no translation is available are omitted.  The response might not be in the specified language under these conditions: - English is returned when the requested language is not supported. - Classes are not returned when there is no translation for them. - Custom classifiers returned with this method return tags in the language of the custom classifier.</span>
 <span class="sd">        :param str images_file_content_type: The content type of images_file.</span>
 <span class="sd">        :param str images_filename: The filename for images_file.</span>
+<span class="sd">        :param str url: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter.</span>
+<span class="sd">        :param float threshold: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values.</span>
+<span class="sd">        :param list[str] owners: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`.   The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty.</span>
+<span class="sd">        :param list[str] classifier_ids: The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `\&quot;classifier_ids=\&quot;CarsvsTrucks_1479118188\&quot;,\&quot;explicit\&quot;`.</span>
 <span class="sd">        :return: A `dict` containing the `ClassifiedImages` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -136,9 +145,24 @@
                 <span class="n">images_filename</span> <span class="o">=</span> <span class="n">images_file</span><span class="o">.</span><span class="n">name</span>
             <span class="n">mime_type</span> <span class="o">=</span> <span class="n">images_file_content_type</span> <span class="ow">or</span> <span class="s1">&#39;application/octet-stream&#39;</span>
             <span class="n">images_file_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">images_filename</span><span class="p">,</span> <span class="n">images_file</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+
         <span class="n">parameters_tuple</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">parameters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">parameters_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)</span>
+
+        <span class="n">url_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)</span>
+        <span class="n">threshold_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">threshold_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="n">owners_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">owners</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">owners_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">owners</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="n">classifier_ids_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">classifier_ids</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">classifier_ids_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">classifier_ids</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v3/classify&#39;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
@@ -146,24 +170,39 @@
             <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
             <span class="n">files</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="n">parameters_tuple</span><span class="p">,</span>
                 <span class="s1">&#39;images_file&#39;</span><span class="p">:</span> <span class="n">images_file_tuple</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="n">parameters_tuple</span>
+                <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url_tuple</span><span class="p">,</span>
+                <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="n">threshold_tuple</span><span class="p">,</span>
+                <span class="s1">&#39;owners&#39;</span><span class="p">:</span> <span class="n">owners_tuple</span><span class="p">,</span>
+                <span class="s1">&#39;classifier_ids&#39;</span><span class="p">:</span> <span class="n">classifier_ids_tuple</span>
             <span class="p">},</span>
             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
         <span class="k">return</span> <span class="n">response</span>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># Face</span>
+    <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="VisualRecognitionV3.detect_faces"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.detect_faces">[docs]</a>    <span class="k">def</span> <span class="nf">detect_faces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                      <span class="n">images_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">images_file_content_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                     <span class="n">images_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                     <span class="n">images_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Detect faces in an image.</span>
+<span class="sd">        Detect faces in images.</span>
+
+<span class="sd">        Analyze and get data about faces in images. Responses can include estimated age</span>
+<span class="sd">        and gender, and the service can identify celebrities. This feature uses a built-in</span>
+<span class="sd">        classifier, so you do not train it on custom classifiers. The Detect faces method</span>
+<span class="sd">        does not support general biometric facial recognition.</span>
 
 <span class="sd">        :param file images_file: An image file (.jpg, .png) or .zip file with images. Include no more than 15 images. You can also include images with the `url` property in the **parameters** object.  All faces are detected, but if there are more than 10 faces in an image, age and gender confidence scores might return scores of 0.</span>
-<span class="sd">        :param str parameters: A JSON string containing the image URL to analyze.   For example: {\&quot;url\&quot;: \&quot;...\&quot;}.</span>
+<span class="sd">        :param str parameters: (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: `{\&quot;url\&quot;:\&quot;http://www.example.com/images/myimage.jpg\&quot;}`.</span>
 <span class="sd">        :param str images_file_content_type: The content type of images_file.</span>
 <span class="sd">        :param str images_filename: The filename for images_file.</span>
+<span class="sd">        :param str url: A string with the image URL to analyze.</span>
 <span class="sd">        :return: A `dict` containing the `DetectedFaces` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -175,22 +214,24 @@
             <span class="n">mime_type</span> <span class="o">=</span> <span class="n">images_file_content_type</span> <span class="ow">or</span> <span class="s1">&#39;application/octet-stream&#39;</span>
             <span class="n">images_file_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">images_filename</span><span class="p">,</span> <span class="n">images_file</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
         <span class="n">parameters_tuple</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">parameters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">parameters_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)</span>
+        <span class="n">url_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v3/detect_faces&#39;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-            <span class="n">files</span><span class="o">=</span><span class="p">{</span>
-                <span class="s1">&#39;images_file&#39;</span><span class="p">:</span> <span class="n">images_file_tuple</span><span class="p">,</span>
-                <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="n">parameters_tuple</span>
-            <span class="p">},</span>
+            <span class="n">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;images_file&#39;</span><span class="p">:</span> <span class="n">images_file_tuple</span><span class="p">,</span>
+                   <span class="s1">&#39;parameters&#39;</span><span class="p">:</span> <span class="n">parameters_tuple</span><span class="p">,</span>
+                   <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url_tuple</span><span class="p">},</span>
             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
         <span class="k">return</span> <span class="n">response</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># customClassifiers</span>
+    <span class="c1"># Custom</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="VisualRecognitionV3.create_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">create_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -198,7 +239,6 @@
                           <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a classifier.</span>
-
 <span class="sd">        :param str name: The name of the new classifier. Cannot contain special characters.</span>
 <span class="sd">        :param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.</span>
 <span class="sd">        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.</span>
@@ -221,7 +261,7 @@
 
 <div class="viewcode-block" id="VisualRecognitionV3.delete_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">delete_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delete a custom classifier.</span>
+<span class="sd">        Delete a classifier.</span>
 
 <span class="sd">        :param str classifier_id: The ID of the classifier.</span>
 <span class="sd">        :rtype: None</span>
@@ -255,7 +295,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of custom classifiers.</span>
 
-<span class="sd">        :param bool verbose: Specify true to return classifier details. Omit this parameter to return a brief list of classifiers.</span>
+<span class="sd">        :param bool verbose: Specify `true` to return details about the classifiers. Omit this parameter to return a brief list of classifiers.</span>
 <span class="sd">        :return: A `dict` containing the `Classifiers` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -270,7 +310,6 @@
                           <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update a classifier.</span>
-
 <span class="sd">        :param str classifier_id: The ID of the classifier.</span>
 <span class="sd">        :param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.</span>
 <span class="sd">        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.</span>
@@ -289,7 +328,6 @@
             <span class="n">files</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
         <span class="k">return</span> <span class="n">response</span>
-
 
 <span class="c1">##############################################################################</span>
 <span class="c1"># Models</span>
@@ -315,6 +353,8 @@
     <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a Class object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;class_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;class&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -349,7 +389,7 @@
 <span class="sd">    Result of a class within a classifier.</span>
 
 <span class="sd">    :attr str class_name: The name of the class.</span>
-<span class="sd">    :attr float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.</span>
+<span class="sd">    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -358,7 +398,7 @@
 <span class="sd">        Initialize a ClassResult object.</span>
 
 <span class="sd">        :param str class_name: The name of the class.</span>
-<span class="sd">        :param float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.</span>
+<span class="sd">        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">        :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span> <span class="o">=</span> <span class="n">class_name</span>
@@ -369,6 +409,8 @@
     <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a ClassResult object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;class_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;class&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -573,13 +615,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Information about a classifier.</span>
 
-<span class="sd">    :attr str classifier_id: The ID of the classifier.</span>
-<span class="sd">    :attr str name: The name of the classifier.</span>
-<span class="sd">    :attr str owner: (optional) Unique ID of the account who owns the classifier.</span>
+<span class="sd">    :attr str classifier_id: ID of a classifier identified in the image.</span>
+<span class="sd">    :attr str name: Name of the classifier.</span>
+<span class="sd">    :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">    :attr str status: (optional) The training status of classifier.</span>
 <span class="sd">    :attr str explanation: (optional) If classifier training has failed, this field may explain why.</span>
-<span class="sd">    :attr datetime created: (optional) The time and date when classifier was created.</span>
-<span class="sd">    :attr list[Class] classes: (optional) An array of classes that define a classifier.</span>
+<span class="sd">    :attr datetime created: (optional) Date and time in Coordinated Universal Time that the classifier was created.</span>
+<span class="sd">    :attr list[Class] classes: (optional) Array of classes that define a classifier.</span>
+<span class="sd">    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -589,17 +632,19 @@
                  <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">explanation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">created</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                 <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">retrained</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a Classifier object.</span>
 
-<span class="sd">        :param str classifier_id: The ID of the classifier.</span>
-<span class="sd">        :param str name: The name of the classifier.</span>
-<span class="sd">        :param str owner: (optional) Unique ID of the account who owns the classifier.</span>
+<span class="sd">        :param str classifier_id: ID of a classifier identified in the image.</span>
+<span class="sd">        :param str name: Name of the classifier.</span>
+<span class="sd">        :param str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">        :param str status: (optional) The training status of classifier.</span>
 <span class="sd">        :param str explanation: (optional) If classifier training has failed, this field may explain why.</span>
-<span class="sd">        :param datetime created: (optional) The time and date when classifier was created.</span>
-<span class="sd">        :param list[Class] classes: (optional) An array of classes that define a classifier.</span>
+<span class="sd">        :param datetime created: (optional) Date and time in Coordinated Universal Time that the classifier was created.</span>
+<span class="sd">        :param list[Class] classes: (optional) Array of classes that define a classifier.</span>
+<span class="sd">        :param datetime retrained: (optional) Date and time in Coordinated Universal Time that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="o">=</span> <span class="n">classifier_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
@@ -608,6 +653,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">explanation</span> <span class="o">=</span> <span class="n">explanation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="o">=</span> <span class="n">created</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">classes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">retrained</span> <span class="o">=</span> <span class="n">retrained</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
@@ -634,6 +680,8 @@
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">string_to_datetime</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="s1">&#39;classes&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Class</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="s1">&#39;retrained&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;retrained&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">string_to_datetime</span><span class="p">(</span><span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;retrained&#39;</span><span class="p">])</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -653,6 +701,8 @@
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime_to_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;classes&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;retrained&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">retrained</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;retrained&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime_to_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">retrained</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_dict</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -675,8 +725,8 @@
 <span class="sd">    Classifier and score combination.</span>
 
 <span class="sd">    :attr str name: Name of the classifier.</span>
-<span class="sd">    :attr str classifier_id: Classifier ID.  Only returned if custom classifier.</span>
-<span class="sd">    :attr list[ClassResult] classes: An array of classes within a classifier.</span>
+<span class="sd">    :attr str classifier_id: The ID of a classifier identified in the image.</span>
+<span class="sd">    :attr list[ClassResult] classes: An array of classes within the classifier.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">,</span> <span class="n">classes</span><span class="p">):</span>
@@ -684,8 +734,8 @@
 <span class="sd">        Initialize a ClassifierResult object.</span>
 
 <span class="sd">        :param str name: Name of the classifier.</span>
-<span class="sd">        :param str classifier_id: Classifier ID.  Only returned if custom classifier.</span>
-<span class="sd">        :param list[ClassResult] classes: An array of classes within a classifier.</span>
+<span class="sd">        :param str classifier_id: The ID of a classifier identified in the image.</span>
+<span class="sd">        :param list[ClassResult] classes: An array of classes within the classifier.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="o">=</span> <span class="n">classifier_id</span>
@@ -867,44 +917,54 @@
 <span class="sd">    Information about what might have caused a failure, such as an image that is too</span>
 <span class="sd">    large. Not returned when there is no error.</span>
 
-<span class="sd">    :attr str error_id: Codified error string. For example, `limit_exceeded`.</span>
+<span class="sd">    :attr int code: HTTP status code.</span>
 <span class="sd">    :attr str description: Human-readable error description. For example, `File size limit exceeded`.</span>
+<span class="sd">    :attr str error_id: Codified error string. For example, `limit_exceeded`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error_id</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">error_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a ErrorInfo object.</span>
 
-<span class="sd">        :param str error_id: Codified error string. For example, `limit_exceeded`.</span>
+<span class="sd">        :param int code: HTTP status code.</span>
 <span class="sd">        :param str description: Human-readable error description. For example, `File size limit exceeded`.</span>
+<span class="sd">        :param str error_id: Codified error string. For example, `limit_exceeded`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">error_id</span> <span class="o">=</span> <span class="n">error_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error_id</span> <span class="o">=</span> <span class="n">error_id</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a ErrorInfo object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="s1">&#39;error_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;error_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;error_id&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;code&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">error_id</span><span class="se">\&#39;</span><span class="s1"> not present in ErrorInfo JSON&#39;</span><span class="p">)</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">code</span><span class="se">\&#39;</span><span class="s1"> not present in ErrorInfo JSON&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;description&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">description</span><span class="se">\&#39;</span><span class="s1"> not present in ErrorInfo JSON&#39;</span>
             <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;error_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;error_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;error_id&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">error_id</span><span class="se">\&#39;</span><span class="s1"> not present in ErrorInfo JSON&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
         <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;error_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;error_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">code</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;error_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;error_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_id</span>
         <span class="k">return</span> <span class="n">_dict</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -997,7 +1057,7 @@
 
 <span class="sd">    :attr int min: (optional) Estimated minimum age.</span>
 <span class="sd">    :attr int max: (optional) Estimated maximum age.</span>
-<span class="sd">    :attr float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.</span>
+<span class="sd">    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1006,7 +1066,7 @@
 
 <span class="sd">        :param int min: (optional) Estimated minimum age.</span>
 <span class="sd">        :param int max: (optional) Estimated maximum age.</span>
-<span class="sd">        :param float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.</span>
+<span class="sd">        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
@@ -1056,7 +1116,7 @@
 <span class="sd">    an image, the response might return the confidence score 0.</span>
 
 <span class="sd">    :attr str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.</span>
-<span class="sd">    :attr float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.</span>
+<span class="sd">    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gender</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1064,7 +1124,7 @@
 <span class="sd">        Initialize a FaceGender object.</span>
 
 <span class="sd">        :param str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.</span>
-<span class="sd">        :param float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.</span>
+<span class="sd">        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
@@ -1112,7 +1172,7 @@
 <span class="sd">    a celebrity is not detected.</span>
 
 <span class="sd">    :attr str name: Name of the person.</span>
-<span class="sd">    :attr float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.</span>
+<span class="sd">    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1121,7 +1181,7 @@
 <span class="sd">        Initialize a FaceIdentity object.</span>
 
 <span class="sd">        :param str name: Name of the person.</span>
-<span class="sd">        :param float score: (optional) Confidence score for the property. Scores range from 0-1, with a higher score indicating greater correlation.</span>
+<span class="sd">        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">        :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>

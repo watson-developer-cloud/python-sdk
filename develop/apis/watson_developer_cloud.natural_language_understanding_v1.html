@@ -80,11 +80,6 @@ Get author information, publication date, and the title of your text/HTML conten
 <code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/natural-language-understanding/api'</em><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.default_url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27">
-<code class="descname">VERSION_DATE_2017_02_27</code><em class="property"> = '2017-02-27'</em><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.VERSION_DATE_2017_02_27" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="method">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.analyze">
 <code class="descname">analyze</code><span class="sig-paren">(</span><em>features</em>, <em>text=None</em>, <em>html=None</em>, <em>url=None</em>, <em>clean=None</em>, <em>xpath=None</em>, <em>fallback_to_raw=None</em>, <em>return_analyzed_text=None</em>, <em>language=None</em>, <em>limit_text_characters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#NaturalLanguageUnderstandingV1.analyze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.analyze" title="Permalink to this definition">¶</a></dt>
@@ -156,6 +151,58 @@ Language Understanding service.</p>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.natural_language_understanding_v1.AnalysisResults">
+<em class="property">class </em><code class="descname">AnalysisResults</code><span class="sig-paren">(</span><em>language=None</em>, <em>analyzed_text=None</em>, <em>retrieved_url=None</em>, <em>usage=None</em>, <em>concepts=None</em>, <em>entities=None</em>, <em>keywords=None</em>, <em>categories=None</em>, <em>emotion=None</em>, <em>metadata=None</em>, <em>relations=None</em>, <em>semantic_roles=None</em>, <em>sentiment=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#AnalysisResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.AnalysisResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Results of the analysis, organized by feature.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str language:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Language used to analyze the text.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str analyzed_text:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Text that was used in the analysis.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str retrieved_url:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) URL that was used to retrieve HTML content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr Usage usage:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) API usage information for the request.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ConceptsResult] concepts:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The general concepts referenced or alluded to in the specified content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[EntitiesResult] entities:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The important entities in the specified content.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[KeywordsResult] keywords:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The important keywords in content organized by relevance.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[CategoriesResult] categories:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The hierarchical 5-level taxonomy the content is categorized into.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr EmotionResult emotion:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr MetadataResult metadata:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The metadata holds author information, publication date and the title of the text/HTML content.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[RelationsResult] relations:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The relationships between entities in the content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[SemanticRolesResult] semantic_roles:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The subjects of actions and the objects the actions act upon.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr SentimentResult sentiment:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The sentiment of the content.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -972,58 +1019,6 @@ returned.</p>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int text_units:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of 10,000-character units processed.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="watson_developer_cloud.natural_language_understanding_v1.AnalysisResults">
-<em class="property">class </em><code class="descname">AnalysisResults</code><span class="sig-paren">(</span><em>concepts=None</em>, <em>entities=None</em>, <em>keywords=None</em>, <em>categories=None</em>, <em>emotion=None</em>, <em>metadata=None</em>, <em>relations=None</em>, <em>semantic_roles=None</em>, <em>sentiment=None</em>, <em>language=None</em>, <em>analyzed_text=None</em>, <em>retrieved_url=None</em>, <em>usage=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#AnalysisResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.AnalysisResults" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Results of the analysis, organized by feature.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str language:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Language used to analyze the text.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str analyzed_text:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Text that was used in the analysis.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str retrieved_url:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) URL that was used to retrieve HTML content.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr Usage usage:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) API usage information for the request.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ConceptsResult] concepts:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The general concepts referenced or alluded to in the specified content.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[EntitiesResult] entities:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The important entities in the specified content.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[KeywordsResult] keywords:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The important keywords in content organized by relevance.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[CategoriesResult] categories:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The hierarchical 5-level taxonomy the content is categorized into.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr EmotionResult emotion:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr MetadataResult metadata:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The metadata holds author information, publication date and the title of the text/HTML content.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[RelationsResult] relations:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The relationships between entities in the content.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[SemanticRolesResult] semantic_roles:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The subjects of actions and the objects the actions act upon.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr SentimentResult sentiment:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The sentiment of the content.</td>
 </tr>
 </tbody>
 </table>

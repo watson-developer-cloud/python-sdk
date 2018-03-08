@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="watson_developer_cloud.dialog_v1 module" href="watson_developer_cloud.dialog_v1.html" />
+    <link rel="next" title="watson_developer_cloud.discovery_v1 module" href="watson_developer_cloud.discovery_v1.html" />
     <link rel="prev" title="watson_developer_cloud.authorization_v1 module" href="watson_developer_cloud.authorization_v1.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -45,31 +45,6 @@ and your users.</p>
 <dl class="attribute">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.default_url">
 <code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/conversation/api'</em><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.default_url" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2017_05_26">
-<code class="descname">VERSION_DATE_2017_05_26</code><em class="property"> = '2017-05-26'</em><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2017_05_26" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2017_04_21">
-<code class="descname">VERSION_DATE_2017_04_21</code><em class="property"> = '2017-04-21'</em><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2017_04_21" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2017_02_03">
-<code class="descname">VERSION_DATE_2017_02_03</code><em class="property"> = '2017-02-03'</em><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2017_02_03" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2016_09_20">
-<code class="descname">VERSION_DATE_2016_09_20</code><em class="property"> = '2016-09-20'</em><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2016_09_20" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2016_07_11">
-<code class="descname">VERSION_DATE_2016_07_11</code><em class="property"> = '2016-07-11'</em><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.VERSION_DATE_2016_07_11" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -124,7 +99,7 @@ components defining the content of the new workspace.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_workspace">
-<code class="descname">get_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get information about a workspace.</p>
 <p>Get information about a workspace, optionally including all workspace content.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -134,6 +109,7 @@ components defining the content of the new workspace.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The workspace ID.</li>
 <li><strong>export</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is <cite>false</cite>.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -149,7 +125,7 @@ components defining the content of the new workspace.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_workspaces">
-<code class="descname">list_workspaces</code><span class="sig-paren">(</span><em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_workspaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_workspaces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_workspaces</code><span class="sig-paren">(</span><em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_workspaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_workspaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>List workspaces.</p>
 <p>List the workspaces associated with a Conversation service instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -161,6 +137,7 @@ components defining the content of the new workspace.</p>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
 <li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -176,7 +153,7 @@ components defining the content of the new workspace.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.update_workspace">
-<code class="descname">update_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em>, <em>append=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update workspace.</p>
 <p>Update an existing workspace with new or modified data. You must provide component
 objects defining the content of the updated workspace.</p>
@@ -195,6 +172,7 @@ objects defining the content of the updated workspace.</p>
 <li><strong>counterexamples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.CreateCounterexample" title="watson_developer_cloud.conversation_v1.CreateCounterexample"><em>CreateCounterexample</em></a><em>]</em>) – An array of objects defining input examples that have been marked as irrelevant input.</li>
 <li><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – Any metadata related to the workspace.</li>
 <li><strong>learning_opt_out</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether training data from the workspace can be used by IBM for general service improvements. <cite>true</cite> indicates that workspace training data is not to be used.</li>
+<li><strong>append</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Specifies that the elements included in the request body are to be appended to the existing data in the workspace. The default value is <cite>false</cite>.</li>
 </ul>
 </td>
 </tr>
@@ -210,7 +188,7 @@ objects defining the content of the updated workspace.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.message">
-<code class="descname">message</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">message</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em>, <em>nodes_visited_details=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a response to a user’s input.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -224,6 +202,7 @@ objects defining the content of the updated workspace.</p>
 <li><strong>entities</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.RuntimeEntity" title="watson_developer_cloud.conversation_v1.RuntimeEntity"><em>RuntimeEntity</em></a><em>]</em>) – Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.</li>
 <li><strong>intents</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.RuntimeIntent" title="watson_developer_cloud.conversation_v1.RuntimeIntent"><em>RuntimeIntent</em></a><em>]</em>) – An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.</li>
 <li><strong>output</strong> (<a class="reference internal" href="#watson_developer_cloud.conversation_v1.OutputData" title="watson_developer_cloud.conversation_v1.OutputData"><em>OutputData</em></a>) – System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.</li>
+<li><strong>nodes_visited_details</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.</li>
 </ul>
 </td>
 </tr>
@@ -288,7 +267,7 @@ objects defining the content of the updated workspace.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_intent">
-<code class="descname">get_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>export=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_intent" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>export=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_intent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get intent.</p>
 <p>Get information about an intent, optionally including all intent content.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -299,6 +278,7 @@ objects defining the content of the updated workspace.</p>
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The workspace ID.</li>
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The intent name (for example, <cite>pizza_order</cite>).</li>
 <li><strong>export</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is <cite>false</cite>.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -314,7 +294,7 @@ objects defining the content of the updated workspace.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_intents">
-<code class="descname">list_intents</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_intents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_intents" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_intents</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_intents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_intents" title="Permalink to this definition">¶</a></dt>
 <dd><p>List intents.</p>
 <p>List the intents for a workspace.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -328,6 +308,7 @@ objects defining the content of the updated workspace.</p>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
 <li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -421,7 +402,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_example">
-<code class="descname">get_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get user input example.</p>
 <p>Get information about a user input example.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -432,6 +413,7 @@ defining the content of the updated intent.</p>
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The workspace ID.</li>
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The intent name (for example, <cite>pizza_order</cite>).</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the user input example.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -447,7 +429,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_examples">
-<code class="descname">list_examples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_examples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_examples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_examples" title="Permalink to this definition">¶</a></dt>
 <dd><p>List user input examples.</p>
 <p>List the user input examples for an intent.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -461,6 +443,7 @@ defining the content of the updated intent.</p>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
 <li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -554,7 +537,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_entity">
-<code class="descname">get_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>export=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_entity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>export=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_entity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get entity.</p>
 <p>Get information about an entity, optionally including all entity content.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -565,6 +548,7 @@ defining the content of the updated intent.</p>
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The workspace ID.</li>
 <li><strong>entity</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the entity.</li>
 <li><strong>export</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is <cite>false</cite>.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -580,7 +564,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_entities">
-<code class="descname">list_entities</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_entities" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_entities</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>List entities.</p>
 <p>List the entities for a workspace.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -594,6 +578,7 @@ defining the content of the updated intent.</p>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
 <li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -692,7 +677,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_value">
-<code class="descname">get_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>export=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_value" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>export=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get entity value.</p>
 <p>Get information about an entity value.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -704,6 +689,7 @@ defining the content of the updated intent.</p>
 <li><strong>entity</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the entity.</li>
 <li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the entity value.</li>
 <li><strong>export</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is <cite>false</cite>.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -719,7 +705,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_values">
-<code class="descname">list_values</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_values" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_values</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>List entity values.</p>
 <p>List the values for an entity.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -734,6 +720,7 @@ defining the content of the updated intent.</p>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
 <li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -831,7 +818,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_synonym">
-<code class="descname">get_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_synonym" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_synonym" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get entity value synonym.</p>
 <p>Get information about a synonym for an entity value.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -843,6 +830,7 @@ defining the content of the updated intent.</p>
 <li><strong>entity</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the entity.</li>
 <li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the entity value.</li>
 <li><strong>synonym</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the synonym.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -858,7 +846,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_synonyms">
-<code class="descname">list_synonyms</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_synonyms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_synonyms" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_synonyms</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_synonyms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_synonyms" title="Permalink to this definition">¶</a></dt>
 <dd><p>List entity value synonyms.</p>
 <p>List the synonyms for an entity value.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -873,6 +861,7 @@ defining the content of the updated intent.</p>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
 <li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -976,7 +965,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_dialog_node">
-<code class="descname">get_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_dialog_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_dialog_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get dialog node.</p>
 <p>Get information about a dialog node.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -986,6 +975,7 @@ defining the content of the updated intent.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The workspace ID.</li>
 <li><strong>dialog_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The dialog node ID (for example, <cite>get_order</cite>).</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -1001,7 +991,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_dialog_nodes">
-<code class="descname">list_dialog_nodes</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_dialog_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_dialog_nodes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_dialog_nodes</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_dialog_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_dialog_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>List dialog nodes.</p>
 <p>List the dialog nodes in the workspace.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1014,6 +1004,7 @@ defining the content of the updated intent.</p>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
 <li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -1029,7 +1020,7 @@ defining the content of the updated intent.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.update_dialog_node">
-<code class="descname">update_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>new_dialog_node</em>, <em>new_description=None</em>, <em>new_conditions=None</em>, <em>new_parent=None</em>, <em>new_previous_sibling=None</em>, <em>new_output=None</em>, <em>new_context=None</em>, <em>new_metadata=None</em>, <em>new_next_step=None</em>, <em>new_title=None</em>, <em>new_type=None</em>, <em>new_event_name=None</em>, <em>new_variable=None</em>, <em>new_actions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_dialog_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>new_dialog_node=None</em>, <em>new_description=None</em>, <em>new_conditions=None</em>, <em>new_parent=None</em>, <em>new_previous_sibling=None</em>, <em>new_output=None</em>, <em>new_context=None</em>, <em>new_metadata=None</em>, <em>new_next_step=None</em>, <em>new_title=None</em>, <em>new_type=None</em>, <em>new_event_name=None</em>, <em>new_variable=None</em>, <em>new_actions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.update_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.update_dialog_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update dialog node.</p>
 <p>Update information for a dialog node.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1049,7 +1040,7 @@ defining the content of the updated intent.</p>
 <li><strong>new_metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – The metadata for the dialog node.</li>
 <li><strong>new_next_step</strong> (<a class="reference internal" href="#watson_developer_cloud.conversation_v1.DialogNodeNextStep" title="watson_developer_cloud.conversation_v1.DialogNodeNextStep"><em>DialogNodeNextStep</em></a>) – The next step to execute following this dialog node.</li>
 <li><strong>new_title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The alias used to identify the dialog node.</li>
-<li><strong>new_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – How the node is processed.</li>
+<li><strong>new_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – How the dialog node is processed.</li>
 <li><strong>new_event_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – How an <cite>event_handler</cite> node is processed.</li>
 <li><strong>new_variable</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The location in the dialog context where output is stored.</li>
 <li><strong>new_actions</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.conversation_v1.DialogNodeAction" title="watson_developer_cloud.conversation_v1.DialogNodeAction"><em>DialogNodeAction</em></a><em>]</em>) – The actions for the dialog node.</li>
@@ -1172,7 +1163,7 @@ been marked as irrelevant input.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.get_counterexample">
-<code class="descname">get_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_counterexample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.get_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.get_counterexample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get counterexample.</p>
 <p>Get information about a counterexample. Counterexamples are examples that have
 been marked as irrelevant input.</p>
@@ -1183,6 +1174,7 @@ been marked as irrelevant input.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The workspace ID.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of a user input counterexample (for example, <cite>What are you wearing?</cite>).</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -1198,7 +1190,7 @@ been marked as irrelevant input.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1.list_counterexamples">
-<code class="descname">list_counterexamples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_counterexamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_counterexamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_counterexamples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.list_counterexamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.list_counterexamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>List counterexamples.</p>
 <p>List the counterexamples for a workspace. Counterexamples are examples that have
 been marked as irrelevant input.</p>
@@ -1212,6 +1204,7 @@ been marked as irrelevant input.</p>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Sorts the response according to the value of the specified property, in ascending or descending order.</li>
 <li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last value from the previous page of results.</li>
+<li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
 </ul>
 </td>
 </tr>
@@ -1495,7 +1488,7 @@ maintain state for the conversation.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.DialogNode">
-<em class="property">class </em><code class="descname">DialogNode</code><span class="sig-paren">(</span><em>dialog_node_id</em>, <em>description</em>, <em>conditions</em>, <em>parent</em>, <em>previous_sibling</em>, <em>output</em>, <em>context</em>, <em>metadata</em>, <em>next_step</em>, <em>created</em>, <em>title</em>, <em>updated=None</em>, <em>actions=None</em>, <em>node_type=None</em>, <em>event_name=None</em>, <em>variable=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DialogNode</code><span class="sig-paren">(</span><em>dialog_node_id</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>conditions=None</em>, <em>parent=None</em>, <em>previous_sibling=None</em>, <em>output=None</em>, <em>context=None</em>, <em>metadata=None</em>, <em>next_step=None</em>, <em>actions=None</em>, <em>title=None</em>, <em>node_type=None</em>, <em>event_name=None</em>, <em>variable=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>DialogNode.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1506,39 +1499,39 @@ maintain state for the conversation.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The dialog node ID.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The description of the dialog node.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the dialog node.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str conditions:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The condition that triggers the dialog node.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The condition that triggers the dialog node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str parent:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The ID of the parent dialog node.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The ID of the parent dialog node.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str previous_sibling:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The ID of the previous sibling dialog node.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The ID of the previous sibling dialog node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr object output:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The output of the dialog node.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The output of the dialog node.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr object context:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The context (if defined) for the dialog node.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The context (if defined) for the dialog node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The metadata (if any) for the dialog node.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The metadata (if any) for the dialog node.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr DialogNodeNextStep next_step:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The next step to execute following this dialog node.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The next step to execute following this dialog node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the dialog node.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the most recent update to the dialog node.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the most recent update to the dialog node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[DialogNodeAction] actions:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The actions for the dialog node.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Attr str title:</th><td class="field-body">The alias used to identify the dialog node.</td>
+<tr class="field-odd field"><th class="field-name">Attr str title:</th><td class="field-body">(optional) The alias used to identify the dialog node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str node_type:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) How the dialog node is processed.</td>
@@ -1609,13 +1602,31 @@ maintain state for the conversation.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str behavior:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">How the <cite>next_step</cite> reference is processed.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">How the <cite>next_step</cite> reference is processed. If you specify <cite>jump_to</cite>, then you must also specify a value for the <cite>dialog_node</cite> property.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str dialog_node:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The ID of the dialog node to process next.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The ID of the dialog node to process next. This parameter is required if <cite>behavior`=`jump_to</cite>.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str selector:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Which part of the dialog node to process next.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeVisitedDetails">
+<em class="property">class </em><code class="descname">DialogNodeVisitedDetails</code><span class="sig-paren">(</span><em>dialog_node=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeVisitedDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeVisitedDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeVisitedDetails.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str dialog_node:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A dialog node that was triggered during processing of the input message.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str title:</th><td class="field-body">(optional) The title of the dialog node.</td>
 </tr>
 </tbody>
 </table>
@@ -2001,7 +2012,7 @@ maintain state for the conversation.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.OutputData">
-<em class="property">class </em><code class="descname">OutputData</code><span class="sig-paren">(</span><em>log_messages</em>, <em>text</em>, <em>nodes_visited=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#OutputData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.OutputData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">OutputData</code><span class="sig-paren">(</span><em>log_messages</em>, <em>text</em>, <em>nodes_visited=None</em>, <em>nodes_visited_details=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#OutputData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.OutputData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An output object that includes the response to the user, the nodes that were hit, and
 messages from the log.</p>
@@ -2017,6 +2028,9 @@ messages from the log.</p>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] nodes_visited:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of the nodes that were triggered to create the response.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[DialogNodeVisitedDetails] nodes_visited_details:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.</td>
 </tr>
 </tbody>
 </table>
@@ -2354,7 +2368,7 @@ messages from the log.</p>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="watson_developer_cloud.authorization_v1.html" title="previous chapter">watson_developer_cloud.authorization_v1 module</a></li>
-      <li>Next: <a href="watson_developer_cloud.dialog_v1.html" title="next chapter">watson_developer_cloud.dialog_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.discovery_v1.html" title="next chapter">watson_developer_cloud.discovery_v1 module</a></li>
   </ul></li>
 </ul>
 </div>
