@@ -62,7 +62,7 @@ class RecognizeListener(object):
             return options
 
         def build_close_message(self):
-            return json.dumps({'action': 'close'})
+            return json.dumps({'action': 'close'}).encode('utf8')
 
         # helper method that sends a chunk of audio if needed (as required what the specified pacing is)
         def send_audio(self, data):
