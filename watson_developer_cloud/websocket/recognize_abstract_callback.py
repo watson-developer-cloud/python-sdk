@@ -14,46 +14,49 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-class RecognizeCallback:
 
-  def on_transcription(self, transcript):
-    """
+class RecognizeCallback(object):
+    def __init__(self):
+        pass
+
+    def on_transcription(self, transcript):
+        """
     Called when an interim result is received
     """
-    pass
+        pass
 
-  def on_connected(self):
-    """
+    def on_connected(self):
+        """
     Called when a WebSocket connection was made
     """
-    pass
+        pass
 
-  def on_error(self, error):
-    """
+    def on_error(self, error):
+        """
     Called when there is an error in the Web Socket connection.
     """
-    pass
+        pass
 
-  def on_inactivity_timeout(self):
-    """
+    def on_inactivity_timeout(self, error):
+        """
     Called when there is an inactivity timeout.
     """
-    pass
+        pass
 
-  def on_listening(self):
-    """
+    def on_listening(self):
+        """
     Called when the service is listening for audio.
     """
-    pass
+        pass
 
-  def on_transcription_complete(self):
-    """
+    def on_transcription_complete(self):
+        """
     Called after the service returns the final result for the transcription.
     """
-    pass
+        pass
 
-  def on_hypothesis(self, hypothesis):
-    """
+    def on_hypothesis(self, hypothesis):
+        """
     Called when the service returns the final hypothesis
     """
-    pass
+        pass

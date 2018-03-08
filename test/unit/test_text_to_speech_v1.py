@@ -220,7 +220,7 @@ def test_custom_words():
 
     text_to_speech.list_words(customization_id="custid")
     text_to_speech.add_words(
-        customization_id="custid", words=["one", "two", "three"])
+        customization_id="custid", words=[{"word": "one", "translation": "one"}, {"word": "two", "translation": "two"}])
     text_to_speech.get_word(customization_id="custid", word="word")
     text_to_speech.add_word(
         customization_id='custid', word="word", translation="I'm translated")

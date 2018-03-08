@@ -1,3 +1,4 @@
+# coding: utf-8
 import responses
 import watson_developer_cloud
 from watson_developer_cloud import WatsonException
@@ -22,7 +23,7 @@ def test_tone():
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as tone_text:
         tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
                                                               username="username", password="password")
-        tone_analyzer.tone(tone_text.read())
+        tone_analyzer.tone(tone_text.read(), 'application/json')
 
     assert responses.calls[0].request.url == tone_url + tone_args
     assert responses.calls[0].response.text == tone_response
@@ -46,7 +47,7 @@ def test_tone_with_args():
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as tone_text:
         tone_analyzer = watson_developer_cloud.ToneAnalyzerV3("2016-05-19",
                                                               username="username", password="password")
-        tone_analyzer.tone(tone_text.read(), sentences=False)
+        tone_analyzer.tone(tone_text.read(), 'application/json', sentences=False)
 
     assert responses.calls[0].request.url.split('?')[0] == tone_url
     # Compare args. Order is not deterministic!
@@ -134,7 +135,7 @@ def test_error():
                                                           username="username", password="password")
     text = "Team, I know that times are tough!"
     try:
-        tone_analyzer.tone(text)
+        tone_analyzer.tone(text, 'application/json')
     except WatsonException as ex:
         assert len(responses.calls) == 1
         assert isinstance(ex, WatsonApiException)

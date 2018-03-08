@@ -1,3 +1,4 @@
+# coding: utf-8
 import responses
 import os
 import json
@@ -250,7 +251,7 @@ def test_query_relations():
     discovery = watson_developer_cloud.DiscoveryV1(
         '2016-11-07', username='username', password='password')
 
-    discovery.query_relations('envid', 'collid', {'count': 10})
+    discovery.query_relations('envid', 'collid', count=10)
     called_url = urlparse(responses.calls[0].request.url)
     test_url = urlparse(discovery_url)
     assert called_url.netloc == test_url.netloc
@@ -786,16 +787,15 @@ def test_expansions():
         status=200,
         content_type='application_json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07',
-        username="username", password="password")
+    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
 
     discovery.list_expansions('envid', 'colid')
     assert responses.calls[0].response.json() == {"expansions": "results"}
 
-    discovery.create_expansions('envid', 'colid', { "expansions": [{"input_terms": "dumb"}] })
-    assert responses.calls[1].response.json() == {"expansions": "success" }
+    discovery.create_expansions('envid', 'colid', [{"input_terms": "dumb", "expanded_terms": "dumb2"}])
+    assert responses.calls[1].response.json() == {"expansions": "success"}
 
     discovery.delete_expansions('envid', 'colid')
-    assert responses.calls[2].response.json() == {"description": "success" }
+    assert responses.calls[2].response.json() == {"description": "success"}
 
     assert len(responses.calls) == 3

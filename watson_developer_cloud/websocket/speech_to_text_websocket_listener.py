@@ -14,8 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-import os
 import json
 
 # WebSockets
@@ -27,7 +25,8 @@ TIMEOUT_PREFIX = "No speech detected for"
 CLOSE_SIGNAL = 1000
 TEN_MILLISECONDS = 0.01
 
-class RecognizeListener:
+
+class RecognizeListener(object):
     def __init__(self, audio, options, recognize_callback, url, headers):
         self.audio = audio
         self.options = options
@@ -35,8 +34,8 @@ class RecognizeListener:
         self.url = url
         self.headers = headers
 
-        factory = self.WebSocketClientFactory(self.audio, self.options,
-                                          self.callback, self.url, self.headers)
+        factory = self.WebSocketClientFactory(
+            self.audio, self.options, self.callback, self.url, self.headers)
         factory.protocol = self.WebSocketClient
 
         if factory.isSecure:
@@ -45,7 +44,7 @@ class RecognizeListener:
             contextFactory = None
         connectWS(factory, contextFactory)
 
-        reactor.run()
+        reactor.run() # pylint: disable=E1101
 
     class WebSocketClient(WebSocketClientProtocol):
         def __init__(self, factory, audio, options, callback):
@@ -56,7 +55,7 @@ class RecognizeListener:
             self.isListening = False
             self.bytes_sent = 0
 
-            super(self.__class__, self).__init__()
+            super(self.__class__, self).__init__() # pylint: disable=E1003
 
         def build_start_message(self, options):
             options['action'] = 'start'
@@ -73,13 +72,14 @@ class RecognizeListener:
                 if final:
                     self.sendMessage(b'', isBinary=True)
 
-            if (self.bytes_sent + ONE_KB >= len(data)):
-                if (len(data) > self.bytes_sent):
+            if self.bytes_sent + ONE_KB >= len(data):
+                if len(data) > self.bytes_sent:
                     send_chunk(data[self.bytes_sent:len(data)], True)
                     return
 
             send_chunk(data[self.bytes_sent:self.bytes_sent + ONE_KB])
-            self.factory.reactor.callLater(TEN_MILLISECONDS, self.send_audio, data=data)
+            self.factory.reactor.callLater(
+                TEN_MILLISECONDS, self.send_audio, data=data)
 
         def extract_transcripts(self, alternatives):
             transcripts = []
@@ -129,10 +129,10 @@ class RecognizeListener:
             elif 'results' in json_object or 'speaker_labels' in json_object:
                 hypothesis = ''
                 # empty hypothesis
-                if len(json_object['results']) != 0:
+                if json_object['results']:
                     hypothesis = json_object['results'][0]['alternatives'][0][
                         'transcript']
-                    b_final = (json_object['results'][0]['final'] == True)
+                    b_final = (json_object['results'][0]['final'] is True)
                     transcripts = self.extract_transcripts(
                         json_object['results'][0]['alternatives'])
 
@@ -155,7 +155,7 @@ class RecognizeListener:
             self.closeHandshakeTimeout = self.SIX_SECONDS
 
         def endReactor(self):
-            reactor.stop()
+            reactor.stop() # pylint: disable=E1101
 
         # this function gets called every time connectWS is called (once per WebSocket connection/session)
         def buildProtocol(self, addr):

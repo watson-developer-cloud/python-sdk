@@ -1,7 +1,6 @@
 # coding=utf-8
 import os
 import json
-import pytest
 import responses
 import watson_developer_cloud
 from watson_developer_cloud.speech_to_text_v1 import CustomWord
@@ -39,9 +38,7 @@ def test_success():
         status=200,
         content_type='application/json')
 
-    with open(
-            os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'),
-            'rb') as audio_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
         speech_to_text.recognize(
             audio=audio_file, content_type='audio/l16; rate=44100')
 
@@ -116,10 +113,8 @@ def test_recognitions():
     speech_to_text.check_job('jobid')
     assert responses.calls[1].response.json() == {'status': 'waiting'}
 
-    with open(
-            os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'),
-            'rb') as audio_file:
-        speech_to_text.create_job(audio=audio_file)
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
+        speech_to_text.create_job(audio=audio_file, content_type='audio/basic')
     assert responses.calls[2].response.json() == {'status': 'waiting'}
 
     speech_to_text.delete_job('jobid')
@@ -482,9 +477,7 @@ def test_custom_audio_resources():
     speech_to_text = watson_developer_cloud.SpeechToTextV1(
         username="username", password="password")
 
-    with open(
-            os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'),
-            'rb') as audio_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
         speech_to_text.add_audio(
             customization_id='custid',
             audio_name="hiee",

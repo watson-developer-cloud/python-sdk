@@ -1,8 +1,7 @@
+# coding: utf-8
 from unittest import TestCase
-import pytest
 import os
 import watson_developer_cloud
-from watson_developer_cloud.speech_to_text_v1 import SpeechRecognitionResults
 
 
 class TestSpeechToTextV1(TestCase):
@@ -10,7 +9,12 @@ class TestSpeechToTextV1(TestCase):
         self.speech_to_text = watson_developer_cloud.SpeechToTextV1(
             username=os.getenv('SPEECH_TO_TEXT_USERNAME'),
             password=os.getenv('SPEECH_TO_TEXT_PASSWORD'))
-        self.speech_to_text.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
+        self.speech_to_text.set_default_headers({
+            'X-Watson-Learning-Opt-Out':
+            '1',
+            'X-Watson-Test':
+            '1'
+        })
         self.custom_models = self.speech_to_text.list_language_models()
         self.create_custom_model = self.speech_to_text.create_language_model(
             name="integration_test_model",
@@ -37,10 +41,7 @@ class TestSpeechToTextV1(TestCase):
             self.custom_models['customizations']) >= 1
 
     def test_recognize(self):
-        with open(
-                os.path.join(
-                    os.path.dirname(__file__), '../../resources/speech.wav'),
-                'rb') as audio_file:
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
             output = self.speech_to_text.recognize(
                 audio=audio_file, content_type='audio/l16; rate=44100')
         assert output['results'][0]['alternatives'][0][
@@ -52,7 +53,7 @@ class TestSpeechToTextV1(TestCase):
 
     def test_custom_corpora(self):
         output = self.speech_to_text.list_corpora(self.customization_id)
-        assert len(output['corpora']) == 0
+        assert len(output['corpora']) == 0 # pylint: disable=len-as-condition
 
     def test_acoustic_model(self):
         list_models = self.speech_to_text.list_acoustic_models()
@@ -70,4 +71,5 @@ class TestSpeechToTextV1(TestCase):
         self.speech_to_text.reset_acoustic_model(
             get_acoustic_model['customization_id'])
 
-        self.speech_to_text.delete_acoustic_model(get_acoustic_model['customization_id'])
+        self.speech_to_text.delete_acoustic_model(
+            get_acoustic_model['customization_id'])

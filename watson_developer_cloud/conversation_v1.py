@@ -484,9 +484,7 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if new_examples is not None:
-              new_examples = [
-                self._convert_model(x, CreateExample) for x in new_examples
-            ]
+            new_examples = [self._convert_model(x, CreateExample) for x in new_examples]
         params = {'version': self.version}
         data = {
             'intent': new_intent,

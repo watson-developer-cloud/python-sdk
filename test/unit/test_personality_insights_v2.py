@@ -1,3 +1,4 @@
+# coding: utf-8
 import responses
 import watson_developer_cloud
 import os
