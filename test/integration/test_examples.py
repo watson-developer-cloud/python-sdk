@@ -10,24 +10,10 @@ from os.path import join, dirname
 from glob import glob
 
 # tests to exclude
-excludes = ['authorization_v1.py', 'alchemy_data_news_v1.py',
-            'alchemy_language_v1.py', 'discovery_v1.ipynb', '__init__.py']
+excludes = ['authorization_v1.py', 'discovery_v1.ipynb', '__init__.py', 'microphone-speech-to-text.py']
 
 # examples path. /examples
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')
-
-# environment variables
-try:
-    from dotenv import load_dotenv  # pylint: disable=C0413
-except:
-    print ('warning: dotenv module could not be imported')
-
-try:
-    dotenv_path = join(dirname(__file__), '../', '.env')
-    load_dotenv(dotenv_path)
-except:
-    print ('warning: no .env file loaded')
-
 
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
                     reason='requires VCAP_SERVICES')

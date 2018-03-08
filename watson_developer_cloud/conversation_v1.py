@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,11 +34,6 @@ class ConversationV1(WatsonService):
     """The Conversation V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/conversation/api'
-    VERSION_DATE_2017_05_26 = '2017-05-26'
-    VERSION_DATE_2017_04_21 = '2017-04-21'
-    VERSION_DATE_2017_02_03 = '2017-02-03'
-    VERSION_DATE_2016_09_20 = '2016-09-20'
-    VERSION_DATE_2016_07_11 = '2016-07-11'
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """
@@ -115,13 +110,18 @@ class ConversationV1(WatsonService):
         :rtype: dict
         """
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [self._convert_model(x, CreateIntent) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
+            entities = [self._convert_model(x, CreateEntity) for x in entities]
         if dialog_nodes is not None:
-            dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
+            dialog_nodes = [
+                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
+            ]
         if counterexamples is not None:
-            counterexamples = [self._convert_model(x) for x in counterexamples]
+            counterexamples = [
+                self._convert_model(x, CreateCounterexample)
+                for x in counterexamples
+            ]
         params = {'version': self.version}
         data = {
             'name': name,
@@ -155,7 +155,7 @@ class ConversationV1(WatsonService):
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_workspace(self, workspace_id, export=None):
+    def get_workspace(self, workspace_id, export=None, include_audit=None):
         """
         Get information about a workspace.
 
@@ -163,12 +163,17 @@ class ConversationV1(WatsonService):
 
         :param str workspace_id: The workspace ID.
         :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `WorkspaceExport` response.
         :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
-        params = {'version': self.version, 'export': export}
+        params = {
+            'version': self.version,
+            'export': export,
+            'include_audit': include_audit
+        }
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
@@ -178,7 +183,8 @@ class ConversationV1(WatsonService):
                         page_limit=None,
                         include_count=None,
                         sort=None,
-                        cursor=None):
+                        cursor=None,
+                        include_audit=None):
         """
         List workspaces.
 
@@ -188,6 +194,7 @@ class ConversationV1(WatsonService):
         :param bool include_count: Whether to include information about the number of records returned.
         :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
         :param str cursor: A token identifying the last value from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `WorkspaceCollection` response.
         :rtype: dict
         """
@@ -196,7 +203,8 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
-            'cursor': cursor
+            'cursor': cursor,
+            'include_audit': include_audit
         }
         url = '/v1/workspaces'
         response = self.request(
@@ -213,7 +221,8 @@ class ConversationV1(WatsonService):
                          dialog_nodes=None,
                          counterexamples=None,
                          metadata=None,
-                         learning_opt_out=None):
+                         learning_opt_out=None,
+                         append=None):
         """
         Update workspace.
 
@@ -230,20 +239,26 @@ class ConversationV1(WatsonService):
         :param list[CreateCounterexample] counterexamples: An array of objects defining input examples that have been marked as irrelevant input.
         :param object metadata: Any metadata related to the workspace.
         :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param bool append: Specifies that the elements included in the request body are to be appended to the existing data in the workspace. The default value is `false`.
         :return: A `dict` containing the `Workspace` response.
         :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [self._convert_model(x, CreateIntent) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
+            entities = [self._convert_model(x, CreateEntity) for x in entities]
         if dialog_nodes is not None:
-            dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
+            dialog_nodes = [
+                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
+            ]
         if counterexamples is not None:
-            counterexamples = [self._convert_model(x) for x in counterexamples]
-        params = {'version': self.version}
+            counterexamples = [
+                self._convert_model(x, CreateCounterexample)
+                for x in counterexamples
+            ]
+        params = {'version': self.version, 'append': append}
         data = {
             'name': name,
             'description': description,
@@ -271,7 +286,8 @@ class ConversationV1(WatsonService):
                 context=None,
                 entities=None,
                 intents=None,
-                output=None):
+                output=None,
+                nodes_visited_details=None):
         """
         Get a response to a user's input.
 
@@ -282,22 +298,26 @@ class ConversationV1(WatsonService):
         :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
         :param list[RuntimeIntent] intents: An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
         :param OutputData output: System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
+        :param bool nodes_visited_details: Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.
         :return: A `dict` containing the `MessageResponse` response.
         :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if input is not None:
-            input = self._convert_model(input)
+            input = self._convert_model(input, InputData)
         if context is not None:
-            context = self._convert_model(context)
+            context = self._convert_model(context, Context)
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
+            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [self._convert_model(x, RuntimeIntent) for x in intents]
         if output is not None:
-            output = self._convert_model(output)
-        params = {'version': self.version}
+            output = self._convert_model(output, OutputData)
+        params = {
+            'version': self.version,
+            'nodes_visited_details': nodes_visited_details
+        }
         data = {
             'input': input,
             'alternate_intents': alternate_intents,
@@ -338,7 +358,7 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [self._convert_model(x) for x in examples]
+            examples = [self._convert_model(x, CreateExample) for x in examples]
         params = {'version': self.version}
         data = {
             'intent': intent,
@@ -371,7 +391,7 @@ class ConversationV1(WatsonService):
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_intent(self, workspace_id, intent, export=None):
+    def get_intent(self, workspace_id, intent, export=None, include_audit=None):
         """
         Get intent.
 
@@ -380,6 +400,7 @@ class ConversationV1(WatsonService):
         :param str workspace_id: The workspace ID.
         :param str intent: The intent name (for example, `pizza_order`).
         :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `IntentExport` response.
         :rtype: dict
         """
@@ -387,9 +408,13 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
-        params = {'version': self.version, 'export': export}
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        params = {
+            'version': self.version,
+            'export': export,
+            'include_audit': include_audit
+        }
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
         return response
@@ -400,7 +425,8 @@ class ConversationV1(WatsonService):
                      page_limit=None,
                      include_count=None,
                      sort=None,
-                     cursor=None):
+                     cursor=None,
+                     include_audit=None):
         """
         List intents.
 
@@ -412,6 +438,7 @@ class ConversationV1(WatsonService):
         :param bool include_count: Whether to include information about the number of records returned.
         :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
         :param str cursor: A token identifying the last value from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `IntentCollection` response.
         :rtype: dict
         """
@@ -423,7 +450,8 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
-            'cursor': cursor
+            'cursor': cursor,
+            'include_audit': include_audit
         }
         url = '/v1/workspaces/{0}/intents'.format(
             *self._encode_path_vars(workspace_id))
@@ -456,7 +484,7 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if new_examples is not None:
-            new_examples = [self._convert_model(x) for x in new_examples]
+            new_examples = [self._convert_model(x, CreateExample) for x in new_examples]
         params = {'version': self.version}
         data = {
             'intent': new_intent,
@@ -522,7 +550,7 @@ class ConversationV1(WatsonService):
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_example(self, workspace_id, intent, text):
+    def get_example(self, workspace_id, intent, text, include_audit=None):
         """
         Get user input example.
 
@@ -531,6 +559,7 @@ class ConversationV1(WatsonService):
         :param str workspace_id: The workspace ID.
         :param str intent: The intent name (for example, `pizza_order`).
         :param str text: The text of the user input example.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `Example` response.
         :rtype: dict
         """
@@ -540,7 +569,7 @@ class ConversationV1(WatsonService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
@@ -553,7 +582,8 @@ class ConversationV1(WatsonService):
                       page_limit=None,
                       include_count=None,
                       sort=None,
-                      cursor=None):
+                      cursor=None,
+                      include_audit=None):
         """
         List user input examples.
 
@@ -565,6 +595,7 @@ class ConversationV1(WatsonService):
         :param bool include_count: Whether to include information about the number of records returned.
         :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
         :param str cursor: A token identifying the last value from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `ExampleCollection` response.
         :rtype: dict
         """
@@ -577,7 +608,8 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
-            'cursor': cursor
+            'cursor': cursor,
+            'include_audit': include_audit
         }
         url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
             *self._encode_path_vars(workspace_id, intent))
@@ -642,7 +674,7 @@ class ConversationV1(WatsonService):
         if entity is None:
             raise ValueError('entity must be provided')
         if values is not None:
-            values = [self._convert_model(x) for x in values]
+            values = [self._convert_model(x, CreateValue) for x in values]
         params = {'version': self.version}
         data = {
             'entity': entity,
@@ -677,7 +709,7 @@ class ConversationV1(WatsonService):
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_entity(self, workspace_id, entity, export=None):
+    def get_entity(self, workspace_id, entity, export=None, include_audit=None):
         """
         Get entity.
 
@@ -686,6 +718,7 @@ class ConversationV1(WatsonService):
         :param str workspace_id: The workspace ID.
         :param str entity: The name of the entity.
         :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `EntityExport` response.
         :rtype: dict
         """
@@ -693,9 +726,13 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
-        params = {'version': self.version, 'export': export}
-        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
-            workspace_id, entity))
+        params = {
+            'version': self.version,
+            'export': export,
+            'include_audit': include_audit
+        }
+        url = '/v1/workspaces/{0}/entities/{1}'.format(
+            *self._encode_path_vars(workspace_id, entity))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
         return response
@@ -706,7 +743,8 @@ class ConversationV1(WatsonService):
                       page_limit=None,
                       include_count=None,
                       sort=None,
-                      cursor=None):
+                      cursor=None,
+                      include_audit=None):
         """
         List entities.
 
@@ -718,6 +756,7 @@ class ConversationV1(WatsonService):
         :param bool include_count: Whether to include information about the number of records returned.
         :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
         :param str cursor: A token identifying the last value from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `EntityCollection` response.
         :rtype: dict
         """
@@ -729,7 +768,8 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
-            'cursor': cursor
+            'cursor': cursor,
+            'include_audit': include_audit
         }
         url = '/v1/workspaces/{0}/entities'.format(
             *self._encode_path_vars(workspace_id))
@@ -765,7 +805,7 @@ class ConversationV1(WatsonService):
         if entity is None:
             raise ValueError('entity must be provided')
         if new_values is not None:
-            new_values = [self._convert_model(x) for x in new_values]
+            new_values = [self._convert_model(x, CreateValue) for x in new_values]
         params = {'version': self.version}
         data = {
             'entity': new_entity,
@@ -850,7 +890,12 @@ class ConversationV1(WatsonService):
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_value(self, workspace_id, entity, value, export=None):
+    def get_value(self,
+                  workspace_id,
+                  entity,
+                  value,
+                  export=None,
+                  include_audit=None):
         """
         Get entity value.
 
@@ -860,6 +905,7 @@ class ConversationV1(WatsonService):
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `ValueExport` response.
         :rtype: dict
         """
@@ -869,7 +915,11 @@ class ConversationV1(WatsonService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
-        params = {'version': self.version, 'export': export}
+        params = {
+            'version': self.version,
+            'export': export,
+            'include_audit': include_audit
+        }
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
@@ -883,7 +933,8 @@ class ConversationV1(WatsonService):
                     page_limit=None,
                     include_count=None,
                     sort=None,
-                    cursor=None):
+                    cursor=None,
+                    include_audit=None):
         """
         List entity values.
 
@@ -896,6 +947,7 @@ class ConversationV1(WatsonService):
         :param bool include_count: Whether to include information about the number of records returned.
         :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
         :param str cursor: A token identifying the last value from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `ValueCollection` response.
         :rtype: dict
         """
@@ -909,7 +961,8 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
-            'cursor': cursor
+            'cursor': cursor,
+            'include_audit': include_audit
         }
         url = '/v1/workspaces/{0}/entities/{1}/values'.format(
             *self._encode_path_vars(workspace_id, entity))
@@ -1021,7 +1074,12 @@ class ConversationV1(WatsonService):
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_synonym(self, workspace_id, entity, value, synonym):
+    def get_synonym(self,
+                    workspace_id,
+                    entity,
+                    value,
+                    synonym,
+                    include_audit=None):
         """
         Get entity value synonym.
 
@@ -1031,6 +1089,7 @@ class ConversationV1(WatsonService):
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `Synonym` response.
         :rtype: dict
         """
@@ -1042,7 +1101,7 @@ class ConversationV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
         response = self.request(
@@ -1056,7 +1115,8 @@ class ConversationV1(WatsonService):
                       page_limit=None,
                       include_count=None,
                       sort=None,
-                      cursor=None):
+                      cursor=None,
+                      include_audit=None):
         """
         List entity value synonyms.
 
@@ -1069,6 +1129,7 @@ class ConversationV1(WatsonService):
         :param bool include_count: Whether to include information about the number of records returned.
         :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
         :param str cursor: A token identifying the last value from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `SynonymCollection` response.
         :rtype: dict
         """
@@ -1083,7 +1144,8 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
-            'cursor': cursor
+            'cursor': cursor,
+            'include_audit': include_audit
         }
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
             *self._encode_path_vars(workspace_id, entity, value))
@@ -1174,9 +1236,11 @@ class ConversationV1(WatsonService):
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
         if next_step is not None:
-            next_step = self._convert_model(next_step)
+            next_step = self._convert_model(next_step, DialogNodeNextStep)
         if actions is not None:
-            actions = [self._convert_model(x) for x in actions]
+            actions = [
+                self._convert_model(x, DialogNodeAction) for x in actions
+            ]
         params = {'version': self.version}
         data = {
             'dialog_node': dialog_node,
@@ -1220,7 +1284,7 @@ class ConversationV1(WatsonService):
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_dialog_node(self, workspace_id, dialog_node):
+    def get_dialog_node(self, workspace_id, dialog_node, include_audit=None):
         """
         Get dialog node.
 
@@ -1228,6 +1292,7 @@ class ConversationV1(WatsonService):
 
         :param str workspace_id: The workspace ID.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `DialogNode` response.
         :rtype: dict
         """
@@ -1235,7 +1300,7 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
         response = self.request(
@@ -1247,7 +1312,8 @@ class ConversationV1(WatsonService):
                           page_limit=None,
                           include_count=None,
                           sort=None,
-                          cursor=None):
+                          cursor=None,
+                          include_audit=None):
         """
         List dialog nodes.
 
@@ -1258,6 +1324,7 @@ class ConversationV1(WatsonService):
         :param bool include_count: Whether to include information about the number of records returned.
         :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
         :param str cursor: A token identifying the last value from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `DialogNodeCollection` response.
         :rtype: dict
         """
@@ -1268,7 +1335,8 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
-            'cursor': cursor
+            'cursor': cursor,
+            'include_audit': include_audit
         }
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
             *self._encode_path_vars(workspace_id))
@@ -1279,7 +1347,7 @@ class ConversationV1(WatsonService):
     def update_dialog_node(self,
                            workspace_id,
                            dialog_node,
-                           new_dialog_node,
+                           new_dialog_node=None,
                            new_description=None,
                            new_conditions=None,
                            new_parent=None,
@@ -1310,7 +1378,7 @@ class ConversationV1(WatsonService):
         :param object new_metadata: The metadata for the dialog node.
         :param DialogNodeNextStep new_next_step: The next step to execute following this dialog node.
         :param str new_title: The alias used to identify the dialog node.
-        :param str new_type: How the node is processed.
+        :param str new_type: How the dialog node is processed.
         :param str new_event_name: How an `event_handler` node is processed.
         :param str new_variable: The location in the dialog context where output is stored.
         :param list[DialogNodeAction] new_actions: The actions for the dialog node.
@@ -1321,12 +1389,13 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
-        if new_dialog_node is None:
-            raise ValueError('new_dialog_node must be provided')
         if new_next_step is not None:
-            new_next_step = self._convert_model(new_next_step)
+            new_next_step = self._convert_model(new_next_step,
+                                                DialogNodeNextStep)
         if new_actions is not None:
-            new_actions = [self._convert_model(x) for x in new_actions]
+            new_actions = [
+                self._convert_model(x, DialogNodeAction) for x in new_actions
+            ]
         params = {'version': self.version}
         data = {
             'dialog_node': new_dialog_node,
@@ -1464,7 +1533,7 @@ class ConversationV1(WatsonService):
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_counterexample(self, workspace_id, text):
+    def get_counterexample(self, workspace_id, text, include_audit=None):
         """
         Get counterexample.
 
@@ -1473,6 +1542,7 @@ class ConversationV1(WatsonService):
 
         :param str workspace_id: The workspace ID.
         :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `Counterexample` response.
         :rtype: dict
         """
@@ -1480,7 +1550,7 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
         response = self.request(
@@ -1492,7 +1562,8 @@ class ConversationV1(WatsonService):
                              page_limit=None,
                              include_count=None,
                              sort=None,
-                             cursor=None):
+                             cursor=None,
+                             include_audit=None):
         """
         List counterexamples.
 
@@ -1504,6 +1575,7 @@ class ConversationV1(WatsonService):
         :param bool include_count: Whether to include information about the number of records returned.
         :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
         :param str cursor: A token identifying the last value from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `CounterexampleCollection` response.
         :rtype: dict
         """
@@ -1514,7 +1586,8 @@ class ConversationV1(WatsonService):
             'page_limit': page_limit,
             'include_count': include_count,
             'sort': sort,
-            'cursor': cursor
+            'cursor': cursor,
+            'include_audit': include_audit
         }
         url = '/v1/workspaces/{0}/counterexamples'.format(
             *self._encode_path_vars(workspace_id))
@@ -1551,6 +1624,7 @@ class ConversationV1(WatsonService):
 ##############################################################################
 # Models
 ##############################################################################
+
 
 class CaptureGroup(object):
     """
@@ -1973,6 +2047,8 @@ class CreateDialogNode(object):
             ]
         if 'title' in _dict:
             args['title'] = _dict['title']
+        if 'node_type' in _dict:
+            args['node_type'] = _dict['node_type']
         if 'type' in _dict:
             args['node_type'] = _dict['type']
         if 'event_name' in _dict:
@@ -2272,6 +2348,8 @@ class CreateValue(object):
             args['synonyms'] = _dict['synonyms']
         if 'patterns' in _dict:
             args['patterns'] = _dict['patterns']
+        if 'value_type' in _dict:
+            args['value_type'] = _dict['value_type']
         if 'type' in _dict:
             args['value_type'] = _dict['type']
         return cls(**args)
@@ -2311,18 +2389,18 @@ class DialogNode(object):
     DialogNode.
 
     :attr str dialog_node_id: The dialog node ID.
-    :attr str description: The description of the dialog node.
-    :attr str conditions: The condition that triggers the dialog node.
-    :attr str parent: The ID of the parent dialog node.
-    :attr str previous_sibling: The ID of the previous sibling dialog node.
-    :attr object output: The output of the dialog node.
-    :attr object context: The context (if defined) for the dialog node.
-    :attr object metadata: The metadata (if any) for the dialog node.
-    :attr DialogNodeNextStep next_step: The next step to execute following this dialog node.
+    :attr str description: (optional) The description of the dialog node.
+    :attr str conditions: (optional) The condition that triggers the dialog node.
+    :attr str parent: (optional) The ID of the parent dialog node.
+    :attr str previous_sibling: (optional) The ID of the previous sibling dialog node.
+    :attr object output: (optional) The output of the dialog node.
+    :attr object context: (optional) The context (if defined) for the dialog node.
+    :attr object metadata: (optional) The metadata (if any) for the dialog node.
+    :attr DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
     :attr datetime created: The timestamp for creation of the dialog node.
-    :attr datetime updated: (optional) The timestamp for the most recent update to the dialog node.
+    :attr datetime updated: The timestamp for the most recent update to the dialog node.
     :attr list[DialogNodeAction] actions: (optional) The actions for the dialog node.
-    :attr str title: The alias used to identify the dialog node.
+    :attr str title: (optional) The alias used to identify the dialog node.
     :attr str node_type: (optional) How the dialog node is processed.
     :attr str event_name: (optional) How an `event_handler` node is processed.
     :attr str variable: (optional) The location in the dialog context where output is stored.
@@ -2330,18 +2408,18 @@ class DialogNode(object):
 
     def __init__(self,
                  dialog_node_id,
-                 description,
-                 conditions,
-                 parent,
-                 previous_sibling,
-                 output,
-                 context,
-                 metadata,
-                 next_step,
                  created,
-                 title,
-                 updated=None,
+                 updated,
+                 description=None,
+                 conditions=None,
+                 parent=None,
+                 previous_sibling=None,
+                 output=None,
+                 context=None,
+                 metadata=None,
+                 next_step=None,
                  actions=None,
+                 title=None,
                  node_type=None,
                  event_name=None,
                  variable=None):
@@ -2349,18 +2427,18 @@ class DialogNode(object):
         Initialize a DialogNode object.
 
         :param str dialog_node_id: The dialog node ID.
-        :param str description: The description of the dialog node.
-        :param str conditions: The condition that triggers the dialog node.
-        :param str parent: The ID of the parent dialog node.
-        :param str previous_sibling: The ID of the previous sibling dialog node.
-        :param object output: The output of the dialog node.
-        :param object context: The context (if defined) for the dialog node.
-        :param object metadata: The metadata (if any) for the dialog node.
-        :param DialogNodeNextStep next_step: The next step to execute following this dialog node.
         :param datetime created: The timestamp for creation of the dialog node.
-        :param str title: The alias used to identify the dialog node.
-        :param datetime updated: (optional) The timestamp for the most recent update to the dialog node.
+        :param datetime updated: The timestamp for the most recent update to the dialog node.
+        :param str description: (optional) The description of the dialog node.
+        :param str conditions: (optional) The condition that triggers the dialog node.
+        :param str parent: (optional) The ID of the parent dialog node.
+        :param str previous_sibling: (optional) The ID of the previous sibling dialog node.
+        :param object output: (optional) The output of the dialog node.
+        :param object context: (optional) The context (if defined) for the dialog node.
+        :param object metadata: (optional) The metadata (if any) for the dialog node.
+        :param DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
         :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
+        :param str title: (optional) The alias used to identify the dialog node.
         :param str node_type: (optional) How the dialog node is processed.
         :param str event_name: (optional) How an `event_handler` node is processed.
         :param str variable: (optional) The location in the dialog context where output is stored.
@@ -2386,6 +2464,8 @@ class DialogNode(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNode object from a json dictionary."""
         args = {}
+        if 'dialog_node_id' in _dict:
+            args['dialog_node_id'] = _dict['dialog_node_id']
         if 'dialog_node' in _dict:
             args['dialog_node_id'] = _dict['dialog_node']
         else:
@@ -2394,49 +2474,21 @@ class DialogNode(object):
             )
         if 'description' in _dict:
             args['description'] = _dict['description']
-        else:
-            raise ValueError(
-                'Required property \'description\' not present in DialogNode JSON'
-            )
         if 'conditions' in _dict:
             args['conditions'] = _dict['conditions']
-        else:
-            raise ValueError(
-                'Required property \'conditions\' not present in DialogNode JSON'
-            )
         if 'parent' in _dict:
             args['parent'] = _dict['parent']
-        else:
-            raise ValueError(
-                'Required property \'parent\' not present in DialogNode JSON')
         if 'previous_sibling' in _dict:
             args['previous_sibling'] = _dict['previous_sibling']
-        else:
-            raise ValueError(
-                'Required property \'previous_sibling\' not present in DialogNode JSON'
-            )
         if 'output' in _dict:
             args['output'] = _dict['output']
-        else:
-            raise ValueError(
-                'Required property \'output\' not present in DialogNode JSON')
         if 'context' in _dict:
             args['context'] = _dict['context']
-        else:
-            raise ValueError(
-                'Required property \'context\' not present in DialogNode JSON')
         if 'metadata' in _dict:
             args['metadata'] = _dict['metadata']
-        else:
-            raise ValueError(
-                'Required property \'metadata\' not present in DialogNode JSON')
         if 'next_step' in _dict:
             args['next_step'] = DialogNodeNextStep._from_dict(
                 _dict['next_step'])
-        else:
-            raise ValueError(
-                'Required property \'next_step\' not present in DialogNode JSON'
-            )
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
         else:
@@ -2444,15 +2496,17 @@ class DialogNode(object):
                 'Required property \'created\' not present in DialogNode JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
+        else:
+            raise ValueError(
+                'Required property \'updated\' not present in DialogNode JSON')
         if 'actions' in _dict:
             args['actions'] = [
                 DialogNodeAction._from_dict(x) for x in _dict['actions']
             ]
         if 'title' in _dict:
             args['title'] = _dict['title']
-        else:
-            raise ValueError(
-                'Required property \'title\' not present in DialogNode JSON')
+        if 'node_type' in _dict:
+            args['node_type'] = _dict['node_type']
         if 'type' in _dict:
             args['node_type'] = _dict['type']
         if 'event_name' in _dict:
@@ -2556,6 +2610,8 @@ class DialogNodeAction(object):
             raise ValueError(
                 'Required property \'name\' not present in DialogNodeAction JSON'
             )
+        if 'action_type' in _dict:
+            args['action_type'] = _dict['action_type']
         if 'type' in _dict:
             args['action_type'] = _dict['type']
         if 'parameters' in _dict:
@@ -2667,8 +2723,8 @@ class DialogNodeNextStep(object):
     """
     The next step to execute following this dialog node.
 
-    :attr str behavior: How the `next_step` reference is processed.
-    :attr str dialog_node: (optional) The ID of the dialog node to process next.
+    :attr str behavior: How the `next_step` reference is processed. If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
+    :attr str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if `behavior`=`jump_to`.
     :attr str selector: (optional) Which part of the dialog node to process next.
     """
 
@@ -2676,8 +2732,8 @@ class DialogNodeNextStep(object):
         """
         Initialize a DialogNodeNextStep object.
 
-        :param str behavior: How the `next_step` reference is processed.
-        :param str dialog_node: (optional) The ID of the dialog node to process next.
+        :param str behavior: How the `next_step` reference is processed. If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
+        :param str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if `behavior`=`jump_to`.
         :param str selector: (optional) Which part of the dialog node to process next.
         """
         self.behavior = behavior
@@ -2713,6 +2769,58 @@ class DialogNodeNextStep(object):
 
     def __str__(self):
         """Return a `str` version of this DialogNodeNextStep object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogNodeVisitedDetails(object):
+    """
+    DialogNodeVisitedDetails.
+
+    :attr str dialog_node: (optional) A dialog node that was triggered during processing of the input message.
+    :attr str title: (optional) The title of the dialog node.
+    """
+
+    def __init__(self, dialog_node=None, title=None):
+        """
+        Initialize a DialogNodeVisitedDetails object.
+
+        :param str dialog_node: (optional) A dialog node that was triggered during processing of the input message.
+        :param str title: (optional) The title of the dialog node.
+        """
+        self.dialog_node = dialog_node
+        self.title = title
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeVisitedDetails object from a json dictionary."""
+        args = {}
+        if 'dialog_node' in _dict:
+            args['dialog_node'] = _dict['dialog_node']
+        if 'title' in _dict:
+            args['title'] = _dict['title']
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
+            _dict['dialog_node'] = self.dialog_node
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogNodeVisitedDetails object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2766,6 +2874,8 @@ class Entity(object):
     def _from_dict(cls, _dict):
         """Initialize a Entity object from a json dictionary."""
         args = {}
+        if 'entity_name' in _dict:
+            args['entity_name'] = _dict['entity_name']
         if 'entity' in _dict:
             args['entity_name'] = _dict['entity']
         else:
@@ -2927,6 +3037,8 @@ class EntityExport(object):
     def _from_dict(cls, _dict):
         """Initialize a EntityExport object from a json dictionary."""
         args = {}
+        if 'entity_name' in _dict:
+            args['entity_name'] = _dict['entity_name']
         if 'entity' in _dict:
             args['entity_name'] = _dict['entity']
         else:
@@ -3015,6 +3127,8 @@ class Example(object):
     def _from_dict(cls, _dict):
         """Initialize a Example object from a json dictionary."""
         args = {}
+        if 'example_text' in _dict:
+            args['example_text'] = _dict['example_text']
         if 'text' in _dict:
             args['example_text'] = _dict['text']
         else:
@@ -3196,6 +3310,8 @@ class Intent(object):
     def _from_dict(cls, _dict):
         """Initialize a Intent object from a json dictionary."""
         args = {}
+        if 'intent_name' in _dict:
+            args['intent_name'] = _dict['intent_name']
         if 'intent' in _dict:
             args['intent_name'] = _dict['intent']
         else:
@@ -3341,6 +3457,8 @@ class IntentExport(object):
     def _from_dict(cls, _dict):
         """Initialize a IntentExport object from a json dictionary."""
         args = {}
+        if 'intent_name' in _dict:
+            args['intent_name'] = _dict['intent_name']
         if 'intent' in _dict:
             args['intent_name'] = _dict['intent']
         else:
@@ -3980,20 +4098,28 @@ class OutputData(object):
     :attr list[LogMessage] log_messages: Up to 50 messages logged with the request.
     :attr list[str] text: An array of responses to the user.
     :attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.
+    :attr list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
     """
 
-    def __init__(self, log_messages, text, nodes_visited=None, **kwargs):
+    def __init__(self,
+                 log_messages,
+                 text,
+                 nodes_visited=None,
+                 nodes_visited_details=None,
+                 **kwargs):
         """
         Initialize a OutputData object.
 
         :param list[LogMessage] log_messages: Up to 50 messages logged with the request.
         :param list[str] text: An array of responses to the user.
         :param list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.
+        :param list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
         :param **kwargs: (optional) Any additional properties.
         """
         self.log_messages = log_messages
         self.text = text
         self.nodes_visited = nodes_visited
+        self.nodes_visited_details = nodes_visited_details
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -4020,6 +4146,12 @@ class OutputData(object):
         if 'nodes_visited' in _dict:
             args['nodes_visited'] = _dict['nodes_visited']
             del xtra['nodes_visited']
+        if 'nodes_visited_details' in _dict:
+            args['nodes_visited_details'] = [
+                DialogNodeVisitedDetails._from_dict(x)
+                for x in _dict['nodes_visited_details']
+            ]
+            del xtra['nodes_visited_details']
         args.update(xtra)
         return cls(**args)
 
@@ -4032,6 +4164,11 @@ class OutputData(object):
             _dict['text'] = self.text
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
             _dict['nodes_visited'] = self.nodes_visited
+        if hasattr(self, 'nodes_visited_details'
+                  ) and self.nodes_visited_details is not None:
+            _dict['nodes_visited_details'] = [
+                x._to_dict() for x in self.nodes_visited_details
+            ]
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -4040,7 +4177,9 @@ class OutputData(object):
         return _dict
 
     def __setattr__(self, name, value):
-        properties = {'log_messages', 'text', 'nodes_visited'}
+        properties = {
+            'log_messages', 'text', 'nodes_visited', 'nodes_visited_details'
+        }
         if not hasattr(self, '_additionalProperties'):
             super(OutputData, self).__setattr__('_additionalProperties', set())
         if name not in properties:
@@ -4365,6 +4504,8 @@ class Synonym(object):
     def _from_dict(cls, _dict):
         """Initialize a Synonym object from a json dictionary."""
         args = {}
+        if 'synonym_text' in _dict:
+            args['synonym_text'] = _dict['synonym_text']
         if 'synonym' in _dict:
             args['synonym_text'] = _dict['synonym']
         else:
@@ -4571,6 +4712,8 @@ class Value(object):
     def _from_dict(cls, _dict):
         """Initialize a Value object from a json dictionary."""
         args = {}
+        if 'value_text' in _dict:
+            args['value_text'] = _dict['value_text']
         if 'value' in _dict:
             args['value_text'] = _dict['value']
         else:
@@ -4592,6 +4735,8 @@ class Value(object):
             args['synonyms'] = _dict['synonyms']
         if 'patterns' in _dict:
             args['patterns'] = _dict['patterns']
+        if 'value_type' in _dict:
+            args['value_type'] = _dict['value_type']
         if 'type' in _dict:
             args['value_type'] = _dict['type']
         else:
@@ -4739,6 +4884,8 @@ class ValueExport(object):
     def _from_dict(cls, _dict):
         """Initialize a ValueExport object from a json dictionary."""
         args = {}
+        if 'value_text' in _dict:
+            args['value_text'] = _dict['value_text']
         if 'value' in _dict:
             args['value_text'] = _dict['value']
         else:
@@ -4760,6 +4907,8 @@ class ValueExport(object):
             args['synonyms'] = _dict['synonyms']
         if 'patterns' in _dict:
             args['patterns'] = _dict['patterns']
+        if 'value_type' in _dict:
+            args['value_type'] = _dict['value_type']
         if 'type' in _dict:
             args['value_type'] = _dict['type']
         else:

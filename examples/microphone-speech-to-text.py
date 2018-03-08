@@ -1,6 +1,9 @@
+# You need to install pyaudio to run this example
+# pip install pyaudio
+
 from __future__ import print_function
-import json
-from os.path import join, dirname
+import pyaudio
+import tempfile
 from watson_developer_cloud import SpeechToTextV1
 from watson_developer_cloud.websocket import RecognizeCallback
 
@@ -9,20 +12,6 @@ speech_to_text = SpeechToTextV1(
     password='YOUR SERVICE PASSWORD',
     url='https://stream.watsonplatform.net/speech-to-text/api')
 
-print(json.dumps(speech_to_text.list_models(), indent=2))
-
-print(json.dumps(speech_to_text.get_model('en-US_BroadbandModel'), indent=2))
-
-with open(join(dirname(__file__), '../resources/speech.wav'),
-          'rb') as audio_file:
-    print(
-        json.dumps(
-            speech_to_text.recognize(
-                audio=audio_file,
-                content_type='audio/wav',
-                timestamps=True,
-                word_confidence=True),
-            indent=2))
 
 # Example using websockets
 class MyRecognizeCallback(RecognizeCallback):
@@ -50,8 +39,35 @@ class MyRecognizeCallback(RecognizeCallback):
     def on_hypothesis(self, hypothesis):
         print(hypothesis)
 
+
 mycallback = MyRecognizeCallback()
-with open(join(dirname(__file__), '../resources/speech.wav'),
-          'rb') as audio_file:
+tmp = tempfile.NamedTemporaryFile()
+
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 44100
+CHUNK = 1024
+RECORD_SECONDS = 5
+
+audio = pyaudio.PyAudio()
+stream = audio.open(
+    format=FORMAT,
+    channels=CHANNELS,
+    rate=RATE,
+    input=True,
+    frames_per_buffer=CHUNK)
+
+print('recording....')
+with open(tmp.name, 'w') as f:
+    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        data = stream.read(CHUNK)
+        f.write(data)
+
+stream.stop_stream()
+stream.close()
+audio.terminate()
+print('Done recording...')
+
+with open(tmp.name) as f:
     speech_to_text.recognize_with_websocket(
-        audio=audio_file, recognize_callback=mycallback)
+        audio=f, recognize_callback=mycallback)

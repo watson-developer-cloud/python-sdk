@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,41 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-### Service Overview
 The IBM Watson Tone Analyzer service uses linguistic analysis to detect emotional and
 language tones in written text. The service can analyze tone at both the document and
 sentence levels. You can use the service to understand how your written communications are
 perceived and then to improve the tone of your communications. Businesses can use the
 service to learn the tone of their customers' communications and to respond to each
 customer appropriately, or to understand and improve their customer conversations.
-### API Usage
-The following information provides details about using the service to analyze tone:
-* **The tone method:** The service offers `GET` and `POST /v3/tone` methods that use the
-general purpose endpoint to analyze the tone of input content. The methods accept content
-in JSON, plain text, or HTML format.
-* **The tone_chat method:** The service offers a `POST /v3/tone_chat` method that uses the
-customer engagement endpoint to analyze the tone of customer service and customer support
-conversations. The method accepts content in JSON format.
-* **Authentication:** You authenticate to the service by using your service credentials.
-You can use your credentials to authenticate via a proxy server that resides in Bluemix,
-or you can use your credentials to obtain a token and contact the service directly. See
-[Service credentials for Watson
-services](https://console.bluemix.net/docs/services/watson/getting-started-credentials.html)
-and [Tokens for
-authentication](https://console.bluemix.net/docs/services/watson/getting-started-tokens.html).
-* **Request Logging:** By default, all Watson services log requests and their results.
-Data is collected only to improve the Watson services. If you do not want to share your
-data, set the header parameter `X-Watson-Learning-Opt-Out` to `true` for each request.
-Data is collected for any request that omits this header. See [Controlling request logging
-for Watson
-services](https://console.bluemix.net/docs/services/watson/getting-started-logging.html).
-
-For more information about the service, see [About Tone
-Analyzer](https://console.bluemix.net/docs/services/tone-analyzer/index.html).
-
-**Note:** Method descriptions apply to the latest version of the interface, `2017-09-21`.
-Where necessary, parameters and models describe differences between versions `2017-09-21`
-and `2016-05-19`.
 """
 
 from __future__ import absolute_import
@@ -109,12 +80,12 @@ class ToneAnalyzerV3(WatsonService):
         self.version = version
 
     #########################
-    # tone
+    # Methods
     #########################
 
     def tone(self,
              tone_input,
-             content_type='application/json',
+             content_type,
              sentences=None,
              tones=None,
              content_language=None,
@@ -122,29 +93,12 @@ class ToneAnalyzerV3(WatsonService):
         """
         Analyze general purpose tone.
 
-        Uses the general purpose endpoint to analyze the tone of your input content. The
-        service analyzes the content for emotional and language tones. The method always
-        analyzes the tone of the full document; by default, it also analyzes the tone of
-        each individual sentence of the content.   You can submit no more than 128 KB of
-        total input content and no more than 1000 individual sentences in JSON, plain
-        text, or HTML format. The service analyzes the first 1000 sentences for
-        document-level analysis and only the first 100 sentences for sentence-level
-        analysis.   Use the `POST` request method to analyze larger amounts of content in
-        any of the available formats. Use the `GET` request method to analyze smaller
-        quantities of plain text content.   Per the JSON specification, the default
-        character encoding for JSON content is effectively always UTF-8; per the HTTP
-        specification, the default encoding for plain text and HTML is ISO-8859-1
-        (effectively, the ASCII character set). When specifying a content type of plain
-        text or HTML, include the `charset` parameter to indicate the character encoding
-        of the input text; for example: `Content-Type: text/plain;charset=utf-8`. For
-        `text/html`, the service removes HTML tags and analyzes only the textual content.
-
         :param ToneInput tone_input: JSON, plain text, or HTML input that contains the content to be analyzed. For JSON input, provide an object of type `ToneInput`.
         :param str content_type: The type of the input: application/json, text/plain, or text/html. A character encoding can be specified by including a `charset` parameter. For example, 'text/plain;charset=utf-8'.
         :param bool sentences: Indicates whether the service is to return an analysis of each individual sentence in addition to its analysis of the full document. If `true` (the default), the service returns results for each sentence.
         :param list[str] tones: **`2017-09-21`:** Deprecated. The service continues to accept the parameter for backward-compatibility, but the parameter no longer affects the response.   **`2016-05-19`:** A comma-separated list of tones for which the service is to return its analysis of the input; the indicated tones apply both to the full document and to individual sentences of the document. You can specify one or more of the valid values. Omit the parameter to request results for all three tones.
-        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `content_language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
-        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for `Content-Language` and `accept_language`.
+        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `Content-Language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
+        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for `Content-Language` and `Accept-Language`.
         :return: A `dict` containing the `ToneAnalysis` response.
         :rtype: dict
         """
@@ -153,14 +107,14 @@ class ToneAnalyzerV3(WatsonService):
         if content_type is None:
             raise ValueError('content_type must be provided')
         headers = {
-            'content-type': content_type,
+            'Content-Type': content_type,
             'Content-Language': content_language,
             'Accept-Language': accept_language
         }
         params = {
             'version': self.version,
             'sentences': sentences,
-            'tones': ",".join(tones) if isinstance(tones, list) else tones
+            'tones': self._convert_list(tones)
         }
         if content_type == 'application/json' and isinstance(tone_input, dict):
             data = json.dumps(tone_input)
@@ -176,30 +130,26 @@ class ToneAnalyzerV3(WatsonService):
             accept_json=True)
         return response
 
-    def tone_chat(self, utterances, accept_language=None):
+    def tone_chat(self,
+                  utterances,
+                  content_language=None,
+                  accept_language=None):
         """
         Analyze customer engagement tone.
 
-        Use the customer engagement endpoint to analyze the tone of customer service and
-        customer support conversations. For each utterance of a conversation, the method
-        reports the most prevalent subset of the following seven tones: sad, frustrated,
-        satisfied, excited, polite, impolite, and sympathetic.   If you submit more than
-        50 utterances, the service returns a warning for the overall content and analyzes
-        only the first 50 utterances. If you submit a single utterance that contains more
-        than 500 characters, the service returns an error for that utterance and does not
-        analyze the utterance. The request fails if all utterances have more than 500
-        characters.   Per the JSON specification, the default character encoding for JSON
-        content is effectively always UTF-8.
-
         :param list[Utterance] utterances: An array of `Utterance` objects that provides the input content that the service is to analyze.
+        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `Content-Language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
         :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`.
         :return: A `dict` containing the `UtteranceAnalyses` response.
         :rtype: dict
         """
         if utterances is None:
             raise ValueError('utterances must be provided')
-        utterances = [self._convert_model(x) for x in utterances]
-        headers = {'Accept-Language': accept_language}
+        utterances = [self._convert_model(x, Utterance) for x in utterances]
+        headers = {
+            'Content-Language': content_language,
+            'Accept-Language': accept_language
+        }
         params = {'version': self.version}
         data = {'utterances': utterances}
         url = '/v3/tone_chat'
@@ -211,7 +161,6 @@ class ToneAnalyzerV3(WatsonService):
             json=data,
             accept_json=True)
         return response
-
 
 ##############################################################################
 # Models
@@ -819,7 +768,7 @@ class UtteranceAnalysis(object):
     """
     UtteranceAnalysis.
 
-    :attr str utterance_id: The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
+    :attr int utterance_id: The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
     :attr str utterance_text: The text of the utterance.
     :attr list[ToneChatScore] tones: An array of `ToneChatScore` objects that provides results for the most prevalent tones of the utterance. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
     :attr str error: (optional) **`2017-09-21`:** An error message if the utterance contains more than 500 characters. The service does not analyze the utterance. **`2016-05-19`:** Not returned.
@@ -829,7 +778,7 @@ class UtteranceAnalysis(object):
         """
         Initialize a UtteranceAnalysis object.
 
-        :param str utterance_id: The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
+        :param int utterance_id: The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
         :param str utterance_text: The text of the utterance.
         :param list[ToneChatScore] tones: An array of `ToneChatScore` objects that provides results for the most prevalent tones of the utterance. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
         :param str error: (optional) **`2017-09-21`:** An error message if the utterance contains more than 500 characters. The service does not analyze the utterance. **`2016-05-19`:** Not returned.

@@ -6,22 +6,19 @@ from watson_developer_cloud import TextToSpeechV1
 
 text_to_speech = TextToSpeechV1(
     username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
-    x_watson_learning_opt_out=True)  # Optional flag
+    password='YOUR SERVICE PASSWORD')
 
-print(json.dumps(text_to_speech.voices(), indent=2))
+print(json.dumps(text_to_speech.list_voices(), indent=2))
 
 with open(join(dirname(__file__), '../resources/output.wav'),
           'wb') as audio_file:
     audio_file.write(
         text_to_speech.synthesize('Hello world!', accept='audio/wav',
-                                  voice="en-US_AllisonVoice"))
+                                  voice="en-US_AllisonVoice").content)
 
-print(
-    json.dumps(text_to_speech.pronunciation(
-        'Watson', pronunciation_format='spr'), indent=2))
+print(json.dumps(text_to_speech.get_pronunciation('Watson', format='spr'), indent=2))
 
-print(json.dumps(text_to_speech.customizations(), indent=2))
+print(json.dumps(text_to_speech.list_voice_models(), indent=2))
 
 # print(json.dumps(text_to_speech.create_customization('test-customization'),
 #  indent=2))

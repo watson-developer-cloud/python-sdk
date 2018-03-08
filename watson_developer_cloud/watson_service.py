@@ -1,3 +1,4 @@
+# coding: utf-8
 # Copyright 2017 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,16 +60,29 @@ class WatsonApiException(WatsonException):
     :param int code: The HTTP status code returned.
     :param str message: A message describing the error.
     :param dict info: A dictionary of additional information about the error.
+    :param response httpResponse: response
     """
-    def __init__(self, code, message, info=None):
+    def __init__(self, code, message, info=None, httpResponse=None):
         # Call the base class constructor with the parameters it needs
         super(WatsonApiException, self).__init__(message)
         self.message = message
         self.code = code
         self.info = info
+        self.httpResponse = httpResponse
+        self.transactionId = None
+        self.globalTransactionId = None
+        if httpResponse is not None:
+            self.transactionId = httpResponse.headers.get('X-DP-Watson-Tran-ID')
+            self.globalTransactionId = httpResponse.headers.get('X-Global-Transaction-ID')
+
 
     def __str__(self):
-        return 'Error: ' + self.message + ', Code: ' + str(self.code)
+        msg = 'Error: ' + self.message + ', Code: ' + str(self.code)
+        if self.transactionId is not None:
+            msg += ' , X-dp-watson-tran-id: ' + str(self.transactionId)
+        if self.globalTransactionId is not None:
+            msg += ' , X-global-transaction-id: ' + str(self.globalTransactionId)
+        return  msg
 
 
 class WatsonInvalidArgument(WatsonException):
@@ -232,7 +246,11 @@ class WatsonService(object):
         return dictionary
 
     @staticmethod
-    def _convert_model(val):
+    def _convert_model(val, classname=None):
+        if classname is not None and not hasattr(val, "_from_dict"):
+            if isinstance(val, str):
+                val = json_import.loads(val)
+            val = classname._from_dict(dict(val))
         if hasattr(val, "_to_dict"):
             return val._to_dict()
         return val
@@ -291,65 +309,6 @@ class WatsonService(object):
             pass
         return error_info if any(error_info) else None
 
-
-    def _alchemy_html_request(self, method_name=None, url=None, html=None,
-                              text=None, params=None, method='POST',
-                              method_url=None):
-        if params is None:
-            params = {}
-        params['outputMode'] = 'json'
-        headers = {'content-type': 'application/x-www-form-urlencoded'}
-        params = _convert_boolean_values(params)
-        url_encoded_params = {}
-
-        if method.upper() == 'POST':
-            url_encoded_params = params
-            params = {}
-
-        url_encoded_params['html'] = html
-        url_encoded_params['text'] = text
-
-        if method_url is None:
-            if url:
-                params['url'] = url
-                method_url = '/url/URL' + method_name
-            elif html:
-                method_url = '/html/HTML' + method_name
-            elif text:
-                method_url = '/text/Text' + method_name
-            else:
-                raise WatsonInvalidArgument(
-                    'url, html or text must be specified')
-
-        return self.request(method=method, url=method_url, params=params,
-                            data=url_encoded_params, headers=headers,
-                            accept_json=True)
-
-    def _alchemy_image_request(self, method_name, image_file=None,
-                               image_url=None, params=None):
-        if params is None:
-            params = {}
-        params['outputMode'] = 'json'
-        params = _convert_boolean_values(params)
-        headers = {}
-        image_contents = None
-
-        if image_file:
-            params['imagePostMode'] = 'raw'
-            image_contents = image_file.read()
-            # headers['content-length'] = sys.getsizeof(image_contents)
-            url = '/image/Image' + method_name
-        elif image_url:
-            params['imagePostMode'] = 'not-raw'
-            params['url'] = image_url
-            url = '/url/URL' + method_name
-        else:
-            raise WatsonInvalidArgument(
-                'image_file or image_url must be specified')
-
-        return self.request(method='POST', url=url, params=params,
-                            data=image_contents, headers=headers,
-                            accept_json=True)
 
     def request(self, method, url, accept_json=False, headers=None,
                 params=None, json=None, data=None, files=None, **kwargs):
@@ -412,7 +371,7 @@ class WatsonService(object):
                         error_message = response_json['statusInfo']
                     if error_message == 'invalid-api-key':
                         status_code = 401
-                    raise WatsonApiException(status_code, error_message)
+                    raise WatsonApiException(status_code, error_message, httpResponse=response)
                 return response_json
             return response
         else:
@@ -423,4 +382,4 @@ class WatsonService(object):
                 error_message = self._get_error_message(response)
             error_info = self._get_error_info(response)
             raise WatsonApiException(response.status_code, error_message,
-                                     error_info)
+                                     info=error_info, httpResponse=response)

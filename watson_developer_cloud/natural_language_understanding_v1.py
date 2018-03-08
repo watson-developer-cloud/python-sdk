@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2017 IBM All Rights Reserved.
+# Copyright 2018 IBM All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -76,7 +76,6 @@ class NaturalLanguageUnderstandingV1(WatsonService):
     """The Natural Language Understanding V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
-    VERSION_DATE_2017_02_27 = '2017-02-27'
 
     def __init__(self, version, url=default_url, username=None, password=None):
         """
@@ -155,7 +154,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         """
         if features is None:
             raise ValueError('features must be provided')
-        features = self._convert_model(features)
+        features = self._convert_model(features, Features)
         params = {'version': self.version}
         data = {
             'features': features,
@@ -217,6 +216,163 @@ class NaturalLanguageUnderstandingV1(WatsonService):
 ##############################################################################
 # Models
 ##############################################################################
+
+
+class AnalysisResults(object):
+    """
+    Results of the analysis, organized by feature.
+
+    :attr str language: (optional) Language used to analyze the text.
+    :attr str analyzed_text: (optional) Text that was used in the analysis.
+    :attr str retrieved_url: (optional) URL that was used to retrieve HTML content.
+    :attr Usage usage: (optional) API usage information for the request.
+    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.
+    :attr list[EntitiesResult] entities: (optional) The important entities in the specified content.
+    :attr list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.
+    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.
+    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.
+    :attr MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.
+    :attr list[RelationsResult] relations: (optional) The relationships between entities in the content.
+    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.
+    :attr SentimentResult sentiment: (optional) The sentiment of the content.
+    """
+
+    def __init__(self,
+                 language=None,
+                 analyzed_text=None,
+                 retrieved_url=None,
+                 usage=None,
+                 concepts=None,
+                 entities=None,
+                 keywords=None,
+                 categories=None,
+                 emotion=None,
+                 metadata=None,
+                 relations=None,
+                 semantic_roles=None,
+                 sentiment=None):
+        """
+        Initialize a AnalysisResults object.
+
+        :param str language: (optional) Language used to analyze the text.
+        :param str analyzed_text: (optional) Text that was used in the analysis.
+        :param str retrieved_url: (optional) URL that was used to retrieve HTML content.
+        :param Usage usage: (optional) API usage information for the request.
+        :param list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.
+        :param list[EntitiesResult] entities: (optional) The important entities in the specified content.
+        :param list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.
+        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.
+        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.
+        :param MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.
+        :param list[RelationsResult] relations: (optional) The relationships between entities in the content.
+        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.
+        :param SentimentResult sentiment: (optional) The sentiment of the content.
+        """
+        self.language = language
+        self.analyzed_text = analyzed_text
+        self.retrieved_url = retrieved_url
+        self.usage = usage
+        self.concepts = concepts
+        self.entities = entities
+        self.keywords = keywords
+        self.categories = categories
+        self.emotion = emotion
+        self.metadata = metadata
+        self.relations = relations
+        self.semantic_roles = semantic_roles
+        self.sentiment = sentiment
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalysisResults object from a json dictionary."""
+        args = {}
+        if 'language' in _dict:
+            args['language'] = _dict['language']
+        if 'analyzed_text' in _dict:
+            args['analyzed_text'] = _dict['analyzed_text']
+        if 'retrieved_url' in _dict:
+            args['retrieved_url'] = _dict['retrieved_url']
+        if 'usage' in _dict:
+            args['usage'] = Usage._from_dict(_dict['usage'])
+        if 'concepts' in _dict:
+            args['concepts'] = [
+                ConceptsResult._from_dict(x) for x in _dict['concepts']
+            ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                EntitiesResult._from_dict(x) for x in _dict['entities']
+            ]
+        if 'keywords' in _dict:
+            args['keywords'] = [
+                KeywordsResult._from_dict(x) for x in _dict['keywords']
+            ]
+        if 'categories' in _dict:
+            args['categories'] = [
+                CategoriesResult._from_dict(x) for x in _dict['categories']
+            ]
+        if 'emotion' in _dict:
+            args['emotion'] = EmotionResult._from_dict(_dict['emotion'])
+        if 'metadata' in _dict:
+            args['metadata'] = MetadataResult._from_dict(_dict['metadata'])
+        if 'relations' in _dict:
+            args['relations'] = [
+                RelationsResult._from_dict(x) for x in _dict['relations']
+            ]
+        if 'semantic_roles' in _dict:
+            args['semantic_roles'] = [
+                SemanticRolesResult._from_dict(x)
+                for x in _dict['semantic_roles']
+            ]
+        if 'sentiment' in _dict:
+            args['sentiment'] = SentimentResult._from_dict(_dict['sentiment'])
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'analyzed_text') and self.analyzed_text is not None:
+            _dict['analyzed_text'] = self.analyzed_text
+        if hasattr(self, 'retrieved_url') and self.retrieved_url is not None:
+            _dict['retrieved_url'] = self.retrieved_url
+        if hasattr(self, 'usage') and self.usage is not None:
+            _dict['usage'] = self.usage._to_dict()
+        if hasattr(self, 'concepts') and self.concepts is not None:
+            _dict['concepts'] = [x._to_dict() for x in self.concepts]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self, 'keywords') and self.keywords is not None:
+            _dict['keywords'] = [x._to_dict() for x in self.keywords]
+        if hasattr(self, 'categories') and self.categories is not None:
+            _dict['categories'] = [x._to_dict() for x in self.categories]
+        if hasattr(self, 'emotion') and self.emotion is not None:
+            _dict['emotion'] = self.emotion._to_dict()
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata._to_dict()
+        if hasattr(self, 'relations') and self.relations is not None:
+            _dict['relations'] = [x._to_dict() for x in self.relations]
+        if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
+            _dict['semantic_roles'] = [
+                x._to_dict() for x in self.semantic_roles
+            ]
+        if hasattr(self, 'sentiment') and self.sentiment is not None:
+            _dict['sentiment'] = self.sentiment._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this AnalysisResults object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class Author(object):
@@ -2625,163 +2781,6 @@ class Usage(object):
 
     def __str__(self):
         """Return a `str` version of this Usage object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class AnalysisResults(object):
-    """
-    Results of the analysis, organized by feature.
-
-    :attr str language: (optional) Language used to analyze the text.
-    :attr str analyzed_text: (optional) Text that was used in the analysis.
-    :attr str retrieved_url: (optional) URL that was used to retrieve HTML content.
-    :attr Usage usage: (optional) API usage information for the request.
-    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.
-    :attr list[EntitiesResult] entities: (optional) The important entities in the specified content.
-    :attr list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.
-    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.
-    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.
-    :attr MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.
-    :attr list[RelationsResult] relations: (optional) The relationships between entities in the content.
-    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.
-    :attr SentimentResult sentiment: (optional) The sentiment of the content.
-    """
-
-    def __init__(self,
-                 concepts=None,
-                 entities=None,
-                 keywords=None,
-                 categories=None,
-                 emotion=None,
-                 metadata=None,
-                 relations=None,
-                 semantic_roles=None,
-                 sentiment=None,
-                 language=None,
-                 analyzed_text=None,
-                 retrieved_url=None,
-                 usage=None):
-        """
-        Initialize a AnalysisResults object.
-
-        :param list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.
-        :param list[EntitiesResult] entities: (optional) The important entities in the specified content.
-        :param list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.
-        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.
-        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.
-        :param MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.
-        :param list[RelationsResult] relations: (optional) The relationships between entities in the content.
-        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.
-        :param SentimentResult sentiment: (optional) The sentiment of the content.
-        :param str language: (optional) Language used to analyze the text.
-        :param str analyzed_text: (optional) Text that was used in the analysis.
-        :param str retrieved_url: (optional) URL that was used to retrieve HTML content.
-        :param Usage usage: (optional) API usage information for the request.
-        """
-        self.language = language
-        self.analyzed_text = analyzed_text
-        self.retrieved_url = retrieved_url
-        self.usage = usage
-        self.concepts = concepts
-        self.entities = entities
-        self.keywords = keywords
-        self.categories = categories
-        self.emotion = emotion
-        self.metadata = metadata
-        self.relations = relations
-        self.semantic_roles = semantic_roles
-        self.sentiment = sentiment
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a AnalysisResults object from a json dictionary."""
-        args = {}
-        if 'language' in _dict:
-            args['language'] = _dict['language']
-        if 'analyzed_text' in _dict:
-            args['analyzed_text'] = _dict['analyzed_text']
-        if 'retrieved_url' in _dict:
-            args['retrieved_url'] = _dict['retrieved_url']
-        if 'usage' in _dict:
-            args['usage'] = Usage._from_dict(_dict['usage'])
-        if 'concepts' in _dict:
-            args['concepts'] = [
-                ConceptsResult._from_dict(x) for x in _dict['concepts']
-            ]
-        if 'entities' in _dict:
-            args['entities'] = [
-                EntitiesResult._from_dict(x) for x in _dict['entities']
-            ]
-        if 'keywords' in _dict:
-            args['keywords'] = [
-                KeywordsResult._from_dict(x) for x in _dict['keywords']
-            ]
-        if 'categories' in _dict:
-            args['categories'] = [
-                CategoriesResult._from_dict(x) for x in _dict['categories']
-            ]
-        if 'emotion' in _dict:
-            args['emotion'] = EmotionResult._from_dict(_dict['emotion'])
-        if 'metadata' in _dict:
-            args['metadata'] = MetadataResult._from_dict(_dict['metadata'])
-        if 'relations' in _dict:
-            args['relations'] = [
-                RelationsResult._from_dict(x) for x in _dict['relations']
-            ]
-        if 'semantic_roles' in _dict:
-            args['semantic_roles'] = [
-                SemanticRolesResult._from_dict(x)
-                for x in _dict['semantic_roles']
-            ]
-        if 'sentiment' in _dict:
-            args['sentiment'] = SentimentResult._from_dict(_dict['sentiment'])
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
-        if hasattr(self, 'analyzed_text') and self.analyzed_text is not None:
-            _dict['analyzed_text'] = self.analyzed_text
-        if hasattr(self, 'retrieved_url') and self.retrieved_url is not None:
-            _dict['retrieved_url'] = self.retrieved_url
-        if hasattr(self, 'usage') and self.usage is not None:
-            _dict['usage'] = self.usage._to_dict()
-        if hasattr(self, 'concepts') and self.concepts is not None:
-            _dict['concepts'] = [x._to_dict() for x in self.concepts]
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = [x._to_dict() for x in self.keywords]
-        if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
-        if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion._to_dict()
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata._to_dict()
-        if hasattr(self, 'relations') and self.relations is not None:
-            _dict['relations'] = [x._to_dict() for x in self.relations]
-        if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
-            _dict['semantic_roles'] = [
-                x._to_dict() for x in self.semantic_roles
-            ]
-        if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this AnalysisResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

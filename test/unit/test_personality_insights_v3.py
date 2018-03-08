@@ -1,3 +1,4 @@
+# coding: utf-8
 import responses
 import watson_developer_cloud
 import os
@@ -12,14 +13,14 @@ def test_plain_to_json():
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect1.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect1.txt')) as expect_file:
         profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3.txt')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.txt')) as personality_text:
         response = personality_insights.profile(
             personality_text, content_type='text/plain;charset=utf-8')
 
@@ -35,14 +36,14 @@ def test_json_to_json():
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect2.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect2.txt')) as expect_file:
         profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3.json')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json')) as personality_text:
         response = personality_insights.profile(
             personality_text, content_type='application/json',
             raw_scores=True, consumption_preferences=True)
@@ -61,14 +62,14 @@ def test_json_to_csv():
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect3.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect3.txt')) as expect_file:
         profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
                   content_type='text/csv')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3.json')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json')) as personality_text:
         personality_insights.profile(
             personality_text, content_type='application/json',
             accept='text/csv', csv_headers=True,
@@ -88,7 +89,7 @@ def test_plain_to_json_es():
     personality_insights = watson_developer_cloud.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
-    with codecs.open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-expect4.txt'), \
+    with codecs.open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect4.txt'), \
             encoding='utf-8') as expect_file:
         profile_response = expect_file.read()
 
@@ -96,7 +97,7 @@ def test_plain_to_json_es():
                   body=profile_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality-v3-es.txt')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-es.txt')) as personality_text:
         response = personality_insights.profile(
             personality_text, content_type='text/plain;charset=utf-8',
             content_language='es', accept_language='es')

@@ -1,3 +1,4 @@
+# coding: utf-8
 import responses
 import watson_developer_cloud
 import os
@@ -16,7 +17,7 @@ def test_success():
                   body=profile_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../resources/personality.txt')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as personality_text:
         personality_insights = watson_developer_cloud.PersonalityInsightsV2(
             username="username", password="password")
         personality_insights.profile(personality_text)

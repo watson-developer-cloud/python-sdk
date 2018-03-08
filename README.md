@@ -1,6 +1,6 @@
 # Watson Developer Cloud Python SDK
 
-[![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg)](https://travis-ci.org/watson-developer-cloud/python-sdk)
+[![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/python-sdk)
 [![Slack](https://wdc-slack-inviter.mybluemix.net/badge.svg)](https://wdc-slack-inviter.mybluemix.net)
 [![codecov.io](https://codecov.io/github/watson-developer-cloud/python-sdk/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/python-sdk?branch=master)
 [![Latest Stable Version](https://img.shields.io/pypi/v/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
@@ -66,7 +66,7 @@ Version 1.0 focuses on the move to programmatically-generated code for many of t
 ## Migration
 This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
 
-## Configuring the http client
+## Configuring the http client (Supported from v1.1.0)
 To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs.
 
 ```python
@@ -86,11 +86,13 @@ print(json.dumps(response, indent=2))
 ## Dependencies
 
 * [requests]
-* `pysolr` >=3.3, <4.0
-* `argparse` >=1.3.0
-* `pyOpenSSL` >=16.2.0
 * `python_dateutil` >= 2.5.3
 * [responses] for testing
+* Following for web sockets support in speech to text
+   * `autobahn` >= 0.10.9
+   * `Twisted` >= 13.2.0
+   * `pyOpenSSL` >= 16.2.0
+   * `service-identity` >= 17.0.0
 
 ## Contributing
 
