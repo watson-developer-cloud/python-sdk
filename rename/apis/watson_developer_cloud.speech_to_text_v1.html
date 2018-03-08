@@ -1,0 +1,1686 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.speech_to_text_v1 module &#8212; Watson Developer Cloud Python SDK 1.0.2 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.text_to_speech_v1 module" href="watson_developer_cloud.text_to_speech_v1.html" />
+    <link rel="prev" title="watson_developer_cloud.personality_insights_v3 module" href="watson_developer_cloud.personality_insights_v3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.speech_to_text_v1">
+<span id="watson-developer-cloud-speech-to-text-v1-module"></span><h1>watson_developer_cloud.speech_to_text_v1 module<a class="headerlink" href="#module-watson_developer_cloud.speech_to_text_v1" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>### Service Overview</dt>
+<dd>The service transcribes speech from various languages and audio formats to text with low</dd>
+</dl>
+<p>latency. The service supports transcription of the following languages: Brazilian
+Portuguese, French, Japanese, Mandarin Chinese, Modern Standard Arabic, Spanish, UK
+English, and US English. For most languages, the service supports two sampling rates,
+broadband and narrowband.</p>
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1">
+<em class="property">class </em><code class="descname">SpeechToTextV1</code><span class="sig-paren">(</span><em>url='https://stream.watsonplatform.net/speech-to-text/api'</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
+<p>The Speech to Text V1 service.</p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://stream.watsonplatform.net/speech-to-text/api'</em><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_model">
+<code class="descname">get_model</code><span class="sig-paren">(</span><em>model_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves information about the model.</p>
+<p>Returns information about a single specified language model that is available for
+use with the service. The information includes the name of the model and its
+minimum sampling rate in Hertz, among other things.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The identifier of the desired model in the form of its <cite>name</cite> from the output of <cite>GET /v1/models</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>SpeechModel</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_models">
+<code class="descname">list_models</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.list_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the models available for the service.</p>
+<p>Returns a list of all language models that are available for use with the service.
+The information includes the name of the model and its minimum sampling rate in
+Hertz, among other things.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>SpeechModels</cite> response.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.models">
+<code class="descname">models</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.models" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.recognize">
+<code class="descname">recognize</code><span class="sig-paren">(</span><em>model=None</em>, <em>customization_id=None</em>, <em>acoustic_customization_id=None</em>, <em>customization_weight=None</em>, <em>version=None</em>, <em>audio=None</em>, <em>content_type=None</em>, <em>inactivity_timeout=None</em>, <em>keywords=None</em>, <em>keywords_threshold=None</em>, <em>max_alternatives=None</em>, <em>word_alternatives_threshold=None</em>, <em>word_confidence=None</em>, <em>timestamps=None</em>, <em>profanity_filter=None</em>, <em>smart_formatting=None</em>, <em>speaker_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.recognize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.recognize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends audio for speech recognition in sessionless mode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The identifier of the model to be used for the recognition request. (Use <cite>GET /v1/models</cite> for a list of available models.).</li>
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom language model that is to be used with the request. The base model of the specified custom language model must match the model specified with the <cite>model</cite> parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom language model is used.</li>
+<li><strong>acoustic_customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom acoustic model that is to be used with the request. The base model of the specified custom acoustic model must match the model specified with the <cite>model</cite> parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom acoustic model is used.</li>
+<li><strong>customization_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – If you specify a <cite>customization_id</cite> with the request, you can use the <cite>customization_weight</cite> parameter to tell the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition.   Specify a value between 0.0 and 1.0. Unless a different customization weight was specified for the custom model when it was trained, the default value is 0.3. A customization weight that you specify overrides a weight that was specified when the custom model was trained.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model’s domain, but it can negatively affect performance on non-domain phrases.</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The version of the specified base <cite>model</cite> that is to be used for speech recognition. Multiple versions of a base model can exist when a model is updated for internal improvements. The parameter is intended primarily for use with custom models that have been upgraded for a new base model. The default value depends on whether the parameter is used with or without a custom model. For more information, see [Base model version](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/input.html#version">https://console.bluemix.net/docs/services/speech-to-text/input.html#version</a>).</li>
+<li><strong>audio</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – NON-MULTIPART ONLY: Audio to transcribe in the format specified by the <cite>Content-Type</cite> header. <strong>Required for a non-multipart request.</strong>.</li>
+<li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of the input: audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, audio/webm;codecs=vorbis, or multipart/form-data.</li>
+<li><strong>inactivity_timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – NON-MULTIPART ONLY: The time in seconds after which, if only silence (no speech) is detected in submitted audio, the connection is closed with a 400 error. Useful for stopping audio submission from a live microphone when a user simply walks away. Use <cite>-1</cite> for infinity.</li>
+<li><strong>keywords</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – NON-MULTIPART ONLY: Array of keyword strings to spot in the audio. Each keyword string can include one or more tokens. Keywords are spotted only in the final hypothesis, not in interim results. If you specify any keywords, you must also specify a keywords threshold. Omit the parameter or specify an empty array if you do not need to spot keywords.</li>
+<li><strong>keywords_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – NON-MULTIPART ONLY: Confidence value that is the lower bound for spotting a keyword. A word is considered to match a keyword if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No keyword spotting is performed if you omit the parameter. If you specify a threshold, you must also specify one or more keywords.</li>
+<li><strong>max_alternatives</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – NON-MULTIPART ONLY: Maximum number of alternative transcripts to be returned. By default, a single transcription is returned.</li>
+<li><strong>word_alternatives_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – NON-MULTIPART ONLY: Confidence value that is the lower bound for identifying a hypothesis as a possible word alternative (also known as “Confusion Networks”). An alternative word is considered if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No alternative words are computed if you omit the parameter.</li>
+<li><strong>word_confidence</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – NON-MULTIPART ONLY: If <cite>true</cite>, confidence measure per word is returned.</li>
+<li><strong>timestamps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – NON-MULTIPART ONLY: If <cite>true</cite>, time alignment for each word is returned.</li>
+<li><strong>profanity_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – NON-MULTIPART ONLY: If <cite>true</cite> (the default), filters profanity from all output except for keyword results by replacing inappropriate words with a series of asterisks. Set the parameter to <cite>false</cite> to return results with no censoring. Applies to US English transcription only.</li>
+<li><strong>smart_formatting</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – NON-MULTIPART ONLY: If <cite>true</cite>, converts dates, times, series of digits and numbers, phone numbers, currency values, and Internet addresses into more readable, conventional representations in the final transcript of a recognition request. If <cite>false</cite> (the default), no formatting is performed. Applies to US English transcription only.</li>
+<li><strong>speaker_labels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – NON-MULTIPART ONLY: Indicates whether labels that identify which words were spoken by which participants in a multi-person exchange are to be included in the response. The default is <cite>false</cite>; no speaker labels are returned. Setting <cite>speaker_labels</cite> to <cite>true</cite> forces the <cite>timestamps</cite> parameter to be <cite>true</cite>, regardless of whether you specify <cite>false</cite> for the parameter.   To determine whether a language model supports speaker labels, use the <cite>GET /v1/models</cite> method and check that the attribute <cite>speaker_labels</cite> is set to <cite>true</cite>. You can also refer to [Speaker labels](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels">https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels</a>).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>SpeechRecognitionResults</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.recognize_with_websocket">
+<code class="descname">recognize_with_websocket</code><span class="sig-paren">(</span><em>audio=None</em>, <em>content_type='audio/l16; rate=44100'</em>, <em>model='en-US_BroadbandModel'</em>, <em>recognize_callback=None</em>, <em>customization_id=None</em>, <em>acoustic_customization_id=None</em>, <em>customization_weight=None</em>, <em>version=None</em>, <em>inactivity_timeout=None</em>, <em>interim_results=True</em>, <em>keywords=None</em>, <em>keywords_threshold=None</em>, <em>max_alternatives=1</em>, <em>word_alternatives_threshold=None</em>, <em>word_confidence=False</em>, <em>timestamps=False</em>, <em>profanity_filter=None</em>, <em>smart_formatting=False</em>, <em>speaker_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.recognize_with_websocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.recognize_with_websocket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends audio for speech recognition using web sockets.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>audio</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Audio to transcribe in the format specified by the <cite>Content-Type</cite> header.</li>
+<li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of the input: audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, audio/webm;codecs=vorbis, or multipart/form-data.</li>
+<li><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The identifier of the model to be used for the recognition request.</li>
+<li><strong>recognize_callback</strong> (<a class="reference internal" href="watson_developer_cloud.websocket.recognize_abstract_callback.html#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback" title="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback"><em>RecognizeCallback</em></a>) – The instance handling events returned from the service.</li>
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom language model that is to be used with the request. The base model of the specified custom language model must match the model specified with the <cite>model</cite> parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom language model is used.</li>
+<li><strong>acoustic_customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom acoustic model that is to be used with the request. The base model of the specified custom acoustic model must match the model specified with the <cite>model</cite> parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom acoustic model is used.</li>
+<li><strong>customization_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – If you specify a <cite>customization_id</cite> with the request, you can use the <cite>customization_weight</cite> parameter to tell the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition.   Specify a value between 0.0 and 1.0. Unless a different customization weight was specified for the custom model when it was trained, the default value is 0.3. A customization weight that you specify overrides a weight that was specified when the custom model was trained.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model’s domain, but it can negatively affect performance on non-domain phrases.</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The version of the specified base <cite>model</cite> that is to be used for speech recognition. Multiple versions of a base model can exist when a model is updated for internal improvements. The parameter is intended primarily for use with custom models that have been upgraded for a new base model. The default value depends on whether the parameter is used with or without a custom model. For more information, see [Base model version](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/input.html#version">https://console.bluemix.net/docs/services/speech-to-text/input.html#version</a>).</li>
+<li><strong>inactivity_timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The time in seconds after which, if only silence (no speech) is detected in submitted audio, the connection is closed with a 400 error. Useful for stopping audio submission from a live microphone when a user simply walks away. Use <cite>-1</cite> for infinity.</li>
+<li><strong>interim_results</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Send back non-final previews of each “sentence” as it is being processed. These results are ignored in text mode.</li>
+<li><strong>keywords</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Array of keyword strings to spot in the audio. Each keyword string can include one or more tokens. Keywords are spotted only in the final hypothesis, not in interim results. If you specify any keywords, you must also specify a keywords threshold. Omit the parameter or specify an empty array if you do not need to spot keywords.</li>
+<li><strong>keywords_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Confidence value that is the lower bound for spotting a keyword. A word is considered to match a keyword if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No keyword spotting is performed if you omit the parameter. If you specify a threshold, you must also specify one or more keywords.</li>
+<li><strong>max_alternatives</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Maximum number of alternative transcripts to be returned. By default, a single transcription is returned.</li>
+<li><strong>word_alternatives_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Confidence value that is the lower bound for identifying a hypothesis as a possible word alternative (also known as “Confusion Networks”). An alternative word is considered if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No alternative words are computed if you omit the parameter.</li>
+<li><strong>word_confidence</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, confidence measure per word is returned.</li>
+<li><strong>timestamps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, time alignment for each word is returned.</li>
+<li><strong>profanity_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite> (the default), filters profanity from all output except for keyword results by replacing inappropriate words with a series of asterisks. Set the parameter to <cite>false</cite> to return results with no censoring. Applies to US English transcription only.</li>
+<li><strong>smart_formatting</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, converts dates, times, series of digits and numbers, phone numbers, currency values, and Internet addresses into more readable, conventional representations in the final transcript of a recognition request. If <cite>false</cite> (the default), no formatting is performed. Applies to US English transcription only.</li>
+<li><strong>speaker_labels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether labels that identify which words were spoken by which participants in a multi-person exchange are to be included in the response. The default is <cite>false</cite>; no speaker labels are returned. Setting <cite>speaker_labels</cite> to <cite>true</cite> forces the <cite>timestamps</cite> parameter to be <cite>true</cite>, regardless of whether you specify <cite>false</cite> for the parameter.   To determine whether a language model supports speaker labels, use the <cite>GET /v1/models</cite> method and check that the attribute <cite>speaker_labels</cite> is set to <cite>true</cite>. You can also refer to [Speaker labels](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels">https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels</a>).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_job">
+<code class="descname">check_job</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.check_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the status of the specified asynchronous job.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the job whose status is to be checked.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>RecognitionJob</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_jobs">
+<code class="descname">check_jobs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.check_jobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.check_jobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the status of all asynchronous jobs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>RecognitionJobs</cite> response.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_job">
+<code class="descname">create_job</code><span class="sig-paren">(</span><em>audio</em>, <em>content_type</em>, <em>model=None</em>, <em>callback_url=None</em>, <em>events=None</em>, <em>user_token=None</em>, <em>results_ttl=None</em>, <em>customization_id=None</em>, <em>acoustic_customization_id=None</em>, <em>customization_weight=None</em>, <em>version=None</em>, <em>inactivity_timeout=None</em>, <em>keywords=None</em>, <em>keywords_threshold=None</em>, <em>max_alternatives=None</em>, <em>word_alternatives_threshold=None</em>, <em>word_confidence=None</em>, <em>timestamps=None</em>, <em>profanity_filter=None</em>, <em>smart_formatting=None</em>, <em>speaker_labels=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.create_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a job for an asynchronous recognition request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>audio</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Audio to transcribe in the format specified by the <cite>Content-Type</cite> header.</li>
+<li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of the input: audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or audio/webm;codecs=vorbis.</li>
+<li><strong>model</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The identifier of the model to be used for the recognition request. (Use <cite>GET /v1/models</cite> for a list of available models.).</li>
+<li><strong>callback_url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A URL to which callback notifications are to be sent. The URL must already be successfully white-listed by using the <cite>POST /v1/register_callback</cite> method. Omit the parameter to poll the service for job completion and results. You can include the same callback URL with any number of job creation requests. Use the <cite>user_token</cite> query parameter to specify a unique user-specified string with each job to differentiate the callback notifications for the jobs.</li>
+<li><strong>events</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – If the job includes a callback URL, a comma-separated list of notification events to which to subscribe. Valid events are: <cite>recognitions.started</cite> generates a callback notification when the service begins to process the job. <cite>recognitions.completed</cite> generates a callback notification when the job is complete; you must use the <cite>GET /v1/recognitions/{id}</cite> method to retrieve the results before they time out or are deleted. <cite>recognitions.completed_with_results</cite> generates a callback notification when the job is complete; the notification includes the results of the request. <cite>recognitions.failed</cite> generates a callback notification if the service experiences an error while processing the job. Omit the parameter to subscribe to the default events: <cite>recognitions.started</cite>, <cite>recognitions.completed</cite>, and <cite>recognitions.failed</cite>. The <cite>recognitions.completed</cite> and <cite>recognitions.completed_with_results</cite> events are incompatible; you can specify only of the two events. If the job does not include a callback URL, omit the parameter.</li>
+<li><strong>user_token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – If the job includes a callback URL, a user-specified string that the service is to include with each callback notification for the job; the token allows the user to maintain an internal mapping between jobs and notification events. If the job does not include a callback URL, omit the parameter.</li>
+<li><strong>results_ttl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of minutes for which the results are to be available after the job has finished. If not delivered via a callback, the results must be retrieved within this time. Omit the parameter to use a time to live of one week. The parameter is valid with or without a callback URL.</li>
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom language model that is to be used with the request. The base model of the specified custom language model must match the model specified with the <cite>model</cite> parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom language model is used.</li>
+<li><strong>acoustic_customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom acoustic model that is to be used with the request. The base model of the specified custom acoustic model must match the model specified with the <cite>model</cite> parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom acoustic model is used.</li>
+<li><strong>customization_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – If you specify a <cite>customization_id</cite> with the request, you can use the <cite>customization_weight</cite> parameter to tell the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition.   Specify a value between 0.0 and 1.0. Unless a different customization weight was specified for the custom model when it was trained, the default value is 0.3. A customization weight that you specify overrides a weight that was specified when the custom model was trained.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model’s domain, but it can negatively affect  performance on non-domain phrases.</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The version of the specified base <cite>model</cite> that is to be used with the request. Multiple versions of a base model can exist when a model is updated for internal improvements. The parameter is intended primarily for use with custom models that have been upgraded for a new base model. The default value depends on whether the parameter is used with or without a custom model. For more information, see [Base model version](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/input.html#version">https://console.bluemix.net/docs/services/speech-to-text/input.html#version</a>).</li>
+<li><strong>inactivity_timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The time in seconds after which, if only silence (no speech) is detected in submitted audio, the connection is closed with a 400 error. Useful for stopping audio submission from a live microphone when a user simply walks away. Use <cite>-1</cite> for infinity.</li>
+<li><strong>keywords</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – Array of keyword strings to spot in the audio. Each keyword string can include one or more tokens. Keywords are spotted only in the final hypothesis, not in interim results. If you specify any keywords, you must also specify a keywords threshold. Omit the parameter or specify an empty array if you do not need to spot keywords.</li>
+<li><strong>keywords_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Confidence value that is the lower bound for spotting a keyword. A word is considered to match a keyword if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No keyword spotting is performed if you omit the parameter. If you specify a threshold, you must also specify one or more keywords.</li>
+<li><strong>max_alternatives</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Maximum number of alternative transcripts to be returned. By default, a single transcription is returned.</li>
+<li><strong>word_alternatives_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Confidence value that is the lower bound for identifying a hypothesis as a possible word alternative (also known as “Confusion Networks”). An alternative word is considered if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No alternative words are computed if you omit the parameter.</li>
+<li><strong>word_confidence</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, confidence measure per word is returned.</li>
+<li><strong>timestamps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, time alignment for each word is returned.</li>
+<li><strong>profanity_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite> (the default), filters profanity from all output except for keyword results by replacing inappropriate words with a series of asterisks. Set the parameter to <cite>false</cite> to return results with no censoring. Applies to US English transcription only.</li>
+<li><strong>smart_formatting</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, converts dates, times, series of digits and numbers, phone numbers, currency values, and Internet addresses into more readable, conventional representations in the final transcript of a recognition request. If <cite>false</cite> (the default), no formatting is performed. Applies to US English transcription only.</li>
+<li><strong>speaker_labels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether labels that identify which words were spoken by which participants in a multi-person exchange are to be included in the response. The default is <cite>false</cite>; no speaker labels are returned. Setting <cite>speaker_labels</cite> to <cite>true</cite> forces the <cite>timestamps</cite> parameter to be <cite>true</cite>, regardless of whether you specify <cite>false</cite> for the parameter.   To determine whether a language model supports speaker labels, use the <cite>GET /v1/models</cite> method and check that the attribute <cite>speaker_labels</cite> is set to <cite>true</cite>. You can also refer to [Speaker labels](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels">https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels</a>).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>RecognitionJob</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_job">
+<code class="descname">delete_job</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.delete_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the specified asynchronous job.</p>
+<p>Deletes the specified job. You cannot delete a job that the service is actively
+processing. Once you delete a job, its results are no longer available. The
+service automatically deletes a job and its results when the time to live for the
+results expires. You must submit the request with the service credentials of the
+user who created the job.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the job that is to be deleted.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.register_callback">
+<code class="descname">register_callback</code><span class="sig-paren">(</span><em>callback_url</em>, <em>user_secret=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.register_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.register_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a callback URL for use with the asynchronous interface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>callback_url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – An HTTP or HTTPS URL to which callback notifications are to be sent. To be white-listed, the URL must successfully echo the challenge string during URL verification. During verification, the client can also check the signature that the service sends in the <cite>X-Callback-Signature</cite> header to verify the origin of the request.</li>
+<li><strong>user_secret</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A user-specified string that the service uses to generate the HMAC-SHA1 signature that it sends via the <cite>X-Callback-Signature</cite> header. The service includes the header during URL verification and with every notification sent to the callback URL. It calculates the signature over the payload of the notification. If you omit the parameter, the service does not send the header.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>RegisterStatus</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.unregister_callback">
+<code class="descname">unregister_callback</code><span class="sig-paren">(</span><em>callback_url</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.unregister_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.unregister_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the registration for an asynchronous callback URL.</p>
+<p>Unregisters a callback URL that was previously white-listed with a <cite>POST
+register_callback</cite> request for use with the asynchronous interface. Once
+unregistered, the URL can no longer be used with asynchronous recognition
+requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>callback_url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The callback URL that is to be unregistered.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_language_model">
+<code class="descname">create_language_model</code><span class="sig-paren">(</span><em>name</em>, <em>base_model_name</em>, <em>dialect=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.create_language_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_language_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a custom language model.</p>
+<p>Creates a new custom language model for a specified base model. The custom
+language model can be used only with the base model for which it is created. The
+model is owned by the instance of the service whose credentials are used to create
+it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A user-defined name for the new custom language model. Use a name that is unique among all custom language models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the domain of the custom model, such as <cite>Medical custom model</cite> or <cite>Legal custom model</cite>.</li>
+<li><strong>base_model_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the base language model that is to be customized by the new custom language model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports language model customization, request information about the base model and check that the attribute <cite>custom_language_model</cite> is set to <cite>true</cite>, or refer to [Language support for customization](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport">https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport</a>).</li>
+<li><strong>dialect</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The dialect of the specified language that is to be used with the custom language model. The parameter is meaningful only for Spanish models, for which the service creates a custom language model that is suited for speech in one of the following dialects: * <cite>es-ES</cite> for Castilian Spanish (the default) * <cite>es-LA</cite> for Latin American Spanish * <cite>es-US</cite> for North American (Mexican) Spanish   A specified dialect must be valid for the base model. By default, the dialect matches the language of the base model; for example, <cite>en-US</cite> for either of the US English language models.</li>
+<li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A description of the new custom language model. Use a localized description that matches the language of the custom model.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>LanguageModel</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_custom_model">
+<code class="descname">create_custom_model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_custom_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_language_model">
+<code class="descname">delete_language_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.delete_language_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_language_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a custom language model.</p>
+<p>Deletes an existing custom language model. The custom model cannot be deleted if
+another request, such as adding a corpus to the model, is currently being
+processed. You must use credentials for the instance of the service that owns a
+model to delete it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model that is to be deleted. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_custom_model">
+<code class="descname">delete_custom_model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_custom_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_language_model">
+<code class="descname">get_language_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.get_language_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_language_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists information about a custom language model.</p>
+<p>Lists information about a specified custom language model. You must use
+credentials for the instance of the service that owns a model to list information
+about it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model for which information is to be returned. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>LanguageModel</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_custom_model">
+<code class="descname">get_custom_model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_custom_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_language_models">
+<code class="descname">list_language_models</code><span class="sig-paren">(</span><em>language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.list_language_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_language_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists information about all custom language models.</p>
+<p>Lists information about all custom language models that are owned by an instance
+of the service. Use the <cite>language</cite> parameter to see all custom language models for
+the specified language; omit the parameter to see all custom language models for
+all languages. You must use credentials for the instance of the service that owns
+a model to list information about it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The identifier of the language for which custom language models are to be returned (for example, <cite>en-US</cite>). Omit the parameter to see all custom language models owned by the requesting service credentials.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>LanguageModels</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_custom_models">
+<code class="descname">list_custom_models</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_custom_models" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.reset_language_model">
+<code class="descname">reset_language_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.reset_language_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.reset_language_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets a custom language model.</p>
+<p>Resets a custom language model by removing all corpora and words from the model.
+Resetting a custom language model initializes the model to its state when it was
+first created. Metadata such as the name and language of the model are preserved,
+but the model’s words resource is removed and must be re-created. You must use
+credentials for the instance of the service that owns a model to reset it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model that is to be reset. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.train_language_model">
+<code class="descname">train_language_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word_type_to_add=None</em>, <em>customization_weight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.train_language_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.train_language_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trains a custom language model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model that is to be trained. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>word_type_to_add</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of words from the custom language model’s words resource on which to train the model: * <cite>all</cite> (the default) trains the model on all new words, regardless of whether they were extracted from corpora or were added or modified by the user. * <cite>user</cite> trains the model only on new words that were added or modified by the user; the model is not trained on new words extracted from corpora.</li>
+<li><strong>customization_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Specifies a customization weight for the custom language model. The customization weight tells the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition. Specify a value between 0.0 and 1.0. The default value is 0.3.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model’s domain, but it can negatively affect performance on non-domain phrases.   The value that you assign is used for all recognition requests that use the model. You can override it for any recognition request by specifying a customization weight for that request.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.train_custom_model">
+<code class="descname">train_custom_model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.train_custom_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.upgrade_language_model">
+<code class="descname">upgrade_language_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.upgrade_language_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.upgrade_language_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upgrades a custom language model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model that is to be upgraded. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_corpus">
+<code class="descname">add_corpus</code><span class="sig-paren">(</span><em>customization_id</em>, <em>corpus_name</em>, <em>corpus_file</em>, <em>allow_overwrite=None</em>, <em>corpus_file_content_type=None</em>, <em>corpus_filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.add_corpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_corpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a corpus text file to a custom language model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model to which a corpus is to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>corpus_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the corpus that is to be added to the custom language model. The name cannot contain spaces and cannot be the string <cite>user</cite>, which is reserved by the service to denote custom words added or modified by the user. Use a localized name that matches the language of the custom model.</li>
+<li><strong>corpus_file</strong> (<em>file</em>) – A plain text file that contains the training data for the corpus. Encode the file in UTF-8 if it contains non-ASCII characters; the service assumes UTF-8 encoding if it encounters non-ASCII characters. With cURL, use the <cite>–data-binary</cite> option to upload the file for the request.</li>
+<li><strong>allow_overwrite</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether the specified corpus is to overwrite an existing corpus with the same name. If a corpus with the same name already exists, the request fails unless <cite>allow_overwrite</cite> is set to <cite>true</cite>; by default, the parameter is <cite>false</cite>. The parameter has no effect if a corpus with the same name does not already exist.</li>
+<li><strong>corpus_file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The content type of corpus_file.</li>
+<li><strong>corpus_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for corpus_file.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_corpus">
+<code class="descname">delete_corpus</code><span class="sig-paren">(</span><em>customization_id</em>, <em>corpus_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.delete_corpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_corpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a corpus from a custom language model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model from which a corpus is to be deleted. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>corpus_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the corpus that is to be deleted from the custom language model.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_corpus">
+<code class="descname">get_corpus</code><span class="sig-paren">(</span><em>customization_id</em>, <em>corpus_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.get_corpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_corpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists information about a corpus for a custom language model.</p>
+<p>Lists information about a corpus from a custom language model. The information
+includes the total number of words and out-of-vocabulary (OOV) words, name, and
+status of the corpus. You must use credentials for the instance of the service
+that owns a model to list its corpora.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model for which a corpus is to be listed. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>corpus_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the corpus about which information is to be listed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Corpus</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_corpora">
+<code class="descname">list_corpora</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.list_corpora"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_corpora" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists information about all corpora for a custom language model.</p>
+<p>Lists information about all corpora from a custom language model. The information
+includes the total number of words and out-of-vocabulary (OOV) words, name, and
+status of each corpus. You must use credentials for the instance of the service
+that owns a model to list its corpora.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model for which corpora are to be listed. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>Corpora</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_word">
+<code class="descname">add_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word_name</em>, <em>sounds_like=None</em>, <em>display_as=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.add_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a custom word to a custom language model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model to which a word is to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words.</li>
+<li><strong>sounds_like</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service’s base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service’s base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.</li>
+<li><strong>display_as</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_custom_word">
+<code class="descname">add_custom_word</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_custom_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_words">
+<code class="descname">add_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>words</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.add_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds one or more custom words to a custom language model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model to which words are to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>words</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.speech_to_text_v1.CustomWord" title="watson_developer_cloud.speech_to_text_v1.CustomWord"><em>CustomWord</em></a><em>]</em>) – An array of objects that provides information about each custom word that is to be added to or updated in the custom language model.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_custom_words">
+<code class="descname">add_custom_words</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_custom_words" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_word">
+<code class="descname">delete_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.delete_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a custom word from a custom language model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model from which a word is to be deleted. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word that is to be deleted from the custom language model.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_custom_word">
+<code class="descname">delete_custom_word</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_custom_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_word">
+<code class="descname">get_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.get_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists a custom word from a custom language model.</p>
+<p>Lists information about a custom word from a custom language model. You must use
+credentials for the instance of the service that owns a model to query information
+about its words.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model from which a word is to be queried. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word that is to be queried from the custom language model.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Word</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_custom_word">
+<code class="descname">get_custom_word</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_custom_word" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_words">
+<code class="descname">list_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word_type=None</em>, <em>sort=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.list_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists all custom words from a custom language model.</p>
+<p>Lists information about custom words from a custom language model. You can list
+all words from the custom model’s words resource, only custom words that were
+added or modified by the user, or only out-of-vocabulary (OOV) words that were
+extracted from corpora. You can also indicate the order in which the service is to
+return words; by default, words are listed in ascending alphabetical order. You
+must use credentials for the instance of the service that owns a model to query
+information about its words.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom language model from which words are to be queried. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>word_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of words to be listed from the custom language model’s words resource: * <cite>all</cite> (the default) shows all words. * <cite>user</cite> shows only custom words that were added or modified by the user. * <cite>corpora</cite> shows only OOV that were extracted from corpora.</li>
+<li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Indicates the order in which the words are to be listed, <cite>alphabetical</cite> or by <cite>count</cite>. You can prepend an optional <cite>+</cite> or <cite>-</cite> to an argument to indicate whether the results are to be sorted in ascending or descending order. By default, words are sorted in ascending alphabetical order. For alphabetical ordering, the lexicographical precedence is numeric values, uppercase letters, and lowercase letters. For count ordering, values with the same count are ordered alphabetically. With cURL, URL encode the <cite>+</cite> symbol as <cite>%2B</cite>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Words</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_custom_words">
+<code class="descname">list_custom_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word_type=None</em>, <em>sort=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.list_custom_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_custom_words" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_acoustic_model">
+<code class="descname">create_acoustic_model</code><span class="sig-paren">(</span><em>name</em>, <em>base_model_name</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.create_acoustic_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.create_acoustic_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a custom acoustic model.</p>
+<p>Creates a new custom acoustic model for a specified base model. The custom
+acoustic model can be used only with the base model for which it is created. The
+model is owned by the instance of the service whose credentials are used to create
+it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A user-defined name for the new custom acoustic model. Use a name that is unique among all custom acoustic models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the acoustic environment of the custom model, such as <cite>Mobile custom model</cite> or <cite>Noisy car custom model</cite>.</li>
+<li><strong>base_model_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the base language model that is to be customized by the new custom acoustic model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports acoustic model customization, refer to [Language support for customization](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport">https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport</a>).</li>
+<li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A description of the new custom acoustic model. Use a localized description that matches the language of the custom model.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>AcousticModel</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_acoustic_model">
+<code class="descname">delete_acoustic_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.delete_acoustic_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_acoustic_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a custom acoustic model.</p>
+<p>Deletes an existing custom acoustic model. The custom model cannot be deleted if
+another request, such as adding an audio resource to the model, is currently being
+processed. You must use credentials for the instance of the service that owns a
+model to delete it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model that is to be deleted. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_acoustic_model">
+<code class="descname">get_acoustic_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.get_acoustic_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_acoustic_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists information about a custom acoustic model.</p>
+<p>Lists information about a specified custom acoustic model. You must use
+credentials for the instance of the service that owns a model to list information
+about it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model for which information is to be returned. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>AcousticModel</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_acoustic_models">
+<code class="descname">list_acoustic_models</code><span class="sig-paren">(</span><em>language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.list_acoustic_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_acoustic_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists information about all custom acoustic models.</p>
+<p>Lists information about all custom acoustic models that are owned by an instance
+of the service. Use the <cite>language</cite> parameter to see all custom acoustic models for
+the specified language; omit the parameter to see all custom acoustic models for
+all languages. You must use credentials for the instance of the service that owns
+a model to list information about it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The identifier of the language for which custom acoustic models are to be returned (for example, <cite>en-US</cite>). Omit the parameter to see all custom acoustic models owned by the requesting service credentials.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>AcousticModels</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.reset_acoustic_model">
+<code class="descname">reset_acoustic_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.reset_acoustic_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.reset_acoustic_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets a custom acoustic model.</p>
+<p>Resets a custom acoustic model by removing all audio resources from the model.
+Resetting a custom acoustic model initializes the model to its state when it was
+first created. Metadata such as the name and language of the model are preserved,
+but the model’s audio resources are removed and must be re-created. You must use
+credentials for the instance of the service that owns a model to reset it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model that is to be reset. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.train_acoustic_model">
+<code class="descname">train_acoustic_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>custom_language_model_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.train_acoustic_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.train_acoustic_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trains a custom acoustic model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model that is to be trained. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>custom_language_model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom language model that is to be used during training of the custom acoustic model. Specify a custom language model that has been trained with verbatim transcriptions of the audio resources or that contains words that are relevant to the contents of the audio resources.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.upgrade_acoustic_model">
+<code class="descname">upgrade_acoustic_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>custom_language_model_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.upgrade_acoustic_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.upgrade_acoustic_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upgrades a custom acoustic model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model that is to be upgraded. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>custom_language_model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – If the custom acoustic model was trained with a custom language model, the GUID of that custom language model. The custom language model must be upgraded before the custom acoustic model can be upgraded.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_audio">
+<code class="descname">add_audio</code><span class="sig-paren">(</span><em>customization_id</em>, <em>audio_name</em>, <em>audio_resource</em>, <em>content_type</em>, <em>contained_content_type=None</em>, <em>allow_overwrite=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.add_audio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.add_audio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an audio resource to a custom acoustic model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model to which an audio resource is to be added. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>audio_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the audio resource that is to be added to the custom acoustic model. The name cannot contain spaces. Use a localized name that matches the language of the custom model.</li>
+<li><strong>audio_resource</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – The audio resource that is to be added to the custom acoustic model, an individual audio file or an archive file.</li>
+<li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of the input: application/zip, application/gzip, audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or audio/webm;codecs=vorbis.</li>
+<li><strong>contained_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – For an archive-type resource that contains audio files whose format is not <cite>audio/wav</cite>, specifies the format of the audio files. The header accepts all of the audio formats supported for use with speech recognition and with the <cite>Content-Type</cite> header, including the <cite>rate</cite>, <cite>channels</cite>, and <cite>endianness</cite> parameters that are used with some formats. For a complete list of supported audio formats, see [Audio formats](/docs/services/speech-to-text/input.html#formats).</li>
+<li><strong>allow_overwrite</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether the specified audio resource is to overwrite an existing resource with the same name. If a resource with the same name already exists, the request fails unless <cite>allow_overwrite</cite> is set to <cite>true</cite>; by default, the parameter is <cite>false</cite>. The parameter has no effect if a resource with the same name does not already exist.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_audio">
+<code class="descname">delete_audio</code><span class="sig-paren">(</span><em>customization_id</em>, <em>audio_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.delete_audio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_audio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes an audio resource from a custom acoustic model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model from which an audio resource is to be deleted. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>audio_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the audio resource that is to be deleted from the custom acoustic model.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_audio">
+<code class="descname">get_audio</code><span class="sig-paren">(</span><em>customization_id</em>, <em>audio_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.get_audio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_audio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists information about an audio resource for a custom acoustic model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model for which an audio resource is to be listed. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>audio_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the audio resource about which information is to be listed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>AudioListing</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_audio">
+<code class="descname">list_audio</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.list_audio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_audio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists information about all audio resources for a custom acoustic model.</p>
+<p>Lists information about all audio resources from a custom acoustic model. The
+information includes the name of the resource and information about its audio
+data, such as its duration. It also includes the status of the audio resource,
+which is important for checking the service’s analysis of the resource in response
+to a request to add it to the custom acoustic model. You must use credentials for
+the instance of the service that owns a model to list its audio resources.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom acoustic model for which audio resources are to be listed. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>AudioResources</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.AcousticModel">
+<em class="property">class </em><code class="descname">AcousticModel</code><span class="sig-paren">(</span><em>customization_id</em>, <em>created=None</em>, <em>language=None</em>, <em>versions=None</em>, <em>owner=None</em>, <em>name=None</em>, <em>description=None</em>, <em>base_model_name=None</em>, <em>status=None</em>, <em>progress=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#AcousticModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.AcousticModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>AcousticModel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str customization_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The customization ID (GUID) of the custom acoustic model. <strong>Note:</strong> When you create a new custom acoustic model, the service returns only the GUID of the new model; it does not return the other fields of this object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The date and time in Coordinated Universal Time (UTC) at which the custom acoustic model was created. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str language:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The language identifier of the custom acoustic model (for example, <cite>en-US</cite>).</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] versions:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A list of the available versions of the custom acoustic model. Each element of the array indicates a version of the base model with which the custom model can be used. Multiple versions exist only if the custom model has been upgraded; otherwise, only a single version is shown.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr str owner:</th><td class="field-body">(optional) The GUID of the service credentials for the instance of the service that owns the custom acoustic model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str name:</th><td class="field-body">(optional) The name of the custom acoustic model.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The description of the custom acoustic model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str base_model_name:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The name of the language model for which the custom acoustic model was created.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The current status of the custom acoustic model: * <cite>pending</cite> indicates that the model was created but is waiting either for training data to be added or for the service to finish analyzing added data. * <cite>ready</cite> indicates that the model contains data and is ready to be trained. * <cite>training</cite> indicates that the model is currently being trained. * <cite>available</cite> indicates that the model is trained and ready to use. * <cite>upgrading</cite> indicates that the model is currently being upgraded. * <cite>failed</cite> indicates that training of the model failed.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int progress:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A percentage that indicates the progress of the custom acoustic model’s current training. A value of <cite>100</cite> means that the model is fully trained. <strong>Note:</strong> The <cite>progress</cite> field does not currently reflect the progress of the training; the field changes from <cite>0</cite> to <cite>100</cite> when training is complete.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str warnings:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If the request included unknown query parameters, the following message: <cite>Unexpected query parameter(s) [‘parameters’] detected</cite>, where <cite>parameters</cite> is a list that includes a quoted string for each unknown parameter.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.AcousticModels">
+<em class="property">class </em><code class="descname">AcousticModels</code><span class="sig-paren">(</span><em>customizations</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#AcousticModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.AcousticModels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>AcousticModels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[AcousticModel] customizations:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects that provides information about each available custom acoustic model. The array is empty if the requesting service credentials own no custom acoustic models (if no language is specified) or own no custom acoustic models for the specified language.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.AudioDetails">
+<em class="property">class </em><code class="descname">AudioDetails</code><span class="sig-paren">(</span><em>type</em>, <em>codec=None</em>, <em>frequency=None</em>, <em>compression=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#AudioDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.AudioDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>AudioDetails.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str type:</th><td class="field-body">The type of the audio resource: * <cite>audio</cite> for an individual audio file * <cite>archive</cite> for an archive (<strong>.zip</strong> or <strong>.tar.gz</strong>) file that contains audio files.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str codec:</th><td class="field-body">(optional) <strong>For an audio-type resource,</strong> the codec in which the audio is encoded. Omitted for an archive-type resource.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int frequency:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>For an audio-type resource,</strong> the sampling rate of the audio in Hertz (samples per second). Omitted for an archive-type resource.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str compression:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>For an archive-type resource,</strong> the format of the compressed archive: * <cite>zip</cite> for a <strong>.zip</strong> file * <cite>gzip</cite> for a <strong>.tar.gz</strong> file   Omitted for an audio-type resource.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.AudioListing">
+<em class="property">class </em><code class="descname">AudioListing</code><span class="sig-paren">(</span><em>duration=None</em>, <em>name=None</em>, <em>details=None</em>, <em>status=None</em>, <em>container=None</em>, <em>audio=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#AudioListing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.AudioListing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>AudioListing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr float duration:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>For an audio-type resource,</strong>  the total seconds of audio in the resource. Omitted for an archive-type resource.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str name:</th><td class="field-body">(optional) <strong>For an audio-type resource,</strong> the name of the resource. Omitted for an archive-type resource.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr AudioDetails details:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>For an audio-type resource,</strong> an <cite>AudioDetails</cite> object that provides detailed information about the resource. The object is empty until the service finishes processing the audio. Omitted for an archive-type resource.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>For an audio-type resource,</strong> the status of the resource: * <cite>ok</cite> indicates that the service has successfully analyzed the audio data. The data can be used to train the custom model. * <cite>being_processed</cite> indicates that the service is still analyzing the audio data. The service cannot accept requests to add new audio resources or to train the custom model until its analysis is complete. * <cite>invalid</cite> indicates that the audio data is not valid for training the custom model (possibly because it has the wrong format or sampling rate, or because it is corrupted).   Omitted for an archive-type resource.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr AudioResource container:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>For an archive-type resource,</strong> an object of type <cite>AudioResource</cite> that provides information about the resource. Omitted for an audio-type resource.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[AudioResource] audio:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>For an archive-type resource,</strong> an array of <cite>AudioResource</cite> objects that provides information about the audio-type resources that are contained in the resource. Omitted for an audio-type resource.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.AudioResource">
+<em class="property">class </em><code class="descname">AudioResource</code><span class="sig-paren">(</span><em>duration</em>, <em>name</em>, <em>details</em>, <em>status</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#AudioResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.AudioResource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>AudioResource.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr float duration:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The total seconds of audio in the audio resource.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str name:</th><td class="field-body">The name of the audio resource.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr AudioDetails details:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An <cite>AudioDetails</cite> object that provides detailed information about the audio resource. The object is empty until the service finishes processing the audio.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The status of the audio resource: * <cite>ok</cite> indicates that the service has successfully analyzed the audio data. The data can be used to train the custom model. * <cite>being_processed</cite> indicates that the service is still analyzing the audio data. The service cannot accept requests to add new audio resources or to train the custom model until its analysis is complete. * <cite>invalid</cite> indicates that the audio data is not valid for training the custom model (possibly because it has the wrong format or sampling rate, or because it is corrupted). For an archive file, the entire archive is invalid if any of its audio files are invalid.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.AudioResources">
+<em class="property">class </em><code class="descname">AudioResources</code><span class="sig-paren">(</span><em>total_minutes_of_audio</em>, <em>audio</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#AudioResources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.AudioResources" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>AudioResources.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr float total_minutes_of_audio:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The total minutes of accumulated audio summed over all of the valid audio resources for the custom acoustic model. You can use this value to determine whether the custom model has too little or too much audio to begin training.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[AudioResource] audio:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of <cite>AudioResource</cite> objects that provides information about the audio resources of the custom acoustic model. The array is empty if the custom model has no audio resources.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.Corpora">
+<em class="property">class </em><code class="descname">Corpora</code><span class="sig-paren">(</span><em>corpora</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#Corpora"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.Corpora" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Corpora.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Corpus] corpora:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Information about corpora of the custom model. The array is empty if the custom model has no corpora.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.Corpus">
+<em class="property">class </em><code class="descname">Corpus</code><span class="sig-paren">(</span><em>name</em>, <em>total_words</em>, <em>out_of_vocabulary_words</em>, <em>status</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#Corpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.Corpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Corpus.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">The name of the corpus.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int total_words:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The total number of words in the corpus. The value is <cite>0</cite> while the corpus is being processed.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int out_of_vocabulary_words:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The number of OOV words in the corpus. The value is <cite>0</cite> while the corpus is being processed.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The status of the corpus: * <cite>analyzed</cite> indicates that the service has successfully analyzed the corpus; the custom model can be trained with data from the corpus. * <cite>being_processed</cite> indicates that the service is still analyzing the corpus; the service cannot accept requests to add new corpora or words, or to train the custom model. * <cite>undetermined</cite> indicates that the service encountered an error while processing the corpus.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr str error:</th><td class="field-body">(optional) If the status of the corpus is <cite>undetermined</cite>, the following message: <cite>Analysis of corpus ‘name’ failed. Please try adding the corpus again by setting the ‘allow_overwrite’ flag to ‘true’</cite>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.CustomWord">
+<em class="property">class </em><code class="descname">CustomWord</code><span class="sig-paren">(</span><em>word=None</em>, <em>sounds_like=None</em>, <em>display_as=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#CustomWord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.CustomWord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CustomWord.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str word:</th><td class="field-body">(optional) <strong>When specifying an array of one or more words,</strong> you must specify the custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words. <strong>When adding or updating a single word directly,</strong> omit this field.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] sounds_like:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service’s base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service’s base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str display_as:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.KeywordResult">
+<em class="property">class </em><code class="descname">KeywordResult</code><span class="sig-paren">(</span><em>normalized_text</em>, <em>start_time</em>, <em>end_time</em>, <em>confidence</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#KeywordResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.KeywordResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>KeywordResult.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str normalized_text:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A specified keyword normalized to the spoken phrase that matched in the audio input.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float start_time:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The start time in seconds of the keyword match.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr float end_time:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The end time in seconds of the keyword match.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float confidence:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A confidence score for the keyword match in the range of 0 to 1.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.LanguageModel">
+<em class="property">class </em><code class="descname">LanguageModel</code><span class="sig-paren">(</span><em>customization_id</em>, <em>created=None</em>, <em>language=None</em>, <em>dialect=None</em>, <em>versions=None</em>, <em>owner=None</em>, <em>name=None</em>, <em>description=None</em>, <em>base_model_name=None</em>, <em>status=None</em>, <em>progress=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#LanguageModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.LanguageModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>LanguageModel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str customization_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The customization ID (GUID) of the custom language model. <strong>Note:</strong> When you create a new custom language model, the service returns only the GUID of the new model; it does not return the other fields of this object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The date and time in Coordinated Universal Time (UTC) at which the custom language model was created. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str language:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The language identifier of the custom language model (for example, <cite>en-US</cite>).</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str dialect:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The dialect of the language for the custom language model. By default, the dialect matches the language of the base model; for example, <cite>en-US</cite> for either of the US English language models. For Spanish models, the field indicates the dialect for which the model was created: * <cite>es-ES</cite> for Castilian Spanish (the default) * <cite>es-LA</cite> for Latin American Spanish * <cite>es-US</cite> for North American (Mexican) Spanish.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] versions:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A list of the available versions of the custom language model. Each element of the array indicates a version of the base model with which the custom model can be used. Multiple versions exist only if the custom model has been upgraded; otherwise, only a single version is shown.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str owner:</th><td class="field-body">(optional) The GUID of the service credentials for the instance of the service that owns the custom language model.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">(optional) The name of the custom language model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the custom language model.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str base_model_name:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The name of the language model for which the custom language model was created.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The current status of the custom language model: * <cite>pending</cite> indicates that the model was created but is waiting either for training data to be added or for the service to finish analyzing added data. * <cite>ready</cite> indicates that the model contains data and is ready to be trained. * <cite>training</cite> indicates that the model is currently being trained. * <cite>available</cite> indicates that the model is trained and ready to use. * <cite>upgrading</cite> indicates that the model is currently being upgraded. * <cite>failed</cite> indicates that training of the model failed.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int progress:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A percentage that indicates the progress of the custom language model’s current training. A value of <cite>100</cite> means that the model is fully trained. <strong>Note:</strong> The <cite>progress</cite> field does not currently reflect the progress of the training; the field changes from <cite>0</cite> to <cite>100</cite> when training is complete.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str warnings:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If the request included unknown query parameters, the following message: <cite>Unexpected query parameter(s) [‘parameters’] detected</cite>, where <cite>parameters</cite> is a list that includes a quoted string for each unknown parameter.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.LanguageModels">
+<em class="property">class </em><code class="descname">LanguageModels</code><span class="sig-paren">(</span><em>customizations</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#LanguageModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.LanguageModels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>LanguageModels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[LanguageModel] customizations:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects that provides information about each available custom language model. The array is empty if the requesting service credentials own no custom language models (if no language is specified) or own no custom language models for the specified language.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.RecognitionJob">
+<em class="property">class </em><code class="descname">RecognitionJob</code><span class="sig-paren">(</span><em>id</em>, <em>status</em>, <em>created</em>, <em>updated=None</em>, <em>url=None</em>, <em>user_token=None</em>, <em>results=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#RecognitionJob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.RecognitionJob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>RecognitionJob.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str id:</th><td class="field-body">The ID of the job.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The current status of the job: * <cite>waiting</cite>: The service is preparing the job for processing. The service returns this status when the job is initially created or when it is waiting for capacity to process the job. The job remains in this state until the service has the capacity to begin processing it. * <cite>processing</cite>: The service is actively processing the job. * <cite>completed</cite>: The service has finished processing the job. If the job specified a callback URL and the event <cite>recognitions.completed_with_results</cite>, the service sent the results with the callback notification; otherwise, you must retrieve the results by checking the individual job. * <cite>failed</cite>: The job failed.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str created:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The date and time in Coordinated Universal Time (UTC) at which the job was created. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str updated:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The date and time in Coordinated Universal Time (UTC) at which the job was last updated by the service. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>). <strong>Note:</strong> This field is returned only when you list information about a specific or all existing jobs.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr str url:</th><td class="field-body">(optional) The URL to use to request information about the job with the <cite>GET /v1/recognitions/{id}</cite> method. <strong>Note:</strong> This field is returned only when you create a new job.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str user_token:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The user token associated with a job that was created with a callback URL and a user token. <strong>Note:</strong> This field can be returned only when you list information about all existing jobs.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[SpeechRecognitionResults] results:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If the status is <cite>completed</cite>, the results of the recognition request as an array that includes a single instance of a <cite>SpeechRecognitionResults</cite> object. <strong>Note:</strong> This field can be returned only when you list information about a specific existing job.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] warnings:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of warning messages about invalid query parameters included with the request. Each warning includes a descriptive message and a list of invalid argument strings, for example, <cite>“unexpected query parameter ‘user_token’, query parameter ‘callback_url’ was not specified”</cite>. The request succeeds despite the warnings. <strong>Note:</strong> This field can be returned only when you create a new job.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.RecognitionJobs">
+<em class="property">class </em><code class="descname">RecognitionJobs</code><span class="sig-paren">(</span><em>recognitions</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#RecognitionJobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.RecognitionJobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>RecognitionJobs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[RecognitionJob] recognitions:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects that provides the status for each of the user’s current jobs. The array is empty if the user has no current jobs.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.RegisterStatus">
+<em class="property">class </em><code class="descname">RegisterStatus</code><span class="sig-paren">(</span><em>status</em>, <em>url</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#RegisterStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.RegisterStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>RegisterStatus.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The current status of the job: * <cite>created</cite> if the callback URL was successfully white-listed as a result of the call. * <cite>already created</cite> if the URL was already white-listed.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str url:</th><td class="field-body">The callback URL that is successfully registered.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeakerLabelsResult">
+<em class="property">class </em><code class="descname">SpeakerLabelsResult</code><span class="sig-paren">(</span><em>_from</em>, <em>to</em>, <em>speaker</em>, <em>confidence</em>, <em>final_results</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeakerLabelsResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeakerLabelsResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SpeakerLabelsResult.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr float _from:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The start time of a word from the transcript. The value matches the start time of a word from the <cite>timestamps</cite> array.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr float to:</th><td class="field-body">The end time of a word from the transcript. The value matches the end time of a word from the <cite>timestamps</cite> array.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int speaker:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The numeric identifier that the service assigns to a speaker from the audio. Speaker IDs begin at <cite>0</cite> initially but can evolve and change across interim results (if supported by the method) and between interim and final results as the service processes the audio. They are not guaranteed to be sequential, contiguous, or ordered.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float confidence:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A score that indicates the service’s confidence in its identification of the speaker in the range of 0 to 1.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool final_results:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An indication of whether the service might further change word and speaker-label results. A value of <cite>true</cite> means that the service guarantees not to send any further updates for the current or any preceding results; <cite>false</cite> means that the service might send further updates to the results.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechModel">
+<em class="property">class </em><code class="descname">SpeechModel</code><span class="sig-paren">(</span><em>name</em>, <em>language</em>, <em>rate</em>, <em>url</em>, <em>supported_features</em>, <em>description</em>, <em>sessions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SpeechModel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">The name of the model for use as an identifier in calls to the service (for example, <cite>en-US_BroadbandModel</cite>).</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str language:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The language identifier for the model (for example, <cite>en-US</cite>).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr int rate:</th><td class="field-body">The sampling rate (minimum acceptable rate for audio) used by the model in Hertz.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str url:</th><td class="field-body">The URI for the model.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr SupportedFeatures supported_features:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Describes the additional service features supported with the model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Brief description of the model.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str sessions:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The URI for the model for use with the <cite>POST /v1/sessions</cite> method. (Returned only for requests for a single model with the <cite>GET /v1/models/{model_id}</cite> method.).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechModels">
+<em class="property">class </em><code class="descname">SpeechModels</code><span class="sig-paren">(</span><em>models</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechModels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SpeechModels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[SpeechModel] models:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Information about each available model.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechRecognitionAlternative">
+<em class="property">class </em><code class="descname">SpeechRecognitionAlternative</code><span class="sig-paren">(</span><em>transcript</em>, <em>confidence=None</em>, <em>timestamps=None</em>, <em>word_confidence=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechRecognitionAlternative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechRecognitionAlternative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SpeechRecognitionAlternative.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str transcript:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A transcription of the audio.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float confidence:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A score that indicates the service’s confidence in the transcript in the range of 0 to 1. Available only for the best alternative and only in results marked as final.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] timestamps:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Time alignments for each word from the transcript as a list of lists. Each inner list consists of three elements: the word followed by its start and end time in seconds. Example: <cite>[[“hello”,0.0,1.2],[“world”,1.2,2.5]]</cite>. Available only for the best alternative.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] word_confidence:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A confidence score for each word of the transcript as a list of lists. Each inner list consists of two elements: the word and its confidence score in the range of 0 to 1. Example: <cite>[[“hello”,0.95],[“world”,0.866]]</cite>. Available only for the best alternative and only in results marked as final.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechRecognitionResult">
+<em class="property">class </em><code class="descname">SpeechRecognitionResult</code><span class="sig-paren">(</span><em>final_results</em>, <em>alternatives</em>, <em>keywords_result=None</em>, <em>word_alternatives=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechRecognitionResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechRecognitionResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SpeechRecognitionResult.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool final_results:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An indication of whether the transcription results are final. If <cite>true</cite>, the results for this utterance are not updated further; no additional results are sent for a <cite>result_index</cite> once its results are indicated as final.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[SpeechRecognitionAlternative] alternatives:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of alternative transcripts. The <cite>alternatives</cite> array can include additional requested output such as word confidence or timestamps.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr dict keywords_result:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A dictionary (or associative array) whose keys are the strings specified for <cite>keywords</cite> if both that parameter and <cite>keywords_threshold</cite> are specified. A keyword for which no matches are found is omitted from the array. The array is omitted if no keywords are found.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[WordAlternativeResults] word_alternatives:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of alternative hypotheses found for words of the input audio if a <cite>word_alternatives_threshold</cite> is specified.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechRecognitionResults">
+<em class="property">class </em><code class="descname">SpeechRecognitionResults</code><span class="sig-paren">(</span><em>results=None</em>, <em>result_index=None</em>, <em>speaker_labels=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechRecognitionResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechRecognitionResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SpeechRecognitionResults.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[SpeechRecognitionResult] results:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array that can include interim and final results (interim results are returned only if supported by the method). Final results are guaranteed not to change; interim results might be replaced by further interim results and final results. The service periodically sends updates to the results list; the <cite>result_index</cite> is set to the lowest index in the array that has changed; it is incremented for new results.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int result_index:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An index that indicates a change point in the <cite>results</cite> array. The service increments the index only for additional results that it sends for new audio for the same request.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[SpeakerLabelsResult] speaker_labels:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array that identifies which words were spoken by which speakers in a multi-person exchange. Returned in the response only if <cite>speaker_labels</cite> is <cite>true</cite>. When interim results are also requested for methods that support them, it is possible for a <cite>SpeechRecognitionResults</cite> object to include only the <cite>speaker_labels</cite> field.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] warnings:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of warning messages associated with the request: * Warnings for invalid query parameters or JSON fields can include a descriptive message and a list of invalid argument strings, for example, <cite>“Unknown arguments:”</cite> or <cite>“Unknown url query arguments:”</cite> followed by a list of the form <cite>“invalid_arg_1, invalid_arg_2.”</cite> * The following warning is returned if the request passes a custom model that is based on an older version of a base model for which an updated version is available: <cite>“Using previous version of base model, because your custom model has been built with it. Please note that this version will be supported only for a limited time. Consider updating your custom model to the new base model. If you do not do that you will be automatically switched to base model when you used the non-updated custom model.”</cite>  In both cases, the request succeeds despite the warnings.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.SupportedFeatures">
+<em class="property">class </em><code class="descname">SupportedFeatures</code><span class="sig-paren">(</span><em>custom_language_model</em>, <em>speaker_labels</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SupportedFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SupportedFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SupportedFeatures.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool custom_language_model:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Indicates whether the customization interface can be used to create a custom language model based on the language model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool speaker_labels:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Indicates whether the <cite>speaker_labels</cite> parameter can be used with the language model.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.Word">
+<em class="property">class </em><code class="descname">Word</code><span class="sig-paren">(</span><em>word</em>, <em>sounds_like</em>, <em>display_as</em>, <em>count</em>, <em>source</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#Word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.Word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Word.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str word:</th><td class="field-body">A word from the custom model’s words resource. The spelling of the word is used to train the model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] sounds_like:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of pronunciations for the word. The array can include the sounds-like pronunciation automatically generated by the service if none is provided for the word; the service adds this pronunciation when it finishes processing the word.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str display_as:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The spelling of the word that the service uses to display the word in a transcript. The field contains an empty string if no display-as value is provided for the word, in which case the word is displayed as it is spelled.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr int count:</th><td class="field-body">A sum of the number of times the word is found across all corpora. For example, if the word occurs five times in one corpus and seven times in another, its count is <cite>12</cite>. If you add a custom word to a model before it is added by any corpora, the count begins at <cite>1</cite>; if the word is added from a corpus first and later modified, the count reflects only the number of times it is found in corpora.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] source:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of sources that describes how the word was added to the custom model’s words resource. For OOV words added from a corpus, includes the name of the corpus; if the word was added by multiple corpora, the names of all corpora are listed. If the word was modified or added by the user directly, the field includes the string <cite>user</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[WordError] error:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If the service discovered one or more problems that you need to correct for the word’s definition, an array that describes each of the errors.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.WordAlternativeResult">
+<em class="property">class </em><code class="descname">WordAlternativeResult</code><span class="sig-paren">(</span><em>confidence</em>, <em>word</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#WordAlternativeResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.WordAlternativeResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>WordAlternativeResult.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr float confidence:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A confidence score for the word alternative hypothesis in the range of 0 to 1.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str word:</th><td class="field-body">An alternative hypothesis for a word from the input audio.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.WordAlternativeResults">
+<em class="property">class </em><code class="descname">WordAlternativeResults</code><span class="sig-paren">(</span><em>start_time</em>, <em>end_time</em>, <em>alternatives</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#WordAlternativeResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.WordAlternativeResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>WordAlternativeResults.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr float start_time:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The start time in seconds of the word from the input audio that corresponds to the word alternatives.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float end_time:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The end time in seconds of the word from the input audio that corresponds to the word alternatives.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[WordAlternativeResult] alternatives:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of alternative hypotheses for a word from the input audio.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.WordError">
+<em class="property">class </em><code class="descname">WordError</code><span class="sig-paren">(</span><em>element</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#WordError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.WordError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>WordError.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str element:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A key-value pair that describes an error associated with the definition of a word in the words resource. Each pair has the format <cite>“element”: “message”</cite>, where <cite>element</cite> is the aspect of the definition that caused the problem and <cite>message</cite> describes the problem. The following example describes a problem with one of the word’s sounds-like definitions: <cite>“sounds_like_string”: “Numbers are not allowed in sounds-like. You can try for example ‘suggested_string’.”</cite> You must correct the error before you can train the model.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.speech_to_text_v1.Words">
+<em class="property">class </em><code class="descname">Words</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#Words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.Words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Words.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Word] words:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Information about each word in the custom model’s words resource. The array is empty if the custom model has no words.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.personality_insights_v3.html" title="previous chapter">watson_developer_cloud.personality_insights_v3 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.text_to_speech_v1.html" title="next chapter">watson_developer_cloud.text_to_speech_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
