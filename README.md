@@ -89,10 +89,10 @@ print(json.dumps(response, indent=2))
 * `python_dateutil` >= 2.5.3
 * [responses] for testing
 * Following for web sockets support in speech to text
-   * autobahn>=0.10.9
-   * Twisted>=13.2.0
-   * pyOpenSSL>=16.2.0
-service-identity>=17.0.0
+   * `autobahn` >= 0.10.9
+   * `Twisted` >= 13.2.0
+   * `pyOpenSSL` >= 16.2.0
+   * `service-identity` >= 17.0.0
 
 ## Contributing
 
