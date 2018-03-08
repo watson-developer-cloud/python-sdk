@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>watson_developer_cloud.websocket.speech_to_text_websocket_listener &#8212; Watson Developer Cloud Python SDK 1.1.0 documentation</title>
+    <title>watson_developer_cloud.websocket.speech_to_text_websocket_listener &#8212; Watson Developer Cloud Python SDK 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
@@ -95,7 +95,7 @@
             <span class="k">return</span> <span class="n">options</span>
 
 <div class="viewcode-block" id="RecognizeListener.WebSocketClient.build_close_message"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.build_close_message">[docs]</a>        <span class="k">def</span> <span class="nf">build_close_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="s1">&#39;close&#39;</span><span class="p">})</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="s1">&#39;close&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
 
         <span class="c1"># helper method that sends a chunk of audio if needed (as required what the specified pacing is)</span>
 <div class="viewcode-block" id="RecognizeListener.WebSocketClient.send_audio"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.send_audio">[docs]</a>        <span class="k">def</span> <span class="nf">send_audio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
