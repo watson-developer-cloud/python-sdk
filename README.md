@@ -66,7 +66,7 @@ Version 1.0 focuses on the move to programmatically-generated code for many of t
 ## Migration
 This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
 
-## Configuring the http client
+## Configuring the http client (Supported from v1.1.0)
 To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs.
 
 ```python
@@ -88,6 +88,11 @@ print(json.dumps(response, indent=2))
 * [requests]
 * `python_dateutil` >= 2.5.3
 * [responses] for testing
+* Following for web sockets support in speech to text
+   * autobahn>=0.10.9
+   * Twisted>=13.2.0
+   * pyOpenSSL>=16.2.0
+service-identity>=17.0.0
 
 ## Contributing
 
