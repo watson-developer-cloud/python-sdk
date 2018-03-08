@@ -14,8 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-import os
 import json
 
 # WebSockets
@@ -27,7 +25,8 @@ TIMEOUT_PREFIX = "No speech detected for"
 CLOSE_SIGNAL = 1000
 TEN_MILLISECONDS = 0.01
 
-class RecognizeListener:
+
+class RecognizeListener(object):
     def __init__(self, audio, options, recognize_callback, url, headers):
         self.audio = audio
         self.options = options
@@ -35,8 +34,8 @@ class RecognizeListener:
         self.url = url
         self.headers = headers
 
-        factory = self.WebSocketClientFactory(self.audio, self.options,
-                                          self.callback, self.url, self.headers)
+        factory = self.WebSocketClientFactory(
+            self.audio, self.options, self.callback, self.url, self.headers)
         factory.protocol = self.WebSocketClient
 
         if factory.isSecure:
@@ -73,13 +72,14 @@ class RecognizeListener:
                 if final:
                     self.sendMessage(b'', isBinary=True)
 
-            if (self.bytes_sent + ONE_KB >= len(data)):
-                if (len(data) > self.bytes_sent):
+            if self.bytes_sent + ONE_KB >= len(data):
+                if len(data) > self.bytes_sent:
                     send_chunk(data[self.bytes_sent:len(data)], True)
                     return
 
             send_chunk(data[self.bytes_sent:self.bytes_sent + ONE_KB])
-            self.factory.reactor.callLater(TEN_MILLISECONDS, self.send_audio, data=data)
+            self.factory.reactor.callLater(
+                TEN_MILLISECONDS, self.send_audio, data=data)
 
         def extract_transcripts(self, alternatives):
             transcripts = []

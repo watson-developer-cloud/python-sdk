@@ -1,12 +1,17 @@
-import pytest
+
 import unittest
 import watson_developer_cloud
-import os
+
 
 class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def setUp(self):
         self.text_to_speech = watson_developer_cloud.TextToSpeechV1()
-        self.text_to_speech.set_default_headers({'X-Watson-Learning-Opt-Out': '1', 'X-Watson-Test': '1'})
+        self.text_to_speech.set_default_headers({
+            'X-Watson-Learning-Opt-Out':
+            '1',
+            'X-Watson-Test':
+            '1'
+        })
         self.original_customizations = self.text_to_speech.list_voice_models()
         self.created_customization = self.text_to_speech.create_voice_model(
             name="test_integration_customization",
@@ -27,11 +32,11 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
             text="my voice is my passport",
             accept='audio/wav',
             voice='en-US_AllisonVoice')
-        output.content is not None
+        assert output.content is not None
 
     def test_pronunciation(self):
         output = self.text_to_speech.get_pronunciation('hello')
-        output['pronunciation'] is not None
+        assert output['pronunciation'] is not None
 
     def test_customizations(self):
         old_length = len(self.original_customizations['customizations'])
@@ -44,16 +49,9 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
         words = self.text_to_speech.list_words(customization_id)['words']
         assert len(words) == 0
         self.text_to_speech.add_word(
-            customization_id,
-            word="ACLs",
-            translation="ackles")
+            customization_id, word="ACLs", translation="ackles")
 
-        words = [
-            {
-            "word": "MACLs",
-            "translation": "mackles"
-            }
-        ]
+        words = [{"word": "MACLs", "translation": "mackles"}]
 
         self.text_to_speech.add_words(customization_id, words)
         self.text_to_speech.delete_word(customization_id, 'ACLs')
