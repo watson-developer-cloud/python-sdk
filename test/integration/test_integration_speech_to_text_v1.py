@@ -53,7 +53,7 @@ class TestSpeechToTextV1(TestCase):
 
     def test_custom_corpora(self):
         output = self.speech_to_text.list_corpora(self.customization_id)
-        assert output['corpora']
+        assert len(output['corpora']) == 0 # pylint: disable=len-as-condition
 
     def test_acoustic_model(self):
         list_models = self.speech_to_text.list_acoustic_models()

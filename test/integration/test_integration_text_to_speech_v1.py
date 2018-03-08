@@ -47,7 +47,7 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def test_custom_words(self):
         customization_id = self.created_customization['customization_id']
         words = self.text_to_speech.list_words(customization_id)['words']
-        assert words
+        assert len(words) == 0 # pylint: disable=len-as-condition
         self.text_to_speech.add_word(
             customization_id, word="ACLs", translation="ackles")
 
