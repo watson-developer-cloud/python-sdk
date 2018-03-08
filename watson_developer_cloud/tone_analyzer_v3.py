@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-### Service Overview
 The IBM Watson Tone Analyzer service uses linguistic analysis to detect emotional and
 language tones in written text. The service can analyze tone at both the document and
 sentence levels. You can use the service to understand how your written communications are
@@ -81,12 +80,12 @@ class ToneAnalyzerV3(WatsonService):
         self.version = version
 
     #########################
-    # tone
+    # Methods
     #########################
 
     def tone(self,
              tone_input,
-             content_type='application/json',
+             content_type,
              sentences=None,
              tones=None,
              content_language=None,
@@ -98,8 +97,8 @@ class ToneAnalyzerV3(WatsonService):
         :param str content_type: The type of the input: application/json, text/plain, or text/html. A character encoding can be specified by including a `charset` parameter. For example, 'text/plain;charset=utf-8'.
         :param bool sentences: Indicates whether the service is to return an analysis of each individual sentence in addition to its analysis of the full document. If `true` (the default), the service returns results for each sentence.
         :param list[str] tones: **`2017-09-21`:** Deprecated. The service continues to accept the parameter for backward-compatibility, but the parameter no longer affects the response.   **`2016-05-19`:** A comma-separated list of tones for which the service is to return its analysis of the input; the indicated tones apply both to the full document and to individual sentences of the document. You can specify one or more of the valid values. Omit the parameter to request results for all three tones.
-        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `content_language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
-        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for `Content-Language` and `accept_language`.
+        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `Content-Language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
+        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for `Content-Language` and `Accept-Language`.
         :return: A `dict` containing the `ToneAnalysis` response.
         :rtype: dict
         """
@@ -131,30 +130,26 @@ class ToneAnalyzerV3(WatsonService):
             accept_json=True)
         return response
 
-    def tone_chat(self, utterances, accept_language=None):
+    def tone_chat(self,
+                  utterances,
+                  content_language=None,
+                  accept_language=None):
         """
         Analyze customer engagement tone.
 
-        Use the customer engagement endpoint to analyze the tone of customer service and
-        customer support conversations. For each utterance of a conversation, the method
-        reports the most prevalent subset of the following seven tones: sad, frustrated,
-        satisfied, excited, polite, impolite, and sympathetic.   If you submit more than
-        50 utterances, the service returns a warning for the overall content and analyzes
-        only the first 50 utterances. If you submit a single utterance that contains more
-        than 500 characters, the service returns an error for that utterance and does not
-        analyze the utterance. The request fails if all utterances have more than 500
-        characters.   Per the JSON specification, the default character encoding for JSON
-        content is effectively always UTF-8.
-
         :param list[Utterance] utterances: An array of `Utterance` objects that provides the input content that the service is to analyze.
+        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `Content-Language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
         :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`.
         :return: A `dict` containing the `UtteranceAnalyses` response.
         :rtype: dict
         """
         if utterances is None:
             raise ValueError('utterances must be provided')
-        utterances = [self._convert_model(x) for x in utterances]
-        headers = {'Accept-Language': accept_language}
+        utterances = [self._convert_model(x, Utterance) for x in utterances]
+        headers = {
+            'Content-Language': content_language,
+            'Accept-Language': accept_language
+        }
         params = {'version': self.version}
         data = {'utterances': utterances}
         url = '/v3/tone_chat'
@@ -166,7 +161,6 @@ class ToneAnalyzerV3(WatsonService):
             json=data,
             accept_json=True)
         return response
-
 
 ##############################################################################
 # Models
