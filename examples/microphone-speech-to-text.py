@@ -1,3 +1,6 @@
+# You need to install pyaudio to run this example
+# pip install pyaudio
+
 from __future__ import print_function
 import pyaudio
 import tempfile
