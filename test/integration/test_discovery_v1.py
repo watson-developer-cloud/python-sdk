@@ -9,8 +9,8 @@ class Discoveryv1(TestCase):
     def setUp(self):
         self.discovery = watson_developer_cloud.DiscoveryV1(
             version='2017-10-16',
-            username=os.getenv('DISCOVERY_TO_TEXT_USERNAME'),
-            password=os.getenv('DISCOVERY_TO_TEXT_PASSWORD'))
+            username="YOUR SERVICE USERNAME",
+            password="YOUR SERVICE PASSWORD")
         self.discovery.set_default_headers({
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'
@@ -84,7 +84,10 @@ class Discoveryv1(TestCase):
             self.environment_id, self.collection_id, add_doc['document_id'])
         assert doc_status is not None
 
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/simple.html'), 'r') as fileinfo:
+        with open(
+                os.path.join(
+                    os.path.dirname(__file__), '../../resources/simple.html'),
+                'r') as fileinfo:
             update_doc = self.discovery.update_document(
                 self.environment_id,
                 self.collection_id,

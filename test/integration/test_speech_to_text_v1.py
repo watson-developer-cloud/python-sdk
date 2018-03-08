@@ -7,8 +7,8 @@ import watson_developer_cloud
 class TestSpeechToTextV1(TestCase):
     def setUp(self):
         self.speech_to_text = watson_developer_cloud.SpeechToTextV1(
-            username=os.getenv('SPEECH_TO_TEXT_USERNAME'),
-            password=os.getenv('SPEECH_TO_TEXT_PASSWORD'))
+            username=os.getenv('YOUR SERVICE USERNAME'),
+            password=os.getenv('YOUR SERVICE PASSWORD'))
         self.speech_to_text.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',

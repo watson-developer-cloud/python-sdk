@@ -29,7 +29,10 @@ from .watson_service import WatsonService, _remove_null_values
 from .utils import deprecated
 from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener
 import base64
-import urllib
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
 
 ##############################################################################
 # Service
@@ -241,8 +244,9 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if self.default_headers is not None:
             headers = self.default_headers.copy()
-        base64_authorization = base64.b64encode(
-            self.username + ':' + self.password)
+
+        authstring = "{0}:{1}".format(self.username, self.password)
+        base64_authorization = base64.b64encode(authstring.encode('utf-8')).decode('utf-8')
         headers['Authorization'] = 'Basic {0}'.format(base64_authorization)
 
         url = self.url.replace('https:', 'wss:')
@@ -254,7 +258,7 @@ class SpeechToTextV1(WatsonService):
             'version': version
         }
         params = _remove_null_values(params)
-        url = url + '/v1/recognize?{0}'.format(urllib.urlencode(params))
+        url = url + '/v1/recognize?{0}'.format(urlencode(params))
 
         options = {
             'content_type': content_type,

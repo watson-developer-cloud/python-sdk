@@ -5,7 +5,8 @@ import watson_developer_cloud
 
 class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def setUp(self):
-        self.text_to_speech = watson_developer_cloud.TextToSpeechV1()
+        self.text_to_speech = watson_developer_cloud.TextToSpeechV1(
+            username="YOUR SERVICE USERNAME", password="YOUR SERVICE PASSWORD")
         self.text_to_speech.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
