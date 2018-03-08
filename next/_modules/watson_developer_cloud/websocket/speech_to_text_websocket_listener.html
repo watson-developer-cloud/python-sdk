@@ -47,8 +47,6 @@
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
 
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="c1"># WebSockets</span>
@@ -60,7 +58,8 @@
 <span class="n">CLOSE_SIGNAL</span> <span class="o">=</span> <span class="mi">1000</span>
 <span class="n">TEN_MILLISECONDS</span> <span class="o">=</span> <span class="mf">0.01</span>
 
-<div class="viewcode-block" id="RecognizeListener"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener">[docs]</a><span class="k">class</span> <span class="nc">RecognizeListener</span><span class="p">:</span>
+
+<div class="viewcode-block" id="RecognizeListener"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener">[docs]</a><span class="k">class</span> <span class="nc">RecognizeListener</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">audio</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">recognize_callback</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">audio</span> <span class="o">=</span> <span class="n">audio</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
@@ -68,8 +67,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
 
-        <span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WebSocketClientFactory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">audio</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span>
-                                          <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">factory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WebSocketClientFactory</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">audio</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
         <span class="n">factory</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">WebSocketClient</span>
 
         <span class="k">if</span> <span class="n">factory</span><span class="o">.</span><span class="n">isSecure</span><span class="p">:</span>
@@ -78,7 +77,7 @@
             <span class="n">contextFactory</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">connectWS</span><span class="p">(</span><span class="n">factory</span><span class="p">,</span> <span class="n">contextFactory</span><span class="p">)</span>
 
-        <span class="n">reactor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="n">reactor</span><span class="o">.</span><span class="n">run</span><span class="p">()</span> <span class="c1"># pylint: disable=E1101</span>
 
 <div class="viewcode-block" id="RecognizeListener.WebSocketClient"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient">[docs]</a>    <span class="k">class</span> <span class="nc">WebSocketClient</span><span class="p">(</span><span class="n">WebSocketClientProtocol</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factory</span><span class="p">,</span> <span class="n">audio</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
@@ -89,7 +88,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">isListening</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span> <span class="o">=</span> <span class="mi">0</span>
 
-            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span> <span class="c1"># pylint: disable=E1003</span>
 
 <div class="viewcode-block" id="RecognizeListener.WebSocketClient.build_start_message"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.build_start_message">[docs]</a>        <span class="k">def</span> <span class="nf">build_start_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
             <span class="n">options</span><span class="p">[</span><span class="s1">&#39;action&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;start&#39;</span></div>
@@ -106,13 +105,14 @@
                 <span class="k">if</span> <span class="n">final</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">sendMessage</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">isBinary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span> <span class="o">+</span> <span class="n">ONE_KB</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span> <span class="o">+</span> <span class="n">ONE_KB</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span><span class="p">:</span>
                     <span class="n">send_chunk</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)],</span> <span class="kc">True</span><span class="p">)</span>
                     <span class="k">return</span>
 
-            <span class="n">send_chunk</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span> <span class="o">+</span> <span class="n">ONE_KB</span><span class="p">])</span></div>
-            <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">reactor</span><span class="o">.</span><span class="n">callLater</span><span class="p">(</span><span class="n">TEN_MILLISECONDS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_audio</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">send_chunk</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">bytes_sent</span> <span class="o">+</span> <span class="n">ONE_KB</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">reactor</span><span class="o">.</span><span class="n">callLater</span><span class="p">(</span></div>
+                <span class="n">TEN_MILLISECONDS</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_audio</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RecognizeListener.WebSocketClient.extract_transcripts"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.extract_transcripts">[docs]</a>        <span class="k">def</span> <span class="nf">extract_transcripts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alternatives</span><span class="p">):</span>
             <span class="n">transcripts</span> <span class="o">=</span> <span class="p">[]</span>
@@ -162,10 +162,10 @@
             <span class="k">elif</span> <span class="s1">&#39;results&#39;</span> <span class="ow">in</span> <span class="n">json_object</span> <span class="ow">or</span> <span class="s1">&#39;speaker_labels&#39;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
                 <span class="n">hypothesis</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
                 <span class="c1"># empty hypothesis</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">]:</span>
                     <span class="n">hypothesis</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;alternatives&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span>
                         <span class="s1">&#39;transcript&#39;</span><span class="p">]</span>
-                    <span class="n">b_final</span> <span class="o">=</span> <span class="p">(</span><span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;final&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span>
+                    <span class="n">b_final</span> <span class="o">=</span> <span class="p">(</span><span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;final&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span>
                     <span class="n">transcripts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_transcripts</span><span class="p">(</span>
                         <span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;alternatives&#39;</span><span class="p">])</span>
 
@@ -188,7 +188,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">closeHandshakeTimeout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SIX_SECONDS</span>
 
 <div class="viewcode-block" id="RecognizeListener.WebSocketClientFactory.endReactor"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClientFactory.endReactor">[docs]</a>        <span class="k">def</span> <span class="nf">endReactor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
-            <span class="n">reactor</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="n">reactor</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span> <span class="c1"># pylint: disable=E1101</span>
 
         <span class="c1"># this function gets called every time connectWS is called (once per WebSocket connection/session)</span>
 <div class="viewcode-block" id="RecognizeListener.WebSocketClientFactory.buildProtocol"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClientFactory.buildProtocol">[docs]</a>        <span class="k">def</span> <span class="nf">buildProtocol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>

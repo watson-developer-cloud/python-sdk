@@ -69,12 +69,6 @@
     <span class="sd">&quot;&quot;&quot;The Discovery V1 service.&quot;&quot;&quot;</span>
 
     <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/discovery/api&#39;</span>
-    <span class="n">VERSION_DATE_2017_11_07</span> <span class="o">=</span> <span class="s1">&#39;2017-11-07&#39;</span>
-    <span class="n">VERSION_DATE_2017_09_01</span> <span class="o">=</span> <span class="s1">&#39;2017-09-01&#39;</span>
-    <span class="n">VERSION_DATE_2017_08_01</span> <span class="o">=</span> <span class="s1">&#39;2017-08-01&#39;</span>
-    <span class="n">VERSION_DATE_2017_07_19</span> <span class="o">=</span> <span class="s1">&#39;2017-07-19&#39;</span>
-    <span class="n">VERSION_DATE_2017_06_25</span> <span class="o">=</span> <span class="s1">&#39;2017-06-25&#39;</span>
-    <span class="n">VERSION_DATE_2016_12_01</span> <span class="o">=</span> <span class="s1">&#39;2016-12-01&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -196,10 +190,10 @@
 
 <div class="viewcode-block" id="DiscoveryV1.list_fields"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.list_fields">[docs]</a>    <span class="k">def</span> <span class="nf">list_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_ids</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        List fields in specified collecitons.</span>
+<span class="sd">        List fields in specified collections.</span>
 
 <span class="sd">        Gets a list of the unique fields (and their types) stored in the indexes of the</span>
-<span class="sd">        specified collecitons.</span>
+<span class="sd">        specified collections.</span>
 
 <span class="sd">        :param str environment_id: The ID of the environment.</span>
 <span class="sd">        :param list[str] collection_ids: A comma-separated list of collection IDs to be queried against.</span>
@@ -280,11 +274,16 @@
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;name must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">conversions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">conversions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">conversions</span><span class="p">)</span>
+            <span class="n">conversions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">conversions</span><span class="p">,</span> <span class="n">Conversions</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">enrichments</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">enrichments</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">enrichments</span><span class="p">]</span>
+            <span class="n">enrichments</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Enrichment</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">enrichments</span>
+            <span class="p">]</span>
         <span class="k">if</span> <span class="n">normalizations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">normalizations</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">normalizations</span><span class="p">]</span>
+            <span class="n">normalizations</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">NormalizationOperation</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">normalizations</span>
+            <span class="p">]</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
@@ -402,11 +401,16 @@
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;name must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">conversions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">conversions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">conversions</span><span class="p">)</span>
+            <span class="n">conversions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">conversions</span><span class="p">,</span> <span class="n">Conversions</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">enrichments</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">enrichments</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">enrichments</span><span class="p">]</span>
+            <span class="n">enrichments</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Enrichment</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">enrichments</span>
+            <span class="p">]</span>
         <span class="k">if</span> <span class="n">normalizations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">normalizations</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">normalizations</span><span class="p">]</span>
+            <span class="n">normalizations</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">NormalizationOperation</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">normalizations</span>
+            <span class="p">]</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
@@ -545,7 +549,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;collection_id must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">expansions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;expansions must be provided&#39;</span><span class="p">)</span>
-        <span class="n">expansions</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">expansions</span><span class="p">]</span>
+        <span class="n">expansions</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Expansion</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">expansions</span><span class="p">]</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;expansions&#39;</span><span class="p">:</span> <span class="n">expansions</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/collections/</span><span class="si">{1}</span><span class="s1">/expansions&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -902,7 +906,10 @@
                         <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">highlight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">deduplicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                        <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">similar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">similar_document_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">similar_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Query documents in multiple collections.</span>
 
@@ -923,6 +930,9 @@
 <span class="sd">        :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `&lt;em&gt;&lt;/em&gt;` tags around the matching query terms. Defaults to false.</span>
 <span class="sd">        :param bool deduplicate: When `true` and used with a Watson Discovery News collection, duplicate results (based on the contents of the `title` field) are removed. Duplicate comparison is limited to the current query only, `offset` is not considered. Defaults to `false`. This parameter is currently Beta functionality.</span>
 <span class="sd">        :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.</span>
+<span class="sd">        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.</span>
+<span class="sd">        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.</span>
+<span class="sd">        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.</span>
 <span class="sd">        :return: A `dict` containing the `QueryResponse` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -943,7 +953,10 @@
             <span class="s1">&#39;sort&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">sort</span><span class="p">),</span>
             <span class="s1">&#39;highlight&#39;</span><span class="p">:</span> <span class="n">highlight</span><span class="p">,</span>
             <span class="s1">&#39;deduplicate&#39;</span><span class="p">:</span> <span class="n">deduplicate</span><span class="p">,</span>
-            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span>
+            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span><span class="p">,</span>
+            <span class="s1">&#39;similar&#39;</span><span class="p">:</span> <span class="n">similar</span><span class="p">,</span>
+            <span class="s1">&#39;similar.document_ids&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_document_ids</span><span class="p">),</span>
+            <span class="s1">&#39;similar.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_fields</span><span class="p">)</span>
         <span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/query&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">environment_id</span><span class="p">))</span>
@@ -963,7 +976,10 @@
                                 <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">highlight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                                <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">similar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">similar_document_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                <span class="n">similar_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Query multiple collection system notices.</span>
 
@@ -985,6 +1001,9 @@
 <span class="sd">        :param list[str] sort: A comma separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the default sort direction if no prefix is specified.</span>
 <span class="sd">        :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `&lt;em&gt;&lt;/em&gt;` tags around the matching query terms. Defaults to false.</span>
 <span class="sd">        :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.</span>
+<span class="sd">        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.</span>
+<span class="sd">        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.</span>
+<span class="sd">        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.</span>
 <span class="sd">        :return: A `dict` containing the `QueryNoticesResponse` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1004,7 +1023,10 @@
             <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
             <span class="s1">&#39;sort&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">sort</span><span class="p">),</span>
             <span class="s1">&#39;highlight&#39;</span><span class="p">:</span> <span class="n">highlight</span><span class="p">,</span>
-            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span>
+            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span><span class="p">,</span>
+            <span class="s1">&#39;similar&#39;</span><span class="p">:</span> <span class="n">similar</span><span class="p">,</span>
+            <span class="s1">&#39;similar.document_ids&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_document_ids</span><span class="p">),</span>
+            <span class="s1">&#39;similar.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_fields</span><span class="p">)</span>
         <span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/notices&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">environment_id</span><span class="p">))</span>
@@ -1029,7 +1051,10 @@
               <span class="n">passages_count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">passages_characters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">deduplicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-              <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+              <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">similar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">similar_document_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">similar_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Query documents.</span>
 
@@ -1054,6 +1079,9 @@
 <span class="sd">        :param int passages_characters: The approximate number of characters that any one passage will have. The default is `400`. The minimum is `50`. The maximum is `2000`.</span>
 <span class="sd">        :param bool deduplicate: When `true` and used with a Watson Discovery News collection, duplicate results (based on the contents of the `title` field) are removed. Duplicate comparison is limited to the current query only, `offset` is not considered. Defaults to `false`. This parameter is currently Beta functionality.</span>
 <span class="sd">        :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.</span>
+<span class="sd">        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.</span>
+<span class="sd">        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.</span>
+<span class="sd">        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.</span>
 <span class="sd">        :return: A `dict` containing the `QueryResponse` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1077,7 +1105,10 @@
             <span class="s1">&#39;passages.count&#39;</span><span class="p">:</span> <span class="n">passages_count</span><span class="p">,</span>
             <span class="s1">&#39;passages.characters&#39;</span><span class="p">:</span> <span class="n">passages_characters</span><span class="p">,</span>
             <span class="s1">&#39;deduplicate&#39;</span><span class="p">:</span> <span class="n">deduplicate</span><span class="p">,</span>
-            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span>
+            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span><span class="p">,</span>
+            <span class="s1">&#39;similar&#39;</span><span class="p">:</span> <span class="n">similar</span><span class="p">,</span>
+            <span class="s1">&#39;similar.document_ids&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_document_ids</span><span class="p">),</span>
+            <span class="s1">&#39;similar.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_fields</span><span class="p">)</span>
         <span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/collections/</span><span class="si">{1}</span><span class="s1">/query&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">))</span>
@@ -1113,9 +1144,9 @@
         <span class="k">if</span> <span class="n">collection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;collection_id must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">entity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+            <span class="n">entity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">QueryEntitiesEntity</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">QueryEntitiesContext</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="n">feature</span><span class="p">,</span>
@@ -1145,7 +1176,10 @@
                       <span class="n">passages_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">passages_count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">passages_characters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+                      <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">similar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">similar_document_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">similar_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Query system notices.</span>
 
@@ -1171,6 +1205,9 @@
 <span class="sd">        :param int passages_count: The maximum number of passages to return. The search returns fewer passages if the requested total is not found. The default is `10`. The maximum is `100`.</span>
 <span class="sd">        :param int passages_characters: The approximate number of characters that any one passage will have. The default is `400`. The minimum is `50`. The maximum is `2000`.</span>
 <span class="sd">        :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.</span>
+<span class="sd">        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.</span>
+<span class="sd">        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.</span>
+<span class="sd">        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.</span>
 <span class="sd">        :return: A `dict` containing the `QueryNoticesResponse` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1193,7 +1230,10 @@
             <span class="s1">&#39;passages.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">passages_fields</span><span class="p">),</span>
             <span class="s1">&#39;passages.count&#39;</span><span class="p">:</span> <span class="n">passages_count</span><span class="p">,</span>
             <span class="s1">&#39;passages.characters&#39;</span><span class="p">:</span> <span class="n">passages_characters</span><span class="p">,</span>
-            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span>
+            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span><span class="p">,</span>
+            <span class="s1">&#39;similar&#39;</span><span class="p">:</span> <span class="n">similar</span><span class="p">,</span>
+            <span class="s1">&#39;similar.document_ids&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_document_ids</span><span class="p">),</span>
+            <span class="s1">&#39;similar.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_fields</span><span class="p">)</span>
         <span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/collections/</span><span class="si">{1}</span><span class="s1">/notices&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">))</span>
@@ -1231,11 +1271,13 @@
         <span class="k">if</span> <span class="n">collection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;collection_id must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">entities</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">]</span>
+            <span class="n">entities</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">QueryRelationsEntity</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entities</span>
+            <span class="p">]</span>
         <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">QueryEntitiesContext</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">filter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="nb">filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
+            <span class="nb">filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="nb">filter</span><span class="p">,</span> <span class="n">QueryRelationsFilter</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;entities&#39;</span><span class="p">:</span> <span class="n">entities</span><span class="p">,</span>
@@ -1277,7 +1319,9 @@
         <span class="k">if</span> <span class="n">collection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;collection_id must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">examples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">examples</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">]</span>
+            <span class="n">examples</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">TrainingExample</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">examples</span>
+            <span class="p">]</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;natural_language_query&#39;</span><span class="p">:</span> <span class="n">natural_language_query</span><span class="p">,</span>
@@ -2714,6 +2758,8 @@
             <span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;overwrite&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;overwrite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;overwrite&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;enrichment_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;enrichment_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;enrichment_name&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;enrichment&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;enrichment_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;enrichment&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -3111,8 +3157,12 @@
     <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a Field object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;field_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;field_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;field_name&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;field&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;field_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;field&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;field_type&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;field_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;field_type&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;type&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;field_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
@@ -4808,7 +4858,6 @@
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
-
 
 
 <div class="viewcode-block" id="QueryNoticesResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.QueryNoticesResult">[docs]</a><span class="k">class</span> <span class="nc">QueryNoticesResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>

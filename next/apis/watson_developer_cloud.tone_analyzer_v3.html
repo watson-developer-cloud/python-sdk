@@ -34,8 +34,7 @@
             
   <div class="section" id="module-watson_developer_cloud.tone_analyzer_v3">
 <span id="watson-developer-cloud-tone-analyzer-v3-module"></span><h1>watson_developer_cloud.tone_analyzer_v3 module<a class="headerlink" href="#module-watson_developer_cloud.tone_analyzer_v3" title="Permalink to this headline">¶</a></h1>
-<p>### Service Overview
-The IBM Watson Tone Analyzer service uses linguistic analysis to detect emotional and
+<p>The IBM Watson Tone Analyzer service uses linguistic analysis to detect emotional and
 language tones in written text. The service can analyze tone at both the document and
 sentence levels. You can use the service to understand how your written communications are
 perceived and then to improve the tone of your communications. Businesses can use the
@@ -53,7 +52,7 @@ customer appropriately, or to understand and improve their customer conversation
 
 <dl class="method">
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone">
-<code class="descname">tone</code><span class="sig-paren">(</span><em>tone_input</em>, <em>content_type='application/json'</em>, <em>sentences=None</em>, <em>tones=None</em>, <em>content_language=None</em>, <em>accept_language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneAnalyzerV3.tone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone" title="Permalink to this definition">¶</a></dt>
+<code class="descname">tone</code><span class="sig-paren">(</span><em>tone_input</em>, <em>content_type</em>, <em>sentences=None</em>, <em>tones=None</em>, <em>content_language=None</em>, <em>accept_language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneAnalyzerV3.tone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Analyze general purpose tone.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -64,8 +63,8 @@ customer appropriately, or to understand and improve their customer conversation
 <li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of the input: application/json, text/plain, or text/html. A character encoding can be specified by including a <cite>charset</cite> parameter. For example, ‘text/plain;charset=utf-8’.</li>
 <li><strong>sentences</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether the service is to return an analysis of each individual sentence in addition to its analysis of the full document. If <cite>true</cite> (the default), the service returns results for each sentence.</li>
 <li><strong>tones</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – <strong>`2017-09-21`:</strong> Deprecated. The service continues to accept the parameter for backward-compatibility, but the parameter no longer affects the response.   <strong>`2016-05-19`:</strong> A comma-separated list of tones for which the service is to return its analysis of the input; the indicated tones apply both to the full document and to individual sentences of the document. You can specify one or more of the valid values. Omit the parameter to request results for all three tones.</li>
-<li><strong>content_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for <cite>content_language</cite> and <cite>Accept-Language</cite>. * <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>. * <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</li>
-<li><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can specify any combination of languages for <cite>Content-Language</cite> and <cite>accept_language</cite>.</li>
+<li><strong>content_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for <cite>Content-Language</cite> and <cite>Accept-Language</cite>. * <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>. * <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</li>
+<li><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can specify any combination of languages for <cite>Content-Language</cite> and <cite>Accept-Language</cite>.</li>
 </ul>
 </td>
 </tr>
@@ -81,24 +80,15 @@ customer appropriately, or to understand and improve their customer conversation
 
 <dl class="method">
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone_chat">
-<code class="descname">tone_chat</code><span class="sig-paren">(</span><em>utterances</em>, <em>accept_language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneAnalyzerV3.tone_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone_chat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">tone_chat</code><span class="sig-paren">(</span><em>utterances</em>, <em>content_language=None</em>, <em>accept_language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneAnalyzerV3.tone_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneAnalyzerV3.tone_chat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Analyze customer engagement tone.</p>
-<p>Use the customer engagement endpoint to analyze the tone of customer service and
-customer support conversations. For each utterance of a conversation, the method
-reports the most prevalent subset of the following seven tones: sad, frustrated,
-satisfied, excited, polite, impolite, and sympathetic.   If you submit more than
-50 utterances, the service returns a warning for the overall content and analyzes
-only the first 50 utterances. If you submit a single utterance that contains more
-than 500 characters, the service returns an error for that utterance and does not
-analyze the utterance. The request fails if all utterances have more than 500
-characters.   Per the JSON specification, the default character encoding for JSON
-content is effectively always UTF-8.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>utterances</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.tone_analyzer_v3.Utterance" title="watson_developer_cloud.tone_analyzer_v3.Utterance"><em>Utterance</em></a><em>]</em>) – An array of <cite>Utterance</cite> objects that provides the input content that the service is to analyze.</li>
+<li><strong>content_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for <cite>Content-Language</cite> and <cite>Accept-Language</cite>. * <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>. * <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</li>
 <li><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>.</li>
 </ul>
 </td>

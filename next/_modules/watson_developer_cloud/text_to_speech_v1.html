@@ -98,7 +98,7 @@
             <span class="n">use_vcap_services</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># voices</span>
+    <span class="c1"># Voices</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="TextToSpeechV1.get_voice"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice">[docs]</a>    <span class="k">def</span> <span class="nf">get_voice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">voice</span><span class="p">,</span> <span class="n">customization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -146,7 +146,7 @@
 <span class="sd">        Streaming speech synthesis of the text in the body parameter. Synthesizes text to spoken audio, returning the synthesized audio stream as an array of bytes.</span>
 
 <span class="sd">        :param str text: The text to synthesize.</span>
-<span class="sd">        :param str accept: The requested audio format (MIME type) of the audio. You can use this header or the `accept` query parameter to specify the audio format. (For the `audio/l16` format, you can optionally specify `endianness=big-endian` or `endianness=little-endian`; the default is little endian.).</span>
+<span class="sd">        :param str accept: The type of the response: audio/basic, audio/flac, audio/l16;rate=nnnn, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/mp3, audio/mpeg, audio/mulaw;rate=nnnn, audio/wav, audio/webm, audio/webm;codecs=opus, or audio/webm;codecs=vorbis.</span>
 <span class="sd">        :param str voice: The voice to use for synthesis. Retrieve available voices with the `GET /v1/voices` method.</span>
 <span class="sd">        :param str customization_id: The GUID of a custom voice model to use for the synthesis. If a custom voice model is specified, it is guaranteed to work only if it matches the language of the indicated voice. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to use the specified voice with no customization.</span>
 <span class="sd">        :return: A `Response &lt;Response&gt;` object representing the response.</span>
@@ -172,7 +172,7 @@
         <span class="k">return</span> <span class="n">response</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># pronunciation</span>
+    <span class="c1"># Pronunciation</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="TextToSpeechV1.get_pronunciation"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_pronunciation">[docs]</a>    <span class="k">def</span> <span class="nf">get_pronunciation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -214,7 +214,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pronunciation</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">voice</span><span class="p">,</span> <span class="n">pronunciation_format</span><span class="p">)</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># customVoiceModels</span>
+    <span class="c1"># Custom voice models</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="TextToSpeechV1.create_voice_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_voice_model">[docs]</a>    <span class="k">def</span> <span class="nf">create_voice_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -272,7 +272,10 @@
 <span class="sd">        Lists all information about the custom voice model with the specified</span>
 <span class="sd">        `customization_id`. In addition to metadata such as the name and description of</span>
 <span class="sd">        the voice model, the output includes the words in the model and their translations</span>
-<span class="sd">        as defined in the model.   **Note:** This method is currently a beta release.</span>
+<span class="sd">        as defined in the model. To see just the metadata for a voice model, use the `GET</span>
+<span class="sd">        /v1/customizations` method. You must use credentials for the instance of the</span>
+<span class="sd">        service that owns a model to list information about it.   **Note:** This method is</span>
+<span class="sd">        currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The GUID of the custom voice model that is to be queried. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :return: A `dict` containing the `VoiceModel` response.</span>
@@ -291,8 +294,13 @@
 
 <div class="viewcode-block" id="TextToSpeechV1.list_voice_models"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models">[docs]</a>    <span class="k">def</span> <span class="nf">list_voice_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Lists all available custom voice models for a language or for all languages.</span>
-<span class="sd">        **Note:** This method is currently a beta release.</span>
+<span class="sd">        Lists metadata such as the name and description for the custom voice models that</span>
+<span class="sd">        you own. Use the `language` query parameter to list the voice models that you own</span>
+<span class="sd">        for the specified language only. Omit the parameter to see all voice models that</span>
+<span class="sd">        you own for all languages. To see the words in addition to the metadata for a</span>
+<span class="sd">        specific voice model, use the `GET /v1/customizations/{customization_id}` method.</span>
+<span class="sd">        You must use credentials for the instance of the service that owns a model to list</span>
+<span class="sd">        information about it.   **Note:** This method is currently a beta release.</span>
 
 <span class="sd">        :param str language: The language for which custom voice models that are owned by the requesting service credentials are to be returned. Omit the parameter to see all custom voice models that are owned by the requester.</span>
 <span class="sd">        :return: A `dict` containing the `VoiceModels` response.</span>
@@ -328,13 +336,13 @@
 <span class="sd">        :param str customization_id: The GUID of the custom voice model that is to be updated. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :param str name: A new name for the custom voice model.</span>
 <span class="sd">        :param str description: A new description for the custom voice model.</span>
-<span class="sd">        :param list[CustomWord] words: An array of words and their translations that are to be added or updated for the custom voice model. Pass an empty array to make no additions or updates.</span>
+<span class="sd">        :param list[Word] words: An array of words and their translations that are to be added or updated for the custom voice model. Pass an empty array to make no additions or updates.</span>
 <span class="sd">        :rtype: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">customization_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customization_id must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">words</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+            <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Word</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span> <span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">))</span>
@@ -347,7 +355,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_voice_model</span><span class="p">(</span><span class="n">customization_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># customWords</span>
+    <span class="c1"># Custom words</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="TextToSpeechV1.add_word"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_word">[docs]</a>    <span class="k">def</span> <span class="nf">add_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">translation</span><span class="p">,</span>
@@ -396,14 +404,14 @@
 <span class="sd">        method is currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The GUID of the custom voice model that is to be updated. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
-<span class="sd">        :param list[CustomWord] words: An array of `CustomWord` objects that provides information about the words and their translations that are to be added or updated for the custom voice model.</span>
+<span class="sd">        :param list[Word] words: An array of words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</span>
 <span class="sd">        :rtype: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">customization_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customization_id must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">words</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;words must be provided&#39;</span><span class="p">)</span>
-        <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Word</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/words&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">))</span>
@@ -496,73 +504,6 @@
 <span class="c1">##############################################################################</span>
 <span class="c1"># Models</span>
 <span class="c1">##############################################################################</span>
-
-
-<div class="viewcode-block" id="CustomWord"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.CustomWord">[docs]</a><span class="k">class</span> <span class="nc">CustomWord</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    CustomWord.</span>
-
-<span class="sd">    :attr str word: A word that is to be added or updated for the custom voice model.</span>
-<span class="sd">    :attr str translation: The phonetic or sounds-like translation for the word. A phonetic translation is based on the SSML format for representing the phonetic string of a word either as an IPA or IBM SPR translation. A sounds-like translation consists of one or more words that, when combined, sound like the word.</span>
-<span class="sd">    :attr str part_of_speech: (optional) **Japanese only.** The part of speech for the word. The service uses the value to produce the correct intonation for the word. You can create only a single entry, with or without a single part of speech, for any word; you cannot create multiple entries with different parts of speech for the same word. For more information, see [Working with Japanese entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">translation</span><span class="p">,</span> <span class="n">part_of_speech</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a CustomWord object.</span>
-
-<span class="sd">        :param str word: A word that is to be added or updated for the custom voice model.</span>
-<span class="sd">        :param str translation: The phonetic or sounds-like translation for the word. A phonetic translation is based on the SSML format for representing the phonetic string of a word either as an IPA or IBM SPR translation. A sounds-like translation consists of one or more words that, when combined, sound like the word.</span>
-<span class="sd">        :param str part_of_speech: (optional) **Japanese only.** The part of speech for the word. The service uses the value to produce the correct intonation for the word. You can create only a single entry, with or without a single part of speech, for any word; you cannot create multiple entries with different parts of speech for the same word. For more information, see [Working with Japanese entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">word</span> <span class="o">=</span> <span class="n">word</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">translation</span> <span class="o">=</span> <span class="n">translation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">part_of_speech</span> <span class="o">=</span> <span class="n">part_of_speech</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize a CustomWord object from a json dictionary.&quot;&quot;&quot;</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="s1">&#39;word&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;word&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;word&#39;</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">word</span><span class="se">\&#39;</span><span class="s1"> not present in CustomWord JSON&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;translation&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;translation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;translation&#39;</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">translation</span><span class="se">\&#39;</span><span class="s1"> not present in CustomWord JSON&#39;</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;part_of_speech&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;part_of_speech&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;part_of_speech&#39;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
-        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">word</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;word&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">word</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;translation&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;translation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">translation</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;part_of_speech&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_of_speech</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;part_of_speech&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_of_speech</span>
-        <span class="k">return</span> <span class="n">_dict</span>
-
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a `str` version of this CustomWord object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
-
-    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
-
 
 <div class="viewcode-block" id="Pronunciation"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.Pronunciation">[docs]</a><span class="k">class</span> <span class="nc">Pronunciation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

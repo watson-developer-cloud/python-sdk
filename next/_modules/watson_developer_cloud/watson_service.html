@@ -31,7 +31,8 @@
           <div class="body" role="main">
             
   <h1>Source code for watson_developer_cloud.watson_service</h1><div class="highlight"><pre>
-<span></span><span class="c1"># Copyright 2017 IBM All Rights Reserved.</span>
+<span></span><span class="c1"># coding: utf-8</span>
+<span class="c1"># Copyright 2017 IBM All Rights Reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
 <span class="c1"># you may not use this file except in compliance with the License.</span>
@@ -51,7 +52,6 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">requests.structures</span> <span class="k">import</span> <span class="n">CaseInsensitiveDict</span>
 <span class="kn">import</span> <span class="nn">dateutil.parser</span> <span class="k">as</span> <span class="nn">date_parser</span>
-<span class="kn">import</span> <span class="nn">json</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">http.cookiejar</span> <span class="k">import</span> <span class="n">CookieJar</span>  <span class="c1"># Python 3</span>
@@ -279,16 +279,10 @@
         <span class="k">return</span> <span class="n">dictionary</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_convert_model</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s2">&quot;_to_dict&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">val</span>
-
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_convert_model</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">classname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s2">&quot;_from_dict&quot;</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
-                <span class="n">val</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">json_import</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
             <span class="n">val</span> <span class="o">=</span> <span class="n">classname</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s2">&quot;_to_dict&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>

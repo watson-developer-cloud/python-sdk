@@ -165,12 +165,13 @@ to 250 MB.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model">
 <code class="descname">get_model</code><span class="sig-paren">(</span><em>model_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get information about the given translation model, including training status.</p>
+<dd><p>Gets information about a translation model, including training status for custom
+models.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Model ID to use.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Model ID of the model to get.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>TranslationModel</cite> response.</td>
 </tr>
@@ -183,7 +184,7 @@ to 250 MB.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_models">
 <code class="descname">list_models</code><span class="sig-paren">(</span><em>source=None</em>, <em>target=None</em>, <em>default_models=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.list_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lists available standard and custom models by source or target language.</p>
+<dd><p>Lists available translation models.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -191,7 +192,7 @@ to 250 MB.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>source</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Specify a language code to filter results by source language.</li>
 <li><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Specify a language code to filter results by target language.</li>
-<li><strong>default_models</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If the default_models parameter isn’t specified, the service will return all models (default_models and non-default_models) for each language pair. To return only default_models models, set this to <cite>true</cite>. To return only non-default_models models, set this to <cite>false</cite>.</li>
+<li><strong>default_models</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If the default parameter isn’t specified, the service will return all models (default and non-default) for each language pair. To return only default models, set this to <cite>true</cite>. To return only non-default models, set this to <cite>false</cite>.</li>
 </ul>
 </td>
 </tr>

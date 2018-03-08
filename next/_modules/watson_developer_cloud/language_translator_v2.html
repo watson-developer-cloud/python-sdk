@@ -99,7 +99,7 @@
             <span class="n">use_vcap_services</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># translate</span>
+    <span class="c1"># Translate</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="LanguageTranslatorV2.translate"><a class="viewcode-back" href="../../apis/watson_developer_cloud.language_translator_v2.html#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.translate">[docs]</a>    <span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">model_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -127,7 +127,7 @@
         <span class="k">return</span> <span class="n">response</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># identify</span>
+    <span class="c1"># Identify</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="LanguageTranslatorV2.identify"><a class="viewcode-back" href="../../apis/watson_developer_cloud.language_translator_v2.html#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.identify">[docs]</a>    <span class="k">def</span> <span class="nf">identify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
@@ -166,7 +166,7 @@
         <span class="k">return</span> <span class="n">response</span>
 
     <span class="c1">#########################</span>
-    <span class="c1"># models</span>
+    <span class="c1"># Models</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="LanguageTranslatorV2.create_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.language_translator_v2.html#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.create_model">[docs]</a>    <span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -252,9 +252,10 @@
 
 <div class="viewcode-block" id="LanguageTranslatorV2.get_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.language_translator_v2.html#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get information about the given translation model, including training status.</span>
+<span class="sd">        Gets information about a translation model, including training status for custom</span>
+<span class="sd">        models.</span>
 
-<span class="sd">        :param str model_id: Model ID to use.</span>
+<span class="sd">        :param str model_id: Model ID of the model to get.</span>
 <span class="sd">        :return: A `dict` containing the `TranslationModel` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -266,15 +267,19 @@
 
 <div class="viewcode-block" id="LanguageTranslatorV2.list_models"><a class="viewcode-back" href="../../apis/watson_developer_cloud.language_translator_v2.html#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_models">[docs]</a>    <span class="k">def</span> <span class="nf">list_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default_models</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Lists available standard and custom models by source or target language.</span>
+<span class="sd">        Lists available translation models.</span>
 
 <span class="sd">        :param str source: Specify a language code to filter results by source language.</span>
 <span class="sd">        :param str target: Specify a language code to filter results by target language.</span>
-<span class="sd">        :param bool default_models: If the default_models parameter isn&#39;t specified, the service will return all models (default_models and non-default_models) for each language pair. To return only default_models models, set this to `true`. To return only non-default_models models, set this to `false`.</span>
+<span class="sd">        :param bool default_models: If the default parameter isn&#39;t specified, the service will return all models (default and non-default) for each language pair. To return only default models, set this to `true`. To return only non-default models, set this to `false`.</span>
 <span class="sd">        :return: A `dict` containing the `TranslationModels` response.</span>
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="n">default_models</span><span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span>
+            <span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="n">target</span><span class="p">,</span>
+            <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="n">default_models</span>
+        <span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v2/models&#39;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
@@ -576,6 +581,8 @@
     <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize a Translation object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;translation_output&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;translation_output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;translation_output&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;translation&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;translation_output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;translation&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>

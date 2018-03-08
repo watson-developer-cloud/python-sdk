@@ -517,9 +517,7 @@
         <span class="k">if</span> <span class="n">intent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;intent must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_examples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-              <span class="n">new_examples</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CreateExample</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_examples</span>
-            <span class="p">]</span>
+            <span class="n">new_examples</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CreateExample</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_examples</span><span class="p">]</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;intent&#39;</span><span class="p">:</span> <span class="n">new_intent</span><span class="p">,</span>
