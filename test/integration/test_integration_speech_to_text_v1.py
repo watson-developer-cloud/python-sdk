@@ -1,3 +1,4 @@
+# coding: utf-8
 from unittest import TestCase
 import os
 import watson_developer_cloud
@@ -52,7 +53,7 @@ class TestSpeechToTextV1(TestCase):
 
     def test_custom_corpora(self):
         output = self.speech_to_text.list_corpora(self.customization_id)
-        assert len(output['corpora']) == 0
+        assert output['corpora']
 
     def test_acoustic_model(self):
         list_models = self.speech_to_text.list_acoustic_models()

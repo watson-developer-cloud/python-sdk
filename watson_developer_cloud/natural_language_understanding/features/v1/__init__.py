@@ -1,3 +1,4 @@
+# coding: utf-8
 class Feature(object):
     def toDict(self):
         res = {}

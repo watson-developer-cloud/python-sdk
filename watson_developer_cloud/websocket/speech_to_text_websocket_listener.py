@@ -44,7 +44,7 @@ class RecognizeListener(object):
             contextFactory = None
         connectWS(factory, contextFactory)
 
-        reactor.run()
+        reactor.run() # pylint: disable=E1101
 
     class WebSocketClient(WebSocketClientProtocol):
         def __init__(self, factory, audio, options, callback):
@@ -55,7 +55,7 @@ class RecognizeListener(object):
             self.isListening = False
             self.bytes_sent = 0
 
-            super(self.__class__, self).__init__()
+            super(self.__class__, self).__init__() # pylint: disable=E1003
 
         def build_start_message(self, options):
             options['action'] = 'start'
@@ -129,10 +129,10 @@ class RecognizeListener(object):
             elif 'results' in json_object or 'speaker_labels' in json_object:
                 hypothesis = ''
                 # empty hypothesis
-                if len(json_object['results']) != 0:
+                if json_object['results']:
                     hypothesis = json_object['results'][0]['alternatives'][0][
                         'transcript']
-                    b_final = (json_object['results'][0]['final'] == True)
+                    b_final = (json_object['results'][0]['final'] is True)
                     transcripts = self.extract_transcripts(
                         json_object['results'][0]['alternatives'])
 
@@ -155,7 +155,7 @@ class RecognizeListener(object):
             self.closeHandshakeTimeout = self.SIX_SECONDS
 
         def endReactor(self):
-            reactor.stop()
+            reactor.stop() # pylint: disable=E1101
 
         # this function gets called every time connectWS is called (once per WebSocket connection/session)
         def buildProtocol(self, addr):

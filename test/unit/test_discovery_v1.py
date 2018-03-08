@@ -1,3 +1,4 @@
+# coding: utf-8
 import responses
 import os
 import json

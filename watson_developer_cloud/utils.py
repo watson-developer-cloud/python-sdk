@@ -1,6 +1,5 @@
 import warnings
 
-
 def deprecated(message):
     def deprecated_decorator(func):
         def deprecated_func(*args, **kwargs):
