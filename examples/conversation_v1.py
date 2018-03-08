@@ -1,6 +1,5 @@
 from __future__ import print_function
 import json
-import os
 from watson_developer_cloud import ConversationV1
 
 conversation = ConversationV1(
@@ -20,63 +19,60 @@ conversation = ConversationV1(
 #########################
 
 create_workspace_data = {
-  "name": "test_workspace",
-  "description": "integration tests",
-  "language": "en",
-  "intents": [
-    {
-      "intent": "hello",
-      "description": "string",
-      "examples": [
-        {
-          "text": "good morning"
+    "name":
+    "test_workspace",
+    "description":
+    "integration tests",
+    "language":
+    "en",
+    "intents": [{
+        "intent": "hello",
+        "description": "string",
+        "examples": [{
+            "text": "good morning"
+        }]
+    }],
+    "entities": [{
+        "entity": "pizza_toppings",
+        "description": "Tasty pizza toppings",
+        "metadata": {
+            "property": "value"
         }
-      ]
-    }
-  ],
-  "entities": [
-    {
-      "entity": "pizza_toppings",
-      "description": "Tasty pizza toppings",
-      "metadata": {
-        "property": "value"
-      }
-    }
-  ],
-  "counterexamples": [
-    {
-      "text": "string"
-    }
-  ],
-  "metadata": {},
+    }],
+    "counterexamples": [{
+        "text": "string"
+    }],
+    "metadata": {},
 }
 
-
-response = conversation.create_workspace(name=create_workspace_data['name'],
-                                        description=create_workspace_data['description'],
-                                        language='en',
-                                        intents=create_workspace_data['intents'],
-                                        entities=create_workspace_data['entities'],
-                                        counterexamples=create_workspace_data['counterexamples'],
-                                        metadata=create_workspace_data['metadata'])
+response = conversation.create_workspace(
+    name=create_workspace_data['name'],
+    description=create_workspace_data['description'],
+    language='en',
+    intents=create_workspace_data['intents'],
+    entities=create_workspace_data['entities'],
+    counterexamples=create_workspace_data['counterexamples'],
+    metadata=create_workspace_data['metadata'])
 print(json.dumps(response, indent=2))
 
 workspace_id = response['workspace_id']
-print("Workspace id ".format(workspace_id))
+print('Workspace id {0}'.format(workspace_id))
 
 response = conversation.get_workspace(workspace_id=workspace_id, export=True)
 print(json.dumps(response, indent=2))
 
 #  message
-response = conversation.message(workspace_id=workspace_id, input={
-    'text': 'What\'s the weather like?'})
+response = conversation.message(
+    workspace_id=workspace_id, input={
+        'text': 'What\'s the weather like?'
+    })
 print(json.dumps(response, indent=2))
 
 response = conversation.list_workspaces()
 print(json.dumps(response, indent=2))
 
-response = conversation.update_workspace(workspace_id=workspace_id,
-                                         description='Updated test workspace.')
+response = conversation.update_workspace(
+    workspace_id=workspace_id, description='Updated test workspace.')
 print(json.dumps(response, indent=2))
 
 # see cleanup section below for delete_workspace example
@@ -85,26 +81,26 @@ print(json.dumps(response, indent=2))
 # intents
 #########################
 
-examples = [{ "text": "good morning"}]
-response = conversation.create_intent(workspace_id=workspace_id,
-                                      intent='test_intent',
-                                      description='Test intent.',
-                                      examples=examples)
+examples = [{"text": "good morning"}]
+response = conversation.create_intent(
+    workspace_id=workspace_id,
+    intent='test_intent',
+    description='Test intent.',
+    examples=examples)
 print(json.dumps(response, indent=2))
 
-response = conversation.get_intent(workspace_id=workspace_id,
-                                   intent='test_intent',
-                                   export=True)
+response = conversation.get_intent(
+    workspace_id=workspace_id, intent='test_intent', export=True)
 print(json.dumps(response, indent=2))
 
-response = conversation.list_intents(workspace_id=workspace_id,
-                                     export=True)
+response = conversation.list_intents(workspace_id=workspace_id, export=True)
 print(json.dumps(response, indent=2))
 
-response = conversation.update_intent(workspace_id=workspace_id,
-                                      intent='test_intent',
-                                      new_intent='updated_test_intent',
-                                      new_description='Updated test intent.')
+response = conversation.update_intent(
+    workspace_id=workspace_id,
+    intent='test_intent',
+    new_intent='updated_test_intent',
+    new_description='Updated test intent.')
 print(json.dumps(response, indent=2))
 
 # see cleanup section below for delete_intent example
@@ -113,53 +109,58 @@ print(json.dumps(response, indent=2))
 # examples
 #########################
 
-response = conversation.create_example(workspace_id=workspace_id,
-                                       intent='updated_test_intent',
-                                       text='Gimme a pizza with pepperoni')
+response = conversation.create_example(
+    workspace_id=workspace_id,
+    intent='updated_test_intent',
+    text='Gimme a pizza with pepperoni')
 print(json.dumps(response, indent=2))
 
-response = conversation.get_example(workspace_id=workspace_id,
-                                    intent='updated_test_intent',
-                                    text='Gimme a pizza with pepperoni')
+response = conversation.get_example(
+    workspace_id=workspace_id,
+    intent='updated_test_intent',
+    text='Gimme a pizza with pepperoni')
 print(json.dumps(response, indent=2))
 
-response = conversation.list_examples(workspace_id=workspace_id,
-                                      intent='updated_test_intent')
+response = conversation.list_examples(
+    workspace_id=workspace_id, intent='updated_test_intent')
 print(json.dumps(response, indent=2))
 
-response = conversation.update_example(workspace_id=workspace_id,
-                                       intent='updated_test_intent',
-                                       text='Gimme a pizza with pepperoni',
-                                       new_text='Gimme a pizza with pepperoni')
+response = conversation.update_example(
+    workspace_id=workspace_id,
+    intent='updated_test_intent',
+    text='Gimme a pizza with pepperoni',
+    new_text='Gimme a pizza with pepperoni')
 print(json.dumps(response, indent=2))
 
-response = conversation.delete_example(workspace_id=workspace_id,
-                                       intent='updated_test_intent',
-                                       text='Gimme a pizza with pepperoni')
+response = conversation.delete_example(
+    workspace_id=workspace_id,
+    intent='updated_test_intent',
+    text='Gimme a pizza with pepperoni')
 print(json.dumps(response, indent=2))
 
 #########################
 # counterexamples
 #########################
 
-response = conversation.create_counterexample(workspace_id=workspace_id,
-                                              text='I want financial advice today.')
+response = conversation.create_counterexample(
+    workspace_id=workspace_id, text='I want financial advice today.')
 print(json.dumps(response, indent=2))
 
-response = conversation.get_counterexample(workspace_id=workspace_id,
-                                           text='I want financial advice today.')
+response = conversation.get_counterexample(
+    workspace_id=workspace_id, text='I want financial advice today.')
 print(json.dumps(response, indent=2))
 
 response = conversation.list_counterexamples(workspace_id=workspace_id)
 print(json.dumps(response, indent=2))
 
-response = conversation.update_counterexample(workspace_id=workspace_id,
-                                              text='I want financial advice today.',
-                                              new_text='I want financial advice today.')
+response = conversation.update_counterexample(
+    workspace_id=workspace_id,
+    text='I want financial advice today.',
+    new_text='I want financial advice today.')
 print(json.dumps(response, indent=2))
 
-response = conversation.delete_counterexample(workspace_id=workspace_id,
-                                              text='I want financial advice today.')
+response = conversation.delete_counterexample(
+    workspace_id=workspace_id, text='I want financial advice today.')
 print(json.dumps(response, indent=2))
 
 #########################
@@ -167,52 +168,65 @@ print(json.dumps(response, indent=2))
 #########################
 
 values = [{"value": "juice"}]
-response = conversation.create_entity(workspace_id=workspace_id,
-                                      entity='test_entity',
-                                      description='A test entity.',
-                                      values=values)
+response = conversation.create_entity(
+    workspace_id=workspace_id,
+    entity='test_entity',
+    description='A test entity.',
+    values=values)
 print(json.dumps(response, indent=2))
 
 entities = [{
-    'entity': 'pattern_entity',
+    'entity':
+    'pattern_entity',
     'values': [{
-        'value': 'value0', 'patterns': ['\\d{6}\\w{1}\\d{7}'], 'value_type': 'patterns'
-     },
-     {'value': 'value1',
-      'patterns': ['[-9][0-9][0-9][0-9][0-9]~! [1-9][1-9][1-9][1-9][1-9][1-9]'],
-      'value_type': 'patterns'},
-     {'value': 'value2',
-      'patterns': ['[a-z-9]{17}'],
-      'value_type': 'patterns'},
-     {'value': 'value3',
-      'patterns': [
-           '\\d{3}(\\ |-)\\d{3}(\\ |-)\\d{4}',
-           '\\(\\d{3}\\)(\\ |-)\\d{3}(\\ |-)\\d{4}'],
-      'value_type': 'patterns'},
-     {'value': 'value4',
-      'patterns': ['\\b\\d{5}\\b'],
-      'value_type': 'patterns'}]
+        'value': 'value0',
+        'patterns': ['\\d{6}\\w{1}\\d{7}'],
+        'value_type': 'patterns'
+    }, {
+        'value':
+        'value1',
+        'patterns':
+        ['[-9][0-9][0-9][0-9][0-9]~! [1-9][1-9][1-9][1-9][1-9][1-9]'],
+        'value_type':
+        'patterns'
+    }, {
+        'value': 'value2',
+        'patterns': ['[a-z-9]{17}'],
+        'value_type': 'patterns'
+    }, {
+        'value':
+        'value3',
+        'patterns': [
+            '\\d{3}(\\ |-)\\d{3}(\\ |-)\\d{4}',
+            '\\(\\d{3}\\)(\\ |-)\\d{3}(\\ |-)\\d{4}'
+        ],
+        'value_type':
+        'patterns'
+    }, {
+        'value': 'value4',
+        'patterns': ['\\b\\d{5}\\b'],
+        'value_type': 'patterns'
+    }]
 }]
-response = conversation.create_entity(workspace_id,
-                                     entity=entities[0]['entity'],
-                                     values=entities[0]['values'])
+response = conversation.create_entity(
+    workspace_id, entity=entities[0]['entity'], values=entities[0]['values'])
 print(json.dumps(response, indent=2))
 
-response = conversation.get_entity(workspace_id=workspace_id,
-                                   entity=entities[0]['entity'],
-                                   export=True)
+response = conversation.get_entity(
+    workspace_id=workspace_id, entity=entities[0]['entity'], export=True)
 print(json.dumps(response, indent=2))
 
 response = conversation.list_entities(workspace_id=workspace_id)
 print(json.dumps(response, indent=2))
 
-response = conversation.update_entity(workspace_id=workspace_id,
-                                      entity='test_entity',
-                                      new_description='An updated test entity.')
+response = conversation.update_entity(
+    workspace_id=workspace_id,
+    entity='test_entity',
+    new_description='An updated test entity.')
 print(json.dumps(response, indent=2))
 
-response = conversation.delete_entity(workspace_id=workspace_id,
-                                      entity='test_entity')
+response = conversation.delete_entity(
+    workspace_id=workspace_id, entity='test_entity')
 print(json.dumps(response, indent=2))
 
 #########################
@@ -222,19 +236,23 @@ print(json.dumps(response, indent=2))
 values = [{"value": "orange juice"}]
 conversation.create_entity(workspace_id, 'beverage', values=values)
 
-response = conversation.create_synonym(workspace_id, 'beverage', 'orange juice', 'oj')
+response = conversation.create_synonym(workspace_id, 'beverage',
+                                       'orange juice', 'oj')
 print(json.dumps(response, indent=2))
 
-response = conversation.get_synonym(workspace_id, 'beverage', 'orange juice', 'oj')
+response = conversation.get_synonym(workspace_id, 'beverage', 'orange juice',
+                                    'oj')
 print(json.dumps(response, indent=2))
 
 response = conversation.list_synonyms(workspace_id, 'beverage', 'orange juice')
 print(json.dumps(response, indent=2))
 
-response = conversation.update_synonym(workspace_id, 'beverage', 'orange juice', 'oj', 'OJ')
+response = conversation.update_synonym(workspace_id, 'beverage',
+                                       'orange juice', 'oj', 'OJ')
 print(json.dumps(response, indent=2))
 
-response = conversation.delete_synonym(workspace_id, 'beverage', 'orange juice', 'OJ')
+response = conversation.delete_synonym(workspace_id, 'beverage',
+                                       'orange juice', 'OJ')
 print(json.dumps(response, indent=2))
 
 conversation.delete_entity(workspace_id, 'beverage')
@@ -254,7 +272,8 @@ print(json.dumps(response, indent=2))
 response = conversation.list_values(workspace_id, 'test_entity')
 print(json.dumps(response, indent=2))
 
-response = conversation.update_value(workspace_id, 'test_entity', 'test', 'example')
+response = conversation.update_value(workspace_id, 'test_entity', 'test',
+                                     'example')
 print(json.dumps(response, indent=2))
 
 response = conversation.delete_value(workspace_id, 'test_entity', 'example')
@@ -266,22 +285,23 @@ conversation.delete_entity(workspace_id, 'test_entity')
 # Dialog nodes
 #########################
 create_dialog_node = {
-  "dialog_node": "greeting",
-  "description": "greeting messages",
-  "actions": [
-    {
-      "name": "hello",
-      "type": "client",
-      "parameters": {},
-      "result_variable": "string",
-      "credentials": "string"
-    }
-  ]
+    "dialog_node":
+    "greeting",
+    "description":
+    "greeting messages",
+    "actions": [{
+        "name": "hello",
+        "type": "client",
+        "parameters": {},
+        "result_variable": "string",
+        "credentials": "string"
+    }]
 }
-response = conversation.create_dialog_node(workspace_id,
-                                           create_dialog_node['dialog_node'],
-                                           create_dialog_node['description'],
-                                           actions=create_dialog_node['actions'])
+response = conversation.create_dialog_node(
+    workspace_id,
+    create_dialog_node['dialog_node'],
+    create_dialog_node['description'],
+    actions=create_dialog_node['actions'])
 print(json.dumps(response, indent=2))
 
 response = conversation.get_dialog_node(workspace_id,
@@ -291,9 +311,10 @@ print(json.dumps(response, indent=2))
 response = conversation.list_dialog_nodes(workspace_id)
 print(json.dumps(response, indent=2))
 
-response = conversation.update_dialog_node(workspace_id,
-                                           create_dialog_node['dialog_node'],
-                                           new_dialog_node='updated_node')
+response = conversation.update_dialog_node(
+    workspace_id,
+    create_dialog_node['dialog_node'],
+    new_dialog_node='updated_node')
 print(json.dumps(response, indent=2))
 
 response = conversation.delete_dialog_node(workspace_id, 'updated_node')
@@ -310,8 +331,8 @@ print(json.dumps(response, indent=2))
 # clean-up
 #########################
 
-response = conversation.delete_intent(workspace_id=workspace_id,
-                                      intent='updated_test_intent')
+response = conversation.delete_intent(
+    workspace_id=workspace_id, intent='updated_test_intent')
 print(json.dumps(response, indent=2))
 
 response = conversation.delete_workspace(workspace_id=workspace_id)

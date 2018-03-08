@@ -18,7 +18,6 @@ import requests
 import sys
 from requests.structures import CaseInsensitiveDict
 import dateutil.parser as date_parser
-import json
 
 try:
     from http.cookiejar import CookieJar  # Python 3
@@ -246,16 +245,10 @@ class WatsonService(object):
         return dictionary
 
     @staticmethod
-    def _convert_model(val):
-        if hasattr(val, "_to_dict"):
-            return val._to_dict()
-        return val
-
-    @staticmethod
     def _convert_model(val, classname=None):
         if classname is not None and not hasattr(val, "_from_dict"):
-            if type(val) == str:
-                val = json.loads(val)
+            if isinstance(val, str):
+                val = json_import.loads(val)
             val = classname._from_dict(dict(val))
         if hasattr(val, "_to_dict"):
             return val._to_dict()

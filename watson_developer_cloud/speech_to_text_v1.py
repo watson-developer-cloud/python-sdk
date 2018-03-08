@@ -28,9 +28,9 @@ import json
 from .watson_service import WatsonService, _remove_null_values
 from .utils import deprecated
 from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener
-from os.path import isfile
 import base64
 import urllib
+
 ##############################################################################
 # Service
 ##############################################################################
@@ -187,25 +187,25 @@ class SpeechToTextV1(WatsonService):
         return response
 
     def recognize_with_websocket(self,
-                                audio=None,
-                                content_type='audio/l16; rate=44100',
-                                model='en-US_BroadbandModel',
-                                recognize_callback=None,
-                                customization_id=None,
-                                acoustic_customization_id=None,
-                                customization_weight=None,
-                                version=None,
-                                inactivity_timeout=None,
-                                interim_results=True,
-                                keywords=None,
-                                keywords_threshold=None,
-                                max_alternatives=1,
-                                word_alternatives_threshold=None,
-                                word_confidence=False,
-                                timestamps=False,
-                                profanity_filter=None,
-                                smart_formatting=False,
-                                speaker_labels=None):
+                                 audio=None,
+                                 content_type='audio/l16; rate=44100',
+                                 model='en-US_BroadbandModel',
+                                 recognize_callback=None,
+                                 customization_id=None,
+                                 acoustic_customization_id=None,
+                                 customization_weight=None,
+                                 version=None,
+                                 inactivity_timeout=None,
+                                 interim_results=True,
+                                 keywords=None,
+                                 keywords_threshold=None,
+                                 max_alternatives=1,
+                                 word_alternatives_threshold=None,
+                                 word_confidence=False,
+                                 timestamps=False,
+                                 profanity_filter=None,
+                                 smart_formatting=False,
+                                 speaker_labels=None):
         """
         Sends audio for speech recognition using web sockets.
 
@@ -235,46 +235,44 @@ class SpeechToTextV1(WatsonService):
         if recognize_callback is None:
             raise ValueError('Recognize callback must be provided')
         if not isinstance(recognize_callback, RecognizeCallback):
-            raise Exception('Callback is not a derived class of RecognizeCallback')
+            raise Exception(
+                'Callback is not a derived class of RecognizeCallback')
 
         headers = {}
         if self.default_headers is not None:
             headers = self.default_headers.copy()
-        base64_authorization = base64.b64encode(self.username +  ':' + self.password)
+        base64_authorization = base64.b64encode(
+            self.username + ':' + self.password)
         headers['Authorization'] = 'Basic {0}'.format(base64_authorization)
 
         url = self.url.replace('https:', 'wss:')
         params = {
-                    'model': model,
-                    'customization_id': customization_id,
-                    'acoustic_customization_id': acoustic_customization_id,
-                    'customization_weight': customization_weight,
-                    'version': version
-                 }
+            'model': model,
+            'customization_id': customization_id,
+            'acoustic_customization_id': acoustic_customization_id,
+            'customization_weight': customization_weight,
+            'version': version
+        }
         params = _remove_null_values(params)
         url = url + '/v1/recognize?{0}'.format(urllib.urlencode(params))
 
         options = {
-                    'content_type': content_type,
-                    'inactivity_timeout': inactivity_timeout,
-                    'interim_results': interim_results,
-                    'keywords': keywords,
-                    'keywords_threshold': keywords_threshold,
-                    'max_alternatives': max_alternatives,
-                    'word_alternatives_threshold': word_alternatives_threshold,
-                    'word_confidence': word_confidence,
-                    'timestamps': timestamps,
-                    'profanity_filter': profanity_filter,
-                    'smart_formatting': smart_formatting,
-                    'speaker_labels': speaker_labels
-                  }
+            'content_type': content_type,
+            'inactivity_timeout': inactivity_timeout,
+            'interim_results': interim_results,
+            'keywords': keywords,
+            'keywords_threshold': keywords_threshold,
+            'max_alternatives': max_alternatives,
+            'word_alternatives_threshold': word_alternatives_threshold,
+            'word_confidence': word_confidence,
+            'timestamps': timestamps,
+            'profanity_filter': profanity_filter,
+            'smart_formatting': smart_formatting,
+            'speaker_labels': speaker_labels
+        }
         options = _remove_null_values(options)
 
-        recognizeListener = RecognizeListener(audio,
-                                              options,
-                                              recognize_callback,
-                                              url,
-                                              headers)
+        RecognizeListener(audio, options, recognize_callback, url, headers)
 
     #########################
     # Asynchronous
@@ -358,9 +356,7 @@ class SpeechToTextV1(WatsonService):
             raise ValueError('audio must be provided')
         if content_type is None:
             raise ValueError('content_type must be provided')
-        headers = {
-            'Content-Type': content_type
-        }
+        headers = {'Content-Type': content_type}
         params = {
             'model': model,
             'callback_url': callback_url,
@@ -484,10 +480,7 @@ class SpeechToTextV1(WatsonService):
         }
         url = '/v1/customizations'
         response = self.request(
-            method='POST',
-            url=url,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, json=data, accept_json=True)
         return response
 
     @deprecated('Use create_language_model() instead.')
@@ -495,7 +488,8 @@ class SpeechToTextV1(WatsonService):
                             name,
                             description="",
                             base_model="en-US_BroadbandModel"):
-        return self.create_language_model(name, base_model, description=description)
+        return self.create_language_model(
+            name, base_model, description=description)
 
     def delete_language_model(self, customization_id):
         """
@@ -764,11 +758,7 @@ class SpeechToTextV1(WatsonService):
         }
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word_name))
-        self.request(
-            method='PUT',
-            url=url,
-            json=data,
-            accept_json=True)
+        self.request(method='PUT', url=url, json=data, accept_json=True)
         return None
 
     @deprecated('Use add_word instead.')
@@ -791,11 +781,7 @@ class SpeechToTextV1(WatsonService):
         data = {'words': words}
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
-        self.request(
-            method='POST',
-            url=url,
-            json=data,
-            accept_json=True)
+        self.request(method='POST', url=url, json=data, accept_json=True)
         return None
 
     @deprecated('Use add_words() instead.')
@@ -883,10 +869,7 @@ class SpeechToTextV1(WatsonService):
     # customAcousticModels
     #########################
 
-    def create_acoustic_model(self,
-                              name,
-                              base_model_name,
-                              description=None):
+    def create_acoustic_model(self, name, base_model_name, description=None):
         """
         Creates a custom acoustic model.
 
@@ -912,10 +895,7 @@ class SpeechToTextV1(WatsonService):
         }
         url = '/v1/acoustic_customizations'
         response = self.request(
-            method='POST',
-            url=url,
-            json=data,
-            accept_json=True)
+            method='POST', url=url, json=data, accept_json=True)
         return response
 
     def delete_acoustic_model(self, customization_id):
@@ -1607,7 +1587,7 @@ class AudioResources(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'total_minutes_of_audio'
-                   ) and self.total_minutes_of_audio is not None:
+                  ) and self.total_minutes_of_audio is not None:
             _dict['total_minutes_of_audio'] = self.total_minutes_of_audio
         if hasattr(self, 'audio') and self.audio is not None:
             _dict['audio'] = [x._to_dict() for x in self.audio]
@@ -1745,7 +1725,7 @@ class Corpus(object):
         if hasattr(self, 'total_words') and self.total_words is not None:
             _dict['total_words'] = self.total_words
         if hasattr(self, 'out_of_vocabulary_words'
-                   ) and self.out_of_vocabulary_words is not None:
+                  ) and self.out_of_vocabulary_words is not None:
             _dict['out_of_vocabulary_words'] = self.out_of_vocabulary_words
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
@@ -2875,7 +2855,7 @@ class SupportedFeatures(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'custom_language_model'
-                   ) and self.custom_language_model is not None:
+                  ) and self.custom_language_model is not None:
             _dict['custom_language_model'] = self.custom_language_model
         if hasattr(self, 'speaker_labels') and self.speaker_labels is not None:
             _dict['speaker_labels'] = self.speaker_labels

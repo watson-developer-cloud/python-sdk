@@ -2,17 +2,18 @@ from __future__ import print_function
 import pyaudio
 import tempfile
 from watson_developer_cloud import SpeechToTextV1
-from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener
+from watson_developer_cloud.websocket import RecognizeCallback
 
 speech_to_text = SpeechToTextV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
     url='https://stream.watsonplatform.net/speech-to-text/api')
 
+
 # Example using websockets
 class MyRecognizeCallback(RecognizeCallback):
     def __init__(self):
-        pass
+        RecognizeCallback.__init__(self)
 
     def on_transcription(self, transcript):
         print(transcript)
@@ -35,6 +36,7 @@ class MyRecognizeCallback(RecognizeCallback):
     def on_hypothesis(self, hypothesis):
         print(hypothesis)
 
+
 mycallback = MyRecognizeCallback()
 tmp = tempfile.NamedTemporaryFile()
 
@@ -45,9 +47,12 @@ CHUNK = 1024
 RECORD_SECONDS = 5
 
 audio = pyaudio.PyAudio()
-stream = audio.open(format=FORMAT, channels=CHANNELS,
-                rate=RATE, input=True,
-                frames_per_buffer=CHUNK)
+stream = audio.open(
+    format=FORMAT,
+    channels=CHANNELS,
+    rate=RATE,
+    input=True,
+    frames_per_buffer=CHUNK)
 
 print('recording....')
 with open(tmp.name, 'w') as f:
@@ -61,4 +66,5 @@ audio.terminate()
 print('Done recording...')
 
 with open(tmp.name) as f:
-    speech_to_text.recognize_with_websocket(audio=f, recognize_callback=mycallback)
+    speech_to_text.recognize_with_websocket(
+        audio=f, recognize_callback=mycallback)
