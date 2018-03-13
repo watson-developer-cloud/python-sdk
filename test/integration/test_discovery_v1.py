@@ -3,8 +3,10 @@ from unittest import TestCase
 import os
 import watson_developer_cloud
 import random
+import pytest
 
-
+@pytest.mark.skipif(
+    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class Discoveryv1(TestCase):
     def setUp(self):
         self.discovery = watson_developer_cloud.DiscoveryV1(
