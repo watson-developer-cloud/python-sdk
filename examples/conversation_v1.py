@@ -5,7 +5,7 @@ from watson_developer_cloud import ConversationV1
 conversation = ConversationV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
-    version='2017-04-21')
+    version='2018-02-16')
 
 # When you send multiple requests for the same conversation, include the
 # context object from the previous response.
