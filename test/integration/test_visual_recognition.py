@@ -6,9 +6,9 @@ from os.path import join, dirname
 from unittest import TestCase
 import json
 
-pytestmark = pytest.mark.skip('Run These Manually, they are destructive')
 
-
+@pytest.mark.skipif(
+    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class IntegrationTestVisualRecognitionV3(TestCase):
     def setUp(self):
         self.visual_recognition = watson_developer_cloud.VisualRecognitionV3(
@@ -58,4 +58,3 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         assert classifiers is not None
 
         output = self.visual_recognition.delete_classifier(classifier_id)
-        assert output is not None

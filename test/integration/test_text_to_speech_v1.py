@@ -1,8 +1,11 @@
 # coding: utf-8
 import unittest
 import watson_developer_cloud
+import pytest
+import os
 
-
+@pytest.mark.skipif(
+    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def setUp(self):
         self.text_to_speech = watson_developer_cloud.TextToSpeechV1(

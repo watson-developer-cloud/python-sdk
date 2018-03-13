@@ -2,8 +2,11 @@
 from unittest import TestCase
 import os
 import watson_developer_cloud
+import pytest
 
 
+@pytest.mark.skipif(
+    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class TestSpeechToTextV1(TestCase):
     def setUp(self):
         self.speech_to_text = watson_developer_cloud.SpeechToTextV1(
