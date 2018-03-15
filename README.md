@@ -70,15 +70,15 @@ This version includes many breaking changes as a result of standardizing behavio
 To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs.
 
 ```python
-from watson_developer_cloud import ConversationV1
+from watson_developer_cloud import AssistantV1
 
-conversation = ConversationV1(
+assistant = AssistantV1(
     username='xxx',
     password='yyy',
     version='2017-04-21')
 
-conversation.set_http_config({'timeout': 100})
-response = conversation.message(workspace_id=workspace_id, input={
+assistant.set_http_config({'timeout': 100})
+response = assistant.message(workspace_id=workspace_id, input={
     'text': 'What\'s the weather like?'})
 print(json.dumps(response, indent=2))
 ```
