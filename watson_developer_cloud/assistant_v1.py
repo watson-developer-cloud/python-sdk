@@ -78,6 +78,65 @@ class AssistantV1(WatsonService):
         self.version = version
 
     #########################
+    # Message
+    #########################
+
+    def message(self,
+                workspace_id,
+                input=None,
+                alternate_intents=None,
+                context=None,
+                entities=None,
+                intents=None,
+                output=None,
+                nodes_visited_details=None):
+        """
+        Get a response to a user's input.    There is no rate limit for this operation.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param InputData input: An input object that includes the input text.
+        :param bool alternate_intents: Whether to return more than one intent. Set to `true` to return all matching intents.
+        :param Context context: State information for the conversation. Continue a conversation by including the context object from the previous response.
+        :param list[RuntimeEntity] entities: Entities to use when evaluating the message. Include entities from the previous response to continue using those entities rather than detecting entities in the new input.
+        :param list[RuntimeIntent] intents: Intents to use when evaluating the user input. Include intents from the previous response to continue using those intents rather than trying to recognize intents in the new input.
+        :param OutputData output: System output. Include the output from the previous response to maintain intermediate information over multiple requests.
+        :param bool nodes_visited_details: Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.
+        :return: A `dict` containing the `MessageResponse` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if input is not None:
+            input = self._convert_model(input, InputData)
+        if context is not None:
+            context = self._convert_model(context, Context)
+        if entities is not None:
+            entities = [
+                self._convert_model(x, RuntimeEntity) for x in entities
+            ]
+        if intents is not None:
+            intents = [self._convert_model(x, RuntimeIntent) for x in intents]
+        if output is not None:
+            output = self._convert_model(output, OutputData)
+        params = {
+            'version': self.version,
+            'nodes_visited_details': nodes_visited_details
+        }
+        data = {
+            'input': input,
+            'alternate_intents': alternate_intents,
+            'context': context,
+            'entities': entities,
+            'intents': intents,
+            'output': output
+        }
+        url = '/v1/workspaces/{0}/message'.format(
+            *self._encode_path_vars(workspace_id))
+        response = self.request(
+            method='POST', url=url, params=params, json=data, accept_json=True)
+        return response
+
+    #########################
     # Workspaces
     #########################
 
@@ -95,10 +154,11 @@ class AssistantV1(WatsonService):
         Create workspace.
 
         Create a workspace based on component objects. You must provide workspace
-        components defining the content of the new workspace.
+        components defining the content of the new workspace.    This operation is limited
+        to 30 requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str name: The name of the workspace.
-        :param str description: The description of the workspace.
+        :param str name: The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+        :param str description: The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
         :param str language: The language of the workspace.
         :param list[CreateIntent] intents: An array of objects defining the intents for the workspace.
         :param list[CreateEntity] entities: An array of objects defining the entities for the workspace.
@@ -143,15 +203,17 @@ class AssistantV1(WatsonService):
         """
         Delete workspace.
 
-        Delete a workspace from the service instance.
+        Delete a workspace from the service instance.    This operation is limited to 30
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :rtype: None
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(
+            *self._encode_path_vars(workspace_id))
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
@@ -160,9 +222,12 @@ class AssistantV1(WatsonService):
         Get information about a workspace.
 
         Get information about a workspace, optionally including all workspace content.
+        With **export**=`false`, this operation is limited to 6000 requests per 5 minutes.
+        With **export**=`true`, the limit is 20 requests per 30 minutes. For more
+        information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `WorkspaceExport` response.
         :rtype: dict
@@ -174,7 +239,8 @@ class AssistantV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(
+            *self._encode_path_vars(workspace_id))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
         return response
@@ -188,12 +254,14 @@ class AssistantV1(WatsonService):
         """
         List workspaces.
 
-        List the workspaces associated with an Assistant service instance.
+        List the workspaces associated with an Assistant service instance.    This
+        operation is limited to 500 requests per 30 minutes. For more information, see
+        **Rate limiting**.
 
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `WorkspaceCollection` response.
         :rtype: dict
@@ -227,11 +295,12 @@ class AssistantV1(WatsonService):
         Update workspace.
 
         Update an existing workspace with new or modified data. You must provide component
-        objects defining the content of the updated workspace.
+        objects defining the content of the updated workspace.    This operation is
+        limited to 30 request per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str name: The name of the workspace.
-        :param str description: The description of the workspace.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str name: The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+        :param str description: The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
         :param str language: The language of the workspace.
         :param list[CreateIntent] intents: An array of objects defining the intents for the workspace.
         :param list[CreateEntity] entities: An array of objects defining the entities for the workspace.
@@ -239,7 +308,7 @@ class AssistantV1(WatsonService):
         :param list[CreateCounterexample] counterexamples: An array of objects defining input examples that have been marked as irrelevant input.
         :param object metadata: Any metadata related to the workspace.
         :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
-        :param bool append: Specifies that the elements included in the request body are to be appended to the existing data in the workspace. The default value is `false`.
+        :param bool append: Whether the new data is to be appended to the existing data in the workspace. If **append**=`false`, elements included in the new data completely replace the corresponding existing elements, including all subelements. For example, if the new data includes **entities** and **append**=`false`, all existing entities in the workspace are discarded and replaced with the new entities.    If **append**=`true`, existing elements are preserved, and the new elements are added. If any elements in the new data collide with existing elements, the update request fails.
         :return: A `dict` containing the `Workspace` response.
         :rtype: dict
         """
@@ -270,63 +339,7 @@ class AssistantV1(WatsonService):
             'metadata': metadata,
             'learning_opt_out': learning_opt_out
         }
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
-        response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
-        return response
-
-    #########################
-    # Message
-    #########################
-
-    def message(self,
-                workspace_id,
-                input=None,
-                alternate_intents=None,
-                context=None,
-                entities=None,
-                intents=None,
-                output=None,
-                nodes_visited_details=None):
-        """
-        Get a response to a user's input.
-
-        :param str workspace_id: Unique identifier of the workspace.
-        :param InputData input: An input object that includes the input text.
-        :param bool alternate_intents: Whether to return more than one intent. Set to `true` to return all matching intents.
-        :param Context context: State information for the conversation. Continue a conversation by including the context object from the previous response.
-        :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param list[RuntimeIntent] intents: An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param OutputData output: System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
-        :param bool nodes_visited_details: Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.
-        :return: A `dict` containing the `MessageResponse` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if input is not None:
-            input = self._convert_model(input, InputData)
-        if context is not None:
-            context = self._convert_model(context, Context)
-        if entities is not None:
-            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
-        if intents is not None:
-            intents = [self._convert_model(x, RuntimeIntent) for x in intents]
-        if output is not None:
-            output = self._convert_model(output, OutputData)
-        params = {
-            'version': self.version,
-            'nodes_visited_details': nodes_visited_details
-        }
-        data = {
-            'input': input,
-            'alternate_intents': alternate_intents,
-            'context': context,
-            'entities': entities,
-            'intents': intents,
-            'output': output
-        }
-        url = '/v1/workspaces/{0}/message'.format(
+        url = '/v1/workspaces/{0}'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
             method='POST', url=url, params=params, json=data, accept_json=True)
@@ -344,12 +357,13 @@ class AssistantV1(WatsonService):
         """
         Create intent.
 
-        Create a new intent.
+        Create a new intent.    This operation is limited to 2000 requests per 30 minutes.
+        For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The name of the intent.
-        :param str description: The description of the intent.
-        :param list[CreateExample] examples: An array of user input examples.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+        :param str description: The description of the intent. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param list[CreateExample] examples: An array of user input examples for the intent.
         :return: A `dict` containing the `Intent` response.
         :rtype: dict
         """
@@ -358,7 +372,9 @@ class AssistantV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [self._convert_model(x, CreateExample) for x in examples]
+            examples = [
+                self._convert_model(x, CreateExample) for x in examples
+            ]
         params = {'version': self.version}
         data = {
             'intent': intent,
@@ -375,10 +391,11 @@ class AssistantV1(WatsonService):
         """
         Delete intent.
 
-        Delete an intent from a workspace.
+        Delete an intent from a workspace.    This operation is limited to 2000 requests
+        per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
         :rtype: None
         """
         if workspace_id is None:
@@ -386,20 +403,24 @@ class AssistantV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}/intents/{1}'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
+            workspace_id, intent))
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_intent(self, workspace_id, intent, export=None, include_audit=None):
+    def get_intent(self, workspace_id, intent, export=None,
+                   include_audit=None):
         """
         Get intent.
 
-        Get information about an intent, optionally including all intent content.
+        Get information about an intent, optionally including all intent content.    With
+        **export**=`false`, this operation is limited to 6000 requests per 5 minutes. With
+        **export**=`true`, the limit is 400 requests per 30 minutes. For more information,
+        see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `IntentExport` response.
         :rtype: dict
@@ -413,8 +434,8 @@ class AssistantV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
+            workspace_id, intent))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
         return response
@@ -430,14 +451,16 @@ class AssistantV1(WatsonService):
         """
         List intents.
 
-        List the intents for a workspace.
+        List the intents for a workspace.    With **export**=`false`, this operation is
+        limited to 2000 requests per 30 minutes. With **export**=`true`, the limit is 400
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `IntentCollection` response.
         :rtype: dict
@@ -468,12 +491,13 @@ class AssistantV1(WatsonService):
         """
         Update intent.
 
-        Update an existing intent with new or modified data. You must provide data
-        defining the content of the updated intent.
+        Update an existing intent with new or modified data. You must provide component
+        objects defining the content of the updated intent.    This operation is limited
+        to 2000 requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
-        :param str new_intent: The name of the intent.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param str new_intent: The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
         :param str new_description: The description of the intent.
         :param list[CreateExample] new_examples: An array of user input examples for the intent.
         :return: A `dict` containing the `Intent` response.
@@ -493,8 +517,8 @@ class AssistantV1(WatsonService):
             'description': new_description,
             'examples': new_examples
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
+            workspace_id, intent))
         response = self.request(
             method='POST', url=url, params=params, json=data, accept_json=True)
         return response
@@ -507,11 +531,12 @@ class AssistantV1(WatsonService):
         """
         Create user input example.
 
-        Add a new user input example to an intent.
+        Add a new user input example to an intent.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
-        :param str text: The text of a user input example.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param str text: The text of a user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
         :return: A `dict` containing the `Example` response.
         :rtype: dict
         """
@@ -533,10 +558,11 @@ class AssistantV1(WatsonService):
         """
         Delete user input example.
 
-        Delete a user input example from an intent.
+        Delete a user input example from an intent.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
         :param str text: The text of the user input example.
         :rtype: None
         """
@@ -556,10 +582,11 @@ class AssistantV1(WatsonService):
         """
         Get user input example.
 
-        Get information about a user input example.
+        Get information about a user input example.    This operation is limited to 6000
+        requests per 5 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
         :param str text: The text of the user input example.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `Example` response.
@@ -589,14 +616,15 @@ class AssistantV1(WatsonService):
         """
         List user input examples.
 
-        List the user input examples for an intent.
+        List the user input examples for an intent.    This operation is limited to 2500
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `ExampleCollection` response.
         :rtype: dict
@@ -623,12 +651,13 @@ class AssistantV1(WatsonService):
         """
         Update user input example.
 
-        Update the text of a user input example.
+        Update the text of a user input example.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
         :param str text: The text of the user input example.
-        :param str new_text: The text of the user input example.
+        :param str new_text: The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
         :return: A `dict` containing the `Example` response.
         :rtype: dict
         """
@@ -647,6 +676,147 @@ class AssistantV1(WatsonService):
         return response
 
     #########################
+    # Counterexamples
+    #########################
+
+    def create_counterexample(self, workspace_id, text):
+        """
+        Create counterexample.
+
+        Add a new counterexample to a workspace. Counterexamples are examples that have
+        been marked as irrelevant input.    This operation is limited to 1000 requests per
+        30 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str text: The text of a user input marked as irrelevant input. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters  - It cannot consist of only whitespace characters  - It must be no longer than 1024 characters.
+        :return: A `dict` containing the `Counterexample` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if text is None:
+            raise ValueError('text must be provided')
+        params = {'version': self.version}
+        data = {'text': text}
+        url = '/v1/workspaces/{0}/counterexamples'.format(
+            *self._encode_path_vars(workspace_id))
+        response = self.request(
+            method='POST', url=url, params=params, json=data, accept_json=True)
+        return response
+
+    def delete_counterexample(self, workspace_id, text):
+        """
+        Delete counterexample.
+
+        Delete a counterexample from a workspace. Counterexamples are examples that have
+        been marked as irrelevant input.    This operation is limited to 1000 requests per
+        30 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :rtype: None
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if text is None:
+            raise ValueError('text must be provided')
+        params = {'version': self.version}
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
+        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        return None
+
+    def get_counterexample(self, workspace_id, text, include_audit=None):
+        """
+        Get counterexample.
+
+        Get information about a counterexample. Counterexamples are examples that have
+        been marked as irrelevant input.    This operation is limited to 6000 requests per
+        5 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :return: A `dict` containing the `Counterexample` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if text is None:
+            raise ValueError('text must be provided')
+        params = {'version': self.version, 'include_audit': include_audit}
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
+        response = self.request(
+            method='GET', url=url, params=params, accept_json=True)
+        return response
+
+    def list_counterexamples(self,
+                             workspace_id,
+                             page_limit=None,
+                             include_count=None,
+                             sort=None,
+                             cursor=None,
+                             include_audit=None):
+        """
+        List counterexamples.
+
+        List the counterexamples for a workspace. Counterexamples are examples that have
+        been marked as irrelevant input.    This operation is limited to 2500 requests per
+        30 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param int page_limit: The number of records to return in each page of results.
+        :param bool include_count: Whether to include information about the number of records returned.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the last object from the previous page of results.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :return: A `dict` containing the `CounterexampleCollection` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        params = {
+            'version': self.version,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor,
+            'include_audit': include_audit
+        }
+        url = '/v1/workspaces/{0}/counterexamples'.format(
+            *self._encode_path_vars(workspace_id))
+        response = self.request(
+            method='GET', url=url, params=params, accept_json=True)
+        return response
+
+    def update_counterexample(self, workspace_id, text, new_text=None):
+        """
+        Update counterexample.
+
+        Update the text of a counterexample. Counterexamples are examples that have been
+        marked as irrelevant input.    This operation is limited to 1000 requests per 30
+        minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :param str new_text: The text of a user input counterexample.
+        :return: A `dict` containing the `Counterexample` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if text is None:
+            raise ValueError('text must be provided')
+        params = {'version': self.version}
+        data = {'text': new_text}
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
+        response = self.request(
+            method='POST', url=url, params=params, json=data, accept_json=True)
+        return response
+
+    #########################
     # Entities
     #########################
 
@@ -660,13 +830,14 @@ class AssistantV1(WatsonService):
         """
         Create entity.
 
-        Create a new entity.
+        Create a new entity.    This operation is limited to 1000 requests per 30 minutes.
+        For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str entity: The name of the entity.
-        :param str description: The description of the entity.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str entity: The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str description: The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
         :param object metadata: Any metadata related to the value.
-        :param list[CreateValue] values: An array of entity values.
+        :param list[CreateValue] values: An array of objects describing the entity values.
         :param bool fuzzy_match: Whether to use fuzzy matching for the entity.
         :return: A `dict` containing the `Entity` response.
         :rtype: dict
@@ -695,9 +866,10 @@ class AssistantV1(WatsonService):
         """
         Delete entity.
 
-        Delete an entity from a workspace.
+        Delete an entity from a workspace.    This operation is limited to 1000 requests
+        per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :rtype: None
         """
@@ -706,20 +878,24 @@ class AssistantV1(WatsonService):
         if entity is None:
             raise ValueError('entity must be provided')
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}/entities/{1}'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
+            workspace_id, entity))
         self.request(method='DELETE', url=url, params=params, accept_json=True)
         return None
 
-    def get_entity(self, workspace_id, entity, export=None, include_audit=None):
+    def get_entity(self, workspace_id, entity, export=None,
+                   include_audit=None):
         """
         Get entity.
 
-        Get information about an entity, optionally including all entity content.
+        Get information about an entity, optionally including all entity content.    With
+        **export**=`false`, this operation is limited to 6000 requests per 5 minutes. With
+        **export**=`true`, the limit is 200 requests per 30 minutes. For more information,
+        see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `EntityExport` response.
         :rtype: dict
@@ -733,8 +909,8 @@ class AssistantV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/entities/{1}'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
+            workspace_id, entity))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
         return response
@@ -750,14 +926,16 @@ class AssistantV1(WatsonService):
         """
         List entities.
 
-        List the entities for a workspace.
+        List the entities for a workspace.    With **export**=`false`, this operation is
+        limited to 1000 requests per 30 minutes. With **export**=`true`, the limit is 200
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `EntityCollection` response.
         :rtype: dict
@@ -790,12 +968,14 @@ class AssistantV1(WatsonService):
         """
         Update entity.
 
-        Update an existing entity with new or modified data.
+        Update an existing entity with new or modified data. You must provide component
+        objects defining the content of the updated entity.    This operation is limited
+        to 1000 requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
-        :param str new_entity: The name of the entity.
-        :param str new_description: The description of the entity.
+        :param str new_entity: The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str new_description: The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
         :param object new_metadata: Any metadata related to the entity.
         :param bool new_fuzzy_match: Whether to use fuzzy matching for the entity.
         :param list[CreateValue] new_values: An array of entity values.
@@ -818,8 +998,8 @@ class AssistantV1(WatsonService):
             'fuzzy_match': new_fuzzy_match,
             'values': new_values
         }
-        url = '/v1/workspaces/{0}/entities/{1}'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
+            workspace_id, entity))
         response = self.request(
             method='POST', url=url, params=params, json=data, accept_json=True)
         return response
@@ -839,15 +1019,16 @@ class AssistantV1(WatsonService):
         """
         Add entity value.
 
-        Create a new value for an entity.
+        Create a new value for an entity.    This operation is limited to 1000 requests
+        per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
-        :param str value: The text of the entity value.
+        :param str value: The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
         :param object metadata: Any metadata related to the entity value.
-        :param list[str] synonyms: An array of synonyms for the entity value.
-        :param list[str] patterns: An array of patterns for the entity value. A pattern is specified as a regular expression.
-        :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param list[str] synonyms: An array containing any synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param list[str] patterns: An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        :param str value_type: Specifies the type of value.
         :return: A `dict` containing the `Value` response.
         :rtype: dict
         """
@@ -875,9 +1056,10 @@ class AssistantV1(WatsonService):
         """
         Delete entity value.
 
-        Delete a value for an entity.
+        Delete a value from an entity.    This operation is limited to 1000 requests per
+        30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :rtype: None
@@ -903,12 +1085,13 @@ class AssistantV1(WatsonService):
         """
         Get entity value.
 
-        Get information about an entity value.
+        Get information about an entity value.    This operation is limited to 6000
+        requests per 5 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `ValueExport` response.
         :rtype: dict
@@ -942,15 +1125,16 @@ class AssistantV1(WatsonService):
         """
         List entity values.
 
-        List the values for an entity.
+        List the values for an entity.    This operation is limited to 2500 requests per
+        30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `ValueCollection` response.
         :rtype: dict
@@ -986,16 +1170,19 @@ class AssistantV1(WatsonService):
         """
         Update entity value.
 
-        Update the content of a value for an entity.
+        Update an existing entity value with new or modified data. You must provide
+        component objects defining the content of the updated entity value.    This
+        operation is limited to 1000 requests per 30 minutes. For more information, see
+        **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
-        :param str new_value: The text of the entity value.
+        :param str new_value: The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
         :param object new_metadata: Any metadata related to the entity value.
-        :param str new_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
-        :param list[str] new_synonyms: An array of synonyms for the entity value.
-        :param list[str] new_patterns: An array of patterns for the entity value. A pattern is specified as a regular expression.
+        :param str new_type: Specifies the type of value.
+        :param list[str] new_synonyms: An array of synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following resrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param list[str] new_patterns: An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
         :return: A `dict` containing the `Value` response.
         :rtype: dict
         """
@@ -1027,12 +1214,13 @@ class AssistantV1(WatsonService):
         """
         Add entity value synonym.
 
-        Add a new synonym to an entity value.
+        Add a new synonym to an entity value.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
-        :param str synonym: The text of the synonym.
+        :param str synonym: The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
         :return: A `dict` containing the `Synonym` response.
         :rtype: dict
         """
@@ -1056,9 +1244,10 @@ class AssistantV1(WatsonService):
         """
         Delete entity value synonym.
 
-        Delete a synonym for an entity value.
+        Delete a synonym from an entity value.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
@@ -1087,9 +1276,10 @@ class AssistantV1(WatsonService):
         """
         Get entity value synonym.
 
-        Get information about a synonym for an entity value.
+        Get information about a synonym of an entity value.    This operation is limited
+        to 6000 requests per 5 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
@@ -1124,15 +1314,16 @@ class AssistantV1(WatsonService):
         """
         List entity value synonyms.
 
-        List the synonyms for an entity value.
+        List the synonyms for an entity value.    This operation is limited to 2500
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `SynonymCollection` response.
         :rtype: dict
@@ -1166,13 +1357,15 @@ class AssistantV1(WatsonService):
         """
         Update entity value synonym.
 
-        Update the information about a synonym for an entity value.
+        Update an existing entity value synonym with new text.    This operation is
+        limited to 1000 requests per 30 minutes. For more information, see **Rate
+        limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
-        :param str new_synonym: The text of the synonym.
+        :param str new_synonym: The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
         :return: A `dict` containing the `Synonym` response.
         :rtype: dict
         """
@@ -1211,27 +1404,34 @@ class AssistantV1(WatsonService):
                            title=None,
                            node_type=None,
                            event_name=None,
-                           variable=None):
+                           variable=None,
+                           digress_in=None,
+                           digress_out=None,
+                           digress_out_slots=None):
         """
         Create dialog node.
 
-        Create a dialog node.
+        Create a new dialog node.    This operation is limited to 500 requests per 30
+        minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str dialog_node: The dialog node ID.
-        :param str description: The description of the dialog node.
-        :param str conditions: The condition that will trigger the dialog node.
-        :param str parent: The ID of the parent dialog node (if any).
-        :param str previous_sibling: The previous dialog node.
-        :param object output: The output of the dialog node.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str dialog_node: The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+        :param str description: The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str conditions: The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param str parent: The ID of the parent dialog node.
+        :param str previous_sibling: The ID of the previous dialog node.
+        :param object output: The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: The context for the dialog node.
         :param object metadata: The metadata for the dialog node.
-        :param DialogNodeNextStep next_step: The next step to execute following this dialog node.
-        :param list[DialogNodeAction] actions: The actions for the dialog node.
-        :param str title: The alias used to identify the dialog node.
+        :param DialogNodeNextStep next_step: The next step to be executed in dialog processing.
+        :param list[DialogNodeAction] actions: An array of objects describing any actions to be invoked by the dialog node.
+        :param str title: The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
         :param str node_type: How the dialog node is processed.
         :param str event_name: How an `event_handler` node is processed.
         :param str variable: The location in the dialog context where output is stored.
+        :param str digress_in: Whether this top-level dialog node can be digressed into.
+        :param str digress_out: Whether this dialog node can be returned to after a digression.
+        :param str digress_out_slots: Whether the user can digress to top-level nodes while filling out slots.
         :return: A `dict` containing the `DialogNode` response.
         :rtype: dict
         """
@@ -1260,7 +1460,10 @@ class AssistantV1(WatsonService):
             'title': title,
             'type': node_type,
             'event_name': event_name,
-            'variable': variable
+            'variable': variable,
+            'digress_in': digress_in,
+            'digress_out': digress_out,
+            'digress_out_slots': digress_out_slots
         }
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
             *self._encode_path_vars(workspace_id))
@@ -1272,9 +1475,10 @@ class AssistantV1(WatsonService):
         """
         Delete dialog node.
 
-        Delete a dialog node from the workspace.
+        Delete a dialog node from a workspace.    This operation is limited to 500
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
         :rtype: None
         """
@@ -1292,9 +1496,10 @@ class AssistantV1(WatsonService):
         """
         Get dialog node.
 
-        Get information about a dialog node.
+        Get information about a dialog node.    This operation is limited to 6000 requests
+        per 5 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `DialogNode` response.
@@ -1321,13 +1526,14 @@ class AssistantV1(WatsonService):
         """
         List dialog nodes.
 
-        List the dialog nodes in the workspace.
+        List the dialog nodes for a workspace.    This operation is limited to 2500
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
         :return: A `dict` containing the `DialogNodeCollection` response.
         :rtype: dict
@@ -1364,28 +1570,36 @@ class AssistantV1(WatsonService):
                            new_type=None,
                            new_event_name=None,
                            new_variable=None,
-                           new_actions=None):
+                           new_actions=None,
+                           new_digress_in=None,
+                           new_digress_out=None,
+                           new_digress_out_slots=None):
         """
         Update dialog node.
 
-        Update information for a dialog node.
+        Update an existing dialog node with new or modified data.    This operation is
+        limited to 500 requests per 30 minutes. For more information, see **Rate
+        limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
-        :param str new_dialog_node: The dialog node ID.
-        :param str new_description: The description of the dialog node.
-        :param str new_conditions: The condition that will trigger the dialog node.
-        :param str new_parent: The ID of the parent dialog node (if any).
-        :param str new_previous_sibling: The previous dialog node.
-        :param object new_output: The output of the dialog node.
+        :param str new_dialog_node: The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+        :param str new_description: The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str new_conditions: The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param str new_parent: The ID of the parent dialog node.
+        :param str new_previous_sibling: The ID of the previous sibling dialog node.
+        :param object new_output: The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object new_context: The context for the dialog node.
         :param object new_metadata: The metadata for the dialog node.
-        :param DialogNodeNextStep new_next_step: The next step to execute following this dialog node.
-        :param str new_title: The alias used to identify the dialog node.
+        :param DialogNodeNextStep new_next_step: The next step to be executed in dialog processing.
+        :param str new_title: The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
         :param str new_type: How the dialog node is processed.
         :param str new_event_name: How an `event_handler` node is processed.
         :param str new_variable: The location in the dialog context where output is stored.
-        :param list[DialogNodeAction] new_actions: The actions for the dialog node.
+        :param list[DialogNodeAction] new_actions: An array of objects describing any actions to be invoked by the dialog node.
+        :param str new_digress_in: Whether this top-level dialog node can be digressed into.
+        :param str new_digress_out: Whether this dialog node can be returned to after a digression.
+        :param str new_digress_out_slots: Whether the user can digress to top-level nodes while filling out slots.
         :return: A `dict` containing the `DialogNode` response.
         :rtype: dict
         """
@@ -1415,7 +1629,10 @@ class AssistantV1(WatsonService):
             'type': new_type,
             'event_name': new_event_name,
             'variable': new_variable,
-            'actions': new_actions
+            'actions': new_actions,
+            'digress_in': new_digress_in,
+            'digress_out': new_digress_out,
+            'digress_out_slots': new_digress_out_slots
         }
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
@@ -1431,12 +1648,15 @@ class AssistantV1(WatsonService):
         """
         List log events in all workspaces.
 
-        List log events in all workspaces in the service instance.
+        List the events from the logs of all workspaces in the service instance.    If
+        **cursor** is not specified, this operation is limited to 40 requests per 30
+        minutes. If **cursor** is specified, the limit is 120 requests per minute. For
+        more information, see **Rate limiting**.
 
         :param str filter: A cacheable parameter that limits the results to those matching the specified filter. You must specify a filter query that includes a value for `language`, as well as a value for `workspace_id` or `request.context.metadata.deployment`. For more information, see the [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param int page_limit: The number of records to return in each page of results.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :return: A `dict` containing the `LogCollection` response.
         :rtype: dict
         """
@@ -1463,13 +1683,16 @@ class AssistantV1(WatsonService):
         """
         List log events in a workspace.
 
-        List log events in a specific workspace.
+        List the events from the log of a specific workspace.    If **cursor** is not
+        specified, this operation is limited to 40 requests per 30 minutes. If **cursor**
+        is specified, the limit is 120 requests per minute. For more information, see
+        **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
         :param str filter: A cacheable parameter that limits the results to those matching the specified filter. For more information, see the [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param int page_limit: The number of records to return in each page of results.
+        :param str cursor: A token identifying the last object from the previous page of results.
         :return: A `dict` containing the `LogCollection` response.
         :rtype: dict
         """
@@ -1486,142 +1709,6 @@ class AssistantV1(WatsonService):
             *self._encode_path_vars(workspace_id))
         response = self.request(
             method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    #########################
-    # Counterexamples
-    #########################
-
-    def create_counterexample(self, workspace_id, text):
-        """
-        Create counterexample.
-
-        Add a new counterexample to a workspace. Counterexamples are examples that have
-        been marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param str text: The text of a user input marked as irrelevant input.
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if text is None:
-            raise ValueError('text must be provided')
-        params = {'version': self.version}
-        data = {'text': text}
-        url = '/v1/workspaces/{0}/counterexamples'.format(
-            *self._encode_path_vars(workspace_id))
-        response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
-        return response
-
-    def delete_counterexample(self, workspace_id, text):
-        """
-        Delete counterexample.
-
-        Delete a counterexample from a workspace. Counterexamples are examples that have
-        been marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
-        :rtype: None
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if text is None:
-            raise ValueError('text must be provided')
-        params = {'version': self.version}
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
-        return None
-
-    def get_counterexample(self, workspace_id, text, include_audit=None):
-        """
-        Get counterexample.
-
-        Get information about a counterexample. Counterexamples are examples that have
-        been marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
-        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if text is None:
-            raise ValueError('text must be provided')
-        params = {'version': self.version, 'include_audit': include_audit}
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def list_counterexamples(self,
-                             workspace_id,
-                             page_limit=None,
-                             include_count=None,
-                             sort=None,
-                             cursor=None,
-                             include_audit=None):
-        """
-        List counterexamples.
-
-        List the counterexamples for a workspace. Counterexamples are examples that have
-        been marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
-        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
-        :return: A `dict` containing the `CounterexampleCollection` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        params = {
-            'version': self.version,
-            'page_limit': page_limit,
-            'include_count': include_count,
-            'sort': sort,
-            'cursor': cursor,
-            'include_audit': include_audit
-        }
-        url = '/v1/workspaces/{0}/counterexamples'.format(
-            *self._encode_path_vars(workspace_id))
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def update_counterexample(self, workspace_id, text, new_text=None):
-        """
-        Update counterexample.
-
-        Update the text of a counterexample. Counterexamples are examples that have been
-        marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
-        :param str new_text: The text of the example to be marked as irrelevant input.
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if text is None:
-            raise ValueError('text must be provided')
-        params = {'version': self.version}
-        data = {'text': new_text}
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
-        response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
         return response
 
 
@@ -1687,8 +1774,8 @@ class CaptureGroup(object):
 
 class Context(object):
     """
-    Context information for the message. Include the context from the previous response to
-    maintain state for the conversation.
+    State information for the conversation. To maintain state, include the context from
+    the previous response.
 
     :attr str conversation_id: The unique identifier of the conversation.
     :attr SystemResponse system: For internal use only.
@@ -1795,7 +1882,8 @@ class Counterexample(object):
             args['text'] = _dict['text']
         else:
             raise ValueError(
-                'Required property \'text\' not present in Counterexample JSON')
+                'Required property \'text\' not present in Counterexample JSON'
+            )
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
         else:
@@ -1841,7 +1929,7 @@ class CounterexampleCollection(object):
     CounterexampleCollection.
 
     :attr list[Counterexample] counterexamples: An array of objects describing the examples marked as irrelevant input.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, counterexamples, pagination):
@@ -1849,7 +1937,7 @@ class CounterexampleCollection(object):
         Initialize a CounterexampleCollection object.
 
         :param list[Counterexample] counterexamples: An array of objects describing the examples marked as irrelevant input.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.counterexamples = counterexamples
         self.pagination = pagination
@@ -1905,14 +1993,14 @@ class CreateCounterexample(object):
     """
     CreateCounterexample.
 
-    :attr str text: The text of a user input marked as irrelevant input.
+    :attr str text: The text of a user input marked as irrelevant input. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters  - It cannot consist of only whitespace characters  - It must be no longer than 1024 characters.
     """
 
     def __init__(self, text):
         """
         Initialize a CreateCounterexample object.
 
-        :param str text: The text of a user input marked as irrelevant input.
+        :param str text: The text of a user input marked as irrelevant input. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters  - It cannot consist of only whitespace characters  - It must be no longer than 1024 characters.
         """
         self.text = text
 
@@ -1954,20 +2042,23 @@ class CreateDialogNode(object):
     """
     CreateDialogNode.
 
-    :attr str dialog_node: The dialog node ID.
-    :attr str description: (optional) The description of the dialog node.
-    :attr str conditions: (optional) The condition that will trigger the dialog node.
-    :attr str parent: (optional) The ID of the parent dialog node (if any).
-    :attr str previous_sibling: (optional) The previous dialog node.
-    :attr object output: (optional) The output of the dialog node.
+    :attr str dialog_node: The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+    :attr str description: (optional) The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr str conditions: (optional) The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+    :attr str parent: (optional) The ID of the parent dialog node.
+    :attr str previous_sibling: (optional) The ID of the previous dialog node.
+    :attr object output: (optional) The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
     :attr object context: (optional) The context for the dialog node.
     :attr object metadata: (optional) The metadata for the dialog node.
-    :attr DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
-    :attr list[DialogNodeAction] actions: (optional) The actions for the dialog node.
-    :attr str title: (optional) The alias used to identify the dialog node.
+    :attr DialogNodeNextStep next_step: (optional) The next step to be executed in dialog processing.
+    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any actions to be invoked by the dialog node.
+    :attr str title: (optional) The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
     :attr str node_type: (optional) How the dialog node is processed.
     :attr str event_name: (optional) How an `event_handler` node is processed.
     :attr str variable: (optional) The location in the dialog context where output is stored.
+    :attr str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+    :attr str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+    :attr str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
     """
 
     def __init__(self,
@@ -1984,24 +2075,30 @@ class CreateDialogNode(object):
                  title=None,
                  node_type=None,
                  event_name=None,
-                 variable=None):
+                 variable=None,
+                 digress_in=None,
+                 digress_out=None,
+                 digress_out_slots=None):
         """
         Initialize a CreateDialogNode object.
 
-        :param str dialog_node: The dialog node ID.
-        :param str description: (optional) The description of the dialog node.
-        :param str conditions: (optional) The condition that will trigger the dialog node.
-        :param str parent: (optional) The ID of the parent dialog node (if any).
-        :param str previous_sibling: (optional) The previous dialog node.
-        :param object output: (optional) The output of the dialog node.
+        :param str dialog_node: The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+        :param str description: (optional) The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str conditions: (optional) The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param str parent: (optional) The ID of the parent dialog node.
+        :param str previous_sibling: (optional) The ID of the previous dialog node.
+        :param object output: (optional) The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: (optional) The context for the dialog node.
         :param object metadata: (optional) The metadata for the dialog node.
-        :param DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
-        :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
-        :param str title: (optional) The alias used to identify the dialog node.
+        :param DialogNodeNextStep next_step: (optional) The next step to be executed in dialog processing.
+        :param list[DialogNodeAction] actions: (optional) An array of objects describing any actions to be invoked by the dialog node.
+        :param str title: (optional) The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
         :param str node_type: (optional) How the dialog node is processed.
         :param str event_name: (optional) How an `event_handler` node is processed.
         :param str variable: (optional) The location in the dialog context where output is stored.
+        :param str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+        :param str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+        :param str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
         """
         self.dialog_node = dialog_node
         self.description = description
@@ -2017,6 +2114,9 @@ class CreateDialogNode(object):
         self.node_type = node_type
         self.event_name = event_name
         self.variable = variable
+        self.digress_in = digress_in
+        self.digress_out = digress_out
+        self.digress_out_slots = digress_out_slots
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -2059,6 +2159,12 @@ class CreateDialogNode(object):
             args['event_name'] = _dict['event_name']
         if 'variable' in _dict:
             args['variable'] = _dict['variable']
+        if 'digress_in' in _dict:
+            args['digress_in'] = _dict['digress_in']
+        if 'digress_out' in _dict:
+            args['digress_out'] = _dict['digress_out']
+        if 'digress_out_slots' in _dict:
+            args['digress_out_slots'] = _dict['digress_out_slots']
         return cls(**args)
 
     def _to_dict(self):
@@ -2093,6 +2199,13 @@ class CreateDialogNode(object):
             _dict['event_name'] = self.event_name
         if hasattr(self, 'variable') and self.variable is not None:
             _dict['variable'] = self.variable
+        if hasattr(self, 'digress_in') and self.digress_in is not None:
+            _dict['digress_in'] = self.digress_in
+        if hasattr(self, 'digress_out') and self.digress_out is not None:
+            _dict['digress_out'] = self.digress_out
+        if hasattr(self,
+                   'digress_out_slots') and self.digress_out_slots is not None:
+            _dict['digress_out_slots'] = self.digress_out_slots
         return _dict
 
     def __str__(self):
@@ -2114,10 +2227,10 @@ class CreateEntity(object):
     """
     CreateEntity.
 
-    :attr str entity: The name of the entity.
-    :attr str description: (optional) The description of the entity.
+    :attr str entity: The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+    :attr str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
     :attr object metadata: (optional) Any metadata related to the value.
-    :attr list[CreateValue] values: (optional) An array of entity values.
+    :attr list[CreateValue] values: (optional) An array of objects describing the entity values.
     :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
     """
 
@@ -2130,10 +2243,10 @@ class CreateEntity(object):
         """
         Initialize a CreateEntity object.
 
-        :param str entity: The name of the entity.
-        :param str description: (optional) The description of the entity.
+        :param str entity: The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
         :param object metadata: (optional) Any metadata related to the value.
-        :param list[CreateValue] values: (optional) An array of entity values.
+        :param list[CreateValue] values: (optional) An array of objects describing the entity values.
         :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
         """
         self.entity = entity
@@ -2150,7 +2263,8 @@ class CreateEntity(object):
             args['entity'] = _dict['entity']
         else:
             raise ValueError(
-                'Required property \'entity\' not present in CreateEntity JSON')
+                'Required property \'entity\' not present in CreateEntity JSON'
+            )
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'metadata' in _dict:
@@ -2197,14 +2311,14 @@ class CreateExample(object):
     """
     CreateExample.
 
-    :attr str text: The text of a user input example.
+    :attr str text: The text of a user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
     """
 
     def __init__(self, text):
         """
         Initialize a CreateExample object.
 
-        :param str text: The text of a user input example.
+        :param str text: The text of a user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
         """
         self.text = text
 
@@ -2245,18 +2359,18 @@ class CreateIntent(object):
     """
     CreateIntent.
 
-    :attr str intent: The name of the intent.
-    :attr str description: (optional) The description of the intent.
-    :attr list[CreateExample] examples: (optional) An array of user input examples.
+    :attr str intent: The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+    :attr str description: (optional) The description of the intent. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr list[CreateExample] examples: (optional) An array of user input examples for the intent.
     """
 
     def __init__(self, intent, description=None, examples=None):
         """
         Initialize a CreateIntent object.
 
-        :param str intent: The name of the intent.
-        :param str description: (optional) The description of the intent.
-        :param list[CreateExample] examples: (optional) An array of user input examples.
+        :param str intent: The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+        :param str description: (optional) The description of the intent. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param list[CreateExample] examples: (optional) An array of user input examples for the intent.
         """
         self.intent = intent
         self.description = description
@@ -2270,7 +2384,8 @@ class CreateIntent(object):
             args['intent'] = _dict['intent']
         else:
             raise ValueError(
-                'Required property \'intent\' not present in CreateIntent JSON')
+                'Required property \'intent\' not present in CreateIntent JSON'
+            )
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'examples' in _dict:
@@ -2309,11 +2424,11 @@ class CreateValue(object):
     """
     CreateValue.
 
-    :attr str value: The text of the entity value.
+    :attr str value: The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
     :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr list[str] synonyms: (optional) An array of synonyms for the entity value.
-    :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-    :attr str value_type: (optional) Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    :attr list[str] patterns: (optional) An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+    :attr str value_type: (optional) Specifies the type of value.
     """
 
     def __init__(self,
@@ -2325,11 +2440,11 @@ class CreateValue(object):
         """
         Initialize a CreateValue object.
 
-        :param str value: The text of the entity value.
+        :param str value: The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
         :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array of synonyms for the entity value.
-        :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-        :param str value_type: (optional) Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param list[str] synonyms: (optional) An array containing any synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param list[str] patterns: (optional) An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        :param str value_type: (optional) Specifies the type of value.
         """
         self.value = value
         self.metadata = metadata
@@ -2395,11 +2510,11 @@ class DialogNode(object):
     :attr str dialog_node_id: The dialog node ID.
     :attr str description: (optional) The description of the dialog node.
     :attr str conditions: (optional) The condition that triggers the dialog node.
-    :attr str parent: (optional) The ID of the parent dialog node.
-    :attr str previous_sibling: (optional) The ID of the previous sibling dialog node.
+    :attr str parent: (optional) The ID of the parent dialog node. This property is not returned if the dialog node has no parent.
+    :attr str previous_sibling: (optional) The ID of the previous sibling dialog node. This property is not returned if the dialog node has no previous sibling.
     :attr object output: (optional) The output of the dialog node.
     :attr object context: (optional) The context (if defined) for the dialog node.
-    :attr object metadata: (optional) The metadata (if any) for the dialog node.
+    :attr object metadata: (optional) Any metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
     :attr datetime created: The timestamp for creation of the dialog node.
     :attr datetime updated: The timestamp for the most recent update to the dialog node.
@@ -2408,6 +2523,9 @@ class DialogNode(object):
     :attr str node_type: (optional) How the dialog node is processed.
     :attr str event_name: (optional) How an `event_handler` node is processed.
     :attr str variable: (optional) The location in the dialog context where output is stored.
+    :attr str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+    :attr str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+    :attr str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
     """
 
     def __init__(self,
@@ -2426,7 +2544,10 @@ class DialogNode(object):
                  title=None,
                  node_type=None,
                  event_name=None,
-                 variable=None):
+                 variable=None,
+                 digress_in=None,
+                 digress_out=None,
+                 digress_out_slots=None):
         """
         Initialize a DialogNode object.
 
@@ -2435,17 +2556,20 @@ class DialogNode(object):
         :param datetime updated: The timestamp for the most recent update to the dialog node.
         :param str description: (optional) The description of the dialog node.
         :param str conditions: (optional) The condition that triggers the dialog node.
-        :param str parent: (optional) The ID of the parent dialog node.
-        :param str previous_sibling: (optional) The ID of the previous sibling dialog node.
+        :param str parent: (optional) The ID of the parent dialog node. This property is not returned if the dialog node has no parent.
+        :param str previous_sibling: (optional) The ID of the previous sibling dialog node. This property is not returned if the dialog node has no previous sibling.
         :param object output: (optional) The output of the dialog node.
         :param object context: (optional) The context (if defined) for the dialog node.
-        :param object metadata: (optional) The metadata (if any) for the dialog node.
+        :param object metadata: (optional) Any metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
         :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
         :param str title: (optional) The alias used to identify the dialog node.
         :param str node_type: (optional) How the dialog node is processed.
         :param str event_name: (optional) How an `event_handler` node is processed.
         :param str variable: (optional) The location in the dialog context where output is stored.
+        :param str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+        :param str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+        :param str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
         """
         self.dialog_node_id = dialog_node_id
         self.description = description
@@ -2463,6 +2587,9 @@ class DialogNode(object):
         self.node_type = node_type
         self.event_name = event_name
         self.variable = variable
+        self.digress_in = digress_in
+        self.digress_out = digress_out
+        self.digress_out_slots = digress_out_slots
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -2517,6 +2644,12 @@ class DialogNode(object):
             args['event_name'] = _dict['event_name']
         if 'variable' in _dict:
             args['variable'] = _dict['variable']
+        if 'digress_in' in _dict:
+            args['digress_in'] = _dict['digress_in']
+        if 'digress_out' in _dict:
+            args['digress_out'] = _dict['digress_out']
+        if 'digress_out_slots' in _dict:
+            args['digress_out_slots'] = _dict['digress_out_slots']
         return cls(**args)
 
     def _to_dict(self):
@@ -2555,6 +2688,13 @@ class DialogNode(object):
             _dict['event_name'] = self.event_name
         if hasattr(self, 'variable') and self.variable is not None:
             _dict['variable'] = self.variable
+        if hasattr(self, 'digress_in') and self.digress_in is not None:
+            _dict['digress_in'] = self.digress_in
+        if hasattr(self, 'digress_out') and self.digress_out is not None:
+            _dict['digress_out'] = self.digress_out
+        if hasattr(self,
+                   'digress_out_slots') and self.digress_out_slots is not None:
+            _dict['digress_out_slots'] = self.digress_out_slots
         return _dict
 
     def __str__(self):
@@ -2663,18 +2803,18 @@ class DialogNodeAction(object):
 
 class DialogNodeCollection(object):
     """
-    DialogNodeCollection.
+    An array of dialog nodes.
 
-    :attr list[DialogNode] dialog_nodes:
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[DialogNode] dialog_nodes: An array of objects describing the dialog nodes defined for the workspace.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, dialog_nodes, pagination):
         """
         Initialize a DialogNodeCollection object.
 
-        :param list[DialogNode] dialog_nodes:
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param list[DialogNode] dialog_nodes: An array of objects describing the dialog nodes defined for the workspace.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.dialog_nodes = dialog_nodes
         self.pagination = pagination
@@ -2727,8 +2867,8 @@ class DialogNodeNextStep(object):
     """
     The next step to execute following this dialog node.
 
-    :attr str behavior: How the `next_step` reference is processed. If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
-    :attr str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if `behavior`=`jump_to`.
+    :attr str behavior: What happens after the dialog node completes. The valid values depend on the node type:  - The following values are valid for any node:    - `get_user_input`    - `skip_user_input`    - `jump_to`  - If the node is of type `event_handler` and its parent node is of type `slot` or `frame`, additional values are also valid:    - if **event_name**=`filled` and the type of the parent node is `slot`:      - `reprompt`      - `skip_all_slots`  - if **event_name**=`nomatch` and the type of the parent node is `slot`:      - `reprompt`      - `skip_slot`      - `skip_all_slots`  - if **event_name**=`generic` and the type of the parent node is `frame`:      - `reprompt`      - `skip_slot`      - `skip_all_slots`        If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
+    :attr str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if **behavior**=`jump_to`.
     :attr str selector: (optional) Which part of the dialog node to process next.
     """
 
@@ -2736,8 +2876,8 @@ class DialogNodeNextStep(object):
         """
         Initialize a DialogNodeNextStep object.
 
-        :param str behavior: How the `next_step` reference is processed. If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
-        :param str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if `behavior`=`jump_to`.
+        :param str behavior: What happens after the dialog node completes. The valid values depend on the node type:  - The following values are valid for any node:    - `get_user_input`    - `skip_user_input`    - `jump_to`  - If the node is of type `event_handler` and its parent node is of type `slot` or `frame`, additional values are also valid:    - if **event_name**=`filled` and the type of the parent node is `slot`:      - `reprompt`      - `skip_all_slots`  - if **event_name**=`nomatch` and the type of the parent node is `slot`:      - `reprompt`      - `skip_slot`      - `skip_all_slots`  - if **event_name**=`generic` and the type of the parent node is `frame`:      - `reprompt`      - `skip_slot`      - `skip_all_slots`        If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
+        :param str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if **behavior**=`jump_to`.
         :param str selector: (optional) Which part of the dialog node to process next.
         """
         self.behavior = behavior
@@ -2939,16 +3079,16 @@ class EntityCollection(object):
     """
     An array of entities.
 
-    :attr list[EntityExport] entities: An array of entities.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[EntityExport] entities: An array of objects describing the entities defined for the workspace.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, entities, pagination):
         """
         Initialize a EntityCollection object.
 
-        :param list[EntityExport] entities: An array of entities.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param list[EntityExport] entities: An array of objects describing the entities defined for the workspace.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.entities = entities
         self.pagination = pagination
@@ -3007,7 +3147,7 @@ class EntityExport(object):
     :attr str description: (optional) The description of the entity.
     :attr object metadata: (optional) Any metadata related to the entity.
     :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
-    :attr list[ValueExport] values: (optional) An array of entity values.
+    :attr list[ValueExport] values: (optional) An array objects describing the entity values.
     """
 
     def __init__(self,
@@ -3027,7 +3167,7 @@ class EntityExport(object):
         :param str description: (optional) The description of the entity.
         :param object metadata: (optional) Any metadata related to the entity.
         :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
-        :param list[ValueExport] values: (optional) An array of entity values.
+        :param list[ValueExport] values: (optional) An array objects describing the entity values.
         """
         self.entity_name = entity_name
         self.created = created
@@ -3047,7 +3187,8 @@ class EntityExport(object):
             args['entity_name'] = _dict['entity']
         else:
             raise ValueError(
-                'Required property \'entity\' not present in EntityExport JSON')
+                'Required property \'entity\' not present in EntityExport JSON'
+            )
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
         else:
@@ -3110,7 +3251,7 @@ class Example(object):
     """
     Example.
 
-    :attr str example_text: The text of the example.
+    :attr str example_text: The text of the user input example.
     :attr datetime created: The timestamp for creation of the example.
     :attr datetime updated: The timestamp for the last update to the example.
     """
@@ -3119,7 +3260,7 @@ class Example(object):
         """
         Initialize a Example object.
 
-        :param str example_text: The text of the example.
+        :param str example_text: The text of the user input example.
         :param datetime created: The timestamp for creation of the example.
         :param datetime updated: The timestamp for the last update to the example.
         """
@@ -3180,16 +3321,16 @@ class ExampleCollection(object):
     """
     ExampleCollection.
 
-    :attr list[Example] examples: An array of Example objects describing the examples defined for the intent.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[Example] examples: An array of objects describing the examples defined for the intent.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, examples, pagination):
         """
         Initialize a ExampleCollection object.
 
-        :param list[Example] examples: An array of Example objects describing the examples defined for the intent.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param list[Example] examples: An array of objects describing the examples defined for the intent.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.examples = examples
         self.pagination = pagination
@@ -3240,16 +3381,16 @@ class ExampleCollection(object):
 
 class InputData(object):
     """
-    An object defining the user input.
+    The user input.
 
-    :attr str text: The text of the user input.
+    :attr str text: The text of the user input. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
     """
 
     def __init__(self, text):
         """
         Initialize a InputData object.
 
-        :param str text: The text of the user input.
+        :param str text: The text of the user input. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
         """
         self.text = text
 
@@ -3367,16 +3508,16 @@ class IntentCollection(object):
     """
     IntentCollection.
 
-    :attr list[IntentExport] intents: An array of intents.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[IntentExport] intents: An array of objects describing the intents defined for the workspace.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, intents, pagination):
         """
         Initialize a IntentCollection object.
 
-        :param list[IntentExport] intents: An array of intents.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param list[IntentExport] intents: An array of objects describing the intents defined for the workspace.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.intents = intents
         self.pagination = pagination
@@ -3433,7 +3574,7 @@ class IntentExport(object):
     :attr datetime created: The timestamp for creation of the intent.
     :attr datetime updated: The timestamp for the last update to the intent.
     :attr str description: (optional) The description of the intent.
-    :attr list[Example] examples: (optional) An array of user input examples.
+    :attr list[Example] examples: (optional) An array of objects describing the user input examples for the intent.
     """
 
     def __init__(self,
@@ -3449,7 +3590,7 @@ class IntentExport(object):
         :param datetime created: The timestamp for creation of the intent.
         :param datetime updated: The timestamp for the last update to the intent.
         :param str description: (optional) The description of the intent.
-        :param list[Example] examples: (optional) An array of user input examples.
+        :param list[Example] examples: (optional) An array of objects describing the user input examples for the intent.
         """
         self.intent_name = intent_name
         self.created = created
@@ -3467,7 +3608,8 @@ class IntentExport(object):
             args['intent_name'] = _dict['intent']
         else:
             raise ValueError(
-                'Required property \'intent\' not present in IntentExport JSON')
+                'Required property \'intent\' not present in IntentExport JSON'
+            )
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
         else:
@@ -3522,16 +3664,16 @@ class LogCollection(object):
     """
     LogCollection.
 
-    :attr list[LogExport] logs: An array of log events.
-    :attr LogPagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[LogExport] logs: An array of objects describing log events.
+    :attr LogPagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, logs, pagination):
         """
         Initialize a LogCollection object.
 
-        :param list[LogExport] logs: An array of log events.
-        :param LogPagination pagination: An object defining the pagination data for the returned objects.
+        :param list[LogExport] logs: An array of objects describing log events.
+        :param LogPagination pagination: The pagination data for the returned objects.
         """
         self.logs = logs
         self.pagination = pagination
@@ -3581,12 +3723,12 @@ class LogExport(object):
     """
     LogExport.
 
-    :attr MessageRequest request: A request formatted for the Assistant service.
-    :attr MessageResponse response: A response from the Assistant service.
-    :attr str log_id: A unique identifier for the logged message.
+    :attr MessageRequest request: A request received by the workspace, including the user input and context.
+    :attr MessageResponse response: The response sent by the workspace, including the output text, detected intents and entities, and context.
+    :attr str log_id: A unique identifier for the logged event.
     :attr str request_timestamp: The timestamp for receipt of the message.
     :attr str response_timestamp: The timestamp for the system response to the message.
-    :attr str workspace_id: The workspace ID.
+    :attr str workspace_id: The unique identifier of the workspace where the request was made.
     :attr str language: The language of the workspace where the message request was made.
     """
 
@@ -3595,12 +3737,12 @@ class LogExport(object):
         """
         Initialize a LogExport object.
 
-        :param MessageRequest request: A request formatted for the Assistant service.
-        :param MessageResponse response: A response from the Assistant service.
-        :param str log_id: A unique identifier for the logged message.
+        :param MessageRequest request: A request received by the workspace, including the user input and context.
+        :param MessageResponse response: The response sent by the workspace, including the output text, detected intents and entities, and context.
+        :param str log_id: A unique identifier for the logged event.
         :param str request_timestamp: The timestamp for receipt of the message.
         :param str response_timestamp: The timestamp for the system response to the message.
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: The unique identifier of the workspace where the request was made.
         :param str language: The language of the workspace where the message request was made.
         """
         self.request = request
@@ -3696,16 +3838,16 @@ class LogMessage(object):
     """
     Log message details.
 
-    :attr str level: The severity of the message.
-    :attr str msg: The text of the message.
+    :attr str level: The severity of the log message.
+    :attr str msg: The text of the log message.
     """
 
     def __init__(self, level, msg, **kwargs):
         """
         Initialize a LogMessage object.
 
-        :param str level: The severity of the message.
-        :param str msg: The text of the message.
+        :param str level: The severity of the log message.
+        :param str msg: The text of the log message.
         :param **kwargs: (optional) Any additional properties.
         """
         self.level = level
@@ -3774,7 +3916,7 @@ class LogPagination(object):
     """
     The pagination data for the returned objects.
 
-    :attr str next_url: (optional) The URL that will return the next page of results.
+    :attr str next_url: (optional) The URL that will return the next page of results, if any.
     :attr int matched: (optional) Reserved for future use.
     """
 
@@ -3782,7 +3924,7 @@ class LogPagination(object):
         """
         Initialize a LogPagination object.
 
-        :param str next_url: (optional) The URL that will return the next page of results.
+        :param str next_url: (optional) The URL that will return the next page of results, if any.
         :param int matched: (optional) Reserved for future use.
         """
         self.next_url = next_url
@@ -3824,7 +3966,7 @@ class LogPagination(object):
 
 class MessageInput(object):
     """
-    An input object that includes the input text.
+    The text of the user input.
 
     :attr str text: (optional) The user's input.
     """
@@ -3874,9 +4016,9 @@ class MessageRequest(object):
     :attr InputData input: (optional) An input object that includes the input text.
     :attr bool alternate_intents: (optional) Whether to return more than one intent. Set to `true` to return all matching intents.
     :attr Context context: (optional) State information for the conversation. Continue a conversation by including the context object from the previous response.
-    :attr list[RuntimeEntity] entities: (optional) Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-    :attr list[RuntimeIntent] intents: (optional) An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-    :attr OutputData output: (optional) System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
+    :attr list[RuntimeEntity] entities: (optional) Entities to use when evaluating the message. Include entities from the previous response to continue using those entities rather than detecting entities in the new input.
+    :attr list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user input. Include intents from the previous response to continue using those intents rather than trying to recognize intents in the new input.
+    :attr OutputData output: (optional) System output. Include the output from the previous response to maintain intermediate information over multiple requests.
     """
 
     def __init__(self,
@@ -3892,9 +4034,9 @@ class MessageRequest(object):
         :param InputData input: (optional) An input object that includes the input text.
         :param bool alternate_intents: (optional) Whether to return more than one intent. Set to `true` to return all matching intents.
         :param Context context: (optional) State information for the conversation. Continue a conversation by including the context object from the previous response.
-        :param list[RuntimeEntity] entities: (optional) Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param list[RuntimeIntent] intents: (optional) An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param OutputData output: (optional) System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
+        :param list[RuntimeEntity] entities: (optional) Entities to use when evaluating the message. Include entities from the previous response to continue using those entities rather than detecting entities in the new input.
+        :param list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user input. Include intents from the previous response to continue using those intents rather than trying to recognize intents in the new input.
+        :param OutputData output: (optional) System output. Include the output from the previous response to maintain intermediate information over multiple requests.
         """
         self.input = input
         self.alternate_intents = alternate_intents
@@ -3965,7 +4107,7 @@ class MessageResponse(object):
     :attr MessageInput input: (optional) The user input from the request.
     :attr list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
     :attr list[RuntimeEntity] entities: An array of entities identified in the user input.
-    :attr bool alternate_intents: (optional) Whether to return more than one intent. `true` indicates that all matching intents are returned.
+    :attr bool alternate_intents: (optional) Whether to return more than one intent. A value of `true` indicates that all matching intents are returned.
     :attr Context context: State information for the conversation.
     :attr OutputData output: Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.
     """
@@ -3986,7 +4128,7 @@ class MessageResponse(object):
         :param Context context: State information for the conversation.
         :param OutputData output: Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.
         :param MessageInput input: (optional) The user input from the request.
-        :param bool alternate_intents: (optional) Whether to return more than one intent. `true` indicates that all matching intents are returned.
+        :param bool alternate_intents: (optional) Whether to return more than one intent. A value of `true` indicates that all matching intents are returned.
         :param **kwargs: (optional) Any additional properties.
         """
         self.input = input
@@ -4099,10 +4241,10 @@ class OutputData(object):
     An output object that includes the response to the user, the nodes that were hit, and
     messages from the log.
 
-    :attr list[LogMessage] log_messages: Up to 50 messages logged with the request.
+    :attr list[LogMessage] log_messages: An array of up to 50 messages logged with the request.
     :attr list[str] text: An array of responses to the user.
-    :attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.
-    :attr list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
+    :attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response, in the order in which they were visited. This information is useful for debugging and for tracing the path taken through the node tree.
+    :attr list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message. Included only if **nodes_visited_details** is set to `true` in the message request.
     """
 
     def __init__(self,
@@ -4114,10 +4256,10 @@ class OutputData(object):
         """
         Initialize a OutputData object.
 
-        :param list[LogMessage] log_messages: Up to 50 messages logged with the request.
+        :param list[LogMessage] log_messages: An array of up to 50 messages logged with the request.
         :param list[str] text: An array of responses to the user.
-        :param list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.
-        :param list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
+        :param list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response, in the order in which they were visited. This information is useful for debugging and for tracing the path taken through the node tree.
+        :param list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message. Included only if **nodes_visited_details** is set to `true` in the message request.
         :param **kwargs: (optional) Any additional properties.
         """
         self.log_messages = log_messages
@@ -4169,7 +4311,7 @@ class OutputData(object):
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
             _dict['nodes_visited'] = self.nodes_visited
         if hasattr(self, 'nodes_visited_details'
-                  ) and self.nodes_visited_details is not None:
+                   ) and self.nodes_visited_details is not None:
             _dict['nodes_visited_details'] = [
                 x._to_dict() for x in self.nodes_visited_details
             ]
@@ -4279,11 +4421,11 @@ class RuntimeEntity(object):
     """
     A term from the request that was identified as an entity.
 
-    :attr str entity: The recognized entity from a term in the input.
-    :attr list[int] location: Zero-based character offsets that indicate where the entity value begins and ends in the input text.
-    :attr str value: The term in the input text that was recognized.
+    :attr str entity: An entity detected in the input.
+    :attr list[int] location: An array of zero-based character offsets that indicate where the detected entity values begin and end in the input text.
+    :attr str value: The term in the input text that was recognized as an entity value.
     :attr float confidence: (optional) A decimal percentage that represents Watson's confidence in the entity.
-    :attr object metadata: (optional) The metadata for the entity.
+    :attr object metadata: (optional) Any metadata for the entity.
     :attr list[CaptureGroup] groups: (optional) The recognized capture groups for the entity, as defined by the entity pattern.
     """
 
@@ -4298,11 +4440,11 @@ class RuntimeEntity(object):
         """
         Initialize a RuntimeEntity object.
 
-        :param str entity: The recognized entity from a term in the input.
-        :param list[int] location: Zero-based character offsets that indicate where the entity value begins and ends in the input text.
-        :param str value: The term in the input text that was recognized.
+        :param str entity: An entity detected in the input.
+        :param list[int] location: An array of zero-based character offsets that indicate where the detected entity values begin and end in the input text.
+        :param str value: The term in the input text that was recognized as an entity value.
         :param float confidence: (optional) A decimal percentage that represents Watson's confidence in the entity.
-        :param object metadata: (optional) The metadata for the entity.
+        :param object metadata: (optional) Any metadata for the entity.
         :param list[CaptureGroup] groups: (optional) The recognized capture groups for the entity, as defined by the entity pattern.
         :param **kwargs: (optional) Any additional properties.
         """
@@ -4339,7 +4481,8 @@ class RuntimeEntity(object):
             del xtra['value']
         else:
             raise ValueError(
-                'Required property \'value\' not present in RuntimeEntity JSON')
+                'Required property \'value\' not present in RuntimeEntity JSON'
+            )
         if 'confidence' in _dict:
             args['confidence'] = _dict['confidence']
             del xtra['confidence']
@@ -4558,7 +4701,7 @@ class SynonymCollection(object):
     SynonymCollection.
 
     :attr list[Synonym] synonyms: An array of synonyms.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, synonyms, pagination):
@@ -4566,7 +4709,7 @@ class SynonymCollection(object):
         Initialize a SynonymCollection object.
 
         :param list[Synonym] synonyms: An array of synonyms.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.synonyms = synonyms
         self.pagination = pagination
@@ -4680,9 +4823,9 @@ class Value(object):
     :attr object metadata: (optional) Any metadata related to the entity value.
     :attr datetime created: The timestamp for creation of the entity value.
     :attr datetime updated: The timestamp for the last update to the entity value.
-    :attr list[str] synonyms: (optional) An array of synonyms for the entity value.
-    :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-    :attr str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity value.
+    :attr list[str] patterns: (optional) An array containing any patterns for the entity value.
+    :attr str value_type: Specifies the type of value.
     """
 
     def __init__(self,
@@ -4699,10 +4842,10 @@ class Value(object):
         :param str value_text: The text of the entity value.
         :param datetime created: The timestamp for creation of the entity value.
         :param datetime updated: The timestamp for the last update to the entity value.
-        :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param str value_type: Specifies the type of value.
         :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array of synonyms for the entity value.
-        :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
+        :param list[str] synonyms: (optional) An array containing any synonyms for the entity value.
+        :param list[str] patterns: (optional) An array containing any patterns for the entity value.
         """
         self.value_text = value_text
         self.metadata = metadata
@@ -4852,9 +4995,9 @@ class ValueExport(object):
     :attr object metadata: (optional) Any metadata related to the entity value.
     :attr datetime created: The timestamp for creation of the entity value.
     :attr datetime updated: The timestamp for the last update to the entity value.
-    :attr list[str] synonyms: (optional) An array of synonyms for the entity value.
-    :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-    :attr str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity value.
+    :attr list[str] patterns: (optional) An array containing any patterns for the entity value.
+    :attr str value_type: Specifies the type of value.
     """
 
     def __init__(self,
@@ -4871,10 +5014,10 @@ class ValueExport(object):
         :param str value_text: The text of the entity value.
         :param datetime created: The timestamp for creation of the entity value.
         :param datetime updated: The timestamp for the last update to the entity value.
-        :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param str value_type: Specifies the type of value.
         :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array of synonyms for the entity value.
-        :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
+        :param list[str] synonyms: (optional) An array containing any synonyms for the entity value.
+        :param list[str] patterns: (optional) An array containing any patterns for the entity value.
         """
         self.value_text = value_text
         self.metadata = metadata
@@ -4901,12 +5044,14 @@ class ValueExport(object):
             args['created'] = string_to_datetime(_dict['created'])
         else:
             raise ValueError(
-                'Required property \'created\' not present in ValueExport JSON')
+                'Required property \'created\' not present in ValueExport JSON'
+            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
         else:
             raise ValueError(
-                'Required property \'updated\' not present in ValueExport JSON')
+                'Required property \'updated\' not present in ValueExport JSON'
+            )
         if 'synonyms' in _dict:
             args['synonyms'] = _dict['synonyms']
         if 'patterns' in _dict:
@@ -4964,8 +5109,8 @@ class Workspace(object):
     :attr datetime updated: The timestamp for the last update to the workspace.
     :attr str workspace_id: The workspace ID.
     :attr str description: (optional) The description of the workspace.
-    :attr object metadata: (optional) Any metadata that is required by the workspace.
-    :attr bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+    :attr object metadata: (optional) Any metadata related to the workspace.
+    :attr bool learning_opt_out: (optional) Whether training data from the workspace (including artifacts such as intents and entities) can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
     """
 
     def __init__(self,
@@ -4986,8 +5131,8 @@ class Workspace(object):
         :param datetime updated: The timestamp for the last update to the workspace.
         :param str workspace_id: The workspace ID.
         :param str description: (optional) The description of the workspace.
-        :param object metadata: (optional) Any metadata that is required by the workspace.
-        :param bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param object metadata: (optional) Any metadata related to the workspace.
+        :param bool learning_opt_out: (optional) Whether training data from the workspace (including artifacts such as intents and entities) can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
         """
         self.name = name
         self.language = language
@@ -5077,7 +5222,7 @@ class WorkspaceCollection(object):
     """
     WorkspaceCollection.
 
-    :attr list[Workspace] workspaces: An array of workspaces.
+    :attr list[Workspace] workspaces: An array of objects describing the workspaces associated with the service instance.
     :attr Pagination pagination: An object defining the pagination data for the returned objects.
     """
 
@@ -5085,7 +5230,7 @@ class WorkspaceCollection(object):
         """
         Initialize a WorkspaceCollection object.
 
-        :param list[Workspace] workspaces: An array of workspaces.
+        :param list[Workspace] workspaces: An array of objects describing the workspaces associated with the service instance.
         :param Pagination pagination: An object defining the pagination data for the returned objects.
         """
         self.workspaces = workspaces
