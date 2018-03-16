@@ -1708,16 +1708,16 @@ class Context(object):
         """Initialize a Context object from a json dictionary."""
         args = {}
         xtra = _dict.copy()
-        if 'conversation_id' in _dict:
-            args['conversation_id'] = _dict['conversation_id']
-            del xtra['conversation_id']
+        if 'conversation_id' in _dict['context']:
+            args['conversation_id'] = _dict['context']['conversation_id']
+            del xtra['context']['conversation_id']
         else:
             raise ValueError(
                 'Required property \'conversation_id\' not present in Context JSON'
             )
-        if 'system' in _dict:
-            args['system'] = SystemResponse._from_dict(_dict['system'])
-            del xtra['system']
+        if 'system' in _dict['context']:
+            args['system'] = SystemResponse._from_dict(_dict['context']['system'])
+            del xtra['context']['system']
         else:
             raise ValueError(
                 'Required property \'system\' not present in Context JSON')
