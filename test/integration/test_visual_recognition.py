@@ -26,7 +26,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             parameters = json.dumps({
                 'threshold':
                 0.1,
-                'classifier_ids': ['CarsvsTrucks_1479118188', 'default']
+                'classifier_ids': ['CarsvsTrucks_931077904', 'default']
             })
             car_results = self.visual_recognition.classify(
                 images_file=images_file, parameters=parameters)
