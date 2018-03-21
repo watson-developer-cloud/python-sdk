@@ -1777,16 +1777,16 @@ class Context(object):
     State information for the conversation. To maintain state, include the context from
     the previous response.
 
-    :attr str conversation_id: The unique identifier of the conversation.
-    :attr SystemResponse system: For internal use only.
+    :attr str conversation_id: (optional) The unique identifier of the conversation.
+    :attr SystemResponse system: (optional) For internal use only.
     """
 
-    def __init__(self, conversation_id, system, **kwargs):
+    def __init__(self, conversation_id=None, system=None, **kwargs):
         """
         Initialize a Context object.
 
-        :param str conversation_id: The unique identifier of the conversation.
-        :param SystemResponse system: For internal use only.
+        :param str conversation_id: (optional) The unique identifier of the conversation.
+        :param SystemResponse system: (optional) For internal use only.
         :param **kwargs: (optional) Any additional properties.
         """
         self.conversation_id = conversation_id
@@ -1802,16 +1802,9 @@ class Context(object):
         if 'conversation_id' in _dict:
             args['conversation_id'] = _dict['conversation_id']
             del xtra['conversation_id']
-        else:
-            raise ValueError(
-                'Required property \'conversation_id\' not present in Context JSON'
-            )
         if 'system' in _dict:
             args['system'] = SystemResponse._from_dict(_dict['system'])
             del xtra['system']
-        else:
-            raise ValueError(
-                'Required property \'system\' not present in Context JSON')
         args.update(xtra)
         return cls(**args)
 
@@ -1858,17 +1851,17 @@ class Counterexample(object):
     Counterexample.
 
     :attr str text: The text of the counterexample.
-    :attr datetime created: The timestamp for creation of the counterexample.
-    :attr datetime updated: The timestamp for the last update to the counterexample.
+    :attr datetime created: (optional) The timestamp for creation of the counterexample.
+    :attr datetime updated: (optional) The timestamp for the last update to the counterexample.
     """
 
-    def __init__(self, text, created, updated):
+    def __init__(self, text, created=None, updated=None):
         """
         Initialize a Counterexample object.
 
         :param str text: The text of the counterexample.
-        :param datetime created: The timestamp for creation of the counterexample.
-        :param datetime updated: The timestamp for the last update to the counterexample.
+        :param datetime created: (optional) The timestamp for creation of the counterexample.
+        :param datetime updated: (optional) The timestamp for the last update to the counterexample.
         """
         self.text = text
         self.created = created
@@ -1882,20 +1875,11 @@ class Counterexample(object):
             args['text'] = _dict['text']
         else:
             raise ValueError(
-                'Required property \'text\' not present in Counterexample JSON'
-            )
+                'Required property \'text\' not present in Counterexample JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Counterexample JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Counterexample JSON'
-            )
         return cls(**args)
 
     def _to_dict(self):
@@ -2263,8 +2247,7 @@ class CreateEntity(object):
             args['entity'] = _dict['entity']
         else:
             raise ValueError(
-                'Required property \'entity\' not present in CreateEntity JSON'
-            )
+                'Required property \'entity\' not present in CreateEntity JSON')
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'metadata' in _dict:
@@ -2384,8 +2367,7 @@ class CreateIntent(object):
             args['intent'] = _dict['intent']
         else:
             raise ValueError(
-                'Required property \'intent\' not present in CreateIntent JSON'
-            )
+                'Required property \'intent\' not present in CreateIntent JSON')
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'examples' in _dict:
@@ -2516,8 +2498,8 @@ class DialogNode(object):
     :attr object context: (optional) The context (if defined) for the dialog node.
     :attr object metadata: (optional) Any metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
-    :attr datetime created: The timestamp for creation of the dialog node.
-    :attr datetime updated: The timestamp for the most recent update to the dialog node.
+    :attr datetime created: (optional) The timestamp for creation of the dialog node.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the dialog node.
     :attr list[DialogNodeAction] actions: (optional) The actions for the dialog node.
     :attr str title: (optional) The alias used to identify the dialog node.
     :attr str node_type: (optional) How the dialog node is processed.
@@ -2530,8 +2512,6 @@ class DialogNode(object):
 
     def __init__(self,
                  dialog_node_id,
-                 created,
-                 updated,
                  description=None,
                  conditions=None,
                  parent=None,
@@ -2540,6 +2520,8 @@ class DialogNode(object):
                  context=None,
                  metadata=None,
                  next_step=None,
+                 created=None,
+                 updated=None,
                  actions=None,
                  title=None,
                  node_type=None,
@@ -2552,8 +2534,6 @@ class DialogNode(object):
         Initialize a DialogNode object.
 
         :param str dialog_node_id: The dialog node ID.
-        :param datetime created: The timestamp for creation of the dialog node.
-        :param datetime updated: The timestamp for the most recent update to the dialog node.
         :param str description: (optional) The description of the dialog node.
         :param str conditions: (optional) The condition that triggers the dialog node.
         :param str parent: (optional) The ID of the parent dialog node. This property is not returned if the dialog node has no parent.
@@ -2562,6 +2542,8 @@ class DialogNode(object):
         :param object context: (optional) The context (if defined) for the dialog node.
         :param object metadata: (optional) Any metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
+        :param datetime created: (optional) The timestamp for creation of the dialog node.
+        :param datetime updated: (optional) The timestamp for the most recent update to the dialog node.
         :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
         :param str title: (optional) The alias used to identify the dialog node.
         :param str node_type: (optional) How the dialog node is processed.
@@ -2622,14 +2604,8 @@ class DialogNode(object):
                 _dict['next_step'])
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in DialogNode JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in DialogNode JSON')
         if 'actions' in _dict:
             args['actions'] = [
                 DialogNodeAction._from_dict(x) for x in _dict['actions']
@@ -2983,8 +2959,8 @@ class Entity(object):
     Entity.
 
     :attr str entity_name: The name of the entity.
-    :attr datetime created: The timestamp for creation of the entity.
-    :attr datetime updated: The timestamp for the last update to the entity.
+    :attr datetime created: (optional) The timestamp for creation of the entity.
+    :attr datetime updated: (optional) The timestamp for the last update to the entity.
     :attr str description: (optional) The description of the entity.
     :attr object metadata: (optional) Any metadata related to the entity.
     :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
@@ -2992,8 +2968,8 @@ class Entity(object):
 
     def __init__(self,
                  entity_name,
-                 created,
-                 updated,
+                 created=None,
+                 updated=None,
                  description=None,
                  metadata=None,
                  fuzzy_match=None):
@@ -3001,8 +2977,8 @@ class Entity(object):
         Initialize a Entity object.
 
         :param str entity_name: The name of the entity.
-        :param datetime created: The timestamp for creation of the entity.
-        :param datetime updated: The timestamp for the last update to the entity.
+        :param datetime created: (optional) The timestamp for creation of the entity.
+        :param datetime updated: (optional) The timestamp for the last update to the entity.
         :param str description: (optional) The description of the entity.
         :param object metadata: (optional) Any metadata related to the entity.
         :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
@@ -3027,14 +3003,8 @@ class Entity(object):
                 'Required property \'entity\' not present in Entity JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Entity JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Entity JSON')
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'metadata' in _dict:
@@ -3142,8 +3112,8 @@ class EntityExport(object):
     EntityExport.
 
     :attr str entity_name: The name of the entity.
-    :attr datetime created: The timestamp for creation of the entity.
-    :attr datetime updated: The timestamp for the last update to the entity.
+    :attr datetime created: (optional) The timestamp for creation of the entity.
+    :attr datetime updated: (optional) The timestamp for the last update to the entity.
     :attr str description: (optional) The description of the entity.
     :attr object metadata: (optional) Any metadata related to the entity.
     :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
@@ -3152,8 +3122,8 @@ class EntityExport(object):
 
     def __init__(self,
                  entity_name,
-                 created,
-                 updated,
+                 created=None,
+                 updated=None,
                  description=None,
                  metadata=None,
                  fuzzy_match=None,
@@ -3162,8 +3132,8 @@ class EntityExport(object):
         Initialize a EntityExport object.
 
         :param str entity_name: The name of the entity.
-        :param datetime created: The timestamp for creation of the entity.
-        :param datetime updated: The timestamp for the last update to the entity.
+        :param datetime created: (optional) The timestamp for creation of the entity.
+        :param datetime updated: (optional) The timestamp for the last update to the entity.
         :param str description: (optional) The description of the entity.
         :param object metadata: (optional) Any metadata related to the entity.
         :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
@@ -3187,20 +3157,11 @@ class EntityExport(object):
             args['entity_name'] = _dict['entity']
         else:
             raise ValueError(
-                'Required property \'entity\' not present in EntityExport JSON'
-            )
+                'Required property \'entity\' not present in EntityExport JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in EntityExport JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in EntityExport JSON'
-            )
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'metadata' in _dict:
@@ -3252,17 +3213,17 @@ class Example(object):
     Example.
 
     :attr str example_text: The text of the user input example.
-    :attr datetime created: The timestamp for creation of the example.
-    :attr datetime updated: The timestamp for the last update to the example.
+    :attr datetime created: (optional) The timestamp for creation of the example.
+    :attr datetime updated: (optional) The timestamp for the last update to the example.
     """
 
-    def __init__(self, example_text, created, updated):
+    def __init__(self, example_text, created=None, updated=None):
         """
         Initialize a Example object.
 
         :param str example_text: The text of the user input example.
-        :param datetime created: The timestamp for creation of the example.
-        :param datetime updated: The timestamp for the last update to the example.
+        :param datetime created: (optional) The timestamp for creation of the example.
+        :param datetime updated: (optional) The timestamp for the last update to the example.
         """
         self.example_text = example_text
         self.created = created
@@ -3281,14 +3242,8 @@ class Example(object):
                 'Required property \'text\' not present in Example JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Example JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Example JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -3432,18 +3387,22 @@ class Intent(object):
     Intent.
 
     :attr str intent_name: The name of the intent.
-    :attr datetime created: The timestamp for creation of the intent.
-    :attr datetime updated: The timestamp for the last update to the intent.
+    :attr datetime created: (optional) The timestamp for creation of the intent.
+    :attr datetime updated: (optional) The timestamp for the last update to the intent.
     :attr str description: (optional) The description of the intent.
     """
 
-    def __init__(self, intent_name, created, updated, description=None):
+    def __init__(self,
+                 intent_name,
+                 created=None,
+                 updated=None,
+                 description=None):
         """
         Initialize a Intent object.
 
         :param str intent_name: The name of the intent.
-        :param datetime created: The timestamp for creation of the intent.
-        :param datetime updated: The timestamp for the last update to the intent.
+        :param datetime created: (optional) The timestamp for creation of the intent.
+        :param datetime updated: (optional) The timestamp for the last update to the intent.
         :param str description: (optional) The description of the intent.
         """
         self.intent_name = intent_name
@@ -3464,14 +3423,8 @@ class Intent(object):
                 'Required property \'intent\' not present in Intent JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Intent JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Intent JSON')
         if 'description' in _dict:
             args['description'] = _dict['description']
         return cls(**args)
@@ -3571,24 +3524,24 @@ class IntentExport(object):
     IntentExport.
 
     :attr str intent_name: The name of the intent.
-    :attr datetime created: The timestamp for creation of the intent.
-    :attr datetime updated: The timestamp for the last update to the intent.
+    :attr datetime created: (optional) The timestamp for creation of the intent.
+    :attr datetime updated: (optional) The timestamp for the last update to the intent.
     :attr str description: (optional) The description of the intent.
     :attr list[Example] examples: (optional) An array of objects describing the user input examples for the intent.
     """
 
     def __init__(self,
                  intent_name,
-                 created,
-                 updated,
+                 created=None,
+                 updated=None,
                  description=None,
                  examples=None):
         """
         Initialize a IntentExport object.
 
         :param str intent_name: The name of the intent.
-        :param datetime created: The timestamp for creation of the intent.
-        :param datetime updated: The timestamp for the last update to the intent.
+        :param datetime created: (optional) The timestamp for creation of the intent.
+        :param datetime updated: (optional) The timestamp for the last update to the intent.
         :param str description: (optional) The description of the intent.
         :param list[Example] examples: (optional) An array of objects describing the user input examples for the intent.
         """
@@ -3608,20 +3561,11 @@ class IntentExport(object):
             args['intent_name'] = _dict['intent']
         else:
             raise ValueError(
-                'Required property \'intent\' not present in IntentExport JSON'
-            )
+                'Required property \'intent\' not present in IntentExport JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in IntentExport JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in IntentExport JSON'
-            )
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'examples' in _dict:
@@ -4311,7 +4255,7 @@ class OutputData(object):
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
             _dict['nodes_visited'] = self.nodes_visited
         if hasattr(self, 'nodes_visited_details'
-                   ) and self.nodes_visited_details is not None:
+                  ) and self.nodes_visited_details is not None:
             _dict['nodes_visited_details'] = [
                 x._to_dict() for x in self.nodes_visited_details
             ]
@@ -4481,8 +4425,7 @@ class RuntimeEntity(object):
             del xtra['value']
         else:
             raise ValueError(
-                'Required property \'value\' not present in RuntimeEntity JSON'
-            )
+                'Required property \'value\' not present in RuntimeEntity JSON')
         if 'confidence' in _dict:
             args['confidence'] = _dict['confidence']
             del xtra['confidence']
@@ -4631,17 +4574,17 @@ class Synonym(object):
     Synonym.
 
     :attr str synonym_text: The text of the synonym.
-    :attr datetime created: The timestamp for creation of the synonym.
-    :attr datetime updated: The timestamp for the most recent update to the synonym.
+    :attr datetime created: (optional) The timestamp for creation of the synonym.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the synonym.
     """
 
-    def __init__(self, synonym_text, created, updated):
+    def __init__(self, synonym_text, created=None, updated=None):
         """
         Initialize a Synonym object.
 
         :param str synonym_text: The text of the synonym.
-        :param datetime created: The timestamp for creation of the synonym.
-        :param datetime updated: The timestamp for the most recent update to the synonym.
+        :param datetime created: (optional) The timestamp for creation of the synonym.
+        :param datetime updated: (optional) The timestamp for the most recent update to the synonym.
         """
         self.synonym_text = synonym_text
         self.created = created
@@ -4660,14 +4603,8 @@ class Synonym(object):
                 'Required property \'synonym\' not present in Synonym JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Synonym JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Synonym JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -4821,8 +4758,8 @@ class Value(object):
 
     :attr str value_text: The text of the entity value.
     :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr datetime created: The timestamp for creation of the entity value.
-    :attr datetime updated: The timestamp for the last update to the entity value.
+    :attr datetime created: (optional) The timestamp for creation of the entity value.
+    :attr datetime updated: (optional) The timestamp for the last update to the entity value.
     :attr list[str] synonyms: (optional) An array containing any synonyms for the entity value.
     :attr list[str] patterns: (optional) An array containing any patterns for the entity value.
     :attr str value_type: Specifies the type of value.
@@ -4830,20 +4767,20 @@ class Value(object):
 
     def __init__(self,
                  value_text,
-                 created,
-                 updated,
                  value_type,
                  metadata=None,
+                 created=None,
+                 updated=None,
                  synonyms=None,
                  patterns=None):
         """
         Initialize a Value object.
 
         :param str value_text: The text of the entity value.
-        :param datetime created: The timestamp for creation of the entity value.
-        :param datetime updated: The timestamp for the last update to the entity value.
         :param str value_type: Specifies the type of value.
         :param object metadata: (optional) Any metadata related to the entity value.
+        :param datetime created: (optional) The timestamp for creation of the entity value.
+        :param datetime updated: (optional) The timestamp for the last update to the entity value.
         :param list[str] synonyms: (optional) An array containing any synonyms for the entity value.
         :param list[str] patterns: (optional) An array containing any patterns for the entity value.
         """
@@ -4870,14 +4807,8 @@ class Value(object):
             args['metadata'] = _dict['metadata']
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Value JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Value JSON')
         if 'synonyms' in _dict:
             args['synonyms'] = _dict['synonyms']
         if 'patterns' in _dict:
@@ -4993,8 +4924,8 @@ class ValueExport(object):
 
     :attr str value_text: The text of the entity value.
     :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr datetime created: The timestamp for creation of the entity value.
-    :attr datetime updated: The timestamp for the last update to the entity value.
+    :attr datetime created: (optional) The timestamp for creation of the entity value.
+    :attr datetime updated: (optional) The timestamp for the last update to the entity value.
     :attr list[str] synonyms: (optional) An array containing any synonyms for the entity value.
     :attr list[str] patterns: (optional) An array containing any patterns for the entity value.
     :attr str value_type: Specifies the type of value.
@@ -5002,20 +4933,20 @@ class ValueExport(object):
 
     def __init__(self,
                  value_text,
-                 created,
-                 updated,
                  value_type,
                  metadata=None,
+                 created=None,
+                 updated=None,
                  synonyms=None,
                  patterns=None):
         """
         Initialize a ValueExport object.
 
         :param str value_text: The text of the entity value.
-        :param datetime created: The timestamp for creation of the entity value.
-        :param datetime updated: The timestamp for the last update to the entity value.
         :param str value_type: Specifies the type of value.
         :param object metadata: (optional) Any metadata related to the entity value.
+        :param datetime created: (optional) The timestamp for creation of the entity value.
+        :param datetime updated: (optional) The timestamp for the last update to the entity value.
         :param list[str] synonyms: (optional) An array containing any synonyms for the entity value.
         :param list[str] patterns: (optional) An array containing any patterns for the entity value.
         """
@@ -5042,16 +4973,8 @@ class ValueExport(object):
             args['metadata'] = _dict['metadata']
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in ValueExport JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in ValueExport JSON'
-            )
         if 'synonyms' in _dict:
             args['synonyms'] = _dict['synonyms']
         if 'patterns' in _dict:
@@ -5105,8 +5028,8 @@ class Workspace(object):
 
     :attr str name: The name of the workspace.
     :attr str language: The language of the workspace.
-    :attr datetime created: The timestamp for creation of the workspace.
-    :attr datetime updated: The timestamp for the last update to the workspace.
+    :attr datetime created: (optional) The timestamp for creation of the workspace.
+    :attr datetime updated: (optional) The timestamp for the last update to the workspace.
     :attr str workspace_id: The workspace ID.
     :attr str description: (optional) The description of the workspace.
     :attr object metadata: (optional) Any metadata related to the workspace.
@@ -5116,9 +5039,9 @@ class Workspace(object):
     def __init__(self,
                  name,
                  language,
-                 created,
-                 updated,
                  workspace_id,
+                 created=None,
+                 updated=None,
                  description=None,
                  metadata=None,
                  learning_opt_out=None):
@@ -5127,9 +5050,9 @@ class Workspace(object):
 
         :param str name: The name of the workspace.
         :param str language: The language of the workspace.
-        :param datetime created: The timestamp for creation of the workspace.
-        :param datetime updated: The timestamp for the last update to the workspace.
         :param str workspace_id: The workspace ID.
+        :param datetime created: (optional) The timestamp for creation of the workspace.
+        :param datetime updated: (optional) The timestamp for the last update to the workspace.
         :param str description: (optional) The description of the workspace.
         :param object metadata: (optional) Any metadata related to the workspace.
         :param bool learning_opt_out: (optional) Whether training data from the workspace (including artifacts such as intents and entities) can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
@@ -5159,14 +5082,8 @@ class Workspace(object):
                 'Required property \'language\' not present in Workspace JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Workspace JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Workspace JSON')
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict['workspace_id']
         else:
@@ -5288,8 +5205,8 @@ class WorkspaceExport(object):
     :attr str description: The description of the workspace.
     :attr str language: The language of the workspace.
     :attr object metadata: Any metadata that is required by the workspace.
-    :attr datetime created: The timestamp for creation of the workspace.
-    :attr datetime updated: The timestamp for the last update to the workspace.
+    :attr datetime created: (optional) The timestamp for creation of the workspace.
+    :attr datetime updated: (optional) The timestamp for the last update to the workspace.
     :attr str workspace_id: The workspace ID.
     :attr str status: The current status of the workspace.
     :attr bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
@@ -5304,11 +5221,11 @@ class WorkspaceExport(object):
                  description,
                  language,
                  metadata,
-                 created,
-                 updated,
                  workspace_id,
                  status,
                  learning_opt_out,
+                 created=None,
+                 updated=None,
                  intents=None,
                  entities=None,
                  counterexamples=None,
@@ -5320,11 +5237,11 @@ class WorkspaceExport(object):
         :param str description: The description of the workspace.
         :param str language: The language of the workspace.
         :param object metadata: Any metadata that is required by the workspace.
-        :param datetime created: The timestamp for creation of the workspace.
-        :param datetime updated: The timestamp for the last update to the workspace.
         :param str workspace_id: The workspace ID.
         :param str status: The current status of the workspace.
         :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param datetime created: (optional) The timestamp for creation of the workspace.
+        :param datetime updated: (optional) The timestamp for the last update to the workspace.
         :param list[IntentExport] intents: (optional) An array of intents.
         :param list[EntityExport] entities: (optional) An array of entities.
         :param list[Counterexample] counterexamples: (optional) An array of counterexamples.
@@ -5374,16 +5291,8 @@ class WorkspaceExport(object):
             )
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in WorkspaceExport JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in WorkspaceExport JSON'
-            )
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict['workspace_id']
         else:
