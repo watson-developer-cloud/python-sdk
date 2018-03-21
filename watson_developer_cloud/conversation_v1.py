@@ -1683,19 +1683,19 @@ class CaptureGroup(object):
 
 class Context(object):
     """
-    Context information for the message. Include the context from the previous response to
-    maintain state for the conversation.
+    State information for the conversation. To maintain state, include the context from
+    the previous response.
 
-    :attr str conversation_id: The unique identifier of the conversation.
-    :attr SystemResponse system: For internal use only.
+    :attr str conversation_id: (optional) The unique identifier of the conversation.
+    :attr SystemResponse system: (optional) For internal use only.
     """
 
-    def __init__(self, conversation_id, system, **kwargs):
+    def __init__(self, conversation_id=None, system=None, **kwargs):
         """
         Initialize a Context object.
 
-        :param str conversation_id: The unique identifier of the conversation.
-        :param SystemResponse system: For internal use only.
+        :param str conversation_id: (optional) The unique identifier of the conversation.
+        :param SystemResponse system: (optional) For internal use only.
         :param **kwargs: (optional) Any additional properties.
         """
         self.conversation_id = conversation_id
@@ -1711,16 +1711,9 @@ class Context(object):
         if 'conversation_id' in _dict:
             args['conversation_id'] = _dict['conversation_id']
             del xtra['conversation_id']
-        else:
-            raise ValueError(
-                'Required property \'conversation_id\' not present in Context JSON'
-            )
         if 'system' in _dict:
             args['system'] = SystemResponse._from_dict(_dict['system'])
             del xtra['system']
-        else:
-            raise ValueError(
-                'Required property \'system\' not present in Context JSON')
         args.update(xtra)
         return cls(**args)
 
@@ -1767,17 +1760,17 @@ class Counterexample(object):
     Counterexample.
 
     :attr str text: The text of the counterexample.
-    :attr datetime created: The timestamp for creation of the counterexample.
-    :attr datetime updated: The timestamp for the last update to the counterexample.
+    :attr datetime created: (optional) The timestamp for creation of the counterexample.
+    :attr datetime updated: (optional) The timestamp for the last update to the counterexample.
     """
 
-    def __init__(self, text, created, updated):
+    def __init__(self, text, created=None, updated=None):
         """
         Initialize a Counterexample object.
 
         :param str text: The text of the counterexample.
-        :param datetime created: The timestamp for creation of the counterexample.
-        :param datetime updated: The timestamp for the last update to the counterexample.
+        :param datetime created: (optional) The timestamp for creation of the counterexample.
+        :param datetime updated: (optional) The timestamp for the last update to the counterexample.
         """
         self.text = text
         self.created = created
@@ -1794,16 +1787,8 @@ class Counterexample(object):
                 'Required property \'text\' not present in Counterexample JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Counterexample JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Counterexample JSON'
-            )
         return cls(**args)
 
     def _to_dict(self):
@@ -1837,7 +1822,7 @@ class CounterexampleCollection(object):
     CounterexampleCollection.
 
     :attr list[Counterexample] counterexamples: An array of objects describing the examples marked as irrelevant input.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, counterexamples, pagination):
@@ -1845,7 +1830,7 @@ class CounterexampleCollection(object):
         Initialize a CounterexampleCollection object.
 
         :param list[Counterexample] counterexamples: An array of objects describing the examples marked as irrelevant input.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.counterexamples = counterexamples
         self.pagination = pagination
@@ -1901,14 +1886,14 @@ class CreateCounterexample(object):
     """
     CreateCounterexample.
 
-    :attr str text: The text of a user input marked as irrelevant input.
+    :attr str text: The text of a user input marked as irrelevant input. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters  - It cannot consist of only whitespace characters  - It must be no longer than 1024 characters.
     """
 
     def __init__(self, text):
         """
         Initialize a CreateCounterexample object.
 
-        :param str text: The text of a user input marked as irrelevant input.
+        :param str text: The text of a user input marked as irrelevant input. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters  - It cannot consist of only whitespace characters  - It must be no longer than 1024 characters.
         """
         self.text = text
 
@@ -1950,20 +1935,23 @@ class CreateDialogNode(object):
     """
     CreateDialogNode.
 
-    :attr str dialog_node: The dialog node ID.
-    :attr str description: (optional) The description of the dialog node.
-    :attr str conditions: (optional) The condition that will trigger the dialog node.
-    :attr str parent: (optional) The ID of the parent dialog node (if any).
-    :attr str previous_sibling: (optional) The previous dialog node.
-    :attr object output: (optional) The output of the dialog node.
+    :attr str dialog_node: The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+    :attr str description: (optional) The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr str conditions: (optional) The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+    :attr str parent: (optional) The ID of the parent dialog node.
+    :attr str previous_sibling: (optional) The ID of the previous dialog node.
+    :attr object output: (optional) The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
     :attr object context: (optional) The context for the dialog node.
     :attr object metadata: (optional) The metadata for the dialog node.
-    :attr DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
-    :attr list[DialogNodeAction] actions: (optional) The actions for the dialog node.
-    :attr str title: (optional) The alias used to identify the dialog node.
+    :attr DialogNodeNextStep next_step: (optional) The next step to be executed in dialog processing.
+    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any actions to be invoked by the dialog node.
+    :attr str title: (optional) The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
     :attr str node_type: (optional) How the dialog node is processed.
     :attr str event_name: (optional) How an `event_handler` node is processed.
     :attr str variable: (optional) The location in the dialog context where output is stored.
+    :attr str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+    :attr str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+    :attr str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
     """
 
     def __init__(self,
@@ -1980,24 +1968,30 @@ class CreateDialogNode(object):
                  title=None,
                  node_type=None,
                  event_name=None,
-                 variable=None):
+                 variable=None,
+                 digress_in=None,
+                 digress_out=None,
+                 digress_out_slots=None):
         """
         Initialize a CreateDialogNode object.
 
-        :param str dialog_node: The dialog node ID.
-        :param str description: (optional) The description of the dialog node.
-        :param str conditions: (optional) The condition that will trigger the dialog node.
-        :param str parent: (optional) The ID of the parent dialog node (if any).
-        :param str previous_sibling: (optional) The previous dialog node.
-        :param object output: (optional) The output of the dialog node.
+        :param str dialog_node: The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+        :param str description: (optional) The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str conditions: (optional) The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param str parent: (optional) The ID of the parent dialog node.
+        :param str previous_sibling: (optional) The ID of the previous dialog node.
+        :param object output: (optional) The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: (optional) The context for the dialog node.
         :param object metadata: (optional) The metadata for the dialog node.
-        :param DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
-        :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
-        :param str title: (optional) The alias used to identify the dialog node.
+        :param DialogNodeNextStep next_step: (optional) The next step to be executed in dialog processing.
+        :param list[DialogNodeAction] actions: (optional) An array of objects describing any actions to be invoked by the dialog node.
+        :param str title: (optional) The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
         :param str node_type: (optional) How the dialog node is processed.
         :param str event_name: (optional) How an `event_handler` node is processed.
         :param str variable: (optional) The location in the dialog context where output is stored.
+        :param str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+        :param str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+        :param str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
         """
         self.dialog_node = dialog_node
         self.description = description
@@ -2013,6 +2007,9 @@ class CreateDialogNode(object):
         self.node_type = node_type
         self.event_name = event_name
         self.variable = variable
+        self.digress_in = digress_in
+        self.digress_out = digress_out
+        self.digress_out_slots = digress_out_slots
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -2055,6 +2052,12 @@ class CreateDialogNode(object):
             args['event_name'] = _dict['event_name']
         if 'variable' in _dict:
             args['variable'] = _dict['variable']
+        if 'digress_in' in _dict:
+            args['digress_in'] = _dict['digress_in']
+        if 'digress_out' in _dict:
+            args['digress_out'] = _dict['digress_out']
+        if 'digress_out_slots' in _dict:
+            args['digress_out_slots'] = _dict['digress_out_slots']
         return cls(**args)
 
     def _to_dict(self):
@@ -2089,6 +2092,13 @@ class CreateDialogNode(object):
             _dict['event_name'] = self.event_name
         if hasattr(self, 'variable') and self.variable is not None:
             _dict['variable'] = self.variable
+        if hasattr(self, 'digress_in') and self.digress_in is not None:
+            _dict['digress_in'] = self.digress_in
+        if hasattr(self, 'digress_out') and self.digress_out is not None:
+            _dict['digress_out'] = self.digress_out
+        if hasattr(self,
+                   'digress_out_slots') and self.digress_out_slots is not None:
+            _dict['digress_out_slots'] = self.digress_out_slots
         return _dict
 
     def __str__(self):
@@ -2110,10 +2120,10 @@ class CreateEntity(object):
     """
     CreateEntity.
 
-    :attr str entity: The name of the entity.
-    :attr str description: (optional) The description of the entity.
+    :attr str entity: The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+    :attr str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
     :attr object metadata: (optional) Any metadata related to the value.
-    :attr list[CreateValue] values: (optional) An array of entity values.
+    :attr list[CreateValue] values: (optional) An array of objects describing the entity values.
     :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
     """
 
@@ -2126,10 +2136,10 @@ class CreateEntity(object):
         """
         Initialize a CreateEntity object.
 
-        :param str entity: The name of the entity.
-        :param str description: (optional) The description of the entity.
+        :param str entity: The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
         :param object metadata: (optional) Any metadata related to the value.
-        :param list[CreateValue] values: (optional) An array of entity values.
+        :param list[CreateValue] values: (optional) An array of objects describing the entity values.
         :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
         """
         self.entity = entity
@@ -2193,14 +2203,14 @@ class CreateExample(object):
     """
     CreateExample.
 
-    :attr str text: The text of a user input example.
+    :attr str text: The text of a user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
     """
 
     def __init__(self, text):
         """
         Initialize a CreateExample object.
 
-        :param str text: The text of a user input example.
+        :param str text: The text of a user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
         """
         self.text = text
 
@@ -2241,18 +2251,18 @@ class CreateIntent(object):
     """
     CreateIntent.
 
-    :attr str intent: The name of the intent.
-    :attr str description: (optional) The description of the intent.
-    :attr list[CreateExample] examples: (optional) An array of user input examples.
+    :attr str intent: The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+    :attr str description: (optional) The description of the intent. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr list[CreateExample] examples: (optional) An array of user input examples for the intent.
     """
 
     def __init__(self, intent, description=None, examples=None):
         """
         Initialize a CreateIntent object.
 
-        :param str intent: The name of the intent.
-        :param str description: (optional) The description of the intent.
-        :param list[CreateExample] examples: (optional) An array of user input examples.
+        :param str intent: The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+        :param str description: (optional) The description of the intent. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param list[CreateExample] examples: (optional) An array of user input examples for the intent.
         """
         self.intent = intent
         self.description = description
@@ -2305,11 +2315,11 @@ class CreateValue(object):
     """
     CreateValue.
 
-    :attr str value: The text of the entity value.
+    :attr str value: The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
     :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr list[str] synonyms: (optional) An array of synonyms for the entity value.
-    :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-    :attr str value_type: (optional) Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    :attr list[str] patterns: (optional) An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+    :attr str value_type: (optional) Specifies the type of value.
     """
 
     def __init__(self,
@@ -2321,11 +2331,11 @@ class CreateValue(object):
         """
         Initialize a CreateValue object.
 
-        :param str value: The text of the entity value.
+        :param str value: The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
         :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array of synonyms for the entity value.
-        :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-        :param str value_type: (optional) Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param list[str] synonyms: (optional) An array containing any synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param list[str] patterns: (optional) An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        :param str value_type: (optional) Specifies the type of value.
         """
         self.value = value
         self.metadata = metadata
@@ -2391,25 +2401,26 @@ class DialogNode(object):
     :attr str dialog_node_id: The dialog node ID.
     :attr str description: (optional) The description of the dialog node.
     :attr str conditions: (optional) The condition that triggers the dialog node.
-    :attr str parent: (optional) The ID of the parent dialog node.
-    :attr str previous_sibling: (optional) The ID of the previous sibling dialog node.
+    :attr str parent: (optional) The ID of the parent dialog node. This property is not returned if the dialog node has no parent.
+    :attr str previous_sibling: (optional) The ID of the previous sibling dialog node. This property is not returned if the dialog node has no previous sibling.
     :attr object output: (optional) The output of the dialog node.
     :attr object context: (optional) The context (if defined) for the dialog node.
-    :attr object metadata: (optional) The metadata (if any) for the dialog node.
+    :attr object metadata: (optional) Any metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
-    :attr datetime created: The timestamp for creation of the dialog node.
-    :attr datetime updated: The timestamp for the most recent update to the dialog node.
+    :attr datetime created: (optional) The timestamp for creation of the dialog node.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the dialog node.
     :attr list[DialogNodeAction] actions: (optional) The actions for the dialog node.
     :attr str title: (optional) The alias used to identify the dialog node.
     :attr str node_type: (optional) How the dialog node is processed.
     :attr str event_name: (optional) How an `event_handler` node is processed.
     :attr str variable: (optional) The location in the dialog context where output is stored.
+    :attr str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+    :attr str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+    :attr str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
     """
 
     def __init__(self,
                  dialog_node_id,
-                 created,
-                 updated,
                  description=None,
                  conditions=None,
                  parent=None,
@@ -2418,30 +2429,38 @@ class DialogNode(object):
                  context=None,
                  metadata=None,
                  next_step=None,
+                 created=None,
+                 updated=None,
                  actions=None,
                  title=None,
                  node_type=None,
                  event_name=None,
-                 variable=None):
+                 variable=None,
+                 digress_in=None,
+                 digress_out=None,
+                 digress_out_slots=None):
         """
         Initialize a DialogNode object.
 
         :param str dialog_node_id: The dialog node ID.
-        :param datetime created: The timestamp for creation of the dialog node.
-        :param datetime updated: The timestamp for the most recent update to the dialog node.
         :param str description: (optional) The description of the dialog node.
         :param str conditions: (optional) The condition that triggers the dialog node.
-        :param str parent: (optional) The ID of the parent dialog node.
-        :param str previous_sibling: (optional) The ID of the previous sibling dialog node.
+        :param str parent: (optional) The ID of the parent dialog node. This property is not returned if the dialog node has no parent.
+        :param str previous_sibling: (optional) The ID of the previous sibling dialog node. This property is not returned if the dialog node has no previous sibling.
         :param object output: (optional) The output of the dialog node.
         :param object context: (optional) The context (if defined) for the dialog node.
-        :param object metadata: (optional) The metadata (if any) for the dialog node.
+        :param object metadata: (optional) Any metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute following this dialog node.
+        :param datetime created: (optional) The timestamp for creation of the dialog node.
+        :param datetime updated: (optional) The timestamp for the most recent update to the dialog node.
         :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
         :param str title: (optional) The alias used to identify the dialog node.
         :param str node_type: (optional) How the dialog node is processed.
         :param str event_name: (optional) How an `event_handler` node is processed.
         :param str variable: (optional) The location in the dialog context where output is stored.
+        :param str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+        :param str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+        :param str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
         """
         self.dialog_node_id = dialog_node_id
         self.description = description
@@ -2459,6 +2478,9 @@ class DialogNode(object):
         self.node_type = node_type
         self.event_name = event_name
         self.variable = variable
+        self.digress_in = digress_in
+        self.digress_out = digress_out
+        self.digress_out_slots = digress_out_slots
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -2491,14 +2513,8 @@ class DialogNode(object):
                 _dict['next_step'])
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in DialogNode JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in DialogNode JSON')
         if 'actions' in _dict:
             args['actions'] = [
                 DialogNodeAction._from_dict(x) for x in _dict['actions']
@@ -2513,6 +2529,12 @@ class DialogNode(object):
             args['event_name'] = _dict['event_name']
         if 'variable' in _dict:
             args['variable'] = _dict['variable']
+        if 'digress_in' in _dict:
+            args['digress_in'] = _dict['digress_in']
+        if 'digress_out' in _dict:
+            args['digress_out'] = _dict['digress_out']
+        if 'digress_out_slots' in _dict:
+            args['digress_out_slots'] = _dict['digress_out_slots']
         return cls(**args)
 
     def _to_dict(self):
@@ -2551,6 +2573,13 @@ class DialogNode(object):
             _dict['event_name'] = self.event_name
         if hasattr(self, 'variable') and self.variable is not None:
             _dict['variable'] = self.variable
+        if hasattr(self, 'digress_in') and self.digress_in is not None:
+            _dict['digress_in'] = self.digress_in
+        if hasattr(self, 'digress_out') and self.digress_out is not None:
+            _dict['digress_out'] = self.digress_out
+        if hasattr(self,
+                   'digress_out_slots') and self.digress_out_slots is not None:
+            _dict['digress_out_slots'] = self.digress_out_slots
         return _dict
 
     def __str__(self):
@@ -2659,18 +2688,18 @@ class DialogNodeAction(object):
 
 class DialogNodeCollection(object):
     """
-    DialogNodeCollection.
+    An array of dialog nodes.
 
-    :attr list[DialogNode] dialog_nodes:
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[DialogNode] dialog_nodes: An array of objects describing the dialog nodes defined for the workspace.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, dialog_nodes, pagination):
         """
         Initialize a DialogNodeCollection object.
 
-        :param list[DialogNode] dialog_nodes:
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param list[DialogNode] dialog_nodes: An array of objects describing the dialog nodes defined for the workspace.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.dialog_nodes = dialog_nodes
         self.pagination = pagination
@@ -2723,8 +2752,8 @@ class DialogNodeNextStep(object):
     """
     The next step to execute following this dialog node.
 
-    :attr str behavior: How the `next_step` reference is processed. If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
-    :attr str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if `behavior`=`jump_to`.
+    :attr str behavior: What happens after the dialog node completes. The valid values depend on the node type:  - The following values are valid for any node:    - `get_user_input`    - `skip_user_input`    - `jump_to`  - If the node is of type `event_handler` and its parent node is of type `slot` or `frame`, additional values are also valid:    - if **event_name**=`filled` and the type of the parent node is `slot`:      - `reprompt`      - `skip_all_slots`  - if **event_name**=`nomatch` and the type of the parent node is `slot`:      - `reprompt`      - `skip_slot`      - `skip_all_slots`  - if **event_name**=`generic` and the type of the parent node is `frame`:      - `reprompt`      - `skip_slot`      - `skip_all_slots`        If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
+    :attr str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if **behavior**=`jump_to`.
     :attr str selector: (optional) Which part of the dialog node to process next.
     """
 
@@ -2732,8 +2761,8 @@ class DialogNodeNextStep(object):
         """
         Initialize a DialogNodeNextStep object.
 
-        :param str behavior: How the `next_step` reference is processed. If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
-        :param str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if `behavior`=`jump_to`.
+        :param str behavior: What happens after the dialog node completes. The valid values depend on the node type:  - The following values are valid for any node:    - `get_user_input`    - `skip_user_input`    - `jump_to`  - If the node is of type `event_handler` and its parent node is of type `slot` or `frame`, additional values are also valid:    - if **event_name**=`filled` and the type of the parent node is `slot`:      - `reprompt`      - `skip_all_slots`  - if **event_name**=`nomatch` and the type of the parent node is `slot`:      - `reprompt`      - `skip_slot`      - `skip_all_slots`  - if **event_name**=`generic` and the type of the parent node is `frame`:      - `reprompt`      - `skip_slot`      - `skip_all_slots`        If you specify `jump_to`, then you must also specify a value for the `dialog_node` property.
+        :param str dialog_node: (optional) The ID of the dialog node to process next. This parameter is required if **behavior**=`jump_to`.
         :param str selector: (optional) Which part of the dialog node to process next.
         """
         self.behavior = behavior
@@ -2839,8 +2868,8 @@ class Entity(object):
     Entity.
 
     :attr str entity_name: The name of the entity.
-    :attr datetime created: The timestamp for creation of the entity.
-    :attr datetime updated: The timestamp for the last update to the entity.
+    :attr datetime created: (optional) The timestamp for creation of the entity.
+    :attr datetime updated: (optional) The timestamp for the last update to the entity.
     :attr str description: (optional) The description of the entity.
     :attr object metadata: (optional) Any metadata related to the entity.
     :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
@@ -2848,8 +2877,8 @@ class Entity(object):
 
     def __init__(self,
                  entity_name,
-                 created,
-                 updated,
+                 created=None,
+                 updated=None,
                  description=None,
                  metadata=None,
                  fuzzy_match=None):
@@ -2857,8 +2886,8 @@ class Entity(object):
         Initialize a Entity object.
 
         :param str entity_name: The name of the entity.
-        :param datetime created: The timestamp for creation of the entity.
-        :param datetime updated: The timestamp for the last update to the entity.
+        :param datetime created: (optional) The timestamp for creation of the entity.
+        :param datetime updated: (optional) The timestamp for the last update to the entity.
         :param str description: (optional) The description of the entity.
         :param object metadata: (optional) Any metadata related to the entity.
         :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
@@ -2883,14 +2912,8 @@ class Entity(object):
                 'Required property \'entity\' not present in Entity JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Entity JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Entity JSON')
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'metadata' in _dict:
@@ -2935,16 +2958,16 @@ class EntityCollection(object):
     """
     An array of entities.
 
-    :attr list[EntityExport] entities: An array of entities.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[EntityExport] entities: An array of objects describing the entities defined for the workspace.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, entities, pagination):
         """
         Initialize a EntityCollection object.
 
-        :param list[EntityExport] entities: An array of entities.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param list[EntityExport] entities: An array of objects describing the entities defined for the workspace.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.entities = entities
         self.pagination = pagination
@@ -2998,18 +3021,18 @@ class EntityExport(object):
     EntityExport.
 
     :attr str entity_name: The name of the entity.
-    :attr datetime created: The timestamp for creation of the entity.
-    :attr datetime updated: The timestamp for the last update to the entity.
+    :attr datetime created: (optional) The timestamp for creation of the entity.
+    :attr datetime updated: (optional) The timestamp for the last update to the entity.
     :attr str description: (optional) The description of the entity.
     :attr object metadata: (optional) Any metadata related to the entity.
     :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
-    :attr list[ValueExport] values: (optional) An array of entity values.
+    :attr list[ValueExport] values: (optional) An array objects describing the entity values.
     """
 
     def __init__(self,
                  entity_name,
-                 created,
-                 updated,
+                 created=None,
+                 updated=None,
                  description=None,
                  metadata=None,
                  fuzzy_match=None,
@@ -3018,12 +3041,12 @@ class EntityExport(object):
         Initialize a EntityExport object.
 
         :param str entity_name: The name of the entity.
-        :param datetime created: The timestamp for creation of the entity.
-        :param datetime updated: The timestamp for the last update to the entity.
+        :param datetime created: (optional) The timestamp for creation of the entity.
+        :param datetime updated: (optional) The timestamp for the last update to the entity.
         :param str description: (optional) The description of the entity.
         :param object metadata: (optional) Any metadata related to the entity.
         :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
-        :param list[ValueExport] values: (optional) An array of entity values.
+        :param list[ValueExport] values: (optional) An array objects describing the entity values.
         """
         self.entity_name = entity_name
         self.created = created
@@ -3046,16 +3069,8 @@ class EntityExport(object):
                 'Required property \'entity\' not present in EntityExport JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in EntityExport JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in EntityExport JSON'
-            )
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'metadata' in _dict:
@@ -3106,18 +3121,18 @@ class Example(object):
     """
     Example.
 
-    :attr str example_text: The text of the example.
-    :attr datetime created: The timestamp for creation of the example.
-    :attr datetime updated: The timestamp for the last update to the example.
+    :attr str example_text: The text of the user input example.
+    :attr datetime created: (optional) The timestamp for creation of the example.
+    :attr datetime updated: (optional) The timestamp for the last update to the example.
     """
 
-    def __init__(self, example_text, created, updated):
+    def __init__(self, example_text, created=None, updated=None):
         """
         Initialize a Example object.
 
-        :param str example_text: The text of the example.
-        :param datetime created: The timestamp for creation of the example.
-        :param datetime updated: The timestamp for the last update to the example.
+        :param str example_text: The text of the user input example.
+        :param datetime created: (optional) The timestamp for creation of the example.
+        :param datetime updated: (optional) The timestamp for the last update to the example.
         """
         self.example_text = example_text
         self.created = created
@@ -3136,14 +3151,8 @@ class Example(object):
                 'Required property \'text\' not present in Example JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Example JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Example JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -3176,16 +3185,16 @@ class ExampleCollection(object):
     """
     ExampleCollection.
 
-    :attr list[Example] examples: An array of Example objects describing the examples defined for the intent.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[Example] examples: An array of objects describing the examples defined for the intent.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, examples, pagination):
         """
         Initialize a ExampleCollection object.
 
-        :param list[Example] examples: An array of Example objects describing the examples defined for the intent.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param list[Example] examples: An array of objects describing the examples defined for the intent.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.examples = examples
         self.pagination = pagination
@@ -3236,16 +3245,16 @@ class ExampleCollection(object):
 
 class InputData(object):
     """
-    An object defining the user input.
+    The user input.
 
-    :attr str text: The text of the user input.
+    :attr str text: The text of the user input. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
     """
 
     def __init__(self, text):
         """
         Initialize a InputData object.
 
-        :param str text: The text of the user input.
+        :param str text: The text of the user input. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
         """
         self.text = text
 
@@ -3287,18 +3296,22 @@ class Intent(object):
     Intent.
 
     :attr str intent_name: The name of the intent.
-    :attr datetime created: The timestamp for creation of the intent.
-    :attr datetime updated: The timestamp for the last update to the intent.
+    :attr datetime created: (optional) The timestamp for creation of the intent.
+    :attr datetime updated: (optional) The timestamp for the last update to the intent.
     :attr str description: (optional) The description of the intent.
     """
 
-    def __init__(self, intent_name, created, updated, description=None):
+    def __init__(self,
+                 intent_name,
+                 created=None,
+                 updated=None,
+                 description=None):
         """
         Initialize a Intent object.
 
         :param str intent_name: The name of the intent.
-        :param datetime created: The timestamp for creation of the intent.
-        :param datetime updated: The timestamp for the last update to the intent.
+        :param datetime created: (optional) The timestamp for creation of the intent.
+        :param datetime updated: (optional) The timestamp for the last update to the intent.
         :param str description: (optional) The description of the intent.
         """
         self.intent_name = intent_name
@@ -3319,14 +3332,8 @@ class Intent(object):
                 'Required property \'intent\' not present in Intent JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Intent JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Intent JSON')
         if 'description' in _dict:
             args['description'] = _dict['description']
         return cls(**args)
@@ -3363,16 +3370,16 @@ class IntentCollection(object):
     """
     IntentCollection.
 
-    :attr list[IntentExport] intents: An array of intents.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[IntentExport] intents: An array of objects describing the intents defined for the workspace.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, intents, pagination):
         """
         Initialize a IntentCollection object.
 
-        :param list[IntentExport] intents: An array of intents.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param list[IntentExport] intents: An array of objects describing the intents defined for the workspace.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.intents = intents
         self.pagination = pagination
@@ -3426,26 +3433,26 @@ class IntentExport(object):
     IntentExport.
 
     :attr str intent_name: The name of the intent.
-    :attr datetime created: The timestamp for creation of the intent.
-    :attr datetime updated: The timestamp for the last update to the intent.
+    :attr datetime created: (optional) The timestamp for creation of the intent.
+    :attr datetime updated: (optional) The timestamp for the last update to the intent.
     :attr str description: (optional) The description of the intent.
-    :attr list[Example] examples: (optional) An array of user input examples.
+    :attr list[Example] examples: (optional) An array of objects describing the user input examples for the intent.
     """
 
     def __init__(self,
                  intent_name,
-                 created,
-                 updated,
+                 created=None,
+                 updated=None,
                  description=None,
                  examples=None):
         """
         Initialize a IntentExport object.
 
         :param str intent_name: The name of the intent.
-        :param datetime created: The timestamp for creation of the intent.
-        :param datetime updated: The timestamp for the last update to the intent.
+        :param datetime created: (optional) The timestamp for creation of the intent.
+        :param datetime updated: (optional) The timestamp for the last update to the intent.
         :param str description: (optional) The description of the intent.
-        :param list[Example] examples: (optional) An array of user input examples.
+        :param list[Example] examples: (optional) An array of objects describing the user input examples for the intent.
         """
         self.intent_name = intent_name
         self.created = created
@@ -3466,16 +3473,8 @@ class IntentExport(object):
                 'Required property \'intent\' not present in IntentExport JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in IntentExport JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in IntentExport JSON'
-            )
         if 'description' in _dict:
             args['description'] = _dict['description']
         if 'examples' in _dict:
@@ -3518,16 +3517,16 @@ class LogCollection(object):
     """
     LogCollection.
 
-    :attr list[LogExport] logs: An array of log events.
-    :attr LogPagination pagination: An object defining the pagination data for the returned objects.
+    :attr list[LogExport] logs: An array of objects describing log events.
+    :attr LogPagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, logs, pagination):
         """
         Initialize a LogCollection object.
 
-        :param list[LogExport] logs: An array of log events.
-        :param LogPagination pagination: An object defining the pagination data for the returned objects.
+        :param list[LogExport] logs: An array of objects describing log events.
+        :param LogPagination pagination: The pagination data for the returned objects.
         """
         self.logs = logs
         self.pagination = pagination
@@ -3577,12 +3576,12 @@ class LogExport(object):
     """
     LogExport.
 
-    :attr MessageRequest request: A request formatted for the Conversation service.
-    :attr MessageResponse response: A response from the Conversation service.
-    :attr str log_id: A unique identifier for the logged message.
+    :attr MessageRequest request: A request received by the workspace, including the user input and context.
+    :attr MessageResponse response: The response sent by the workspace, including the output text, detected intents and entities, and context.
+    :attr str log_id: A unique identifier for the logged event.
     :attr str request_timestamp: The timestamp for receipt of the message.
     :attr str response_timestamp: The timestamp for the system response to the message.
-    :attr str workspace_id: The workspace ID.
+    :attr str workspace_id: The unique identifier of the workspace where the request was made.
     :attr str language: The language of the workspace where the message request was made.
     """
 
@@ -3591,12 +3590,12 @@ class LogExport(object):
         """
         Initialize a LogExport object.
 
-        :param MessageRequest request: A request formatted for the Conversation service.
-        :param MessageResponse response: A response from the Conversation service.
-        :param str log_id: A unique identifier for the logged message.
+        :param MessageRequest request: A request received by the workspace, including the user input and context.
+        :param MessageResponse response: The response sent by the workspace, including the output text, detected intents and entities, and context.
+        :param str log_id: A unique identifier for the logged event.
         :param str request_timestamp: The timestamp for receipt of the message.
         :param str response_timestamp: The timestamp for the system response to the message.
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: The unique identifier of the workspace where the request was made.
         :param str language: The language of the workspace where the message request was made.
         """
         self.request = request
@@ -3692,16 +3691,16 @@ class LogMessage(object):
     """
     Log message details.
 
-    :attr str level: The severity of the message.
-    :attr str msg: The text of the message.
+    :attr str level: The severity of the log message.
+    :attr str msg: The text of the log message.
     """
 
     def __init__(self, level, msg, **kwargs):
         """
         Initialize a LogMessage object.
 
-        :param str level: The severity of the message.
-        :param str msg: The text of the message.
+        :param str level: The severity of the log message.
+        :param str msg: The text of the log message.
         :param **kwargs: (optional) Any additional properties.
         """
         self.level = level
@@ -3770,7 +3769,7 @@ class LogPagination(object):
     """
     The pagination data for the returned objects.
 
-    :attr str next_url: (optional) The URL that will return the next page of results.
+    :attr str next_url: (optional) The URL that will return the next page of results, if any.
     :attr int matched: (optional) Reserved for future use.
     """
 
@@ -3778,7 +3777,7 @@ class LogPagination(object):
         """
         Initialize a LogPagination object.
 
-        :param str next_url: (optional) The URL that will return the next page of results.
+        :param str next_url: (optional) The URL that will return the next page of results, if any.
         :param int matched: (optional) Reserved for future use.
         """
         self.next_url = next_url
@@ -3820,7 +3819,7 @@ class LogPagination(object):
 
 class MessageInput(object):
     """
-    An input object that includes the input text.
+    The text of the user input.
 
     :attr str text: (optional) The user's input.
     """
@@ -3865,14 +3864,14 @@ class MessageInput(object):
 
 class MessageRequest(object):
     """
-    A request formatted for the Conversation service.
+    A request formatted for the Assistant service.
 
     :attr InputData input: (optional) An input object that includes the input text.
     :attr bool alternate_intents: (optional) Whether to return more than one intent. Set to `true` to return all matching intents.
     :attr Context context: (optional) State information for the conversation. Continue a conversation by including the context object from the previous response.
-    :attr list[RuntimeEntity] entities: (optional) Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-    :attr list[RuntimeIntent] intents: (optional) An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-    :attr OutputData output: (optional) System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
+    :attr list[RuntimeEntity] entities: (optional) Entities to use when evaluating the message. Include entities from the previous response to continue using those entities rather than detecting entities in the new input.
+    :attr list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user input. Include intents from the previous response to continue using those intents rather than trying to recognize intents in the new input.
+    :attr OutputData output: (optional) System output. Include the output from the previous response to maintain intermediate information over multiple requests.
     """
 
     def __init__(self,
@@ -3888,9 +3887,9 @@ class MessageRequest(object):
         :param InputData input: (optional) An input object that includes the input text.
         :param bool alternate_intents: (optional) Whether to return more than one intent. Set to `true` to return all matching intents.
         :param Context context: (optional) State information for the conversation. Continue a conversation by including the context object from the previous response.
-        :param list[RuntimeEntity] entities: (optional) Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param list[RuntimeIntent] intents: (optional) An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param OutputData output: (optional) System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
+        :param list[RuntimeEntity] entities: (optional) Entities to use when evaluating the message. Include entities from the previous response to continue using those entities rather than detecting entities in the new input.
+        :param list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user input. Include intents from the previous response to continue using those intents rather than trying to recognize intents in the new input.
+        :param OutputData output: (optional) System output. Include the output from the previous response to maintain intermediate information over multiple requests.
         """
         self.input = input
         self.alternate_intents = alternate_intents
@@ -3956,12 +3955,12 @@ class MessageRequest(object):
 
 class MessageResponse(object):
     """
-    A response from the Conversation service.
+    A response from the Assistant service.
 
     :attr MessageInput input: (optional) The user input from the request.
     :attr list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
     :attr list[RuntimeEntity] entities: An array of entities identified in the user input.
-    :attr bool alternate_intents: (optional) Whether to return more than one intent. `true` indicates that all matching intents are returned.
+    :attr bool alternate_intents: (optional) Whether to return more than one intent. A value of `true` indicates that all matching intents are returned.
     :attr Context context: State information for the conversation.
     :attr OutputData output: Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.
     """
@@ -3982,7 +3981,7 @@ class MessageResponse(object):
         :param Context context: State information for the conversation.
         :param OutputData output: Output from the dialog, including the response to the user, the nodes that were triggered, and log messages.
         :param MessageInput input: (optional) The user input from the request.
-        :param bool alternate_intents: (optional) Whether to return more than one intent. `true` indicates that all matching intents are returned.
+        :param bool alternate_intents: (optional) Whether to return more than one intent. A value of `true` indicates that all matching intents are returned.
         :param **kwargs: (optional) Any additional properties.
         """
         self.input = input
@@ -4095,10 +4094,10 @@ class OutputData(object):
     An output object that includes the response to the user, the nodes that were hit, and
     messages from the log.
 
-    :attr list[LogMessage] log_messages: Up to 50 messages logged with the request.
+    :attr list[LogMessage] log_messages: An array of up to 50 messages logged with the request.
     :attr list[str] text: An array of responses to the user.
-    :attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.
-    :attr list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
+    :attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response, in the order in which they were visited. This information is useful for debugging and for tracing the path taken through the node tree.
+    :attr list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message. Included only if **nodes_visited_details** is set to `true` in the message request.
     """
 
     def __init__(self,
@@ -4110,10 +4109,10 @@ class OutputData(object):
         """
         Initialize a OutputData object.
 
-        :param list[LogMessage] log_messages: Up to 50 messages logged with the request.
+        :param list[LogMessage] log_messages: An array of up to 50 messages logged with the request.
         :param list[str] text: An array of responses to the user.
-        :param list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response.
-        :param list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message.
+        :param list[str] nodes_visited: (optional) An array of the nodes that were triggered to create the response, in the order in which they were visited. This information is useful for debugging and for tracing the path taken through the node tree.
+        :param list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of objects containing detailed diagnostic information about the nodes that were triggered during processing of the input message. Included only if **nodes_visited_details** is set to `true` in the message request.
         :param **kwargs: (optional) Any additional properties.
         """
         self.log_messages = log_messages
@@ -4275,11 +4274,11 @@ class RuntimeEntity(object):
     """
     A term from the request that was identified as an entity.
 
-    :attr str entity: The recognized entity from a term in the input.
-    :attr list[int] location: Zero-based character offsets that indicate where the entity value begins and ends in the input text.
-    :attr str value: The term in the input text that was recognized.
+    :attr str entity: An entity detected in the input.
+    :attr list[int] location: An array of zero-based character offsets that indicate where the detected entity values begin and end in the input text.
+    :attr str value: The term in the input text that was recognized as an entity value.
     :attr float confidence: (optional) A decimal percentage that represents Watson's confidence in the entity.
-    :attr object metadata: (optional) The metadata for the entity.
+    :attr object metadata: (optional) Any metadata for the entity.
     :attr list[CaptureGroup] groups: (optional) The recognized capture groups for the entity, as defined by the entity pattern.
     """
 
@@ -4294,11 +4293,11 @@ class RuntimeEntity(object):
         """
         Initialize a RuntimeEntity object.
 
-        :param str entity: The recognized entity from a term in the input.
-        :param list[int] location: Zero-based character offsets that indicate where the entity value begins and ends in the input text.
-        :param str value: The term in the input text that was recognized.
+        :param str entity: An entity detected in the input.
+        :param list[int] location: An array of zero-based character offsets that indicate where the detected entity values begin and end in the input text.
+        :param str value: The term in the input text that was recognized as an entity value.
         :param float confidence: (optional) A decimal percentage that represents Watson's confidence in the entity.
-        :param object metadata: (optional) The metadata for the entity.
+        :param object metadata: (optional) Any metadata for the entity.
         :param list[CaptureGroup] groups: (optional) The recognized capture groups for the entity, as defined by the entity pattern.
         :param **kwargs: (optional) Any additional properties.
         """
@@ -4484,17 +4483,17 @@ class Synonym(object):
     Synonym.
 
     :attr str synonym_text: The text of the synonym.
-    :attr datetime created: The timestamp for creation of the synonym.
-    :attr datetime updated: The timestamp for the most recent update to the synonym.
+    :attr datetime created: (optional) The timestamp for creation of the synonym.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the synonym.
     """
 
-    def __init__(self, synonym_text, created, updated):
+    def __init__(self, synonym_text, created=None, updated=None):
         """
         Initialize a Synonym object.
 
         :param str synonym_text: The text of the synonym.
-        :param datetime created: The timestamp for creation of the synonym.
-        :param datetime updated: The timestamp for the most recent update to the synonym.
+        :param datetime created: (optional) The timestamp for creation of the synonym.
+        :param datetime updated: (optional) The timestamp for the most recent update to the synonym.
         """
         self.synonym_text = synonym_text
         self.created = created
@@ -4513,14 +4512,8 @@ class Synonym(object):
                 'Required property \'synonym\' not present in Synonym JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Synonym JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Synonym JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -4554,7 +4547,7 @@ class SynonymCollection(object):
     SynonymCollection.
 
     :attr list[Synonym] synonyms: An array of synonyms.
-    :attr Pagination pagination: An object defining the pagination data for the returned objects.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, synonyms, pagination):
@@ -4562,7 +4555,7 @@ class SynonymCollection(object):
         Initialize a SynonymCollection object.
 
         :param list[Synonym] synonyms: An array of synonyms.
-        :param Pagination pagination: An object defining the pagination data for the returned objects.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.synonyms = synonyms
         self.pagination = pagination
@@ -4674,31 +4667,31 @@ class Value(object):
 
     :attr str value_text: The text of the entity value.
     :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr datetime created: The timestamp for creation of the entity value.
-    :attr datetime updated: The timestamp for the last update to the entity value.
-    :attr list[str] synonyms: (optional) An array of synonyms for the entity value.
-    :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-    :attr str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+    :attr datetime created: (optional) The timestamp for creation of the entity value.
+    :attr datetime updated: (optional) The timestamp for the last update to the entity value.
+    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity value.
+    :attr list[str] patterns: (optional) An array containing any patterns for the entity value.
+    :attr str value_type: Specifies the type of value.
     """
 
     def __init__(self,
                  value_text,
-                 created,
-                 updated,
                  value_type,
                  metadata=None,
+                 created=None,
+                 updated=None,
                  synonyms=None,
                  patterns=None):
         """
         Initialize a Value object.
 
         :param str value_text: The text of the entity value.
-        :param datetime created: The timestamp for creation of the entity value.
-        :param datetime updated: The timestamp for the last update to the entity value.
-        :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param str value_type: Specifies the type of value.
         :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array of synonyms for the entity value.
-        :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
+        :param datetime created: (optional) The timestamp for creation of the entity value.
+        :param datetime updated: (optional) The timestamp for the last update to the entity value.
+        :param list[str] synonyms: (optional) An array containing any synonyms for the entity value.
+        :param list[str] patterns: (optional) An array containing any patterns for the entity value.
         """
         self.value_text = value_text
         self.metadata = metadata
@@ -4723,14 +4716,8 @@ class Value(object):
             args['metadata'] = _dict['metadata']
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Value JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Value JSON')
         if 'synonyms' in _dict:
             args['synonyms'] = _dict['synonyms']
         if 'patterns' in _dict:
@@ -4846,31 +4833,31 @@ class ValueExport(object):
 
     :attr str value_text: The text of the entity value.
     :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr datetime created: The timestamp for creation of the entity value.
-    :attr datetime updated: The timestamp for the last update to the entity value.
-    :attr list[str] synonyms: (optional) An array of synonyms for the entity value.
-    :attr list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
-    :attr str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+    :attr datetime created: (optional) The timestamp for creation of the entity value.
+    :attr datetime updated: (optional) The timestamp for the last update to the entity value.
+    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity value.
+    :attr list[str] patterns: (optional) An array containing any patterns for the entity value.
+    :attr str value_type: Specifies the type of value.
     """
 
     def __init__(self,
                  value_text,
-                 created,
-                 updated,
                  value_type,
                  metadata=None,
+                 created=None,
+                 updated=None,
                  synonyms=None,
                  patterns=None):
         """
         Initialize a ValueExport object.
 
         :param str value_text: The text of the entity value.
-        :param datetime created: The timestamp for creation of the entity value.
-        :param datetime updated: The timestamp for the last update to the entity value.
-        :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param str value_type: Specifies the type of value.
         :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array of synonyms for the entity value.
-        :param list[str] patterns: (optional) An array of patterns for the entity value. A pattern is specified as a regular expression.
+        :param datetime created: (optional) The timestamp for creation of the entity value.
+        :param datetime updated: (optional) The timestamp for the last update to the entity value.
+        :param list[str] synonyms: (optional) An array containing any synonyms for the entity value.
+        :param list[str] patterns: (optional) An array containing any patterns for the entity value.
         """
         self.value_text = value_text
         self.metadata = metadata
@@ -4895,14 +4882,8 @@ class ValueExport(object):
             args['metadata'] = _dict['metadata']
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in ValueExport JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in ValueExport JSON')
         if 'synonyms' in _dict:
             args['synonyms'] = _dict['synonyms']
         if 'patterns' in _dict:
@@ -4956,20 +4937,20 @@ class Workspace(object):
 
     :attr str name: The name of the workspace.
     :attr str language: The language of the workspace.
-    :attr datetime created: The timestamp for creation of the workspace.
-    :attr datetime updated: The timestamp for the last update to the workspace.
+    :attr datetime created: (optional) The timestamp for creation of the workspace.
+    :attr datetime updated: (optional) The timestamp for the last update to the workspace.
     :attr str workspace_id: The workspace ID.
     :attr str description: (optional) The description of the workspace.
-    :attr object metadata: (optional) Any metadata that is required by the workspace.
-    :attr bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+    :attr object metadata: (optional) Any metadata related to the workspace.
+    :attr bool learning_opt_out: (optional) Whether training data from the workspace (including artifacts such as intents and entities) can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
     """
 
     def __init__(self,
                  name,
                  language,
-                 created,
-                 updated,
                  workspace_id,
+                 created=None,
+                 updated=None,
                  description=None,
                  metadata=None,
                  learning_opt_out=None):
@@ -4978,12 +4959,12 @@ class Workspace(object):
 
         :param str name: The name of the workspace.
         :param str language: The language of the workspace.
-        :param datetime created: The timestamp for creation of the workspace.
-        :param datetime updated: The timestamp for the last update to the workspace.
         :param str workspace_id: The workspace ID.
+        :param datetime created: (optional) The timestamp for creation of the workspace.
+        :param datetime updated: (optional) The timestamp for the last update to the workspace.
         :param str description: (optional) The description of the workspace.
-        :param object metadata: (optional) Any metadata that is required by the workspace.
-        :param bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param object metadata: (optional) Any metadata related to the workspace.
+        :param bool learning_opt_out: (optional) Whether training data from the workspace (including artifacts such as intents and entities) can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
         """
         self.name = name
         self.language = language
@@ -5010,14 +4991,8 @@ class Workspace(object):
                 'Required property \'language\' not present in Workspace JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in Workspace JSON')
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in Workspace JSON')
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict['workspace_id']
         else:
@@ -5073,7 +5048,7 @@ class WorkspaceCollection(object):
     """
     WorkspaceCollection.
 
-    :attr list[Workspace] workspaces: An array of workspaces.
+    :attr list[Workspace] workspaces: An array of objects describing the workspaces associated with the service instance.
     :attr Pagination pagination: An object defining the pagination data for the returned objects.
     """
 
@@ -5081,7 +5056,7 @@ class WorkspaceCollection(object):
         """
         Initialize a WorkspaceCollection object.
 
-        :param list[Workspace] workspaces: An array of workspaces.
+        :param list[Workspace] workspaces: An array of objects describing the workspaces associated with the service instance.
         :param Pagination pagination: An object defining the pagination data for the returned objects.
         """
         self.workspaces = workspaces
@@ -5139,8 +5114,8 @@ class WorkspaceExport(object):
     :attr str description: The description of the workspace.
     :attr str language: The language of the workspace.
     :attr object metadata: Any metadata that is required by the workspace.
-    :attr datetime created: The timestamp for creation of the workspace.
-    :attr datetime updated: The timestamp for the last update to the workspace.
+    :attr datetime created: (optional) The timestamp for creation of the workspace.
+    :attr datetime updated: (optional) The timestamp for the last update to the workspace.
     :attr str workspace_id: The workspace ID.
     :attr str status: The current status of the workspace.
     :attr bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
@@ -5155,11 +5130,11 @@ class WorkspaceExport(object):
                  description,
                  language,
                  metadata,
-                 created,
-                 updated,
                  workspace_id,
                  status,
                  learning_opt_out,
+                 created=None,
+                 updated=None,
                  intents=None,
                  entities=None,
                  counterexamples=None,
@@ -5171,11 +5146,11 @@ class WorkspaceExport(object):
         :param str description: The description of the workspace.
         :param str language: The language of the workspace.
         :param object metadata: Any metadata that is required by the workspace.
-        :param datetime created: The timestamp for creation of the workspace.
-        :param datetime updated: The timestamp for the last update to the workspace.
         :param str workspace_id: The workspace ID.
         :param str status: The current status of the workspace.
         :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param datetime created: (optional) The timestamp for creation of the workspace.
+        :param datetime updated: (optional) The timestamp for the last update to the workspace.
         :param list[IntentExport] intents: (optional) An array of intents.
         :param list[EntityExport] entities: (optional) An array of entities.
         :param list[Counterexample] counterexamples: (optional) An array of counterexamples.
@@ -5225,16 +5200,8 @@ class WorkspaceExport(object):
             )
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in WorkspaceExport JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in WorkspaceExport JSON'
-            )
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict['workspace_id']
         else:
