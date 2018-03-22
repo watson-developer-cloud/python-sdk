@@ -115,8 +115,8 @@
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;customization_id&#39;</span><span class="p">:</span> <span class="n">customization_id</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/voices/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">voice</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
 <div class="viewcode-block" id="TextToSpeechV1.list_voices"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voices">[docs]</a>    <span class="k">def</span> <span class="nf">list_voices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -126,8 +126,8 @@
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/voices&#39;</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use list_voices() instead&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">voices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -168,8 +168,8 @@
             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
             <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
             <span class="n">accept_json</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</div>
-        <span class="k">return</span> <span class="n">response</span>
+
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="c1">#########################</span>
     <span class="c1"># Pronunciation</span>
@@ -206,8 +206,8 @@
         <span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/pronunciation&#39;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use get_pronunciation() instead&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">pronunciation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">voice</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pronunciation_format</span><span class="o">=</span><span class="s1">&#39;ipa&#39;</span><span class="p">):</span>
@@ -236,8 +236,8 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations&#39;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use create_voice_model() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">create_customization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -258,8 +258,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customization_id must be provided&#39;</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use delete_voice_model() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">delete_customization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">):</span>
@@ -285,8 +285,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customization_id must be provided&#39;</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">))</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use get_voice_model instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_customization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">):</span>
@@ -309,8 +309,8 @@
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations&#39;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use list_voice_models() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">customizations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -346,8 +346,8 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span> <span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use update_voice_model() instead&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">update_customization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -385,8 +385,8 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;translation&#39;</span><span class="p">:</span> <span class="n">translation</span><span class="p">,</span> <span class="s1">&#39;part_of_speech&#39;</span><span class="p">:</span> <span class="n">part_of_speech</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/words/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
             <span class="n">customization_id</span><span class="p">,</span> <span class="n">word</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use add_word() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_customization_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">translation</span><span class="p">):</span>
@@ -415,8 +415,8 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;words&#39;</span><span class="p">:</span> <span class="n">words</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/words&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use add_words() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">add_customization_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
@@ -440,8 +440,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;word must be provided&#39;</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/words/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
             <span class="n">customization_id</span><span class="p">,</span> <span class="n">word</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use delete_word() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">delete_customization_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
@@ -468,8 +468,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;word must be provided&#39;</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/words/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
             <span class="n">customization_id</span><span class="p">,</span> <span class="n">word</span><span class="p">))</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use get_word() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_customization_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
@@ -493,12 +493,12 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customization_id must be provided&#39;</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/words&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">))</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use list_words() instead.&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">get_customization_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">):</span></div>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_words</span><span class="p">(</span><span class="n">customization_id</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">get_customization_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_words</span><span class="p">(</span><span class="n">customization_id</span><span class="p">)</span></div>
 
 
 <span class="c1">##############################################################################</span>
@@ -550,8 +550,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SupportedFeatures"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.SupportedFeatures">[docs]</a><span class="k">class</span> <span class="nc">SupportedFeatures</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -612,8 +612,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Translation"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.Translation">[docs]</a><span class="k">class</span> <span class="nc">Translation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -668,8 +668,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Voice"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.Voice">[docs]</a><span class="k">class</span> <span class="nc">Voice</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -796,8 +796,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="VoiceModel"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.VoiceModel">[docs]</a><span class="k">class</span> <span class="nc">VoiceModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -903,8 +903,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="VoiceModels"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.VoiceModels">[docs]</a><span class="k">class</span> <span class="nc">VoiceModels</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -956,8 +956,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Voices"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.Voices">[docs]</a><span class="k">class</span> <span class="nc">Voices</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1004,8 +1004,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Word"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.Word">[docs]</a><span class="k">class</span> <span class="nc">Word</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1069,8 +1069,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Words"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.Words">[docs]</a><span class="k">class</span> <span class="nc">Words</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1117,8 +1117,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 </pre></div>
 
           </div>

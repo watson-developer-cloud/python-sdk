@@ -1333,7 +1333,7 @@ is specified, the limit is 120 requests per minute. For more information, see
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Context">
-<em class="property">class </em><code class="descname">Context</code><span class="sig-paren">(</span><em>conversation_id</em>, <em>system</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Context" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Context</code><span class="sig-paren">(</span><em>conversation_id=None</em>, <em>system=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Context" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>State information for the conversation. To maintain state, include the context from
 the previous response.</p>
@@ -1342,10 +1342,10 @@ the previous response.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str conversation_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique identifier of the conversation.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The unique identifier of the conversation.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr SystemResponse system:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">For internal use only.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) For internal use only.</td>
 </tr>
 </tbody>
 </table>
@@ -1353,7 +1353,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Counterexample">
-<em class="property">class </em><code class="descname">Counterexample</code><span class="sig-paren">(</span><em>text</em>, <em>created</em>, <em>updated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Counterexample" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Counterexample</code><span class="sig-paren">(</span><em>text</em>, <em>created=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Counterexample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Counterexample.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1363,10 +1363,10 @@ the previous response.</p>
 <tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">The text of the counterexample.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the counterexample.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the counterexample.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the counterexample.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the counterexample.</td>
 </tr>
 </tbody>
 </table>
@@ -1563,7 +1563,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.DialogNode">
-<em class="property">class </em><code class="descname">DialogNode</code><span class="sig-paren">(</span><em>dialog_node_id</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>conditions=None</em>, <em>parent=None</em>, <em>previous_sibling=None</em>, <em>output=None</em>, <em>context=None</em>, <em>metadata=None</em>, <em>next_step=None</em>, <em>actions=None</em>, <em>title=None</em>, <em>node_type=None</em>, <em>event_name=None</em>, <em>variable=None</em>, <em>digress_in=None</em>, <em>digress_out=None</em>, <em>digress_out_slots=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#DialogNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.DialogNode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DialogNode</code><span class="sig-paren">(</span><em>dialog_node_id</em>, <em>description=None</em>, <em>conditions=None</em>, <em>parent=None</em>, <em>previous_sibling=None</em>, <em>output=None</em>, <em>context=None</em>, <em>metadata=None</em>, <em>next_step=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>actions=None</em>, <em>title=None</em>, <em>node_type=None</em>, <em>event_name=None</em>, <em>variable=None</em>, <em>digress_in=None</em>, <em>digress_out=None</em>, <em>digress_out_slots=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#DialogNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.DialogNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>DialogNode.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1598,10 +1598,10 @@ the previous response.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The next step to execute following this dialog node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the dialog node.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the dialog node.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the most recent update to the dialog node.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the most recent update to the dialog node.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[DialogNodeAction] actions:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The actions for the dialog node.</td>
@@ -1718,7 +1718,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Entity">
-<em class="property">class </em><code class="descname">Entity</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Entity" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Entity</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Entity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Entity.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1729,10 +1729,10 @@ the previous response.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the entity.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the entity.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the entity.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the entity.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the entity.</td>
@@ -1768,7 +1768,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.EntityExport">
-<em class="property">class </em><code class="descname">EntityExport</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em>, <em>values=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#EntityExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.EntityExport" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">EntityExport</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em>, <em>values=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#EntityExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.EntityExport" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>EntityExport.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1779,10 +1779,10 @@ the previous response.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the entity.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the entity.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the entity.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the entity.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the entity.</td>
@@ -1802,7 +1802,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Example">
-<em class="property">class </em><code class="descname">Example</code><span class="sig-paren">(</span><em>example_text</em>, <em>created</em>, <em>updated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Example" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Example</code><span class="sig-paren">(</span><em>example_text</em>, <em>created=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Example.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1813,10 +1813,10 @@ the previous response.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the user input example.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the example.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the example.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the example.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the example.</td>
 </tr>
 </tbody>
 </table>
@@ -1858,7 +1858,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Intent">
-<em class="property">class </em><code class="descname">Intent</code><span class="sig-paren">(</span><em>intent_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Intent" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Intent</code><span class="sig-paren">(</span><em>intent_name</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Intent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Intent.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1869,10 +1869,10 @@ the previous response.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the intent.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the intent.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the intent.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the intent.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the intent.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the intent.</td>
@@ -1902,7 +1902,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.IntentExport">
-<em class="property">class </em><code class="descname">IntentExport</code><span class="sig-paren">(</span><em>intent_name</em>, <em>created</em>, <em>updated</em>, <em>description=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#IntentExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.IntentExport" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">IntentExport</code><span class="sig-paren">(</span><em>intent_name</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#IntentExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.IntentExport" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>IntentExport.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1913,10 +1913,10 @@ the previous response.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the intent.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the intent.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the intent.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the intent.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the intent.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the intent.</td>
@@ -2195,7 +2195,7 @@ messages from the log.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Synonym">
-<em class="property">class </em><code class="descname">Synonym</code><span class="sig-paren">(</span><em>synonym_text</em>, <em>created</em>, <em>updated</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Synonym" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Synonym</code><span class="sig-paren">(</span><em>synonym_text</em>, <em>created=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Synonym" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Synonym.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2206,10 +2206,10 @@ messages from the log.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the synonym.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for creation of the synonym.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the synonym.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for the most recent update to the synonym.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the most recent update to the synonym.</td>
 </tr>
 </tbody>
 </table>
@@ -2243,7 +2243,7 @@ messages from the log.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Value">
-<em class="property">class </em><code class="descname">Value</code><span class="sig-paren">(</span><em>value_text</em>, <em>created</em>, <em>updated</em>, <em>value_type</em>, <em>metadata=None</em>, <em>synonyms=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Value" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Value</code><span class="sig-paren">(</span><em>value_text</em>, <em>value_type</em>, <em>metadata=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>synonyms=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Value.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2257,10 +2257,10 @@ messages from the log.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity value.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for creation of the entity value.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the entity value.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity value.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the entity value.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] synonyms:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array containing any synonyms for the entity value.</td>
@@ -2296,7 +2296,7 @@ messages from the log.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.ValueExport">
-<em class="property">class </em><code class="descname">ValueExport</code><span class="sig-paren">(</span><em>value_text</em>, <em>created</em>, <em>updated</em>, <em>value_type</em>, <em>metadata=None</em>, <em>synonyms=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#ValueExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.ValueExport" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">ValueExport</code><span class="sig-paren">(</span><em>value_text</em>, <em>value_type</em>, <em>metadata=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>synonyms=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#ValueExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.ValueExport" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>ValueExport.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2310,10 +2310,10 @@ messages from the log.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity value.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for creation of the entity value.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the entity value.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the entity value.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the entity value.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] synonyms:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array containing any synonyms for the entity value.</td>
@@ -2330,7 +2330,7 @@ messages from the log.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Workspace">
-<em class="property">class </em><code class="descname">Workspace</code><span class="sig-paren">(</span><em>name</em>, <em>language</em>, <em>created</em>, <em>updated</em>, <em>workspace_id</em>, <em>description=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Workspace" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Workspace</code><span class="sig-paren">(</span><em>name</em>, <em>language</em>, <em>workspace_id</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Workspace.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2343,10 +2343,10 @@ messages from the log.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">The language of the workspace.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for creation of the workspace.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the workspace.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the workspace.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the workspace.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str workspace_id:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The workspace ID.</td>
@@ -2385,7 +2385,7 @@ messages from the log.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.WorkspaceExport">
-<em class="property">class </em><code class="descname">WorkspaceExport</code><span class="sig-paren">(</span><em>name</em>, <em>description</em>, <em>language</em>, <em>metadata</em>, <em>created</em>, <em>updated</em>, <em>workspace_id</em>, <em>status</em>, <em>learning_opt_out</em>, <em>intents=None</em>, <em>entities=None</em>, <em>counterexamples=None</em>, <em>dialog_nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#WorkspaceExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.WorkspaceExport" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">WorkspaceExport</code><span class="sig-paren">(</span><em>name</em>, <em>description</em>, <em>language</em>, <em>metadata</em>, <em>workspace_id</em>, <em>status</em>, <em>learning_opt_out</em>, <em>created=None</em>, <em>updated=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>counterexamples=None</em>, <em>dialog_nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#WorkspaceExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.WorkspaceExport" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>WorkspaceExport.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2404,10 +2404,10 @@ messages from the log.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">Any metadata that is required by the workspace.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The timestamp for creation of the workspace.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the workspace.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The timestamp for the last update to the workspace.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the workspace.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str workspace_id:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The workspace ID.</td>

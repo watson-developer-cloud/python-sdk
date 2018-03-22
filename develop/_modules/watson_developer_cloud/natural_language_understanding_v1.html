@@ -203,8 +203,8 @@
         <span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/analyze&#39;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="c1">#########################</span>
     <span class="c1"># modelManagement</span>
@@ -225,8 +225,8 @@
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/models/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">model_id</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
 <div class="viewcode-block" id="NaturalLanguageUnderstandingV1.list_models"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.list_models">[docs]</a>    <span class="k">def</span> <span class="nf">list_models</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -242,8 +242,8 @@
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/models&#39;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
 
 
 <span class="c1">##############################################################################</span>
@@ -404,8 +404,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Author"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.Author">[docs]</a><span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -449,8 +449,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="CategoriesOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.CategoriesOptions">[docs]</a><span class="k">class</span> <span class="nc">CategoriesOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -506,8 +506,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="CategoriesResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.CategoriesResult">[docs]</a><span class="k">class</span> <span class="nc">CategoriesResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -558,8 +558,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="ConceptsOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.ConceptsOptions">[docs]</a><span class="k">class</span> <span class="nc">ConceptsOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -604,8 +604,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="ConceptsResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.ConceptsResult">[docs]</a><span class="k">class</span> <span class="nc">ConceptsResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -664,8 +664,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="DisambiguationResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.DisambiguationResult">[docs]</a><span class="k">class</span> <span class="nc">DisambiguationResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -724,8 +724,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="DocumentEmotionResults"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.DocumentEmotionResults">[docs]</a><span class="k">class</span> <span class="nc">DocumentEmotionResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -769,8 +769,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="DocumentSentimentResults"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.DocumentSentimentResults">[docs]</a><span class="k">class</span> <span class="nc">DocumentSentimentResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -821,8 +821,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="EmotionOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.EmotionOptions">[docs]</a><span class="k">class</span> <span class="nc">EmotionOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -873,8 +873,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="EmotionResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.EmotionResult">[docs]</a><span class="k">class</span> <span class="nc">EmotionResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -930,8 +930,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="EmotionScores"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.EmotionScores">[docs]</a><span class="k">class</span> <span class="nc">EmotionScores</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1008,8 +1008,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="EntitiesOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.EntitiesOptions">[docs]</a><span class="k">class</span> <span class="nc">EntitiesOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1087,8 +1087,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="EntitiesResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.EntitiesResult">[docs]</a><span class="k">class</span> <span class="nc">EntitiesResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1194,8 +1194,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="EntityMention"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.EntityMention">[docs]</a><span class="k">class</span> <span class="nc">EntityMention</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1246,8 +1246,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="FeatureSentimentResults"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.FeatureSentimentResults">[docs]</a><span class="k">class</span> <span class="nc">FeatureSentimentResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1291,8 +1291,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Features"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.Features">[docs]</a><span class="k">class</span> <span class="nc">Features</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1403,8 +1403,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Feed"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.Feed">[docs]</a><span class="k">class</span> <span class="nc">Feed</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1448,8 +1448,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="InlineResponse200"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.InlineResponse200">[docs]</a><span class="k">class</span> <span class="nc">InlineResponse200</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1493,8 +1493,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="KeywordsOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.KeywordsOptions">[docs]</a><span class="k">class</span> <span class="nc">KeywordsOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1553,8 +1553,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="KeywordsResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.KeywordsResult">[docs]</a><span class="k">class</span> <span class="nc">KeywordsResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1620,8 +1620,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="ListModelsResults"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.ListModelsResults">[docs]</a><span class="k">class</span> <span class="nc">ListModelsResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1665,8 +1665,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="MetadataOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.MetadataOptions">[docs]</a><span class="k">class</span> <span class="nc">MetadataOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1723,8 +1723,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="MetadataResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.MetadataResult">[docs]</a><span class="k">class</span> <span class="nc">MetadataResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1803,8 +1803,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1873,8 +1873,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="RelationArgument"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.RelationArgument">[docs]</a><span class="k">class</span> <span class="nc">RelationArgument</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1934,8 +1934,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="RelationEntity"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.RelationEntity">[docs]</a><span class="k">class</span> <span class="nc">RelationEntity</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1986,8 +1986,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="RelationsOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.RelationsOptions">[docs]</a><span class="k">class</span> <span class="nc">RelationsOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2032,8 +2032,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="RelationsResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.RelationsResult">[docs]</a><span class="k">class</span> <span class="nc">RelationsResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2100,8 +2100,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SemanticRolesAction"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesAction">[docs]</a><span class="k">class</span> <span class="nc">SemanticRolesAction</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2159,8 +2159,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SemanticRolesEntity"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesEntity">[docs]</a><span class="k">class</span> <span class="nc">SemanticRolesEntity</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2211,8 +2211,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SemanticRolesKeyword"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesKeyword">[docs]</a><span class="k">class</span> <span class="nc">SemanticRolesKeyword</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2256,8 +2256,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SemanticRolesObject"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesObject">[docs]</a><span class="k">class</span> <span class="nc">SemanticRolesObject</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2310,8 +2310,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SemanticRolesOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesOptions">[docs]</a><span class="k">class</span> <span class="nc">SemanticRolesOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2370,8 +2370,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SemanticRolesResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesResult">[docs]</a><span class="k">class</span> <span class="nc">SemanticRolesResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2436,8 +2436,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SemanticRolesSubject"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesSubject">[docs]</a><span class="k">class</span> <span class="nc">SemanticRolesSubject</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2499,8 +2499,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SemanticRolesVerb"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SemanticRolesVerb">[docs]</a><span class="k">class</span> <span class="nc">SemanticRolesVerb</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2551,8 +2551,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SentimentOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SentimentOptions">[docs]</a><span class="k">class</span> <span class="nc">SentimentOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2604,8 +2604,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="SentimentResult"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.SentimentResult">[docs]</a><span class="k">class</span> <span class="nc">SentimentResult</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2659,8 +2659,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="TargetedEmotionResults"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.TargetedEmotionResults">[docs]</a><span class="k">class</span> <span class="nc">TargetedEmotionResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2711,8 +2711,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="TargetedSentimentResults"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.TargetedSentimentResults">[docs]</a><span class="k">class</span> <span class="nc">TargetedSentimentResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2763,8 +2763,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Usage"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.Usage">[docs]</a><span class="k">class</span> <span class="nc">Usage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -2823,8 +2823,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 </pre></div>
 
           </div>

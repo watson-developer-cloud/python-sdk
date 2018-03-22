@@ -121,8 +121,8 @@
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers/</span><span class="si">{0}</span><span class="s1">/classify&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="c1">#########################</span>
     <span class="c1"># Manage classifiers</span>
@@ -166,8 +166,8 @@
                 <span class="s1">&#39;training_metadata&#39;</span><span class="p">:</span> <span class="n">metadata_tuple</span><span class="p">,</span>
                 <span class="s1">&#39;training_data&#39;</span><span class="p">:</span> <span class="n">training_data_tuple</span>
             <span class="p">},</span>
-            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
 <div class="viewcode-block" id="NaturalLanguageClassifierV1.delete_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.delete_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">delete_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -180,8 +180,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;classifier_id must be provided&#39;</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="NaturalLanguageClassifierV1.get_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.get_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">get_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -197,8 +197,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;classifier_id must be provided&#39;</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">))</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-        <span class="k">return</span> <span class="n">response</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
 
 <div class="viewcode-block" id="NaturalLanguageClassifierV1.list_classifiers"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.list_classifiers">[docs]</a>    <span class="k">def</span> <span class="nf">list_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -210,8 +210,8 @@
 <span class="sd">        :rtype: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers&#39;</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
-        <span class="k">return</span> <span class="n">response</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
 
 
 <span class="c1">##############################################################################</span>
@@ -295,8 +295,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="ClassifiedClass"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.ClassifiedClass">[docs]</a><span class="k">class</span> <span class="nc">ClassifiedClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -347,8 +347,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="Classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.Classifier">[docs]</a><span class="k">class</span> <span class="nc">Classifier</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -450,8 +450,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
 <div class="viewcode-block" id="ClassifierList"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.ClassifierList">[docs]</a><span class="k">class</span> <span class="nc">ClassifierList</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -501,8 +501,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
 
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span></div>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 </pre></div>
 
           </div>
