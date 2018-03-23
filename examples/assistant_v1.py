@@ -56,8 +56,14 @@ print(json.dumps(response, indent=2))
 
 #  message
 response = assistant.message(
-    workspace_id=workspace_id, input={
+    workspace_id=workspace_id,
+    input={
         'text': 'What\'s the weather like?'
+    },
+    context={
+        'metadata': {
+            'deployment': 'myDeployment'
+        }
     })
 print(json.dumps(response, indent=2))
 
