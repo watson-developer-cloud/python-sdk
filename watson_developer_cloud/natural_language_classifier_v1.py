@@ -91,6 +91,30 @@ class NaturalLanguageClassifierV1(WatsonService):
             method='POST', url=url, json=data, accept_json=True)
         return response
 
+    def classifyCollection(self, classifier_id, collection):
+        """
+        Returns label information for the input. The status must be `Available` before you
+        can use the classifier to classify text.
+
+        :param str classifier_id: Classifier ID to use.
+        :param str collection: The submitted collection of phrases.
+        :return: A `dict` containing the `Classification` response.
+        :rtype: dict
+        """
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        if collection is None:
+            raise ValueError('collection must be provided')
+        if len(collection) == 0 is None:
+            raise ValueError('collection must be provided')
+        data = {'collection': list(map(lambda x: {"text" :x}, collection))}
+        url = '/v1/classifiers/{0}/classify_collection'.format(
+            *self._encode_path_vars(classifier_id))
+        response = self.request(
+            method='POST', url=url, json=data, accept_json=True)
+        return response
+
+
     #########################
     # Manage classifiers
     #########################
