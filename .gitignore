@@ -64,3 +64,5 @@ test/__init__.py
 *~
 
 .sfdx/tools/apex.db
+.pytest_cache/
+python-sdk.iml
