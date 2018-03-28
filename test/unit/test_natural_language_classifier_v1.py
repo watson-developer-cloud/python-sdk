@@ -82,3 +82,53 @@ def test_success():
     assert responses.calls[4].response.text == remove_response
 
     assert len(responses.calls) == 5
+
+@responses.activate
+def test_classify_collection():
+    natural_language_classifier = watson_developer_cloud.NaturalLanguageClassifierV1(username="username",
+                                                                                     password="password")
+    classify_collection_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers/497EF2-nlc-00/classify_collection'
+    classify_collection_response = '{ \
+            "classifier_id": "497EF2-nlc-00", \
+            "url": "https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers/10D41B-nlc-1", \
+            "collection": [ \
+                { \
+                    "text": "How hot will it be today?", \
+                    "top_class": "temperature", \
+                    "classes": [ \
+                        { \
+                            "class_name": "temperature", \
+                            "confidence": 0.9930558798985937 \
+                        }, \
+                        { \
+                            "class_name": "conditions", \
+                            "confidence": 0.006944120101406304 \
+                        } \
+                    ] \
+                }, \
+                { \
+                    "text": "Is it hot outside?", \
+                    "top_class": "temperature", \
+                    "classes": [ \
+                        { \
+                            "class_name": "temperature", \
+                            "confidence": 1 \
+                        }, \
+                        { \
+                            "class_name": "conditions", \
+                            "confidence": 0 \
+                        } \
+                    ] \
+                } \
+            ] \
+            }'
+    responses.add(responses.POST, classify_collection_url,
+                  body=classify_collection_response, status=200,
+                  content_type='application/json')
+
+    classifier_id = '497EF2-nlc-00'
+    collection = ['{"text":"How hot will it be today?"}', '{"text":"Is it hot outside?"}']
+    natural_language_classifier.classify_collection(classifier_id, collection)
+
+    assert responses.calls[0].request.url == classify_collection_url
+    assert responses.calls[0].response.text == classify_collection_response
