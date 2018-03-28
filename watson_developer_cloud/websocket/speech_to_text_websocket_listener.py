@@ -164,6 +164,8 @@ class RecognizeListener(object):
                 proxy_port=None):
             if proxy_host is not None and proxy_port is not None:
                 proxy = {'host': proxy_host, 'port': proxy_port}
+            else:
+                proxy = None
             WebSocketClientFactory.__init__(
                 self, url=url, headers=headers, proxy=proxy)
             self.audio = audio
