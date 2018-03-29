@@ -19,7 +19,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             'X-Watson-Test':
             '1'
         })
-        self.classifier_id = 'CarsvsTrucks_931077904'
+        self.classifier_id = 'CarsvsTrucksxDO_NOT_DELETE_771019274'
 
     def test_classify(self):
         car_path = join(dirname(__file__), '../../resources/cars.zip')
