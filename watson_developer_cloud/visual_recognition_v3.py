@@ -14,16 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-**Important:** As of September 8, 2017, the beta period for Similarity Search is closed.
-For more information, see [Visual Recognition API – Similarity Search
-Update](https://www.ibm.com/blogs/bluemix/2017/08/visual-recognition-api-similarity-search-update).
-
 The IBM Watson Visual Recognition service uses deep learning algorithms to identify
 scenes, objects, and faces  in images you upload to the service. You can create and train
 a custom classifier to identify subjects that suit your needs.
-
-**Tip:** To test calls to the **Custom classifiers** methods with the API explorer,
-provide your `api_key` from your IBM&reg; Cloud service instance.
 """
 
 from __future__ import absolute_import
@@ -118,18 +111,17 @@ class VisualRecognitionV3(WatsonService):
             parameters_tuple = (None, parameters, 'text/plain')
 
         url_tuple = None
-        if url is not None:
+        if url:
             url_tuple = (None, url, 'text/plain')
         threshold_tuple = None
-        if threshold is not None:
+        if threshold:
             threshold_tuple = (None, threshold, 'application/json')
         owners_tuple = None
-        if owners is not None:
+        if owners:
             owners_tuple = (None, owners, 'application/json')
         classifier_ids_tuple = None
-        if classifier_ids is not None:
+        if classifier_ids:
             classifier_ids_tuple = (None, classifier_ids, 'application/json')
-
         url = '/v3/classify'
         response = self.request(
             method='POST',
@@ -184,7 +176,7 @@ class VisualRecognitionV3(WatsonService):
         if parameters is not None:
             parameters_tuple = (None, parameters, 'text/plain')
         url_tuple = None
-        if url is not None:
+        if url:
             url_tuple = (None, url, 'text/plain')
         url = '/v3/detect_faces'
         response = self.request(
@@ -260,7 +252,7 @@ class VisualRecognitionV3(WatsonService):
 
     def list_classifiers(self, verbose=None):
         """
-        Retrieve a list of custom classifiers.
+        Retrieve a list of classifiers.
 
         :param bool verbose: Specify `true` to return details about the classifiers. Omit this parameter to return a brief list of classifiers.
         :return: A `dict` containing the `Classifiers` response.
@@ -296,6 +288,30 @@ class VisualRecognitionV3(WatsonService):
             accept_json=True)
         return response
 
+    #########################
+    # Core ML
+    #########################
+
+    def get_core_ml_model(self, classifier_id):
+        """
+        Retrieve a Core ML model of a classifier.
+
+        Download a Core ML model file (.mlmodel) of a custom classifier that returns
+        core_ml_enabled: true in the classifier details.
+
+        :param str classifier_id: The ID of the classifier.
+        :return: A `Response <Response>` object representing the response.
+        :rtype: requests.models.Response
+        """
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        params = {'version': self.version}
+        url = '/v3/classifiers/{0}/core_ml_model'.format(
+            *self._encode_path_vars(classifier_id))
+        response = self.request(
+            method='GET', url=url, params=params, accept_json=False)
+        return response
+
 ##############################################################################
 # Models
 ##############################################################################
@@ -320,10 +336,8 @@ class Class(object):
     def _from_dict(cls, _dict):
         """Initialize a Class object from a json dictionary."""
         args = {}
-        if 'class_name' in _dict:
-            args['class_name'] = _dict['class_name']
-        if 'class' in _dict:
-            args['class_name'] = _dict['class']
+        if 'class' in _dict or 'class_name' in _dict:
+            args['class_name'] = _dict.get('class') or _dict.get('class_name')
         else:
             raise ValueError(
                 'Required property \'class\' not present in Class JSON')
@@ -376,17 +390,15 @@ class ClassResult(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassResult object from a json dictionary."""
         args = {}
-        if 'class_name' in _dict:
-            args['class_name'] = _dict['class_name']
-        if 'class' in _dict:
-            args['class_name'] = _dict['class']
+        if 'class' in _dict or 'class_name' in _dict:
+            args['class_name'] = _dict.get('class') or _dict.get('class_name')
         else:
             raise ValueError(
                 'Required property \'class\' not present in ClassResult JSON')
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         if 'type_hierarchy' in _dict:
-            args['type_hierarchy'] = _dict['type_hierarchy']
+            args['type_hierarchy'] = _dict.get('type_hierarchy')
         return cls(**args)
 
     def _to_dict(self):
@@ -452,16 +464,17 @@ class ClassifiedImage(object):
         """Initialize a ClassifiedImage object from a json dictionary."""
         args = {}
         if 'source_url' in _dict:
-            args['source_url'] = _dict['source_url']
+            args['source_url'] = _dict.get('source_url')
         if 'resolved_url' in _dict:
-            args['resolved_url'] = _dict['resolved_url']
+            args['resolved_url'] = _dict.get('resolved_url')
         if 'image' in _dict:
-            args['image'] = _dict['image']
+            args['image'] = _dict.get('image')
         if 'error' in _dict:
-            args['error'] = ErrorInfo._from_dict(_dict['error'])
+            args['error'] = ErrorInfo._from_dict(_dict.get('error'))
         if 'classifiers' in _dict:
             args['classifiers'] = [
-                ClassifierResult._from_dict(x) for x in _dict['classifiers']
+                ClassifierResult._from_dict(x)
+                for x in (_dict.get('classifiers'))
             ]
         else:
             raise ValueError(
@@ -532,12 +545,12 @@ class ClassifiedImages(object):
         """Initialize a ClassifiedImages object from a json dictionary."""
         args = {}
         if 'custom_classes' in _dict:
-            args['custom_classes'] = _dict['custom_classes']
+            args['custom_classes'] = _dict.get('custom_classes')
         if 'images_processed' in _dict:
-            args['images_processed'] = _dict['images_processed']
+            args['images_processed'] = _dict.get('images_processed')
         if 'images' in _dict:
             args['images'] = [
-                ClassifiedImage._from_dict(x) for x in _dict['images']
+                ClassifiedImage._from_dict(x) for x in (_dict.get('images'))
             ]
         else:
             raise ValueError(
@@ -545,7 +558,7 @@ class ClassifiedImages(object):
             )
         if 'warnings' in _dict:
             args['warnings'] = [
-                WarningInfo._from_dict(x) for x in _dict['warnings']
+                WarningInfo._from_dict(x) for x in (_dict.get('warnings'))
             ]
         return cls(**args)
 
@@ -586,69 +599,87 @@ class Classifier(object):
     :attr str name: Name of the classifier.
     :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.
     :attr str status: (optional) The training status of classifier.
+    :attr bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML model after the training status is `ready`.
     :attr str explanation: (optional) If classifier training has failed, this field may explain why.
-    :attr datetime created: (optional) Date and time in Coordinated Universal Time that the classifier was created.
+    :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.
     :attr list[Class] classes: (optional) Array of classes that define a classifier.
-    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests.
+    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to `updated` and retained for backward compatibility.
+    :attr datetime updated: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by some requests.
     """
 
     def __init__(self,
                  classifier_id,
                  name,
+                 core_ml_enabled,
                  owner=None,
                  status=None,
                  explanation=None,
                  created=None,
                  classes=None,
-                 retrained=None):
+                 retrained=None,
+                 updated=None):
         """
         Initialize a Classifier object.
 
         :param str classifier_id: ID of a classifier identified in the image.
         :param str name: Name of the classifier.
+        :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML model after the training status is `ready`.
         :param str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.
         :param str status: (optional) The training status of classifier.
         :param str explanation: (optional) If classifier training has failed, this field may explain why.
-        :param datetime created: (optional) Date and time in Coordinated Universal Time that the classifier was created.
+        :param datetime created: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.
         :param list[Class] classes: (optional) Array of classes that define a classifier.
-        :param datetime retrained: (optional) Date and time in Coordinated Universal Time that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests.
+        :param datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to `updated` and retained for backward compatibility.
+        :param datetime updated: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by some requests.
         """
         self.classifier_id = classifier_id
         self.name = name
         self.owner = owner
         self.status = status
+        self.core_ml_enabled = core_ml_enabled
         self.explanation = explanation
         self.created = created
         self.classes = classes
         self.retrained = retrained
+        self.updated = updated
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Classifier object from a json dictionary."""
         args = {}
         if 'classifier_id' in _dict:
-            args['classifier_id'] = _dict['classifier_id']
+            args['classifier_id'] = _dict.get('classifier_id')
         else:
             raise ValueError(
                 'Required property \'classifier_id\' not present in Classifier JSON'
             )
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         else:
             raise ValueError(
                 'Required property \'name\' not present in Classifier JSON')
         if 'owner' in _dict:
-            args['owner'] = _dict['owner']
+            args['owner'] = _dict.get('owner')
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
+        if 'core_ml_enabled' in _dict:
+            args['core_ml_enabled'] = _dict.get('core_ml_enabled')
+        else:
+            raise ValueError(
+                'Required property \'core_ml_enabled\' not present in Classifier JSON'
+            )
         if 'explanation' in _dict:
-            args['explanation'] = _dict['explanation']
+            args['explanation'] = _dict.get('explanation')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'classes' in _dict:
-            args['classes'] = [Class._from_dict(x) for x in _dict['classes']]
+            args['classes'] = [
+                Class._from_dict(x) for x in (_dict.get('classes'))
+            ]
         if 'retrained' in _dict:
-            args['retrained'] = string_to_datetime(_dict['retrained'])
+            args['retrained'] = string_to_datetime(_dict.get('retrained'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -662,6 +693,9 @@ class Classifier(object):
             _dict['owner'] = self.owner
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
+        if hasattr(self,
+                   'core_ml_enabled') and self.core_ml_enabled is not None:
+            _dict['core_ml_enabled'] = self.core_ml_enabled
         if hasattr(self, 'explanation') and self.explanation is not None:
             _dict['explanation'] = self.explanation
         if hasattr(self, 'created') and self.created is not None:
@@ -670,6 +704,8 @@ class Classifier(object):
             _dict['classes'] = [x._to_dict() for x in self.classes]
         if hasattr(self, 'retrained') and self.retrained is not None:
             _dict['retrained'] = datetime_to_string(self.retrained)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
     def __str__(self):
@@ -713,20 +749,20 @@ class ClassifierResult(object):
         """Initialize a ClassifierResult object from a json dictionary."""
         args = {}
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         else:
             raise ValueError(
                 'Required property \'name\' not present in ClassifierResult JSON'
             )
         if 'classifier_id' in _dict:
-            args['classifier_id'] = _dict['classifier_id']
+            args['classifier_id'] = _dict.get('classifier_id')
         else:
             raise ValueError(
                 'Required property \'classifier_id\' not present in ClassifierResult JSON'
             )
         if 'classes' in _dict:
             args['classes'] = [
-                ClassResult._from_dict(x) for x in _dict['classes']
+                ClassResult._from_dict(x) for x in (_dict.get('classes'))
             ]
         else:
             raise ValueError(
@@ -762,7 +798,7 @@ class ClassifierResult(object):
 
 class Classifiers(object):
     """
-    Verbose list of classifiers retrieved in the GET v2/classifiers call.
+    List of classifiers.
 
     :attr list[Classifier] classifiers:
     """
@@ -781,7 +817,7 @@ class Classifiers(object):
         args = {}
         if 'classifiers' in _dict:
             args['classifiers'] = [
-                Classifier._from_dict(x) for x in _dict['classifiers']
+                Classifier._from_dict(x) for x in (_dict.get('classifiers'))
             ]
         else:
             raise ValueError(
@@ -837,10 +873,10 @@ class DetectedFaces(object):
         """Initialize a DetectedFaces object from a json dictionary."""
         args = {}
         if 'images_processed' in _dict:
-            args['images_processed'] = _dict['images_processed']
+            args['images_processed'] = _dict.get('images_processed')
         if 'images' in _dict:
             args['images'] = [
-                ImageWithFaces._from_dict(x) for x in _dict['images']
+                ImageWithFaces._from_dict(x) for x in (_dict.get('images'))
             ]
         else:
             raise ValueError(
@@ -848,7 +884,7 @@ class DetectedFaces(object):
             )
         if 'warnings' in _dict:
             args['warnings'] = [
-                WarningInfo._from_dict(x) for x in _dict['warnings']
+                WarningInfo._from_dict(x) for x in (_dict.get('warnings'))
             ]
         return cls(**args)
 
@@ -906,18 +942,18 @@ class ErrorInfo(object):
         """Initialize a ErrorInfo object from a json dictionary."""
         args = {}
         if 'code' in _dict:
-            args['code'] = _dict['code']
+            args['code'] = _dict.get('code')
         else:
             raise ValueError(
                 'Required property \'code\' not present in ErrorInfo JSON')
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         else:
             raise ValueError(
                 'Required property \'description\' not present in ErrorInfo JSON'
             )
         if 'error_id' in _dict:
-            args['error_id'] = _dict['error_id']
+            args['error_id'] = _dict.get('error_id')
         else:
             raise ValueError(
                 'Required property \'error_id\' not present in ErrorInfo JSON')
@@ -959,7 +995,10 @@ class Face(object):
     :attr FaceIdentity identity: (optional)
     """
 
-    def __init__(self, age=None, gender=None, face_location=None,
+    def __init__(self,
+                 age=None,
+                 gender=None,
+                 face_location=None,
                  identity=None):
         """
         Initialize a Face object.
@@ -979,14 +1018,14 @@ class Face(object):
         """Initialize a Face object from a json dictionary."""
         args = {}
         if 'age' in _dict:
-            args['age'] = FaceAge._from_dict(_dict['age'])
+            args['age'] = FaceAge._from_dict(_dict.get('age'))
         if 'gender' in _dict:
-            args['gender'] = FaceGender._from_dict(_dict['gender'])
+            args['gender'] = FaceGender._from_dict(_dict.get('gender'))
         if 'face_location' in _dict:
             args['face_location'] = FaceLocation._from_dict(
-                _dict['face_location'])
+                _dict.get('face_location'))
         if 'identity' in _dict:
-            args['identity'] = FaceIdentity._from_dict(_dict['identity'])
+            args['identity'] = FaceIdentity._from_dict(_dict.get('identity'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1020,7 +1059,7 @@ class Face(object):
 class FaceAge(object):
     """
     Provides age information about a face. If there are more than 10 faces in an image,
-    the response might return the confidence score `0g.
+    the response might return the confidence score `0`.
 
     :attr int min: (optional) Estimated minimum age.
     :attr int max: (optional) Estimated maximum age.
@@ -1044,11 +1083,11 @@ class FaceAge(object):
         """Initialize a FaceAge object from a json dictionary."""
         args = {}
         if 'min' in _dict:
-            args['min'] = _dict['min']
+            args['min'] = _dict.get('min')
         if 'max' in _dict:
-            args['max'] = _dict['max']
+            args['max'] = _dict.get('max')
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         return cls(**args)
 
     def _to_dict(self):
@@ -1101,12 +1140,12 @@ class FaceGender(object):
         """Initialize a FaceGender object from a json dictionary."""
         args = {}
         if 'gender' in _dict:
-            args['gender'] = _dict['gender']
+            args['gender'] = _dict.get('gender')
         else:
             raise ValueError(
                 'Required property \'gender\' not present in FaceGender JSON')
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         return cls(**args)
 
     def _to_dict(self):
@@ -1160,14 +1199,14 @@ class FaceIdentity(object):
         """Initialize a FaceIdentity object from a json dictionary."""
         args = {}
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         else:
             raise ValueError(
                 'Required property \'name\' not present in FaceIdentity JSON')
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         if 'type_hierarchy' in _dict:
-            args['type_hierarchy'] = _dict['type_hierarchy']
+            args['type_hierarchy'] = _dict.get('type_hierarchy')
         return cls(**args)
 
     def _to_dict(self):
@@ -1225,22 +1264,23 @@ class FaceLocation(object):
         """Initialize a FaceLocation object from a json dictionary."""
         args = {}
         if 'width' in _dict:
-            args['width'] = _dict['width']
+            args['width'] = _dict.get('width')
         else:
             raise ValueError(
                 'Required property \'width\' not present in FaceLocation JSON')
         if 'height' in _dict:
-            args['height'] = _dict['height']
+            args['height'] = _dict.get('height')
         else:
             raise ValueError(
-                'Required property \'height\' not present in FaceLocation JSON')
+                'Required property \'height\' not present in FaceLocation JSON'
+            )
         if 'left' in _dict:
-            args['left'] = _dict['left']
+            args['left'] = _dict.get('left')
         else:
             raise ValueError(
                 'Required property \'left\' not present in FaceLocation JSON')
         if 'top' in _dict:
-            args['top'] = _dict['top']
+            args['top'] = _dict.get('top')
         else:
             raise ValueError(
                 'Required property \'top\' not present in FaceLocation JSON')
@@ -1311,19 +1351,19 @@ class ImageWithFaces(object):
         """Initialize a ImageWithFaces object from a json dictionary."""
         args = {}
         if 'faces' in _dict:
-            args['faces'] = [Face._from_dict(x) for x in _dict['faces']]
+            args['faces'] = [Face._from_dict(x) for x in (_dict.get('faces'))]
         else:
             raise ValueError(
                 'Required property \'faces\' not present in ImageWithFaces JSON'
             )
         if 'image' in _dict:
-            args['image'] = _dict['image']
+            args['image'] = _dict.get('image')
         if 'source_url' in _dict:
-            args['source_url'] = _dict['source_url']
+            args['source_url'] = _dict.get('source_url')
         if 'resolved_url' in _dict:
-            args['resolved_url'] = _dict['resolved_url']
+            args['resolved_url'] = _dict.get('resolved_url')
         if 'error' in _dict:
-            args['error'] = ErrorInfo._from_dict(_dict['error'])
+            args['error'] = ErrorInfo._from_dict(_dict.get('error'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1379,13 +1419,13 @@ class WarningInfo(object):
         """Initialize a WarningInfo object from a json dictionary."""
         args = {}
         if 'warning_id' in _dict:
-            args['warning_id'] = _dict['warning_id']
+            args['warning_id'] = _dict.get('warning_id')
         else:
             raise ValueError(
                 'Required property \'warning_id\' not present in WarningInfo JSON'
             )
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         else:
             raise ValueError(
                 'Required property \'description\' not present in WarningInfo JSON'
