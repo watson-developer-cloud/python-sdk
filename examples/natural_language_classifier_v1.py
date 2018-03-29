@@ -1,10 +1,9 @@
 from __future__ import print_function
 import json
 import os
-import time
+
 # from os.path import join, dirname
 from watson_developer_cloud import NaturalLanguageClassifierV1
-FIVE_SECONDS = 5
 
 natural_language_classifier = NaturalLanguageClassifierV1(
     username='YOUR SERVICE USERNAME',
@@ -23,7 +22,6 @@ with open(os.path.join(os.path.dirname(__file__), '../resources/weather_data_tra
     classifier_id = classifier['classifier_id']
     print(json.dumps(classifier, indent=2))
 
-time.sleep(FIVE_SECONDS)
 status = natural_language_classifier.get_classifier(classifier_id)
 print(json.dumps(status, indent=2))
 
