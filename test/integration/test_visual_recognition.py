@@ -19,6 +19,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             'X-Watson-Test':
             '1'
         })
+        self.classifier_id = 'CarsvsTrucks_931077904'
 
     def test_classify(self):
         car_path = join(dirname(__file__), '../../resources/cars.zip')
@@ -26,7 +27,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             parameters = json.dumps({
                 'threshold':
                 0.1,
-                'classifier_ids': ['CarsvsTrucks_931077904', 'default']
+                'classifier_ids': [self.classifier_id, 'default']
             })
             car_results = self.visual_recognition.classify(
                 images_file=images_file, parameters=parameters)
@@ -46,7 +47,8 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             classifier = self.visual_recognition.create_classifier(
                 'Cars vs Trucks',
                 cars_positive_examples=cars,
-                negative_examples=trucks)
+                negative_examples=trucks,
+                )
 
         assert classifier is not None
 
@@ -58,3 +60,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         assert classifiers is not None
 
         output = self.visual_recognition.delete_classifier(classifier_id)
+
+    def test_core_ml_model(self):
+        core_ml_model = self.visual_recognition.get_core_ml_model(self.classifier_id)
+        assert core_ml_model.ok
