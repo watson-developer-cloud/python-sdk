@@ -22,6 +22,7 @@ easy_install --upgrade watson-developer-cloud
 ```
 
 Note the following:
+
 a) If you run into permission issues try:
 
 ```bash
