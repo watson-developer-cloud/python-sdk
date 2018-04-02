@@ -21,13 +21,22 @@ or
 easy_install --upgrade watson-developer-cloud
 ```
 
-Note: If you run into permission issues try:
+Note the following:
+a) If you run into permission issues try:
 
 ```bash
 sudo -H pip install --ignore-installed six watson-developer-cloud
 ```
 
 For more details see [#225](https://github.com/watson-developer-cloud/python-sdk/issues/225)
+
+b) In case you run into problems installing the SDK in DSX, try
+```
+!pip install --upgrade pip
+```
+Restarting the kernel
+
+For more details see [#405](https://github.com/watson-developer-cloud/python-sdk/issues/405)
 
 ## Examples
 
