@@ -113,7 +113,7 @@ class SpeechToTextV1(WatsonService):
 
     @deprecated('Use list_models instead.')
     def models(self):
-        return self.list_models
+        return self.list_models()
 
     #########################
     # Sessionless
