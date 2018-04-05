@@ -34,14 +34,9 @@
             
   <div class="section" id="module-watson_developer_cloud.visual_recognition_v3">
 <span id="watson-developer-cloud-visual-recognition-v3-module"></span><h1>watson_developer_cloud.visual_recognition_v3 module<a class="headerlink" href="#module-watson_developer_cloud.visual_recognition_v3" title="Permalink to this headline">¶</a></h1>
-<p><strong>Important:</strong> As of September 8, 2017, the beta period for Similarity Search is closed.
-For more information, see [Visual Recognition API – Similarity Search
-Update](<a class="reference external" href="https://www.ibm.com/blogs/bluemix/2017/08/visual-recognition-api-similarity-search-update">https://www.ibm.com/blogs/bluemix/2017/08/visual-recognition-api-similarity-search-update</a>).</p>
 <p>The IBM Watson Visual Recognition service uses deep learning algorithms to identify
 scenes, objects, and faces  in images you upload to the service. You can create and train
 a custom classifier to identify subjects that suit your needs.</p>
-<p><strong>Tip:</strong> To test calls to the <strong>Custom classifiers</strong> methods with the API explorer,
-provide your <cite>api_key</cite> from your IBM&amp;reg; Cloud service instance.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3">
 <em class="property">class </em><code class="descname">VisualRecognitionV3</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway-a.watsonplatform.net/visual-recognition/api'</em>, <em>api_key=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3" title="Permalink to this definition">¶</a></dt>
@@ -163,7 +158,7 @@ does not support general biometric facial recognition.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_classifiers">
 <code class="descname">list_classifiers</code><span class="sig-paren">(</span><em>verbose=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_classifiers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve a list of custom classifiers.</p>
+<dd><p>Retrieve a list of classifiers.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -187,6 +182,26 @@ does not support general biometric facial recognition.</p>
 :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
 :return: A <cite>dict</cite> containing the <cite>Classifier</cite> response.
 :rtype: dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_core_ml_model">
+<code class="descname">get_core_ml_model</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_core_ml_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_core_ml_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a Core ML model of a classifier.</p>
+<p>Download a Core ML model file (.mlmodel) of a custom classifier that returns
+core_ml_enabled: true in the classifier details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>Response &lt;Response&gt;</cite> object representing the response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">requests.models.Response</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -283,7 +298,7 @@ does not support general biometric facial recognition.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.Classifier">
-<em class="property">class </em><code class="descname">Classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>name</em>, <em>owner=None</em>, <em>status=None</em>, <em>explanation=None</em>, <em>created=None</em>, <em>classes=None</em>, <em>retrained=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Classifier" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>name</em>, <em>core_ml_enabled</em>, <em>owner=None</em>, <em>status=None</em>, <em>explanation=None</em>, <em>created=None</em>, <em>classes=None</em>, <em>retrained=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Information about a classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -300,17 +315,23 @@ does not support general biometric facial recognition.</p>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str status:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The training status of classifier.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str explanation:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If classifier training has failed, this field may explain why.</td>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool core_ml_enabled:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Whether the classifier can be downloaded as a Core ML model after the training status is <cite>ready</cite>.</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Date and time in Coordinated Universal Time that the classifier was created.</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str explanation:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If classifier training has failed, this field may explain why.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Class] classes:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Array of classes that define a classifier.</td>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime retrained:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Date and time in Coordinated Universal Time that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests.</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[Class] classes:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Array of classes that define a classifier.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime retrained:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to <cite>updated</cite> and retained for backward compatibility.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either <cite>retrained</cite> or <cite>created</cite>.  Returned when verbose=`true`. Might not be returned by some requests.</td>
 </tr>
 </tbody>
 </table>
@@ -341,7 +362,7 @@ does not support general biometric facial recognition.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.Classifiers">
 <em class="property">class </em><code class="descname">Classifiers</code><span class="sig-paren">(</span><em>classifiers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Classifiers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Verbose list of classifiers retrieved in the GET v2/classifiers call.</p>
+<p>List of classifiers.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -427,7 +448,7 @@ large. Not returned when there is no error.</p>
 <em class="property">class </em><code class="descname">FaceAge</code><span class="sig-paren">(</span><em>min=None</em>, <em>max=None</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceAge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceAge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Provides age information about a face. If there are more than 10 faces in an image,
-the response might return the confidence score <a href="#id1"><span class="problematic" id="id2">`</span></a>0g.</p>
+the response might return the confidence score <cite>0</cite>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
