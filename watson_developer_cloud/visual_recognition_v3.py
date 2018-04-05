@@ -118,6 +118,8 @@ class VisualRecognitionV3(WatsonService):
             threshold_tuple = (None, threshold, 'application/json')
         owners_tuple = None
         if owners:
+            if isinstance(owners, (list,)):
+                owners = ','.join(owners)
             owners_tuple = (None, owners, 'application/json')
         classifier_ids_tuple = None
         if classifier_ids:
