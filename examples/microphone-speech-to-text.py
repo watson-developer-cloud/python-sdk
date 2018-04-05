@@ -1,6 +1,9 @@
 # You need to install pyaudio to run this example
 # pip install pyaudio
 
+# Note that you need to record just once. You will not be able to send
+# more audio after the initial recording.
+
 from __future__ import print_function
 import pyaudio
 import tempfile

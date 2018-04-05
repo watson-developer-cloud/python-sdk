@@ -121,6 +121,8 @@ class VisualRecognitionV3(WatsonService):
             owners_tuple = (None, owners, 'application/json')
         classifier_ids_tuple = None
         if classifier_ids:
+            if isinstance(classifier_ids, (list,)):
+                classifier_ids = ','.join(classifier_ids)
             classifier_ids_tuple = (None, classifier_ids, 'application/json')
         url = '/v3/classify'
         response = self.request(
