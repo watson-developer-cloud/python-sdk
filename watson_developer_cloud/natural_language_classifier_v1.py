@@ -91,6 +91,31 @@ class NaturalLanguageClassifierV1(WatsonService):
             method='POST', url=url, json=data, accept_json=True)
         return response
 
+    def classify_collection(self, classifier_id, collection):
+        """
+        Returns label information for multiple phrases. The status must be `Available`
+        before you can use the classifier to classify text.  Note that classifying
+        Japanese texts is a beta feature.
+
+        :param str classifier_id: Classifier ID to use.
+        :param list[ClassifyInput] collection: The submitted phrases.
+        :return: A `dict` containing the `ClassificationCollection` response.
+        :rtype: dict
+        """
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        if collection is None:
+            raise ValueError('collection must be provided')
+        collection = [
+            self._convert_model(x, ClassifyInput) for x in collection
+        ]
+        data = {'collection': collection}
+        url = '/v1/classifiers/{0}/classify_collection'.format(
+            *self._encode_path_vars(classifier_id))
+        response = self.request(
+            method='POST', url=url, json=data, accept_json=True)
+        return response
+
     #########################
     # Manage classifiers
     #########################
@@ -106,8 +131,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         Sends data to create and train a classifier and returns information about the new
         classifier.
 
-        :param file metadata: Metadata in JSON format. The metadata identifies the language of the data, and an optional name to identify the classifier.
-        :param file training_data: Training data in CSV format. Each text value must have at least one class. The data can include up to 15,000 records. For details, see [Using your own data](https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html).
+        :param file metadata: Metadata in JSON format. The metadata identifies the language of the data, and an optional name to identify the classifier. Specify the language with the 2-letter primary language code as assigned in ISO standard 639.  Supported languages are English (`en`), Arabic (`ar`), French (`fr`), German, (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian Portuguese (`pt`), and Spanish (`es`).
+        :param file training_data: Training data in CSV format. Each text value must have at least one class. The data can include up to 20,000 records. For details, see [Data preparation](https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html).
         :param str metadata_filename: The filename for training_metadata.
         :param str training_data_filename: The filename for training_data.
         :return: A `dict` containing the `Classifier` response.
@@ -190,8 +215,8 @@ class Classification(object):
     """
     Response from the classifier for a phrase.
 
-    :attr str classifier_id: (optional) Unique identifier for this classifier.
-    :attr str url: (optional) Link to the classifier.
+    :attr str classifier_id: (optional) Unique identifier for this classifier. Not returned by the request to classify multiple phrases.
+    :attr str url: (optional) Link to the classifier. Not returned by the request to classify multiple phrases.
     :attr str text: (optional) The submitted phrase.
     :attr str top_class: (optional) The class with the highest confidence.
     :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
@@ -206,8 +231,8 @@ class Classification(object):
         """
         Initialize a Classification object.
 
-        :param str classifier_id: (optional) Unique identifier for this classifier.
-        :param str url: (optional) Link to the classifier.
+        :param str classifier_id: (optional) Unique identifier for this classifier. Not returned by the request to classify multiple phrases.
+        :param str url: (optional) Link to the classifier. Not returned by the request to classify multiple phrases.
         :param str text: (optional) The submitted phrase.
         :param str top_class: (optional) The class with the highest confidence.
         :param list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
@@ -223,16 +248,16 @@ class Classification(object):
         """Initialize a Classification object from a json dictionary."""
         args = {}
         if 'classifier_id' in _dict:
-            args['classifier_id'] = _dict['classifier_id']
+            args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
-            args['url'] = _dict['url']
+            args['url'] = _dict.get('url')
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'top_class' in _dict:
-            args['top_class'] = _dict['top_class']
+            args['top_class'] = _dict.get('top_class')
         if 'classes' in _dict:
             args['classes'] = [
-                ClassifiedClass._from_dict(x) for x in _dict['classes']
+                ClassifiedClass._from_dict(x) for x in (_dict.get('classes'))
             ]
         return cls(**args)
 
@@ -253,6 +278,67 @@ class Classification(object):
 
     def __str__(self):
         """Return a `str` version of this Classification object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ClassificationCollection(object):
+    """
+    Response from the classifier for a phrase.
+
+    :attr str text: (optional) The submitted phrase.
+    :attr str top_class: (optional) The class with the highest confidence.
+    :attr list[Classification] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+    """
+
+    def __init__(self, text=None, top_class=None, classes=None):
+        """
+        Initialize a ClassificationCollection object.
+
+        :param str text: (optional) The submitted phrase.
+        :param str top_class: (optional) The class with the highest confidence.
+        :param list[Classification] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+        """
+        self.text = text
+        self.top_class = top_class
+        self.classes = classes
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassificationCollection object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'top_class' in _dict:
+            args['top_class'] = _dict.get('top_class')
+        if 'classes' in _dict:
+            args['classes'] = [
+                Classification._from_dict(x) for x in (_dict.get('classes'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'top_class') and self.top_class is not None:
+            _dict['top_class'] = self.top_class
+        if hasattr(self, 'classes') and self.classes is not None:
+            _dict['classes'] = [x._to_dict() for x in self.classes]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ClassificationCollection object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -289,9 +375,9 @@ class ClassifiedClass(object):
         """Initialize a ClassifiedClass object from a json dictionary."""
         args = {}
         if 'confidence' in _dict:
-            args['confidence'] = _dict['confidence']
+            args['confidence'] = _dict.get('confidence')
         if 'class_name' in _dict:
-            args['class_name'] = _dict['class_name']
+            args['class_name'] = _dict.get('class_name')
         return cls(**args)
 
     def _to_dict(self):
@@ -363,26 +449,26 @@ class Classifier(object):
         """Initialize a Classifier object from a json dictionary."""
         args = {}
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         if 'url' in _dict:
-            args['url'] = _dict['url']
+            args['url'] = _dict.get('url')
         else:
             raise ValueError(
                 'Required property \'url\' not present in Classifier JSON')
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         if 'classifier_id' in _dict:
-            args['classifier_id'] = _dict['classifier_id']
+            args['classifier_id'] = _dict.get('classifier_id')
         else:
             raise ValueError(
                 'Required property \'classifier_id\' not present in Classifier JSON'
             )
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'status_description' in _dict:
-            args['status_description'] = _dict['status_description']
+            args['status_description'] = _dict.get('status_description')
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         return cls(**args)
 
     def _to_dict(self):
@@ -442,7 +528,7 @@ class ClassifierList(object):
         args = {}
         if 'classifiers' in _dict:
             args['classifiers'] = [
-                Classifier._from_dict(x) for x in _dict['classifiers']
+                Classifier._from_dict(x) for x in (_dict.get('classifiers'))
             ]
         else:
             raise ValueError(
@@ -459,6 +545,54 @@ class ClassifierList(object):
 
     def __str__(self):
         """Return a `str` version of this ClassifierList object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ClassifyInput(object):
+    """
+    Request payload to classify.
+
+    :attr str text: The submitted phrase.
+    """
+
+    def __init__(self, text):
+        """
+        Initialize a ClassifyInput object.
+
+        :param str text: The submitted phrase.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassifyInput object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in ClassifyInput JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ClassifyInput object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
