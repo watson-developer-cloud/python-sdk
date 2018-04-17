@@ -8,18 +8,28 @@ import pytest
 @pytest.mark.skipif(
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class Discoveryv1(TestCase):
-    def setUp(self):
-        self.discovery = watson_developer_cloud.DiscoveryV1(
+    discovery = None
+    environment_id = 'e15f6424-f887-4f50-b4ea-68267c36fc9c'  # This environment is created for integration testing
+    collection_id = None
+
+    @classmethod
+    def setup_class(cls):
+        cls.discovery = watson_developer_cloud.DiscoveryV1(
             version='2017-10-16',
             username="YOUR SERVICE USERNAME",
             password="YOUR SERVICE PASSWORD")
-        self.discovery.set_default_headers({
+        cls.discovery.set_default_headers({
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'
         })
-        self.environment_id = 'e15f6424-f887-4f50-b4ea-68267c36fc9c'  # This environment is created for integration testing
-        self.collection_id = self.discovery.list_collections(
-            self.environment_id)['collections'][0]['collection_id']
+        cls.collection_id = cls.discovery.list_collections(cls.environment_id)['collections'][0]['collection_id']
+
+    @classmethod
+    def teardown_class(cls):
+        collections = cls.discovery.list_collections(cls.environment_id)['collections']
+        for collection in collections:
+            if collection['name'] != 'DO-NOT-DELETE':
+                cls.discovery.delete_collection(cls.environment_id, collection['collection_id'])
 
     def test_environments(self):
         envs = self.discovery.list_environments()
@@ -86,10 +96,7 @@ class Discoveryv1(TestCase):
             self.environment_id, self.collection_id, add_doc['document_id'])
         assert doc_status is not None
 
-        with open(
-                os.path.join(
-                    os.path.dirname(__file__), '../../resources/simple.html'),
-                'r') as fileinfo:
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/simple.html'), 'r') as fileinfo:
             update_doc = self.discovery.update_document(
                 self.environment_id,
                 self.collection_id,
