@@ -23,6 +23,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             'X-Watson-Test':
             '1'
         })
+        cls.classifier_id = 'doxnotxdeletexdogxvsxcat_1697519201'
 
     @classmethod
     def teardown_class(cls):
