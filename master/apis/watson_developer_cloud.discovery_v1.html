@@ -51,7 +51,7 @@ results.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_environment">
-<code class="descname">create_environment</code><span class="sig-paren">(</span><em>name</em>, <em>description=None</em>, <em>size=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_environment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_environment</code><span class="sig-paren">(</span><em>name</em>, <em>description=None</em>, <em>size=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add an environment.</p>
 <p>Creates a new environment.  You can create only one environment per service
 instance. An attempt to create another environment results in an error.</p>
@@ -63,6 +63,7 @@ instance. An attempt to create another environment results in an error.</p>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name that identifies the environment.</li>
 <li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Description of the environment.</li>
 <li><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – <strong>Deprecated</strong>: Size of the environment.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -78,17 +79,23 @@ instance. An attempt to create another environment results in an error.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_environment">
-<code class="descname">delete_environment</code><span class="sig-paren">(</span><em>environment_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_environment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_environment</code><span class="sig-paren">(</span><em>environment_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete environment.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>DeleteEnvironmentResponse</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>DeleteEnvironmentResponse</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -96,17 +103,23 @@ instance. An attempt to create another environment results in an error.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_environment">
-<code class="descname">get_environment</code><span class="sig-paren">(</span><em>environment_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_environment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_environment</code><span class="sig-paren">(</span><em>environment_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get environment info.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>Environment</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Environment</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -114,18 +127,24 @@ instance. An attempt to create another environment results in an error.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_environments">
-<code class="descname">list_environments</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_environments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_environments" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_environments</code><span class="sig-paren">(</span><em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_environments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_environments" title="Permalink to this definition">¶</a></dt>
 <dd><p>List environments.</p>
 <p>List existing environments for the service instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Show only the environment with the given name.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Show only the environment with the given name.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>ListEnvironmentsResponse</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>ListEnvironmentsResponse</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -133,7 +152,7 @@ instance. An attempt to create another environment results in an error.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_fields">
-<code class="descname">list_fields</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_fields</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>List fields in specified collections.</p>
 <p>Gets a list of the unique fields (and their types) stored in the indexes of the
 specified collections.</p>
@@ -144,6 +163,7 @@ specified collections.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of collection IDs to be queried against.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -159,7 +179,7 @@ specified collections.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_environment">
-<code class="descname">update_environment</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_environment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_environment</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name=None</em>, <em>description=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update an environment.</p>
 <p>Updates an environment. The environment’s <cite>name</cite> and  <cite>description</cite> parameters can
 be changed. You must specify a <cite>name</cite> for the environment.</p>
@@ -171,6 +191,7 @@ be changed. You must specify a <cite>name</cite> for the environment.</p>
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name that identifies the environment.</li>
 <li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Description of the environment.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -186,7 +207,7 @@ be changed. You must specify a <cite>name</cite> for the environment.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_configuration">
-<code class="descname">create_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_configuration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add configuration.</p>
 <p>Creates a new configuration.  If the input configuration contains the
 <cite>configuration_id</cite>, <cite>created</cite>, or <cite>updated</cite> properties, then they are ignored and
@@ -207,6 +228,7 @@ tooling to add additional metadata and information to the configuration.</p>
 <li><strong>conversions</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.Conversions" title="watson_developer_cloud.discovery_v1.Conversions"><em>Conversions</em></a>) – The document conversion settings for the configuration.</li>
 <li><strong>enrichments</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.Enrichment" title="watson_developer_cloud.discovery_v1.Enrichment"><em>Enrichment</em></a><em>]</em>) – An array of document enrichment settings for the configuration.</li>
 <li><strong>normalizations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.NormalizationOperation" title="watson_developer_cloud.discovery_v1.NormalizationOperation"><em>NormalizationOperation</em></a><em>]</em>) – Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -222,7 +244,7 @@ tooling to add additional metadata and information to the configuration.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_configuration">
-<code class="descname">delete_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_configuration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a configuration.</p>
 <p>The deletion is performed unconditionally. A configuration deletion request
 succeeds even if the configuration is referenced by a collection or document
@@ -237,6 +259,7 @@ submitted.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>configuration_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the configuration.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -252,7 +275,7 @@ submitted.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_configuration">
-<code class="descname">get_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_configuration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get configuration details.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -261,6 +284,7 @@ submitted.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>configuration_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the configuration.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -276,7 +300,7 @@ submitted.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_configurations">
-<code class="descname">list_configurations</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_configurations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_configurations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_configurations</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_configurations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_configurations" title="Permalink to this definition">¶</a></dt>
 <dd><p>List configurations.</p>
 <p>Lists existing configurations for the service instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -286,6 +310,7 @@ submitted.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Find configurations with the given name.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -301,7 +326,7 @@ submitted.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_configuration">
-<code class="descname">update_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em>, <em>name</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_configuration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em>, <em>name</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update a configuration.</p>
 <p>Replaces an existing configuration.   * Completely replaces the original
 configuration.   * The <cite>configuration_id</cite>, <cite>updated</cite>, and <cite>created</cite> fields are
@@ -322,6 +347,7 @@ already submitted documents will not see any updates made to the configuration.<
 <li><strong>conversions</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.Conversions" title="watson_developer_cloud.discovery_v1.Conversions"><em>Conversions</em></a>) – The document conversion settings for the configuration.</li>
 <li><strong>enrichments</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.Enrichment" title="watson_developer_cloud.discovery_v1.Enrichment"><em>Enrichment</em></a><em>]</em>) – An array of document enrichment settings for the configuration.</li>
 <li><strong>normalizations</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.NormalizationOperation" title="watson_developer_cloud.discovery_v1.NormalizationOperation"><em>NormalizationOperation</em></a><em>]</em>) – Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -337,7 +363,7 @@ already submitted documents will not see any updates made to the configuration.<
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.test_configuration_in_environment">
-<code class="descname">test_configuration_in_environment</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration=None</em>, <em>step=None</em>, <em>configuration_id=None</em>, <em>file=None</em>, <em>metadata=None</em>, <em>file_content_type=None</em>, <em>filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.test_configuration_in_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.test_configuration_in_environment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">test_configuration_in_environment</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration=None</em>, <em>step=None</em>, <em>configuration_id=None</em>, <em>file=None</em>, <em>metadata=None</em>, <em>file_content_type=None</em>, <em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.test_configuration_in_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.test_configuration_in_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Test configuration.</p>
 <p>Runs a sample document through the default or your configuration and returns
 diagnostic information designed to help you understand how the document was
@@ -355,6 +381,7 @@ processed. The document is not added to the index.</p>
 <li><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – If you’re using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  <code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">{</span>&#160;&#160; <span class="pre">&quot;Creator&quot;:</span> <span class="pre">&quot;Johnny</span> <span class="pre">Appleseed&quot;,</span>&#160;&#160; <span class="pre">&quot;Subject&quot;:</span> <span class="pre">&quot;Apples&quot;</span> <span class="pre">}</span> <span class="pre">`</span></code>.</li>
 <li><strong>file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The content type of file.</li>
 <li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for file.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -370,7 +397,7 @@ processed. The document is not added to the index.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_collection">
-<code class="descname">create_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name</em>, <em>description=None</em>, <em>configuration_id=None</em>, <em>language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_collection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name</em>, <em>description=None</em>, <em>configuration_id=None</em>, <em>language=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -382,6 +409,7 @@ processed. The document is not added to the index.</p>
 <li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A description of the collection.</li>
 <li><strong>configuration_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the configuration in which the collection is to be created.</li>
 <li><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language of the documents stored in the collection, in the form of an ISO 639-1 language code.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -396,36 +424,8 @@ processed. The document is not added to the index.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions">
-<code class="descname">create_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>expansions</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the expansion list.</p>
-<p>Create or replace the Expansion list for this collection. The maximum number of
-expanded terms per collection is <cite>500</cite>. The current expansion list is replaced
-with the uploaded content.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
-<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
-<li><strong>expansions</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.Expansion" title="watson_developer_cloud.discovery_v1.Expansion"><em>Expansion</em></a><em>]</em>) – An array of query expansion definitions.    Each object in the <cite>expansions</cite> array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an <cite>expanded_terms</cite> array. When found in a query, all items in the <cite>expanded_terms</cite> array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of <cite>input_terms</cite> and an array of <cite>expanded_terms</cite>. When items in the <cite>input_terms</cite> array are present in a query, they are expanded using the items listed in the <cite>expanded_terms</cite> array.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Expansions</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_collection">
-<code class="descname">delete_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_collection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -434,6 +434,7 @@ with the uploaded content.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -448,31 +449,8 @@ with the uploaded content.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions">
-<code class="descname">delete_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete the expansions list.</p>
-<p>Remove the expansion information for this collection. The expansion list must be
-deleted to disable query expansion for a collection.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
-<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_collection">
-<code class="descname">get_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_collection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get collection details.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -481,6 +459,7 @@ deleted to disable query expansion for a collection.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -496,7 +475,7 @@ deleted to disable query expansion for a collection.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_collection_fields">
-<code class="descname">list_collection_fields</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_collection_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_collection_fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_collection_fields</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_collection_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_collection_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>List unique fields.</p>
 <p>Gets a list of the unique fields (and their types) stored in the index.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -506,6 +485,7 @@ deleted to disable query expansion for a collection.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -521,7 +501,7 @@ deleted to disable query expansion for a collection.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_collections">
-<code class="descname">list_collections</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_collections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_collections" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_collections</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_collections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_collections" title="Permalink to this definition">¶</a></dt>
 <dd><p>List collections.</p>
 <p>Lists existing collections for the service instance.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -531,6 +511,7 @@ deleted to disable query expansion for a collection.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Find collections with the given name.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -545,34 +526,8 @@ deleted to disable query expansion for a collection.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions">
-<code class="descname">list_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions" title="Permalink to this definition">¶</a></dt>
-<dd><p>List current expansions.</p>
-<p>Returns the current expansion list for the specified collection. If an expansion
-list is not specified, an object with empty expansion arrays is returned.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
-<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Expansions</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_collection">
-<code class="descname">update_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>name</em>, <em>description=None</em>, <em>configuration_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_collection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_collection</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>name</em>, <em>description=None</em>, <em>configuration_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update a collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -584,6 +539,7 @@ list is not specified, an object with empty expansion arrays is returned.</p>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the collection.</li>
 <li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A description of the collection.</li>
 <li><strong>configuration_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the configuration in which the collection is to be updated.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -598,8 +554,88 @@ list is not specified, an object with empty expansion arrays is returned.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions">
+<code class="descname">create_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>expansions</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the expansion list.</p>
+<p>Create or replace the Expansion list for this collection. The maximum number of
+expanded terms per collection is <cite>500</cite>. The current expansion list is replaced
+with the uploaded content.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>expansions</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.Expansion" title="watson_developer_cloud.discovery_v1.Expansion"><em>Expansion</em></a><em>]</em>) – An array of query expansion definitions.    Each object in the <cite>expansions</cite> array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an <cite>expanded_terms</cite> array. When found in a query, all items in the <cite>expanded_terms</cite> array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of <cite>input_terms</cite> and an array of <cite>expanded_terms</cite>. When items in the <cite>input_terms</cite> array are present in a query, they are expanded using the items listed in the <cite>expanded_terms</cite> array.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Expansions</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions">
+<code class="descname">delete_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the expansions list.</p>
+<p>Remove the expansion information for this collection. The expansion list must be
+deleted to disable query expansion for a collection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions">
+<code class="descname">list_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions" title="Permalink to this definition">¶</a></dt>
+<dd><p>List current expansions.</p>
+<p>Returns the current expansion list for the specified collection. If an expansion
+list is not specified, an object with empty expansion arrays is returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Expansions</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.add_document">
-<code class="descname">add_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>file=None</em>, <em>metadata=None</em>, <em>file_content_type=None</em>, <em>filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.add_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.add_document" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>file=None</em>, <em>metadata=None</em>, <em>file_content_type=None</em>, <em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.add_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.add_document" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a document.</p>
 <p>Add a document to a collection with optional metadata.    * The <cite>version</cite> query
 parameter is still required.    * Returns immediately after the system has
@@ -626,6 +662,7 @@ following characters after normalization are filtered out before indexing: <cite
 <li><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – If you’re using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  <code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">{</span>&#160;&#160; <span class="pre">&quot;Creator&quot;:</span> <span class="pre">&quot;Johnny</span> <span class="pre">Appleseed&quot;,</span>&#160;&#160; <span class="pre">&quot;Subject&quot;:</span> <span class="pre">&quot;Apples&quot;</span> <span class="pre">}</span> <span class="pre">`</span></code>.</li>
 <li><strong>file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The content type of file.</li>
 <li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for file.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -641,7 +678,7 @@ following characters after normalization are filtered out before indexing: <cite
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_document">
-<code class="descname">delete_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>document_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_document" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>document_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_document" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a document.</p>
 <p>If the given document ID is invalid, or if the document is not found, then the a
 success response is returned (HTTP status code <cite>200</cite>) with the status set to
@@ -654,6 +691,7 @@ success response is returned (HTTP status code <cite>200</cite>) with the status
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
 <li><strong>document_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the document.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -669,7 +707,7 @@ success response is returned (HTTP status code <cite>200</cite>) with the status
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_document_status">
-<code class="descname">get_document_status</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>document_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_document_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_document_status" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_document_status</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>document_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_document_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_document_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get document details.</p>
 <p>Fetch status details about a submitted document. <strong>Note:</strong> this operation does not
 return the document itself. Instead, it returns only the document’s processing
@@ -683,6 +721,7 @@ was ingested. Use the query API to retrieve the actual document content.</p>
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
 <li><strong>document_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the document.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -698,7 +737,7 @@ was ingested. Use the query API to retrieve the actual document content.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_document">
-<code class="descname">update_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>document_id</em>, <em>file=None</em>, <em>metadata=None</em>, <em>file_content_type=None</em>, <em>filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_document" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_document</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>document_id</em>, <em>file=None</em>, <em>metadata=None</em>, <em>file_content_type=None</em>, <em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_document" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update a document.</p>
 <p>Replace an existing document. Starts ingesting a document with optional metadata.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -713,6 +752,7 @@ was ingested. Use the query API to retrieve the actual document content.</p>
 <li><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – If you’re using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  <code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">{</span>&#160;&#160; <span class="pre">&quot;Creator&quot;:</span> <span class="pre">&quot;Johnny</span> <span class="pre">Appleseed&quot;,</span>&#160;&#160; <span class="pre">&quot;Subject&quot;:</span> <span class="pre">&quot;Apples&quot;</span> <span class="pre">}</span> <span class="pre">`</span></code>.</li>
 <li><strong>file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The content type of file.</li>
 <li><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for file.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -728,7 +768,7 @@ was ingested. Use the query API to retrieve the actual document content.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query">
-<code class="descname">federated_query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.federated_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query" title="Permalink to this definition">¶</a></dt>
+<code class="descname">federated_query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.federated_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query documents in multiple collections.</p>
 <p>See the [Discovery service
 documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/using.html">https://console.bluemix.net/docs/services/discovery/using.html</a>) for
@@ -754,6 +794,7 @@ more details.</p>
 <li><strong>similar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – When <cite>true</cite>, results are returned based on their similarity to the document IDs specified in the <cite>similar.document_ids</cite> parameter. The default is <cite>false</cite>.</li>
 <li><strong>similar_document_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of document IDs that will be used to find similar documents.   <strong>Note:</strong> If the <cite>natural_language_query</cite> parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as <cite>filter</cite> and <cite>query</cite> are subsequently applied and reduce the query scope.</li>
 <li><strong>similar_fields</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -769,7 +810,7 @@ more details.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query_notices">
-<code class="descname">federated_query_notices</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.federated_query_notices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query_notices" title="Permalink to this definition">¶</a></dt>
+<code class="descname">federated_query_notices</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.federated_query_notices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query_notices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query multiple collection system notices.</p>
 <p>Queries for notices (errors or warnings) that might have been generated by the
 system. Notices are generated when ingesting documents and performing relevance
@@ -796,6 +837,7 @@ more details on the query language.</p>
 <li><strong>similar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – When <cite>true</cite>, results are returned based on their similarity to the document IDs specified in the <cite>similar.document_ids</cite> parameter. The default is <cite>false</cite>.</li>
 <li><strong>similar_document_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of document IDs that will be used to find similar documents.   <strong>Note:</strong> If the <cite>natural_language_query</cite> parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as <cite>filter</cite> and <cite>query</cite> are subsequently applied and reduce the query scope.</li>
 <li><strong>similar_fields</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -811,7 +853,7 @@ more details on the query language.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query">
-<code class="descname">query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>passages=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query" title="Permalink to this definition">¶</a></dt>
+<code class="descname">query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>passages=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query documents.</p>
 <p>See the [Discovery service
 documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/using.html">https://console.bluemix.net/docs/services/discovery/using.html</a>) for
@@ -829,7 +871,7 @@ more details.</p>
 <li><strong>passages</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – A passages query that returns the most relevant passages from the results.</li>
 <li><strong>aggregation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – An aggregation search uses combinations of filters and query search to return an exact answer. Aggregations are useful for building applications, because you can use them to build lists, tables, and time series. For a full list of possible aggregrations, see the Query reference.</li>
 <li><strong>count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of documents to return.</li>
-<li><strong>return_fields</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma separated list of the portion of the document hierarchy to return_fields.</li>
+<li><strong>return_fields</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma separated list of the portion of the document hierarchy to return.</li>
 <li><strong>offset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of query results to skip at the beginning. For example, if the total number of results that are returned is 10, and the offset is 8, it returns the last two results.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with <cite>-</cite> for descending or <cite>+</cite> for ascending. Ascending is the default sort direction if no prefix is specified.</li>
 <li><strong>highlight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – When true a highlight field is returned for each result which contains the fields that match the query with <cite>&lt;em&gt;&lt;/em&gt;</cite> tags around the matching query terms. Defaults to false.</li>
@@ -841,6 +883,7 @@ more details.</p>
 <li><strong>similar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – When <cite>true</cite>, results are returned based on their similarity to the document IDs specified in the <cite>similar.document_ids</cite> parameter. The default is <cite>false</cite>.</li>
 <li><strong>similar_document_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of document IDs that will be used to find similar documents.   <strong>Note:</strong> If the <cite>natural_language_query</cite> parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as <cite>filter</cite> and <cite>query</cite> are subsequently applied and reduce the query scope.</li>
 <li><strong>similar_fields</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -856,7 +899,7 @@ more details.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query_entities">
-<code class="descname">query_entities</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>feature=None</em>, <em>entity=None</em>, <em>context=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_entities" title="Permalink to this definition">¶</a></dt>
+<code class="descname">query_entities</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>feature=None</em>, <em>entity=None</em>, <em>context=None</em>, <em>count=None</em>, <em>evidence_count=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Knowledge Graph entity query.</p>
 <p>See the [Knowledge Graph
 documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/building-kg.html">https://console.bluemix.net/docs/services/discovery/building-kg.html</a>)
@@ -868,10 +911,12 @@ for more details.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
-<li><strong>feature</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The entity query feature to perform. Must be <cite>disambiguate</cite>.</li>
+<li><strong>feature</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The entity query feature to perform. Supported features are <cite>disambiguate</cite> and <cite>similar_entities</cite>.</li>
 <li><strong>entity</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.QueryEntitiesEntity" title="watson_developer_cloud.discovery_v1.QueryEntitiesEntity"><em>QueryEntitiesEntity</em></a>) – A text string that appears within the entity text field.</li>
 <li><strong>context</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.QueryEntitiesContext" title="watson_developer_cloud.discovery_v1.QueryEntitiesContext"><em>QueryEntitiesContext</em></a>) – Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for <cite>London</cite> with the context of <cite>England</cite>.</li>
 <li><strong>count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of results to return. The default is <cite>10</cite>. The maximum is <cite>1000</cite>.</li>
+<li><strong>evidence_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of evidence items to return for each result. The default is <cite>0</cite>. The maximum number of evidence items per query is 10,000.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -887,7 +932,7 @@ for more details.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query_notices">
-<code class="descname">query_notices</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>passages=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_notices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_notices" title="Permalink to this definition">¶</a></dt>
+<code class="descname">query_notices</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>passages=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_notices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_notices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query system notices.</p>
 <p>Queries for notices (errors or warnings) that might have been generated by the
 system. Notices are generated when ingesting documents and performing relevance
@@ -918,6 +963,7 @@ more details on the query language.</p>
 <li><strong>similar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – When <cite>true</cite>, results are returned based on their similarity to the document IDs specified in the <cite>similar.document_ids</cite> parameter. The default is <cite>false</cite>.</li>
 <li><strong>similar_document_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of document IDs that will be used to find similar documents.   <strong>Note:</strong> If the <cite>natural_language_query</cite> parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as <cite>filter</cite> and <cite>query</cite> are subsequently applied and reduce the query scope.</li>
 <li><strong>similar_fields</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -933,7 +979,7 @@ more details on the query language.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query_relations">
-<code class="descname">query_relations</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>entities=None</em>, <em>context=None</em>, <em>sort=None</em>, <em>filter=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_relations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_relations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">query_relations</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>entities=None</em>, <em>context=None</em>, <em>sort=None</em>, <em>filter=None</em>, <em>count=None</em>, <em>evidence_count=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query_relations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query_relations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Knowledge Graph relationship query.</p>
 <p>See the [Knowledge Graph
 documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/building-kg.html">https://console.bluemix.net/docs/services/discovery/building-kg.html</a>)
@@ -950,6 +996,8 @@ for more details.</p>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The sorting method for the relationships, can be <cite>score</cite> or <cite>frequency</cite>. <cite>frequency</cite> is the number of unique times each entity is identified. The default is <cite>score</cite>.</li>
 <li><strong>filter</strong> (<a class="reference internal" href="#watson_developer_cloud.discovery_v1.QueryRelationsFilter" title="watson_developer_cloud.discovery_v1.QueryRelationsFilter"><em>QueryRelationsFilter</em></a>) – Filters to apply to the relationship query.</li>
 <li><strong>count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of results to return. The default is <cite>10</cite>. The maximum is <cite>1000</cite>.</li>
+<li><strong>evidence_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of evidence items to return for each result. The default is <cite>0</cite>. The maximum number of evidence items per query is 10,000.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -965,7 +1013,7 @@ for more details.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data">
-<code class="descname">add_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>natural_language_query=None</em>, <em>filter=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.add_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>natural_language_query=None</em>, <em>filter=None</em>, <em>examples=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.add_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a query to the training data for this collection. The query can contain a
 filter and natural language query.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -978,6 +1026,7 @@ filter and natural language query.</p>
 <li><strong>natural_language_query</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – </li>
 <li><strong>filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – </li>
 <li><strong>examples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.TrainingExample" title="watson_developer_cloud.discovery_v1.TrainingExample"><em>TrainingExample</em></a><em>]</em>) – </li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -993,7 +1042,7 @@ filter and natural language query.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_training_example">
-<code class="descname">create_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>document_id=None</em>, <em>cross_reference=None</em>, <em>relevance=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_training_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>document_id=None</em>, <em>cross_reference=None</em>, <em>relevance=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_training_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a new example to this training data query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1006,6 +1055,7 @@ filter and natural language query.</p>
 <li><strong>document_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – </li>
 <li><strong>cross_reference</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – </li>
 <li><strong>relevance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – </li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1021,7 +1071,7 @@ filter and natural language query.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_all_training_data">
-<code class="descname">delete_all_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_all_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_all_training_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_all_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_all_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_all_training_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears all training data for this collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1030,6 +1080,7 @@ filter and natural language query.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1042,7 +1093,7 @@ filter and natural language query.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data">
-<code class="descname">delete_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes the training data and all associated examples from the training data set.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1052,6 +1103,7 @@ filter and natural language query.</p>
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
 <li><strong>query_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the query used for training.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1064,7 +1116,7 @@ filter and natural language query.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_example">
-<code class="descname">delete_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes the example with the given ID for the training data query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1075,6 +1127,7 @@ filter and natural language query.</p>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
 <li><strong>query_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the query used for training.</li>
 <li><strong>example_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the document as it is indexed.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1087,7 +1140,7 @@ filter and natural language query.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data">
-<code class="descname">get_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shows details for a specific training data query, including the query string and
 all examples.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1098,6 +1151,7 @@ all examples.</p>
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
 <li><strong>query_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the query used for training.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1113,7 +1167,7 @@ all examples.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_example">
-<code class="descname">get_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the details for this training example.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1124,6 +1178,7 @@ all examples.</p>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
 <li><strong>query_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the query used for training.</li>
 <li><strong>example_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the document as it is indexed.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1139,7 +1194,7 @@ all examples.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data">
-<code class="descname">list_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lists the training data for this collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1148,6 +1203,7 @@ all examples.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1163,7 +1219,7 @@ all examples.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_examples">
-<code class="descname">list_training_examples</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_examples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_training_examples</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_examples" title="Permalink to this definition">¶</a></dt>
 <dd><p>List all examples for this training data query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1173,6 +1229,7 @@ all examples.</p>
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the collection.</li>
 <li><strong>query_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the query used for training.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1188,7 +1245,7 @@ all examples.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_training_example">
-<code class="descname">update_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>cross_reference=None</em>, <em>relevance=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_training_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>cross_reference=None</em>, <em>relevance=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_training_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Changes the label or cross reference query for this training example.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1201,6 +1258,7 @@ all examples.</p>
 <li><strong>example_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the document as it is indexed.</li>
 <li><strong>cross_reference</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – </li>
 <li><strong>relevance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – </li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1355,7 +1413,7 @@ all examples.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.Conversions">
-<em class="property">class </em><code class="descname">Conversions</code><span class="sig-paren">(</span><em>pdf=None</em>, <em>word=None</em>, <em>html=None</em>, <em>json_normalizations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Conversions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Conversions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Conversions</code><span class="sig-paren">(</span><em>pdf=None</em>, <em>word=None</em>, <em>html=None</em>, <em>segment=None</em>, <em>json_normalizations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Conversions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Conversions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Document conversion settings.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1371,8 +1429,11 @@ all examples.</p>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr HtmlSettings html:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A list of HTML conversion settings.</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[NormalizationOperation] json_normalizations:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr SegmentSettings segment:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A list of Document Segmentation settings.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[NormalizationOperation] json_normalizations:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.</td>
 </tr>
 </tbody>
 </table>
@@ -1550,7 +1611,7 @@ all examples.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.DocumentStatus">
-<em class="property">class </em><code class="descname">DocumentStatus</code><span class="sig-paren">(</span><em>document_id</em>, <em>configuration_id</em>, <em>created</em>, <em>updated</em>, <em>status</em>, <em>status_description</em>, <em>notices</em>, <em>filename=None</em>, <em>file_type=None</em>, <em>sha1=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DocumentStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DocumentStatus" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DocumentStatus</code><span class="sig-paren">(</span><em>document_id</em>, <em>status</em>, <em>status_description</em>, <em>notices</em>, <em>configuration_id=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>filename=None</em>, <em>file_type=None</em>, <em>sha1=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DocumentStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DocumentStatus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Status information about a submitted document.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1561,13 +1622,13 @@ all examples.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique identifier of the document.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str configuration_id:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The unique identifier for the configuration.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The unique identifier for the configuration.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The creation date of the document in the format yyyy-MM-dd’T’HH:mm:ss.SSS’Z’.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The creation date of the document in the format yyyy-MM-dd’T’HH:mm:ss.SSS’Z’.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">Date of the most recent document update, in the format yyyy-MM-dd’T’HH:mm:ss.SSS’Z’.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Date of the most recent document update, in the format yyyy-MM-dd’T’HH:mm:ss.SSS’Z’.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str status:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">Status of the document in the ingestion process.</td>
@@ -2198,7 +2259,7 @@ field.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.QueryAggregation">
-<em class="property">class </em><code class="descname">QueryAggregation</code><span class="sig-paren">(</span><em>type=None</em>, <em>field=None</em>, <em>results=None</em>, <em>match=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryAggregation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryAggregation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">QueryAggregation</code><span class="sig-paren">(</span><em>type=None</em>, <em>results=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryAggregation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryAggregation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An aggregation produced by the Discovery service to analyze the input provided.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2207,12 +2268,8 @@ field.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The type of aggregation command used. For example: term, filter, max, min, etc.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Attr str field:</th><td class="field-body">(optional) The field where the aggregation is located in the document.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[AggregationResult] results:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str match:</th><td class="field-body">(optional) The match the aggregated results queried for.</td>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[AggregationResult] results:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int matching_results:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of matching results.</td>
@@ -2267,8 +2324,78 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryEntitiesEntity] entities:</th></tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryEntitiesResponseItem] entities:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryEntitiesResponseItem">
+<em class="property">class </em><code class="descname">QueryEntitiesResponseItem</code><span class="sig-paren">(</span><em>text=None</em>, <em>type=None</em>, <em>evidence=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryEntitiesResponseItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryEntitiesResponseItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object containing Entity query response information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) Entity text content.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The type of the result entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryEvidence] evidence:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) List of different evidentiary items to support the result.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryEvidence">
+<em class="property">class </em><code class="descname">QueryEvidence</code><span class="sig-paren">(</span><em>document_id=None</em>, <em>field=None</em>, <em>start_offset=None</em>, <em>end_offset=None</em>, <em>entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryEvidence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryEvidence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Description of evidence location supporting Knoweldge Graph query result.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str document_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The docuemnt ID (as indexed in Discovery) of the evidence location.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str field:</th><td class="field-body">(optional) The field of the document where the supporting evidence was identified.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int start_offset:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The start location of the evidence in the identified field. This value is inclusive.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int end_offset:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The end location of the evidence in the identified field. This value is inclusive.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryEvidenceEntity] entities:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of entity objects that show evidence of the result.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.QueryEvidenceEntity">
+<em class="property">class </em><code class="descname">QueryEvidenceEntity</code><span class="sig-paren">(</span><em>type=None</em>, <em>text=None</em>, <em>start_offset=None</em>, <em>end_offset=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryEvidenceEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryEvidenceEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Entity description and location within evidence field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The entity type for this entity. Possible types vary based on model used.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The original text of this entity as found in the evidence field.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int start_offset:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The start location of the entity text in the identified field. This value is inclusive.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int end_offset:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The end location of the entity text in the identified field. This value is exclusive.</td>
 </tr>
 </tbody>
 </table>
@@ -2323,7 +2450,7 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.QueryNoticesResult">
-<em class="property">class </em><code class="descname">QueryNoticesResult</code><span class="sig-paren">(</span><em>id=None</em>, <em>score=None</em>, <em>metadata=None</em>, <em>collection_id=None</em>, <em>result_metadata=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryNoticesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryNoticesResult" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">QueryNoticesResult</code><span class="sig-paren">(</span><em>id=None</em>, <em>score=None</em>, <em>metadata=None</em>, <em>collection_id=None</em>, <em>result_metadata=None</em>, <em>code=None</em>, <em>filename=None</em>, <em>file_type=None</em>, <em>sha1=None</em>, <em>notices=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryNoticesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryNoticesResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>QueryNoticesResult.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2342,7 +2469,20 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The collection ID of the collection containing the document for this result.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr QueryResultResultMetadata result_metadata:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Metadata of the query result.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr int code:</th><td class="field-body">(optional) The internal status code returned by the ingestion subsystem indicating the overall result of ingesting the source document.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str filename:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Name of the original source file (if available).</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str file_type:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The type of the original source file.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr str sha1:</th><td class="field-body">(optional) The SHA-1 hash of the original source file (formatted as a hexadecimal string).</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[Notice] notices:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Array of notices for the document.</td>
 </tr>
 </tbody>
 </table>
@@ -2408,7 +2548,7 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 <tr class="field-even field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The type of the specified entity.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr bool exact:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If false, implicit disambiguation is performed. The default is <cite>false</cite>.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If false, implicit querying is performed. The default is <cite>false</cite>.</td>
 </tr>
 </tbody>
 </table>
@@ -2438,7 +2578,7 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.QueryRelationsRelationship">
-<em class="property">class </em><code class="descname">QueryRelationsRelationship</code><span class="sig-paren">(</span><em>type=None</em>, <em>frequency=None</em>, <em>arguments=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryRelationsRelationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryRelationsRelationship" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">QueryRelationsRelationship</code><span class="sig-paren">(</span><em>type=None</em>, <em>frequency=None</em>, <em>arguments=None</em>, <em>evidence=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryRelationsRelationship"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryRelationsRelationship" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>QueryRelationsRelationship.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2452,6 +2592,9 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[QueryRelationsArgument] arguments:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Information about the relationship.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[QueryEvidence] evidence:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) List of different evidentiary items to support the result.</td>
 </tr>
 </tbody>
 </table>
@@ -2522,7 +2665,7 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The collection ID of the collection containing the document for this result.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr QueryResultResultMetadata result_metadata:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Metadata of the query result.</td>
 </tr>
 </tbody>
 </table>
@@ -2532,13 +2675,32 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 <dt id="watson_developer_cloud.discovery_v1.QueryResultResultMetadata">
 <em class="property">class </em><code class="descname">QueryResultResultMetadata</code><span class="sig-paren">(</span><em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryResultResultMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryResultResultMetadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>QueryResultResultMetadata.</p>
+<p>Metadata of a query result.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float score:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The confidence score of the result’s analysis. A higher score indicating greater confidence.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.SegmentSettings">
+<em class="property">class </em><code class="descname">SegmentSettings</code><span class="sig-paren">(</span><em>enabled=None</em>, <em>selector_tags=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#SegmentSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.SegmentSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A list of Document Segmentation settings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool enabled:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Enables/disables the Document Segmentation feature.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] selector_tags:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Defines the heading level that splits into document segments. Valid values are h1, h2, h3, h4, h5, h6.</td>
 </tr>
 </tbody>
 </table>

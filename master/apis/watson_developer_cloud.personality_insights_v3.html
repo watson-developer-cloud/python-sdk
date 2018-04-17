@@ -34,8 +34,7 @@
             
   <div class="section" id="module-watson_developer_cloud.personality_insights_v3">
 <span id="watson-developer-cloud-personality-insights-v3-module"></span><h1>watson_developer_cloud.personality_insights_v3 module<a class="headerlink" href="#module-watson_developer_cloud.personality_insights_v3" title="Permalink to this headline">¶</a></h1>
-<p>### Service Overview
-The IBM Watson Personality Insights service enables applications to derive
+<p>The IBM Watson Personality Insights service enables applications to derive
 insights from social media, enterprise data, or other digital communications. The service
 uses linguistic analytics to infer individuals’ intrinsic personality characteristics,
 including Big Five, Needs, and Values, from digital communications such as email, text
@@ -55,7 +54,7 @@ its analysis, and for JSON content that is timestamped, it can report temporal b
 
 <dl class="method">
 <dt id="watson_developer_cloud.personality_insights_v3.PersonalityInsightsV3.profile">
-<code class="descname">profile</code><span class="sig-paren">(</span><em>content</em>, <em>content_type='application/json'</em>, <em>content_language=None</em>, <em>accept='application/json'</em>, <em>accept_language=None</em>, <em>raw_scores=None</em>, <em>csv_headers=None</em>, <em>consumption_preferences=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/personality_insights_v3.html#PersonalityInsightsV3.profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.personality_insights_v3.PersonalityInsightsV3.profile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">profile</code><span class="sig-paren">(</span><em>content</em>, <em>content_type='application/json'</em>, <em>content_language=None</em>, <em>accept='application/json'</em>, <em>accept_language=None</em>, <em>raw_scores=None</em>, <em>csv_headers=None</em>, <em>consumption_preferences=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/personality_insights_v3.html#PersonalityInsightsV3.profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.personality_insights_v3.PersonalityInsightsV3.profile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a personality profile based on input text.</p>
 <p>Derives personality insights for up to 20 MB of input content written by an
 author, though the service requires much less text to produce an accurate profile;
@@ -77,6 +76,7 @@ results in JSON or CSV format.</p>
 <li><strong>raw_scores</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, a raw score in addition to a normalized percentile is returned for each characteristic; raw scores are not compared with a sample population. If <cite>false</cite> (the default), only normalized percentiles are returned.</li>
 <li><strong>csv_headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, column labels are returned with a CSV response; if <cite>false</cite> (the default), they are not. Applies only when the <cite>Accept</cite> header is set to <cite>text/csv</cite>.</li>
 <li><strong>consumption_preferences</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, information about consumption preferences is returned with the results; if <cite>false</cite> (the default), the response does not include the information.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -168,7 +168,7 @@ results in JSON or CSV format.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ContentItem] content_items:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <cite>ContentItem</cite> objects that provides the text that is to be analyzed.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <strong>ContentItem</strong> objects that provides the text that is to be analyzed.</td>
 </tr>
 </tbody>
 </table>
@@ -198,7 +198,7 @@ results in JSON or CSV format.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) MIME type of the content. The default is plain text. The tags are stripped from HTML content before it is analyzed; plain text is processed as submitted.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str language:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Language identifier (two-letter ISO 639-1 identifier) for the language of the content item. The default is <cite>en</cite> (English). Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. A language specified with the <cite>Content-Type</cite> header overrides the value of this parameter; any content items that specify a different language are ignored. Omit the <cite>Content-Type</cite> header to base the language on the most prevalent specification among the content items; again, content items that specify a different language are ignored. You can specify any combination of languages for the input and response content.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Language identifier (two-letter ISO 639-1 identifier) for the language of the content item. The default is <cite>en</cite> (English). Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. A language specified with the <strong>Content-Type</strong> parameter overrides the value of this parameter; any content items that specify a different language are ignored. Omit the <strong>Content-Type</strong> parameter to base the language on the most prevalent specification among the content items; again, content items that specify a different language are ignored. You can specify any combination of languages for the input and response content.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str parentid:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Unique ID of the parent content item for this item. Used to identify hierarchical relationships between posts/replies, messages/replies, and so on.</td>
@@ -244,7 +244,7 @@ results in JSON or CSV format.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) For JSON content that is timestamped, detailed results about the social behavior disclosed by the input in terms of temporal characteristics. The results include information about the distribution of the content over the days of the week and the hours of the day.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[ConsumptionPreferencesCategory] consumption_preferences:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If the <cite>consumption_preferences</cite> query parameter is <cite>true</cite>, detailed results for each category of consumption preferences. Each element of the array provides information inferred from the input text for the individual preferences of that category.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If the <strong>consumption_preferences</strong> parameter is <cite>true</cite>, detailed results for each category of consumption preferences. Each element of the array provides information inferred from the input text for the individual preferences of that category.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Warning] warnings:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">Warning messages associated with the input text submitted with the request. The array is empty if the input generated no warnings.</td>
