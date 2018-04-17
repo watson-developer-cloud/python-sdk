@@ -7,7 +7,6 @@ test_url = 'https://www.ibm.com/ibm/ginni/images' \
            '/ginni_bio_780x981_v4_03162016.jpg'
 
 visual_recognition = VisualRecognitionV3('2016-05-20', api_key='YOUR API KEY')
-classifier_id = 'CarsvsTrucksxDO_NOT_DELETE_771019274'
 
 # with open(join(dirname(__file__), '../resources/cars.zip'), 'rb') as cars, \
 #        open(join(dirname(__file__), '../resources/trucks.zip'), 'rb') as
@@ -19,7 +18,7 @@ classifier_id = 'CarsvsTrucksxDO_NOT_DELETE_771019274'
 
 car_path = join(dirname(__file__), '../resources/cars.zip')
 with open(car_path, 'rb') as images_file:
-    parameters = json.dumps({'threshold': 0.1, 'classifier_ids': [classifier_id, 'default']})
+    parameters = json.dumps({'threshold': 0.1, 'classifier_ids': ['default']})
     car_results = visual_recognition.classify(images_file=images_file,
                                               parameters=parameters)
     print(json.dumps(car_results, indent=2))
@@ -30,7 +29,7 @@ try:
         car_results = visual_recognition.classify(
             images_file=images_file,
             threshold='0.1',
-            classifier_ids=[classifier_id, 'default'])
+            classifier_ids=['default'])
         print(json.dumps(car_results, indent=2))
 except WatsonApiException as ex:
     print(ex.httpResponse.json())

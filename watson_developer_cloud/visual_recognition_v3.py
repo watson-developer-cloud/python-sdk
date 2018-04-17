@@ -51,7 +51,7 @@ class VisualRecognitionV3(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/visual-recognition/api").
+               "https://gateway-a.watsonplatform.net/visual-recognition/api").
                The base url may differ between Bluemix regions.
 
         :param str api_key: The API Key used to authenticate.
@@ -79,7 +79,8 @@ class VisualRecognitionV3(WatsonService):
                  url=None,
                  threshold=None,
                  owners=None,
-                 classifier_ids=None):
+                 classifier_ids=None,
+                 **kwargs):
         """
         Classify images.
 
@@ -94,10 +95,13 @@ class VisualRecognitionV3(WatsonService):
         :param float threshold: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values.
         :param list[str] owners: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`.   The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty.
         :param list[str] classifier_ids: The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `\"classifier_ids=\"CarsvsTrucks_1479118188\",\"explicit\"`.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ClassifiedImages` response.
         :rtype: dict
         """
         headers = {'Accept-Language': accept_language}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         images_file_tuple = None
         if images_file:
@@ -152,7 +156,8 @@ class VisualRecognitionV3(WatsonService):
                      parameters=None,
                      images_file_content_type=None,
                      images_filename=None,
-                     url=None):
+                     url=None,
+                     **kwargs):
         """
         Detect faces in images.
 
@@ -165,10 +170,14 @@ class VisualRecognitionV3(WatsonService):
         :param str parameters: (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: `{\"url\":\"http://www.example.com/images/myimage.jpg\"}`.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
-        :param str url: A string with the image URL to analyze.
+        :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the **images_file** parameter.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DetectedFaces` response.
         :rtype: dict
         """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         images_file_tuple = None
         if images_file:
@@ -186,6 +195,7 @@ class VisualRecognitionV3(WatsonService):
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             params=params,
             files={'images_file': images_file_tuple,
                    'parameters': parameters_tuple,
@@ -202,70 +212,100 @@ class VisualRecognitionV3(WatsonService):
                           **kwargs):
         """
         Create a classifier.
-        :param str name: The name of the new classifier. Cannot contain special characters.
+        :param str name: The name of the new classifier. Encode special characters in UTF-8.
         :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
         :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
         """
         if name is None:
             raise ValueError('name must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'name': name}
         url = '/v3/classifiers'
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             params=params,
             data=data,
             files=kwargs,
             accept_json=True)
         return response
 
-    def delete_classifier(self, classifier_id):
+    def delete_classifier(self, classifier_id, **kwargs):
         """
         Delete a classifier.
 
         :param str classifier_id: The ID of the classifier.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
-    def get_classifier(self, classifier_id):
+    def get_classifier(self, classifier_id, **kwargs):
         """
         Retrieve information about a custom classifier.
 
         :param str classifier_id: The ID of the classifier.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def list_classifiers(self, verbose=None):
+    def list_classifiers(self, verbose=None, **kwargs):
         """
         Retrieve a list of classifiers.
 
         :param bool verbose: Specify `true` to return details about the classifiers. Omit this parameter to return a brief list of classifiers.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifiers` response.
         :rtype: dict
         """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'verbose': verbose}
         url = '/v3/classifiers'
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_classifier(self,
@@ -276,17 +316,22 @@ class VisualRecognitionV3(WatsonService):
         :param str classifier_id: The ID of the classifier.
         :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
         :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             params=params,
             files=kwargs,
             accept_json=True)
@@ -296,7 +341,7 @@ class VisualRecognitionV3(WatsonService):
     # Core ML
     #########################
 
-    def get_core_ml_model(self, classifier_id):
+    def get_core_ml_model(self, classifier_id, **kwargs):
         """
         Retrieve a Core ML model of a classifier.
 
@@ -304,16 +349,24 @@ class VisualRecognitionV3(WatsonService):
         core_ml_enabled: true in the classifier details.
 
         :param str classifier_id: The ID of the classifier.
+        :param dict headers: A `dict` containing the request headers
         :return: A `Response <Response>` object representing the response.
         :rtype: requests.models.Response
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v3/classifiers/{0}/core_ml_model'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=False)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=False)
         return response
 
 ##############################################################################
@@ -375,7 +428,7 @@ class ClassResult(object):
 
     :attr str class_name: The name of the class.
     :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
-    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.
+    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
     """
 
     def __init__(self, class_name, score=None, type_hierarchy=None):
@@ -384,7 +437,7 @@ class ClassResult(object):
 
         :param str class_name: The name of the class.
         :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
-        :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.
+        :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
         """
         self.class_name = class_name
         self.score = score
@@ -996,26 +1049,19 @@ class Face(object):
     :attr FaceAge age: (optional)
     :attr FaceGender gender: (optional)
     :attr FaceLocation face_location: (optional)
-    :attr FaceIdentity identity: (optional)
     """
 
-    def __init__(self,
-                 age=None,
-                 gender=None,
-                 face_location=None,
-                 identity=None):
+    def __init__(self, age=None, gender=None, face_location=None):
         """
         Initialize a Face object.
 
         :param FaceAge age: (optional)
         :param FaceGender gender: (optional)
         :param FaceLocation face_location: (optional)
-        :param FaceIdentity identity: (optional)
         """
         self.age = age
         self.gender = gender
         self.face_location = face_location
-        self.identity = identity
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -1028,8 +1074,6 @@ class Face(object):
         if 'face_location' in _dict:
             args['face_location'] = FaceLocation._from_dict(
                 _dict.get('face_location'))
-        if 'identity' in _dict:
-            args['identity'] = FaceIdentity._from_dict(_dict.get('identity'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1041,8 +1085,6 @@ class Face(object):
             _dict['gender'] = self.gender._to_dict()
         if hasattr(self, 'face_location') and self.face_location is not None:
             _dict['face_location'] = self.face_location._to_dict()
-        if hasattr(self, 'identity') and self.identity is not None:
-            _dict['identity'] = self.identity._to_dict()
         return _dict
 
     def __str__(self):
@@ -1062,12 +1104,11 @@ class Face(object):
 
 class FaceAge(object):
     """
-    Provides age information about a face. If there are more than 10 faces in an image,
-    the response might return the confidence score `0`.
+    Provides age information about a face.
 
     :attr int min: (optional) Estimated minimum age.
     :attr int max: (optional) Estimated maximum age.
-    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
+    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.
     """
 
     def __init__(self, min=None, max=None, score=None):
@@ -1076,7 +1117,7 @@ class FaceAge(object):
 
         :param int min: (optional) Estimated minimum age.
         :param int max: (optional) Estimated maximum age.
-        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
+        :param float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.
         """
         self.min = min
         self.max = max
@@ -1122,11 +1163,10 @@ class FaceAge(object):
 
 class FaceGender(object):
     """
-    Provides information about the gender of the face. If there are more than 10 faces in
-    an image, the response might return the confidence score 0.
+    Provides information about the gender of the face.
 
     :attr str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
-    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
+    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.
     """
 
     def __init__(self, gender, score=None):
@@ -1134,7 +1174,7 @@ class FaceGender(object):
         Initialize a FaceGender object.
 
         :param str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
-        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
+        :param float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.
         """
         self.gender = gender
         self.score = score
@@ -1163,69 +1203,6 @@ class FaceGender(object):
 
     def __str__(self):
         """Return a `str` version of this FaceGender object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class FaceIdentity(object):
-    """
-    Provides information about a celebrity who is detected in the image. Not returned when
-    a celebrity is not detected.
-
-    :attr str name: Name of the person.
-    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
-    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.
-    """
-
-    def __init__(self, name, score=None, type_hierarchy=None):
-        """
-        Initialize a FaceIdentity object.
-
-        :param str name: Name of the person.
-        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
-        :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `People/Leaders/Presidents/USA/Barack Obama`. Included only if identified.
-        """
-        self.name = name
-        self.score = score
-        self.type_hierarchy = type_hierarchy
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a FaceIdentity object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError(
-                'Required property \'name\' not present in FaceIdentity JSON')
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
-        if 'type_hierarchy' in _dict:
-            args['type_hierarchy'] = _dict.get('type_hierarchy')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'score') and self.score is not None:
-            _dict['score'] = self.score
-        if hasattr(self, 'type_hierarchy') and self.type_hierarchy is not None:
-            _dict['type_hierarchy'] = self.type_hierarchy
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this FaceIdentity object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

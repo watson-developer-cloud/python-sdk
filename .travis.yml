@@ -7,7 +7,8 @@ python:
 - '3.6'
 cache: pip
 before_install:
-- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_6e98b3e8e789_key -iv $encrypted_6e98b3e8e789_iv -in .env.enc -out .env -d || true'
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
+  -iv $encrypted_cebf25e6c525_iv -in .env.enc -out .env -d || true'
 install: pip install tox-travis
 script:
 - pip install -U python-dotenv
