@@ -137,6 +137,27 @@ def _convert_boolean_values(dictionary):
             [(k, _convert_boolean_value(v)) for k, v in dictionary.items()])
     return dictionary
 
+class DetailedResponse(object):
+    """
+    Custom class for detailed response returned from Watson APIs.
+
+    :param Response response: Either json response or http Response as requested.
+    :param dict headers: A dict of response headers
+    """
+    def __init__(self, response=None, headers=None):
+        self.response = response
+        self.headers = headers
+
+    def _to_dict(self):
+        _dict = {}
+        if hasattr(self, 'response') and self.response is not None:
+            _dict['response'] = self.response
+        if hasattr(self, 'headers') and self.headers is not None:
+            _dict['details'] = {'headers': self.headers}
+        return _dict
+
+    def __str__(self):
+        return json_import.dumps(self._to_dict(), indent=2, default=lambda o: o.__dict__)
 
 class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
@@ -158,6 +179,7 @@ class WatsonService(object):
         self.password = None
         self.default_headers = None
         self.http_config = {}
+        self.detailed_response = False
 
         user_agent_string = 'watson-apis-python-sdk-' + __version__ # SDK version
         user_agent_string += ' ' + platform.system() # OS
@@ -235,6 +257,9 @@ class WatsonService(object):
             self.http_config = http_config
         else:
             raise TypeError("http_config parameter must be a dictionary")
+
+    def set_detailed_response(self, detailed_response):
+        self.detailed_response = detailed_response
 
     # Could make this compute the label_id based on the variable name of the
     # dictionary passed in (using **kwargs), but
@@ -372,8 +397,8 @@ class WatsonService(object):
                     if error_message == 'invalid-api-key':
                         status_code = 401
                     raise WatsonApiException(status_code, error_message, httpResponse=response)
-                return response_json
-            return response
+                return DetailedResponse(response_json, response.headers) if self.detailed_response else response_json
+            return DetailedResponse(response, response.headers) if self.detailed_response else response
         else:
             if response.status_code == 401:
                 error_message = 'Unauthorized: Access is denied due to ' \

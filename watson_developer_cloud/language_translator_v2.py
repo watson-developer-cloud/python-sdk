@@ -14,10 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Language Translator translates text from one language to another. The service offers
-multiple domain-specific models that you can customize based on your unique terminology
-and language. Use Language Translator to take news from across the globe and present it in
-your language, communicate with your customers in their own language, and more.
+IBM Watson Language Translator translates text from one language to another. The service
+offers multiple domain-specific models that you can customize based on your unique
+terminology and language. Use Language Translator to take news from across the globe and
+present it in your language, communicate with your customers in their own language, and
+more.
 """
 
 from __future__ import absolute_import
@@ -66,22 +67,31 @@ class LanguageTranslatorV2(WatsonService):
             use_vcap_services=True)
 
     #########################
-    # Translate
+    # Translation
     #########################
 
-    def translate(self, text, model_id=None, source=None, target=None):
+    def translate(self,
+                  text,
+                  model_id=None,
+                  source=None,
+                  target=None,
+                  **kwargs):
         """
         Translates the input text from the source language to the target language.
 
         :param list[str] text: Input text in UTF-8 encoding. Multiple entries will result in multiple translations in the response.
-        :param str model_id: Model ID of the translation model to use. If this is specified, the `source` and `target` parameters will be ignored. The method requires either a model ID or both the `source` and `target` parameters.
+        :param str model_id: Model ID of the translation model to use. If this is specified, the **source** and **target** parameters will be ignored. The method requires either a model ID or both the **source** and **target** parameters.
         :param str source: Language code of the source text language. Use with `target` as an alternative way to select a translation model. When `source` and `target` are set, and a model ID is not set, the system chooses a default model for the language pair (usually the model based on the news domain).
         :param str target: Language code of the translation target language. Use with source as an alternative way to select a translation model.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TranslationResult` response.
         :rtype: dict
         """
         if text is None:
             raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         data = {
             'text': text,
             'model_id': model_id,
@@ -90,18 +100,23 @@ class LanguageTranslatorV2(WatsonService):
         }
         url = '/v2/translate'
         response = self.request(
-            method='POST', url=url, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # Identify
+    # Identification
     #########################
 
-    def identify(self, text):
+    def identify(self, text, **kwargs):
         """
         Identifies the language of the input text.
 
         :param str text: Input text in UTF-8 format.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `IdentifiedLanguages` response.
         :rtype: dict
         """
@@ -109,6 +124,8 @@ class LanguageTranslatorV2(WatsonService):
             raise ValueError('text must be provided')
         data = text
         headers = {'content-type': 'text/plain'}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         url = '/v2/identify'
         response = self.request(
             method='POST',
@@ -118,18 +135,21 @@ class LanguageTranslatorV2(WatsonService):
             accept_json=True)
         return response
 
-    def list_identifiable_languages(self):
+    def list_identifiable_languages(self, **kwargs):
         """
-        List identifiable languages.
-
         Lists the languages that the service can identify. Returns the language code (for
         example, `en` for English or `es` for Spanish) and name of each language.
 
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `IdentifiableLanguages` response.
         :rtype: dict
         """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         url = '/v2/identifiable_languages'
-        response = self.request(method='GET', url=url, accept_json=True)
+        response = self.request(
+            method='GET', url=url, headers=headers, accept_json=True)
         return response
 
     #########################
@@ -144,7 +164,8 @@ class LanguageTranslatorV2(WatsonService):
                      monolingual_corpus=None,
                      forced_glossary_filename=None,
                      parallel_corpus_filename=None,
-                     monolingual_corpus_filename=None):
+                     monolingual_corpus_filename=None,
+                     **kwargs):
         """
         Uploads a TMX glossary file on top of a domain to customize a translation model.
         Depending on the size of the file, training can range from minutes for a glossary
@@ -160,11 +181,15 @@ class LanguageTranslatorV2(WatsonService):
         :param str forced_glossary_filename: The filename for forced_glossary.
         :param str parallel_corpus_filename: The filename for parallel_corpus.
         :param str monolingual_corpus_filename: The filename for monolingual_corpus.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TranslationModel` response.
         :rtype: dict
         """
         if base_model_id is None:
             raise ValueError('base_model_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'base_model_id': base_model_id, 'name': name}
         forced_glossary_tuple = None
         if forced_glossary:
@@ -203,45 +228,63 @@ class LanguageTranslatorV2(WatsonService):
             accept_json=True)
         return response
 
-    def delete_model(self, model_id):
+    def delete_model(self, model_id, **kwargs):
         """
         Deletes a custom translation model.
 
         :param str model_id: Model ID of the model to delete.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DeleteModelResult` response.
         :rtype: dict
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         url = '/v2/models/{0}'.format(*self._encode_path_vars(model_id))
-        response = self.request(method='DELETE', url=url, accept_json=True)
+        response = self.request(
+            method='DELETE', url=url, headers=headers, accept_json=True)
         return response
 
-    def get_model(self, model_id):
+    def get_model(self, model_id, **kwargs):
         """
         Gets information about a translation model, including training status for custom
         models.
 
         :param str model_id: Model ID of the model to get.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TranslationModel` response.
         :rtype: dict
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         url = '/v2/models/{0}'.format(*self._encode_path_vars(model_id))
-        response = self.request(method='GET', url=url, accept_json=True)
+        response = self.request(
+            method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    def list_models(self, source=None, target=None, default_models=None):
+    def list_models(self,
+                    source=None,
+                    target=None,
+                    default_models=None,
+                    **kwargs):
         """
         Lists available translation models.
 
         :param str source: Specify a language code to filter results by source language.
         :param str target: Specify a language code to filter results by target language.
         :param bool default_models: If the default parameter isn't specified, the service will return all models (default and non-default) for each language pair. To return only default models, set this to `true`. To return only non-default models, set this to `false`.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TranslationModels` response.
         :rtype: dict
         """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'source': source,
             'target': target,
@@ -249,7 +292,11 @@ class LanguageTranslatorV2(WatsonService):
         }
         url = '/v2/models'
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
 
@@ -278,7 +325,7 @@ class DeleteModelResult(object):
         """Initialize a DeleteModelResult object from a json dictionary."""
         args = {}
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         else:
             raise ValueError(
                 'Required property \'status\' not present in DeleteModelResult JSON'
@@ -330,13 +377,13 @@ class IdentifiableLanguage(object):
         """Initialize a IdentifiableLanguage object from a json dictionary."""
         args = {}
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         else:
             raise ValueError(
                 'Required property \'language\' not present in IdentifiableLanguage JSON'
             )
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         else:
             raise ValueError(
                 'Required property \'name\' not present in IdentifiableLanguage JSON'
@@ -388,7 +435,8 @@ class IdentifiableLanguages(object):
         args = {}
         if 'languages' in _dict:
             args['languages'] = [
-                IdentifiableLanguage._from_dict(x) for x in _dict['languages']
+                IdentifiableLanguage._from_dict(x)
+                for x in (_dict.get('languages'))
             ]
         else:
             raise ValueError(
@@ -441,13 +489,13 @@ class IdentifiedLanguage(object):
         """Initialize a IdentifiedLanguage object from a json dictionary."""
         args = {}
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         else:
             raise ValueError(
                 'Required property \'language\' not present in IdentifiedLanguage JSON'
             )
         if 'confidence' in _dict:
-            args['confidence'] = _dict['confidence']
+            args['confidence'] = _dict.get('confidence')
         else:
             raise ValueError(
                 'Required property \'confidence\' not present in IdentifiedLanguage JSON'
@@ -499,7 +547,8 @@ class IdentifiedLanguages(object):
         args = {}
         if 'languages' in _dict:
             args['languages'] = [
-                IdentifiedLanguage._from_dict(x) for x in _dict['languages']
+                IdentifiedLanguage._from_dict(x)
+                for x in (_dict.get('languages'))
             ]
         else:
             raise ValueError(
@@ -548,10 +597,9 @@ class Translation(object):
     def _from_dict(cls, _dict):
         """Initialize a Translation object from a json dictionary."""
         args = {}
-        if 'translation_output' in _dict:
-            args['translation_output'] = _dict['translation_output']
-        if 'translation' in _dict:
-            args['translation_output'] = _dict['translation']
+        if 'translation' in _dict or 'translation_output' in _dict:
+            args['translation_output'] = _dict.get('translation') or _dict.get(
+                'translation_output')
         else:
             raise ValueError(
                 'Required property \'translation\' not present in Translation JSON'
@@ -639,29 +687,29 @@ class TranslationModel(object):
         """Initialize a TranslationModel object from a json dictionary."""
         args = {}
         if 'model_id' in _dict:
-            args['model_id'] = _dict['model_id']
+            args['model_id'] = _dict.get('model_id')
         else:
             raise ValueError(
                 'Required property \'model_id\' not present in TranslationModel JSON'
             )
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         if 'source' in _dict:
-            args['source'] = _dict['source']
+            args['source'] = _dict.get('source')
         if 'target' in _dict:
-            args['target'] = _dict['target']
+            args['target'] = _dict.get('target')
         if 'base_model_id' in _dict:
-            args['base_model_id'] = _dict['base_model_id']
+            args['base_model_id'] = _dict.get('base_model_id')
         if 'domain' in _dict:
-            args['domain'] = _dict['domain']
+            args['domain'] = _dict.get('domain')
         if 'customizable' in _dict:
-            args['customizable'] = _dict['customizable']
+            args['customizable'] = _dict.get('customizable')
         if 'default_model' in _dict:
-            args['default_model'] = _dict['default_model']
+            args['default_model'] = _dict.get('default_model')
         if 'owner' in _dict:
-            args['owner'] = _dict['owner']
+            args['owner'] = _dict.get('owner')
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         return cls(**args)
 
     def _to_dict(self):
@@ -725,7 +773,7 @@ class TranslationModels(object):
         args = {}
         if 'models' in _dict:
             args['models'] = [
-                TranslationModel._from_dict(x) for x in _dict['models']
+                TranslationModel._from_dict(x) for x in (_dict.get('models'))
             ]
         else:
             raise ValueError(
@@ -781,20 +829,20 @@ class TranslationResult(object):
         """Initialize a TranslationResult object from a json dictionary."""
         args = {}
         if 'word_count' in _dict:
-            args['word_count'] = _dict['word_count']
+            args['word_count'] = _dict.get('word_count')
         else:
             raise ValueError(
                 'Required property \'word_count\' not present in TranslationResult JSON'
             )
         if 'character_count' in _dict:
-            args['character_count'] = _dict['character_count']
+            args['character_count'] = _dict.get('character_count')
         else:
             raise ValueError(
                 'Required property \'character_count\' not present in TranslationResult JSON'
             )
         if 'translations' in _dict:
             args['translations'] = [
-                Translation._from_dict(x) for x in _dict['translations']
+                Translation._from_dict(x) for x in (_dict.get('translations'))
             ]
         else:
             raise ValueError(
