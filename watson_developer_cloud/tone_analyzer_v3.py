@@ -89,16 +89,18 @@ class ToneAnalyzerV3(WatsonService):
              sentences=None,
              tones=None,
              content_language=None,
-             accept_language=None):
+             accept_language=None,
+             **kwargs):
         """
-        Analyze general purpose tone.
+        Analyze general tone.
 
         :param ToneInput tone_input: JSON, plain text, or HTML input that contains the content to be analyzed. For JSON input, provide an object of type `ToneInput`.
         :param str content_type: The type of the input: application/json, text/plain, or text/html. A character encoding can be specified by including a `charset` parameter. For example, 'text/plain;charset=utf-8'.
         :param bool sentences: Indicates whether the service is to return an analysis of each individual sentence in addition to its analysis of the full document. If `true` (the default), the service returns results for each sentence.
         :param list[str] tones: **`2017-09-21`:** Deprecated. The service continues to accept the parameter for backward-compatibility, but the parameter no longer affects the response.   **`2016-05-19`:** A comma-separated list of tones for which the service is to return its analysis of the input; the indicated tones apply both to the full document and to individual sentences of the document. You can specify one or more of the valid values. Omit the parameter to request results for all three tones.
-        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `Content-Language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
-        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for `Content-Language` and `Accept-Language`.
+        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can use different languages for **Content-Language** and **Accept-Language**. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
+        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can use different languages for **Content-Language** and **Accept-Language**.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ToneAnalysis` response.
         :rtype: dict
         """
@@ -111,6 +113,8 @@ class ToneAnalyzerV3(WatsonService):
             'Content-Language': content_language,
             'Accept-Language': accept_language
         }
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'sentences': sentences,
@@ -133,13 +137,15 @@ class ToneAnalyzerV3(WatsonService):
     def tone_chat(self,
                   utterances,
                   content_language=None,
-                  accept_language=None):
+                  accept_language=None,
+                  **kwargs):
         """
         Analyze customer engagement tone.
 
         :param list[Utterance] utterances: An array of `Utterance` objects that provides the input content that the service is to analyze.
-        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can specify any combination of languages for `Content-Language` and `Accept-Language`. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
-        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`.
+        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can use different languages for **Content-Language** and **Accept-Language**. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
+        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can use different languages for **Content-Language** and **Accept-Language**.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `UtteranceAnalyses` response.
         :rtype: dict
         """
@@ -150,6 +156,8 @@ class ToneAnalyzerV3(WatsonService):
             'Content-Language': content_language,
             'Accept-Language': accept_language
         }
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'utterances': utterances}
         url = '/v3/tone_chat'
@@ -193,13 +201,16 @@ class DocumentAnalysis(object):
         """Initialize a DocumentAnalysis object from a json dictionary."""
         args = {}
         if 'tones' in _dict:
-            args['tones'] = [ToneScore._from_dict(x) for x in _dict['tones']]
+            args['tones'] = [
+                ToneScore._from_dict(x) for x in (_dict.get('tones'))
+            ]
         if 'tone_categories' in _dict:
             args['tone_categories'] = [
-                ToneCategory._from_dict(x) for x in _dict['tone_categories']
+                ToneCategory._from_dict(x)
+                for x in (_dict.get('tone_categories'))
             ]
         if 'warning' in _dict:
-            args['warning'] = _dict['warning']
+            args['warning'] = _dict.get('warning')
         return cls(**args)
 
     def _to_dict(self):
@@ -272,27 +283,30 @@ class SentenceAnalysis(object):
         """Initialize a SentenceAnalysis object from a json dictionary."""
         args = {}
         if 'sentence_id' in _dict:
-            args['sentence_id'] = _dict['sentence_id']
+            args['sentence_id'] = _dict.get('sentence_id')
         else:
             raise ValueError(
                 'Required property \'sentence_id\' not present in SentenceAnalysis JSON'
             )
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in SentenceAnalysis JSON'
             )
         if 'tones' in _dict:
-            args['tones'] = [ToneScore._from_dict(x) for x in _dict['tones']]
+            args['tones'] = [
+                ToneScore._from_dict(x) for x in (_dict.get('tones'))
+            ]
         if 'tone_categories' in _dict:
             args['tone_categories'] = [
-                ToneCategory._from_dict(x) for x in _dict['tone_categories']
+                ToneCategory._from_dict(x)
+                for x in (_dict.get('tone_categories'))
             ]
         if 'input_from' in _dict:
-            args['input_from'] = _dict['input_from']
+            args['input_from'] = _dict.get('input_from')
         if 'input_to' in _dict:
-            args['input_to'] = _dict['input_to']
+            args['input_to'] = _dict.get('input_to')
         return cls(**args)
 
     def _to_dict(self):
@@ -354,14 +368,15 @@ class ToneAnalysis(object):
         args = {}
         if 'document_tone' in _dict:
             args['document_tone'] = DocumentAnalysis._from_dict(
-                _dict['document_tone'])
+                _dict.get('document_tone'))
         else:
             raise ValueError(
                 'Required property \'document_tone\' not present in ToneAnalysis JSON'
             )
         if 'sentences_tone' in _dict:
             args['sentences_tone'] = [
-                SentenceAnalysis._from_dict(x) for x in _dict['sentences_tone']
+                SentenceAnalysis._from_dict(x)
+                for x in (_dict.get('sentences_tone'))
             ]
         return cls(**args)
 
@@ -417,18 +432,20 @@ class ToneCategory(object):
         """Initialize a ToneCategory object from a json dictionary."""
         args = {}
         if 'tones' in _dict:
-            args['tones'] = [ToneScore._from_dict(x) for x in _dict['tones']]
+            args['tones'] = [
+                ToneScore._from_dict(x) for x in (_dict.get('tones'))
+            ]
         else:
             raise ValueError(
                 'Required property \'tones\' not present in ToneCategory JSON')
         if 'category_id' in _dict:
-            args['category_id'] = _dict['category_id']
+            args['category_id'] = _dict.get('category_id')
         else:
             raise ValueError(
                 'Required property \'category_id\' not present in ToneCategory JSON'
             )
         if 'category_name' in _dict:
-            args['category_name'] = _dict['category_name']
+            args['category_name'] = _dict.get('category_name')
         else:
             raise ValueError(
                 'Required property \'category_name\' not present in ToneCategory JSON'
@@ -487,18 +504,19 @@ class ToneChatScore(object):
         """Initialize a ToneChatScore object from a json dictionary."""
         args = {}
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         else:
             raise ValueError(
-                'Required property \'score\' not present in ToneChatScore JSON')
+                'Required property \'score\' not present in ToneChatScore JSON'
+            )
         if 'tone_id' in _dict:
-            args['tone_id'] = _dict['tone_id']
+            args['tone_id'] = _dict.get('tone_id')
         else:
             raise ValueError(
                 'Required property \'tone_id\' not present in ToneChatScore JSON'
             )
         if 'tone_name' in _dict:
-            args['tone_name'] = _dict['tone_name']
+            args['tone_name'] = _dict.get('tone_name')
         else:
             raise ValueError(
                 'Required property \'tone_name\' not present in ToneChatScore JSON'
@@ -551,7 +569,7 @@ class ToneInput(object):
         """Initialize a ToneInput object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in ToneInput JSON')
@@ -605,20 +623,21 @@ class ToneScore(object):
         """Initialize a ToneScore object from a json dictionary."""
         args = {}
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         else:
             raise ValueError(
                 'Required property \'score\' not present in ToneScore JSON')
         if 'tone_id' in _dict:
-            args['tone_id'] = _dict['tone_id']
+            args['tone_id'] = _dict.get('tone_id')
         else:
             raise ValueError(
                 'Required property \'tone_id\' not present in ToneScore JSON')
         if 'tone_name' in _dict:
-            args['tone_name'] = _dict['tone_name']
+            args['tone_name'] = _dict.get('tone_name')
         else:
             raise ValueError(
-                'Required property \'tone_name\' not present in ToneScore JSON')
+                'Required property \'tone_name\' not present in ToneScore JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -670,12 +689,12 @@ class Utterance(object):
         """Initialize a Utterance object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in Utterance JSON')
         if 'user' in _dict:
-            args['user'] = _dict['user']
+            args['user'] = _dict.get('user')
         return cls(**args)
 
     def _to_dict(self):
@@ -727,14 +746,14 @@ class UtteranceAnalyses(object):
         if 'utterances_tone' in _dict:
             args['utterances_tone'] = [
                 UtteranceAnalysis._from_dict(x)
-                for x in _dict['utterances_tone']
+                for x in (_dict.get('utterances_tone'))
             ]
         else:
             raise ValueError(
                 'Required property \'utterances_tone\' not present in UtteranceAnalyses JSON'
             )
         if 'warning' in _dict:
-            args['warning'] = _dict['warning']
+            args['warning'] = _dict.get('warning')
         return cls(**args)
 
     def _to_dict(self):
@@ -793,27 +812,27 @@ class UtteranceAnalysis(object):
         """Initialize a UtteranceAnalysis object from a json dictionary."""
         args = {}
         if 'utterance_id' in _dict:
-            args['utterance_id'] = _dict['utterance_id']
+            args['utterance_id'] = _dict.get('utterance_id')
         else:
             raise ValueError(
                 'Required property \'utterance_id\' not present in UtteranceAnalysis JSON'
             )
         if 'utterance_text' in _dict:
-            args['utterance_text'] = _dict['utterance_text']
+            args['utterance_text'] = _dict.get('utterance_text')
         else:
             raise ValueError(
                 'Required property \'utterance_text\' not present in UtteranceAnalysis JSON'
             )
         if 'tones' in _dict:
             args['tones'] = [
-                ToneChatScore._from_dict(x) for x in _dict['tones']
+                ToneChatScore._from_dict(x) for x in (_dict.get('tones'))
             ]
         else:
             raise ValueError(
                 'Required property \'tones\' not present in UtteranceAnalysis JSON'
             )
         if 'error' in _dict:
-            args['error'] = _dict['error']
+            args['error'] = _dict.get('error')
         return cls(**args)
 
     def _to_dict(self):
