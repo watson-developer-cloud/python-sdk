@@ -93,6 +93,50 @@ response = assistant.message(workspace_id=workspace_id, input={
 print(json.dumps(response, indent=2))
 ```
 
+## Sending Request Headers
+Custom headers can be passed in any request in the form of a `dict` as:
+```python
+headers = {
+    'Custom-Header': 'custom_value'
+}
+```
+For example, to send a header called `Custom-Header` to a call in Watson Assistant, pass
+the headers parameter as:
+```python
+from watson_developer_cloud import AssistantV1
+
+assistant = AssistantV1(
+    username='xxx',
+    password='yyy',
+    version='2017-04-21')
+
+response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'})
+```
+
+## Parsing HTTP Response Info
+If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`
+```python
+from watson_developer_cloud import AssistantV1
+
+assistant = AssistantV1(
+    username='xxx',
+    password='yyy',
+    version='2017-04-21')
+
+assistant.set_detailed_response(True)
+response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'})
+print(response)
+```
+
+This would give an output of `DetailedResponse` having the structure:
+```python
+{
+    response: { <response returned by service> },
+    details: {
+        'headers': <http response headers>
+    }
+}
+```
 ## Dependencies
 
 * [requests]
