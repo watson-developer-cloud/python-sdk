@@ -90,6 +90,25 @@
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.watson_service.DetailedResponse">
+<em class="property">class </em><code class="descname">DetailedResponse</code><span class="sig-paren">(</span><em>response=None</em>, <em>headers=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/watson_service.html#DetailedResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.watson_service.DetailedResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Custom class for detailed response returned from Watson APIs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>response</strong> (<em>Response</em>) – Either json response or http Response as requested.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A dict of response headers</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.watson_service.WatsonService">
 <em class="property">class </em><code class="descname">WatsonService</code><span class="sig-paren">(</span><em>vcap_services_name</em>, <em>url</em>, <em>username=None</em>, <em>password=None</em>, <em>use_vcap_services=True</em>, <em>api_key=None</em>, <em>x_watson_learning_opt_out=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/watson_service.html#WatsonService"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.watson_service.WatsonService" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
@@ -120,6 +139,11 @@
 <code class="descname">set_http_config</code><span class="sig-paren">(</span><em>http_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/watson_service.html#WatsonService.set_http_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.watson_service.WatsonService.set_http_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the http client config like timeout, proxies, etc.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.watson_service.WatsonService.set_detailed_response">
+<code class="descname">set_detailed_response</code><span class="sig-paren">(</span><em>detailed_response</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/watson_service.html#WatsonService.set_detailed_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.watson_service.WatsonService.set_detailed_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="staticmethod">
 <dt id="watson_developer_cloud.watson_service.WatsonService.unpack_id">

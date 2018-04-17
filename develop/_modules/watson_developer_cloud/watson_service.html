@@ -170,6 +170,27 @@
             <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">_convert_boolean_value</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
     <span class="k">return</span> <span class="n">dictionary</span>
 
+<div class="viewcode-block" id="DetailedResponse"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.DetailedResponse">[docs]</a><span class="k">class</span> <span class="nc">DetailedResponse</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom class for detailed response returned from Watson APIs.</span>
+
+<span class="sd">    :param Response response: Either json response or http Response as requested.</span>
+<span class="sd">    :param dict headers: A dict of response headers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="n">response</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;response&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;headers&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;details&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json_import</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WatsonService"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService">[docs]</a><span class="k">class</span> <span class="nc">WatsonService</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcap_services_name</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -191,6 +212,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">http_config</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detailed_response</span> <span class="o">=</span> <span class="kc">False</span>
 
         <span class="n">user_agent_string</span> <span class="o">=</span> <span class="s1">&#39;watson-apis-python-sdk-&#39;</span> <span class="o">+</span> <span class="n">__version__</span> <span class="c1"># SDK version</span>
         <span class="n">user_agent_string</span> <span class="o">+=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="c1"># OS</span>
@@ -268,6 +290,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">http_config</span> <span class="o">=</span> <span class="n">http_config</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;http_config parameter must be a dictionary&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WatsonService.set_detailed_response"><a class="viewcode-back" href="../../apis/watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService.set_detailed_response">[docs]</a>    <span class="k">def</span> <span class="nf">set_detailed_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">detailed_response</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">detailed_response</span> <span class="o">=</span> <span class="n">detailed_response</span></div>
 
     <span class="c1"># Could make this compute the label_id based on the variable name of the</span>
     <span class="c1"># dictionary passed in (using **kwargs), but</span>
@@ -405,8 +430,8 @@
                     <span class="k">if</span> <span class="n">error_message</span> <span class="o">==</span> <span class="s1">&#39;invalid-api-key&#39;</span><span class="p">:</span>
                         <span class="n">status_code</span> <span class="o">=</span> <span class="mi">401</span>
                     <span class="k">raise</span> <span class="n">WatsonApiException</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span> <span class="n">error_message</span><span class="p">,</span> <span class="n">httpResponse</span><span class="o">=</span><span class="n">response</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">response_json</span>
-            <span class="k">return</span> <span class="n">response</span>
+                <span class="k">return</span> <span class="n">DetailedResponse</span><span class="p">(</span><span class="n">response_json</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">detailed_response</span> <span class="k">else</span> <span class="n">response_json</span>
+            <span class="k">return</span> <span class="n">DetailedResponse</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">detailed_response</span> <span class="k">else</span> <span class="n">response</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">401</span><span class="p">:</span>
                 <span class="n">error_message</span> <span class="o">=</span> <span class="s1">&#39;Unauthorized: Access is denied due to &#39;</span> \
