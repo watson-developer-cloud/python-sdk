@@ -53,3 +53,5 @@ with open(join(dirname(__file__),
                               headers={'Custom-Header': 'custom_value'})
 
 print(tone)
+print(tone.get_headers())
+print(tone.get_result())

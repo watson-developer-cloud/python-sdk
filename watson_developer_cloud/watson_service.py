@@ -145,15 +145,21 @@ class DetailedResponse(object):
     :param dict headers: A dict of response headers
     """
     def __init__(self, response=None, headers=None):
-        self.response = response
+        self.result = response
         self.headers = headers
+
+    def get_result(self):
+        return self.result
+
+    def get_headers(self):
+        return self.headers
 
     def _to_dict(self):
         _dict = {}
-        if hasattr(self, 'response') and self.response is not None:
-            _dict['response'] = self.response
+        if hasattr(self, 'result') and self.result is not None:
+            _dict['result'] = self.result if isinstance(self.result, dict) else 'HTTP response'
         if hasattr(self, 'headers') and self.headers is not None:
-            _dict['details'] = {'headers': self.headers}
+            _dict['headers'] = self.headers
         return _dict
 
     def __str__(self):
