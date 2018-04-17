@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>watson_developer_cloud.visual_recognition_v3 module &#8212; Watson Developer Cloud Python SDK 1.2.1 documentation</title>
+    <title>watson_developer_cloud.visual_recognition_v3 module &#8212; Watson Developer Cloud Python SDK 1.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -49,7 +49,7 @@ a custom classifier to identify subjects that suit your needs.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.classify">
-<code class="descname">classify</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>parameters=None</em>, <em>accept_language=None</em>, <em>images_file_content_type=None</em>, <em>images_filename=None</em>, <em>url=None</em>, <em>threshold=None</em>, <em>owners=None</em>, <em>classifier_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.classify" title="Permalink to this definition">¶</a></dt>
+<code class="descname">classify</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>parameters=None</em>, <em>accept_language=None</em>, <em>images_file_content_type=None</em>, <em>images_filename=None</em>, <em>url=None</em>, <em>threshold=None</em>, <em>owners=None</em>, <em>classifier_ids=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.classify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Classify images.</p>
 <p>Classify images with built-in or custom classifiers.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -66,6 +66,7 @@ a custom classifier to identify subjects that suit your needs.</p>
 <li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is <cite>0.5</cite>. Set the threshold to <cite>0.0</cite> to ignore the classification score and return all values.</li>
 <li><strong>owners</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – An array of the categories of classifiers to apply. Use <cite>IBM</cite> to classify against the <cite>default</cite> general classifier, and use <cite>me</cite> to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both <cite>IBM</cite> and <cite>me</cite>.   The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.  The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that <strong>classifier_ids</strong> is empty.</li>
 <li><strong>classifier_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that <strong>classifier_ids</strong> is empty. - <strong>classifier_ids</strong>: Specifies which classifiers to apply and overrides the <strong>owners</strong> parameter. You can specify both custom and built-in classifiers. The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.  The following built-in classifier IDs require no training: - <cite>default</cite>: Returns classes from thousands of general tags. - <cite>food</cite>: (Beta) Enhances specificity and accuracy for images of food items. - <cite>explicit</cite>: (Beta) Evaluates whether the image might be pornographic.  Example: <cite>“classifier_ids=”CarsvsTrucks_1479118188”,”explicit”</cite>.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -81,7 +82,7 @@ a custom classifier to identify subjects that suit your needs.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.detect_faces">
-<code class="descname">detect_faces</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>parameters=None</em>, <em>images_file_content_type=None</em>, <em>images_filename=None</em>, <em>url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.detect_faces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.detect_faces" title="Permalink to this definition">¶</a></dt>
+<code class="descname">detect_faces</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>parameters=None</em>, <em>images_file_content_type=None</em>, <em>images_filename=None</em>, <em>url=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.detect_faces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.detect_faces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect faces in images.</p>
 <p>Analyze and get data about faces in images. Responses can include estimated age
 and gender, and the service can identify celebrities. This feature uses a built-in
@@ -96,7 +97,8 @@ does not support general biometric facial recognition.</p>
 <li><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: <cite>{“url”:”http://www.example.com/images/myimage.jpg”}</cite>.</li>
 <li><strong>images_file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The content type of images_file.</li>
 <li><strong>images_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for images_file.</li>
-<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A string with the image URL to analyze.</li>
+<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the <strong>images_file</strong> parameter.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -114,24 +116,30 @@ does not support general biometric facial recognition.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_classifier">
 <code class="descname">create_classifier</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a classifier.
-:param str name: The name of the new classifier. Cannot contain special characters.
+:param str name: The name of the new classifier. Encode special characters in UTF-8.
 :param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
 :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+:param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>Classifier</cite> response.
 :rtype: dict</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_classifier">
-<code class="descname">delete_classifier</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.delete_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_classifier" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.delete_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -139,17 +147,23 @@ does not support general biometric facial recognition.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_classifier">
-<code class="descname">get_classifier</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_classifier" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve information about a custom classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>Classifier</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Classifier</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -157,17 +171,23 @@ does not support general biometric facial recognition.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_classifiers">
-<code class="descname">list_classifiers</code><span class="sig-paren">(</span><em>verbose=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_classifiers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_classifiers</code><span class="sig-paren">(</span><em>verbose=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.list_classifiers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a list of classifiers.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Specify <cite>true</cite> to return details about the classifiers. Omit this parameter to return a brief list of classifiers.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Specify <cite>true</cite> to return details about the classifiers. Omit this parameter to return a brief list of classifiers.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>Classifiers</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Classifiers</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -180,13 +200,14 @@ does not support general biometric facial recognition.</p>
 :param str classifier_id: The ID of the classifier.
 :param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
 :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+:param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>Classifier</cite> response.
 :rtype: dict</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_core_ml_model">
-<code class="descname">get_core_ml_model</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_core_ml_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_core_ml_model" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_core_ml_model</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_core_ml_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_core_ml_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a Core ML model of a classifier.</p>
 <p>Download a Core ML model file (.mlmodel) of a custom classifier that returns
 core_ml_enabled: true in the classifier details.</p>
@@ -194,11 +215,17 @@ core_ml_enabled: true in the classifier details.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>Response &lt;Response&gt;</cite> object representing the response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>Response &lt;Response&gt;</cite> object representing the response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">requests.models.Response</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">requests.models.Response</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -238,7 +265,7 @@ core_ml_enabled: true in the classifier details.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str type_hierarchy:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Knowledge graph of the property. For example, <cite>People/Leaders/Presidents/USA/Barack Obama</cite>. Included only if identified.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Knowledge graph of the property. For example, <cite>/fruit/pome/apple/eating apple/Granny Smith</cite>. Included only if identified.</td>
 </tr>
 </tbody>
 </table>
@@ -420,7 +447,7 @@ large. Not returned when there is no error.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.Face">
-<em class="property">class </em><code class="descname">Face</code><span class="sig-paren">(</span><em>age=None</em>, <em>gender=None</em>, <em>face_location=None</em>, <em>identity=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Face"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Face" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Face</code><span class="sig-paren">(</span><em>age=None</em>, <em>gender=None</em>, <em>face_location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Face"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Face" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Provides information about the face.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -436,9 +463,6 @@ large. Not returned when there is no error.</p>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr FaceLocation face_location:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr FaceIdentity identity:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
-</tr>
 </tbody>
 </table>
 </dd></dl>
@@ -447,8 +471,7 @@ large. Not returned when there is no error.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.FaceAge">
 <em class="property">class </em><code class="descname">FaceAge</code><span class="sig-paren">(</span><em>min=None</em>, <em>max=None</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceAge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceAge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Provides age information about a face. If there are more than 10 faces in an image,
-the response might return the confidence score <cite>0</cite>.</p>
+<p>Provides age information about a face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -458,7 +481,7 @@ the response might return the confidence score <cite>0</cite>.</p>
 <tr class="field-even field"><th class="field-name">Attr int max:</th><td class="field-body">(optional) Estimated maximum age.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.</td>
 </tr>
 </tbody>
 </table>
@@ -468,8 +491,7 @@ the response might return the confidence score <cite>0</cite>.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.FaceGender">
 <em class="property">class </em><code class="descname">FaceGender</code><span class="sig-paren">(</span><em>gender</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceGender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceGender" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Provides information about the gender of the face. If there are more than 10 faces in
-an image, the response might return the confidence score 0.</p>
+<p>Provides information about the gender of the face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -478,29 +500,7 @@ an image, the response might return the confidence score 0.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">Gender identified by the face. For example, <cite>MALE</cite> or <cite>FEMALE</cite>.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="class">
-<dt id="watson_developer_cloud.visual_recognition_v3.FaceIdentity">
-<em class="property">class </em><code class="descname">FaceIdentity</code><span class="sig-paren">(</span><em>name</em>, <em>score=None</em>, <em>type_hierarchy=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceIdentity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceIdentity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Provides information about a celebrity who is detected in the image. Not returned when
-a celebrity is not detected.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">Name of the person.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str type_hierarchy:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Knowledge graph of the property. For example, <cite>People/Leaders/Presidents/USA/Barack Obama</cite>. Included only if identified.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.</td>
 </tr>
 </tbody>
 </table>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>watson_developer_cloud.text_to_speech_v1 module &#8212; Watson Developer Cloud Python SDK 1.2.1 documentation</title>
+    <title>watson_developer_cloud.text_to_speech_v1 module &#8212; Watson Developer Cloud Python SDK 1.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -34,6 +34,10 @@
             
   <div class="section" id="module-watson_developer_cloud.text_to_speech_v1">
 <span id="watson-developer-cloud-text-to-speech-v1-module"></span><h1>watson_developer_cloud.text_to_speech_v1 module<a class="headerlink" href="#module-watson_developer_cloud.text_to_speech_v1" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson Text to Speech service provides an API that uses IBM’s speech-synthesis
+capabilities to synthesize text into natural-sounding speech in a variety of languages,
+dialects, and voices. The service supports at least one male or female voice, sometimes
+both, for each language. The audio is streamed back to the client with minimal delay.</p>
 <p>For more information about the service and its various interfaces, see [About Text to
 Speech](<a class="reference external" href="https://console.bluemix.net/docs/services/text-to-speech/index.html">https://console.bluemix.net/docs/services/text-to-speech/index.html</a>).</p>
 <dl class="class">
@@ -48,15 +52,16 @@ Speech](<a class="reference external" href="https://console.bluemix.net/docs/ser
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice">
-<code class="descname">get_voice</code><span class="sig-paren">(</span><em>voice</em>, <em>customization_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_voice</code><span class="sig-paren">(</span><em>voice</em>, <em>customization_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves a specific voice available for speech synthesis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The voice for which information is to be returned. Retrieve available voices with the <cite>GET /v1/voices</cite> method.</li>
+<li><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The voice for which information is to be returned.</li>
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom voice model for which information is to be returned. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see information about the specified voice with no customization.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -72,15 +77,18 @@ Speech](<a class="reference external" href="https://console.bluemix.net/docs/ser
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voices">
-<code class="descname">list_voices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_voices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voices" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves all voices available for speech synthesis.</p>
+<code class="descname">list_voices</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_voices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a list of all voices available for use with the service. The information
+includes the name, language, gender, and other details about the voice.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>Voices</cite> response.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>Voices</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -93,7 +101,7 @@ Speech](<a class="reference external" href="https://console.bluemix.net/docs/ser
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.synthesize">
-<code class="descname">synthesize</code><span class="sig-paren">(</span><em>text</em>, <em>accept=None</em>, <em>voice=None</em>, <em>customization_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.synthesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.synthesize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">synthesize</code><span class="sig-paren">(</span><em>text</em>, <em>accept=None</em>, <em>voice=None</em>, <em>customization_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.synthesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.synthesize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Streaming speech synthesis of the text in the body parameter. Synthesizes text to spoken audio, returning the synthesized audio stream as an array of bytes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -102,8 +110,9 @@ Speech](<a class="reference external" href="https://console.bluemix.net/docs/ser
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text to synthesize.</li>
 <li><strong>accept</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of the response: audio/basic, audio/flac, audio/l16;rate=nnnn, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/mp3, audio/mpeg, audio/mulaw;rate=nnnn, audio/wav, audio/webm, audio/webm;codecs=opus, or audio/webm;codecs=vorbis.</li>
-<li><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The voice to use for synthesis. Retrieve available voices with the <cite>GET /v1/voices</cite> method.</li>
+<li><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The voice to use for synthesis.</li>
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom voice model to use for the synthesis. If a custom voice model is specified, it is guaranteed to work only if it matches the language of the indicated voice. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to use the specified voice with no customization.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -119,7 +128,7 @@ Speech](<a class="reference external" href="https://console.bluemix.net/docs/ser
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_pronunciation">
-<code class="descname">get_pronunciation</code><span class="sig-paren">(</span><em>text</em>, <em>voice=None</em>, <em>format=None</em>, <em>customization_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_pronunciation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_pronunciation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_pronunciation</code><span class="sig-paren">(</span><em>text</em>, <em>voice=None</em>, <em>format=None</em>, <em>customization_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_pronunciation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_pronunciation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the pronunciation for a word.</p>
 <p>Returns the phonetic pronunciation for the word specified by the <cite>text</cite> parameter.
 You can request the pronunciation for a specific format. You can also request the
@@ -132,9 +141,10 @@ voice model.   <strong>Note:</strong> This method is currently a beta release.</
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The word for which the pronunciation is requested.</li>
-<li><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A voice that specifies the language in which the pronunciation is to be returned. All voices for the same language (for example, <cite>en-US</cite>) return the same translation. Retrieve available voices with the <cite>GET /v1/voices</cite> method.</li>
+<li><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A voice that specifies the language in which the pronunciation is to be returned. All voices for the same language (for example, <cite>en-US</cite>) return the same translation.</li>
 <li><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The phoneme format in which to return the pronunciation. Omit the parameter to obtain the pronunciation in the default format.</li>
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of a custom voice model for which the pronunciation is to be returned. The language of a specified custom model must match the language of the specified voice. If the word is not defined in the specified custom model, the service returns the default translation for the custom model’s language. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see the translation for the specified voice with no customization.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -155,9 +165,8 @@ voice model.   <strong>Note:</strong> This method is currently a beta release.</
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_voice_model">
-<code class="descname">create_voice_model</code><span class="sig-paren">(</span><em>name</em>, <em>language=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.create_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_voice_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a new custom voice model.</p>
-<p>Creates a new empty custom voice model. The model is owned by the instance of the
+<code class="descname">create_voice_model</code><span class="sig-paren">(</span><em>name</em>, <em>language=None</em>, <em>description=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.create_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_voice_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new empty custom voice model. The model is owned by the instance of the
 service whose credentials are used to create it.   <strong>Note:</strong> This method is
 currently a beta release.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -168,6 +177,7 @@ currently a beta release.</p>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the new custom voice model.</li>
 <li><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language of the new custom voice model. Omit the parameter to use the the default language, <cite>en-US</cite>.</li>
 <li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A description of the new custom voice model. Specifying a description is recommended.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -188,18 +198,22 @@ currently a beta release.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_voice_model">
-<code class="descname">delete_voice_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_voice_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes a custom voice model.</p>
-<p>Deletes the custom voice model with the specified <cite>customization_id</cite>. You must use
+<code class="descname">delete_voice_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_voice_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the custom voice model with the specified <cite>customization_id</cite>. You must use
 credentials for the instance of the service that owns a model to delete it.
 <strong>Note:</strong> This method is currently a beta release.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model that is to be deleted. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -212,7 +226,7 @@ credentials for the instance of the service that owns a model to delete it.
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice_model">
-<code class="descname">get_voice_model</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice_model" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_voice_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Queries the contents of a custom voice model.</p>
 <p>Lists all information about the custom voice model with the specified
 <cite>customization_id</cite>. In addition to metadata such as the name and description of
@@ -225,11 +239,17 @@ currently a beta release.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model that is to be queried. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>VoiceModel</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>VoiceModel</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -242,7 +262,7 @@ currently a beta release.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models">
-<code class="descname">list_voice_models</code><span class="sig-paren">(</span><em>language=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_voice_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_voice_models</code><span class="sig-paren">(</span><em>language=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_voice_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lists metadata such as the name and description for the custom voice models that
 you own. Use the <cite>language</cite> query parameter to list the voice models that you own
 for the specified language only. Omit the parameter to see all voice models that
@@ -254,11 +274,17 @@ information about it.   <strong>Note:</strong> This method is currently a beta r
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language for which custom voice models that are owned by the requesting service credentials are to be returned. Omit the parameter to see all custom voice models that are owned by the requester.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language for which custom voice models that are owned by the requesting service credentials are to be returned. Omit the parameter to see all custom voice models that are owned by the requester.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>VoiceModels</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>VoiceModels</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -271,7 +297,7 @@ information about it.   <strong>Note:</strong> This method is currently a beta r
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.update_voice_model">
-<code class="descname">update_voice_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>name=None</em>, <em>description=None</em>, <em>words=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.update_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.update_voice_model" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_voice_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>name=None</em>, <em>description=None</em>, <em>words=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.update_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.update_voice_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates information and words for a custom voice model.</p>
 <p>Updates information for the custom voice model with the specified
 <cite>customization_id</cite>. You can update the metadata such as the name and description
@@ -286,10 +312,11 @@ release.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model that is to be updated. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model.</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A new name for the custom voice model.</li>
 <li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A new description for the custom voice model.</li>
-<li><strong>words</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.Word" title="watson_developer_cloud.speech_to_text_v1.Word"><em>Word</em></a><em>]</em>) – An array of words and their translations that are to be added or updated for the custom voice model. Pass an empty array to make no additions or updates.</li>
+<li><strong>words</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.Word" title="watson_developer_cloud.speech_to_text_v1.Word"><em>Word</em></a><em>]</em>) – An array of <cite>Word</cite> objects that provides the words and their translations that are to be added or updated for the custom voice model. Pass an empty array to make no additions or updates.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -307,7 +334,7 @@ release.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_word">
-<code class="descname">add_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em>, <em>translation</em>, <em>part_of_speech=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.add_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_word" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em>, <em>translation</em>, <em>part_of_speech=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.add_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_word" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a word to a custom voice model.</p>
 <p>Adds a single word and its translation to the custom voice model with the
 specified <cite>customization_id</cite>. Adding a new translation for a word that already
@@ -320,10 +347,11 @@ method is currently a beta release.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model that is to be updated. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model.</li>
 <li><strong>word</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The word that is to be added or updated for the custom voice model.</li>
 <li><strong>translation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The phonetic or sounds-like translation for the word. A phonetic translation is based on the SSML format for representing the phonetic string of a word either as an IPA translation or as an IBM SPR translation. A sounds-like is one or more words that, when combined, sound like the word.</li>
 <li><strong>part_of_speech</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – <strong>Japanese only.</strong> The part of speech for the word. The service uses the value to produce the correct intonation for the word. You can create only a single entry, with or without a single part of speech, for any word; you cannot create multiple entries with different parts of speech for the same word. For more information, see [Working with Japanese entries](<a class="reference external" href="https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes">https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes</a>).</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -341,7 +369,7 @@ method is currently a beta release.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_words">
-<code class="descname">add_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>words</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.add_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_words" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>words</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.add_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds one or more words to a custom voice model.</p>
 <p>Adds one or more words and their translations to the custom voice model with the
 specified <cite>customization_id</cite>. Adding a new translation for a word that already
@@ -354,8 +382,9 @@ method is currently a beta release.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model that is to be updated. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
-<li><strong>words</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.Word" title="watson_developer_cloud.speech_to_text_v1.Word"><em>Word</em></a><em>]</em>) – An array of words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</li>
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model.</li>
+<li><strong>words</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="watson_developer_cloud.speech_to_text_v1.html#watson_developer_cloud.speech_to_text_v1.Word" title="watson_developer_cloud.speech_to_text_v1.Word"><em>Word</em></a><em>]</em>) – <strong>When adding words to a custom voice model,</strong> an array of <cite>Word</cite> objects that provides one or more words that are to be added or updated for the custom voice model and the translation for each specified word. <strong>When listing words from a custom voice model,</strong> an array of <cite>Word</cite> objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -373,7 +402,7 @@ method is currently a beta release.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_word">
-<code class="descname">delete_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_word" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_word" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes a word from a custom voice model.</p>
 <p>Deletes a single word from the custom voice model with the specified
 <cite>customization_id</cite>. You must use credentials for the instance of the service that
@@ -383,8 +412,9 @@ owns a model to delete it.   <strong>Note:</strong> This method is currently a b
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model from which to delete a word. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model.</li>
 <li><strong>word</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The word that is to be deleted from the custom voice model.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -402,7 +432,7 @@ owns a model to delete it.   <strong>Note:</strong> This method is currently a b
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_word">
-<code class="descname">get_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_word" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_word" title="Permalink to this definition">¶</a></dt>
 <dd><p>Queries details about a word in a custom voice model.</p>
 <p>Returns the translation for a single word from the custom model with the specified
 <cite>customization_id</cite>. The output shows the translation as it is defined in the
@@ -414,8 +444,9 @@ release.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model from which to query a word. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model.</li>
 <li><strong>word</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The word that is to be queried from the custom voice model.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -436,7 +467,7 @@ release.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_words">
-<code class="descname">list_words</code><span class="sig-paren">(</span><em>customization_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_words" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Queries details about the words in a custom voice model.</p>
 <p>Lists all of the words and their translations for the custom voice model with the
 specified <cite>customization_id</cite>. The output shows the translations as they are
@@ -447,11 +478,17 @@ currently a beta release.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model that is to be queried. You must make the request with service credentials created for the instance of the service that owns the custom model.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The GUID of the custom voice model.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>Words</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Words</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -582,7 +619,7 @@ currently a beta release.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The description of the custom voice model.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[Word] words:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words. <strong>Note:</strong> This field is returned only when you list information about a specific custom voice model.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of <cite>Word</cite> objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words. <strong>Note:</strong> This field is returned only when you list information about a specific custom voice model.</td>
 </tr>
 </tbody>
 </table>
@@ -651,7 +688,7 @@ currently a beta release.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Word] words:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body"><strong>When adding words to a custom voice model,</strong> an array of <cite>Word</cite> objects that provides one or more words that are to be added or updated for the custom voice model and the translation for each specified word. <strong>When listing words from a custom voice model,</strong> an array of <cite>Word</cite> objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</td>
 </tr>
 </tbody>
 </table>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>watson_developer_cloud.natural_language_classifier_v1 module &#8212; Watson Developer Cloud Python SDK 1.2.1 documentation</title>
+    <title>watson_developer_cloud.natural_language_classifier_v1 module &#8212; Watson Developer Cloud Python SDK 1.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -50,7 +50,7 @@ new inputs.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify">
-<code class="descname">classify</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify" title="Permalink to this definition">¶</a></dt>
+<code class="descname">classify</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns label information for the input. The status must be <cite>Available</cite> before you
 can use the classifier to classify text.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -60,6 +60,7 @@ can use the classifier to classify text.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Classifier ID to use.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The submitted phrase.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -75,7 +76,7 @@ can use the classifier to classify text.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify_collection">
-<code class="descname">classify_collection</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>collection</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.classify_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify_collection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">classify_collection</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>collection</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.classify_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify_collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns label information for multiple phrases. The status must be <cite>Available</cite>
 before you can use the classifier to classify text.  Note that classifying
 Japanese texts is a beta feature.</p>
@@ -86,6 +87,7 @@ Japanese texts is a beta feature.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Classifier ID to use.</li>
 <li><strong>collection</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.natural_language_classifier_v1.ClassifyInput" title="watson_developer_cloud.natural_language_classifier_v1.ClassifyInput"><em>ClassifyInput</em></a><em>]</em>) – The submitted phrases.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -101,7 +103,7 @@ Japanese texts is a beta feature.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.create_classifier">
-<code class="descname">create_classifier</code><span class="sig-paren">(</span><em>metadata</em>, <em>training_data</em>, <em>metadata_filename=None</em>, <em>training_data_filename=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.create_classifier" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_classifier</code><span class="sig-paren">(</span><em>metadata</em>, <em>training_data</em>, <em>metadata_filename=None</em>, <em>training_data_filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.create_classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create classifier.</p>
 <p>Sends data to create and train a classifier and returns information about the new
 classifier.</p>
@@ -114,6 +116,7 @@ classifier.</p>
 <li><strong>training_data</strong> (<em>file</em>) – Training data in CSV format. Each text value must have at least one class. The data can include up to 20,000 records. For details, see [Data preparation](<a class="reference external" href="https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html">https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html</a>).</li>
 <li><strong>metadata_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for training_metadata.</li>
 <li><strong>training_data_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for training_data.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -129,15 +132,20 @@ classifier.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.delete_classifier">
-<code class="descname">delete_classifier</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.delete_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.delete_classifier" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.delete_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.delete_classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Classifier ID to delete.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Classifier ID to delete.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -145,18 +153,24 @@ classifier.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.get_classifier">
-<code class="descname">get_classifier</code><span class="sig-paren">(</span><em>classifier_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.get_classifier" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.get_classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get information about a classifier.</p>
 <p>Returns status and other information about a classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Classifier ID to query.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Classifier ID to query.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>Classifier</cite> response.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Classifier</cite> response.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -164,16 +178,18 @@ classifier.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.list_classifiers">
-<code class="descname">list_classifiers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.list_classifiers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_classifiers</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.list_classifiers" title="Permalink to this definition">¶</a></dt>
 <dd><p>List classifiers.</p>
 <p>Returns an empty array if no classifiers are available.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>ClassifierList</cite> response.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>ClassifierList</cite> response.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></td>
 </tr>
 </tbody>
 </table>
@@ -191,9 +207,9 @@ classifier.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str classifier_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Unique identifier for this classifier. Not returned by the request to classify multiple phrases.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Unique identifier for this classifier.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Attr str url:</th><td class="field-body">(optional) Link to the classifier. Not returned by the request to classify multiple phrases.</td>
+<tr class="field-even field"><th class="field-name">Attr str url:</th><td class="field-body">(optional) Link to the classifier.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The submitted phrase.</td>
 </tr>
@@ -209,20 +225,20 @@ classifier.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_classifier_v1.ClassificationCollection">
-<em class="property">class </em><code class="descname">ClassificationCollection</code><span class="sig-paren">(</span><em>text=None</em>, <em>top_class=None</em>, <em>classes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#ClassificationCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.ClassificationCollection" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">ClassificationCollection</code><span class="sig-paren">(</span><em>classifier_id=None</em>, <em>url=None</em>, <em>collection=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#ClassificationCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.ClassificationCollection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Response from the classifier for a phrase.</p>
+<p>Response from the classifier for multiple phrases.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The submitted phrase.</td>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str classifier_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Unique identifier for this classifier.</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str top_class:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The class with the highest confidence.</td>
+<tr class="field-even field"><th class="field-name">Attr str url:</th><td class="field-body">(optional) Link to the classifier.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Classification] classes:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.</td>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[CollectionItem] collection:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of classifier responses for each submitted phrase.</td>
 </tr>
 </tbody>
 </table>
@@ -305,6 +321,27 @@ classifier.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">The submitted phrase.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.natural_language_classifier_v1.CollectionItem">
+<em class="property">class </em><code class="descname">CollectionItem</code><span class="sig-paren">(</span><em>text=None</em>, <em>top_class=None</em>, <em>classes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#CollectionItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.CollectionItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Response from the classifier for a phrase in a collection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The submitted phrase.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str top_class:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The class with the highest confidence.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ClassifiedClass] classes:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.</td>
 </tr>
 </tbody>
 </table>

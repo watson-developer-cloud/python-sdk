@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>watson_developer_cloud.assistant_v1 module &#8212; Watson Developer Cloud Python SDK 1.2.1 documentation</title>
+    <title>watson_developer_cloud.assistant_v1 module &#8212; Watson Developer Cloud Python SDK 1.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -17,7 +17,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="watson_developer_cloud.authorization_v1 module" href="watson_developer_cloud.authorization_v1.html" />
-    <link rel="prev" title="Python SDK 1.2.1" href="../index.html" />
+    <link rel="prev" title="Python SDK 1.3.0" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -49,7 +49,7 @@ and your users.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.message">
-<code class="descname">message</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em>, <em>nodes_visited_details=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">message</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em>, <em>nodes_visited_details=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a response to a user’s input.    There is no rate limit for this operation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -64,6 +64,7 @@ and your users.</p>
 <li><strong>intents</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.assistant_v1.RuntimeIntent" title="watson_developer_cloud.assistant_v1.RuntimeIntent"><em>RuntimeIntent</em></a><em>]</em>) – Intents to use when evaluating the user input. Include intents from the previous response to continue using those intents rather than trying to recognize intents in the new input.</li>
 <li><strong>output</strong> (<a class="reference internal" href="watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.OutputData" title="watson_developer_cloud.conversation_v1.OutputData"><em>OutputData</em></a>) – System output. Include the output from the previous response to maintain intermediate information over multiple requests.</li>
 <li><strong>nodes_visited_details</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -79,7 +80,7 @@ and your users.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.create_workspace">
-<code class="descname">create_workspace</code><span class="sig-paren">(</span><em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_workspace</code><span class="sig-paren">(</span><em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create workspace.</p>
 <p>Create a workspace based on component objects. You must provide workspace
 components defining the content of the new workspace.    This operation is limited
@@ -98,6 +99,7 @@ to 30 requests per 30 minutes. For more information, see <strong>Rate limiting</
 <li><strong>counterexamples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.assistant_v1.CreateCounterexample" title="watson_developer_cloud.assistant_v1.CreateCounterexample"><em>CreateCounterexample</em></a><em>]</em>) – An array of objects defining input examples that have been marked as irrelevant input.</li>
 <li><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – Any metadata related to the workspace.</li>
 <li><strong>learning_opt_out</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether training data from the workspace can be used by IBM for general service improvements. <cite>true</cite> indicates that workspace training data is not to be used.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -113,7 +115,7 @@ to 30 requests per 30 minutes. For more information, see <strong>Rate limiting</
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.delete_workspace">
-<code class="descname">delete_workspace</code><span class="sig-paren">(</span><em>workspace_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete workspace.</p>
 <p>Delete a workspace from the service instance.    This operation is limited to 30
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -121,9 +123,14 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -131,7 +138,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.get_workspace">
-<code class="descname">get_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get information about a workspace.</p>
 <p>Get information about a workspace, optionally including all workspace content.
 With <strong>export**=`false`, this operation is limited to 6000 requests per 5 minutes.
@@ -145,6 +152,7 @@ information, see **Rate limiting</strong>.</p>
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>export</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include all element content in the returned data. If <a href="#id1"><span class="problematic" id="id2">**</span></a>export**=`false`, the returned data includes only information about the element itself. If <a href="#id3"><span class="problematic" id="id4">**</span></a>export**=`true`, all content, including subelements, is included.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -160,9 +168,8 @@ information, see **Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_workspaces">
-<code class="descname">list_workspaces</code><span class="sig-paren">(</span><em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_workspaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_workspaces" title="Permalink to this definition">¶</a></dt>
-<dd><p>List workspaces.</p>
-<p>List the workspaces associated with an Assistant service instance.    This
+<code class="descname">list_workspaces</code><span class="sig-paren">(</span><em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_workspaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_workspaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the workspaces associated with a Watson Assistant service instance.    This
 operation is limited to 500 requests per 30 minutes. For more information, see
 <strong>Rate limiting</strong>.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -173,8 +180,9 @@ operation is limited to 500 requests per 30 minutes. For more information, see
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -190,7 +198,7 @@ operation is limited to 500 requests per 30 minutes. For more information, see
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.update_workspace">
-<code class="descname">update_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em>, <em>append=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_workspace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_workspace</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>name=None</em>, <em>description=None</em>, <em>language=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>dialog_nodes=None</em>, <em>counterexamples=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em>, <em>append=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_workspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update workspace.</p>
 <p>Update an existing workspace with new or modified data. You must provide component
 objects defining the content of the updated workspace.    This operation is
@@ -211,6 +219,7 @@ limited to 30 request per 30 minutes. For more information, see <strong>Rate lim
 <li><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – Any metadata related to the workspace.</li>
 <li><strong>learning_opt_out</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether training data from the workspace can be used by IBM for general service improvements. <cite>true</cite> indicates that workspace training data is not to be used.</li>
 <li><strong>append</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether the new data is to be appended to the existing data in the workspace. If <strong>append**=`false`, elements included in the new data completely replace the corresponding existing elements, including all subelements. For example, if the new data includes **entities</strong> and <a href="#id5"><span class="problematic" id="id6">**</span></a>append**=`false`, all existing entities in the workspace are discarded and replaced with the new entities.    If <a href="#id7"><span class="problematic" id="id8">**</span></a>append**=`true`, existing elements are preserved, and the new elements are added. If any elements in the new data collide with existing elements, the update request fails.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -226,7 +235,7 @@ limited to 30 request per 30 minutes. For more information, see <strong>Rate lim
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.create_intent">
-<code class="descname">create_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>description=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_intent" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>description=None</em>, <em>examples=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_intent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create intent.</p>
 <p>Create a new intent.    This operation is limited to 2000 requests per 30 minutes.
 For more information, see <strong>Rate limiting</strong>.</p>
@@ -239,6 +248,7 @@ For more information, see <strong>Rate limiting</strong>.</p>
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix <cite>sys-</cite>.  - It must be no longer than 128 characters.</li>
 <li><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The description of the intent. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.</li>
 <li><strong>examples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.CreateExample" title="watson_developer_cloud.conversation_v1.CreateExample"><em>CreateExample</em></a><em>]</em>) – An array of user input examples for the intent.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -254,7 +264,7 @@ For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.delete_intent">
-<code class="descname">delete_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_intent" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_intent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete intent.</p>
 <p>Delete an intent from a workspace.    This operation is limited to 2000 requests
 per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -265,6 +275,7 @@ per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The intent name.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -277,7 +288,7 @@ per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.get_intent">
-<code class="descname">get_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>export=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_intent" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>export=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_intent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get intent.</p>
 <p>Get information about an intent, optionally including all intent content.    With
 <strong>export**=`false`, this operation is limited to 6000 requests per 5 minutes. With
@@ -292,6 +303,7 @@ see **Rate limiting</strong>.</p>
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The intent name.</li>
 <li><strong>export</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include all element content in the returned data. If <a href="#id9"><span class="problematic" id="id10">**</span></a>export**=`false`, the returned data includes only information about the element itself. If <a href="#id11"><span class="problematic" id="id12">**</span></a>export**=`true`, all content, including subelements, is included.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -307,7 +319,7 @@ see **Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_intents">
-<code class="descname">list_intents</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_intents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_intents" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_intents</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_intents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_intents" title="Permalink to this definition">¶</a></dt>
 <dd><p>List intents.</p>
 <p>List the intents for a workspace.    With <strong>export**=`false`, this operation is
 limited to 2000 requests per 30 minutes. With **export**=`true`, the limit is 400
@@ -322,8 +334,9 @@ requests per 30 minutes. For more information, see **Rate limiting</strong>.</p>
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -339,7 +352,7 @@ requests per 30 minutes. For more information, see **Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.update_intent">
-<code class="descname">update_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>new_intent=None</em>, <em>new_description=None</em>, <em>new_examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_intent" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_intent</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>new_intent=None</em>, <em>new_description=None</em>, <em>new_examples=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_intent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update intent.</p>
 <p>Update an existing intent with new or modified data. You must provide component
 objects defining the content of the updated intent.    This operation is limited
@@ -354,6 +367,7 @@ to 2000 requests per 30 minutes. For more information, see <strong>Rate limiting
 <li><strong>new_intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix <cite>sys-</cite>.  - It must be no longer than 128 characters.</li>
 <li><strong>new_description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The description of the intent.</li>
 <li><strong>new_examples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="watson_developer_cloud.conversation_v1.html#watson_developer_cloud.conversation_v1.CreateExample" title="watson_developer_cloud.conversation_v1.CreateExample"><em>CreateExample</em></a><em>]</em>) – An array of user input examples for the intent.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -369,7 +383,7 @@ to 2000 requests per 30 minutes. For more information, see <strong>Rate limiting
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.create_example">
-<code class="descname">create_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create user input example.</p>
 <p>Add a new user input example to an intent.    This operation is limited to 1000
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -381,6 +395,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The intent name.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of a user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -396,7 +411,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.delete_example">
-<code class="descname">delete_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete user input example.</p>
 <p>Delete a user input example from an intent.    This operation is limited to 1000
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -408,6 +423,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The intent name.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the user input example.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -420,7 +436,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.get_example">
-<code class="descname">get_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get user input example.</p>
 <p>Get information about a user input example.    This operation is limited to 6000
 requests per 5 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -433,6 +449,7 @@ requests per 5 minutes. For more information, see <strong>Rate limiting</strong>
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The intent name.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the user input example.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -448,7 +465,7 @@ requests per 5 minutes. For more information, see <strong>Rate limiting</strong>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_examples">
-<code class="descname">list_examples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_examples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_examples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_examples" title="Permalink to this definition">¶</a></dt>
 <dd><p>List user input examples.</p>
 <p>List the user input examples for an intent.    This operation is limited to 2500
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -462,8 +479,9 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -479,7 +497,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.update_example">
-<code class="descname">update_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em>, <em>new_text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_example" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_example</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>intent</em>, <em>text</em>, <em>new_text=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_example" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update user input example.</p>
 <p>Update the text of a user input example.    This operation is limited to 1000
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -492,6 +510,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <li><strong>intent</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The intent name.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the user input example.</li>
 <li><strong>new_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -507,7 +526,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.create_counterexample">
-<code class="descname">create_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_counterexample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_counterexample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create counterexample.</p>
 <p>Add a new counterexample to a workspace. Counterexamples are examples that have
 been marked as irrelevant input.    This operation is limited to 1000 requests per
@@ -519,6 +538,7 @@ been marked as irrelevant input.    This operation is limited to 1000 requests p
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of a user input marked as irrelevant input. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters  - It cannot consist of only whitespace characters  - It must be no longer than 1024 characters.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -534,7 +554,7 @@ been marked as irrelevant input.    This operation is limited to 1000 requests p
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.delete_counterexample">
-<code class="descname">delete_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_counterexample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_counterexample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete counterexample.</p>
 <p>Delete a counterexample from a workspace. Counterexamples are examples that have
 been marked as irrelevant input.    This operation is limited to 1000 requests per
@@ -546,6 +566,7 @@ been marked as irrelevant input.    This operation is limited to 1000 requests p
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of a user input counterexample (for example, <cite>What are you wearing?</cite>).</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -558,7 +579,7 @@ been marked as irrelevant input.    This operation is limited to 1000 requests p
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.get_counterexample">
-<code class="descname">get_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_counterexample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_counterexample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get counterexample.</p>
 <p>Get information about a counterexample. Counterexamples are examples that have
 been marked as irrelevant input.    This operation is limited to 6000 requests per
@@ -571,6 +592,7 @@ been marked as irrelevant input.    This operation is limited to 6000 requests p
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of a user input counterexample (for example, <cite>What are you wearing?</cite>).</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -586,7 +608,7 @@ been marked as irrelevant input.    This operation is limited to 6000 requests p
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_counterexamples">
-<code class="descname">list_counterexamples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_counterexamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_counterexamples" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_counterexamples</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_counterexamples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_counterexamples" title="Permalink to this definition">¶</a></dt>
 <dd><p>List counterexamples.</p>
 <p>List the counterexamples for a workspace. Counterexamples are examples that have
 been marked as irrelevant input.    This operation is limited to 2500 requests per
@@ -600,8 +622,9 @@ been marked as irrelevant input.    This operation is limited to 2500 requests p
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -617,7 +640,7 @@ been marked as irrelevant input.    This operation is limited to 2500 requests p
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.update_counterexample">
-<code class="descname">update_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em>, <em>new_text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_counterexample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_counterexample</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>text</em>, <em>new_text=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_counterexample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update counterexample.</p>
 <p>Update the text of a counterexample. Counterexamples are examples that have been
 marked as irrelevant input.    This operation is limited to 1000 requests per 30
@@ -630,6 +653,7 @@ minutes. For more information, see <strong>Rate limiting</strong>.</p>
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of a user input counterexample (for example, <cite>What are you wearing?</cite>).</li>
 <li><strong>new_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of a user input counterexample.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -645,7 +669,7 @@ minutes. For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.create_entity">
-<code class="descname">create_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>description=None</em>, <em>metadata=None</em>, <em>values=None</em>, <em>fuzzy_match=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_entity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>description=None</em>, <em>metadata=None</em>, <em>values=None</em>, <em>fuzzy_match=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_entity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create entity.</p>
 <p>Create a new entity.    This operation is limited to 1000 requests per 30 minutes.
 For more information, see <strong>Rate limiting</strong>.</p>
@@ -660,6 +684,7 @@ For more information, see <strong>Rate limiting</strong>.</p>
 <li><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – Any metadata related to the value.</li>
 <li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.assistant_v1.CreateValue" title="watson_developer_cloud.assistant_v1.CreateValue"><em>CreateValue</em></a><em>]</em>) – An array of objects describing the entity values.</li>
 <li><strong>fuzzy_match</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to use fuzzy matching for the entity.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -675,7 +700,7 @@ For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.delete_entity">
-<code class="descname">delete_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_entity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_entity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete entity.</p>
 <p>Delete an entity from a workspace.    This operation is limited to 1000 requests
 per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -686,6 +711,7 @@ per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>entity</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the entity.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -698,7 +724,7 @@ per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.get_entity">
-<code class="descname">get_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>export=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_entity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>export=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_entity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get entity.</p>
 <p>Get information about an entity, optionally including all entity content.    With
 <strong>export**=`false`, this operation is limited to 6000 requests per 5 minutes. With
@@ -713,6 +739,7 @@ see **Rate limiting</strong>.</p>
 <li><strong>entity</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the entity.</li>
 <li><strong>export</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include all element content in the returned data. If <a href="#id17"><span class="problematic" id="id18">**</span></a>export**=`false`, the returned data includes only information about the element itself. If <a href="#id19"><span class="problematic" id="id20">**</span></a>export**=`true`, all content, including subelements, is included.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -728,7 +755,7 @@ see **Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_entities">
-<code class="descname">list_entities</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_entities" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_entities</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_entities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_entities" title="Permalink to this definition">¶</a></dt>
 <dd><p>List entities.</p>
 <p>List the entities for a workspace.    With <strong>export**=`false`, this operation is
 limited to 1000 requests per 30 minutes. With **export**=`true`, the limit is 200
@@ -743,8 +770,9 @@ requests per 30 minutes. For more information, see **Rate limiting</strong>.</p>
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -760,7 +788,7 @@ requests per 30 minutes. For more information, see **Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.update_entity">
-<code class="descname">update_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>new_entity=None</em>, <em>new_description=None</em>, <em>new_metadata=None</em>, <em>new_fuzzy_match=None</em>, <em>new_values=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_entity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_entity</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>new_entity=None</em>, <em>new_description=None</em>, <em>new_metadata=None</em>, <em>new_fuzzy_match=None</em>, <em>new_values=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_entity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update entity.</p>
 <p>Update an existing entity with new or modified data. You must provide component
 objects defining the content of the updated entity.    This operation is limited
@@ -777,6 +805,7 @@ to 1000 requests per 30 minutes. For more information, see <strong>Rate limiting
 <li><strong>new_metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – Any metadata related to the entity.</li>
 <li><strong>new_fuzzy_match</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to use fuzzy matching for the entity.</li>
 <li><strong>new_values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.assistant_v1.CreateValue" title="watson_developer_cloud.assistant_v1.CreateValue"><em>CreateValue</em></a><em>]</em>) – An array of entity values.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -792,7 +821,7 @@ to 1000 requests per 30 minutes. For more information, see <strong>Rate limiting
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.create_value">
-<code class="descname">create_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>metadata=None</em>, <em>synonyms=None</em>, <em>patterns=None</em>, <em>value_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_value" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>metadata=None</em>, <em>synonyms=None</em>, <em>patterns=None</em>, <em>value_type=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add entity value.</p>
 <p>Create a new value for an entity.    This operation is limited to 1000 requests
 per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -808,6 +837,7 @@ per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 <li><strong>synonyms</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – An array containing any synonyms for the entity value. You can provide either synonyms or patterns (as indicated by <strong>type</strong>), but not both. A synonym must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.</li>
 <li><strong>patterns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by <strong>type</strong>), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities">https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities</a>).</li>
 <li><strong>value_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Specifies the type of value.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -823,7 +853,7 @@ per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.delete_value">
-<code class="descname">delete_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_value" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete entity value.</p>
 <p>Delete a value from an entity.    This operation is limited to 1000 requests per
 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -835,6 +865,7 @@ per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>entity</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the entity.</li>
 <li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the entity value.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -847,7 +878,7 @@ per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.get_value">
-<code class="descname">get_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>export=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_value" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>export=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get entity value.</p>
 <p>Get information about an entity value.    This operation is limited to 6000
 requests per 5 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -861,6 +892,7 @@ requests per 5 minutes. For more information, see <strong>Rate limiting</strong>
 <li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the entity value.</li>
 <li><strong>export</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include all element content in the returned data. If <a href="#id25"><span class="problematic" id="id26">**</span></a>export**=`false`, the returned data includes only information about the element itself. If <a href="#id27"><span class="problematic" id="id28">**</span></a>export**=`true`, all content, including subelements, is included.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -876,7 +908,7 @@ requests per 5 minutes. For more information, see <strong>Rate limiting</strong>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_values">
-<code class="descname">list_values</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_values" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_values</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>export=None</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>List entity values.</p>
 <p>List the values for an entity.    This operation is limited to 2500 requests per
 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -891,8 +923,9 @@ requests per 5 minutes. For more information, see <strong>Rate limiting</strong>
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -908,7 +941,7 @@ requests per 5 minutes. For more information, see <strong>Rate limiting</strong>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.update_value">
-<code class="descname">update_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>new_value=None</em>, <em>new_metadata=None</em>, <em>new_type=None</em>, <em>new_synonyms=None</em>, <em>new_patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_value" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_value</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>new_value=None</em>, <em>new_metadata=None</em>, <em>new_type=None</em>, <em>new_synonyms=None</em>, <em>new_patterns=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update entity value.</p>
 <p>Update an existing entity value with new or modified data. You must provide
 component objects defining the content of the updated entity value.    This
@@ -927,6 +960,7 @@ operation is limited to 1000 requests per 30 minutes. For more information, see
 <li><strong>new_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Specifies the type of value.</li>
 <li><strong>new_synonyms</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – An array of synonyms for the entity value. You can provide either synonyms or patterns (as indicated by <strong>type</strong>), but not both. A synonym must conform to the following resrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.</li>
 <li><strong>new_patterns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by <strong>type</strong>), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities">https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities</a>).</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -942,7 +976,7 @@ operation is limited to 1000 requests per 30 minutes. For more information, see
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.create_synonym">
-<code class="descname">create_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_synonym" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_synonym" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add entity value synonym.</p>
 <p>Add a new synonym to an entity value.    This operation is limited to 1000
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -955,6 +989,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <li><strong>entity</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the entity.</li>
 <li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the entity value.</li>
 <li><strong>synonym</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -970,7 +1005,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.delete_synonym">
-<code class="descname">delete_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_synonym" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_synonym" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete entity value synonym.</p>
 <p>Delete a synonym from an entity value.    This operation is limited to 1000
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -983,6 +1018,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <li><strong>entity</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The name of the entity.</li>
 <li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the entity value.</li>
 <li><strong>synonym</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the synonym.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -995,7 +1031,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.get_synonym">
-<code class="descname">get_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_synonym" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_synonym" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get entity value synonym.</p>
 <p>Get information about a synonym of an entity value.    This operation is limited
 to 6000 requests per 5 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -1009,6 +1045,7 @@ to 6000 requests per 5 minutes. For more information, see <strong>Rate limiting<
 <li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the entity value.</li>
 <li><strong>synonym</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the synonym.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1024,7 +1061,7 @@ to 6000 requests per 5 minutes. For more information, see <strong>Rate limiting<
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_synonyms">
-<code class="descname">list_synonyms</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_synonyms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_synonyms" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_synonyms</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_synonyms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_synonyms" title="Permalink to this definition">¶</a></dt>
 <dd><p>List entity value synonyms.</p>
 <p>List the synonyms for an entity value.    This operation is limited to 2500
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -1039,8 +1076,9 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1056,7 +1094,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.update_synonym">
-<code class="descname">update_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em>, <em>new_synonym=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_synonym" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_synonym</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>entity</em>, <em>value</em>, <em>synonym</em>, <em>new_synonym=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_synonym" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update entity value synonym.</p>
 <p>Update an existing entity value synonym with new text.    This operation is
 limited to 1000 requests per 30 minutes. For more information, see <strong>Rate
@@ -1071,6 +1109,7 @@ limiting</strong>.</p>
 <li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the entity value.</li>
 <li><strong>synonym</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the synonym.</li>
 <li><strong>new_synonym</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1086,7 +1125,7 @@ limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.create_dialog_node">
-<code class="descname">create_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>description=None</em>, <em>conditions=None</em>, <em>parent=None</em>, <em>previous_sibling=None</em>, <em>output=None</em>, <em>context=None</em>, <em>metadata=None</em>, <em>next_step=None</em>, <em>actions=None</em>, <em>title=None</em>, <em>node_type=None</em>, <em>event_name=None</em>, <em>variable=None</em>, <em>digress_in=None</em>, <em>digress_out=None</em>, <em>digress_out_slots=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_dialog_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>description=None</em>, <em>conditions=None</em>, <em>parent=None</em>, <em>previous_sibling=None</em>, <em>output=None</em>, <em>context=None</em>, <em>metadata=None</em>, <em>next_step=None</em>, <em>actions=None</em>, <em>title=None</em>, <em>node_type=None</em>, <em>event_name=None</em>, <em>variable=None</em>, <em>digress_in=None</em>, <em>digress_out=None</em>, <em>digress_out_slots=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.create_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.create_dialog_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create dialog node.</p>
 <p>Create a new dialog node.    This operation is limited to 500 requests per 30
 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -1113,6 +1152,7 @@ minutes. For more information, see <strong>Rate limiting</strong>.</p>
 <li><strong>digress_in</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Whether this top-level dialog node can be digressed into.</li>
 <li><strong>digress_out</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Whether this dialog node can be returned to after a digression.</li>
 <li><strong>digress_out_slots</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Whether the user can digress to top-level nodes while filling out slots.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1128,7 +1168,7 @@ minutes. For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.delete_dialog_node">
-<code class="descname">delete_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_dialog_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.delete_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.delete_dialog_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete dialog node.</p>
 <p>Delete a dialog node from a workspace.    This operation is limited to 500
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -1139,6 +1179,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>dialog_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The dialog node ID (for example, <cite>get_order</cite>).</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1151,7 +1192,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.get_dialog_node">
-<code class="descname">get_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_dialog_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.get_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.get_dialog_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get dialog node.</p>
 <p>Get information about a dialog node.    This operation is limited to 6000 requests
 per 5 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -1163,6 +1204,7 @@ per 5 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 <li><strong>workspace_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Unique identifier of the workspace.</li>
 <li><strong>dialog_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The dialog node ID (for example, <cite>get_order</cite>).</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1178,7 +1220,7 @@ per 5 minutes. For more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_dialog_nodes">
-<code class="descname">list_dialog_nodes</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_dialog_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_dialog_nodes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_dialog_nodes</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>page_limit=None</em>, <em>include_count=None</em>, <em>sort=None</em>, <em>cursor=None</em>, <em>include_audit=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_dialog_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_dialog_nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>List dialog nodes.</p>
 <p>List the dialog nodes for a workspace.    This operation is limited to 2500
 requests per 30 minutes. For more information, see <strong>Rate limiting</strong>.</p>
@@ -1191,8 +1233,9 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
 <li><strong>include_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include information about the number of records returned.</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
 <li><strong>include_audit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to include the audit properties (<cite>created</cite> and <cite>updated</cite> timestamps) in the response.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1208,7 +1251,7 @@ requests per 30 minutes. For more information, see <strong>Rate limiting</strong
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.update_dialog_node">
-<code class="descname">update_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>new_dialog_node=None</em>, <em>new_description=None</em>, <em>new_conditions=None</em>, <em>new_parent=None</em>, <em>new_previous_sibling=None</em>, <em>new_output=None</em>, <em>new_context=None</em>, <em>new_metadata=None</em>, <em>new_next_step=None</em>, <em>new_title=None</em>, <em>new_type=None</em>, <em>new_event_name=None</em>, <em>new_variable=None</em>, <em>new_actions=None</em>, <em>new_digress_in=None</em>, <em>new_digress_out=None</em>, <em>new_digress_out_slots=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_dialog_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_dialog_node</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>dialog_node</em>, <em>new_dialog_node=None</em>, <em>new_description=None</em>, <em>new_conditions=None</em>, <em>new_parent=None</em>, <em>new_previous_sibling=None</em>, <em>new_output=None</em>, <em>new_context=None</em>, <em>new_metadata=None</em>, <em>new_next_step=None</em>, <em>new_title=None</em>, <em>new_type=None</em>, <em>new_event_name=None</em>, <em>new_variable=None</em>, <em>new_actions=None</em>, <em>new_digress_in=None</em>, <em>new_digress_out=None</em>, <em>new_digress_out_slots=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.update_dialog_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.update_dialog_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update dialog node.</p>
 <p>Update an existing dialog node with new or modified data.    This operation is
 limited to 500 requests per 30 minutes. For more information, see <strong>Rate
@@ -1237,6 +1280,7 @@ limiting</strong>.</p>
 <li><strong>new_digress_in</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Whether this top-level dialog node can be digressed into.</li>
 <li><strong>new_digress_out</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Whether this dialog node can be returned to after a digression.</li>
 <li><strong>new_digress_out_slots</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Whether the user can digress to top-level nodes while filling out slots.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1252,7 +1296,7 @@ limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_all_logs">
-<code class="descname">list_all_logs</code><span class="sig-paren">(</span><em>filter</em>, <em>sort=None</em>, <em>page_limit=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_all_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_all_logs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_all_logs</code><span class="sig-paren">(</span><em>filter</em>, <em>sort=None</em>, <em>page_limit=None</em>, <em>cursor=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_all_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_all_logs" title="Permalink to this definition">¶</a></dt>
 <dd><p>List log events in all workspaces.</p>
 <p>List the events from the logs of all workspaces in the service instance.    If
 <strong>cursor</strong> is not specified, this operation is limited to 40 requests per 30
@@ -1266,7 +1310,8 @@ more information, see <strong>Rate limiting</strong>.</p>
 <li><strong>filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A cacheable parameter that limits the results to those matching the specified filter. You must specify a filter query that includes a value for <cite>language</cite>, as well as a value for <cite>workspace_id</cite> or <cite>request.context.metadata.deployment</cite>. For more information, see the [documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax">https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax</a>).</li>
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1282,7 +1327,7 @@ more information, see <strong>Rate limiting</strong>.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.assistant_v1.AssistantV1.list_logs">
-<code class="descname">list_logs</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>sort=None</em>, <em>filter=None</em>, <em>page_limit=None</em>, <em>cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_logs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list_logs</code><span class="sig-paren">(</span><em>workspace_id</em>, <em>sort=None</em>, <em>filter=None</em>, <em>page_limit=None</em>, <em>cursor=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#AssistantV1.list_logs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.AssistantV1.list_logs" title="Permalink to this definition">¶</a></dt>
 <dd><p>List log events in a workspace.</p>
 <p>List the events from the log of a specific workspace.    If <strong>cursor</strong> is not
 specified, this operation is limited to 40 requests per 30 minutes. If <strong>cursor</strong>
@@ -1297,7 +1342,8 @@ is specified, the limit is 120 requests per minute. For more information, see
 <li><strong>sort</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (<cite>-</cite>). Supported values are <cite>name</cite>, <cite>updated</cite>, and <cite>workspace_id</cite>.</li>
 <li><strong>filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A cacheable parameter that limits the results to those matching the specified filter. For more information, see the [documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax">https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax</a>).</li>
 <li><strong>page_limit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – The number of records to return in each page of results.</li>
-<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the last object from the previous page of results.</li>
+<li><strong>cursor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A token identifying the page of results to retrieve.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -1700,7 +1746,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.DialogNodeVisitedDetails">
-<em class="property">class </em><code class="descname">DialogNodeVisitedDetails</code><span class="sig-paren">(</span><em>dialog_node=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#DialogNodeVisitedDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.DialogNodeVisitedDetails" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DialogNodeVisitedDetails</code><span class="sig-paren">(</span><em>dialog_node=None</em>, <em>title=None</em>, <em>conditions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#DialogNodeVisitedDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.DialogNodeVisitedDetails" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>DialogNodeVisitedDetails.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1711,6 +1757,9 @@ the previous response.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A dialog node that was triggered during processing of the input message.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Attr str title:</th><td class="field-body">(optional) The title of the dialog node.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str conditions:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The conditions that trigger the dialog node.</td>
 </tr>
 </tbody>
 </table>
@@ -2000,7 +2049,7 @@ the previous response.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.LogPagination">
-<em class="property">class </em><code class="descname">LogPagination</code><span class="sig-paren">(</span><em>next_url=None</em>, <em>matched=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#LogPagination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.LogPagination" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">LogPagination</code><span class="sig-paren">(</span><em>next_url=None</em>, <em>matched=None</em>, <em>next_cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#LogPagination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.LogPagination" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The pagination data for the returned objects.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2012,6 +2061,9 @@ the previous response.</p>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr int matched:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Reserved for future use.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str next_cursor:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A token identifying the next page of results.</td>
 </tr>
 </tbody>
 </table>
@@ -2036,7 +2088,7 @@ the previous response.</p>
 <dt id="watson_developer_cloud.assistant_v1.MessageRequest">
 <em class="property">class </em><code class="descname">MessageRequest</code><span class="sig-paren">(</span><em>input=None</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#MessageRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.MessageRequest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>A request formatted for the Assistant service.</p>
+<p>A request formatted for the Watson Assistant service.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2067,7 +2119,7 @@ the previous response.</p>
 <dt id="watson_developer_cloud.assistant_v1.MessageResponse">
 <em class="property">class </em><code class="descname">MessageResponse</code><span class="sig-paren">(</span><em>intents</em>, <em>entities</em>, <em>context</em>, <em>output</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#MessageResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.MessageResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>A response from the Assistant service.</p>
+<p>A response from the Watson Assistant service.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2122,7 +2174,7 @@ messages from the log.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.assistant_v1.Pagination">
-<em class="property">class </em><code class="descname">Pagination</code><span class="sig-paren">(</span><em>refresh_url</em>, <em>next_url=None</em>, <em>total=None</em>, <em>matched=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Pagination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Pagination" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Pagination</code><span class="sig-paren">(</span><em>refresh_url</em>, <em>next_url=None</em>, <em>total=None</em>, <em>matched=None</em>, <em>refresh_cursor=None</em>, <em>next_cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v1.html#Pagination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v1.Pagination" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The pagination data for the returned objects.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2139,6 +2191,12 @@ messages from the log.</p>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr int matched:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Reserved for future use.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str refresh_cursor:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A token identifying the current page of results.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str next_cursor:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A token identifying the next page of results.</td>
 </tr>
 </tbody>
 </table>
@@ -2451,7 +2509,7 @@ messages from the log.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../index.html" title="previous chapter">Python SDK 1.2.1</a></li>
+      <li>Previous: <a href="../index.html" title="previous chapter">Python SDK 1.3.0</a></li>
       <li>Next: <a href="watson_developer_cloud.authorization_v1.html" title="next chapter">watson_developer_cloud.authorization_v1 module</a></li>
   </ul></li>
 </ul>
