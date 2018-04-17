@@ -8,25 +8,32 @@ import pytest
 @pytest.mark.skipif(
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class TestSpeechToTextV1(TestCase):
-    def setUp(self):
-        self.speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    text_to_speech = None
+    custom_models = None
+    create_custom_model = None
+    customization_id = None
+
+    @classmethod
+    def setup_class(cls):
+        cls.speech_to_text = watson_developer_cloud.SpeechToTextV1(
             username=os.getenv('YOUR SERVICE USERNAME'),
             password=os.getenv('YOUR SERVICE PASSWORD'))
-        self.speech_to_text.set_default_headers({
+        cls.speech_to_text.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
             'X-Watson-Test':
             '1'
         })
-        self.custom_models = self.speech_to_text.list_language_models()
-        self.create_custom_model = self.speech_to_text.create_language_model(
+        cls.custom_models = cls.speech_to_text.list_language_models()
+        cls.create_custom_model = cls.speech_to_text.create_language_model(
             name="integration_test_model",
             base_model_name="en-US_BroadbandModel")
-        self.customization_id = self.create_custom_model['customization_id']
+        cls.customization_id = cls.create_custom_model['customization_id']
 
-    def tearDown(self):
-        self.speech_to_text.delete_language_model(
-            customization_id=self.create_custom_model['customization_id'])
+    @classmethod
+    def teardown_class(cls):
+        cls.speech_to_text.delete_language_model(
+            customization_id=cls.create_custom_model['customization_id'])
 
     def test_models(self):
         output = self.speech_to_text.list_models()

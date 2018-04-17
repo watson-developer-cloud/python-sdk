@@ -43,3 +43,15 @@ with open(join(dirname(__file__),
     tone = tone_analyzer.tone(json.load(tone_html)['text'],
                               content_type='text/html')
 print(json.dumps(tone, indent=2))
+
+print("\ntone() example 6 with GDPR support:\n")
+tone_analyzer.set_detailed_response(True)
+with open(join(dirname(__file__),
+               '../resources/tone-example-html.json')) as tone_html:
+    tone = tone_analyzer.tone(json.load(tone_html)['text'],
+                              content_type='text/html',
+                              headers={'Custom-Header': 'custom_value'})
+
+print(tone)
+print(tone.get_headers())
+print(tone.get_result())

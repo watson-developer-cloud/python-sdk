@@ -10,27 +10,37 @@ import json
 @pytest.mark.skipif(
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class IntegrationTestVisualRecognitionV3(TestCase):
-    def setUp(self):
-        self.visual_recognition = watson_developer_cloud.VisualRecognitionV3(
+    visual_recognition = None
+    classifier_id = None
+
+    @classmethod
+    def setup_class(cls):
+        cls.visual_recognition = watson_developer_cloud.VisualRecognitionV3(
             '2016-05-20', api_key=os.environ.get('YOUR API KEY'))
-        self.visual_recognition.set_default_headers({
+        cls.visual_recognition.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
             'X-Watson-Test':
             '1'
         })
-        self.classifier_id = 'CarsvsTrucksxDO_NOT_DELETE_771019274'
+        cls.classifier_id = 'doxnotxdeletexdogxvsxcat_1697519201'
+
+    @classmethod
+    def teardown_class(cls):
+        classifiers = cls.visual_recognition.list_classifiers()['classifiers']
+
+        if classifiers:
+            for classifier in classifiers:
+                if 'CarsVsTrucks' in classifier['name']:
+                    cls.visual_recognition.delete_classifier(classifier['classifier_id'])
 
     def test_classify(self):
-        car_path = join(dirname(__file__), '../../resources/cars.zip')
+        car_path = join(dirname(__file__), '../../resources/dog.jpg')
         with open(car_path, 'rb') as images_file:
-            parameters = json.dumps({
-                'threshold':
-                0.1,
-                'classifier_ids': [self.classifier_id, 'default']
-            })
             car_results = self.visual_recognition.classify(
-                images_file=images_file, parameters=parameters)
+                images_file=images_file,
+                threshold='0.1',
+                classifier_ids=['default'])
         assert car_results is not None
 
     def test_detect_faces(self):
@@ -45,7 +55,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
             open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
             classifier = self.visual_recognition.create_classifier(
-                'Cars vs Trucks',
+                'CarsVsTrucks',
                 cars_positive_examples=cars,
                 negative_examples=trucks,
                 )
@@ -55,9 +65,6 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         classifier_id = classifier['classifier_id']
         output = self.visual_recognition.get_classifier(classifier_id)
         assert output is not None
-
-        classifiers = self.visual_recognition.list_classifiers()
-        assert classifiers is not None
 
         output = self.visual_recognition.delete_classifier(classifier_id)
 
