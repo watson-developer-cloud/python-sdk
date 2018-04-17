@@ -80,10 +80,10 @@ class DiscoveryV1(WatsonService):
         self.version = version
 
     #########################
-    # environments
+    # Environments
     #########################
 
-    def create_environment(self, name, description=None, size=None):
+    def create_environment(self, name, description=None, size=None, **kwargs):
         """
         Add an environment.
 
@@ -93,69 +93,102 @@ class DiscoveryV1(WatsonService):
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
         :param int size: **Deprecated**: Size of the environment.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Environment` response.
         :rtype: dict
         """
         if name is None:
             raise ValueError('name must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'name': name, 'description': description, 'size': size}
         url = '/v1/environments'
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_environment(self, environment_id):
+    def delete_environment(self, environment_id, **kwargs):
         """
         Delete environment.
 
         :param str environment_id: The ID of the environment.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DeleteEnvironmentResponse` response.
         :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='DELETE', url=url, params=params, accept_json=True)
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def get_environment(self, environment_id):
+    def get_environment(self, environment_id, **kwargs):
         """
         Get environment info.
 
         :param str environment_id: The ID of the environment.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Environment` response.
         :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def list_environments(self, name=None):
+    def list_environments(self, name=None, **kwargs):
         """
         List environments.
 
         List existing environments for the service instance.
 
         :param str name: Show only the environment with the given name.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ListEnvironmentsResponse` response.
         :rtype: dict
         """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'name': name}
         url = '/v1/environments'
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def list_fields(self, environment_id, collection_ids):
+    def list_fields(self, environment_id, collection_ids, **kwargs):
         """
         List fields in specified collections.
 
@@ -164,6 +197,7 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param list[str] collection_ids: A comma-separated list of collection IDs to be queried against.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ListCollectionFieldsResponse` response.
         :rtype: dict
         """
@@ -171,6 +205,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'collection_ids': self._convert_list(collection_ids)
@@ -178,10 +215,18 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/fields'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def update_environment(self, environment_id, name=None, description=None):
+    def update_environment(self,
+                           environment_id,
+                           name=None,
+                           description=None,
+                           **kwargs):
         """
         Update an environment.
 
@@ -191,21 +236,30 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Environment` response.
         :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'name': name, 'description': description}
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='PUT', url=url, params=params, json=data, accept_json=True)
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # configurations
+    # Configurations
     #########################
 
     def create_configuration(self,
@@ -214,7 +268,8 @@ class DiscoveryV1(WatsonService):
                              description=None,
                              conversions=None,
                              enrichments=None,
-                             normalizations=None):
+                             normalizations=None,
+                             **kwargs):
         """
         Add configuration.
 
@@ -233,6 +288,7 @@ class DiscoveryV1(WatsonService):
         :param Conversions conversions: The document conversion settings for the configuration.
         :param list[Enrichment] enrichments: An array of document enrichment settings for the configuration.
         :param list[NormalizationOperation] normalizations: Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Configuration` response.
         :rtype: dict
         """
@@ -251,6 +307,9 @@ class DiscoveryV1(WatsonService):
                 self._convert_model(x, NormalizationOperation)
                 for x in normalizations
             ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'name': name,
@@ -262,10 +321,15 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/configurations'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_configuration(self, environment_id, configuration_id):
+    def delete_configuration(self, environment_id, configuration_id, **kwargs):
         """
         Delete a configuration.
 
@@ -278,6 +342,7 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str configuration_id: The ID of the configuration.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DeleteConfigurationResponse` response.
         :rtype: dict
         """
@@ -285,19 +350,27 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if configuration_id is None:
             raise ValueError('configuration_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
         response = self.request(
-            method='DELETE', url=url, params=params, accept_json=True)
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def get_configuration(self, environment_id, configuration_id):
+    def get_configuration(self, environment_id, configuration_id, **kwargs):
         """
         Get configuration details.
 
         :param str environment_id: The ID of the environment.
         :param str configuration_id: The ID of the configuration.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Configuration` response.
         :rtype: dict
         """
@@ -305,14 +378,21 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if configuration_id is None:
             raise ValueError('configuration_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def list_configurations(self, environment_id, name=None):
+    def list_configurations(self, environment_id, name=None, **kwargs):
         """
         List configurations.
 
@@ -320,16 +400,24 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str name: Find configurations with the given name.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ListConfigurationsResponse` response.
         :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'name': name}
         url = '/v1/environments/{0}/configurations'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_configuration(self,
@@ -339,7 +427,8 @@ class DiscoveryV1(WatsonService):
                              description=None,
                              conversions=None,
                              enrichments=None,
-                             normalizations=None):
+                             normalizations=None,
+                             **kwargs):
         """
         Update a configuration.
 
@@ -358,6 +447,7 @@ class DiscoveryV1(WatsonService):
         :param Conversions conversions: The document conversion settings for the configuration.
         :param list[Enrichment] enrichments: An array of document enrichment settings for the configuration.
         :param list[NormalizationOperation] normalizations: Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Configuration` response.
         :rtype: dict
         """
@@ -378,6 +468,9 @@ class DiscoveryV1(WatsonService):
                 self._convert_model(x, NormalizationOperation)
                 for x in normalizations
             ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'name': name,
@@ -389,11 +482,16 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
         response = self.request(
-            method='PUT', url=url, params=params, json=data, accept_json=True)
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # testYourConfigurationOnADocument
+    # Test your configuration on a document
     #########################
 
     def test_configuration_in_environment(self,
@@ -404,7 +502,8 @@ class DiscoveryV1(WatsonService):
                                           file=None,
                                           metadata=None,
                                           file_content_type=None,
-                                          filename=None):
+                                          filename=None,
+                                          **kwargs):
         """
         Test configuration.
 
@@ -420,11 +519,15 @@ class DiscoveryV1(WatsonService):
         :param str metadata: If you're using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {   \"Creator\": \"Johnny Appleseed\",   \"Subject\": \"Apples\" } ```.
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TestDocument` response.
         :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'step': step,
@@ -449,6 +552,7 @@ class DiscoveryV1(WatsonService):
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             params=params,
             files={
                 'configuration': configuration_tuple,
@@ -459,7 +563,7 @@ class DiscoveryV1(WatsonService):
         return response
 
     #########################
-    # collections
+    # Collections
     #########################
 
     def create_collection(self,
@@ -467,7 +571,8 @@ class DiscoveryV1(WatsonService):
                           name,
                           description=None,
                           configuration_id=None,
-                          language=None):
+                          language=None,
+                          **kwargs):
         """
         Create a collection.
 
@@ -476,6 +581,7 @@ class DiscoveryV1(WatsonService):
         :param str description: A description of the collection.
         :param str configuration_id: The ID of the configuration in which the collection is to be created.
         :param str language: The language of the documents stored in the collection, in the form of an ISO 639-1 language code.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Collection` response.
         :rtype: dict
         """
@@ -483,6 +589,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if name is None:
             raise ValueError('name must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'name': name,
@@ -493,10 +602,177 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/collections'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def create_expansions(self, environment_id, collection_id, expansions):
+    def delete_collection(self, environment_id, collection_id, **kwargs):
+        """
+        Delete a collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `DeleteCollectionResponse` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def get_collection(self, environment_id, collection_id, **kwargs):
+        """
+        Get collection details.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Collection` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_collection_fields(self, environment_id, collection_id, **kwargs):
+        """
+        List unique fields.
+
+        Gets a list of the unique fields (and their types) stored in the index.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `ListCollectionFieldsResponse` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        url = '/v1/environments/{0}/collections/{1}/fields'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_collections(self, environment_id, name=None, **kwargs):
+        """
+        List collections.
+
+        Lists existing collections for the service instance.
+
+        :param str environment_id: The ID of the environment.
+        :param str name: Find collections with the given name.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `ListCollectionsResponse` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'name': name}
+        url = '/v1/environments/{0}/collections'.format(
+            *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def update_collection(self,
+                          environment_id,
+                          collection_id,
+                          name,
+                          description=None,
+                          configuration_id=None,
+                          **kwargs):
+        """
+        Update a collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str name: The name of the collection.
+        :param str description: A description of the collection.
+        :param str configuration_id: The ID of the configuration in which the collection is to be updated.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Collection` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        data = {
+            'name': name,
+            'description': description,
+            'configuration_id': configuration_id
+        }
+        url = '/v1/environments/{0}/collections/{1}'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    #########################
+    # Expansions
+    #########################
+
+    def create_expansions(self, environment_id, collection_id, expansions,
+                          **kwargs):
         """
         Set the expansion list.
 
@@ -507,6 +783,7 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param list[Expansion] expansions: An array of query expansion definitions.    Each object in the `expansions` array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an `expanded_terms` array. When found in a query, all items in the `expanded_terms` array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of `input_terms` and an array of `expanded_terms`. When items in the `input_terms` array are present in a query, they are expanded using the items listed in the `expanded_terms` array.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Expansions` response.
         :rtype: dict
         """
@@ -517,35 +794,23 @@ class DiscoveryV1(WatsonService):
         if expansions is None:
             raise ValueError('expansions must be provided')
         expansions = [self._convert_model(x, Expansion) for x in expansions]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'expansions': expansions}
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_collection(self, environment_id, collection_id):
-        """
-        Delete a collection.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :return: A `dict` containing the `DeleteCollectionResponse` response.
-        :rtype: dict
-        """
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        params = {'version': self.version}
-        url = '/v1/environments/{0}/collections/{1}'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE', url=url, params=params, accept_json=True)
-        return response
-
-    def delete_expansions(self, environment_id, collection_id):
+    def delete_expansions(self, environment_id, collection_id, **kwargs):
         """
         Delete the expansions list.
 
@@ -554,81 +819,28 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
-    def get_collection(self, environment_id, collection_id):
-        """
-        Get collection details.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :return: A `dict` containing the `Collection` response.
-        :rtype: dict
-        """
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        params = {'version': self.version}
-        url = '/v1/environments/{0}/collections/{1}'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def list_collection_fields(self, environment_id, collection_id):
-        """
-        List unique fields.
-
-        Gets a list of the unique fields (and their types) stored in the index.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :return: A `dict` containing the `ListCollectionFieldsResponse` response.
-        :rtype: dict
-        """
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        params = {'version': self.version}
-        url = '/v1/environments/{0}/collections/{1}/fields'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def list_collections(self, environment_id, name=None):
-        """
-        List collections.
-
-        Lists existing collections for the service instance.
-
-        :param str environment_id: The ID of the environment.
-        :param str name: Find collections with the given name.
-        :return: A `dict` containing the `ListCollectionsResponse` response.
-        :rtype: dict
-        """
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        params = {'version': self.version, 'name': name}
-        url = '/v1/environments/{0}/collections'.format(
-            *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def list_expansions(self, environment_id, collection_id):
+    def list_expansions(self, environment_id, collection_id, **kwargs):
         """
         List current expansions.
 
@@ -637,6 +849,7 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Expansions` response.
         :rtype: dict
         """
@@ -644,48 +857,22 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def update_collection(self,
-                          environment_id,
-                          collection_id,
-                          name,
-                          description=None,
-                          configuration_id=None):
-        """
-        Update a collection.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str name: The name of the collection.
-        :param str description: A description of the collection.
-        :param str configuration_id: The ID of the configuration in which the collection is to be updated.
-        :return: A `dict` containing the `Collection` response.
-        :rtype: dict
-        """
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        params = {'version': self.version}
-        data = {
-            'name': name,
-            'description': description,
-            'configuration_id': configuration_id
-        }
-        url = '/v1/environments/{0}/collections/{1}'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='PUT', url=url, params=params, json=data, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     #########################
-    # documents
+    # Documents
     #########################
 
     def add_document(self,
@@ -694,7 +881,8 @@ class DiscoveryV1(WatsonService):
                      file=None,
                      metadata=None,
                      file_content_type=None,
-                     filename=None):
+                     filename=None,
+                     **kwargs):
         """
         Add a document.
 
@@ -719,6 +907,7 @@ class DiscoveryV1(WatsonService):
         :param str metadata: If you're using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {   \"Creator\": \"Johnny Appleseed\",   \"Subject\": \"Apples\" } ```.
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DocumentAccepted` response.
         :rtype: dict
         """
@@ -726,6 +915,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         file_tuple = None
         if file:
@@ -743,13 +935,15 @@ class DiscoveryV1(WatsonService):
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             params=params,
             files={'file': file_tuple,
                    'metadata': metadata_tuple},
             accept_json=True)
         return response
 
-    def delete_document(self, environment_id, collection_id, document_id):
+    def delete_document(self, environment_id, collection_id, document_id,
+                        **kwargs):
         """
         Delete a document.
 
@@ -760,6 +954,7 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DeleteDocumentResponse` response.
         :rtype: dict
         """
@@ -769,14 +964,22 @@ class DiscoveryV1(WatsonService):
             raise ValueError('collection_id must be provided')
         if document_id is None:
             raise ValueError('document_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, document_id))
         response = self.request(
-            method='DELETE', url=url, params=params, accept_json=True)
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def get_document_status(self, environment_id, collection_id, document_id):
+    def get_document_status(self, environment_id, collection_id, document_id,
+                            **kwargs):
         """
         Get document details.
 
@@ -788,6 +991,7 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DocumentStatus` response.
         :rtype: dict
         """
@@ -797,11 +1001,18 @@ class DiscoveryV1(WatsonService):
             raise ValueError('collection_id must be provided')
         if document_id is None:
             raise ValueError('document_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, document_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_document(self,
@@ -811,7 +1022,8 @@ class DiscoveryV1(WatsonService):
                         file=None,
                         metadata=None,
                         file_content_type=None,
-                        filename=None):
+                        filename=None,
+                        **kwargs):
         """
         Update a document.
 
@@ -824,6 +1036,7 @@ class DiscoveryV1(WatsonService):
         :param str metadata: If you're using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {   \"Creator\": \"Johnny Appleseed\",   \"Subject\": \"Apples\" } ```.
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DocumentAccepted` response.
         :rtype: dict
         """
@@ -833,6 +1046,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('collection_id must be provided')
         if document_id is None:
             raise ValueError('document_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         file_tuple = None
         if file:
@@ -850,6 +1066,7 @@ class DiscoveryV1(WatsonService):
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             params=params,
             files={'file': file_tuple,
                    'metadata': metadata_tuple},
@@ -857,7 +1074,7 @@ class DiscoveryV1(WatsonService):
         return response
 
     #########################
-    # queries
+    # Queries
     #########################
 
     def federated_query(self,
@@ -876,7 +1093,8 @@ class DiscoveryV1(WatsonService):
                         deduplicate_field=None,
                         similar=None,
                         similar_document_ids=None,
-                        similar_fields=None):
+                        similar_fields=None,
+                        **kwargs):
         """
         Query documents in multiple collections.
 
@@ -900,6 +1118,7 @@ class DiscoveryV1(WatsonService):
         :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
         :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
         :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
         """
@@ -907,6 +1126,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'collection_ids': self._convert_list(collection_ids),
@@ -928,7 +1150,11 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/query'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def federated_query_notices(self,
@@ -946,7 +1172,8 @@ class DiscoveryV1(WatsonService):
                                 deduplicate_field=None,
                                 similar=None,
                                 similar_document_ids=None,
-                                similar_fields=None):
+                                similar_fields=None,
+                                **kwargs):
         """
         Query multiple collection system notices.
 
@@ -971,6 +1198,7 @@ class DiscoveryV1(WatsonService):
         :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
         :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
         :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryNoticesResponse` response.
         :rtype: dict
         """
@@ -978,6 +1206,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'collection_ids': self._convert_list(collection_ids),
@@ -998,7 +1229,11 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/notices'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def query(self,
@@ -1021,7 +1256,8 @@ class DiscoveryV1(WatsonService):
               deduplicate_field=None,
               similar=None,
               similar_document_ids=None,
-              similar_fields=None):
+              similar_fields=None,
+              **kwargs):
         """
         Query documents.
 
@@ -1037,7 +1273,7 @@ class DiscoveryV1(WatsonService):
         :param bool passages: A passages query that returns the most relevant passages from the results.
         :param str aggregation: An aggregation search uses combinations of filters and query search to return an exact answer. Aggregations are useful for building applications, because you can use them to build lists, tables, and time series. For a full list of possible aggregrations, see the Query reference.
         :param int count: Number of documents to return.
-        :param list[str] return_fields: A comma separated list of the portion of the document hierarchy to return_fields.
+        :param list[str] return_fields: A comma separated list of the portion of the document hierarchy to return.
         :param int offset: The number of query results to skip at the beginning. For example, if the total number of results that are returned is 10, and the offset is 8, it returns the last two results.
         :param list[str] sort: A comma separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the default sort direction if no prefix is specified.
         :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `<em></em>` tags around the matching query terms. Defaults to false.
@@ -1049,6 +1285,7 @@ class DiscoveryV1(WatsonService):
         :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
         :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
         :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
         """
@@ -1056,6 +1293,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'filter': filter,
@@ -1080,7 +1320,11 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/collections/{1}/query'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def query_entities(self,
@@ -1089,7 +1333,9 @@ class DiscoveryV1(WatsonService):
                        feature=None,
                        entity=None,
                        context=None,
-                       count=None):
+                       count=None,
+                       evidence_count=None,
+                       **kwargs):
         """
         Knowledge Graph entity query.
 
@@ -1099,10 +1345,12 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str feature: The entity query feature to perform. Must be `disambiguate`.
+        :param str feature: The entity query feature to perform. Supported features are `disambiguate` and `similar_entities`.
         :param QueryEntitiesEntity entity: A text string that appears within the entity text field.
         :param QueryEntitiesContext context: Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
         :param int count: The number of results to return. The default is `10`. The maximum is `1000`.
+        :param int evidence_count: The number of evidence items to return for each result. The default is `0`. The maximum number of evidence items per query is 10,000.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryEntitiesResponse` response.
         :rtype: dict
         """
@@ -1114,17 +1362,26 @@ class DiscoveryV1(WatsonService):
             entity = self._convert_model(entity, QueryEntitiesEntity)
         if context is not None:
             context = self._convert_model(context, QueryEntitiesContext)
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'feature': feature,
             'entity': entity,
             'context': context,
-            'count': count
+            'count': count,
+            'evidence_count': evidence_count
         }
         url = '/v1/environments/{0}/collections/{1}/query_entities'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     def query_notices(self,
@@ -1146,7 +1403,8 @@ class DiscoveryV1(WatsonService):
                       deduplicate_field=None,
                       similar=None,
                       similar_document_ids=None,
-                      similar_fields=None):
+                      similar_fields=None,
+                      **kwargs):
         """
         Query system notices.
 
@@ -1175,6 +1433,7 @@ class DiscoveryV1(WatsonService):
         :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
         :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
         :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryNoticesResponse` response.
         :rtype: dict
         """
@@ -1182,6 +1441,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'filter': filter,
@@ -1205,7 +1467,11 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/collections/{1}/notices'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def query_relations(self,
@@ -1215,7 +1481,9 @@ class DiscoveryV1(WatsonService):
                         context=None,
                         sort=None,
                         filter=None,
-                        count=None):
+                        count=None,
+                        evidence_count=None,
+                        **kwargs):
         """
         Knowledge Graph relationship query.
 
@@ -1230,6 +1498,8 @@ class DiscoveryV1(WatsonService):
         :param str sort: The sorting method for the relationships, can be `score` or `frequency`. `frequency` is the number of unique times each entity is identified. The default is `score`.
         :param QueryRelationsFilter filter: Filters to apply to the relationship query.
         :param int count: The number of results to return. The default is `10`. The maximum is `1000`.
+        :param int evidence_count: The number of evidence items to return for each result. The default is `0`. The maximum number of evidence items per query is 10,000.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryRelationsResponse` response.
         :rtype: dict
         """
@@ -1245,22 +1515,31 @@ class DiscoveryV1(WatsonService):
             context = self._convert_model(context, QueryEntitiesContext)
         if filter is not None:
             filter = self._convert_model(filter, QueryRelationsFilter)
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'entities': entities,
             'context': context,
             'sort': sort,
             'filter': filter,
-            'count': count
+            'count': count,
+            'evidence_count': evidence_count
         }
         url = '/v1/environments/{0}/collections/{1}/query_relations'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # trainingData
+    # Training Data
     #########################
 
     def add_training_data(self,
@@ -1268,7 +1547,8 @@ class DiscoveryV1(WatsonService):
                           collection_id,
                           natural_language_query=None,
                           filter=None,
-                          examples=None):
+                          examples=None,
+                          **kwargs):
         """
         Adds a query to the training data for this collection. The query can contain a
         filter and natural language query.
@@ -1278,6 +1558,7 @@ class DiscoveryV1(WatsonService):
         :param str natural_language_query:
         :param str filter:
         :param list[TrainingExample] examples:
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TrainingQuery` response.
         :rtype: dict
         """
@@ -1289,6 +1570,9 @@ class DiscoveryV1(WatsonService):
             examples = [
                 self._convert_model(x, TrainingExample) for x in examples
             ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'natural_language_query': natural_language_query,
@@ -1298,7 +1582,12 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     def create_training_example(self,
@@ -1307,7 +1596,8 @@ class DiscoveryV1(WatsonService):
                                 query_id,
                                 document_id=None,
                                 cross_reference=None,
-                                relevance=None):
+                                relevance=None,
+                                **kwargs):
         """
         Adds a new example to this training data query.
 
@@ -1317,6 +1607,7 @@ class DiscoveryV1(WatsonService):
         :param str document_id:
         :param str cross_reference:
         :param int relevance:
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TrainingExample` response.
         :rtype: dict
         """
@@ -1326,6 +1617,9 @@ class DiscoveryV1(WatsonService):
             raise ValueError('collection_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'document_id': document_id,
@@ -1335,34 +1629,50 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_all_training_data(self, environment_id, collection_id):
+    def delete_all_training_data(self, environment_id, collection_id, **kwargs):
         """
         Clears all training data for this collection.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
-    def delete_training_data(self, environment_id, collection_id, query_id):
+    def delete_training_data(self, environment_id, collection_id, query_id,
+                             **kwargs):
         """
         Removes the training data and all associated examples from the training data set.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if environment_id is None:
@@ -1371,14 +1681,22 @@ class DiscoveryV1(WatsonService):
             raise ValueError('collection_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
     def delete_training_example(self, environment_id, collection_id, query_id,
-                                example_id):
+                                example_id, **kwargs):
         """
         Removes the example with the given ID for the training data query.
 
@@ -1386,6 +1704,7 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
         :param str example_id: The ID of the document as it is indexed.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if environment_id is None:
@@ -1396,14 +1715,23 @@ class DiscoveryV1(WatsonService):
             raise ValueError('query_id must be provided')
         if example_id is None:
             raise ValueError('example_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
-    def get_training_data(self, environment_id, collection_id, query_id):
+    def get_training_data(self, environment_id, collection_id, query_id,
+                          **kwargs):
         """
         Shows details for a specific training data query, including the query string and
         all examples.
@@ -1411,6 +1739,7 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TrainingQuery` response.
         :rtype: dict
         """
@@ -1420,15 +1749,22 @@ class DiscoveryV1(WatsonService):
             raise ValueError('collection_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def get_training_example(self, environment_id, collection_id, query_id,
-                             example_id):
+                             example_id, **kwargs):
         """
         Gets the details for this training example.
 
@@ -1436,6 +1772,7 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
         :param str example_id: The ID of the document as it is indexed.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TrainingExample` response.
         :rtype: dict
         """
@@ -1447,20 +1784,28 @@ class DiscoveryV1(WatsonService):
             raise ValueError('query_id must be provided')
         if example_id is None:
             raise ValueError('example_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def list_training_data(self, environment_id, collection_id):
+    def list_training_data(self, environment_id, collection_id, **kwargs):
         """
         Lists the training data for this collection.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TrainingDataSet` response.
         :rtype: dict
         """
@@ -1468,20 +1813,29 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def list_training_examples(self, environment_id, collection_id, query_id):
+    def list_training_examples(self, environment_id, collection_id, query_id,
+                               **kwargs):
         """
         List all examples for this training data query.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TrainingExampleList` response.
         :rtype: dict
         """
@@ -1491,11 +1845,18 @@ class DiscoveryV1(WatsonService):
             raise ValueError('collection_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_training_example(self,
@@ -1504,7 +1865,8 @@ class DiscoveryV1(WatsonService):
                                 query_id,
                                 example_id,
                                 cross_reference=None,
-                                relevance=None):
+                                relevance=None,
+                                **kwargs):
         """
         Changes the label or cross reference query for this training example.
 
@@ -1514,6 +1876,7 @@ class DiscoveryV1(WatsonService):
         :param str example_id: The ID of the document as it is indexed.
         :param str cross_reference:
         :param int relevance:
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TrainingExample` response.
         :rtype: dict
         """
@@ -1525,13 +1888,21 @@ class DiscoveryV1(WatsonService):
             raise ValueError('query_id must be provided')
         if example_id is None:
             raise ValueError('example_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'cross_reference': cross_reference, 'relevance': relevance}
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
         response = self.request(
-            method='PUT', url=url, params=params, json=data, accept_json=True)
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
 
@@ -1566,12 +1937,13 @@ class AggregationResult(object):
         """Initialize a AggregationResult object from a json dictionary."""
         args = {}
         if 'key' in _dict:
-            args['key'] = _dict['key']
+            args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
-            args['matching_results'] = _dict['matching_results']
+            args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x) for x in _dict['aggregations']
+                QueryAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
             ]
         return cls(**args)
 
@@ -1663,30 +2035,30 @@ class Collection(object):
         """Initialize a Collection object from a json dictionary."""
         args = {}
         if 'collection_id' in _dict:
-            args['collection_id'] = _dict['collection_id']
+            args['collection_id'] = _dict.get('collection_id')
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict['configuration_id']
+            args['configuration_id'] = _dict.get('configuration_id')
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         if 'document_counts' in _dict:
             args['document_counts'] = DocumentCounts._from_dict(
-                _dict['document_counts'])
+                _dict.get('document_counts'))
         if 'disk_usage' in _dict:
             args['disk_usage'] = CollectionDiskUsage._from_dict(
-                _dict['disk_usage'])
+                _dict.get('disk_usage'))
         if 'training_status' in _dict:
             args['training_status'] = TrainingStatus._from_dict(
-                _dict['training_status'])
+                _dict.get('training_status'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1754,7 +2126,7 @@ class CollectionDiskUsage(object):
         """Initialize a CollectionDiskUsage object from a json dictionary."""
         args = {}
         if 'used_bytes' in _dict:
-            args['used_bytes'] = _dict['used_bytes']
+            args['used_bytes'] = _dict.get('used_bytes')
         return cls(**args)
 
     def _to_dict(self):
@@ -1802,9 +2174,9 @@ class CollectionUsage(object):
         """Initialize a CollectionUsage object from a json dictionary."""
         args = {}
         if 'available' in _dict:
-            args['available'] = _dict['available']
+            args['available'] = _dict.get('available')
         if 'maximum_allowed' in _dict:
-            args['maximum_allowed'] = _dict['maximum_allowed']
+            args['maximum_allowed'] = _dict.get('maximum_allowed')
         return cls(**args)
 
     def _to_dict(self):
@@ -1881,28 +2253,29 @@ class Configuration(object):
         """Initialize a Configuration object from a json dictionary."""
         args = {}
         if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict['configuration_id']
+            args['configuration_id'] = _dict.get('configuration_id')
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         else:
             raise ValueError(
                 'Required property \'name\' not present in Configuration JSON')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'conversions' in _dict:
-            args['conversions'] = Conversions._from_dict(_dict['conversions'])
+            args['conversions'] = Conversions._from_dict(
+                _dict.get('conversions'))
         if 'enrichments' in _dict:
             args['enrichments'] = [
-                Enrichment._from_dict(x) for x in _dict['enrichments']
+                Enrichment._from_dict(x) for x in (_dict.get('enrichments'))
             ]
         if 'normalizations' in _dict:
             args['normalizations'] = [
                 NormalizationOperation._from_dict(x)
-                for x in _dict['normalizations']
+                for x in (_dict.get('normalizations'))
             ]
         return cls(**args)
 
@@ -1952,10 +2325,15 @@ class Conversions(object):
     :attr PdfSettings pdf: (optional) A list of PDF conversion settings.
     :attr WordSettings word: (optional) A list of Word conversion settings.
     :attr HtmlSettings html: (optional) A list of HTML conversion settings.
+    :attr SegmentSettings segment: (optional) A list of Document Segmentation settings.
     :attr list[NormalizationOperation] json_normalizations: (optional) Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
     """
 
-    def __init__(self, pdf=None, word=None, html=None,
+    def __init__(self,
+                 pdf=None,
+                 word=None,
+                 html=None,
+                 segment=None,
                  json_normalizations=None):
         """
         Initialize a Conversions object.
@@ -1963,11 +2341,13 @@ class Conversions(object):
         :param PdfSettings pdf: (optional) A list of PDF conversion settings.
         :param WordSettings word: (optional) A list of Word conversion settings.
         :param HtmlSettings html: (optional) A list of HTML conversion settings.
+        :param SegmentSettings segment: (optional) A list of Document Segmentation settings.
         :param list[NormalizationOperation] json_normalizations: (optional) Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
         """
         self.pdf = pdf
         self.word = word
         self.html = html
+        self.segment = segment
         self.json_normalizations = json_normalizations
 
     @classmethod
@@ -1975,15 +2355,17 @@ class Conversions(object):
         """Initialize a Conversions object from a json dictionary."""
         args = {}
         if 'pdf' in _dict:
-            args['pdf'] = PdfSettings._from_dict(_dict['pdf'])
+            args['pdf'] = PdfSettings._from_dict(_dict.get('pdf'))
         if 'word' in _dict:
-            args['word'] = WordSettings._from_dict(_dict['word'])
+            args['word'] = WordSettings._from_dict(_dict.get('word'))
         if 'html' in _dict:
-            args['html'] = HtmlSettings._from_dict(_dict['html'])
+            args['html'] = HtmlSettings._from_dict(_dict.get('html'))
+        if 'segment' in _dict:
+            args['segment'] = SegmentSettings._from_dict(_dict.get('segment'))
         if 'json_normalizations' in _dict:
             args['json_normalizations'] = [
                 NormalizationOperation._from_dict(x)
-                for x in _dict['json_normalizations']
+                for x in (_dict.get('json_normalizations'))
             ]
         return cls(**args)
 
@@ -1996,6 +2378,8 @@ class Conversions(object):
             _dict['word'] = self.word._to_dict()
         if hasattr(self, 'html') and self.html is not None:
             _dict['html'] = self.html._to_dict()
+        if hasattr(self, 'segment') and self.segment is not None:
+            _dict['segment'] = self.segment._to_dict()
         if hasattr(
                 self,
                 'json_normalizations') and self.json_normalizations is not None:
@@ -2042,13 +2426,13 @@ class DeleteCollectionResponse(object):
         """Initialize a DeleteCollectionResponse object from a json dictionary."""
         args = {}
         if 'collection_id' in _dict:
-            args['collection_id'] = _dict['collection_id']
+            args['collection_id'] = _dict.get('collection_id')
         else:
             raise ValueError(
                 'Required property \'collection_id\' not present in DeleteCollectionResponse JSON'
             )
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         else:
             raise ValueError(
                 'Required property \'status\' not present in DeleteCollectionResponse JSON'
@@ -2105,19 +2489,21 @@ class DeleteConfigurationResponse(object):
         """Initialize a DeleteConfigurationResponse object from a json dictionary."""
         args = {}
         if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict['configuration_id']
+            args['configuration_id'] = _dict.get('configuration_id')
         else:
             raise ValueError(
                 'Required property \'configuration_id\' not present in DeleteConfigurationResponse JSON'
             )
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         else:
             raise ValueError(
                 'Required property \'status\' not present in DeleteConfigurationResponse JSON'
             )
         if 'notices' in _dict:
-            args['notices'] = [Notice._from_dict(x) for x in _dict['notices']]
+            args['notices'] = [
+                Notice._from_dict(x) for x in (_dict.get('notices'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -2170,9 +2556,9 @@ class DeleteDocumentResponse(object):
         """Initialize a DeleteDocumentResponse object from a json dictionary."""
         args = {}
         if 'document_id' in _dict:
-            args['document_id'] = _dict['document_id']
+            args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         return cls(**args)
 
     def _to_dict(self):
@@ -2222,13 +2608,13 @@ class DeleteEnvironmentResponse(object):
         """Initialize a DeleteEnvironmentResponse object from a json dictionary."""
         args = {}
         if 'environment_id' in _dict:
-            args['environment_id'] = _dict['environment_id']
+            args['environment_id'] = _dict.get('environment_id')
         else:
             raise ValueError(
                 'Required property \'environment_id\' not present in DeleteEnvironmentResponse JSON'
             )
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         else:
             raise ValueError(
                 'Required property \'status\' not present in DeleteEnvironmentResponse JSON'
@@ -2300,17 +2686,17 @@ class DiskUsage(object):
         """Initialize a DiskUsage object from a json dictionary."""
         args = {}
         if 'used_bytes' in _dict:
-            args['used_bytes'] = _dict['used_bytes']
+            args['used_bytes'] = _dict.get('used_bytes')
         if 'maximum_allowed_bytes' in _dict:
-            args['maximum_allowed_bytes'] = _dict['maximum_allowed_bytes']
+            args['maximum_allowed_bytes'] = _dict.get('maximum_allowed_bytes')
         if 'total_bytes' in _dict:
-            args['total_bytes'] = _dict['total_bytes']
+            args['total_bytes'] = _dict.get('total_bytes')
         if 'used' in _dict:
-            args['used'] = _dict['used']
+            args['used'] = _dict.get('used')
         if 'total' in _dict:
-            args['total'] = _dict['total']
+            args['total'] = _dict.get('total')
         if 'percent_used' in _dict:
-            args['percent_used'] = _dict['percent_used']
+            args['percent_used'] = _dict.get('percent_used')
         return cls(**args)
 
     def _to_dict(self):
@@ -2372,11 +2758,13 @@ class DocumentAccepted(object):
         """Initialize a DocumentAccepted object from a json dictionary."""
         args = {}
         if 'document_id' in _dict:
-            args['document_id'] = _dict['document_id']
+            args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         if 'notices' in _dict:
-            args['notices'] = [Notice._from_dict(x) for x in _dict['notices']]
+            args['notices'] = [
+                Notice._from_dict(x) for x in (_dict.get('notices'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -2431,11 +2819,11 @@ class DocumentCounts(object):
         """Initialize a DocumentCounts object from a json dictionary."""
         args = {}
         if 'available' in _dict:
-            args['available'] = _dict['available']
+            args['available'] = _dict.get('available')
         if 'processing' in _dict:
-            args['processing'] = _dict['processing']
+            args['processing'] = _dict.get('processing')
         if 'failed' in _dict:
-            args['failed'] = _dict['failed']
+            args['failed'] = _dict.get('failed')
         return cls(**args)
 
     def _to_dict(self):
@@ -2487,9 +2875,9 @@ class DocumentSnapshot(object):
         """Initialize a DocumentSnapshot object from a json dictionary."""
         args = {}
         if 'step' in _dict:
-            args['step'] = _dict['step']
+            args['step'] = _dict.get('step')
         if 'snapshot' in _dict:
-            args['snapshot'] = _dict['snapshot']
+            args['snapshot'] = _dict.get('snapshot')
         return cls(**args)
 
     def _to_dict(self):
@@ -2521,9 +2909,9 @@ class DocumentStatus(object):
     Status information about a submitted document.
 
     :attr str document_id: The unique identifier of the document.
-    :attr str configuration_id: The unique identifier for the configuration.
-    :attr datetime created: The creation date of the document in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr datetime updated: Date of the most recent document update, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr str configuration_id: (optional) The unique identifier for the configuration.
+    :attr datetime created: (optional) The creation date of the document in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime updated: (optional) Date of the most recent document update, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str status: Status of the document in the ingestion process.
     :attr str status_description: Description of the document status.
     :attr str filename: (optional) Name of the original source file (if available).
@@ -2534,12 +2922,12 @@ class DocumentStatus(object):
 
     def __init__(self,
                  document_id,
-                 configuration_id,
-                 created,
-                 updated,
                  status,
                  status_description,
                  notices,
+                 configuration_id=None,
+                 created=None,
+                 updated=None,
                  filename=None,
                  file_type=None,
                  sha1=None):
@@ -2547,12 +2935,12 @@ class DocumentStatus(object):
         Initialize a DocumentStatus object.
 
         :param str document_id: The unique identifier of the document.
-        :param str configuration_id: The unique identifier for the configuration.
-        :param datetime created: The creation date of the document in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param datetime updated: Date of the most recent document update, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str status: Status of the document in the ingestion process.
         :param str status_description: Description of the document status.
         :param list[Notice] notices: Array of notices produced by the document-ingestion process.
+        :param str configuration_id: (optional) The unique identifier for the configuration.
+        :param datetime created: (optional) The creation date of the document in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param datetime updated: (optional) Date of the most recent document update, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str filename: (optional) Name of the original source file (if available).
         :param str file_type: (optional) The type of the original source file.
         :param str sha1: (optional) The SHA-1 hash of the original source file (formatted as a hexadecimal string).
@@ -2573,49 +2961,39 @@ class DocumentStatus(object):
         """Initialize a DocumentStatus object from a json dictionary."""
         args = {}
         if 'document_id' in _dict:
-            args['document_id'] = _dict['document_id']
+            args['document_id'] = _dict.get('document_id')
         else:
             raise ValueError(
                 'Required property \'document_id\' not present in DocumentStatus JSON'
             )
         if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict['configuration_id']
-        else:
-            raise ValueError(
-                'Required property \'configuration_id\' not present in DocumentStatus JSON'
-            )
+            args['configuration_id'] = _dict.get('configuration_id')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in DocumentStatus JSON'
-            )
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in DocumentStatus JSON'
-            )
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         else:
             raise ValueError(
                 'Required property \'status\' not present in DocumentStatus JSON'
             )
         if 'status_description' in _dict:
-            args['status_description'] = _dict['status_description']
+            args['status_description'] = _dict.get('status_description')
         else:
             raise ValueError(
                 'Required property \'status_description\' not present in DocumentStatus JSON'
             )
         if 'filename' in _dict:
-            args['filename'] = _dict['filename']
+            args['filename'] = _dict.get('filename')
         if 'file_type' in _dict:
-            args['file_type'] = _dict['file_type']
+            args['file_type'] = _dict.get('file_type')
         if 'sha1' in _dict:
-            args['sha1'] = _dict['sha1']
+            args['sha1'] = _dict.get('sha1')
         if 'notices' in _dict:
-            args['notices'] = [Notice._from_dict(x) for x in _dict['notices']]
+            args['notices'] = [
+                Notice._from_dict(x) for x in (_dict.get('notices'))
+            ]
         else:
             raise ValueError(
                 'Required property \'notices\' not present in DocumentStatus JSON'
@@ -2710,33 +3088,33 @@ class Enrichment(object):
         """Initialize a Enrichment object from a json dictionary."""
         args = {}
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'destination_field' in _dict:
-            args['destination_field'] = _dict['destination_field']
+            args['destination_field'] = _dict.get('destination_field')
         else:
             raise ValueError(
                 'Required property \'destination_field\' not present in Enrichment JSON'
             )
         if 'source_field' in _dict:
-            args['source_field'] = _dict['source_field']
+            args['source_field'] = _dict.get('source_field')
         else:
             raise ValueError(
                 'Required property \'source_field\' not present in Enrichment JSON'
             )
         if 'overwrite' in _dict:
-            args['overwrite'] = _dict['overwrite']
-        if 'enrichment_name' in _dict:
-            args['enrichment_name'] = _dict['enrichment_name']
-        if 'enrichment' in _dict:
-            args['enrichment_name'] = _dict['enrichment']
+            args['overwrite'] = _dict.get('overwrite')
+        if 'enrichment' in _dict or 'enrichment_name' in _dict:
+            args['enrichment_name'] = _dict.get('enrichment') or _dict.get(
+                'enrichment_name')
         else:
             raise ValueError(
                 'Required property \'enrichment\' not present in Enrichment JSON'
             )
         if 'ignore_downstream_errors' in _dict:
-            args['ignore_downstream_errors'] = _dict['ignore_downstream_errors']
+            args['ignore_downstream_errors'] = _dict.get(
+                'ignore_downstream_errors')
         if 'options' in _dict:
-            args['options'] = EnrichmentOptions._from_dict(_dict['options'])
+            args['options'] = EnrichmentOptions._from_dict(_dict.get('options'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2800,9 +3178,9 @@ class EnrichmentOptions(object):
         args = {}
         if 'features' in _dict:
             args['features'] = NluEnrichmentFeatures._from_dict(
-                _dict['features'])
+                _dict.get('features'))
         if 'model' in _dict:
-            args['model'] = _dict['model']
+            args['model'] = _dict.get('model')
         return cls(**args)
 
     def _to_dict(self):
@@ -2882,24 +3260,24 @@ class Environment(object):
         """Initialize a Environment object from a json dictionary."""
         args = {}
         if 'environment_id' in _dict:
-            args['environment_id'] = _dict['environment_id']
+            args['environment_id'] = _dict.get('environment_id')
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         if 'read_only' in _dict:
-            args['read_only'] = _dict['read_only']
+            args['read_only'] = _dict.get('read_only')
         if 'size' in _dict:
-            args['size'] = _dict['size']
+            args['size'] = _dict.get('size')
         if 'index_capacity' in _dict:
             args['index_capacity'] = IndexCapacity._from_dict(
-                _dict['index_capacity'])
+                _dict.get('index_capacity'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2963,9 +3341,9 @@ class EnvironmentDocuments(object):
         """Initialize a EnvironmentDocuments object from a json dictionary."""
         args = {}
         if 'indexed' in _dict:
-            args['indexed'] = _dict['indexed']
+            args['indexed'] = _dict.get('indexed')
         if 'maximum_allowed' in _dict:
-            args['maximum_allowed'] = _dict['maximum_allowed']
+            args['maximum_allowed'] = _dict.get('maximum_allowed')
         return cls(**args)
 
     def _to_dict(self):
@@ -3018,9 +3396,9 @@ class Expansion(object):
         """Initialize a Expansion object from a json dictionary."""
         args = {}
         if 'input_terms' in _dict:
-            args['input_terms'] = _dict['input_terms']
+            args['input_terms'] = _dict.get('input_terms')
         if 'expanded_terms' in _dict:
-            args['expanded_terms'] = _dict['expanded_terms']
+            args['expanded_terms'] = _dict.get('expanded_terms')
         else:
             raise ValueError(
                 'Required property \'expanded_terms\' not present in Expansion JSON'
@@ -3072,7 +3450,7 @@ class Expansions(object):
         args = {}
         if 'expansions' in _dict:
             args['expansions'] = [
-                Expansion._from_dict(x) for x in _dict['expansions']
+                Expansion._from_dict(x) for x in (_dict.get('expansions'))
             ]
         else:
             raise ValueError(
@@ -3124,14 +3502,10 @@ class Field(object):
     def _from_dict(cls, _dict):
         """Initialize a Field object from a json dictionary."""
         args = {}
-        if 'field_name' in _dict:
-            args['field_name'] = _dict['field_name']
-        if 'field' in _dict:
-            args['field_name'] = _dict['field']
-        if 'field_type' in _dict:
-            args['field_type'] = _dict['field_type']
-        if 'type' in _dict:
-            args['field_type'] = _dict['type']
+        if 'field' in _dict or 'field_name' in _dict:
+            args['field_name'] = _dict.get('field') or _dict.get('field_name')
+        if 'type' in _dict or 'field_type' in _dict:
+            args['field_type'] = _dict.get('type') or _dict.get('field_type')
         return cls(**args)
 
     def _to_dict(self):
@@ -3199,17 +3573,17 @@ class FontSetting(object):
         """Initialize a FontSetting object from a json dictionary."""
         args = {}
         if 'level' in _dict:
-            args['level'] = _dict['level']
+            args['level'] = _dict.get('level')
         if 'min_size' in _dict:
-            args['min_size'] = _dict['min_size']
+            args['min_size'] = _dict.get('min_size')
         if 'max_size' in _dict:
-            args['max_size'] = _dict['max_size']
+            args['max_size'] = _dict.get('max_size')
         if 'bold' in _dict:
-            args['bold'] = _dict['bold']
+            args['bold'] = _dict.get('bold')
         if 'italic' in _dict:
-            args['italic'] = _dict['italic']
+            args['italic'] = _dict.get('italic')
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         return cls(**args)
 
     def _to_dict(self):
@@ -3285,20 +3659,21 @@ class HtmlSettings(object):
         """Initialize a HtmlSettings object from a json dictionary."""
         args = {}
         if 'exclude_tags_completely' in _dict:
-            args['exclude_tags_completely'] = _dict['exclude_tags_completely']
+            args['exclude_tags_completely'] = _dict.get(
+                'exclude_tags_completely')
         if 'exclude_tags_keep_content' in _dict:
-            args['exclude_tags_keep_content'] = _dict[
-                'exclude_tags_keep_content']
+            args['exclude_tags_keep_content'] = _dict.get(
+                'exclude_tags_keep_content')
         if 'keep_content' in _dict:
             args['keep_content'] = XPathPatterns._from_dict(
-                _dict['keep_content'])
+                _dict.get('keep_content'))
         if 'exclude_content' in _dict:
             args['exclude_content'] = XPathPatterns._from_dict(
-                _dict['exclude_content'])
+                _dict.get('exclude_content'))
         if 'keep_tag_attributes' in _dict:
-            args['keep_tag_attributes'] = _dict['keep_tag_attributes']
+            args['keep_tag_attributes'] = _dict.get('keep_tag_attributes')
         if 'exclude_tag_attributes' in _dict:
-            args['exclude_tag_attributes'] = _dict['exclude_tag_attributes']
+            args['exclude_tag_attributes'] = _dict.get('exclude_tag_attributes')
         return cls(**args)
 
     def _to_dict(self):
@@ -3373,14 +3748,15 @@ class IndexCapacity(object):
         args = {}
         if 'documents' in _dict:
             args['documents'] = EnvironmentDocuments._from_dict(
-                _dict['documents'])
+                _dict.get('documents'))
         if 'disk_usage' in _dict:
-            args['disk_usage'] = DiskUsage._from_dict(_dict['disk_usage'])
+            args['disk_usage'] = DiskUsage._from_dict(_dict.get('disk_usage'))
         if 'collections' in _dict:
             args['collections'] = CollectionUsage._from_dict(
-                _dict['collections'])
+                _dict.get('collections'))
         if 'memory_usage' in _dict:
-            args['memory_usage'] = MemoryUsage._from_dict(_dict['memory_usage'])
+            args['memory_usage'] = MemoryUsage._from_dict(
+                _dict.get('memory_usage'))
         return cls(**args)
 
     def _to_dict(self):
@@ -3438,7 +3814,9 @@ class ListCollectionFieldsResponse(object):
         """Initialize a ListCollectionFieldsResponse object from a json dictionary."""
         args = {}
         if 'fields' in _dict:
-            args['fields'] = [Field._from_dict(x) for x in _dict['fields']]
+            args['fields'] = [
+                Field._from_dict(x) for x in (_dict.get('fields'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -3484,7 +3862,7 @@ class ListCollectionsResponse(object):
         args = {}
         if 'collections' in _dict:
             args['collections'] = [
-                Collection._from_dict(x) for x in _dict['collections']
+                Collection._from_dict(x) for x in (_dict.get('collections'))
             ]
         return cls(**args)
 
@@ -3531,7 +3909,8 @@ class ListConfigurationsResponse(object):
         args = {}
         if 'configurations' in _dict:
             args['configurations'] = [
-                Configuration._from_dict(x) for x in _dict['configurations']
+                Configuration._from_dict(x)
+                for x in (_dict.get('configurations'))
             ]
         return cls(**args)
 
@@ -3580,7 +3959,7 @@ class ListEnvironmentsResponse(object):
         args = {}
         if 'environments' in _dict:
             args['environments'] = [
-                Environment._from_dict(x) for x in _dict['environments']
+                Environment._from_dict(x) for x in (_dict.get('environments'))
             ]
         return cls(**args)
 
@@ -3643,15 +4022,15 @@ class MemoryUsage(object):
         """Initialize a MemoryUsage object from a json dictionary."""
         args = {}
         if 'used_bytes' in _dict:
-            args['used_bytes'] = _dict['used_bytes']
+            args['used_bytes'] = _dict.get('used_bytes')
         if 'total_bytes' in _dict:
-            args['total_bytes'] = _dict['total_bytes']
+            args['total_bytes'] = _dict.get('total_bytes')
         if 'used' in _dict:
-            args['used'] = _dict['used']
+            args['used'] = _dict.get('used')
         if 'total' in _dict:
-            args['total'] = _dict['total']
+            args['total'] = _dict.get('total')
         if 'percent_used' in _dict:
-            args['percent_used'] = _dict['percent_used']
+            args['percent_used'] = _dict.get('percent_used')
         return cls(**args)
 
     def _to_dict(self):
@@ -3765,9 +4144,9 @@ class NluEnrichmentEmotion(object):
         """Initialize a NluEnrichmentEmotion object from a json dictionary."""
         args = {}
         if 'document' in _dict:
-            args['document'] = _dict['document']
+            args['document'] = _dict.get('document')
         if 'targets' in _dict:
-            args['targets'] = _dict['targets']
+            args['targets'] = _dict.get('targets')
         return cls(**args)
 
     def _to_dict(self):
@@ -3839,19 +4218,19 @@ class NluEnrichmentEntities(object):
         """Initialize a NluEnrichmentEntities object from a json dictionary."""
         args = {}
         if 'sentiment' in _dict:
-            args['sentiment'] = _dict['sentiment']
+            args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
-            args['emotion'] = _dict['emotion']
+            args['emotion'] = _dict.get('emotion')
         if 'limit' in _dict:
-            args['limit'] = _dict['limit']
+            args['limit'] = _dict.get('limit')
         if 'mentions' in _dict:
-            args['mentions'] = _dict['mentions']
+            args['mentions'] = _dict.get('mentions')
         if 'mention_types' in _dict:
-            args['mention_types'] = _dict['mention_types']
+            args['mention_types'] = _dict.get('mention_types')
         if 'sentence_location' in _dict:
-            args['sentence_location'] = _dict['sentence_location']
+            args['sentence_location'] = _dict.get('sentence_location')
         if 'model' in _dict:
-            args['model'] = _dict['model']
+            args['model'] = _dict.get('model')
         return cls(**args)
 
     def _to_dict(self):
@@ -3935,24 +4314,25 @@ class NluEnrichmentFeatures(object):
         args = {}
         if 'keywords' in _dict:
             args['keywords'] = NluEnrichmentKeywords._from_dict(
-                _dict['keywords'])
+                _dict.get('keywords'))
         if 'entities' in _dict:
             args['entities'] = NluEnrichmentEntities._from_dict(
-                _dict['entities'])
+                _dict.get('entities'))
         if 'sentiment' in _dict:
             args['sentiment'] = NluEnrichmentSentiment._from_dict(
-                _dict['sentiment'])
+                _dict.get('sentiment'))
         if 'emotion' in _dict:
-            args['emotion'] = NluEnrichmentEmotion._from_dict(_dict['emotion'])
+            args['emotion'] = NluEnrichmentEmotion._from_dict(
+                _dict.get('emotion'))
         if 'categories' in _dict:
             args['categories'] = NluEnrichmentCategories._from_dict(
-                _dict['categories'])
+                _dict.get('categories'))
         if 'semantic_roles' in _dict:
             args['semantic_roles'] = NluEnrichmentSemanticRoles._from_dict(
-                _dict['semantic_roles'])
+                _dict.get('semantic_roles'))
         if 'relations' in _dict:
             args['relations'] = NluEnrichmentRelations._from_dict(
-                _dict['relations'])
+                _dict.get('relations'))
         return cls(**args)
 
     def _to_dict(self):
@@ -4015,11 +4395,11 @@ class NluEnrichmentKeywords(object):
         """Initialize a NluEnrichmentKeywords object from a json dictionary."""
         args = {}
         if 'sentiment' in _dict:
-            args['sentiment'] = _dict['sentiment']
+            args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
-            args['emotion'] = _dict['emotion']
+            args['emotion'] = _dict.get('emotion')
         if 'limit' in _dict:
-            args['limit'] = _dict['limit']
+            args['limit'] = _dict.get('limit')
         return cls(**args)
 
     def _to_dict(self):
@@ -4068,7 +4448,7 @@ class NluEnrichmentRelations(object):
         """Initialize a NluEnrichmentRelations object from a json dictionary."""
         args = {}
         if 'model' in _dict:
-            args['model'] = _dict['model']
+            args['model'] = _dict.get('model')
         return cls(**args)
 
     def _to_dict(self):
@@ -4119,11 +4499,11 @@ class NluEnrichmentSemanticRoles(object):
         """Initialize a NluEnrichmentSemanticRoles object from a json dictionary."""
         args = {}
         if 'entities' in _dict:
-            args['entities'] = _dict['entities']
+            args['entities'] = _dict.get('entities')
         if 'keywords' in _dict:
-            args['keywords'] = _dict['keywords']
+            args['keywords'] = _dict.get('keywords')
         if 'limit' in _dict:
-            args['limit'] = _dict['limit']
+            args['limit'] = _dict.get('limit')
         return cls(**args)
 
     def _to_dict(self):
@@ -4175,9 +4555,9 @@ class NluEnrichmentSentiment(object):
         """Initialize a NluEnrichmentSentiment object from a json dictionary."""
         args = {}
         if 'document' in _dict:
-            args['document'] = _dict['document']
+            args['document'] = _dict.get('document')
         if 'targets' in _dict:
-            args['targets'] = _dict['targets']
+            args['targets'] = _dict.get('targets')
         return cls(**args)
 
     def _to_dict(self):
@@ -4233,11 +4613,11 @@ class NormalizationOperation(object):
         """Initialize a NormalizationOperation object from a json dictionary."""
         args = {}
         if 'operation' in _dict:
-            args['operation'] = _dict['operation']
+            args['operation'] = _dict.get('operation')
         if 'source_field' in _dict:
-            args['source_field'] = _dict['source_field']
+            args['source_field'] = _dict.get('source_field')
         if 'destination_field' in _dict:
-            args['destination_field'] = _dict['destination_field']
+            args['destination_field'] = _dict.get('destination_field')
         return cls(**args)
 
     def _to_dict(self):
@@ -4312,19 +4692,19 @@ class Notice(object):
         """Initialize a Notice object from a json dictionary."""
         args = {}
         if 'notice_id' in _dict:
-            args['notice_id'] = _dict['notice_id']
+            args['notice_id'] = _dict.get('notice_id')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'document_id' in _dict:
-            args['document_id'] = _dict['document_id']
+            args['document_id'] = _dict.get('document_id')
         if 'query_id' in _dict:
-            args['query_id'] = _dict['query_id']
+            args['query_id'] = _dict.get('query_id')
         if 'severity' in _dict:
-            args['severity'] = _dict['severity']
+            args['severity'] = _dict.get('severity')
         if 'step' in _dict:
-            args['step'] = _dict['step']
+            args['step'] = _dict.get('step')
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         return cls(**args)
 
     def _to_dict(self):
@@ -4381,7 +4761,9 @@ class PdfHeadingDetection(object):
         """Initialize a PdfHeadingDetection object from a json dictionary."""
         args = {}
         if 'fonts' in _dict:
-            args['fonts'] = [FontSetting._from_dict(x) for x in _dict['fonts']]
+            args['fonts'] = [
+                FontSetting._from_dict(x) for x in (_dict.get('fonts'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -4426,7 +4808,8 @@ class PdfSettings(object):
         """Initialize a PdfSettings object from a json dictionary."""
         args = {}
         if 'heading' in _dict:
-            args['heading'] = PdfHeadingDetection._from_dict(_dict['heading'])
+            args['heading'] = PdfHeadingDetection._from_dict(
+                _dict.get('heading'))
         return cls(**args)
 
     def _to_dict(self):
@@ -4456,34 +4839,26 @@ class QueryAggregation(object):
     An aggregation produced by the Discovery service to analyze the input provided.
 
     :attr str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
-    :attr str field: (optional) The field where the aggregation is located in the document.
     :attr list[AggregationResult] results: (optional)
-    :attr str match: (optional) The match the aggregated results queried for.
     :attr int matching_results: (optional) Number of matching results.
     :attr list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
     """
 
     def __init__(self,
                  type=None,
-                 field=None,
                  results=None,
-                 match=None,
                  matching_results=None,
                  aggregations=None):
         """
         Initialize a QueryAggregation object.
 
         :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
-        :param str field: (optional) The field where the aggregation is located in the document.
         :param list[AggregationResult] results: (optional)
-        :param str match: (optional) The match the aggregated results queried for.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
         """
         self.type = type
-        self.field = field
         self.results = results
-        self.match = match
         self.matching_results = matching_results
         self.aggregations = aggregations
 
@@ -4492,20 +4867,17 @@ class QueryAggregation(object):
         """Initialize a QueryAggregation object from a json dictionary."""
         args = {}
         if 'type' in _dict:
-            args['type'] = _dict['type']
-        if 'field' in _dict:
-            args['field'] = _dict['field']
+            args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in _dict['results']
+                AggregationResult._from_dict(x) for x in (_dict.get('results'))
             ]
-        if 'match' in _dict:
-            args['match'] = _dict['match']
         if 'matching_results' in _dict:
-            args['matching_results'] = _dict['matching_results']
+            args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x) for x in _dict['aggregations']
+                QueryAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
             ]
         return cls(**args)
 
@@ -4514,12 +4886,8 @@ class QueryAggregation(object):
         _dict = {}
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
-        if hasattr(self, 'field') and self.field is not None:
-            _dict['field'] = self.field
         if hasattr(self, 'results') and self.results is not None:
             _dict['results'] = [x._to_dict() for x in self.results]
-        if hasattr(self, 'match') and self.match is not None:
-            _dict['match'] = self.match
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
@@ -4564,7 +4932,7 @@ class QueryEntitiesContext(object):
         """Initialize a QueryEntitiesContext object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         return cls(**args)
 
     def _to_dict(self):
@@ -4612,9 +4980,9 @@ class QueryEntitiesEntity(object):
         """Initialize a QueryEntitiesEntity object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'type' in _dict:
-            args['type'] = _dict['type']
+            args['type'] = _dict.get('type')
         return cls(**args)
 
     def _to_dict(self):
@@ -4645,14 +5013,14 @@ class QueryEntitiesResponse(object):
     """
     An array of entities resulting from the query.
 
-    :attr list[QueryEntitiesEntity] entities: (optional)
+    :attr list[QueryEntitiesResponseItem] entities: (optional)
     """
 
     def __init__(self, entities=None):
         """
         Initialize a QueryEntitiesResponse object.
 
-        :param list[QueryEntitiesEntity] entities: (optional)
+        :param list[QueryEntitiesResponseItem] entities: (optional)
         """
         self.entities = entities
 
@@ -4662,7 +5030,8 @@ class QueryEntitiesResponse(object):
         args = {}
         if 'entities' in _dict:
             args['entities'] = [
-                QueryEntitiesEntity._from_dict(x) for x in _dict['entities']
+                QueryEntitiesResponseItem._from_dict(x)
+                for x in (_dict.get('entities'))
             ]
         return cls(**args)
 
@@ -4675,6 +5044,215 @@ class QueryEntitiesResponse(object):
 
     def __str__(self):
         """Return a `str` version of this QueryEntitiesResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryEntitiesResponseItem(object):
+    """
+    Object containing Entity query response information.
+
+    :attr str text: (optional) Entity text content.
+    :attr str type: (optional) The type of the result entity.
+    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
+    """
+
+    def __init__(self, text=None, type=None, evidence=None):
+        """
+        Initialize a QueryEntitiesResponseItem object.
+
+        :param str text: (optional) Entity text content.
+        :param str type: (optional) The type of the result entity.
+        :param list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
+        """
+        self.text = text
+        self.type = type
+        self.evidence = evidence
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryEntitiesResponseItem object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'evidence' in _dict:
+            args['evidence'] = [
+                QueryEvidence._from_dict(x) for x in (_dict.get('evidence'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'evidence') and self.evidence is not None:
+            _dict['evidence'] = [x._to_dict() for x in self.evidence]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryEntitiesResponseItem object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryEvidence(object):
+    """
+    Description of evidence location supporting Knoweldge Graph query result.
+
+    :attr str document_id: (optional) The docuemnt ID (as indexed in Discovery) of the evidence location.
+    :attr str field: (optional) The field of the document where the supporting evidence was identified.
+    :attr int start_offset: (optional) The start location of the evidence in the identified field. This value is inclusive.
+    :attr int end_offset: (optional) The end location of the evidence in the identified field. This value is inclusive.
+    :attr list[QueryEvidenceEntity] entities: (optional) An array of entity objects that show evidence of the result.
+    """
+
+    def __init__(self,
+                 document_id=None,
+                 field=None,
+                 start_offset=None,
+                 end_offset=None,
+                 entities=None):
+        """
+        Initialize a QueryEvidence object.
+
+        :param str document_id: (optional) The docuemnt ID (as indexed in Discovery) of the evidence location.
+        :param str field: (optional) The field of the document where the supporting evidence was identified.
+        :param int start_offset: (optional) The start location of the evidence in the identified field. This value is inclusive.
+        :param int end_offset: (optional) The end location of the evidence in the identified field. This value is inclusive.
+        :param list[QueryEvidenceEntity] entities: (optional) An array of entity objects that show evidence of the result.
+        """
+        self.document_id = document_id
+        self.field = field
+        self.start_offset = start_offset
+        self.end_offset = end_offset
+        self.entities = entities
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryEvidence object from a json dictionary."""
+        args = {}
+        if 'document_id' in _dict:
+            args['document_id'] = _dict.get('document_id')
+        if 'field' in _dict:
+            args['field'] = _dict.get('field')
+        if 'start_offset' in _dict:
+            args['start_offset'] = _dict.get('start_offset')
+        if 'end_offset' in _dict:
+            args['end_offset'] = _dict.get('end_offset')
+        if 'entities' in _dict:
+            args['entities'] = [
+                QueryEvidenceEntity._from_dict(x)
+                for x in (_dict.get('entities'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'document_id') and self.document_id is not None:
+            _dict['document_id'] = self.document_id
+        if hasattr(self, 'field') and self.field is not None:
+            _dict['field'] = self.field
+        if hasattr(self, 'start_offset') and self.start_offset is not None:
+            _dict['start_offset'] = self.start_offset
+        if hasattr(self, 'end_offset') and self.end_offset is not None:
+            _dict['end_offset'] = self.end_offset
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryEvidence object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryEvidenceEntity(object):
+    """
+    Entity description and location within evidence field.
+
+    :attr str type: (optional) The entity type for this entity. Possible types vary based on model used.
+    :attr str text: (optional) The original text of this entity as found in the evidence field.
+    :attr int start_offset: (optional) The start location of the entity text in the identified field. This value is inclusive.
+    :attr int end_offset: (optional) The end location of the entity text in the identified field. This value is exclusive.
+    """
+
+    def __init__(self, type=None, text=None, start_offset=None,
+                 end_offset=None):
+        """
+        Initialize a QueryEvidenceEntity object.
+
+        :param str type: (optional) The entity type for this entity. Possible types vary based on model used.
+        :param str text: (optional) The original text of this entity as found in the evidence field.
+        :param int start_offset: (optional) The start location of the entity text in the identified field. This value is inclusive.
+        :param int end_offset: (optional) The end location of the entity text in the identified field. This value is exclusive.
+        """
+        self.type = type
+        self.text = text
+        self.start_offset = start_offset
+        self.end_offset = end_offset
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryEvidenceEntity object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'start_offset' in _dict:
+            args['start_offset'] = _dict.get('start_offset')
+        if 'end_offset' in _dict:
+            args['end_offset'] = _dict.get('end_offset')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'start_offset') and self.start_offset is not None:
+            _dict['start_offset'] = self.start_offset
+        if hasattr(self, 'end_offset') and self.end_offset is not None:
+            _dict['end_offset'] = self.end_offset
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this QueryEvidenceEntity object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4711,9 +5289,9 @@ class QueryFilterType(object):
         """Initialize a QueryFilterType object from a json dictionary."""
         args = {}
         if 'exclude' in _dict:
-            args['exclude'] = _dict['exclude']
+            args['exclude'] = _dict.get('exclude')
         if 'include' in _dict:
-            args['include'] = _dict['include']
+            args['include'] = _dict.get('include')
         return cls(**args)
 
     def _to_dict(self):
@@ -4777,21 +5355,22 @@ class QueryNoticesResponse(object):
         """Initialize a QueryNoticesResponse object from a json dictionary."""
         args = {}
         if 'matching_results' in _dict:
-            args['matching_results'] = _dict['matching_results']
+            args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
             args['results'] = [
-                QueryNoticesResult._from_dict(x) for x in _dict['results']
+                QueryNoticesResult._from_dict(x) for x in (_dict.get('results'))
             ]
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x) for x in _dict['aggregations']
+                QueryAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
             ]
         if 'passages' in _dict:
             args['passages'] = [
-                QueryPassages._from_dict(x) for x in _dict['passages']
+                QueryPassages._from_dict(x) for x in (_dict.get('passages'))
             ]
         if 'duplicates_removed' in _dict:
-            args['duplicates_removed'] = _dict['duplicates_removed']
+            args['duplicates_removed'] = _dict.get('duplicates_removed')
         return cls(**args)
 
     def _to_dict(self):
@@ -4835,7 +5414,12 @@ class QueryNoticesResult(object):
     :attr float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional)
+    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query result.
+    :attr int code: (optional) The internal status code returned by the ingestion subsystem indicating the overall result of ingesting the source document.
+    :attr str filename: (optional) Name of the original source file (if available).
+    :attr str file_type: (optional) The type of the original source file.
+    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted as a hexadecimal string).
+    :attr list[Notice] notices: (optional) Array of notices for the document.
     """
 
     def __init__(self,
@@ -4844,6 +5428,11 @@ class QueryNoticesResult(object):
                  metadata=None,
                  collection_id=None,
                  result_metadata=None,
+                 code=None,
+                 filename=None,
+                 file_type=None,
+                 sha1=None,
+                 notices=None,
                  **kwargs):
         """
         Initialize a QueryNoticesResult object.
@@ -4852,7 +5441,12 @@ class QueryNoticesResult(object):
         :param float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional)
+        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query result.
+        :param int code: (optional) The internal status code returned by the ingestion subsystem indicating the overall result of ingesting the source document.
+        :param str filename: (optional) Name of the original source file (if available).
+        :param str file_type: (optional) The type of the original source file.
+        :param str sha1: (optional) The SHA-1 hash of the original source file (formatted as a hexadecimal string).
+        :param list[Notice] notices: (optional) Array of notices for the document.
         :param **kwargs: (optional) Any additional properties.
         """
         self.id = id
@@ -4860,6 +5454,11 @@ class QueryNoticesResult(object):
         self.metadata = metadata
         self.collection_id = collection_id
         self.result_metadata = result_metadata
+        self.code = code
+        self.filename = filename
+        self.file_type = file_type
+        self.sha1 = sha1
+        self.notices = notices
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -4869,21 +5468,38 @@ class QueryNoticesResult(object):
         args = {}
         xtra = _dict.copy()
         if 'id' in _dict:
-            args['id'] = _dict['id']
+            args['id'] = _dict.get('id')
             del xtra['id']
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
             del xtra['score']
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
             del xtra['metadata']
         if 'collection_id' in _dict:
-            args['collection_id'] = _dict['collection_id']
+            args['collection_id'] = _dict.get('collection_id')
             del xtra['collection_id']
         if 'result_metadata' in _dict:
             args['result_metadata'] = QueryResultResultMetadata._from_dict(
-                _dict['result_metadata'])
+                _dict.get('result_metadata'))
             del xtra['result_metadata']
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+            del xtra['code']
+        if 'filename' in _dict:
+            args['filename'] = _dict.get('filename')
+            del xtra['filename']
+        if 'file_type' in _dict:
+            args['file_type'] = _dict.get('file_type')
+            del xtra['file_type']
+        if 'sha1' in _dict:
+            args['sha1'] = _dict.get('sha1')
+            del xtra['sha1']
+        if 'notices' in _dict:
+            args['notices'] = [
+                Notice._from_dict(x) for x in (_dict.get('notices'))
+            ]
+            del xtra['notices']
         args.update(xtra)
         return cls(**args)
 
@@ -4901,6 +5517,16 @@ class QueryNoticesResult(object):
         if hasattr(self,
                    'result_metadata') and self.result_metadata is not None:
             _dict['result_metadata'] = self.result_metadata._to_dict()
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'filename') and self.filename is not None:
+            _dict['filename'] = self.filename
+        if hasattr(self, 'file_type') and self.file_type is not None:
+            _dict['file_type'] = self.file_type
+        if hasattr(self, 'sha1') and self.sha1 is not None:
+            _dict['sha1'] = self.sha1
+        if hasattr(self, 'notices') and self.notices is not None:
+            _dict['notices'] = [x._to_dict() for x in self.notices]
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -4910,7 +5536,8 @@ class QueryNoticesResult(object):
 
     def __setattr__(self, name, value):
         properties = {
-            'id', 'score', 'metadata', 'collection_id', 'result_metadata'
+            'id', 'score', 'metadata', 'collection_id', 'result_metadata',
+            'code', 'filename', 'file_type', 'sha1', 'notices'
         }
         if not hasattr(self, '_additionalProperties'):
             super(QueryNoticesResult, self).__setattr__('_additionalProperties',
@@ -4975,17 +5602,17 @@ class QueryPassages(object):
         """Initialize a QueryPassages object from a json dictionary."""
         args = {}
         if 'document_id' in _dict:
-            args['document_id'] = _dict['document_id']
+            args['document_id'] = _dict.get('document_id')
         if 'passage_score' in _dict:
-            args['passage_score'] = _dict['passage_score']
+            args['passage_score'] = _dict.get('passage_score')
         if 'passage_text' in _dict:
-            args['passage_text'] = _dict['passage_text']
+            args['passage_text'] = _dict.get('passage_text')
         if 'start_offset' in _dict:
-            args['start_offset'] = _dict['start_offset']
+            args['start_offset'] = _dict.get('start_offset')
         if 'end_offset' in _dict:
-            args['end_offset'] = _dict['end_offset']
+            args['end_offset'] = _dict.get('end_offset')
         if 'field' in _dict:
-            args['field'] = _dict['field']
+            args['field'] = _dict.get('field')
         return cls(**args)
 
     def _to_dict(self):
@@ -5041,7 +5668,8 @@ class QueryRelationsArgument(object):
         args = {}
         if 'entities' in _dict:
             args['entities'] = [
-                QueryEntitiesEntity._from_dict(x) for x in _dict['entities']
+                QueryEntitiesEntity._from_dict(x)
+                for x in (_dict.get('entities'))
             ]
         return cls(**args)
 
@@ -5073,7 +5701,7 @@ class QueryRelationsEntity(object):
 
     :attr str text: (optional) Entity text content.
     :attr str type: (optional) The type of the specified entity.
-    :attr bool exact: (optional) If false, implicit disambiguation is performed. The default is `false`.
+    :attr bool exact: (optional) If false, implicit querying is performed. The default is `false`.
     """
 
     def __init__(self, text=None, type=None, exact=None):
@@ -5082,7 +5710,7 @@ class QueryRelationsEntity(object):
 
         :param str text: (optional) Entity text content.
         :param str type: (optional) The type of the specified entity.
-        :param bool exact: (optional) If false, implicit disambiguation is performed. The default is `false`.
+        :param bool exact: (optional) If false, implicit querying is performed. The default is `false`.
         """
         self.text = text
         self.type = type
@@ -5093,11 +5721,11 @@ class QueryRelationsEntity(object):
         """Initialize a QueryRelationsEntity object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'type' in _dict:
-            args['type'] = _dict['type']
+            args['type'] = _dict.get('type')
         if 'exact' in _dict:
-            args['exact'] = _dict['exact']
+            args['exact'] = _dict.get('exact')
         return cls(**args)
 
     def _to_dict(self):
@@ -5156,12 +5784,12 @@ class QueryRelationsFilter(object):
         args = {}
         if 'relation_types' in _dict:
             args['relation_types'] = QueryFilterType._from_dict(
-                _dict['relation_types'])
+                _dict.get('relation_types'))
         if 'entity_types' in _dict:
             args['entity_types'] = QueryFilterType._from_dict(
-                _dict['entity_types'])
+                _dict.get('entity_types'))
         if 'document_ids' in _dict:
-            args['document_ids'] = _dict['document_ids']
+            args['document_ids'] = _dict.get('document_ids')
         return cls(**args)
 
     def _to_dict(self):
@@ -5197,31 +5825,40 @@ class QueryRelationsRelationship(object):
     :attr str type: (optional) The identified relationship type.
     :attr int frequency: (optional) The number of times the relationship is mentioned.
     :attr list[QueryRelationsArgument] arguments: (optional) Information about the relationship.
+    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
     """
 
-    def __init__(self, type=None, frequency=None, arguments=None):
+    def __init__(self, type=None, frequency=None, arguments=None,
+                 evidence=None):
         """
         Initialize a QueryRelationsRelationship object.
 
         :param str type: (optional) The identified relationship type.
         :param int frequency: (optional) The number of times the relationship is mentioned.
         :param list[QueryRelationsArgument] arguments: (optional) Information about the relationship.
+        :param list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
         """
         self.type = type
         self.frequency = frequency
         self.arguments = arguments
+        self.evidence = evidence
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a QueryRelationsRelationship object from a json dictionary."""
         args = {}
         if 'type' in _dict:
-            args['type'] = _dict['type']
+            args['type'] = _dict.get('type')
         if 'frequency' in _dict:
-            args['frequency'] = _dict['frequency']
+            args['frequency'] = _dict.get('frequency')
         if 'arguments' in _dict:
             args['arguments'] = [
-                QueryRelationsArgument._from_dict(x) for x in _dict['arguments']
+                QueryRelationsArgument._from_dict(x)
+                for x in (_dict.get('arguments'))
+            ]
+        if 'evidence' in _dict:
+            args['evidence'] = [
+                QueryEvidence._from_dict(x) for x in (_dict.get('evidence'))
             ]
         return cls(**args)
 
@@ -5234,6 +5871,8 @@ class QueryRelationsRelationship(object):
             _dict['frequency'] = self.frequency
         if hasattr(self, 'arguments') and self.arguments is not None:
             _dict['arguments'] = [x._to_dict() for x in self.arguments]
+        if hasattr(self, 'evidence') and self.evidence is not None:
+            _dict['evidence'] = [x._to_dict() for x in self.evidence]
         return _dict
 
     def __str__(self):
@@ -5273,7 +5912,7 @@ class QueryRelationsResponse(object):
         if 'relations' in _dict:
             args['relations'] = [
                 QueryRelationsRelationship._from_dict(x)
-                for x in _dict['relations']
+                for x in (_dict.get('relations'))
             ]
         return cls(**args)
 
@@ -5336,21 +5975,22 @@ class QueryResponse(object):
         """Initialize a QueryResponse object from a json dictionary."""
         args = {}
         if 'matching_results' in _dict:
-            args['matching_results'] = _dict['matching_results']
+            args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
             args['results'] = [
-                QueryResult._from_dict(x) for x in _dict['results']
+                QueryResult._from_dict(x) for x in (_dict.get('results'))
             ]
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x) for x in _dict['aggregations']
+                QueryAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
             ]
         if 'passages' in _dict:
             args['passages'] = [
-                QueryPassages._from_dict(x) for x in _dict['passages']
+                QueryPassages._from_dict(x) for x in (_dict.get('passages'))
             ]
         if 'duplicates_removed' in _dict:
-            args['duplicates_removed'] = _dict['duplicates_removed']
+            args['duplicates_removed'] = _dict.get('duplicates_removed')
         return cls(**args)
 
     def _to_dict(self):
@@ -5394,7 +6034,7 @@ class QueryResult(object):
     :attr float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional)
+    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query result.
     """
 
     def __init__(self,
@@ -5411,7 +6051,7 @@ class QueryResult(object):
         :param float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional)
+        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query result.
         :param **kwargs: (optional) Any additional properties.
         """
         self.id = id
@@ -5428,20 +6068,20 @@ class QueryResult(object):
         args = {}
         xtra = _dict.copy()
         if 'id' in _dict:
-            args['id'] = _dict['id']
+            args['id'] = _dict.get('id')
             del xtra['id']
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
             del xtra['score']
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
             del xtra['metadata']
         if 'collection_id' in _dict:
-            args['collection_id'] = _dict['collection_id']
+            args['collection_id'] = _dict.get('collection_id')
             del xtra['collection_id']
         if 'result_metadata' in _dict:
             args['result_metadata'] = QueryResultResultMetadata._from_dict(
-                _dict['result_metadata'])
+                _dict.get('result_metadata'))
             del xtra['result_metadata']
         args.update(xtra)
         return cls(**args)
@@ -5494,7 +6134,7 @@ class QueryResult(object):
 
 class QueryResultResultMetadata(object):
     """
-    QueryResultResultMetadata.
+    Metadata of a query result.
 
     :attr float score: (optional) The confidence score of the result's analysis. A higher score indicating greater confidence.
     """
@@ -5512,7 +6152,7 @@ class QueryResultResultMetadata(object):
         """Initialize a QueryResultResultMetadata object from a json dictionary."""
         args = {}
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         return cls(**args)
 
     def _to_dict(self):
@@ -5524,6 +6164,58 @@ class QueryResultResultMetadata(object):
 
     def __str__(self):
         """Return a `str` version of this QueryResultResultMetadata object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SegmentSettings(object):
+    """
+    A list of Document Segmentation settings.
+
+    :attr bool enabled: (optional) Enables/disables the Document Segmentation feature.
+    :attr list[str] selector_tags: (optional) Defines the heading level that splits into document segments. Valid values are h1, h2, h3, h4, h5, h6.
+    """
+
+    def __init__(self, enabled=None, selector_tags=None):
+        """
+        Initialize a SegmentSettings object.
+
+        :param bool enabled: (optional) Enables/disables the Document Segmentation feature.
+        :param list[str] selector_tags: (optional) Defines the heading level that splits into document segments. Valid values are h1, h2, h3, h4, h5, h6.
+        """
+        self.enabled = enabled
+        self.selector_tags = selector_tags
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SegmentSettings object from a json dictionary."""
+        args = {}
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'selector_tags' in _dict:
+            args['selector_tags'] = _dict.get('selector_tags')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'selector_tags') and self.selector_tags is not None:
+            _dict['selector_tags'] = self.selector_tags
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SegmentSettings object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -5578,19 +6270,21 @@ class TestDocument(object):
         """Initialize a TestDocument object from a json dictionary."""
         args = {}
         if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict['configuration_id']
+            args['configuration_id'] = _dict.get('configuration_id')
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         if 'enriched_field_units' in _dict:
-            args['enriched_field_units'] = _dict['enriched_field_units']
+            args['enriched_field_units'] = _dict.get('enriched_field_units')
         if 'original_media_type' in _dict:
-            args['original_media_type'] = _dict['original_media_type']
+            args['original_media_type'] = _dict.get('original_media_type')
         if 'snapshots' in _dict:
             args['snapshots'] = [
-                DocumentSnapshot._from_dict(x) for x in _dict['snapshots']
+                DocumentSnapshot._from_dict(x) for x in (_dict.get('snapshots'))
             ]
         if 'notices' in _dict:
-            args['notices'] = [Notice._from_dict(x) for x in _dict['notices']]
+            args['notices'] = [
+                Notice._from_dict(x) for x in (_dict.get('notices'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -5655,12 +6349,12 @@ class TrainingDataSet(object):
         """Initialize a TrainingDataSet object from a json dictionary."""
         args = {}
         if 'environment_id' in _dict:
-            args['environment_id'] = _dict['environment_id']
+            args['environment_id'] = _dict.get('environment_id')
         if 'collection_id' in _dict:
-            args['collection_id'] = _dict['collection_id']
+            args['collection_id'] = _dict.get('collection_id')
         if 'queries' in _dict:
             args['queries'] = [
-                TrainingQuery._from_dict(x) for x in _dict['queries']
+                TrainingQuery._from_dict(x) for x in (_dict.get('queries'))
             ]
         return cls(**args)
 
@@ -5716,11 +6410,11 @@ class TrainingExample(object):
         """Initialize a TrainingExample object from a json dictionary."""
         args = {}
         if 'document_id' in _dict:
-            args['document_id'] = _dict['document_id']
+            args['document_id'] = _dict.get('document_id')
         if 'cross_reference' in _dict:
-            args['cross_reference'] = _dict['cross_reference']
+            args['cross_reference'] = _dict.get('cross_reference')
         if 'relevance' in _dict:
-            args['relevance'] = _dict['relevance']
+            args['relevance'] = _dict.get('relevance')
         return cls(**args)
 
     def _to_dict(self):
@@ -5771,7 +6465,7 @@ class TrainingExampleList(object):
         args = {}
         if 'examples' in _dict:
             args['examples'] = [
-                TrainingExample._from_dict(x) for x in _dict['examples']
+                TrainingExample._from_dict(x) for x in (_dict.get('examples'))
             ]
         return cls(**args)
 
@@ -5830,14 +6524,14 @@ class TrainingQuery(object):
         """Initialize a TrainingQuery object from a json dictionary."""
         args = {}
         if 'query_id' in _dict:
-            args['query_id'] = _dict['query_id']
+            args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict['natural_language_query']
+            args['natural_language_query'] = _dict.get('natural_language_query')
         if 'filter' in _dict:
-            args['filter'] = _dict['filter']
+            args['filter'] = _dict.get('filter')
         if 'examples' in _dict:
             args['examples'] = [
-                TrainingExample._from_dict(x) for x in _dict['examples']
+                TrainingExample._from_dict(x) for x in (_dict.get('examples'))
             ]
         return cls(**args)
 
@@ -5923,25 +6617,25 @@ class TrainingStatus(object):
         """Initialize a TrainingStatus object from a json dictionary."""
         args = {}
         if 'total_examples' in _dict:
-            args['total_examples'] = _dict['total_examples']
+            args['total_examples'] = _dict.get('total_examples')
         if 'available' in _dict:
-            args['available'] = _dict['available']
+            args['available'] = _dict.get('available')
         if 'processing' in _dict:
-            args['processing'] = _dict['processing']
+            args['processing'] = _dict.get('processing')
         if 'minimum_queries_added' in _dict:
-            args['minimum_queries_added'] = _dict['minimum_queries_added']
+            args['minimum_queries_added'] = _dict.get('minimum_queries_added')
         if 'minimum_examples_added' in _dict:
-            args['minimum_examples_added'] = _dict['minimum_examples_added']
+            args['minimum_examples_added'] = _dict.get('minimum_examples_added')
         if 'sufficient_label_diversity' in _dict:
-            args['sufficient_label_diversity'] = _dict[
-                'sufficient_label_diversity']
+            args['sufficient_label_diversity'] = _dict.get(
+                'sufficient_label_diversity')
         if 'notices' in _dict:
-            args['notices'] = _dict['notices']
+            args['notices'] = _dict.get('notices')
         if 'successfully_trained' in _dict:
             args['successfully_trained'] = string_to_datetime(
-                _dict['successfully_trained'])
+                _dict.get('successfully_trained'))
         if 'data_updated' in _dict:
-            args['data_updated'] = string_to_datetime(_dict['data_updated'])
+            args['data_updated'] = string_to_datetime(_dict.get('data_updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -6011,9 +6705,13 @@ class WordHeadingDetection(object):
         """Initialize a WordHeadingDetection object from a json dictionary."""
         args = {}
         if 'fonts' in _dict:
-            args['fonts'] = [FontSetting._from_dict(x) for x in _dict['fonts']]
+            args['fonts'] = [
+                FontSetting._from_dict(x) for x in (_dict.get('fonts'))
+            ]
         if 'styles' in _dict:
-            args['styles'] = [WordStyle._from_dict(x) for x in _dict['styles']]
+            args['styles'] = [
+                WordStyle._from_dict(x) for x in (_dict.get('styles'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -6060,7 +6758,8 @@ class WordSettings(object):
         """Initialize a WordSettings object from a json dictionary."""
         args = {}
         if 'heading' in _dict:
-            args['heading'] = WordHeadingDetection._from_dict(_dict['heading'])
+            args['heading'] = WordHeadingDetection._from_dict(
+                _dict.get('heading'))
         return cls(**args)
 
     def _to_dict(self):
@@ -6108,9 +6807,9 @@ class WordStyle(object):
         """Initialize a WordStyle object from a json dictionary."""
         args = {}
         if 'level' in _dict:
-            args['level'] = _dict['level']
+            args['level'] = _dict.get('level')
         if 'names' in _dict:
-            args['names'] = _dict['names']
+            args['names'] = _dict.get('names')
         return cls(**args)
 
     def _to_dict(self):
@@ -6157,7 +6856,7 @@ class XPathPatterns(object):
         """Initialize a XPathPatterns object from a json dictionary."""
         args = {}
         if 'xpaths' in _dict:
-            args['xpaths'] = _dict['xpaths']
+            args['xpaths'] = _dict.get('xpaths')
         return cls(**args)
 
     def _to_dict(self):
