@@ -27,15 +27,23 @@ TEN_MILLISECONDS = 0.01
 
 
 class RecognizeListener(object):
-    def __init__(self, audio, options, recognize_callback, url, headers):
+    def __init__(self, audio, options, recognize_callback, url, headers, proxy_host, proxy_port):
         self.audio = audio
         self.options = options
         self.callback = recognize_callback
         self.url = url
         self.headers = headers
+        self.proxy_host = proxy_host
+        self.proxy_port = proxy_port
 
         factory = self.WebSocketClientFactory(
-            self.audio, self.options, self.callback, self.url, self.headers)
+            self.audio,
+            self.options,
+            self.callback,
+            self.url,
+            self.headers,
+            self.proxy_host,
+            self.proxy_port)
         factory.protocol = self.WebSocketClient
 
         if factory.isSecure:
@@ -145,8 +153,21 @@ class RecognizeListener(object):
             self.factory.endReactor()
 
     class WebSocketClientFactory(WebSocketClientFactory):
-        def __init__(self, audio, options, callback, url=None, headers=None):
-            WebSocketClientFactory.__init__(self, url=url, headers=headers)
+        def __init__(
+                self,
+                audio,
+                options,
+                callback,
+                url=None,
+                headers=None,
+                proxy_host=None,
+                proxy_port=None):
+            if proxy_host is not None and proxy_port is not None:
+                proxy = {'host': proxy_host, 'port': proxy_port}
+            else:
+                proxy = None
+            WebSocketClientFactory.__init__(
+                self, url=url, headers=headers, proxy=proxy)
             self.audio = audio
             self.options = options
             self.callback = callback

@@ -208,7 +208,9 @@ class SpeechToTextV1(WatsonService):
                                  timestamps=False,
                                  profanity_filter=None,
                                  smart_formatting=False,
-                                 speaker_labels=None):
+                                 speaker_labels=None,
+                                 proxy_host=None,
+                                 proxy_port=None):
         """
         Sends audio for speech recognition using web sockets.
 
@@ -276,7 +278,7 @@ class SpeechToTextV1(WatsonService):
         }
         options = _remove_null_values(options)
 
-        RecognizeListener(audio, options, recognize_callback, url, headers)
+        RecognizeListener(audio, options, recognize_callback, url, headers, proxy_host, proxy_port)
 
     #########################
     # Asynchronous
