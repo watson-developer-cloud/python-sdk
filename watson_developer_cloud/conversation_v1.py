@@ -78,205 +78,7 @@ class ConversationV1(WatsonService):
         self.version = version
 
     #########################
-    # workspaces
-    #########################
-
-    def create_workspace(self,
-                         name=None,
-                         description=None,
-                         language=None,
-                         intents=None,
-                         entities=None,
-                         dialog_nodes=None,
-                         counterexamples=None,
-                         metadata=None,
-                         learning_opt_out=None):
-        """
-        Create workspace.
-
-        Create a workspace based on component objects. You must provide workspace
-        components defining the content of the new workspace.
-
-        :param str name: The name of the workspace.
-        :param str description: The description of the workspace.
-        :param str language: The language of the workspace.
-        :param list[CreateIntent] intents: An array of objects defining the intents for the workspace.
-        :param list[CreateEntity] entities: An array of objects defining the entities for the workspace.
-        :param list[CreateDialogNode] dialog_nodes: An array of objects defining the nodes in the workspace dialog.
-        :param list[CreateCounterexample] counterexamples: An array of objects defining input examples that have been marked as irrelevant input.
-        :param object metadata: Any metadata related to the workspace.
-        :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
-        :return: A `dict` containing the `Workspace` response.
-        :rtype: dict
-        """
-        if intents is not None:
-            intents = [self._convert_model(x, CreateIntent) for x in intents]
-        if entities is not None:
-            entities = [self._convert_model(x, CreateEntity) for x in entities]
-        if dialog_nodes is not None:
-            dialog_nodes = [
-                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
-            ]
-        if counterexamples is not None:
-            counterexamples = [
-                self._convert_model(x, CreateCounterexample)
-                for x in counterexamples
-            ]
-        params = {'version': self.version}
-        data = {
-            'name': name,
-            'description': description,
-            'language': language,
-            'intents': intents,
-            'entities': entities,
-            'dialog_nodes': dialog_nodes,
-            'counterexamples': counterexamples,
-            'metadata': metadata,
-            'learning_opt_out': learning_opt_out
-        }
-        url = '/v1/workspaces'
-        response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
-        return response
-
-    def delete_workspace(self, workspace_id):
-        """
-        Delete workspace.
-
-        Delete a workspace from the service instance.
-
-        :param str workspace_id: The workspace ID.
-        :rtype: None
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        params = {'version': self.version}
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
-        return None
-
-    def get_workspace(self, workspace_id, export=None, include_audit=None):
-        """
-        Get information about a workspace.
-
-        Get information about a workspace, optionally including all workspace content.
-
-        :param str workspace_id: The workspace ID.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
-        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
-        :return: A `dict` containing the `WorkspaceExport` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        params = {
-            'version': self.version,
-            'export': export,
-            'include_audit': include_audit
-        }
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def list_workspaces(self,
-                        page_limit=None,
-                        include_count=None,
-                        sort=None,
-                        cursor=None,
-                        include_audit=None):
-        """
-        List workspaces.
-
-        List the workspaces associated with a Conversation service instance.
-
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
-        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
-        :return: A `dict` containing the `WorkspaceCollection` response.
-        :rtype: dict
-        """
-        params = {
-            'version': self.version,
-            'page_limit': page_limit,
-            'include_count': include_count,
-            'sort': sort,
-            'cursor': cursor,
-            'include_audit': include_audit
-        }
-        url = '/v1/workspaces'
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def update_workspace(self,
-                         workspace_id,
-                         name=None,
-                         description=None,
-                         language=None,
-                         intents=None,
-                         entities=None,
-                         dialog_nodes=None,
-                         counterexamples=None,
-                         metadata=None,
-                         learning_opt_out=None,
-                         append=None):
-        """
-        Update workspace.
-
-        Update an existing workspace with new or modified data. You must provide component
-        objects defining the content of the updated workspace.
-
-        :param str workspace_id: The workspace ID.
-        :param str name: The name of the workspace.
-        :param str description: The description of the workspace.
-        :param str language: The language of the workspace.
-        :param list[CreateIntent] intents: An array of objects defining the intents for the workspace.
-        :param list[CreateEntity] entities: An array of objects defining the entities for the workspace.
-        :param list[CreateDialogNode] dialog_nodes: An array of objects defining the nodes in the workspace dialog.
-        :param list[CreateCounterexample] counterexamples: An array of objects defining input examples that have been marked as irrelevant input.
-        :param object metadata: Any metadata related to the workspace.
-        :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
-        :param bool append: Specifies that the elements included in the request body are to be appended to the existing data in the workspace. The default value is `false`.
-        :return: A `dict` containing the `Workspace` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if intents is not None:
-            intents = [self._convert_model(x, CreateIntent) for x in intents]
-        if entities is not None:
-            entities = [self._convert_model(x, CreateEntity) for x in entities]
-        if dialog_nodes is not None:
-            dialog_nodes = [
-                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
-            ]
-        if counterexamples is not None:
-            counterexamples = [
-                self._convert_model(x, CreateCounterexample)
-                for x in counterexamples
-            ]
-        params = {'version': self.version, 'append': append}
-        data = {
-            'name': name,
-            'description': description,
-            'language': language,
-            'intents': intents,
-            'entities': entities,
-            'dialog_nodes': dialog_nodes,
-            'counterexamples': counterexamples,
-            'metadata': metadata,
-            'learning_opt_out': learning_opt_out
-        }
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
-        response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
-        return response
-
-    #########################
-    # message
+    # Message
     #########################
 
     def message(self,
@@ -287,18 +89,22 @@ class ConversationV1(WatsonService):
                 entities=None,
                 intents=None,
                 output=None,
-                nodes_visited_details=None):
+                nodes_visited_details=None,
+                **kwargs):
         """
-        Get a response to a user's input.
+        Get response to user input.
+
+        Get a response to a user's input.    There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param InputData input: An input object that includes the input text.
         :param bool alternate_intents: Whether to return more than one intent. Set to `true` to return all matching intents.
         :param Context context: State information for the conversation. Continue a conversation by including the context object from the previous response.
-        :param list[RuntimeEntity] entities: Include the entities from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param list[RuntimeIntent] intents: An array of name-confidence pairs for the user input. Include the intents from the previous response when they do not need to change and to prevent Watson from trying to identify them.
-        :param OutputData output: System output. Include the output from the request when you have several requests within the same Dialog turn to pass back in the intermediate information.
+        :param list[RuntimeEntity] entities: Entities to use when evaluating the message. Include entities from the previous response to continue using those entities rather than detecting entities in the new input.
+        :param list[RuntimeIntent] intents: Intents to use when evaluating the user input. Include intents from the previous response to continue using those intents rather than trying to recognize intents in the new input.
+        :param OutputData output: System output. Include the output from the previous response to maintain intermediate information over multiple requests.
         :param bool nodes_visited_details: Whether to include additional diagnostic information about the dialog nodes that were visited during processing of the message.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `MessageResponse` response.
         :rtype: dict
         """
@@ -309,11 +115,16 @@ class ConversationV1(WatsonService):
         if context is not None:
             context = self._convert_model(context, Context)
         if entities is not None:
-            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
+            entities = [
+                self._convert_model(x, RuntimeEntity) for x in entities
+            ]
         if intents is not None:
             intents = [self._convert_model(x, RuntimeIntent) for x in intents]
         if output is not None:
             output = self._convert_model(output, OutputData)
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'nodes_visited_details': nodes_visited_details
@@ -329,27 +140,294 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/message'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # intents
+    # Workspaces
+    #########################
+
+    def create_workspace(self,
+                         name=None,
+                         description=None,
+                         language=None,
+                         intents=None,
+                         entities=None,
+                         dialog_nodes=None,
+                         counterexamples=None,
+                         metadata=None,
+                         learning_opt_out=None,
+                         **kwargs):
+        """
+        Create workspace.
+
+        Create a workspace based on component objects. You must provide workspace
+        components defining the content of the new workspace.    This operation is limited
+        to 30 requests per 30 minutes. For more information, see **Rate limiting**.
+
+        :param str name: The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+        :param str description: The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str language: The language of the workspace.
+        :param list[CreateIntent] intents: An array of objects defining the intents for the workspace.
+        :param list[CreateEntity] entities: An array of objects defining the entities for the workspace.
+        :param list[CreateDialogNode] dialog_nodes: An array of objects defining the nodes in the workspace dialog.
+        :param list[CreateCounterexample] counterexamples: An array of objects defining input examples that have been marked as irrelevant input.
+        :param object metadata: Any metadata related to the workspace.
+        :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Workspace` response.
+        :rtype: dict
+        """
+        if intents is not None:
+            intents = [self._convert_model(x, CreateIntent) for x in intents]
+        if entities is not None:
+            entities = [self._convert_model(x, CreateEntity) for x in entities]
+        if dialog_nodes is not None:
+            dialog_nodes = [
+                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
+            ]
+        if counterexamples is not None:
+            counterexamples = [
+                self._convert_model(x, CreateCounterexample)
+                for x in counterexamples
+            ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        data = {
+            'name': name,
+            'description': description,
+            'language': language,
+            'intents': intents,
+            'entities': entities,
+            'dialog_nodes': dialog_nodes,
+            'counterexamples': counterexamples,
+            'metadata': metadata,
+            'learning_opt_out': learning_opt_out
+        }
+        url = '/v1/workspaces'
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    def delete_workspace(self, workspace_id, **kwargs):
+        """
+        Delete workspace.
+
+        Delete a workspace from the service instance.    This operation is limited to 30
+        requests per 30 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param dict headers: A `dict` containing the request headers
+        :rtype: None
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        url = '/v1/workspaces/{0}'.format(
+            *self._encode_path_vars(workspace_id))
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return None
+
+    def get_workspace(self,
+                      workspace_id,
+                      export=None,
+                      include_audit=None,
+                      **kwargs):
+        """
+        Get information about a workspace.
+
+        Get information about a workspace, optionally including all workspace content.
+        With **export**=`false`, this operation is limited to 6000 requests per 5 minutes.
+        With **export**=`true`, the limit is 20 requests per 30 minutes. For more
+        information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `WorkspaceExport` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'export': export,
+            'include_audit': include_audit
+        }
+        url = '/v1/workspaces/{0}'.format(
+            *self._encode_path_vars(workspace_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_workspaces(self,
+                        page_limit=None,
+                        include_count=None,
+                        sort=None,
+                        cursor=None,
+                        include_audit=None,
+                        **kwargs):
+        """
+        List workspaces.
+
+        List the workspaces associated with a Conversation service instance.    This
+        operation is limited to 500 requests per 30 minutes. For more information, see
+        **Rate limiting**.
+
+        :param int page_limit: The number of records to return in each page of results.
+        :param bool include_count: Whether to include information about the number of records returned.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the page of results to retrieve.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `WorkspaceCollection` response.
+        :rtype: dict
+        """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor,
+            'include_audit': include_audit
+        }
+        url = '/v1/workspaces'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def update_workspace(self,
+                         workspace_id,
+                         name=None,
+                         description=None,
+                         language=None,
+                         intents=None,
+                         entities=None,
+                         dialog_nodes=None,
+                         counterexamples=None,
+                         metadata=None,
+                         learning_opt_out=None,
+                         append=None,
+                         **kwargs):
+        """
+        Update workspace.
+
+        Update an existing workspace with new or modified data. You must provide component
+        objects defining the content of the updated workspace.    This operation is
+        limited to 30 request per 30 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str name: The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+        :param str description: The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str language: The language of the workspace.
+        :param list[CreateIntent] intents: An array of objects defining the intents for the workspace.
+        :param list[CreateEntity] entities: An array of objects defining the entities for the workspace.
+        :param list[CreateDialogNode] dialog_nodes: An array of objects defining the nodes in the workspace dialog.
+        :param list[CreateCounterexample] counterexamples: An array of objects defining input examples that have been marked as irrelevant input.
+        :param object metadata: Any metadata related to the workspace.
+        :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param bool append: Whether the new data is to be appended to the existing data in the workspace. If **append**=`false`, elements included in the new data completely replace the corresponding existing elements, including all subelements. For example, if the new data includes **entities** and **append**=`false`, all existing entities in the workspace are discarded and replaced with the new entities.    If **append**=`true`, existing elements are preserved, and the new elements are added. If any elements in the new data collide with existing elements, the update request fails.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Workspace` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if intents is not None:
+            intents = [self._convert_model(x, CreateIntent) for x in intents]
+        if entities is not None:
+            entities = [self._convert_model(x, CreateEntity) for x in entities]
+        if dialog_nodes is not None:
+            dialog_nodes = [
+                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
+            ]
+        if counterexamples is not None:
+            counterexamples = [
+                self._convert_model(x, CreateCounterexample)
+                for x in counterexamples
+            ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'append': append}
+        data = {
+            'name': name,
+            'description': description,
+            'language': language,
+            'intents': intents,
+            'entities': entities,
+            'dialog_nodes': dialog_nodes,
+            'counterexamples': counterexamples,
+            'metadata': metadata,
+            'learning_opt_out': learning_opt_out
+        }
+        url = '/v1/workspaces/{0}'.format(
+            *self._encode_path_vars(workspace_id))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    #########################
+    # Intents
     #########################
 
     def create_intent(self,
                       workspace_id,
                       intent,
                       description=None,
-                      examples=None):
+                      examples=None,
+                      **kwargs):
         """
         Create intent.
 
-        Create a new intent.
+        Create a new intent.    This operation is limited to 2000 requests per 30 minutes.
+        For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The name of the intent.
-        :param str description: The description of the intent.
-        :param list[CreateExample] examples: An array of user input examples.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+        :param str description: The description of the intent. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param list[CreateExample] examples: An array of user input examples for the intent.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Intent` response.
         :rtype: dict
         """
@@ -358,7 +436,12 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [self._convert_model(x, CreateExample) for x in examples]
+            examples = [
+                self._convert_model(x, CreateExample) for x in examples
+            ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'intent': intent,
@@ -368,39 +451,63 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/intents'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_intent(self, workspace_id, intent):
+    def delete_intent(self, workspace_id, intent, **kwargs):
         """
         Delete intent.
 
-        Delete an intent from a workspace.
+        Delete an intent from a workspace.    This operation is limited to 2000 requests
+        per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
             workspace_id, intent))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
-    def get_intent(self, workspace_id, intent, export=None, include_audit=None):
+    def get_intent(self,
+                   workspace_id,
+                   intent,
+                   export=None,
+                   include_audit=None,
+                   **kwargs):
         """
         Get intent.
 
-        Get information about an intent, optionally including all intent content.
+        Get information about an intent, optionally including all intent content.    With
+        **export**=`false`, this operation is limited to 6000 requests per 5 minutes. With
+        **export**=`true`, the limit is 400 requests per 30 minutes. For more information,
+        see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `IntentExport` response.
         :rtype: dict
         """
@@ -408,15 +515,22 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
+            workspace_id, intent))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def list_intents(self,
@@ -426,24 +540,31 @@ class ConversationV1(WatsonService):
                      include_count=None,
                      sort=None,
                      cursor=None,
-                     include_audit=None):
+                     include_audit=None,
+                     **kwargs):
         """
         List intents.
 
-        List the intents for a workspace.
+        List the intents for a workspace.    With **export**=`false`, this operation is
+        limited to 2000 requests per 30 minutes. With **export**=`true`, the limit is 400
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `IntentCollection` response.
         :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'export': export,
@@ -456,7 +577,11 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/intents'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_intent(self,
@@ -464,18 +589,21 @@ class ConversationV1(WatsonService):
                       intent,
                       new_intent=None,
                       new_description=None,
-                      new_examples=None):
+                      new_examples=None,
+                      **kwargs):
         """
         Update intent.
 
-        Update an existing intent with new or modified data. You must provide data
-        defining the content of the updated intent.
+        Update an existing intent with new or modified data. You must provide component
+        objects defining the content of the updated intent.    This operation is limited
+        to 2000 requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
-        :param str new_intent: The name of the intent.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param str new_intent: The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
         :param str new_description: The description of the intent.
         :param list[CreateExample] new_examples: An array of user input examples for the intent.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Intent` response.
         :rtype: dict
         """
@@ -484,7 +612,12 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if new_examples is not None:
-            new_examples = [self._convert_model(x, CreateExample) for x in new_examples]
+            new_examples = [
+                self._convert_model(x, CreateExample) for x in new_examples
+            ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'intent': new_intent,
@@ -494,22 +627,29 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
             workspace_id, intent))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # examples
+    # Examples
     #########################
 
-    def create_example(self, workspace_id, intent, text):
+    def create_example(self, workspace_id, intent, text, **kwargs):
         """
         Create user input example.
 
-        Add a new user input example to an intent.
+        Add a new user input example to an intent.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
-        :param str text: The text of a user input example.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param str text: The text of a user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Example` response.
         :rtype: dict
         """
@@ -519,23 +659,33 @@ class ConversationV1(WatsonService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'text': text}
         url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
             *self._encode_path_vars(workspace_id, intent))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_example(self, workspace_id, intent, text):
+    def delete_example(self, workspace_id, intent, text, **kwargs):
         """
         Delete user input example.
 
-        Delete a user input example from an intent.
+        Delete a user input example from an intent.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
         :param str text: The text of the user input example.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if workspace_id is None:
@@ -544,22 +694,37 @@ class ConversationV1(WatsonService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
-    def get_example(self, workspace_id, intent, text, include_audit=None):
+    def get_example(self,
+                    workspace_id,
+                    intent,
+                    text,
+                    include_audit=None,
+                    **kwargs):
         """
         Get user input example.
 
-        Get information about a user input example.
+        Get information about a user input example.    This operation is limited to 6000
+        requests per 5 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
         :param str text: The text of the user input example.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Example` response.
         :rtype: dict
         """
@@ -569,11 +734,18 @@ class ConversationV1(WatsonService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'include_audit': include_audit}
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def list_examples(self,
@@ -583,19 +755,22 @@ class ConversationV1(WatsonService):
                       include_count=None,
                       sort=None,
                       cursor=None,
-                      include_audit=None):
+                      include_audit=None,
+                      **kwargs):
         """
         List user input examples.
 
-        List the user input examples for an intent.
+        List the user input examples for an intent.    This operation is limited to 2500
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ExampleCollection` response.
         :rtype: dict
         """
@@ -603,6 +778,9 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'page_limit': page_limit,
@@ -614,19 +792,30 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
             *self._encode_path_vars(workspace_id, intent))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def update_example(self, workspace_id, intent, text, new_text=None):
+    def update_example(self,
+                       workspace_id,
+                       intent,
+                       text,
+                       new_text=None,
+                       **kwargs):
         """
         Update user input example.
 
-        Update the text of a user input example.
+        Update the text of a user input example.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str intent: The intent name (for example, `pizza_order`).
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str intent: The intent name.
         :param str text: The text of the user input example.
-        :param str new_text: The text of the user input example.
+        :param str new_text: The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Example` response.
         :rtype: dict
         """
@@ -636,16 +825,217 @@ class ConversationV1(WatsonService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'text': new_text}
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # entities
+    # Counterexamples
+    #########################
+
+    def create_counterexample(self, workspace_id, text, **kwargs):
+        """
+        Create counterexample.
+
+        Add a new counterexample to a workspace. Counterexamples are examples that have
+        been marked as irrelevant input.    This operation is limited to 1000 requests per
+        30 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str text: The text of a user input marked as irrelevant input. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters  - It cannot consist of only whitespace characters  - It must be no longer than 1024 characters.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Counterexample` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if text is None:
+            raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        data = {'text': text}
+        url = '/v1/workspaces/{0}/counterexamples'.format(
+            *self._encode_path_vars(workspace_id))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    def delete_counterexample(self, workspace_id, text, **kwargs):
+        """
+        Delete counterexample.
+
+        Delete a counterexample from a workspace. Counterexamples are examples that have
+        been marked as irrelevant input.    This operation is limited to 1000 requests per
+        30 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :param dict headers: A `dict` containing the request headers
+        :rtype: None
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if text is None:
+            raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return None
+
+    def get_counterexample(self,
+                           workspace_id,
+                           text,
+                           include_audit=None,
+                           **kwargs):
+        """
+        Get counterexample.
+
+        Get information about a counterexample. Counterexamples are examples that have
+        been marked as irrelevant input.    This operation is limited to 6000 requests per
+        5 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Counterexample` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if text is None:
+            raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'include_audit': include_audit}
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_counterexamples(self,
+                             workspace_id,
+                             page_limit=None,
+                             include_count=None,
+                             sort=None,
+                             cursor=None,
+                             include_audit=None,
+                             **kwargs):
+        """
+        List counterexamples.
+
+        List the counterexamples for a workspace. Counterexamples are examples that have
+        been marked as irrelevant input.    This operation is limited to 2500 requests per
+        30 minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param int page_limit: The number of records to return in each page of results.
+        :param bool include_count: Whether to include information about the number of records returned.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the page of results to retrieve.
+        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `CounterexampleCollection` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'page_limit': page_limit,
+            'include_count': include_count,
+            'sort': sort,
+            'cursor': cursor,
+            'include_audit': include_audit
+        }
+        url = '/v1/workspaces/{0}/counterexamples'.format(
+            *self._encode_path_vars(workspace_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def update_counterexample(self,
+                              workspace_id,
+                              text,
+                              new_text=None,
+                              **kwargs):
+        """
+        Update counterexample.
+
+        Update the text of a counterexample. Counterexamples are examples that have been
+        marked as irrelevant input.    This operation is limited to 1000 requests per 30
+        minutes. For more information, see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
+        :param str new_text: The text of a user input counterexample.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Counterexample` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if text is None:
+            raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        data = {'text': new_text}
+        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            *self._encode_path_vars(workspace_id, text))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    #########################
+    # Entities
     #########################
 
     def create_entity(self,
@@ -654,18 +1044,21 @@ class ConversationV1(WatsonService):
                       description=None,
                       metadata=None,
                       values=None,
-                      fuzzy_match=None):
+                      fuzzy_match=None,
+                      **kwargs):
         """
         Create entity.
 
-        Create a new entity.
+        Create a new entity.    This operation is limited to 1000 requests per 30 minutes.
+        For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str entity: The name of the entity.
-        :param str description: The description of the entity.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str entity: The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str description: The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
         :param object metadata: Any metadata related to the value.
-        :param list[CreateValue] values: An array of entity values.
+        :param list[CreateValue] values: An array of objects describing the entity values.
         :param bool fuzzy_match: Whether to use fuzzy matching for the entity.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Entity` response.
         :rtype: dict
         """
@@ -675,6 +1068,9 @@ class ConversationV1(WatsonService):
             raise ValueError('entity must be provided')
         if values is not None:
             values = [self._convert_model(x, CreateValue) for x in values]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'entity': entity,
@@ -686,39 +1082,63 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/entities'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_entity(self, workspace_id, entity):
+    def delete_entity(self, workspace_id, entity, **kwargs):
         """
         Delete entity.
 
-        Delete an entity from a workspace.
+        Delete an entity from a workspace.    This operation is limited to 1000 requests
+        per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
             workspace_id, entity))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
-    def get_entity(self, workspace_id, entity, export=None, include_audit=None):
+    def get_entity(self,
+                   workspace_id,
+                   entity,
+                   export=None,
+                   include_audit=None,
+                   **kwargs):
         """
         Get entity.
 
-        Get information about an entity, optionally including all entity content.
+        Get information about an entity, optionally including all entity content.    With
+        **export**=`false`, this operation is limited to 6000 requests per 5 minutes. With
+        **export**=`true`, the limit is 200 requests per 30 minutes. For more information,
+        see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `EntityExport` response.
         :rtype: dict
         """
@@ -726,15 +1146,22 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/entities/{1}'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
+            workspace_id, entity))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def list_entities(self,
@@ -744,24 +1171,31 @@ class ConversationV1(WatsonService):
                       include_count=None,
                       sort=None,
                       cursor=None,
-                      include_audit=None):
+                      include_audit=None,
+                      **kwargs):
         """
         List entities.
 
-        List the entities for a workspace.
+        List the entities for a workspace.    With **export**=`false`, this operation is
+        limited to 1000 requests per 30 minutes. With **export**=`true`, the limit is 200
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `EntityCollection` response.
         :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'export': export,
@@ -774,7 +1208,11 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/entities'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_entity(self,
@@ -784,19 +1222,23 @@ class ConversationV1(WatsonService):
                       new_description=None,
                       new_metadata=None,
                       new_fuzzy_match=None,
-                      new_values=None):
+                      new_values=None,
+                      **kwargs):
         """
         Update entity.
 
-        Update an existing entity with new or modified data.
+        Update an existing entity with new or modified data. You must provide component
+        objects defining the content of the updated entity.    This operation is limited
+        to 1000 requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
-        :param str new_entity: The name of the entity.
-        :param str new_description: The description of the entity.
+        :param str new_entity: The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str new_description: The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
         :param object new_metadata: Any metadata related to the entity.
         :param bool new_fuzzy_match: Whether to use fuzzy matching for the entity.
         :param list[CreateValue] new_values: An array of entity values.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Entity` response.
         :rtype: dict
         """
@@ -805,7 +1247,12 @@ class ConversationV1(WatsonService):
         if entity is None:
             raise ValueError('entity must be provided')
         if new_values is not None:
-            new_values = [self._convert_model(x, CreateValue) for x in new_values]
+            new_values = [
+                self._convert_model(x, CreateValue) for x in new_values
+            ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'entity': new_entity,
@@ -817,11 +1264,16 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
             workspace_id, entity))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # values
+    # Values
     #########################
 
     def create_value(self,
@@ -831,19 +1283,22 @@ class ConversationV1(WatsonService):
                      metadata=None,
                      synonyms=None,
                      patterns=None,
-                     value_type=None):
+                     value_type=None,
+                     **kwargs):
         """
         Add entity value.
 
-        Create a new value for an entity.
+        Create a new value for an entity.    This operation is limited to 1000 requests
+        per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
-        :param str value: The text of the entity value.
+        :param str value: The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
         :param object metadata: Any metadata related to the entity value.
-        :param list[str] synonyms: An array of synonyms for the entity value.
-        :param list[str] patterns: An array of patterns for the entity value. A pattern is specified as a regular expression.
-        :param str value_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
+        :param list[str] synonyms: An array containing any synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param list[str] patterns: An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        :param str value_type: Specifies the type of value.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Value` response.
         :rtype: dict
         """
@@ -853,6 +1308,9 @@ class ConversationV1(WatsonService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'value': value,
@@ -864,18 +1322,25 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/entities/{1}/values'.format(
             *self._encode_path_vars(workspace_id, entity))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_value(self, workspace_id, entity, value):
+    def delete_value(self, workspace_id, entity, value, **kwargs):
         """
         Delete entity value.
 
-        Delete a value for an entity.
+        Delete a value from an entity.    This operation is limited to 1000 requests per
+        30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if workspace_id is None:
@@ -884,10 +1349,18 @@ class ConversationV1(WatsonService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
     def get_value(self,
@@ -895,17 +1368,20 @@ class ConversationV1(WatsonService):
                   entity,
                   value,
                   export=None,
-                  include_audit=None):
+                  include_audit=None,
+                  **kwargs):
         """
         Get entity value.
 
-        Get information about an entity value.
+        Get information about an entity value.    This operation is limited to 6000
+        requests per 5 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ValueExport` response.
         :rtype: dict
         """
@@ -915,6 +1391,9 @@ class ConversationV1(WatsonService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'export': export,
@@ -923,7 +1402,11 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def list_values(self,
@@ -934,20 +1417,23 @@ class ConversationV1(WatsonService):
                     include_count=None,
                     sort=None,
                     cursor=None,
-                    include_audit=None):
+                    include_audit=None,
+                    **kwargs):
         """
         List entity values.
 
-        List the values for an entity.
+        List the values for an entity.    This operation is limited to 2500 requests per
+        30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
-        :param bool export: Whether to include all element content in the returned data. If export=`false`, the returned data includes only information about the element itself. If export=`true`, all content, including subelements, is included. The default value is `false`.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param bool export: Whether to include all element content in the returned data. If **export**=`false`, the returned data includes only information about the element itself. If **export**=`true`, all content, including subelements, is included.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ValueCollection` response.
         :rtype: dict
         """
@@ -955,6 +1441,9 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'export': export,
@@ -967,7 +1456,11 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/entities/{1}/values'.format(
             *self._encode_path_vars(workspace_id, entity))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_value(self,
@@ -978,20 +1471,25 @@ class ConversationV1(WatsonService):
                      new_metadata=None,
                      new_type=None,
                      new_synonyms=None,
-                     new_patterns=None):
+                     new_patterns=None,
+                     **kwargs):
         """
         Update entity value.
 
-        Update the content of a value for an entity.
+        Update an existing entity value with new or modified data. You must provide
+        component objects defining the content of the updated entity value.    This
+        operation is limited to 1000 requests per 30 minutes. For more information, see
+        **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
-        :param str new_value: The text of the entity value.
+        :param str new_value: The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
         :param object new_metadata: Any metadata related to the entity value.
-        :param str new_type: Specifies the type of value (`synonyms` or `patterns`). The default value is `synonyms`.
-        :param list[str] new_synonyms: An array of synonyms for the entity value.
-        :param list[str] new_patterns: An array of patterns for the entity value. A pattern is specified as a regular expression.
+        :param str new_type: Specifies the type of value.
+        :param list[str] new_synonyms: An array of synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following resrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param list[str] new_patterns: An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Value` response.
         :rtype: dict
         """
@@ -1001,6 +1499,9 @@ class ConversationV1(WatsonService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'value': new_value,
@@ -1012,23 +1513,30 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # synonyms
+    # Synonyms
     #########################
 
-    def create_synonym(self, workspace_id, entity, value, synonym):
+    def create_synonym(self, workspace_id, entity, value, synonym, **kwargs):
         """
         Add entity value synonym.
 
-        Add a new synonym to an entity value.
+        Add a new synonym to an entity value.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
-        :param str synonym: The text of the synonym.
+        :param str synonym: The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Synonym` response.
         :rtype: dict
         """
@@ -1040,24 +1548,34 @@ class ConversationV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'synonym': synonym}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_synonym(self, workspace_id, entity, value, synonym):
+    def delete_synonym(self, workspace_id, entity, value, synonym, **kwargs):
         """
         Delete entity value synonym.
 
-        Delete a synonym for an entity value.
+        Delete a synonym from an entity value.    This operation is limited to 1000
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if workspace_id is None:
@@ -1068,10 +1586,18 @@ class ConversationV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
     def get_synonym(self,
@@ -1079,17 +1605,20 @@ class ConversationV1(WatsonService):
                     entity,
                     value,
                     synonym,
-                    include_audit=None):
+                    include_audit=None,
+                    **kwargs):
         """
         Get entity value synonym.
 
-        Get information about a synonym for an entity value.
+        Get information about a synonym of an entity value.    This operation is limited
+        to 6000 requests per 5 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Synonym` response.
         :rtype: dict
         """
@@ -1101,11 +1630,18 @@ class ConversationV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'include_audit': include_audit}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def list_synonyms(self,
@@ -1116,20 +1652,23 @@ class ConversationV1(WatsonService):
                       include_count=None,
                       sort=None,
                       cursor=None,
-                      include_audit=None):
+                      include_audit=None,
+                      **kwargs):
         """
         List entity value synonyms.
 
-        List the synonyms for an entity value.
+        List the synonyms for an entity value.    This operation is limited to 2500
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SynonymCollection` response.
         :rtype: dict
         """
@@ -1139,6 +1678,9 @@ class ConversationV1(WatsonService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'page_limit': page_limit,
@@ -1150,7 +1692,11 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_synonym(self,
@@ -1158,17 +1704,21 @@ class ConversationV1(WatsonService):
                        entity,
                        value,
                        synonym,
-                       new_synonym=None):
+                       new_synonym=None,
+                       **kwargs):
         """
         Update entity value synonym.
 
-        Update the information about a synonym for an entity value.
+        Update an existing entity value synonym with new text.    This operation is
+        limited to 1000 requests per 30 minutes. For more information, see **Rate
+        limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
-        :param str new_synonym: The text of the synonym.
+        :param str new_synonym: The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Synonym` response.
         :rtype: dict
         """
@@ -1180,16 +1730,24 @@ class ConversationV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {'synonym': new_synonym}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # dialogNodes
+    # Dialog nodes
     #########################
 
     def create_dialog_node(self,
@@ -1207,27 +1765,36 @@ class ConversationV1(WatsonService):
                            title=None,
                            node_type=None,
                            event_name=None,
-                           variable=None):
+                           variable=None,
+                           digress_in=None,
+                           digress_out=None,
+                           digress_out_slots=None,
+                           **kwargs):
         """
         Create dialog node.
 
-        Create a dialog node.
+        Create a new dialog node.    This operation is limited to 500 requests per 30
+        minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str dialog_node: The dialog node ID.
-        :param str description: The description of the dialog node.
-        :param str conditions: The condition that will trigger the dialog node.
-        :param str parent: The ID of the parent dialog node (if any).
-        :param str previous_sibling: The previous dialog node.
-        :param object output: The output of the dialog node.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str dialog_node: The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+        :param str description: The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str conditions: The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param str parent: The ID of the parent dialog node.
+        :param str previous_sibling: The ID of the previous dialog node.
+        :param object output: The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: The context for the dialog node.
         :param object metadata: The metadata for the dialog node.
-        :param DialogNodeNextStep next_step: The next step to execute following this dialog node.
-        :param list[DialogNodeAction] actions: The actions for the dialog node.
-        :param str title: The alias used to identify the dialog node.
+        :param DialogNodeNextStep next_step: The next step to be executed in dialog processing.
+        :param list[DialogNodeAction] actions: An array of objects describing any actions to be invoked by the dialog node.
+        :param str title: The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
         :param str node_type: How the dialog node is processed.
         :param str event_name: How an `event_handler` node is processed.
         :param str variable: The location in the dialog context where output is stored.
+        :param str digress_in: Whether this top-level dialog node can be digressed into.
+        :param str digress_out: Whether this dialog node can be returned to after a digression.
+        :param str digress_out_slots: Whether the user can digress to top-level nodes while filling out slots.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DialogNode` response.
         :rtype: dict
         """
@@ -1241,6 +1808,9 @@ class ConversationV1(WatsonService):
             actions = [
                 self._convert_model(x, DialogNodeAction) for x in actions
             ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'dialog_node': dialog_node,
@@ -1256,43 +1826,67 @@ class ConversationV1(WatsonService):
             'title': title,
             'type': node_type,
             'event_name': event_name,
-            'variable': variable
+            'variable': variable,
+            'digress_in': digress_in,
+            'digress_out': digress_out,
+            'digress_out_slots': digress_out_slots
         }
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
-    def delete_dialog_node(self, workspace_id, dialog_node):
+    def delete_dialog_node(self, workspace_id, dialog_node, **kwargs):
         """
         Delete dialog node.
 
-        Delete a dialog node from the workspace.
+        Delete a dialog node from a workspace.    This operation is limited to 500
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return None
 
-    def get_dialog_node(self, workspace_id, dialog_node, include_audit=None):
+    def get_dialog_node(self,
+                        workspace_id,
+                        dialog_node,
+                        include_audit=None,
+                        **kwargs):
         """
         Get dialog node.
 
-        Get information about a dialog node.
+        Get information about a dialog node.    This operation is limited to 6000 requests
+        per 5 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DialogNode` response.
         :rtype: dict
         """
@@ -1300,11 +1894,18 @@ class ConversationV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'include_audit': include_audit}
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def list_dialog_nodes(self,
@@ -1313,23 +1914,29 @@ class ConversationV1(WatsonService):
                           include_count=None,
                           sort=None,
                           cursor=None,
-                          include_audit=None):
+                          include_audit=None,
+                          **kwargs):
         """
         List dialog nodes.
 
-        List the dialog nodes in the workspace.
+        List the dialog nodes for a workspace.    This operation is limited to 2500
+        requests per 30 minutes. For more information, see **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DialogNodeCollection` response.
         :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'page_limit': page_limit,
@@ -1341,7 +1948,11 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def update_dialog_node(self,
@@ -1360,28 +1971,38 @@ class ConversationV1(WatsonService):
                            new_type=None,
                            new_event_name=None,
                            new_variable=None,
-                           new_actions=None):
+                           new_actions=None,
+                           new_digress_in=None,
+                           new_digress_out=None,
+                           new_digress_out_slots=None,
+                           **kwargs):
         """
         Update dialog node.
 
-        Update information for a dialog node.
+        Update an existing dialog node with new or modified data.    This operation is
+        limited to 500 requests per 30 minutes. For more information, see **Rate
+        limiting**.
 
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
-        :param str new_dialog_node: The dialog node ID.
-        :param str new_description: The description of the dialog node.
-        :param str new_conditions: The condition that will trigger the dialog node.
-        :param str new_parent: The ID of the parent dialog node (if any).
-        :param str new_previous_sibling: The previous dialog node.
-        :param object new_output: The output of the dialog node.
+        :param str new_dialog_node: The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+        :param str new_description: The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str new_conditions: The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param str new_parent: The ID of the parent dialog node.
+        :param str new_previous_sibling: The ID of the previous sibling dialog node.
+        :param object new_output: The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object new_context: The context for the dialog node.
         :param object new_metadata: The metadata for the dialog node.
-        :param DialogNodeNextStep new_next_step: The next step to execute following this dialog node.
-        :param str new_title: The alias used to identify the dialog node.
+        :param DialogNodeNextStep new_next_step: The next step to be executed in dialog processing.
+        :param str new_title: The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
         :param str new_type: How the dialog node is processed.
         :param str new_event_name: How an `event_handler` node is processed.
         :param str new_variable: The location in the dialog context where output is stored.
-        :param list[DialogNodeAction] new_actions: The actions for the dialog node.
+        :param list[DialogNodeAction] new_actions: An array of objects describing any actions to be invoked by the dialog node.
+        :param str new_digress_in: Whether this top-level dialog node can be digressed into.
+        :param str new_digress_out: Whether this dialog node can be returned to after a digression.
+        :param str new_digress_out_slots: Whether the user can digress to top-level nodes while filling out slots.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DialogNode` response.
         :rtype: dict
         """
@@ -1396,6 +2017,9 @@ class ConversationV1(WatsonService):
             new_actions = [
                 self._convert_model(x, DialogNodeAction) for x in new_actions
             ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'dialog_node': new_dialog_node,
@@ -1411,33 +2035,53 @@ class ConversationV1(WatsonService):
             'type': new_type,
             'event_name': new_event_name,
             'variable': new_variable,
-            'actions': new_actions
+            'actions': new_actions,
+            'digress_in': new_digress_in,
+            'digress_out': new_digress_out,
+            'digress_out_slots': new_digress_out_slots
         }
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
-    # logs
+    # Logs
     #########################
 
-    def list_all_logs(self, filter, sort=None, page_limit=None, cursor=None):
+    def list_all_logs(self,
+                      filter,
+                      sort=None,
+                      page_limit=None,
+                      cursor=None,
+                      **kwargs):
         """
         List log events in all workspaces.
 
-        List log events in all workspaces in the service instance.
+        List the events from the logs of all workspaces in the service instance.    If
+        **cursor** is not specified, this operation is limited to 40 requests per 30
+        minutes. If **cursor** is specified, the limit is 120 requests per minute. For
+        more information, see **Rate limiting**.
 
         :param str filter: A cacheable parameter that limits the results to those matching the specified filter. You must specify a filter query that includes a value for `language`, as well as a value for `workspace_id` or `request.context.metadata.deployment`. For more information, see the [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
+        :param int page_limit: The number of records to return in each page of results.
+        :param str cursor: A token identifying the page of results to retrieve.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `LogCollection` response.
         :rtype: dict
         """
         if filter is None:
             raise ValueError('filter must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'filter': filter,
@@ -1447,7 +2091,11 @@ class ConversationV1(WatsonService):
         }
         url = '/v1/logs'
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def list_logs(self,
@@ -1455,22 +2103,30 @@ class ConversationV1(WatsonService):
                   sort=None,
                   filter=None,
                   page_limit=None,
-                  cursor=None):
+                  cursor=None,
+                  **kwargs):
         """
         List log events in a workspace.
 
-        List log events in a specific workspace.
+        List the events from the log of a specific workspace.    If **cursor** is not
+        specified, this operation is limited to 40 requests per 30 minutes. If **cursor**
+        is specified, the limit is 120 requests per minute. For more information, see
+        **Rate limiting**.
 
-        :param str workspace_id: The workspace ID.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str sort: The attribute by which returned results will be sorted. To reverse the sort order, prefix the value with a minus sign (`-`). Supported values are `name`, `updated`, and `workspace_id`.
         :param str filter: A cacheable parameter that limits the results to those matching the specified filter. For more information, see the [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param str cursor: A token identifying the last value from the previous page of results.
+        :param int page_limit: The number of records to return in each page of results.
+        :param str cursor: A token identifying the page of results to retrieve.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `LogCollection` response.
         :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {
             'version': self.version,
             'sort': sort,
@@ -1481,143 +2137,11 @@ class ConversationV1(WatsonService):
         url = '/v1/workspaces/{0}/logs'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    #########################
-    # counterexamples
-    #########################
-
-    def create_counterexample(self, workspace_id, text):
-        """
-        Create counterexample.
-
-        Add a new counterexample to a workspace. Counterexamples are examples that have
-        been marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param str text: The text of a user input marked as irrelevant input.
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if text is None:
-            raise ValueError('text must be provided')
-        params = {'version': self.version}
-        data = {'text': text}
-        url = '/v1/workspaces/{0}/counterexamples'.format(
-            *self._encode_path_vars(workspace_id))
-        response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
-        return response
-
-    def delete_counterexample(self, workspace_id, text):
-        """
-        Delete counterexample.
-
-        Delete a counterexample from a workspace. Counterexamples are examples that have
-        been marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
-        :rtype: None
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if text is None:
-            raise ValueError('text must be provided')
-        params = {'version': self.version}
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
-        self.request(method='DELETE', url=url, params=params, accept_json=True)
-        return None
-
-    def get_counterexample(self, workspace_id, text, include_audit=None):
-        """
-        Get counterexample.
-
-        Get information about a counterexample. Counterexamples are examples that have
-        been marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
-        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if text is None:
-            raise ValueError('text must be provided')
-        params = {'version': self.version, 'include_audit': include_audit}
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def list_counterexamples(self,
-                             workspace_id,
-                             page_limit=None,
-                             include_count=None,
-                             sort=None,
-                             cursor=None,
-                             include_audit=None):
-        """
-        List counterexamples.
-
-        List the counterexamples for a workspace. Counterexamples are examples that have
-        been marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param int page_limit: The number of records to return in each page of results. The default page limit is 100.
-        :param bool include_count: Whether to include information about the number of records returned.
-        :param str sort: Sorts the response according to the value of the specified property, in ascending or descending order.
-        :param str cursor: A token identifying the last value from the previous page of results.
-        :param bool include_audit: Whether to include the audit properties (`created` and `updated` timestamps) in the response.
-        :return: A `dict` containing the `CounterexampleCollection` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        params = {
-            'version': self.version,
-            'page_limit': page_limit,
-            'include_count': include_count,
-            'sort': sort,
-            'cursor': cursor,
-            'include_audit': include_audit
-        }
-        url = '/v1/workspaces/{0}/counterexamples'.format(
-            *self._encode_path_vars(workspace_id))
-        response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
-        return response
-
-    def update_counterexample(self, workspace_id, text, new_text=None):
-        """
-        Update counterexample.
-
-        Update the text of a counterexample. Counterexamples are examples that have been
-        marked as irrelevant input.
-
-        :param str workspace_id: The workspace ID.
-        :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
-        :param str new_text: The text of the example to be marked as irrelevant input.
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
-        """
-        if workspace_id is None:
-            raise ValueError('workspace_id must be provided')
-        if text is None:
-            raise ValueError('text must be provided')
-        params = {'version': self.version}
-        data = {'text': new_text}
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
-        response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
 
@@ -1649,12 +2173,12 @@ class CaptureGroup(object):
         """Initialize a CaptureGroup object from a json dictionary."""
         args = {}
         if 'group' in _dict:
-            args['group'] = _dict['group']
+            args['group'] = _dict.get('group')
         else:
             raise ValueError(
                 'Required property \'group\' not present in CaptureGroup JSON')
         if 'location' in _dict:
-            args['location'] = _dict['location']
+            args['location'] = _dict.get('location')
         return cls(**args)
 
     def _to_dict(self):
@@ -1709,10 +2233,10 @@ class Context(object):
         args = {}
         xtra = _dict.copy()
         if 'conversation_id' in _dict:
-            args['conversation_id'] = _dict['conversation_id']
+            args['conversation_id'] = _dict.get('conversation_id')
             del xtra['conversation_id']
         if 'system' in _dict:
-            args['system'] = SystemResponse._from_dict(_dict['system'])
+            args['system'] = SystemResponse._from_dict(_dict.get('system'))
             del xtra['system']
         args.update(xtra)
         return cls(**args)
@@ -1781,14 +2305,15 @@ class Counterexample(object):
         """Initialize a Counterexample object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
-                'Required property \'text\' not present in Counterexample JSON')
+                'Required property \'text\' not present in Counterexample JSON'
+            )
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1841,14 +2366,15 @@ class CounterexampleCollection(object):
         args = {}
         if 'counterexamples' in _dict:
             args['counterexamples'] = [
-                Counterexample._from_dict(x) for x in _dict['counterexamples']
+                Counterexample._from_dict(x)
+                for x in (_dict.get('counterexamples'))
             ]
         else:
             raise ValueError(
                 'Required property \'counterexamples\' not present in CounterexampleCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict['pagination'])
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in CounterexampleCollection JSON'
@@ -1902,7 +2428,7 @@ class CreateCounterexample(object):
         """Initialize a CreateCounterexample object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in CreateCounterexample JSON'
@@ -2016,48 +2542,46 @@ class CreateDialogNode(object):
         """Initialize a CreateDialogNode object from a json dictionary."""
         args = {}
         if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict['dialog_node']
+            args['dialog_node'] = _dict.get('dialog_node')
         else:
             raise ValueError(
                 'Required property \'dialog_node\' not present in CreateDialogNode JSON'
             )
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'conditions' in _dict:
-            args['conditions'] = _dict['conditions']
+            args['conditions'] = _dict.get('conditions')
         if 'parent' in _dict:
-            args['parent'] = _dict['parent']
+            args['parent'] = _dict.get('parent')
         if 'previous_sibling' in _dict:
-            args['previous_sibling'] = _dict['previous_sibling']
+            args['previous_sibling'] = _dict.get('previous_sibling')
         if 'output' in _dict:
-            args['output'] = _dict['output']
+            args['output'] = _dict.get('output')
         if 'context' in _dict:
-            args['context'] = _dict['context']
+            args['context'] = _dict.get('context')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'next_step' in _dict:
             args['next_step'] = DialogNodeNextStep._from_dict(
-                _dict['next_step'])
+                _dict.get('next_step'))
         if 'actions' in _dict:
             args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in _dict['actions']
+                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
             ]
         if 'title' in _dict:
-            args['title'] = _dict['title']
-        if 'node_type' in _dict:
-            args['node_type'] = _dict['node_type']
-        if 'type' in _dict:
-            args['node_type'] = _dict['type']
+            args['title'] = _dict.get('title')
+        if 'type' in _dict or 'node_type' in _dict:
+            args['node_type'] = _dict.get('type') or _dict.get('node_type')
         if 'event_name' in _dict:
-            args['event_name'] = _dict['event_name']
+            args['event_name'] = _dict.get('event_name')
         if 'variable' in _dict:
-            args['variable'] = _dict['variable']
+            args['variable'] = _dict.get('variable')
         if 'digress_in' in _dict:
-            args['digress_in'] = _dict['digress_in']
+            args['digress_in'] = _dict.get('digress_in')
         if 'digress_out' in _dict:
-            args['digress_out'] = _dict['digress_out']
+            args['digress_out'] = _dict.get('digress_out')
         if 'digress_out_slots' in _dict:
-            args['digress_out_slots'] = _dict['digress_out_slots']
+            args['digress_out_slots'] = _dict.get('digress_out_slots')
         return cls(**args)
 
     def _to_dict(self):
@@ -2153,20 +2677,21 @@ class CreateEntity(object):
         """Initialize a CreateEntity object from a json dictionary."""
         args = {}
         if 'entity' in _dict:
-            args['entity'] = _dict['entity']
+            args['entity'] = _dict.get('entity')
         else:
             raise ValueError(
-                'Required property \'entity\' not present in CreateEntity JSON')
+                'Required property \'entity\' not present in CreateEntity JSON'
+            )
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'values' in _dict:
             args['values'] = [
-                CreateValue._from_dict(x) for x in _dict['values']
+                CreateValue._from_dict(x) for x in (_dict.get('values'))
             ]
         if 'fuzzy_match' in _dict:
-            args['fuzzy_match'] = _dict['fuzzy_match']
+            args['fuzzy_match'] = _dict.get('fuzzy_match')
         return cls(**args)
 
     def _to_dict(self):
@@ -2219,7 +2744,7 @@ class CreateExample(object):
         """Initialize a CreateExample object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in CreateExample JSON')
@@ -2273,15 +2798,16 @@ class CreateIntent(object):
         """Initialize a CreateIntent object from a json dictionary."""
         args = {}
         if 'intent' in _dict:
-            args['intent'] = _dict['intent']
+            args['intent'] = _dict.get('intent')
         else:
             raise ValueError(
-                'Required property \'intent\' not present in CreateIntent JSON')
+                'Required property \'intent\' not present in CreateIntent JSON'
+            )
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'examples' in _dict:
             args['examples'] = [
-                CreateExample._from_dict(x) for x in _dict['examples']
+                CreateExample._from_dict(x) for x in (_dict.get('examples'))
             ]
         return cls(**args)
 
@@ -2348,20 +2874,18 @@ class CreateValue(object):
         """Initialize a CreateValue object from a json dictionary."""
         args = {}
         if 'value' in _dict:
-            args['value'] = _dict['value']
+            args['value'] = _dict.get('value')
         else:
             raise ValueError(
                 'Required property \'value\' not present in CreateValue JSON')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'synonyms' in _dict:
-            args['synonyms'] = _dict['synonyms']
+            args['synonyms'] = _dict.get('synonyms')
         if 'patterns' in _dict:
-            args['patterns'] = _dict['patterns']
-        if 'value_type' in _dict:
-            args['value_type'] = _dict['value_type']
-        if 'type' in _dict:
-            args['value_type'] = _dict['type']
+            args['patterns'] = _dict.get('patterns')
+        if 'type' in _dict or 'value_type' in _dict:
+            args['value_type'] = _dict.get('type') or _dict.get('value_type')
         return cls(**args)
 
     def _to_dict(self):
@@ -2486,55 +3010,52 @@ class DialogNode(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNode object from a json dictionary."""
         args = {}
-        if 'dialog_node_id' in _dict:
-            args['dialog_node_id'] = _dict['dialog_node_id']
-        if 'dialog_node' in _dict:
-            args['dialog_node_id'] = _dict['dialog_node']
+        if 'dialog_node' in _dict or 'dialog_node_id' in _dict:
+            args['dialog_node_id'] = _dict.get('dialog_node') or _dict.get(
+                'dialog_node_id')
         else:
             raise ValueError(
                 'Required property \'dialog_node\' not present in DialogNode JSON'
             )
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'conditions' in _dict:
-            args['conditions'] = _dict['conditions']
+            args['conditions'] = _dict.get('conditions')
         if 'parent' in _dict:
-            args['parent'] = _dict['parent']
+            args['parent'] = _dict.get('parent')
         if 'previous_sibling' in _dict:
-            args['previous_sibling'] = _dict['previous_sibling']
+            args['previous_sibling'] = _dict.get('previous_sibling')
         if 'output' in _dict:
-            args['output'] = _dict['output']
+            args['output'] = _dict.get('output')
         if 'context' in _dict:
-            args['context'] = _dict['context']
+            args['context'] = _dict.get('context')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'next_step' in _dict:
             args['next_step'] = DialogNodeNextStep._from_dict(
-                _dict['next_step'])
+                _dict.get('next_step'))
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'actions' in _dict:
             args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in _dict['actions']
+                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
             ]
         if 'title' in _dict:
-            args['title'] = _dict['title']
-        if 'node_type' in _dict:
-            args['node_type'] = _dict['node_type']
-        if 'type' in _dict:
-            args['node_type'] = _dict['type']
+            args['title'] = _dict.get('title')
+        if 'type' in _dict or 'node_type' in _dict:
+            args['node_type'] = _dict.get('type') or _dict.get('node_type')
         if 'event_name' in _dict:
-            args['event_name'] = _dict['event_name']
+            args['event_name'] = _dict.get('event_name')
         if 'variable' in _dict:
-            args['variable'] = _dict['variable']
+            args['variable'] = _dict.get('variable')
         if 'digress_in' in _dict:
-            args['digress_in'] = _dict['digress_in']
+            args['digress_in'] = _dict.get('digress_in')
         if 'digress_out' in _dict:
-            args['digress_out'] = _dict['digress_out']
+            args['digress_out'] = _dict.get('digress_out')
         if 'digress_out_slots' in _dict:
-            args['digress_out_slots'] = _dict['digress_out_slots']
+            args['digress_out_slots'] = _dict.get('digress_out_slots')
         return cls(**args)
 
     def _to_dict(self):
@@ -2634,25 +3155,23 @@ class DialogNodeAction(object):
         """Initialize a DialogNodeAction object from a json dictionary."""
         args = {}
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         else:
             raise ValueError(
                 'Required property \'name\' not present in DialogNodeAction JSON'
             )
-        if 'action_type' in _dict:
-            args['action_type'] = _dict['action_type']
-        if 'type' in _dict:
-            args['action_type'] = _dict['type']
+        if 'type' in _dict or 'action_type' in _dict:
+            args['action_type'] = _dict.get('type') or _dict.get('action_type')
         if 'parameters' in _dict:
-            args['parameters'] = _dict['parameters']
+            args['parameters'] = _dict.get('parameters')
         if 'result_variable' in _dict:
-            args['result_variable'] = _dict['result_variable']
+            args['result_variable'] = _dict.get('result_variable')
         else:
             raise ValueError(
                 'Required property \'result_variable\' not present in DialogNodeAction JSON'
             )
         if 'credentials' in _dict:
-            args['credentials'] = _dict['credentials']
+            args['credentials'] = _dict.get('credentials')
         return cls(**args)
 
     def _to_dict(self):
@@ -2710,14 +3229,14 @@ class DialogNodeCollection(object):
         args = {}
         if 'dialog_nodes' in _dict:
             args['dialog_nodes'] = [
-                DialogNode._from_dict(x) for x in _dict['dialog_nodes']
+                DialogNode._from_dict(x) for x in (_dict.get('dialog_nodes'))
             ]
         else:
             raise ValueError(
                 'Required property \'dialog_nodes\' not present in DialogNodeCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict['pagination'])
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in DialogNodeCollection JSON'
@@ -2774,15 +3293,15 @@ class DialogNodeNextStep(object):
         """Initialize a DialogNodeNextStep object from a json dictionary."""
         args = {}
         if 'behavior' in _dict:
-            args['behavior'] = _dict['behavior']
+            args['behavior'] = _dict.get('behavior')
         else:
             raise ValueError(
                 'Required property \'behavior\' not present in DialogNodeNextStep JSON'
             )
         if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict['dialog_node']
+            args['dialog_node'] = _dict.get('dialog_node')
         if 'selector' in _dict:
-            args['selector'] = _dict['selector']
+            args['selector'] = _dict.get('selector')
         return cls(**args)
 
     def _to_dict(self):
@@ -2817,26 +3336,31 @@ class DialogNodeVisitedDetails(object):
 
     :attr str dialog_node: (optional) A dialog node that was triggered during processing of the input message.
     :attr str title: (optional) The title of the dialog node.
+    :attr str conditions: (optional) The conditions that trigger the dialog node.
     """
 
-    def __init__(self, dialog_node=None, title=None):
+    def __init__(self, dialog_node=None, title=None, conditions=None):
         """
         Initialize a DialogNodeVisitedDetails object.
 
         :param str dialog_node: (optional) A dialog node that was triggered during processing of the input message.
         :param str title: (optional) The title of the dialog node.
+        :param str conditions: (optional) The conditions that trigger the dialog node.
         """
         self.dialog_node = dialog_node
         self.title = title
+        self.conditions = conditions
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeVisitedDetails object from a json dictionary."""
         args = {}
         if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict['dialog_node']
+            args['dialog_node'] = _dict.get('dialog_node')
         if 'title' in _dict:
-            args['title'] = _dict['title']
+            args['title'] = _dict.get('title')
+        if 'conditions' in _dict:
+            args['conditions'] = _dict.get('conditions')
         return cls(**args)
 
     def _to_dict(self):
@@ -2846,6 +3370,8 @@ class DialogNodeVisitedDetails(object):
             _dict['dialog_node'] = self.dialog_node
         if hasattr(self, 'title') and self.title is not None:
             _dict['title'] = self.title
+        if hasattr(self, 'conditions') and self.conditions is not None:
+            _dict['conditions'] = self.conditions
         return _dict
 
     def __str__(self):
@@ -2903,23 +3429,22 @@ class Entity(object):
     def _from_dict(cls, _dict):
         """Initialize a Entity object from a json dictionary."""
         args = {}
-        if 'entity_name' in _dict:
-            args['entity_name'] = _dict['entity_name']
-        if 'entity' in _dict:
-            args['entity_name'] = _dict['entity']
+        if 'entity' in _dict or 'entity_name' in _dict:
+            args['entity_name'] = _dict.get('entity') or _dict.get(
+                'entity_name')
         else:
             raise ValueError(
                 'Required property \'entity\' not present in Entity JSON')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'fuzzy_match' in _dict:
-            args['fuzzy_match'] = _dict['fuzzy_match']
+            args['fuzzy_match'] = _dict.get('fuzzy_match')
         return cls(**args)
 
     def _to_dict(self):
@@ -2978,14 +3503,14 @@ class EntityCollection(object):
         args = {}
         if 'entities' in _dict:
             args['entities'] = [
-                EntityExport._from_dict(x) for x in _dict['entities']
+                EntityExport._from_dict(x) for x in (_dict.get('entities'))
             ]
         else:
             raise ValueError(
                 'Required property \'entities\' not present in EntityCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict['pagination'])
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in EntityCollection JSON'
@@ -3060,26 +3585,26 @@ class EntityExport(object):
     def _from_dict(cls, _dict):
         """Initialize a EntityExport object from a json dictionary."""
         args = {}
-        if 'entity_name' in _dict:
-            args['entity_name'] = _dict['entity_name']
-        if 'entity' in _dict:
-            args['entity_name'] = _dict['entity']
+        if 'entity' in _dict or 'entity_name' in _dict:
+            args['entity_name'] = _dict.get('entity') or _dict.get(
+                'entity_name')
         else:
             raise ValueError(
-                'Required property \'entity\' not present in EntityExport JSON')
+                'Required property \'entity\' not present in EntityExport JSON'
+            )
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'fuzzy_match' in _dict:
-            args['fuzzy_match'] = _dict['fuzzy_match']
+            args['fuzzy_match'] = _dict.get('fuzzy_match')
         if 'values' in _dict:
             args['values'] = [
-                ValueExport._from_dict(x) for x in _dict['values']
+                ValueExport._from_dict(x) for x in (_dict.get('values'))
             ]
         return cls(**args)
 
@@ -3142,17 +3667,16 @@ class Example(object):
     def _from_dict(cls, _dict):
         """Initialize a Example object from a json dictionary."""
         args = {}
-        if 'example_text' in _dict:
-            args['example_text'] = _dict['example_text']
-        if 'text' in _dict:
-            args['example_text'] = _dict['text']
+        if 'text' in _dict or 'example_text' in _dict:
+            args['example_text'] = _dict.get('text') or _dict.get(
+                'example_text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in Example JSON')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -3205,14 +3729,14 @@ class ExampleCollection(object):
         args = {}
         if 'examples' in _dict:
             args['examples'] = [
-                Example._from_dict(x) for x in _dict['examples']
+                Example._from_dict(x) for x in (_dict.get('examples'))
             ]
         else:
             raise ValueError(
                 'Required property \'examples\' not present in ExampleCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict['pagination'])
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in ExampleCollection JSON'
@@ -3263,7 +3787,7 @@ class InputData(object):
         """Initialize a InputData object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in InputData JSON')
@@ -3323,19 +3847,18 @@ class Intent(object):
     def _from_dict(cls, _dict):
         """Initialize a Intent object from a json dictionary."""
         args = {}
-        if 'intent_name' in _dict:
-            args['intent_name'] = _dict['intent_name']
-        if 'intent' in _dict:
-            args['intent_name'] = _dict['intent']
+        if 'intent' in _dict or 'intent_name' in _dict:
+            args['intent_name'] = _dict.get('intent') or _dict.get(
+                'intent_name')
         else:
             raise ValueError(
                 'Required property \'intent\' not present in Intent JSON')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         return cls(**args)
 
     def _to_dict(self):
@@ -3390,14 +3913,14 @@ class IntentCollection(object):
         args = {}
         if 'intents' in _dict:
             args['intents'] = [
-                IntentExport._from_dict(x) for x in _dict['intents']
+                IntentExport._from_dict(x) for x in (_dict.get('intents'))
             ]
         else:
             raise ValueError(
                 'Required property \'intents\' not present in IntentCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict['pagination'])
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in IntentCollection JSON'
@@ -3464,22 +3987,22 @@ class IntentExport(object):
     def _from_dict(cls, _dict):
         """Initialize a IntentExport object from a json dictionary."""
         args = {}
-        if 'intent_name' in _dict:
-            args['intent_name'] = _dict['intent_name']
-        if 'intent' in _dict:
-            args['intent_name'] = _dict['intent']
+        if 'intent' in _dict or 'intent_name' in _dict:
+            args['intent_name'] = _dict.get('intent') or _dict.get(
+                'intent_name')
         else:
             raise ValueError(
-                'Required property \'intent\' not present in IntentExport JSON')
+                'Required property \'intent\' not present in IntentExport JSON'
+            )
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'examples' in _dict:
             args['examples'] = [
-                Example._from_dict(x) for x in _dict['examples']
+                Example._from_dict(x) for x in (_dict.get('examples'))
             ]
         return cls(**args)
 
@@ -3536,12 +4059,15 @@ class LogCollection(object):
         """Initialize a LogCollection object from a json dictionary."""
         args = {}
         if 'logs' in _dict:
-            args['logs'] = [LogExport._from_dict(x) for x in _dict['logs']]
+            args['logs'] = [
+                LogExport._from_dict(x) for x in (_dict.get('logs'))
+            ]
         else:
             raise ValueError(
                 'Required property \'logs\' not present in LogCollection JSON')
         if 'pagination' in _dict:
-            args['pagination'] = LogPagination._from_dict(_dict['pagination'])
+            args['pagination'] = LogPagination._from_dict(
+                _dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in LogCollection JSON'
@@ -3611,40 +4137,41 @@ class LogExport(object):
         """Initialize a LogExport object from a json dictionary."""
         args = {}
         if 'request' in _dict:
-            args['request'] = MessageRequest._from_dict(_dict['request'])
+            args['request'] = MessageRequest._from_dict(_dict.get('request'))
         else:
             raise ValueError(
                 'Required property \'request\' not present in LogExport JSON')
         if 'response' in _dict:
-            args['response'] = MessageResponse._from_dict(_dict['response'])
+            args['response'] = MessageResponse._from_dict(
+                _dict.get('response'))
         else:
             raise ValueError(
                 'Required property \'response\' not present in LogExport JSON')
         if 'log_id' in _dict:
-            args['log_id'] = _dict['log_id']
+            args['log_id'] = _dict.get('log_id')
         else:
             raise ValueError(
                 'Required property \'log_id\' not present in LogExport JSON')
         if 'request_timestamp' in _dict:
-            args['request_timestamp'] = _dict['request_timestamp']
+            args['request_timestamp'] = _dict.get('request_timestamp')
         else:
             raise ValueError(
                 'Required property \'request_timestamp\' not present in LogExport JSON'
             )
         if 'response_timestamp' in _dict:
-            args['response_timestamp'] = _dict['response_timestamp']
+            args['response_timestamp'] = _dict.get('response_timestamp')
         else:
             raise ValueError(
                 'Required property \'response_timestamp\' not present in LogExport JSON'
             )
         if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict['workspace_id']
+            args['workspace_id'] = _dict.get('workspace_id')
         else:
             raise ValueError(
                 'Required property \'workspace_id\' not present in LogExport JSON'
             )
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         else:
             raise ValueError(
                 'Required property \'language\' not present in LogExport JSON')
@@ -3714,13 +4241,13 @@ class LogMessage(object):
         args = {}
         xtra = _dict.copy()
         if 'level' in _dict:
-            args['level'] = _dict['level']
+            args['level'] = _dict.get('level')
             del xtra['level']
         else:
             raise ValueError(
                 'Required property \'level\' not present in LogMessage JSON')
         if 'msg' in _dict:
-            args['msg'] = _dict['msg']
+            args['msg'] = _dict.get('msg')
             del xtra['msg']
         else:
             raise ValueError(
@@ -3771,26 +4298,31 @@ class LogPagination(object):
 
     :attr str next_url: (optional) The URL that will return the next page of results, if any.
     :attr int matched: (optional) Reserved for future use.
+    :attr str next_cursor: (optional) A token identifying the next page of results.
     """
 
-    def __init__(self, next_url=None, matched=None):
+    def __init__(self, next_url=None, matched=None, next_cursor=None):
         """
         Initialize a LogPagination object.
 
         :param str next_url: (optional) The URL that will return the next page of results, if any.
         :param int matched: (optional) Reserved for future use.
+        :param str next_cursor: (optional) A token identifying the next page of results.
         """
         self.next_url = next_url
         self.matched = matched
+        self.next_cursor = next_cursor
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a LogPagination object from a json dictionary."""
         args = {}
         if 'next_url' in _dict:
-            args['next_url'] = _dict['next_url']
+            args['next_url'] = _dict.get('next_url')
         if 'matched' in _dict:
-            args['matched'] = _dict['matched']
+            args['matched'] = _dict.get('matched')
+        if 'next_cursor' in _dict:
+            args['next_cursor'] = _dict.get('next_cursor')
         return cls(**args)
 
     def _to_dict(self):
@@ -3800,6 +4332,8 @@ class LogPagination(object):
             _dict['next_url'] = self.next_url
         if hasattr(self, 'matched') and self.matched is not None:
             _dict['matched'] = self.matched
+        if hasattr(self, 'next_cursor') and self.next_cursor is not None:
+            _dict['next_cursor'] = self.next_cursor
         return _dict
 
     def __str__(self):
@@ -3837,7 +4371,7 @@ class MessageInput(object):
         """Initialize a MessageInput object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         return cls(**args)
 
     def _to_dict(self):
@@ -3864,7 +4398,7 @@ class MessageInput(object):
 
 class MessageRequest(object):
     """
-    A request formatted for the Assistant service.
+    A request formatted for the Conversation service.
 
     :attr InputData input: (optional) An input object that includes the input text.
     :attr bool alternate_intents: (optional) Whether to return more than one intent. Set to `true` to return all matching intents.
@@ -3903,21 +4437,21 @@ class MessageRequest(object):
         """Initialize a MessageRequest object from a json dictionary."""
         args = {}
         if 'input' in _dict:
-            args['input'] = InputData._from_dict(_dict['input'])
+            args['input'] = InputData._from_dict(_dict.get('input'))
         if 'alternate_intents' in _dict:
-            args['alternate_intents'] = _dict['alternate_intents']
+            args['alternate_intents'] = _dict.get('alternate_intents')
         if 'context' in _dict:
-            args['context'] = Context._from_dict(_dict['context'])
+            args['context'] = Context._from_dict(_dict.get('context'))
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in _dict['entities']
+                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
             ]
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in _dict['intents']
+                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
             ]
         if 'output' in _dict:
-            args['output'] = OutputData._from_dict(_dict['output'])
+            args['output'] = OutputData._from_dict(_dict.get('output'))
         return cls(**args)
 
     def _to_dict(self):
@@ -3955,7 +4489,7 @@ class MessageRequest(object):
 
 class MessageResponse(object):
     """
-    A response from the Assistant service.
+    A response from the Conversation service.
 
     :attr MessageInput input: (optional) The user input from the request.
     :attr list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
@@ -3999,11 +4533,11 @@ class MessageResponse(object):
         args = {}
         xtra = _dict.copy()
         if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict['input'])
+            args['input'] = MessageInput._from_dict(_dict.get('input'))
             del xtra['input']
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in _dict['intents']
+                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
             ]
             del xtra['intents']
         else:
@@ -4012,7 +4546,7 @@ class MessageResponse(object):
             )
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in _dict['entities']
+                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
             ]
             del xtra['entities']
         else:
@@ -4020,17 +4554,17 @@ class MessageResponse(object):
                 'Required property \'entities\' not present in MessageResponse JSON'
             )
         if 'alternate_intents' in _dict:
-            args['alternate_intents'] = _dict['alternate_intents']
+            args['alternate_intents'] = _dict.get('alternate_intents')
             del xtra['alternate_intents']
         if 'context' in _dict:
-            args['context'] = Context._from_dict(_dict['context'])
+            args['context'] = Context._from_dict(_dict.get('context'))
             del xtra['context']
         else:
             raise ValueError(
                 'Required property \'context\' not present in MessageResponse JSON'
             )
         if 'output' in _dict:
-            args['output'] = OutputData._from_dict(_dict['output'])
+            args['output'] = OutputData._from_dict(_dict.get('output'))
             del xtra['output']
         else:
             raise ValueError(
@@ -4129,7 +4663,7 @@ class OutputData(object):
         xtra = _dict.copy()
         if 'log_messages' in _dict:
             args['log_messages'] = [
-                LogMessage._from_dict(x) for x in _dict['log_messages']
+                LogMessage._from_dict(x) for x in (_dict.get('log_messages'))
             ]
             del xtra['log_messages']
         else:
@@ -4137,18 +4671,18 @@ class OutputData(object):
                 'Required property \'log_messages\' not present in OutputData JSON'
             )
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
             del xtra['text']
         else:
             raise ValueError(
                 'Required property \'text\' not present in OutputData JSON')
         if 'nodes_visited' in _dict:
-            args['nodes_visited'] = _dict['nodes_visited']
+            args['nodes_visited'] = _dict.get('nodes_visited')
             del xtra['nodes_visited']
         if 'nodes_visited_details' in _dict:
             args['nodes_visited_details'] = [
                 DialogNodeVisitedDetails._from_dict(x)
-                for x in _dict['nodes_visited_details']
+                for x in (_dict.get('nodes_visited_details'))
             ]
             del xtra['nodes_visited_details']
         args.update(xtra)
@@ -4164,7 +4698,7 @@ class OutputData(object):
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
             _dict['nodes_visited'] = self.nodes_visited
         if hasattr(self, 'nodes_visited_details'
-                  ) and self.nodes_visited_details is not None:
+                   ) and self.nodes_visited_details is not None:
             _dict['nodes_visited_details'] = [
                 x._to_dict() for x in self.nodes_visited_details
             ]
@@ -4208,9 +4742,17 @@ class Pagination(object):
     :attr str next_url: (optional) The URL that will return the next page of results.
     :attr int total: (optional) Reserved for future use.
     :attr int matched: (optional) Reserved for future use.
+    :attr str refresh_cursor: (optional) A token identifying the current page of results.
+    :attr str next_cursor: (optional) A token identifying the next page of results.
     """
 
-    def __init__(self, refresh_url, next_url=None, total=None, matched=None):
+    def __init__(self,
+                 refresh_url,
+                 next_url=None,
+                 total=None,
+                 matched=None,
+                 refresh_cursor=None,
+                 next_cursor=None):
         """
         Initialize a Pagination object.
 
@@ -4218,28 +4760,36 @@ class Pagination(object):
         :param str next_url: (optional) The URL that will return the next page of results.
         :param int total: (optional) Reserved for future use.
         :param int matched: (optional) Reserved for future use.
+        :param str refresh_cursor: (optional) A token identifying the current page of results.
+        :param str next_cursor: (optional) A token identifying the next page of results.
         """
         self.refresh_url = refresh_url
         self.next_url = next_url
         self.total = total
         self.matched = matched
+        self.refresh_cursor = refresh_cursor
+        self.next_cursor = next_cursor
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Pagination object from a json dictionary."""
         args = {}
         if 'refresh_url' in _dict:
-            args['refresh_url'] = _dict['refresh_url']
+            args['refresh_url'] = _dict.get('refresh_url')
         else:
             raise ValueError(
                 'Required property \'refresh_url\' not present in Pagination JSON'
             )
         if 'next_url' in _dict:
-            args['next_url'] = _dict['next_url']
+            args['next_url'] = _dict.get('next_url')
         if 'total' in _dict:
-            args['total'] = _dict['total']
+            args['total'] = _dict.get('total')
         if 'matched' in _dict:
-            args['matched'] = _dict['matched']
+            args['matched'] = _dict.get('matched')
+        if 'refresh_cursor' in _dict:
+            args['refresh_cursor'] = _dict.get('refresh_cursor')
+        if 'next_cursor' in _dict:
+            args['next_cursor'] = _dict.get('next_cursor')
         return cls(**args)
 
     def _to_dict(self):
@@ -4253,6 +4803,10 @@ class Pagination(object):
             _dict['total'] = self.total
         if hasattr(self, 'matched') and self.matched is not None:
             _dict['matched'] = self.matched
+        if hasattr(self, 'refresh_cursor') and self.refresh_cursor is not None:
+            _dict['refresh_cursor'] = self.refresh_cursor
+        if hasattr(self, 'next_cursor') and self.next_cursor is not None:
+            _dict['next_cursor'] = self.next_cursor
         return _dict
 
     def __str__(self):
@@ -4316,34 +4870,35 @@ class RuntimeEntity(object):
         args = {}
         xtra = _dict.copy()
         if 'entity' in _dict:
-            args['entity'] = _dict['entity']
+            args['entity'] = _dict.get('entity')
             del xtra['entity']
         else:
             raise ValueError(
                 'Required property \'entity\' not present in RuntimeEntity JSON'
             )
         if 'location' in _dict:
-            args['location'] = _dict['location']
+            args['location'] = _dict.get('location')
             del xtra['location']
         else:
             raise ValueError(
                 'Required property \'location\' not present in RuntimeEntity JSON'
             )
         if 'value' in _dict:
-            args['value'] = _dict['value']
+            args['value'] = _dict.get('value')
             del xtra['value']
         else:
             raise ValueError(
-                'Required property \'value\' not present in RuntimeEntity JSON')
+                'Required property \'value\' not present in RuntimeEntity JSON'
+            )
         if 'confidence' in _dict:
-            args['confidence'] = _dict['confidence']
+            args['confidence'] = _dict.get('confidence')
             del xtra['confidence']
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
             del xtra['metadata']
         if 'groups' in _dict:
             args['groups'] = [
-                CaptureGroup._from_dict(x) for x in _dict['groups']
+                CaptureGroup._from_dict(x) for x in (_dict.get('groups'))
             ]
             del xtra['groups']
         args.update(xtra)
@@ -4424,14 +4979,14 @@ class RuntimeIntent(object):
         args = {}
         xtra = _dict.copy()
         if 'intent' in _dict:
-            args['intent'] = _dict['intent']
+            args['intent'] = _dict.get('intent')
             del xtra['intent']
         else:
             raise ValueError(
                 'Required property \'intent\' not present in RuntimeIntent JSON'
             )
         if 'confidence' in _dict:
-            args['confidence'] = _dict['confidence']
+            args['confidence'] = _dict.get('confidence')
             del xtra['confidence']
         else:
             raise ValueError(
@@ -4503,17 +5058,16 @@ class Synonym(object):
     def _from_dict(cls, _dict):
         """Initialize a Synonym object from a json dictionary."""
         args = {}
-        if 'synonym_text' in _dict:
-            args['synonym_text'] = _dict['synonym_text']
-        if 'synonym' in _dict:
-            args['synonym_text'] = _dict['synonym']
+        if 'synonym' in _dict or 'synonym_text' in _dict:
+            args['synonym_text'] = _dict.get('synonym') or _dict.get(
+                'synonym_text')
         else:
             raise ValueError(
                 'Required property \'synonym\' not present in Synonym JSON')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -4566,14 +5120,14 @@ class SynonymCollection(object):
         args = {}
         if 'synonyms' in _dict:
             args['synonyms'] = [
-                Synonym._from_dict(x) for x in _dict['synonyms']
+                Synonym._from_dict(x) for x in (_dict.get('synonyms'))
             ]
         else:
             raise ValueError(
                 'Required property \'synonyms\' not present in SynonymCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict['pagination'])
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in SynonymCollection JSON'
@@ -4705,27 +5259,23 @@ class Value(object):
     def _from_dict(cls, _dict):
         """Initialize a Value object from a json dictionary."""
         args = {}
-        if 'value_text' in _dict:
-            args['value_text'] = _dict['value_text']
-        if 'value' in _dict:
-            args['value_text'] = _dict['value']
+        if 'value' in _dict or 'value_text' in _dict:
+            args['value_text'] = _dict.get('value') or _dict.get('value_text')
         else:
             raise ValueError(
                 'Required property \'value\' not present in Value JSON')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'synonyms' in _dict:
-            args['synonyms'] = _dict['synonyms']
+            args['synonyms'] = _dict.get('synonyms')
         if 'patterns' in _dict:
-            args['patterns'] = _dict['patterns']
-        if 'value_type' in _dict:
-            args['value_type'] = _dict['value_type']
-        if 'type' in _dict:
-            args['value_type'] = _dict['type']
+            args['patterns'] = _dict.get('patterns')
+        if 'type' in _dict or 'value_type' in _dict:
+            args['value_type'] = _dict.get('type') or _dict.get('value_type')
         else:
             raise ValueError(
                 'Required property \'type\' not present in Value JSON')
@@ -4789,14 +5339,14 @@ class ValueCollection(object):
         args = {}
         if 'values' in _dict:
             args['values'] = [
-                ValueExport._from_dict(x) for x in _dict['values']
+                ValueExport._from_dict(x) for x in (_dict.get('values'))
             ]
         else:
             raise ValueError(
                 'Required property \'values\' not present in ValueCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict['pagination'])
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in ValueCollection JSON'
@@ -4871,27 +5421,23 @@ class ValueExport(object):
     def _from_dict(cls, _dict):
         """Initialize a ValueExport object from a json dictionary."""
         args = {}
-        if 'value_text' in _dict:
-            args['value_text'] = _dict['value_text']
-        if 'value' in _dict:
-            args['value_text'] = _dict['value']
+        if 'value' in _dict or 'value_text' in _dict:
+            args['value_text'] = _dict.get('value') or _dict.get('value_text')
         else:
             raise ValueError(
                 'Required property \'value\' not present in ValueExport JSON')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'synonyms' in _dict:
-            args['synonyms'] = _dict['synonyms']
+            args['synonyms'] = _dict.get('synonyms')
         if 'patterns' in _dict:
-            args['patterns'] = _dict['patterns']
-        if 'value_type' in _dict:
-            args['value_type'] = _dict['value_type']
-        if 'type' in _dict:
-            args['value_type'] = _dict['type']
+            args['patterns'] = _dict.get('patterns')
+        if 'type' in _dict or 'value_type' in _dict:
+            args['value_type'] = _dict.get('type') or _dict.get('value_type')
         else:
             raise ValueError(
                 'Required property \'type\' not present in ValueExport JSON')
@@ -4980,31 +5526,31 @@ class Workspace(object):
         """Initialize a Workspace object from a json dictionary."""
         args = {}
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         else:
             raise ValueError(
                 'Required property \'name\' not present in Workspace JSON')
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         else:
             raise ValueError(
                 'Required property \'language\' not present in Workspace JSON')
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict['workspace_id']
+            args['workspace_id'] = _dict.get('workspace_id')
         else:
             raise ValueError(
                 'Required property \'workspace_id\' not present in Workspace JSON'
             )
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         if 'learning_opt_out' in _dict:
-            args['learning_opt_out'] = _dict['learning_opt_out']
+            args['learning_opt_out'] = _dict.get('learning_opt_out')
         return cls(**args)
 
     def _to_dict(self):
@@ -5068,14 +5614,14 @@ class WorkspaceCollection(object):
         args = {}
         if 'workspaces' in _dict:
             args['workspaces'] = [
-                Workspace._from_dict(x) for x in _dict['workspaces']
+                Workspace._from_dict(x) for x in (_dict.get('workspaces'))
             ]
         else:
             raise ValueError(
                 'Required property \'workspaces\' not present in WorkspaceCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict['pagination'])
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in WorkspaceCollection JSON'
@@ -5175,66 +5721,67 @@ class WorkspaceExport(object):
         """Initialize a WorkspaceExport object from a json dictionary."""
         args = {}
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         else:
             raise ValueError(
                 'Required property \'name\' not present in WorkspaceExport JSON'
             )
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         else:
             raise ValueError(
                 'Required property \'description\' not present in WorkspaceExport JSON'
             )
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         else:
             raise ValueError(
                 'Required property \'language\' not present in WorkspaceExport JSON'
             )
         if 'metadata' in _dict:
-            args['metadata'] = _dict['metadata']
+            args['metadata'] = _dict.get('metadata')
         else:
             raise ValueError(
                 'Required property \'metadata\' not present in WorkspaceExport JSON'
             )
         if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict['created'])
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict['updated'])
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict['workspace_id']
+            args['workspace_id'] = _dict.get('workspace_id')
         else:
             raise ValueError(
                 'Required property \'workspace_id\' not present in WorkspaceExport JSON'
             )
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         else:
             raise ValueError(
                 'Required property \'status\' not present in WorkspaceExport JSON'
             )
         if 'learning_opt_out' in _dict:
-            args['learning_opt_out'] = _dict['learning_opt_out']
+            args['learning_opt_out'] = _dict.get('learning_opt_out')
         else:
             raise ValueError(
                 'Required property \'learning_opt_out\' not present in WorkspaceExport JSON'
             )
         if 'intents' in _dict:
             args['intents'] = [
-                IntentExport._from_dict(x) for x in _dict['intents']
+                IntentExport._from_dict(x) for x in (_dict.get('intents'))
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                EntityExport._from_dict(x) for x in _dict['entities']
+                EntityExport._from_dict(x) for x in (_dict.get('entities'))
             ]
         if 'counterexamples' in _dict:
             args['counterexamples'] = [
-                Counterexample._from_dict(x) for x in _dict['counterexamples']
+                Counterexample._from_dict(x)
+                for x in (_dict.get('counterexamples'))
             ]
         if 'dialog_nodes' in _dict:
             args['dialog_nodes'] = [
-                DialogNode._from_dict(x) for x in _dict['dialog_nodes']
+                DialogNode._from_dict(x) for x in (_dict.get('dialog_nodes'))
             ]
         return cls(**args)
 
