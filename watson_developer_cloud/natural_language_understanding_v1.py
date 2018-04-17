@@ -133,7 +133,8 @@ class NaturalLanguageUnderstandingV1(WatsonService):
                 fallback_to_raw=None,
                 return_analyzed_text=None,
                 language=None,
-                limit_text_characters=None):
+                limit_text_characters=None,
+                **kwargs):
         """
         Analyze text, HTML, or a public webpage.
 
@@ -149,12 +150,16 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         :param bool return_analyzed_text: Whether or not to return the analyzed text.
         :param str language: ISO 639-1 code indicating the language to use in the analysis.
         :param int limit_text_characters: Sets the maximum number of characters that are processed by the service.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `AnalysisResults` response.
         :rtype: dict
         """
         if features is None:
             raise ValueError('features must be provided')
         features = self._convert_model(features, Features)
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = {
             'features': features,
@@ -170,32 +175,45 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         }
         url = '/v1/analyze'
         response = self.request(
-            method='POST', url=url, params=params, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
     # modelManagement
     #########################
 
-    def delete_model(self, model_id):
+    def delete_model(self, model_id, **kwargs):
         """
         Delete model.
 
         Deletes a custom model.
 
         :param str model_id: model_id of the model to delete.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `InlineResponse200` response.
         :rtype: dict
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/models/{0}'.format(*self._encode_path_vars(model_id))
         response = self.request(
-            method='DELETE', url=url, params=params, accept_json=True)
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
-    def list_models(self):
+    def list_models(self, **kwargs):
         """
         List models.
 
@@ -203,13 +221,21 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         Knowledge Studio custom models that you have created and linked to your Natural
         Language Understanding service.
 
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ListModelsResults` response.
         :rtype: dict
         """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/models'
         response = self.request(
-            method='GET', url=url, params=params, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
 
@@ -287,44 +313,46 @@ class AnalysisResults(object):
         """Initialize a AnalysisResults object from a json dictionary."""
         args = {}
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         if 'analyzed_text' in _dict:
-            args['analyzed_text'] = _dict['analyzed_text']
+            args['analyzed_text'] = _dict.get('analyzed_text')
         if 'retrieved_url' in _dict:
-            args['retrieved_url'] = _dict['retrieved_url']
+            args['retrieved_url'] = _dict.get('retrieved_url')
         if 'usage' in _dict:
-            args['usage'] = Usage._from_dict(_dict['usage'])
+            args['usage'] = Usage._from_dict(_dict.get('usage'))
         if 'concepts' in _dict:
             args['concepts'] = [
-                ConceptsResult._from_dict(x) for x in _dict['concepts']
+                ConceptsResult._from_dict(x) for x in (_dict.get('concepts'))
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                EntitiesResult._from_dict(x) for x in _dict['entities']
+                EntitiesResult._from_dict(x) for x in (_dict.get('entities'))
             ]
         if 'keywords' in _dict:
             args['keywords'] = [
-                KeywordsResult._from_dict(x) for x in _dict['keywords']
+                KeywordsResult._from_dict(x) for x in (_dict.get('keywords'))
             ]
         if 'categories' in _dict:
             args['categories'] = [
-                CategoriesResult._from_dict(x) for x in _dict['categories']
+                CategoriesResult._from_dict(x)
+                for x in (_dict.get('categories'))
             ]
         if 'emotion' in _dict:
-            args['emotion'] = EmotionResult._from_dict(_dict['emotion'])
+            args['emotion'] = EmotionResult._from_dict(_dict.get('emotion'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataResult._from_dict(_dict['metadata'])
+            args['metadata'] = MetadataResult._from_dict(_dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = [
-                RelationsResult._from_dict(x) for x in _dict['relations']
+                RelationsResult._from_dict(x) for x in (_dict.get('relations'))
             ]
         if 'semantic_roles' in _dict:
             args['semantic_roles'] = [
                 SemanticRolesResult._from_dict(x)
-                for x in _dict['semantic_roles']
+                for x in (_dict.get('semantic_roles'))
             ]
         if 'sentiment' in _dict:
-            args['sentiment'] = SentimentResult._from_dict(_dict['sentiment'])
+            args['sentiment'] = SentimentResult._from_dict(
+                _dict.get('sentiment'))
         return cls(**args)
 
     def _to_dict(self):
@@ -395,7 +423,7 @@ class Author(object):
         """Initialize a Author object from a json dictionary."""
         args = {}
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         return cls(**args)
 
     def _to_dict(self):
@@ -500,9 +528,9 @@ class CategoriesResult(object):
         """Initialize a CategoriesResult object from a json dictionary."""
         args = {}
         if 'label' in _dict:
-            args['label'] = _dict['label']
+            args['label'] = _dict.get('label')
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         return cls(**args)
 
     def _to_dict(self):
@@ -550,7 +578,7 @@ class ConceptsOptions(object):
         """Initialize a ConceptsOptions object from a json dictionary."""
         args = {}
         if 'limit' in _dict:
-            args['limit'] = _dict['limit']
+            args['limit'] = _dict.get('limit')
         return cls(**args)
 
     def _to_dict(self):
@@ -601,11 +629,11 @@ class ConceptsResult(object):
         """Initialize a ConceptsResult object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'relevance' in _dict:
-            args['relevance'] = _dict['relevance']
+            args['relevance'] = _dict.get('relevance')
         if 'dbpedia_resource' in _dict:
-            args['dbpedia_resource'] = _dict['dbpedia_resource']
+            args['dbpedia_resource'] = _dict.get('dbpedia_resource')
         return cls(**args)
 
     def _to_dict(self):
@@ -661,11 +689,11 @@ class DisambiguationResult(object):
         """Initialize a DisambiguationResult object from a json dictionary."""
         args = {}
         if 'name' in _dict:
-            args['name'] = _dict['name']
+            args['name'] = _dict.get('name')
         if 'dbpedia_resource' in _dict:
-            args['dbpedia_resource'] = _dict['dbpedia_resource']
+            args['dbpedia_resource'] = _dict.get('dbpedia_resource')
         if 'subtype' in _dict:
-            args['subtype'] = _dict['subtype']
+            args['subtype'] = _dict.get('subtype')
         return cls(**args)
 
     def _to_dict(self):
@@ -715,7 +743,7 @@ class DocumentEmotionResults(object):
         """Initialize a DocumentEmotionResults object from a json dictionary."""
         args = {}
         if 'emotion' in _dict:
-            args['emotion'] = EmotionScores._from_dict(_dict['emotion'])
+            args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
         return cls(**args)
 
     def _to_dict(self):
@@ -763,9 +791,9 @@ class DocumentSentimentResults(object):
         """Initialize a DocumentSentimentResults object from a json dictionary."""
         args = {}
         if 'label' in _dict:
-            args['label'] = _dict['label']
+            args['label'] = _dict.get('label')
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         return cls(**args)
 
     def _to_dict(self):
@@ -815,9 +843,9 @@ class EmotionOptions(object):
         """Initialize a EmotionOptions object from a json dictionary."""
         args = {}
         if 'document' in _dict:
-            args['document'] = _dict['document']
+            args['document'] = _dict.get('document')
         if 'targets' in _dict:
-            args['targets'] = _dict['targets']
+            args['targets'] = _dict.get('targets')
         return cls(**args)
 
     def _to_dict(self):
@@ -870,10 +898,11 @@ class EmotionResult(object):
         args = {}
         if 'document' in _dict:
             args['document'] = DocumentEmotionResults._from_dict(
-                _dict['document'])
+                _dict.get('document'))
         if 'targets' in _dict:
             args['targets'] = [
-                TargetedEmotionResults._from_dict(x) for x in _dict['targets']
+                TargetedEmotionResults._from_dict(x)
+                for x in (_dict.get('targets'))
             ]
         return cls(**args)
 
@@ -938,15 +967,15 @@ class EmotionScores(object):
         """Initialize a EmotionScores object from a json dictionary."""
         args = {}
         if 'anger' in _dict:
-            args['anger'] = _dict['anger']
+            args['anger'] = _dict.get('anger')
         if 'disgust' in _dict:
-            args['disgust'] = _dict['disgust']
+            args['disgust'] = _dict.get('disgust')
         if 'fear' in _dict:
-            args['fear'] = _dict['fear']
+            args['fear'] = _dict.get('fear')
         if 'joy' in _dict:
-            args['joy'] = _dict['joy']
+            args['joy'] = _dict.get('joy')
         if 'sadness' in _dict:
-            args['sadness'] = _dict['sadness']
+            args['sadness'] = _dict.get('sadness')
         return cls(**args)
 
     def _to_dict(self):
@@ -1017,15 +1046,15 @@ class EntitiesOptions(object):
         """Initialize a EntitiesOptions object from a json dictionary."""
         args = {}
         if 'limit' in _dict:
-            args['limit'] = _dict['limit']
+            args['limit'] = _dict.get('limit')
         if 'mentions' in _dict:
-            args['mentions'] = _dict['mentions']
+            args['mentions'] = _dict.get('mentions')
         if 'model' in _dict:
-            args['model'] = _dict['model']
+            args['model'] = _dict.get('model')
         if 'sentiment' in _dict:
-            args['sentiment'] = _dict['sentiment']
+            args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
-            args['emotion'] = _dict['emotion']
+            args['emotion'] = _dict.get('emotion')
         return cls(**args)
 
     def _to_dict(self):
@@ -1108,25 +1137,25 @@ class EntitiesResult(object):
         """Initialize a EntitiesResult object from a json dictionary."""
         args = {}
         if 'type' in _dict:
-            args['type'] = _dict['type']
+            args['type'] = _dict.get('type')
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'relevance' in _dict:
-            args['relevance'] = _dict['relevance']
+            args['relevance'] = _dict.get('relevance')
         if 'mentions' in _dict:
             args['mentions'] = [
-                EntityMention._from_dict(x) for x in _dict['mentions']
+                EntityMention._from_dict(x) for x in (_dict.get('mentions'))
             ]
         if 'count' in _dict:
-            args['count'] = _dict['count']
+            args['count'] = _dict.get('count')
         if 'emotion' in _dict:
-            args['emotion'] = EmotionScores._from_dict(_dict['emotion'])
+            args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
         if 'sentiment' in _dict:
             args['sentiment'] = FeatureSentimentResults._from_dict(
-                _dict['sentiment'])
+                _dict.get('sentiment'))
         if 'disambiguation' in _dict:
             args['disambiguation'] = DisambiguationResult._from_dict(
-                _dict['disambiguation'])
+                _dict.get('disambiguation'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1188,9 +1217,9 @@ class EntityMention(object):
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = _dict['location']
+            args['location'] = _dict.get('location')
         return cls(**args)
 
     def _to_dict(self):
@@ -1237,7 +1266,7 @@ class FeatureSentimentResults(object):
         """Initialize a FeatureSentimentResults object from a json dictionary."""
         args = {}
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         return cls(**args)
 
     def _to_dict(self):
@@ -1315,25 +1344,31 @@ class Features(object):
         """Initialize a Features object from a json dictionary."""
         args = {}
         if 'concepts' in _dict:
-            args['concepts'] = ConceptsOptions._from_dict(_dict['concepts'])
+            args['concepts'] = ConceptsOptions._from_dict(
+                _dict.get('concepts'))
         if 'emotion' in _dict:
-            args['emotion'] = EmotionOptions._from_dict(_dict['emotion'])
+            args['emotion'] = EmotionOptions._from_dict(_dict.get('emotion'))
         if 'entities' in _dict:
-            args['entities'] = EntitiesOptions._from_dict(_dict['entities'])
+            args['entities'] = EntitiesOptions._from_dict(
+                _dict.get('entities'))
         if 'keywords' in _dict:
-            args['keywords'] = KeywordsOptions._from_dict(_dict['keywords'])
+            args['keywords'] = KeywordsOptions._from_dict(
+                _dict.get('keywords'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataOptions._from_dict(_dict['metadata'])
+            args['metadata'] = MetadataOptions._from_dict(
+                _dict.get('metadata'))
         if 'relations' in _dict:
-            args['relations'] = RelationsOptions._from_dict(_dict['relations'])
+            args['relations'] = RelationsOptions._from_dict(
+                _dict.get('relations'))
         if 'semantic_roles' in _dict:
             args['semantic_roles'] = SemanticRolesOptions._from_dict(
-                _dict['semantic_roles'])
+                _dict.get('semantic_roles'))
         if 'sentiment' in _dict:
-            args['sentiment'] = SentimentOptions._from_dict(_dict['sentiment'])
+            args['sentiment'] = SentimentOptions._from_dict(
+                _dict.get('sentiment'))
         if 'categories' in _dict:
             args['categories'] = CategoriesOptions._from_dict(
-                _dict['categories'])
+                _dict.get('categories'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1394,7 +1429,7 @@ class Feed(object):
         """Initialize a Feed object from a json dictionary."""
         args = {}
         if 'link' in _dict:
-            args['link'] = _dict['link']
+            args['link'] = _dict.get('link')
         return cls(**args)
 
     def _to_dict(self):
@@ -1439,7 +1474,7 @@ class InlineResponse200(object):
         """Initialize a InlineResponse200 object from a json dictionary."""
         args = {}
         if 'deleted' in _dict:
-            args['deleted'] = _dict['deleted']
+            args['deleted'] = _dict.get('deleted')
         return cls(**args)
 
     def _to_dict(self):
@@ -1491,11 +1526,11 @@ class KeywordsOptions(object):
         """Initialize a KeywordsOptions object from a json dictionary."""
         args = {}
         if 'limit' in _dict:
-            args['limit'] = _dict['limit']
+            args['limit'] = _dict.get('limit')
         if 'sentiment' in _dict:
-            args['sentiment'] = _dict['sentiment']
+            args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
-            args['emotion'] = _dict['emotion']
+            args['emotion'] = _dict.get('emotion')
         return cls(**args)
 
     def _to_dict(self):
@@ -1534,7 +1569,8 @@ class KeywordsResult(object):
     :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the keyword, enabled with the "sentiment" option.
     """
 
-    def __init__(self, relevance=None, text=None, emotion=None, sentiment=None):
+    def __init__(self, relevance=None, text=None, emotion=None,
+                 sentiment=None):
         """
         Initialize a KeywordsResult object.
 
@@ -1553,14 +1589,14 @@ class KeywordsResult(object):
         """Initialize a KeywordsResult object from a json dictionary."""
         args = {}
         if 'relevance' in _dict:
-            args['relevance'] = _dict['relevance']
+            args['relevance'] = _dict.get('relevance')
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'emotion' in _dict:
-            args['emotion'] = EmotionScores._from_dict(_dict['emotion'])
+            args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
         if 'sentiment' in _dict:
             args['sentiment'] = FeatureSentimentResults._from_dict(
-                _dict['sentiment'])
+                _dict.get('sentiment'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1611,7 +1647,9 @@ class ListModelsResults(object):
         """Initialize a ListModelsResults object from a json dictionary."""
         args = {}
         if 'models' in _dict:
-            args['models'] = [Model._from_dict(x) for x in _dict['models']]
+            args['models'] = [
+                Model._from_dict(x) for x in (_dict.get('models'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -1732,15 +1770,17 @@ class MetadataResult(object):
         """Initialize a MetadataResult object from a json dictionary."""
         args = {}
         if 'authors' in _dict:
-            args['authors'] = [Author._from_dict(x) for x in _dict['authors']]
+            args['authors'] = [
+                Author._from_dict(x) for x in (_dict.get('authors'))
+            ]
         if 'publication_date' in _dict:
-            args['publication_date'] = _dict['publication_date']
+            args['publication_date'] = _dict.get('publication_date')
         if 'title' in _dict:
-            args['title'] = _dict['title']
+            args['title'] = _dict.get('title')
         if 'image' in _dict:
-            args['image'] = _dict['image']
+            args['image'] = _dict.get('image')
         if 'feeds' in _dict:
-            args['feeds'] = [Feed._from_dict(x) for x in _dict['feeds']]
+            args['feeds'] = [Feed._from_dict(x) for x in _dict.get('feeds')]
         return cls(**args)
 
     def _to_dict(self):
@@ -1807,13 +1847,13 @@ class Model(object):
         """Initialize a Model object from a json dictionary."""
         args = {}
         if 'status' in _dict:
-            args['status'] = _dict['status']
+            args['status'] = _dict.get('status')
         if 'model_id' in _dict:
-            args['model_id'] = _dict['model_id']
+            args['model_id'] = _dict.get('model_id')
         if 'language' in _dict:
-            args['language'] = _dict['language']
+            args['language'] = _dict.get('language')
         if 'description' in _dict:
-            args['description'] = _dict['description']
+            args['description'] = _dict.get('description')
         return cls(**args)
 
     def _to_dict(self):
@@ -1871,12 +1911,12 @@ class RelationArgument(object):
         args = {}
         if 'entities' in _dict:
             args['entities'] = [
-                RelationEntity._from_dict(x) for x in _dict['entities']
+                RelationEntity._from_dict(x) for x in (_dict.get('entities'))
             ]
         if 'location' in _dict:
-            args['location'] = _dict['location']
+            args['location'] = _dict.get('location')
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         return cls(**args)
 
     def _to_dict(self):
@@ -1928,9 +1968,9 @@ class RelationEntity(object):
         """Initialize a RelationEntity object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'type' in _dict:
-            args['type'] = _dict['type']
+            args['type'] = _dict.get('type')
         return cls(**args)
 
     def _to_dict(self):
@@ -1978,7 +2018,7 @@ class RelationsOptions(object):
         """Initialize a RelationsOptions object from a json dictionary."""
         args = {}
         if 'model' in _dict:
-            args['model'] = _dict['model']
+            args['model'] = _dict.get('model')
         return cls(**args)
 
     def _to_dict(self):
@@ -2032,14 +2072,15 @@ class RelationsResult(object):
         """Initialize a RelationsResult object from a json dictionary."""
         args = {}
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         if 'sentence' in _dict:
-            args['sentence'] = _dict['sentence']
+            args['sentence'] = _dict.get('sentence')
         if 'type' in _dict:
-            args['type'] = _dict['type']
+            args['type'] = _dict.get('type')
         if 'arguments' in _dict:
             args['arguments'] = [
-                RelationArgument._from_dict(x) for x in _dict['arguments']
+                RelationArgument._from_dict(x)
+                for x in (_dict.get('arguments'))
             ]
         return cls(**args)
 
@@ -2097,11 +2138,11 @@ class SemanticRolesAction(object):
         """Initialize a SemanticRolesAction object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'normalized' in _dict:
-            args['normalized'] = _dict['normalized']
+            args['normalized'] = _dict.get('normalized')
         if 'verb' in _dict:
-            args['verb'] = SemanticRolesVerb._from_dict(_dict['verb'])
+            args['verb'] = SemanticRolesVerb._from_dict(_dict.get('verb'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2153,9 +2194,9 @@ class SemanticRolesEntity(object):
         """Initialize a SemanticRolesEntity object from a json dictionary."""
         args = {}
         if 'type' in _dict:
-            args['type'] = _dict['type']
+            args['type'] = _dict.get('type')
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         return cls(**args)
 
     def _to_dict(self):
@@ -2202,7 +2243,7 @@ class SemanticRolesKeyword(object):
         """Initialize a SemanticRolesKeyword object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         return cls(**args)
 
     def _to_dict(self):
@@ -2250,10 +2291,11 @@ class SemanticRolesObject(object):
         """Initialize a SemanticRolesObject object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'keywords' in _dict:
             args['keywords'] = [
-                SemanticRolesKeyword._from_dict(x) for x in _dict['keywords']
+                SemanticRolesKeyword._from_dict(x)
+                for x in (_dict.get('keywords'))
             ]
         return cls(**args)
 
@@ -2308,11 +2350,11 @@ class SemanticRolesOptions(object):
         """Initialize a SemanticRolesOptions object from a json dictionary."""
         args = {}
         if 'limit' in _dict:
-            args['limit'] = _dict['limit']
+            args['limit'] = _dict.get('limit')
         if 'keywords' in _dict:
-            args['keywords'] = _dict['keywords']
+            args['keywords'] = _dict.get('keywords')
         if 'entities' in _dict:
-            args['entities'] = _dict['entities']
+            args['entities'] = _dict.get('entities')
         return cls(**args)
 
     def _to_dict(self):
@@ -2370,13 +2412,16 @@ class SemanticRolesResult(object):
         """Initialize a SemanticRolesResult object from a json dictionary."""
         args = {}
         if 'sentence' in _dict:
-            args['sentence'] = _dict['sentence']
+            args['sentence'] = _dict.get('sentence')
         if 'subject' in _dict:
-            args['subject'] = SemanticRolesSubject._from_dict(_dict['subject'])
+            args['subject'] = SemanticRolesSubject._from_dict(
+                _dict.get('subject'))
         if 'action' in _dict:
-            args['action'] = SemanticRolesAction._from_dict(_dict['action'])
+            args['action'] = SemanticRolesAction._from_dict(
+                _dict.get('action'))
         if 'object' in _dict:
-            args['object'] = SemanticRolesObject._from_dict(_dict['object'])
+            args['object'] = SemanticRolesObject._from_dict(
+                _dict.get('object'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2433,14 +2478,16 @@ class SemanticRolesSubject(object):
         """Initialize a SemanticRolesSubject object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'entities' in _dict:
             args['entities'] = [
-                SemanticRolesEntity._from_dict(x) for x in _dict['entities']
+                SemanticRolesEntity._from_dict(x)
+                for x in (_dict.get('entities'))
             ]
         if 'keywords' in _dict:
             args['keywords'] = [
-                SemanticRolesKeyword._from_dict(x) for x in _dict['keywords']
+                SemanticRolesKeyword._from_dict(x)
+                for x in (_dict.get('keywords'))
             ]
         return cls(**args)
 
@@ -2493,9 +2540,9 @@ class SemanticRolesVerb(object):
         """Initialize a SemanticRolesVerb object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'tense' in _dict:
-            args['tense'] = _dict['tense']
+            args['tense'] = _dict.get('tense')
         return cls(**args)
 
     def _to_dict(self):
@@ -2546,9 +2593,9 @@ class SentimentOptions(object):
         """Initialize a SentimentOptions object from a json dictionary."""
         args = {}
         if 'document' in _dict:
-            args['document'] = _dict['document']
+            args['document'] = _dict.get('document')
         if 'targets' in _dict:
-            args['targets'] = _dict['targets']
+            args['targets'] = _dict.get('targets')
         return cls(**args)
 
     def _to_dict(self):
@@ -2599,10 +2646,11 @@ class SentimentResult(object):
         args = {}
         if 'document' in _dict:
             args['document'] = DocumentSentimentResults._from_dict(
-                _dict['document'])
+                _dict.get('document'))
         if 'targets' in _dict:
             args['targets'] = [
-                TargetedSentimentResults._from_dict(x) for x in _dict['targets']
+                TargetedSentimentResults._from_dict(x)
+                for x in (_dict.get('targets'))
             ]
         return cls(**args)
 
@@ -2653,9 +2701,9 @@ class TargetedEmotionResults(object):
         """Initialize a TargetedEmotionResults object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'emotion' in _dict:
-            args['emotion'] = EmotionScores._from_dict(_dict['emotion'])
+            args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2705,9 +2753,9 @@ class TargetedSentimentResults(object):
         """Initialize a TargetedSentimentResults object from a json dictionary."""
         args = {}
         if 'text' in _dict:
-            args['text'] = _dict['text']
+            args['text'] = _dict.get('text')
         if 'score' in _dict:
-            args['score'] = _dict['score']
+            args['score'] = _dict.get('score')
         return cls(**args)
 
     def _to_dict(self):
@@ -2760,11 +2808,11 @@ class Usage(object):
         """Initialize a Usage object from a json dictionary."""
         args = {}
         if 'features' in _dict:
-            args['features'] = _dict['features']
+            args['features'] = _dict.get('features')
         if 'text_characters' in _dict:
-            args['text_characters'] = _dict['text_characters']
+            args['text_characters'] = _dict.get('text_characters')
         if 'text_units' in _dict:
-            args['text_units'] = _dict['text_units']
+            args['text_units'] = _dict.get('text_units')
         return cls(**args)
 
     def _to_dict(self):
