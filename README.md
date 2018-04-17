@@ -131,10 +131,8 @@ print(response)
 This would give an output of `DetailedResponse` having the structure:
 ```python
 {
-    response: { <response returned by service> },
-    details: {
-        'headers': <http response headers>
-    }
+    'result': <response returned by service>,
+    'headers': { <http response headers> }
 }
 ```
 ## Dependencies
