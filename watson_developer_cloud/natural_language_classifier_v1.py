@@ -70,13 +70,14 @@ class NaturalLanguageClassifierV1(WatsonService):
     # Classify text
     #########################
 
-    def classify(self, classifier_id, text):
+    def classify(self, classifier_id, text, **kwargs):
         """
         Returns label information for the input. The status must be `Available` before you
         can use the classifier to classify text.
 
         :param str classifier_id: Classifier ID to use.
         :param str text: The submitted phrase.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classification` response.
         :rtype: dict
         """
@@ -84,14 +85,21 @@ class NaturalLanguageClassifierV1(WatsonService):
             raise ValueError('classifier_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         data = {'text': text}
         url = '/v1/classifiers/{0}/classify'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
-            method='POST', url=url, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            json=data,
+            accept_json=True)
         return response
 
-    def classify_collection(self, classifier_id, collection):
+    def classify_collection(self, classifier_id, collection, **kwargs):
         """
         Returns label information for multiple phrases. The status must be `Available`
         before you can use the classifier to classify text.  Note that classifying
@@ -99,6 +107,7 @@ class NaturalLanguageClassifierV1(WatsonService):
 
         :param str classifier_id: Classifier ID to use.
         :param list[ClassifyInput] collection: The submitted phrases.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ClassificationCollection` response.
         :rtype: dict
         """
@@ -109,11 +118,18 @@ class NaturalLanguageClassifierV1(WatsonService):
         collection = [
             self._convert_model(x, ClassifyInput) for x in collection
         ]
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         data = {'collection': collection}
         url = '/v1/classifiers/{0}/classify_collection'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
-            method='POST', url=url, json=data, accept_json=True)
+            method='POST',
+            url=url,
+            headers=headers,
+            json=data,
+            accept_json=True)
         return response
 
     #########################
@@ -124,7 +140,8 @@ class NaturalLanguageClassifierV1(WatsonService):
                           metadata,
                           training_data,
                           metadata_filename=None,
-                          training_data_filename=None):
+                          training_data_filename=None,
+                          **kwargs):
         """
         Create classifier.
 
@@ -135,6 +152,7 @@ class NaturalLanguageClassifierV1(WatsonService):
         :param file training_data: Training data in CSV format. Each text value must have at least one class. The data can include up to 20,000 records. For details, see [Data preparation](https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html).
         :param str metadata_filename: The filename for training_metadata.
         :param str training_data_filename: The filename for training_data.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
         """
@@ -142,6 +160,9 @@ class NaturalLanguageClassifierV1(WatsonService):
             raise ValueError('metadata must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         if not metadata_filename and hasattr(metadata, 'name'):
             metadata_filename = metadata.name
         mime_type = 'application/json'
@@ -154,6 +175,7 @@ class NaturalLanguageClassifierV1(WatsonService):
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             files={
                 'training_metadata': metadata_tuple,
                 'training_data': training_data_tuple
@@ -161,48 +183,63 @@ class NaturalLanguageClassifierV1(WatsonService):
             accept_json=True)
         return response
 
-    def delete_classifier(self, classifier_id):
+    def delete_classifier(self, classifier_id, **kwargs):
         """
         Delete classifier.
 
         :param str classifier_id: Classifier ID to delete.
+        :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        self.request(method='DELETE', url=url, accept_json=True)
+        self.request(
+            method='DELETE', url=url, headers=headers, accept_json=True)
         return None
 
-    def get_classifier(self, classifier_id):
+    def get_classifier(self, classifier_id, **kwargs):
         """
         Get information about a classifier.
 
         Returns status and other information about a classifier.
 
         :param str classifier_id: Classifier ID to query.
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        response = self.request(method='GET', url=url, accept_json=True)
+        response = self.request(
+            method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    def list_classifiers(self):
+    def list_classifiers(self, **kwargs):
         """
         List classifiers.
 
         Returns an empty array if no classifiers are available.
 
+        :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ClassifierList` response.
         :rtype: dict
         """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
         url = '/v1/classifiers'
-        response = self.request(method='GET', url=url, accept_json=True)
+        response = self.request(
+            method='GET', url=url, headers=headers, accept_json=True)
         return response
 
 
@@ -215,8 +252,8 @@ class Classification(object):
     """
     Response from the classifier for a phrase.
 
-    :attr str classifier_id: (optional) Unique identifier for this classifier. Not returned by the request to classify multiple phrases.
-    :attr str url: (optional) Link to the classifier. Not returned by the request to classify multiple phrases.
+    :attr str classifier_id: (optional) Unique identifier for this classifier.
+    :attr str url: (optional) Link to the classifier.
     :attr str text: (optional) The submitted phrase.
     :attr str top_class: (optional) The class with the highest confidence.
     :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
@@ -231,8 +268,8 @@ class Classification(object):
         """
         Initialize a Classification object.
 
-        :param str classifier_id: (optional) Unique identifier for this classifier. Not returned by the request to classify multiple phrases.
-        :param str url: (optional) Link to the classifier. Not returned by the request to classify multiple phrases.
+        :param str classifier_id: (optional) Unique identifier for this classifier.
+        :param str url: (optional) Link to the classifier.
         :param str text: (optional) The submitted phrase.
         :param str top_class: (optional) The class with the highest confidence.
         :param list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
@@ -293,48 +330,48 @@ class Classification(object):
 
 class ClassificationCollection(object):
     """
-    Response from the classifier for a phrase.
+    Response from the classifier for multiple phrases.
 
-    :attr str text: (optional) The submitted phrase.
-    :attr str top_class: (optional) The class with the highest confidence.
-    :attr list[Classification] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+    :attr str classifier_id: (optional) Unique identifier for this classifier.
+    :attr str url: (optional) Link to the classifier.
+    :attr list[CollectionItem] collection: (optional) An array of classifier responses for each submitted phrase.
     """
 
-    def __init__(self, text=None, top_class=None, classes=None):
+    def __init__(self, classifier_id=None, url=None, collection=None):
         """
         Initialize a ClassificationCollection object.
 
-        :param str text: (optional) The submitted phrase.
-        :param str top_class: (optional) The class with the highest confidence.
-        :param list[Classification] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+        :param str classifier_id: (optional) Unique identifier for this classifier.
+        :param str url: (optional) Link to the classifier.
+        :param list[CollectionItem] collection: (optional) An array of classifier responses for each submitted phrase.
         """
-        self.text = text
-        self.top_class = top_class
-        self.classes = classes
+        self.classifier_id = classifier_id
+        self.url = url
+        self.collection = collection
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a ClassificationCollection object from a json dictionary."""
         args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'top_class' in _dict:
-            args['top_class'] = _dict.get('top_class')
-        if 'classes' in _dict:
-            args['classes'] = [
-                Classification._from_dict(x) for x in (_dict.get('classes'))
+        if 'classifier_id' in _dict:
+            args['classifier_id'] = _dict.get('classifier_id')
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        if 'collection' in _dict:
+            args['collection'] = [
+                CollectionItem._from_dict(x) for x in (_dict.get('collection'))
             ]
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'top_class') and self.top_class is not None:
-            _dict['top_class'] = self.top_class
-        if hasattr(self, 'classes') and self.classes is not None:
-            _dict['classes'] = [x._to_dict() for x in self.classes]
+        if hasattr(self, 'classifier_id') and self.classifier_id is not None:
+            _dict['classifier_id'] = self.classifier_id
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'collection') and self.collection is not None:
+            _dict['collection'] = [x._to_dict() for x in self.collection]
         return _dict
 
     def __str__(self):
@@ -593,6 +630,67 @@ class ClassifyInput(object):
 
     def __str__(self):
         """Return a `str` version of this ClassifyInput object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CollectionItem(object):
+    """
+    Response from the classifier for a phrase in a collection.
+
+    :attr str text: (optional) The submitted phrase.
+    :attr str top_class: (optional) The class with the highest confidence.
+    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+    """
+
+    def __init__(self, text=None, top_class=None, classes=None):
+        """
+        Initialize a CollectionItem object.
+
+        :param str text: (optional) The submitted phrase.
+        :param str top_class: (optional) The class with the highest confidence.
+        :param list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+        """
+        self.text = text
+        self.top_class = top_class
+        self.classes = classes
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CollectionItem object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'top_class' in _dict:
+            args['top_class'] = _dict.get('top_class')
+        if 'classes' in _dict:
+            args['classes'] = [
+                ClassifiedClass._from_dict(x) for x in (_dict.get('classes'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'top_class') and self.top_class is not None:
+            _dict['top_class'] = self.top_class
+        if hasattr(self, 'classes') and self.classes is not None:
+            _dict['classes'] = [x._to_dict() for x in self.classes]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CollectionItem object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
