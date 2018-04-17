@@ -135,6 +135,8 @@ This would give an output of `DetailedResponse` having the structure:
     'headers': { <http response headers> }
 }
 ```
+You can use the `get_result()` and `get_headers()` to return the result and headers respectively.
+
 ## Dependencies
 
 * [requests]
