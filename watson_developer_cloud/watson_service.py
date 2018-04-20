@@ -234,7 +234,7 @@ class WatsonService(object):
             self.set_api_key(api_key)
         elif username is not None and password is not None:
             self.set_username_and_password(username, password)
-        else:
+        elif iam_access_token is not None or iam_api_key is not None:
             self.set_token_manager(iam_api_key, iam_access_token, iam_url)
 
         if use_vcap_services and not self.username and not self.api_key:
@@ -252,14 +252,14 @@ class WatsonService(object):
                 if 'api_key' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['api_key']
                 if ('iam_api_key' or 'apikey')  in self.vcap_service_credentials:
-                    self.iam_api_key = self.vcap_service_credentials['iam_api_key']
+                    self.iam_api_key = self.vcap_service_credentials.get('iam_api_key') or self.vcap_service_credentials.get('apikey')
                 if 'iam_access_token' in self.vcap_service_credentials:
                     self.iam_access_token = self.vcap_service_credentials['iam_access_token']
                 if 'iam_url' in self.vcap_service_credentials:
                     self.iam_url = self.vcap_service_credentials['iam_url']
 
         if (self.username is None or self.password is None)\
-                and self.api_key is None and self.iam_api_key is None:
+                and self.api_key is None and self.token_manager is None:
             raise ValueError(
                 'You must specify your IAM api key or username and password service '
                 'credentials (Note: these are different from your Bluemix id)')
