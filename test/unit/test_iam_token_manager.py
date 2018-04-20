@@ -99,6 +99,7 @@ def test_get_token():
     token = token_manager.get_token()
     assert "grant_type=refresh_token" in responses.calls[2].request.body
 
+    # Case 4
     token_manager.token_info = {
         "access_token": "dummy",
         "token_type": "Bearer",
