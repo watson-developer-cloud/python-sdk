@@ -22,7 +22,11 @@ class Discoveryv1(TestCase):
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'
         })
-        cls.collection_id = cls.discovery.list_collections(cls.environment_id)['collections'][0]['collection_id']
+        collections = cls.discovery.list_collections(cls.environment_id)['collections']
+        cls.collection_id = collections[0]['collection_id']
+        for collection in collections:
+            if collection['name'] != 'DO-NOT-DELETE':
+                cls.discovery.delete_collection(cls.environment_id, collection['collection_id'])
 
     @classmethod
     def teardown_class(cls):

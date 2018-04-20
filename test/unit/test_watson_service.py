@@ -12,14 +12,20 @@ import responses
 class AnyServiceV1(WatsonService):
     default_url = 'https://gateway.watsonplatform.net/test/api'
 
-    def __init__(self, version, url=default_url, username=None, password=None):
+    def __init__(self, version, url=default_url, username=None, password=None,
+                 iam_api_key=None,
+                 iam_access_token=None,
+                 iam_url=None):
         WatsonService.__init__(
             self,
             vcap_services_name='test',
             url=url,
             username=username,
             password=password,
-            use_vcap_services=True)
+            use_vcap_services=True,
+            iam_api_key=iam_api_key,
+            iam_access_token=iam_access_token,
+            iam_url=iam_url)
         self.version = version
 
     def op_with_path_params(self, path0, path1):
@@ -84,3 +90,8 @@ def test_fail_http_config():
     service = AnyServiceV1('2017-07-07', username='username', password='password')
     with pytest.raises(TypeError):
         service.with_http_config(None)
+
+@responses.activate
+def test_iam():
+    service = AnyServiceV1('2017-07-07', iam_api_key="iam_api_key")
+    assert service.token_manager is not None

@@ -16,7 +16,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
     @classmethod
     def setup_class(cls):
         cls.visual_recognition = watson_developer_cloud.VisualRecognitionV3(
-            '2016-05-20', api_key=os.environ.get('YOUR API KEY'))
+            '2016-05-20', api_key='YOUR API KEY')
         cls.visual_recognition.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
