@@ -251,7 +251,7 @@ class WatsonService(object):
                     self.api_key = self.vcap_service_credentials['apikey']
                 if 'api_key' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['api_key']
-                if 'iam_api_key' in self.vcap_service_credentials:
+                if ('iam_api_key' or 'apikey')  in self.vcap_service_credentials:
                     self.iam_api_key = self.vcap_service_credentials['iam_api_key']
                 if 'iam_access_token' in self.vcap_service_credentials:
                     self.iam_access_token = self.vcap_service_credentials['iam_access_token']
