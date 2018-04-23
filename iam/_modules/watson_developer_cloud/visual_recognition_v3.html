@@ -68,13 +68,7 @@
 
     <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway-a.watsonplatform.net/visual-recognition/api&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">version</span><span class="p">,</span>
-                 <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
-                 <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a new client for the Visual Recognition service.</span>
 
@@ -95,17 +89,6 @@
 
 <span class="sd">        :param str api_key: The API Key used to authenticate.</span>
 
-<span class="sd">        :param str iam_api_key: An API key that can be used to request IAM tokens. If</span>
-<span class="sd">               this API key is provided, the SDK will manage the token and handle the</span>
-<span class="sd">               refreshing.</span>
-
-<span class="sd">        :param str iam_access_token:  An IAM access token is fully managed by the application.</span>
-<span class="sd">               Responsibility falls on the application to refresh the token, either before</span>
-<span class="sd">               it expires or reactively upon receiving a 401 from the service as any requests</span>
-<span class="sd">               made with an expired token will fail.</span>
-
-<span class="sd">        :param str iam_url: An optional URL for the IAM service API. Defaults to</span>
-<span class="sd">               &#39;https://iam.ng.bluemix.net/identity/token&#39;.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">WatsonService</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -113,9 +96,6 @@
             <span class="n">vcap_services_name</span><span class="o">=</span><span class="s1">&#39;watson_vision_combined&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
             <span class="n">api_key</span><span class="o">=</span><span class="n">api_key</span><span class="p">,</span>
-            <span class="n">iam_api_key</span><span class="o">=</span><span class="n">iam_api_key</span><span class="p">,</span>
-            <span class="n">iam_access_token</span><span class="o">=</span><span class="n">iam_access_token</span><span class="p">,</span>
-            <span class="n">iam_url</span><span class="o">=</span><span class="n">iam_url</span><span class="p">,</span>
             <span class="n">use_vcap_services</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
 
