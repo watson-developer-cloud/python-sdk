@@ -13,7 +13,7 @@ class IAMTokenManager(object):
     def __init__(self, iam_api_key=None, iam_access_token=None, iam_url=None):
         self.iam_api_key = iam_api_key
         self.user_access_token = iam_access_token
-        self.url = iam_url if iam_url else DEFAULT_IAM_URL
+        self.iam_url = iam_url if iam_url else DEFAULT_IAM_URL
         self.token_info = {
             'access_token': None,
             'refresh_token': None,
@@ -44,20 +44,20 @@ class IAMTokenManager(object):
         if self.user_access_token:
             return self.user_access_token
         elif not self.token_info.get('access_token'):
-            token_info = self.request_token()
-            self.save_token_info(token_info)
+            token_info = self._request_token()
+            self._save_token_info(token_info)
             return self.token_info.get('access_token')
-        elif self.is_token_expired():
-            if self.is_refresh_token_expired():
-                token_info = self.request_token()
+        elif self._is_token_expired():
+            if self._is_refresh_token_expired():
+                token_info = self._request_token()
             else:
-                token_info = self.refresh_token()
-            self.save_token_info(token_info)
+                token_info = self._refresh_token()
+            self._save_token_info(token_info)
             return self.token_info.get('access_token')
         else:
             return self.token_info.get('access_token')
 
-    def request_token(self):
+    def _request_token(self):
         """
         Request an IAM token using an API key
         """
@@ -73,12 +73,12 @@ class IAMTokenManager(object):
         }
         response = self.request(
             method='POST',
-            url=self.url,
+            url=self.iam_url,
             headers=headers,
             data=data)
         return response
 
-    def refresh_token(self):
+    def _refresh_token(self):
         """
         Refresh an IAM token using a refresh token
         """
@@ -93,7 +93,7 @@ class IAMTokenManager(object):
         }
         response = self.request(
             method='POST',
-            url=self.url,
+            url=self.iam_url,
             headers=headers,
             data=data)
         return response
@@ -105,7 +105,7 @@ class IAMTokenManager(object):
         """
         self.user_access_token = iam_access_token
 
-    def is_token_expired(self):
+    def _is_token_expired(self):
         """
         Check if currently stored token is expired.
 
@@ -121,7 +121,7 @@ class IAMTokenManager(object):
         current_time = int(time.time())
         return refresh_time < current_time
 
-    def is_refresh_token_expired(self):
+    def _is_refresh_token_expired(self):
         """
         Used as a fail-safe to prevent the condition of a refresh token expiring,
         which could happen after around 30 days. This function will return true
@@ -135,7 +135,7 @@ class IAMTokenManager(object):
         new_token_time = self.token_info.get('expiration') + seven_days
         return new_token_time < current_time
 
-    def save_token_info(self, token_info):
+    def _save_token_info(self, token_info):
         """
         Save the response from the IAM service request to the object's state.
         """

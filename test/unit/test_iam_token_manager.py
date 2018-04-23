@@ -15,7 +15,7 @@ def test_request_token():
     responses.add(responses.POST, url=iam_url, body=response, status=200)
 
     token_manager = iam_token_manager.IAMTokenManager("iam_api_key", "iam_access_token", iam_url)
-    token_manager.request_token()
+    token_manager._request_token()
 
     assert responses.calls[0].request.url == iam_url
     assert responses.calls[0].response.text == response
@@ -34,7 +34,7 @@ def test_refresh_token():
     responses.add(responses.POST, url=iam_url, body=response, status=200)
 
     token_manager = iam_token_manager.IAMTokenManager("iam_api_key", "iam_access_token", iam_url)
-    token_manager.refresh_token()
+    token_manager._refresh_token()
 
     assert responses.calls[0].request.url == iam_url
     assert responses.calls[0].response.text == response
@@ -50,9 +50,9 @@ def test_is_token_expired():
         "expiration": int(time.time()) + 6000,
         "refresh_token": "jy4gl91BQ"
     }
-    assert token_manager.is_token_expired() is False
+    assert token_manager._is_token_expired() is False
     token_manager.token_info['expiration'] = int(time.time()) - 3600
-    assert token_manager.is_token_expired()
+    assert token_manager._is_token_expired()
 
 @responses.activate
 def test_is_refresh_token_expired():
@@ -64,9 +64,9 @@ def test_is_refresh_token_expired():
         "expiration": int(time.time()),
         "refresh_token": "jy4gl91BQ"
     }
-    assert token_manager.is_refresh_token_expired() is False
+    assert token_manager._is_refresh_token_expired() is False
     token_manager.token_info['expiration'] = int(time.time()) - (8 * 24 * 3600)
-    assert token_manager.is_token_expired()
+    assert token_manager._is_token_expired()
 
 @responses.activate
 def test_get_token():
