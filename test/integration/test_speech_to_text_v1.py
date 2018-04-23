@@ -16,8 +16,8 @@ class TestSpeechToTextV1(TestCase):
     @classmethod
     def setup_class(cls):
         cls.speech_to_text = watson_developer_cloud.SpeechToTextV1(
-            username=os.getenv('YOUR SERVICE USERNAME'),
-            password=os.getenv('YOUR SERVICE PASSWORD'))
+            username='YOUR SERVICE USERNAME',
+            password='YOUR SERVICE PASSWORD')
         cls.speech_to_text.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',

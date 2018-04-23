@@ -19,6 +19,7 @@ import requests
 import sys
 from requests.structures import CaseInsensitiveDict
 import dateutil.parser as date_parser
+from .iam_token_manager import IAMTokenManager
 
 try:
     from http.cookiejar import CookieJar  # Python 3
@@ -26,6 +27,7 @@ except ImportError:
     from cookielib import CookieJar  # Python 2
 from .version import __version__
 
+BEARER = 'Bearer'
 
 # Uncomment this to enable http debugging
 # try:
@@ -137,6 +139,33 @@ def _convert_boolean_values(dictionary):
             [(k, _convert_boolean_value(v)) for k, v in dictionary.items()])
     return dictionary
 
+def get_error_message(response):
+    """
+    Gets the error message from a JSON response.
+    :return: the error message
+    :rtype: string
+    """
+    error_message = 'Unknown error'
+    try:
+        error_json = response.json()
+        if 'error' in error_json:
+            if isinstance(error_json['error'], dict) and 'description' in \
+                    error_json['error']:
+                error_message = error_json['error']['description']
+            else:
+                error_message = error_json['error']
+        elif 'error_message' in error_json:
+            error_message = error_json['error_message']
+        elif 'errorMessage' in error_json:
+            error_message = error_json['errorMessage']
+        elif 'msg' in error_json:
+            error_message = error_json['msg']
+        elif 'statusInfo' in error_json:
+            error_message = error_json['statusInfo']
+        return error_message
+    except:
+        return response.text or error_message
+
 class DetailedResponse(object):
     """
     Custom class for detailed response returned from Watson APIs.
@@ -168,7 +197,8 @@ class DetailedResponse(object):
 class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
-                 x_watson_learning_opt_out=False):
+                 x_watson_learning_opt_out=False,
+                 iam_api_key=None, iam_access_token=None, iam_url=None):
         """
         Loads credentials from the VCAP_SERVICES environment variable if
         available, preferring credentials explicitly
@@ -186,6 +216,10 @@ class WatsonService(object):
         self.default_headers = None
         self.http_config = {}
         self.detailed_response = False
+        self.iam_api_key = None
+        self.iam_access_token = None
+        self.iam_url = None
+        self.token_manager = None
 
         user_agent_string = 'watson-apis-python-sdk-' + __version__ # SDK version
         user_agent_string += ' ' + platform.system() # OS
@@ -197,12 +231,11 @@ class WatsonService(object):
             self.default_headers = {'x-watson-learning-opt-out': 'true'}
 
         if api_key is not None:
-            if username is not None or password is not None:
-                raise ValueError(
-                    'Cannot set api_key and username and password together')
             self.set_api_key(api_key)
-        else:
+        elif username is not None and password is not None:
             self.set_username_and_password(username, password)
+        elif iam_access_token is not None or iam_api_key is not None:
+            self.set_token_manager(iam_api_key, iam_access_token, iam_url)
 
         if use_vcap_services and not self.username and not self.api_key:
             self.vcap_service_credentials = load_from_vcap_services(
@@ -218,11 +251,17 @@ class WatsonService(object):
                     self.api_key = self.vcap_service_credentials['apikey']
                 if 'api_key' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['api_key']
+                if ('iam_api_key' or 'apikey')  in self.vcap_service_credentials:
+                    self.iam_api_key = self.vcap_service_credentials.get('iam_api_key') or self.vcap_service_credentials.get('apikey')
+                if 'iam_access_token' in self.vcap_service_credentials:
+                    self.iam_access_token = self.vcap_service_credentials['iam_access_token']
+                if 'iam_url' in self.vcap_service_credentials:
+                    self.iam_url = self.vcap_service_credentials['iam_url']
 
         if (self.username is None or self.password is None)\
-                and self.api_key is None:
+                and self.api_key is None and self.token_manager is None:
             raise ValueError(
-                'You must specify your username and password service '
+                'You must specify your IAM api key or username and password service '
                 'credentials (Note: these are different from your Bluemix id)')
 
     def set_username_and_password(self, username=None, password=None):
@@ -241,6 +280,23 @@ class WatsonService(object):
 
         self.api_key = api_key
         self.jar = CookieJar()
+
+    def set_token_manager(self, iam_api_key, iam_access_token, iam_url):
+        if iam_api_key == 'YOUR IAM API KEY':
+            iam_api_key = None
+
+        self.iam_api_key = iam_api_key
+        self.iam_access_token = iam_access_token
+        self.iam_url = iam_url
+        self.token_manager = IAMTokenManager(iam_api_key, iam_access_token, iam_url)
+        self.jar = CookieJar()
+
+    def set_iam_access_token(self, iam_access_token):
+        if self.token_manager:
+            self.token_manager.set_access_token(iam_access_token)
+        else:
+            self.token_manager = IAMTokenManager(iam_access_token=iam_access_token)
+        self.iam_access_token = iam_access_token
 
     def set_url(self, url):
         self.url = url
@@ -297,33 +353,6 @@ class WatsonService(object):
         return (requests.utils.quote(x, safe='') for x in args)
 
     @staticmethod
-    def _get_error_message(response):
-        """
-        Gets the error message from a JSON response.
-        :return: the error message
-        :rtype: string
-        """
-        error_message = 'Unknown error'
-        try:
-            error_json = response.json()
-            if 'error' in error_json:
-                if isinstance(error_json['error'], dict) and 'description' in \
-                        error_json['error']:
-                    error_message = error_json['error']['description']
-                else:
-                    error_message = error_json['error']
-            elif 'error_message' in error_json:
-                error_message = error_json['error_message']
-            elif 'msg' in error_json:
-                error_message = error_json['msg']
-            elif 'statusInfo' in error_json:
-                error_message = error_json['statusInfo']
-            return error_message
-        except:
-            return response.text or error_message
-
-
-    @staticmethod
     def _get_error_info(response):
         """
         Gets the error info (if any) from a JSON response.
@@ -370,6 +399,9 @@ class WatsonService(object):
             headers.update({'content-type': 'application/json'})
 
         auth = None
+        if self.token_manager:
+            access_token = self.token_manager.get_token()
+            headers['Authorization'] = '{0} {1}'.format(BEARER, access_token)
         if self.username and self.password:
             auth = (self.username, self.password)
         if self.api_key is not None:
@@ -410,7 +442,7 @@ class WatsonService(object):
                 error_message = 'Unauthorized: Access is denied due to ' \
                                 'invalid credentials '
             else:
-                error_message = self._get_error_message(response)
+                error_message = get_error_message(response)
             error_info = self._get_error_info(response)
             raise WatsonApiException(response.status_code, error_message,
                                      info=error_info, httpResponse=response)

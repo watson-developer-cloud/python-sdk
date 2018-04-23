@@ -2,6 +2,7 @@
 import json
 import pytest
 from watson_developer_cloud import WatsonService
+import time
 
 import responses
 
@@ -12,14 +13,20 @@ import responses
 class AnyServiceV1(WatsonService):
     default_url = 'https://gateway.watsonplatform.net/test/api'
 
-    def __init__(self, version, url=default_url, username=None, password=None):
+    def __init__(self, version, url=default_url, username=None, password=None,
+                 iam_api_key=None,
+                 iam_access_token=None,
+                 iam_url=None):
         WatsonService.__init__(
             self,
             vcap_services_name='test',
             url=url,
             username=username,
             password=password,
-            use_vcap_services=True)
+            use_vcap_services=True,
+            iam_api_key=iam_api_key,
+            iam_access_token=iam_access_token,
+            iam_url=iam_url)
         self.version = version
 
     def op_with_path_params(self, path0, path1):
@@ -36,6 +43,10 @@ class AnyServiceV1(WatsonService):
 
     def with_http_config(self, http_config):
         self.set_http_config(http_config)
+        response = self.request(method='GET', url='', accept_json=True)
+        return response
+
+    def any_service_call(self):
         response = self.request(method='GET', url='', accept_json=True)
         return response
 
@@ -84,3 +95,31 @@ def test_fail_http_config():
     service = AnyServiceV1('2017-07-07', username='username', password='password')
     with pytest.raises(TypeError):
         service.with_http_config(None)
+
+@responses.activate
+def test_iam():
+    iam_url = "https://iam.bluemix.net/identity/token"
+    service = AnyServiceV1('2017-07-07', iam_api_key="iam_api_key")
+    assert service.token_manager is not None
+
+    service.token_manager.token_info = {
+        "access_token": "dummy",
+        "token_type": "Bearer",
+        "expires_in": 3600,
+        "expiration": int(time.time()) - 4000,
+        "refresh_token": "jy4gl91BQ"
+    }
+    response = """{
+        "access_token": "hellohello",
+        "token_type": "Bearer",
+        "expires_in": 3600,
+        "expiration": 1524167011,
+        "refresh_token": "jy4gl91BQ"
+    }"""
+    responses.add(responses.POST, url=iam_url, body=response, status=200)
+    responses.add(responses.GET,
+                  service.default_url,
+                  body=json.dumps({"foobar": "baz"}),
+                  content_type='application/json')
+    service.any_service_call()
+    assert "grant_type=refresh_token" in responses.calls[0].request.body

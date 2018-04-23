@@ -47,24 +47,26 @@ The [examples][examples] folder has basic and advanced examples.
 
 Service credentials are required to access the APIs.
 
-If you run your app in IBM Cloud, you don't need to specify the username and password. In that case, the SDK uses the `VCAP_SERVICES` environment variable to load the credentials.
-
-To run locally or outside of IBM Cloud you need the `username` and `password` credentials for each service. (Service credentials are different from your IBM Cloud account email and password.)
+If you run your app in IBM Cloud, you don't need to specify the username and password or IAM API key (`apikey`). In that case, the SDK uses the `VCAP_SERVICES` environment variable to load the credentials.
+To run locally or outside of IBM Cloud you need the `username` and `password` credentials or IAM API key (`apikey`) for each service. (Service credentials are different from your IBM Cloud account email and password.)
 
 To create an instance of the service:
 
 1. Log in to [IBM Cloud][ibm_cloud].
 1. Create an instance of the service:
+   1. Click on **Create Resource**.
    1. In the IBM Cloud **Catalog**, select the Watson service you want to use. For example, select the Conversation service.
    1. Type a unique name for the service instance in the **Service name** field. For example, type `my-service-name`. Leave the default values for the other options.
    1. Click **Create**.
 
 To get your service credentials:
 
-Copy your credentials from the **Service details** page. To find the the Service details page for an existing service, navigate to your IBM Cloud dashboard and click the service name.
+Copy your credentials from the **Manage** page. To find the Service details page for an existing service, navigate to your [IBM Cloud][ibm_cloud] dashboard and click the service name.
 
-1. On the **Service Details** page, click **Service Credentials**, and then **View credentials**.
-1. Copy `username`, `password`, and `url`.
+1. On the **Manage** page, you will see a **Credentials** pane
+1. Depending on the service you will see use either:
+* 2.a: `username`, `password`, and `url`(optional).
+* 2.b: `apikey` which is the value for parameter `iam_api_key` when initializing the constructor.
 
 ## Python Version
 

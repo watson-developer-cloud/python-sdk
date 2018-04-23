@@ -8,28 +8,24 @@ import pytest
 @pytest.mark.skipif(
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class Discoveryv1(TestCase):
-    discovery = None
-    environment_id = 'e15f6424-f887-4f50-b4ea-68267c36fc9c'  # This environment is created for integration testing
-    collection_id = None
-
-    @classmethod
-    def setup_class(cls):
-        cls.discovery = watson_developer_cloud.DiscoveryV1(
+    def setUp(self):
+        self.discovery = watson_developer_cloud.DiscoveryV1(
             version='2017-10-16',
             username="YOUR SERVICE USERNAME",
             password="YOUR SERVICE PASSWORD")
-        cls.discovery.set_default_headers({
+        self.discovery.set_default_headers({
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'
         })
-        cls.collection_id = cls.discovery.list_collections(cls.environment_id)['collections'][0]['collection_id']
+        self.environment_id = 'e15f6424-f887-4f50-b4ea-68267c36fc9c'  # This environment is created for integration testing
+        collections = self.discovery.list_collections(self.environment_id)['collections']
+        self.collection_id = collections[0]['collection_id']
 
-    @classmethod
-    def teardown_class(cls):
-        collections = cls.discovery.list_collections(cls.environment_id)['collections']
+    def tearDown(self):
+        collections = self.discovery.list_collections(self.environment_id)['collections']
         for collection in collections:
             if collection['name'] != 'DO-NOT-DELETE':
-                cls.discovery.delete_collection(cls.environment_id, collection['collection_id'])
+                self.discovery.delete_collection(self.environment_id, collection['collection_id'])
 
     def test_environments(self):
         envs = self.discovery.list_environments()
