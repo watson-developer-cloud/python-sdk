@@ -119,7 +119,7 @@ def test_iam():
     responses.add(responses.POST, url=iam_url, body=response, status=200)
     responses.add(responses.GET,
                   service.default_url,
-                  status=200,
-                  body={})
+                  body=json.dumps({"foobar": "baz"}),
+                  content_type='application/json')
     service.any_service_call()
     assert "grant_type=refresh_token" in responses.calls[0].request.body
