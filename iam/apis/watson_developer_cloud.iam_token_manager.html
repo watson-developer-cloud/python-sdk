@@ -54,45 +54,10 @@ If this class is managing tokens and has a valid token stored, send it</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.request_token">
-<code class="descname">request_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.request_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.request_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Request an IAM token using an API key</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.refresh_token">
-<code class="descname">refresh_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.refresh_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.refresh_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Refresh an IAM token using a refresh token</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.set_access_token">
 <code class="descname">set_access_token</code><span class="sig-paren">(</span><em>iam_access_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.set_access_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.set_access_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a self-managed IAM access token.
 The access token should be valid and not yet expired.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.is_token_expired">
-<code class="descname">is_token_expired</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.is_token_expired"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.is_token_expired" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if currently stored token is expired.</p>
-<p>Using a buffer to prevent the edge case of the
-oken expiring before the request could be made.</p>
-<p>The buffer will be a fraction of the total TTL. Using 80%.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.is_refresh_token_expired">
-<code class="descname">is_refresh_token_expired</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.is_refresh_token_expired"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.is_refresh_token_expired" title="Permalink to this definition">¶</a></dt>
-<dd><p>Used as a fail-safe to prevent the condition of a refresh token expiring,
-which could happen after around 30 days. This function will return true
-if it has been at least 7 days and 1 hour since the last token was set</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.save_token_info">
-<code class="descname">save_token_info</code><span class="sig-paren">(</span><em>token_info</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.save_token_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.save_token_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the response from the IAM service request to the object’s state.</p>
 </dd></dl>
 
 </dd></dl>

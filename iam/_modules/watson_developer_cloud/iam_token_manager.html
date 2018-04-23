@@ -46,7 +46,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">iam_api_key</span> <span class="o">=</span> <span class="n">iam_api_key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_access_token</span> <span class="o">=</span> <span class="n">iam_access_token</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">iam_url</span> <span class="k">if</span> <span class="n">iam_url</span> <span class="k">else</span> <span class="n">DEFAULT_IAM_URL</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iam_url</span> <span class="o">=</span> <span class="n">iam_url</span> <span class="k">if</span> <span class="n">iam_url</span> <span class="k">else</span> <span class="n">DEFAULT_IAM_URL</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;access_token&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
             <span class="s1">&#39;refresh_token&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
@@ -77,20 +77,20 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_access_token</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_access_token</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">):</span>
-            <span class="n">token_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request_token</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">save_token_info</span><span class="p">(</span><span class="n">token_info</span><span class="p">)</span>
+            <span class="n">token_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request_token</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_token_info</span><span class="p">(</span><span class="n">token_info</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_token_expired</span><span class="p">():</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_refresh_token_expired</span><span class="p">():</span>
-                <span class="n">token_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request_token</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_token_expired</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_refresh_token_expired</span><span class="p">():</span>
+                <span class="n">token_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request_token</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">token_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_token</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">save_token_info</span><span class="p">(</span><span class="n">token_info</span><span class="p">)</span>
+                <span class="n">token_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refresh_token</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save_token_info</span><span class="p">(</span><span class="n">token_info</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IAMTokenManager.request_token"><a class="viewcode-back" href="../../apis/watson_developer_cloud.iam_token_manager.html#watson_developer_cloud.iam_token_manager.IAMTokenManager.request_token">[docs]</a>    <span class="k">def</span> <span class="nf">request_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_request_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Request an IAM token using an API key</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -106,12 +106,12 @@
         <span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-            <span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">iam_url</span><span class="p">,</span>
             <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">response</span></div>
+        <span class="k">return</span> <span class="n">response</span>
 
-<div class="viewcode-block" id="IAMTokenManager.refresh_token"><a class="viewcode-back" href="../../apis/watson_developer_cloud.iam_token_manager.html#watson_developer_cloud.iam_token_manager.IAMTokenManager.refresh_token">[docs]</a>    <span class="k">def</span> <span class="nf">refresh_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_refresh_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Refresh an IAM token using a refresh token</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -126,10 +126,10 @@
         <span class="p">}</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-            <span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">iam_url</span><span class="p">,</span>
             <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">response</span></div>
+        <span class="k">return</span> <span class="n">response</span>
 
 <div class="viewcode-block" id="IAMTokenManager.set_access_token"><a class="viewcode-back" href="../../apis/watson_developer_cloud.iam_token_manager.html#watson_developer_cloud.iam_token_manager.IAMTokenManager.set_access_token">[docs]</a>    <span class="k">def</span> <span class="nf">set_access_token</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iam_access_token</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -138,7 +138,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_access_token</span> <span class="o">=</span> <span class="n">iam_access_token</span></div>
 
-<div class="viewcode-block" id="IAMTokenManager.is_token_expired"><a class="viewcode-back" href="../../apis/watson_developer_cloud.iam_token_manager.html#watson_developer_cloud.iam_token_manager.IAMTokenManager.is_token_expired">[docs]</a>    <span class="k">def</span> <span class="nf">is_token_expired</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_is_token_expired</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if currently stored token is expired.</span>
 
@@ -152,9 +152,9 @@
         <span class="n">expire_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;expiration&#39;</span><span class="p">)</span>
         <span class="n">refresh_time</span> <span class="o">=</span> <span class="n">expire_time</span> <span class="o">-</span> <span class="p">(</span><span class="n">time_to_live</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">fraction_of_ttl</span><span class="p">))</span>
         <span class="n">current_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
-        <span class="k">return</span> <span class="n">refresh_time</span> <span class="o">&lt;</span> <span class="n">current_time</span></div>
+        <span class="k">return</span> <span class="n">refresh_time</span> <span class="o">&lt;</span> <span class="n">current_time</span>
 
-<div class="viewcode-block" id="IAMTokenManager.is_refresh_token_expired"><a class="viewcode-back" href="../../apis/watson_developer_cloud.iam_token_manager.html#watson_developer_cloud.iam_token_manager.IAMTokenManager.is_refresh_token_expired">[docs]</a>    <span class="k">def</span> <span class="nf">is_refresh_token_expired</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_is_refresh_token_expired</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Used as a fail-safe to prevent the condition of a refresh token expiring,</span>
 <span class="sd">        which could happen after around 30 days. This function will return true</span>
@@ -166,13 +166,13 @@
         <span class="n">seven_days</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">3600</span>
         <span class="n">current_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
         <span class="n">new_token_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;expiration&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">seven_days</span>
-        <span class="k">return</span> <span class="n">new_token_time</span> <span class="o">&lt;</span> <span class="n">current_time</span></div>
+        <span class="k">return</span> <span class="n">new_token_time</span> <span class="o">&lt;</span> <span class="n">current_time</span>
 
-<div class="viewcode-block" id="IAMTokenManager.save_token_info"><a class="viewcode-back" href="../../apis/watson_developer_cloud.iam_token_manager.html#watson_developer_cloud.iam_token_manager.IAMTokenManager.save_token_info">[docs]</a>    <span class="k">def</span> <span class="nf">save_token_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_info</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_save_token_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token_info</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the response from the IAM service request to the object&#39;s state.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span> <span class="o">=</span> <span class="n">token_info</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_info</span> <span class="o">=</span> <span class="n">token_info</span></div>
 </pre></div>
 
           </div>
