@@ -35,7 +35,13 @@ class VisualRecognitionV3(WatsonService):
 
     default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
 
-    def __init__(self, version, url=default_url, api_key=None):
+    def __init__(self,
+                 version,
+                 url=default_url,
+                 api_key=None,
+                 iam_api_key=None,
+                 iam_access_token=None,
+                 iam_url=None):
         """
         Construct a new client for the Visual Recognition service.
 
@@ -56,6 +62,17 @@ class VisualRecognitionV3(WatsonService):
 
         :param str api_key: The API Key used to authenticate.
 
+        :param str iam_api_key: An API key that can be used to request IAM tokens. If
+               this API key is provided, the SDK will manage the token and handle the
+               refreshing.
+
+        :param str iam_access_token:  An IAM access token is fully managed by the application.
+               Responsibility falls on the application to refresh the token, either before
+               it expires or reactively upon receiving a 401 from the service as any requests
+               made with an expired token will fail.
+
+        :param str iam_url: An optional URL for the IAM service API. Defaults to
+               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -63,6 +80,9 @@ class VisualRecognitionV3(WatsonService):
             vcap_services_name='watson_vision_combined',
             url=url,
             api_key=api_key,
+            iam_api_key=iam_api_key,
+            iam_access_token=iam_access_token,
+            iam_url=iam_url,
             use_vcap_services=True)
         self.version = version
 
