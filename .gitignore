@@ -13,3 +13,5 @@ test/
 venv/
 watson_developer_cloud.egg-info/
 watson_developer_cloud/
+.tox
+.pytest_cache
