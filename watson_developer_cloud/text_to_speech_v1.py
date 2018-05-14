@@ -346,7 +346,7 @@ class TextToSpeechV1(WatsonService):
 
         :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -355,9 +355,9 @@ class TextToSpeechV1(WatsonService):
             headers.update(kwargs.get('headers'))
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        self.request(
+        response = self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
-        return None
+        return response
 
     @deprecated('Use delete_voice_model() instead.')
     def delete_customization(self, customization_id):
@@ -449,7 +449,7 @@ class TextToSpeechV1(WatsonService):
         :param str description: A new description for the custom voice model.
         :param list[Word] words: An array of `Word` objects that provides the words and their translations that are to be added or updated for the custom voice model. Pass an empty array to make no additions or updates.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -461,13 +461,13 @@ class TextToSpeechV1(WatsonService):
         data = {'name': name, 'description': description, 'words': words}
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        self.request(
+        response = self.request(
             method='POST',
             url=url,
             headers=headers,
             json=data,
             accept_json=True)
-        return None
+        return response
 
     @deprecated('Use update_voice_model() instead')
     def update_customization(self, customization_id, name=None,
@@ -499,7 +499,7 @@ class TextToSpeechV1(WatsonService):
         :param str translation: The phonetic or sounds-like translation for the word. A phonetic translation is based on the SSML format for representing the phonetic string of a word either as an IPA translation or as an IBM SPR translation. A sounds-like is one or more words that, when combined, sound like the word.
         :param str part_of_speech: **Japanese only.** The part of speech for the word. The service uses the value to produce the correct intonation for the word. You can create only a single entry, with or without a single part of speech, for any word; you cannot create multiple entries with different parts of speech for the same word. For more information, see [Working with Japanese entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -513,13 +513,13 @@ class TextToSpeechV1(WatsonService):
         data = {'translation': translation, 'part_of_speech': part_of_speech}
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        self.request(
+        response = self.request(
             method='PUT',
             url=url,
             headers=headers,
             json=data,
             accept_json=True)
-        return None
+        return response
 
     @deprecated('Use add_word() instead.')
     def set_customization_word(self, customization_id, word, translation):
@@ -539,7 +539,7 @@ class TextToSpeechV1(WatsonService):
         :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param list[Word] words: The **Add custom words** method accepts an array of `Word` objects. Each object provides a word that is to be added or updated for the custom voice model and the word's translation.   The **List custom words** method returns an array of `Word` objects. Each object shows a word and its translation from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -552,13 +552,13 @@ class TextToSpeechV1(WatsonService):
         data = {'words': words}
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
-        self.request(
+        response = self.request(
             method='POST',
             url=url,
             headers=headers,
             json=data,
             accept_json=True)
-        return None
+        return response
 
     @deprecated('Use add_words() instead.')
     def add_customization_words(self, customization_id, words):
@@ -575,7 +575,7 @@ class TextToSpeechV1(WatsonService):
         :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param str word: The word that is to be deleted from the custom voice model.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -586,9 +586,9 @@ class TextToSpeechV1(WatsonService):
             headers.update(kwargs.get('headers'))
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        self.request(
+        response = self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
-        return None
+        return response
 
     @deprecated('Use delete_word() instead.')
     def delete_customization_word(self, customization_id, word):

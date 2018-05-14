@@ -253,7 +253,7 @@ class AssistantV1(WatsonService):
 
         :param str workspace_id: Unique identifier of the workspace.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -263,13 +263,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}'.format(
             *self._encode_path_vars(workspace_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_workspace(self,
                       workspace_id,
@@ -492,7 +492,7 @@ class AssistantV1(WatsonService):
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -504,13 +504,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
             workspace_id, intent))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_intent(self,
                    workspace_id,
@@ -709,7 +709,7 @@ class AssistantV1(WatsonService):
         :param str intent: The intent name.
         :param str text: The text of the user input example.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -723,13 +723,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_example(self,
                     workspace_id,
@@ -913,7 +913,7 @@ class AssistantV1(WatsonService):
         :param str workspace_id: Unique identifier of the workspace.
         :param str text: The text of a user input counterexample (for example, `What are you wearing?`).
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -925,13 +925,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_counterexample(self,
                            workspace_id,
@@ -1123,7 +1123,7 @@ class AssistantV1(WatsonService):
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1135,13 +1135,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
             workspace_id, entity))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_entity(self,
                    workspace_id,
@@ -1364,7 +1364,7 @@ class AssistantV1(WatsonService):
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1378,13 +1378,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_value(self,
                   workspace_id,
@@ -1599,7 +1599,7 @@ class AssistantV1(WatsonService):
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1615,13 +1615,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_synonym(self,
                     workspace_id,
@@ -1875,7 +1875,7 @@ class AssistantV1(WatsonService):
         :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1887,13 +1887,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_dialog_node(self,
                         workspace_id,
