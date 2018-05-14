@@ -218,9 +218,9 @@ class NaturalLanguageClassifierV1(WatsonService):
             headers.update(kwargs.get('headers'))
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        self.request(
+        response = self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
-        return None
+        return response
 
     def get_classifier(self, classifier_id, **kwargs):
         """
