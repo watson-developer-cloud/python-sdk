@@ -18,48 +18,10 @@ Analyze various features of text content at scale. Provide text, raw HTML, or a 
 URL, and IBM Watson Natural Language Understanding will give you results for the features
 you request. The service cleans HTML content before analysis by default, so the results
 can ignore most advertisements and other unwanted content.
-
-### Concepts
-Identify general concepts that are referenced or alluded to in your content. Concepts that
-are detected typically have an associated link to a DBpedia resource.
-
-### Entities
-Detect important people, places, geopolitical entities and other types of entities in your
-content. Entity detection recognizes consecutive coreferences of each entity. For example,
-analysis of the following text would count "Barack Obama" and "He" as the same entity:
-
-"Barack Obama was the 44th President of the United States. He took office in January
-2009."
-
-### Keywords
-Determine the most important keywords in your content. Keyword phrases are organized by
-relevance in the results.
-
-### Categories
-Categorize your content into a hierarchical 5-level taxonomy. For example, "Leonardo
-DiCaprio won an Oscar" returns "/art and entertainment/movies and tv/movies" as the most
-confident classification.
-
-### Sentiment
-Determine whether your content conveys postive or negative sentiment. Sentiment
-information can be returned for detected entities, keywords, or user-specified target
-phrases found in the text.
-
-### Emotion
-Detect anger, disgust, fear, joy, or sadness that is conveyed by your content. Emotion
-information can be returned for detected entities, keywords, or user-specified target
-phrases found in the text.
-
-### Relations
-Recognize when two entities are related, and identify the type of relation.  For example,
-you can identify an "awardedTo" relation between an award and its recipient.
-
-### Semantic Roles
-Parse sentences into subject-action-object form, and identify entities and keywords that
-are subjects or objects of an action.
-
-### Metadata
-Get author information, publication date, and the title of your text/HTML content.
+You can create <a target="_blank"
+href="https://www.ibm.com/watson/developercloud/doc/natural-language-understanding/customizing.html">custom
+models</a> with Watson Knowledge Studio that can be used to detect custom entities and
+relations in Natural Language Understanding.
 """
 
 from __future__ import absolute_import
@@ -77,14 +39,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(self, version, url=default_url, username=None, password=None,
         """
         Construct a new client for the Natural Language Understanding service.
 
@@ -115,17 +70,6 @@ class NaturalLanguageUnderstandingV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -134,14 +78,11 @@ class NaturalLanguageUnderstandingV1(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
             use_vcap_services=True)
         self.version = version
 
     #########################
-    # analyze
+    # Analyze
     #########################
 
     def analyze(self,
@@ -160,6 +101,29 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         Analyze text, HTML, or a public webpage.
 
         Analyzes text, HTML, or a public webpage with one or more text analysis features.
+        ### Concepts Identify general concepts that are referenced or alluded to in your
+        content. Concepts that are detected typically have an associated link to a DBpedia
+        resource.  ### Emotion Detect anger, disgust, fear, joy, or sadness that is
+        conveyed by your content. Emotion information can be returned for detected
+        entities, keywords, or user-specified target phrases found in the text.  ###
+        Entities Detect important people, places, geopolitical entities and other types of
+        entities in your content. Entity detection recognizes consecutive coreferences of
+        each entity. For example, analysis of the following text would count \"Barack
+        Obama\" and \"He\" as the same entity:  \"Barack Obama was the 44th President of
+        the United States. He took office in January 2009.\"  ### Keywords Determine the
+        most important keywords in your content. Keyword phrases are organized by
+        relevance in the results.  ### Metadata Get author information, publication date,
+        and the title of your text/HTML content.  ### Relations Recognize when two
+        entities are related, and identify the type of relation.  For example, you can
+        identify an \"awardedTo\" relation between an award and its recipient.  ###
+        Semantic Roles Parse sentences into subject-action-object form, and identify
+        entities and keywords that are subjects or objects of an action.  ### Sentiment
+        Determine whether your content conveys postive or negative sentiment. Sentiment
+        information can be returned for detected entities, keywords, or user-specified
+        target phrases found in the text.   ### Categories Categorize your content into a
+        hierarchical 5-level taxonomy. For example, \"Leonardo DiCaprio won an Oscar\"
+        returns \"/art and entertainment/movies and tv/movies\" as the most confident
+        classification.
 
         :param Features features: Specific features to analyze the document for.
         :param str text: The plain text to analyze.
@@ -205,7 +169,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         return response
 
     #########################
-    # modelManagement
+    # Manage models
     #########################
 
     def delete_model(self, model_id, **kwargs):
@@ -1365,19 +1329,15 @@ class Features(object):
         """Initialize a Features object from a json dictionary."""
         args = {}
         if 'concepts' in _dict:
-            args['concepts'] = ConceptsOptions._from_dict(
-                _dict.get('concepts'))
+            args['concepts'] = ConceptsOptions._from_dict(_dict.get('concepts'))
         if 'emotion' in _dict:
             args['emotion'] = EmotionOptions._from_dict(_dict.get('emotion'))
         if 'entities' in _dict:
-            args['entities'] = EntitiesOptions._from_dict(
-                _dict.get('entities'))
+            args['entities'] = EntitiesOptions._from_dict(_dict.get('entities'))
         if 'keywords' in _dict:
-            args['keywords'] = KeywordsOptions._from_dict(
-                _dict.get('keywords'))
+            args['keywords'] = KeywordsOptions._from_dict(_dict.get('keywords'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataOptions._from_dict(
-                _dict.get('metadata'))
+            args['metadata'] = MetadataOptions._from_dict(_dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = RelationsOptions._from_dict(
                 _dict.get('relations'))
@@ -1590,8 +1550,7 @@ class KeywordsResult(object):
     :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the keyword, enabled with the "sentiment" option.
     """
 
-    def __init__(self, relevance=None, text=None, emotion=None,
-                 sentiment=None):
+    def __init__(self, relevance=None, text=None, emotion=None, sentiment=None):
         """
         Initialize a KeywordsResult object.
 
@@ -1801,7 +1760,7 @@ class MetadataResult(object):
         if 'image' in _dict:
             args['image'] = _dict.get('image')
         if 'feeds' in _dict:
-            args['feeds'] = [Feed._from_dict(x) for x in _dict.get('feeds')]
+            args['feeds'] = [Feed._from_dict(x) for x in (_dict.get('feeds'))]
         return cls(**args)
 
     def _to_dict(self):
@@ -2100,8 +2059,7 @@ class RelationsResult(object):
             args['type'] = _dict.get('type')
         if 'arguments' in _dict:
             args['arguments'] = [
-                RelationArgument._from_dict(x)
-                for x in (_dict.get('arguments'))
+                RelationArgument._from_dict(x) for x in (_dict.get('arguments'))
             ]
         return cls(**args)
 
@@ -2438,11 +2396,9 @@ class SemanticRolesResult(object):
             args['subject'] = SemanticRolesSubject._from_dict(
                 _dict.get('subject'))
         if 'action' in _dict:
-            args['action'] = SemanticRolesAction._from_dict(
-                _dict.get('action'))
+            args['action'] = SemanticRolesAction._from_dict(_dict.get('action'))
         if 'object' in _dict:
-            args['object'] = SemanticRolesObject._from_dict(
-                _dict.get('object'))
+            args['object'] = SemanticRolesObject._from_dict(_dict.get('object'))
         return cls(**args)
 
     def _to_dict(self):
