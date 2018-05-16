@@ -14,20 +14,67 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The IBM Watson Text to Speech service provides an API that uses IBM's speech-synthesis
+### Service Overview
+The IBM&reg; Text to Speech service provides an API that uses IBM's speech-synthesis
 capabilities to synthesize text into natural-sounding speech in a variety of languages,
 dialects, and voices. The service supports at least one male or female voice, sometimes
-both, for each language. The audio is streamed back to the client with minimal delay.
-
-For more information about the service and its various interfaces, see [About Text to
-Speech](https://console.bluemix.net/docs/services/text-to-speech/index.html).
+both, for each language. The audio is streamed back to the client with minimal delay. For
+more information about the service, see the [IBM&reg; Cloud
+documentation](https://console.bluemix.net/docs/services/text-to-speech/getting-started.html).
+### API Overview
+The Text to Speech service provides the following endpoints:
+* **Voices** provides information about the voices available for synthesized speech.
+* **Synthesis** synthesizes written text to audio speech.
+* **Pronunciation** returns the pronunciation for a specified word. Currently a beta
+feature.
+* **Custom models** and let users create custom voice models, which are dictionaries of
+words and their translations for use in speech synthesis. All custom model methods are
+currently beta features.
+* **Custom words** let users manage the words in a custom voice model. All custom word
+methods are currently beta features.
+### API Usage
+The following information provides details about using the service to synthesize audio:
+* **Audio formats:** The service supports a number of audio formats (MIME types). For more
+information about audio formats and sampling rates, including links to a number of
+Internet sites that provide technical and usage details about the different formats, see
+[Specifying an audio
+format](https://console.bluemix.net/docs/services/text-to-speech/http.html#format).
+* **SSML:** Many methods refer to the Speech Synthesis Markup Language (SSML), an
+XML-based markup language that provides annotations of text for speech-synthesis
+applications; for example, many methods accept or produce translations that use an
+SSML-based phoneme format. See [Using
+SSML](https://console.bluemix.net/docs/services/text-to-speech/SSML.html) and [Using IBM
+SPR](https://console.bluemix.net/docs/services/text-to-speech/SPRs.html).
+* **Word translations:** Many customization methods accept or return sounds-like or
+phonetic translations for words. A phonetic translation is based on the SSML format for
+representing the phonetic string of a word. Phonetic translations can use standard
+International Phonetic Alphabet (IPA) representation:
+  &lt;phoneme alphabet="ipa" ph="t&#601;m&#712;&#593;to"&gt;&lt;/phoneme&gt;
+  or the proprietary IBM Symbolic Phonetic Representation (SPR):
+  &lt;phoneme alphabet="ibm" ph="1gAstroEntxrYFXs"&gt;&lt;/phoneme&gt;
+  For more information about customization and about sounds-like and phonetic
+translations, see [Understanding
+customization](https://console.bluemix.net/docs/services/text-to-speech/custom-intro.html).
+* **WebSocket interface:** The service also offers a WebSocket interface as an alternative
+to its HTTP REST interface for speech synthesis. The WebSocket interface supports both
+plain text and SSML input, including the SSML &lt;mark&gt; element and word timings. See
+[The WebSocket
+interface](https://console.bluemix.net/docs/services/text-to-speech/websockets.html).
+* **GUIDs:** The pronunciation and customization methods accept or return a Globally
+Unique Identifier (GUID). For example, customization IDs (specified with the
+`customization_id` parameter) and service credentials are GUIDs. GUIDs are hexadecimal
+strings that have the format `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
+* **Custom voice model ownership:** In all cases, you must use service credentials created
+for the instance of the service that owns a custom voice model to use the methods
+described in this documentation with that model. For more information, see [Ownership of
+custom voice
+models](https://console.bluemix.net/docs/services/text-to-speech/custom-models.html#customOwner).
 """
 
 from __future__ import absolute_import
 
 import json
 from .watson_service import WatsonService
-from .utils import deprecated
 
 ##############################################################################
 # Service
@@ -39,13 +86,7 @@ class TextToSpeechV1(WatsonService):
 
     default_url = 'https://stream.watsonplatform.net/text-to-speech/api'
 
-    def __init__(self,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(self, url=default_url, username=None, password=None,
         """
         Construct a new client for the Text to Speech service.
 
@@ -65,17 +106,6 @@ class TextToSpeechV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -84,9 +114,6 @@ class TextToSpeechV1(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
             use_vcap_services=True)
 
     #########################
@@ -95,10 +122,14 @@ class TextToSpeechV1(WatsonService):
 
     def get_voice(self, voice, customization_id=None, **kwargs):
         """
-        Retrieves a specific voice available for speech synthesis.
+        Get a voice.
+
+        Gets information about the specified voice. The information includes the name,
+        language, gender, and other details about the voice. Specify a customization ID to
+        obtain information for that custom voice model of the specified voice.
 
         :param str voice: The voice for which information is to be returned.
-        :param str customization_id: The GUID of a custom voice model for which information is to be returned. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see information about the specified voice with no customization.
+        :param str customization_id: The customization ID (GUID) of a custom voice model for which information is to be returned. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see information about the specified voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Voice` response.
         :rtype: dict
@@ -120,8 +151,10 @@ class TextToSpeechV1(WatsonService):
 
     def list_voices(self, **kwargs):
         """
-        Retrieves a list of all voices available for use with the service. The information
-        includes the name, language, gender, and other details about the voice.
+        List voices.
+
+        Lists all voices available for use with the service. The information includes the
+        name, language, gender, and other details about the voice.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Voices` response.
@@ -135,10 +168,6 @@ class TextToSpeechV1(WatsonService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    @deprecated('Use list_voices() instead')
-    def voices(self):
-        return self.list_voices()
-
     #########################
     # Synthesis
     #########################
@@ -150,12 +179,30 @@ class TextToSpeechV1(WatsonService):
                    customization_id=None,
                    **kwargs):
         """
-        Streaming speech synthesis of the text in the body parameter. Synthesizes text to spoken audio, returning the synthesized audio stream as an array of bytes.
+        Synthesize audio.
+
+        Synthesizes text to spoken audio, returning the synthesized audio stream as an
+        array of bytes. You can pass a maximum of 5 KB of text.  Use the `Accept` header
+        or the `accept` query parameter to specify the requested format (MIME type) of the
+        response audio. By default, the service uses `audio/ogg;codecs=opus`. For detailed
+        information about the supported audio formats and sampling rates, see [Specifying
+        an audio
+        format](https://console.bluemix.net/docs/services/text-to-speech/http.html#format).
+          If a request includes invalid query parameters, the service returns a `Warnings`
+        response header that provides messages about the invalid parameters. The warning
+        includes a descriptive message and a list of invalid argument strings. For
+        example, a message such as `\"Unknown arguments:\"` or `\"Unknown url query
+        arguments:\"` followed by a list of the form `\"invalid_arg_1, invalid_arg_2.\"`
+        The request succeeds despite the warnings.  **Note about the Try It Out feature:**
+        The `Try it out!` button is **not** supported for use with the the `POST
+        /v1/synthesize` method. For examples of calls to the method, see the [Text to
+        Speech API
+        reference](http://www.ibm.com/watson/developercloud/text-to-speech/api/v1/).
 
         :param str text: The text to synthesize.
         :param str accept: The type of the response: audio/basic, audio/flac, audio/l16;rate=nnnn, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/mp3, audio/mpeg, audio/mulaw;rate=nnnn, audio/wav, audio/webm, audio/webm;codecs=opus, or audio/webm;codecs=vorbis.
         :param str voice: The voice to use for synthesis.
-        :param str customization_id: The GUID of a custom voice model to use for the synthesis. If a custom voice model is specified, it is guaranteed to work only if it matches the language of the indicated voice. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to use the specified voice with no customization.
+        :param str customization_id: The customization ID (GUID) of a custom voice model to use for the synthesis. If a custom voice model is specified, it is guaranteed to work only if it matches the language of the indicated voice. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to use the specified voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `Response <Response>` object representing the response.
         :rtype: requests.models.Response
@@ -165,10 +212,7 @@ class TextToSpeechV1(WatsonService):
         headers = {'Accept': accept}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        params = {
-            'voice': voice,
-            'customization_id': customization_id
-        }
+        params = {'voice': voice, 'customization_id': customization_id}
         data = {'text': text}
         url = '/v1/synthesize'
         response = self.request(
@@ -191,18 +235,18 @@ class TextToSpeechV1(WatsonService):
                           customization_id=None,
                           **kwargs):
         """
-        Gets the pronunciation for a word.
+        Get pronunciation.
 
-        Returns the phonetic pronunciation for the word specified by the `text` parameter.
-        You can request the pronunciation for a specific format. You can also request the
-        pronunciation for a specific voice to see the default translation for the language
-        of that voice or for a specific custom voice model to see the translation for that
-        voice model.   **Note:** This method is currently a beta release.
+        Gets the phonetic pronunciation for the specified word. You can request the
+        pronunciation for a specific format. You can also request the pronunciation for a
+        specific voice to see the default translation for the language of that voice or
+        for a specific custom voice model to see the translation for that voice model.
+        **Note:** This method is currently a beta release.
 
         :param str text: The word for which the pronunciation is requested.
         :param str voice: A voice that specifies the language in which the pronunciation is to be returned. All voices for the same language (for example, `en-US`) return the same translation.
         :param str format: The phoneme format in which to return the pronunciation. Omit the parameter to obtain the pronunciation in the default format.
-        :param str customization_id: The GUID of a custom voice model for which the pronunciation is to be returned. The language of a specified custom model must match the language of the specified voice. If the word is not defined in the specified custom model, the service returns the default translation for the custom model's language. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see the translation for the specified voice with no customization.
+        :param str customization_id: The customization ID (GUID) of a custom voice model for which the pronunciation is to be returned. The language of a specified custom model must match the language of the specified voice. If the word is not defined in the specified custom model, the service returns the default translation for the custom model's language. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see the translation for the specified voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Pronunciation` response.
         :rtype: dict
@@ -227,10 +271,6 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return response
 
-    @deprecated('Use get_pronunciation() instead')
-    def pronunciation(self, text, voice=None, pronunciation_format='ipa'):
-        return self.get_pronunciation(text, voice, pronunciation_format)
-
     #########################
     # Custom models
     #########################
@@ -241,9 +281,12 @@ class TextToSpeechV1(WatsonService):
                            description=None,
                            **kwargs):
         """
-        Creates a new empty custom voice model. The model is owned by the instance of the
-        service whose credentials are used to create it.   **Note:** This method is
-        currently a beta release.
+        Create a custom model.
+
+        Creates a new empty custom voice model. You must specify a name for the new custom
+        model; you can optionally specify the language and a description of the new model.
+        The model is owned by the instance of the service whose credentials are used to
+        create it.  **Note:** This method is currently a beta release.
 
         :param str name: The name of the new custom voice model.
         :param str language: The language of the new custom voice model. Omit the parameter to use the the default language, `en-US`.
@@ -267,17 +310,15 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return response
 
-    @deprecated('Use create_voice_model() instead.')
-    def create_customization(self, name, language=None, description=None):
-        return self.create_voice_model(name, language, description)
-
     def delete_voice_model(self, customization_id, **kwargs):
         """
-        Deletes the custom voice model with the specified `customization_id`. You must use
-        credentials for the instance of the service that owns a model to delete it.
-        **Note:** This method is currently a beta release.
+        Delete a custom model.
 
-        :param str customization_id: The GUID of the custom voice model.
+        Deletes the specified custom voice model. You must use credentials for the
+        instance of the service that owns a model to delete it.  **Note:** This method is
+        currently a beta release.
+
+        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -292,23 +333,17 @@ class TextToSpeechV1(WatsonService):
             method='DELETE', url=url, headers=headers, accept_json=True)
         return None
 
-    @deprecated('Use delete_voice_model() instead.')
-    def delete_customization(self, customization_id):
-        return self.delete_voice_model(customization_id)
-
     def get_voice_model(self, customization_id, **kwargs):
         """
-        Queries the contents of a custom voice model.
+        Get a custom model.
 
-        Lists all information about the custom voice model with the specified
-        `customization_id`. In addition to metadata such as the name and description of
-        the voice model, the output includes the words in the model and their translations
-        as defined in the model. To see just the metadata for a voice model, use the `GET
-        /v1/customizations` method. You must use credentials for the instance of the
-        service that owns a model to list information about it.   **Note:** This method is
+        Gets all information about a specified custom voice model. In addition to metadata
+        such as the name and description of the voice model, the output includes the words
+        and their translations as defined in the model. To see just the metadata for a
+        voice model, use the **List custom models** method.   **Note:** This method is
         currently a beta release.
 
-        :param str customization_id: The GUID of the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `VoiceModel` response.
         :rtype: dict
@@ -324,19 +359,16 @@ class TextToSpeechV1(WatsonService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    @deprecated('Use get_voice_model instead.')
-    def get_customization(self, customization_id):
-        return self.get_voice_model(customization_id)
-
     def list_voice_models(self, language=None, **kwargs):
         """
-        Lists metadata such as the name and description for the custom voice models that
-        you own. Use the `language` query parameter to list the voice models that you own
-        for the specified language only. Omit the parameter to see all voice models that
-        you own for all languages. To see the words in addition to the metadata for a
-        specific voice model, use the `GET /v1/customizations/{customization_id}` method.
-        You must use credentials for the instance of the service that owns a model to list
-        information about it.   **Note:** This method is currently a beta release.
+        List custom models.
+
+        Lists metadata such as the name and description for all custom voice models that
+        are owned by an instance of the service. Specify a language to list the voice
+        models for that language only. To see the words in addition to the metadata for a
+        specific voice model, use the **List a custom model** method. You must use
+        credentials for the instance of the service that owns a model to list information
+        about it.  **Note:** This method is currently a beta release.
 
         :param str language: The language for which custom voice models that are owned by the requesting service credentials are to be returned. Omit the parameter to see all custom voice models that are owned by the requester.
         :param dict headers: A `dict` containing the request headers
@@ -356,10 +388,6 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return response
 
-    @deprecated('Use list_voice_models() instead.')
-    def customizations(self, language=None):
-        return self.list_voice_models(language)
-
     def update_voice_model(self,
                            customization_id,
                            name=None,
@@ -367,18 +395,17 @@ class TextToSpeechV1(WatsonService):
                            words=None,
                            **kwargs):
         """
-        Updates information and words for a custom voice model.
+        Update a custom model.
 
-        Updates information for the custom voice model with the specified
-        `customization_id`. You can update the metadata such as the name and description
-        of the voice model. You can also update the words in the model and their
-        translations. Adding a new translation for a word that already exists in a custom
-        model overwrites the word's existing translation. A custom model can contain no
-        more than 20,000 entries. You must use credentials for the instance of the service
-        that owns a model to update it.   **Note:** This method is currently a beta
-        release.
+        Updates information for the specified custom voice model. You can update metadata
+        such as the name and description of the voice model. You can also update the words
+        in the model and their translations. Adding a new translation for a word that
+        already exists in a custom model overwrites the word's existing translation. A
+        custom model can contain no more than 20,000 entries. You must use credentials for
+        the instance of the service that owns a model to update it.  **Note:** This method
+        is currently a beta release.
 
-        :param str customization_id: The GUID of the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param str name: A new name for the custom voice model.
         :param str description: A new description for the custom voice model.
         :param list[Word] words: An array of `Word` objects that provides the words and their translations that are to be added or updated for the custom voice model. Pass an empty array to make no additions or updates.
@@ -403,14 +430,10 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return None
 
-    @deprecated('Use update_voice_model() instead')
-    def update_customization(self, customization_id, name=None,
-                             description=None, words=None):
-        return self.update_voice_model(customization_id, name, description, words)
-
     #########################
     # Custom words
     #########################
+
     def add_word(self,
                  customization_id,
                  word,
@@ -418,16 +441,14 @@ class TextToSpeechV1(WatsonService):
                  part_of_speech=None,
                  **kwargs):
         """
-        Adds a word to a custom voice model.
+        Add a custom word.
 
-        Adds a single word and its translation to the custom voice model with the
-        specified `customization_id`. Adding a new translation for a word that already
-        exists in a custom model overwrites the word's existing translation. A custom
-        model can contain no more than 20,000 entries. You must use credentials for the
-        instance of the service that owns a model to add a word to it.   **Note:** This
-        method is currently a beta release.
+        Adds a single word and its translation to the specified custom voice model. Adding
+        a new translation for a word that already exists in a custom model overwrites the
+        word's existing translation. A custom model can contain no more than 20,000
+        entries.  **Note:** This method is currently a beta release.
 
-        :param str customization_id: The GUID of the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param str word: The word that is to be added or updated for the custom voice model.
         :param str translation: The phonetic or sounds-like translation for the word. A phonetic translation is based on the SSML format for representing the phonetic string of a word either as an IPA translation or as an IBM SPR translation. A sounds-like is one or more words that, when combined, sound like the word.
         :param str part_of_speech: **Japanese only.** The part of speech for the word. The service uses the value to produce the correct intonation for the word. You can create only a single entry, with or without a single part of speech, for any word; you cannot create multiple entries with different parts of speech for the same word. For more information, see [Working with Japanese entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).
@@ -447,29 +468,19 @@ class TextToSpeechV1(WatsonService):
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
         self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            json=data,
-            accept_json=True)
+            method='PUT', url=url, headers=headers, json=data, accept_json=True)
         return None
-
-    @deprecated('Use add_word() instead.')
-    def set_customization_word(self, customization_id, word, translation):
-        return self.add_word(customization_id, word, translation)
 
     def add_words(self, customization_id, words, **kwargs):
         """
-        Adds one or more words to a custom voice model.
+        Add custom words.
 
-        Adds one or more words and their translations to the custom voice model with the
-        specified `customization_id`. Adding a new translation for a word that already
-        exists in a custom model overwrites the word's existing translation. A custom
-        model can contain no more than 20,000 entries. You must use credentials for the
-        instance of the service that owns a model to add words to it.   **Note:** This
-        method is currently a beta release.
+        Adds one or more words and their translations to the specified custom voice model.
+        Adding a new translation for a word that already exists in a custom model
+        overwrites the word's existing translation. A custom model can contain no more
+        than 20,000 entries.  **Note:** This method is currently a beta release.
 
-        :param str customization_id: The GUID of the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param list[Word] words: **When adding words to a custom voice model,** an array of `Word` objects that provides one or more words that are to be added or updated for the custom voice model and the translation for each specified word. **When listing words from a custom voice model,** an array of `Word` objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
@@ -493,19 +504,14 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return None
 
-    @deprecated('Use add_words() instead.')
-    def add_customization_words(self, customization_id, words):
-        return self.add_words(customization_id, words)
-
     def delete_word(self, customization_id, word, **kwargs):
         """
-        Deletes a word from a custom voice model.
+        Delete a custom word.
 
-        Deletes a single word from the custom voice model with the specified
-        `customization_id`. You must use credentials for the instance of the service that
-        owns a model to delete it.   **Note:** This method is currently a beta release.
+        Deletes a single word from the specified custom voice model.  **Note:** This
+        method is currently a beta release.
 
-        :param str customization_id: The GUID of the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param str word: The word that is to be deleted from the custom voice model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
@@ -523,21 +529,15 @@ class TextToSpeechV1(WatsonService):
             method='DELETE', url=url, headers=headers, accept_json=True)
         return None
 
-    @deprecated('Use delete_word() instead.')
-    def delete_customization_word(self, customization_id, word):
-        return self.delete_word(customization_id, word)
-
     def get_word(self, customization_id, word, **kwargs):
         """
-        Queries details about a word in a custom voice model.
+        Get a custom word.
 
-        Returns the translation for a single word from the custom model with the specified
-        `customization_id`. The output shows the translation as it is defined in the
-        model. You must use credentials for the instance of the service that owns a model
-        to query information about its words.   **Note:** This method is currently a beta
-        release.
+        Gets the translation for a single word from the specified custom model. The output
+        shows the translation as it is defined in the model.  **Note:** This method is
+        currently a beta release.
 
-        :param str customization_id: The GUID of the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param str word: The word that is to be queried from the custom voice model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Translation` response.
@@ -556,21 +556,15 @@ class TextToSpeechV1(WatsonService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    @deprecated('Use get_word() instead.')
-    def get_customization_word(self, customization_id, word):
-        return self.get_word(customization_id, word)
-
     def list_words(self, customization_id, **kwargs):
         """
-        Queries details about the words in a custom voice model.
+        List custom words.
 
-        Lists all of the words and their translations for the custom voice model with the
-        specified `customization_id`. The output shows the translations as they are
-        defined in the model. You must use credentials for the instance of the service
-        that owns a model to query information about its words.   **Note:** This method is
-        currently a beta release.
+        Lists all of the words and their translations for the specified custom voice
+        model. The output shows the translations as they are defined in the model.
+        **Note:** This method is currently a beta release.
 
-        :param str customization_id: The GUID of the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Words` response.
         :rtype: dict
@@ -585,10 +579,6 @@ class TextToSpeechV1(WatsonService):
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
         return response
-
-    @deprecated('Use list_words() instead.')
-    def get_customization_words(self, customization_id):
-        return self.list_words(customization_id)
 
 
 ##############################################################################
@@ -684,9 +674,11 @@ class SupportedFeatures(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'custom_pronunciation') and self.custom_pronunciation is not None:
+        if hasattr(self, 'custom_pronunciation'
+                  ) and self.custom_pronunciation is not None:
             _dict['custom_pronunciation'] = self.custom_pronunciation
-        if hasattr(self, 'voice_transformation') and self.voice_transformation is not None:
+        if hasattr(self, 'voice_transformation'
+                  ) and self.voice_transformation is not None:
             _dict['voice_transformation'] = self.voice_transformation
         return _dict
 
@@ -956,7 +948,7 @@ class VoiceModel(object):
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in _dict.get('words')]
+            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
         return cls(**args)
 
     def _to_dict(self):
@@ -1184,7 +1176,7 @@ class Words(object):
         """Initialize a Words object from a json dictionary."""
         args = {}
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in _dict.get('words')]
+            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
         else:
             raise ValueError(
                 'Required property \'words\' not present in Words JSON')
