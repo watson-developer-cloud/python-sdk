@@ -37,7 +37,14 @@ class DiscoveryV1(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/discovery/api'
 
-    def __init__(self, version, url=default_url, username=None, password=None,
+    def __init__(self,
+                 version,
+                 url=default_url,
+                 username=None,
+                 password=None,
+                 iam_api_key=None,
+                 iam_access_token=None,
+                 iam_url=None):
         """
         Construct a new client for the Discovery service.
 
@@ -68,6 +75,17 @@ class DiscoveryV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
+        :param str iam_api_key: An API key that can be used to request IAM tokens. If
+               this API key is provided, the SDK will manage the token and handle the
+               refreshing.
+
+        :param str iam_access_token:  An IAM access token is fully managed by the application.
+               Responsibility falls on the application to refresh the token, either before
+               it expires or reactively upon receiving a 401 from the service as any requests
+               made with an expired token will fail.
+
+        :param str iam_url: An optional URL for the IAM service API. Defaults to
+               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -76,6 +94,9 @@ class DiscoveryV1(WatsonService):
             url=url,
             username=username,
             password=password,
+            iam_api_key=iam_api_key,
+            iam_access_token=iam_access_token,
+            iam_url=iam_url,
             use_vcap_services=True)
         self.version = version
 
@@ -1552,8 +1573,6 @@ class DiscoveryV1(WatsonService):
                           examples=None,
                           **kwargs):
         """
-        Add query to training data.
-
         Adds a query to the training data for this collection. The query can contain a
         filter and natural language query.
 
@@ -1603,8 +1622,6 @@ class DiscoveryV1(WatsonService):
                                 relevance=None,
                                 **kwargs):
         """
-        Add example to training data query.
-
         Adds a example to this training data query.
 
         :param str environment_id: The ID of the environment.
@@ -1645,8 +1662,6 @@ class DiscoveryV1(WatsonService):
 
     def delete_all_training_data(self, environment_id, collection_id, **kwargs):
         """
-        Delete all training data.
-
         Deletes all training data from a collection.
 
         :param str environment_id: The ID of the environment.
@@ -1675,8 +1690,6 @@ class DiscoveryV1(WatsonService):
     def delete_training_data(self, environment_id, collection_id, query_id,
                              **kwargs):
         """
-        Delete a training data query.
-
         Removes the training data query and all associated examples from the training data
         set.
 
@@ -1709,8 +1722,6 @@ class DiscoveryV1(WatsonService):
     def delete_training_example(self, environment_id, collection_id, query_id,
                                 example_id, **kwargs):
         """
-        Delete example for training data query.
-
         Deletes the example document with the given ID from the training data query.
 
         :param str environment_id: The ID of the environment.
@@ -1746,8 +1757,6 @@ class DiscoveryV1(WatsonService):
     def get_training_data(self, environment_id, collection_id, query_id,
                           **kwargs):
         """
-        Get details about a query.
-
         Gets details for a specific training data query, including the query string and
         all examples.
 
@@ -1781,8 +1790,6 @@ class DiscoveryV1(WatsonService):
     def get_training_example(self, environment_id, collection_id, query_id,
                              example_id, **kwargs):
         """
-        Get details for training data example.
-
         Gets the details for this training example.
 
         :param str environment_id: The ID of the environment.
@@ -1818,8 +1825,6 @@ class DiscoveryV1(WatsonService):
 
     def list_training_data(self, environment_id, collection_id, **kwargs):
         """
-        List training data.
-
         Lists the training data for the specified collection.
 
         :param str environment_id: The ID of the environment.
@@ -1849,8 +1854,6 @@ class DiscoveryV1(WatsonService):
     def list_training_examples(self, environment_id, collection_id, query_id,
                                **kwargs):
         """
-        List examples for a training data query.
-
         List all examples for this training data query.
 
         :param str environment_id: The ID of the environment.
@@ -1889,9 +1892,7 @@ class DiscoveryV1(WatsonService):
                                 relevance=None,
                                 **kwargs):
         """
-        Change label or cross reference for example.
-
-        Changes the label or cross reference query for this training data example.
+        Changes the label or cross reference query for this training example.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
