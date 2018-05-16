@@ -6,7 +6,6 @@ from os.path import join, dirname
 from unittest import TestCase
 import json
 
-
 @pytest.mark.skipif(
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class IntegrationTestVisualRecognitionV3(TestCase):
@@ -23,25 +22,16 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             'X-Watson-Test':
             '1'
         })
-        cls.classifier_id = 'doxnotxdeletexdogxvsxcat_1697519201'
-
-    @classmethod
-    def teardown_class(cls):
-        classifiers = cls.visual_recognition.list_classifiers()['classifiers']
-
-        if classifiers:
-            for classifier in classifiers:
-                if 'CarsVsTrucks' in classifier['name']:
-                    cls.visual_recognition.delete_classifier(classifier['classifier_id'])
+        cls.classifier_id = 'doxnotxdeletexintegrationxtest_397877192'
 
     def test_classify(self):
-        car_path = join(dirname(__file__), '../../resources/dog.jpg')
-        with open(car_path, 'rb') as images_file:
-            car_results = self.visual_recognition.classify(
-                images_file=images_file,
+        dog_path = join(dirname(__file__), '../../resources/dog.jpg')
+        with open(dog_path, 'rb') as image_file:
+            dog_results = self.visual_recognition.classify(
+                images_file=image_file,
                 threshold='0.1',
                 classifier_ids=['default'])
-        assert car_results is not None
+        assert dog_results is not None
 
     def test_detect_faces(self):
         output = self.visual_recognition.detect_faces(
@@ -51,6 +41,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             }))
         assert output is not None
 
+    @pytest.mark.skip(reason="Time consuming")
     def test_custom_classifier(self):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
             open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
