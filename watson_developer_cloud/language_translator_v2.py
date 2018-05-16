@@ -36,13 +36,7 @@ class LanguageTranslatorV2(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/language-translator/api'
 
-    def __init__(self,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(self, url=default_url, username=None, password=None,
         """
         Construct a new client for the Language Translator service.
 
@@ -62,17 +56,6 @@ class LanguageTranslatorV2(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -81,22 +64,17 @@ class LanguageTranslatorV2(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
             use_vcap_services=True)
 
     #########################
     # Translation
     #########################
 
-    def translate(self,
-                  text,
-                  model_id=None,
-                  source=None,
-                  target=None,
+    def translate(self, text, model_id=None, source=None, target=None,
                   **kwargs):
         """
+        Translate.
+
         Translates the input text from the source language to the target language.
 
         :param list[str] text: Input text in UTF-8 encoding. Multiple entries will result in multiple translations in the response.
@@ -133,6 +111,8 @@ class LanguageTranslatorV2(WatsonService):
 
     def identify(self, text, **kwargs):
         """
+        Identify language.
+
         Identifies the language of the input text.
 
         :param str text: Input text in UTF-8 format.
@@ -142,10 +122,11 @@ class LanguageTranslatorV2(WatsonService):
         """
         if text is None:
             raise ValueError('text must be provided')
-        data = text
-        headers = {'content-type': 'text/plain'}
+        headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        data = text
+        headers = {'content-type': 'text/plain'}
         url = '/v2/identify'
         response = self.request(
             method='POST',
@@ -157,6 +138,8 @@ class LanguageTranslatorV2(WatsonService):
 
     def list_identifiable_languages(self, **kwargs):
         """
+        List identifiable languages.
+
         Lists the languages that the service can identify. Returns the language code (for
         example, `en` for English or `es` for Spanish) and name of each language.
 
@@ -187,6 +170,8 @@ class LanguageTranslatorV2(WatsonService):
                      monolingual_corpus_filename=None,
                      **kwargs):
         """
+        Create model.
+
         Uploads a TMX glossary file on top of a domain to customize a translation model.
         Depending on the size of the file, training can range from minutes for a glossary
         to several hours for a large parallel corpus. Glossary files must be less than 10
@@ -213,16 +198,16 @@ class LanguageTranslatorV2(WatsonService):
         params = {'base_model_id': base_model_id, 'name': name}
         forced_glossary_tuple = None
         if forced_glossary:
-            if not forced_glossary_filename and hasattr(
-                    forced_glossary, 'name'):
+            if not forced_glossary_filename and hasattr(forced_glossary,
+                                                        'name'):
                 forced_glossary_filename = forced_glossary.name
             mime_type = 'application/octet-stream'
             forced_glossary_tuple = (forced_glossary_filename, forced_glossary,
                                      mime_type)
         parallel_corpus_tuple = None
         if parallel_corpus:
-            if not parallel_corpus_filename and hasattr(
-                    parallel_corpus, 'name'):
+            if not parallel_corpus_filename and hasattr(parallel_corpus,
+                                                        'name'):
                 parallel_corpus_filename = parallel_corpus.name
             mime_type = 'application/octet-stream'
             parallel_corpus_tuple = (parallel_corpus_filename, parallel_corpus,
@@ -239,6 +224,7 @@ class LanguageTranslatorV2(WatsonService):
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             params=params,
             files={
                 'forced_glossary': forced_glossary_tuple,
@@ -250,6 +236,8 @@ class LanguageTranslatorV2(WatsonService):
 
     def delete_model(self, model_id, **kwargs):
         """
+        Delete model.
+
         Deletes a custom translation model.
 
         :param str model_id: Model ID of the model to delete.
@@ -269,6 +257,8 @@ class LanguageTranslatorV2(WatsonService):
 
     def get_model(self, model_id, **kwargs):
         """
+        Get model details.
+
         Gets information about a translation model, including training status for custom
         models.
 
@@ -293,6 +283,8 @@ class LanguageTranslatorV2(WatsonService):
                     default_models=None,
                     **kwargs):
         """
+        List models.
+
         Lists available translation models.
 
         :param str source: Specify a language code to filter results by source language.
@@ -305,11 +297,7 @@ class LanguageTranslatorV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        params = {
-            'source': source,
-            'target': target,
-            'default': default_models
-        }
+        params = {'source': source, 'target': target, 'default': default_models}
         url = '/v2/models'
         response = self.request(
             method='GET',
