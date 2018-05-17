@@ -1480,3 +1480,19 @@ def test_dialog_nodes():
     assert responses.calls[3].response.json() == {"application/json": {"dialog_node": "location-atm"}}
 
     assert len(responses.calls) == 4
+
+@responses.activate
+def test_delete_user_data():
+    url = 'https://gateway.watsonplatform.net/assistant/api/v1/user_data'
+    responses.add(
+        responses.DELETE,
+        url,
+        body='{"description": "success" }',
+        status=200,
+        content_type='application_json')
+
+    assistant = watson_developer_cloud.AssistantV1('2017-05-26', username="username", password="password")
+
+    response = assistant.delete_user_data('id')
+    assert response is None
+    assert len(responses.calls) == 1
