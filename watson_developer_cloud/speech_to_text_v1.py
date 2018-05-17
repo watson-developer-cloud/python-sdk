@@ -1349,7 +1349,7 @@ class SpeechToTextV1(WatsonService):
             accept_json=True)
         return response
 
-    @deprecated('Use list_custom_words() instead.')
+    @deprecated('Use list_words() instead.')
     def list_custom_words(self, customization_id, word_type=None, sort=None):
         return self.list_words(customization_id, word_type, sort)
 
