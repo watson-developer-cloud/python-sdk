@@ -35,7 +35,13 @@ class VisualRecognitionV3(WatsonService):
 
     default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
 
-    def __init__(self, version, url=default_url, api_key=None):
+    def __init__(self,
+                 version,
+                 url=default_url,
+                 api_key=None,
+                 iam_api_key=None,
+                 iam_access_token=None,
+                 iam_url=None):
         """
         Construct a new client for the Visual Recognition service.
 
@@ -56,6 +62,17 @@ class VisualRecognitionV3(WatsonService):
 
         :param str api_key: The API Key used to authenticate.
 
+        :param str iam_api_key: An API key that can be used to request IAM tokens. If
+               this API key is provided, the SDK will manage the token and handle the
+               refreshing.
+
+        :param str iam_access_token:  An IAM access token is fully managed by the application.
+               Responsibility falls on the application to refresh the token, either before
+               it expires or reactively upon receiving a 401 from the service as any requests
+               made with an expired token will fail.
+
+        :param str iam_url: An optional URL for the IAM service API. Defaults to
+               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -63,6 +80,9 @@ class VisualRecognitionV3(WatsonService):
             vcap_services_name='watson_vision_combined',
             url=url,
             api_key=api_key,
+            iam_api_key=iam_api_key,
+            iam_access_token=iam_access_token,
+            iam_url=iam_url,
             use_vcap_services=True)
         self.version = version
 
@@ -72,27 +92,29 @@ class VisualRecognitionV3(WatsonService):
 
     def classify(self,
                  images_file=None,
+                 parameters=None,
                  accept_language=None,
+                 images_file_content_type=None,
+                 images_filename=None,
                  url=None,
                  threshold=None,
                  owners=None,
                  classifier_ids=None,
-                 images_file_content_type=None,
-                 images_filename=None,
                  **kwargs):
         """
         Classify images.
 
         Classify images with built-in or custom classifiers.
 
-        :param file images_file: An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters.  You can also include an image with the **url** parameter.
-        :param str accept_language: The language of the output class names. The full set of languages is supported only for the built-in `default` classifier ID. The class names of custom classifiers are not translated.  The response might not be in the specified language when the requested language is not supported or when there is no translation for the class name.
-        :param str url: The URL of an image to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB.  You can also include images with the **images_file** parameter.
-        :param float threshold: The minimum score a class must have to be displayed in the response. Set the threshold to `0.0` to ignore the classification score and return all values.
-        :param list[str] owners: The categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`.   The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty.
-        :param list[str] classifier_ids: Which classifiers to apply. Overrides the **owners** parameter. You can specify both custom and built-in classifier IDs. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.
+        :param file images_file: An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters. You can also include images with the `url` property in the **parameters** object.
+        :param str parameters: (Deprecated) A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - **url**: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter. - **threshold**: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values. - **owners**: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.      The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `{\"classifier_ids\":[\"CarsvsTrucks_1479118188\",\"explicit\"],\"threshold\":0.6}`.
+        :param str accept_language: Specifies the language of the output class names.  Can be `en` (English), `ar` (Arabic), `de` (German), `es` (Spanish), `it` (Italian), `ja` (Japanese), or `ko` (Korean).  Classes for which no translation is available are omitted.  The response might not be in the specified language under these conditions: - English is returned when the requested language is not supported. - Classes are not returned when there is no translation for them. - Custom classifiers returned with this method return tags in the language of the custom classifier.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
+        :param str url: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter.
+        :param float threshold: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values.
+        :param list[str] owners: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`.   The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty.
+        :param list[str] classifier_ids: The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `\"classifier_ids=\"CarsvsTrucks_1479118188\",\"explicit\"`.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ClassifiedImages` response.
         :rtype: dict
@@ -107,6 +129,11 @@ class VisualRecognitionV3(WatsonService):
                 images_filename = images_file.name
             mime_type = images_file_content_type or 'application/octet-stream'
             images_file_tuple = (images_filename, images_file, mime_type)
+
+        parameters_tuple = None
+        if parameters is not None:
+            parameters_tuple = (None, parameters, 'text/plain')
+
         url_tuple = None
         if url:
             url_tuple = (None, url, 'text/plain')
@@ -115,9 +142,13 @@ class VisualRecognitionV3(WatsonService):
             threshold_tuple = (None, threshold, 'application/json')
         owners_tuple = None
         if owners:
+            if isinstance(owners, (list,)):
+                owners = ','.join(owners)
             owners_tuple = (None, owners, 'application/json')
         classifier_ids_tuple = None
         if classifier_ids:
+            if isinstance(classifier_ids, (list,)):
+                classifier_ids = ','.join(classifier_ids)
             classifier_ids_tuple = (None, classifier_ids, 'application/json')
         url = '/v3/classify'
         response = self.request(
@@ -126,6 +157,7 @@ class VisualRecognitionV3(WatsonService):
             headers=headers,
             params=params,
             files={
+                'parameters': parameters_tuple,
                 'images_file': images_file_tuple,
                 'url': url_tuple,
                 'threshold': threshold_tuple,
@@ -141,28 +173,24 @@ class VisualRecognitionV3(WatsonService):
 
     def detect_faces(self,
                      images_file=None,
-                     url=None,
+                     parameters=None,
                      images_file_content_type=None,
                      images_filename=None,
+                     url=None,
                      **kwargs):
         """
         Detect faces in images.
 
-        **Important:** On April 2, 2018, the identity information in the response to calls
-        to the Face model was removed. The identity information refers to the `name` of
-        the person, `score`, and `type_hierarchy` knowledge graph. For details about the
-        enhanced Face model, see the [Release
-        notes](https://console.bluemix.net/docs/services/visual-recognition/release-notes.html#2april2018).
-         Analyze and get data about faces in images. Responses can include estimated age
-        and gender. This feature uses a built-in model, so no training is necessary. The
-        Detect faces method does not support general biometric facial recognition.
-        Supported image formats include .gif, .jpg, .png, and .tif. The maximum image size
-        is 10 MB. The minimum recommended pixel density is 32X32 pixels per inch.
+        Analyze and get data about faces in images. Responses can include estimated age
+        and gender, and the service can identify celebrities. This feature uses a built-in
+        classifier, so you do not train it on custom classifiers. The Detect faces method
+        does not support general biometric facial recognition.
 
-        :param file images_file: An image file (gif, .jpg, .png, .tif.) or .zip file with images. Limit the .zip file to 100 MB. You can include a maximum of 15 images in a request.  Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters.  You can also include an image with the **url** parameter.
-        :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the **images_file** parameter.
+        :param file images_file: An image file (.jpg, .png) or .zip file with images. Include no more than 15 images. You can also include images with the `url` property in the **parameters** object.  All faces are detected, but if there are more than 10 faces in an image, age and gender confidence scores might return scores of 0.
+        :param str parameters: (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: `{\"url\":\"http://www.example.com/images/myimage.jpg\"}`.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
+        :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the **images_file** parameter.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DetectedFaces` response.
         :rtype: dict
@@ -177,6 +205,9 @@ class VisualRecognitionV3(WatsonService):
                 images_filename = images_file.name
             mime_type = images_file_content_type or 'application/octet-stream'
             images_file_tuple = (images_filename, images_file, mime_type)
+        parameters_tuple = None
+        if parameters is not None:
+            parameters_tuple = (None, parameters, 'text/plain')
         url_tuple = None
         if url:
             url_tuple = (None, url, 'text/plain')
@@ -187,6 +218,7 @@ class VisualRecognitionV3(WatsonService):
             headers=headers,
             params=params,
             files={'images_file': images_file_tuple,
+                   'parameters': parameters_tuple,
                    'url': url_tuple},
             accept_json=True)
         return response
@@ -197,68 +229,31 @@ class VisualRecognitionV3(WatsonService):
 
     def create_classifier(self,
                           name,
-                          classname_positive_examples,
-                          negative_examples=None,
-                          classname_positive_examples_filename=None,
-                          negative_examples_filename=None,
                           **kwargs):
         """
         Create a classifier.
-
-        Train a new multi-faceted classifier on the uploaded image data. Create your
-        custom classifier with positive or negative examples. Include at least two sets of
-        examples, either two positive example files or one positive and one negative file.
-        You can upload a maximum of 256 MB per call.  Encode all names in UTF-8 if they
-        contain non-ASCII characters (.zip and image file names, and classifier and class
-        names). The service assumes UTF-8 encoding if it encounters non-ASCII characters.
-
         :param str name: The name of the new classifier. Encode special characters in UTF-8.
-        :param file classname_positive_examples: A .zip file of images that depict the visual subject of a class in the new classifier. You can include more than one positive example file in a call.  Specify the parameter name by appending `_positive_examples` to the class name. For example, `goldenretriever_positive_examples` creates the class **goldenretriever**.  Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file.  Encode special characters in the file name in UTF-8.
-        :param file negative_examples: A .zip file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.  Encode special characters in the file name in UTF-8.
-        :param str classname_positive_examples_filename: The filename for classname_positive_examples.
-        :param str negative_examples_filename: The filename for negative_examples.
+        :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
+        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
         """
         if name is None:
             raise ValueError('name must be provided')
-        if classname_positive_examples is None:
-            raise ValueError('classname_positive_examples must be provided')
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        name_tuple = (None, name, 'text/plain')
-        if not classname_positive_examples_filename and hasattr(
-                classname_positive_examples, 'name'):
-            classname_positive_examples_filename = classname_positive_examples.name
-        mime_type = 'application/octet-stream'
-        classname_positive_examples_tuple = (
-            classname_positive_examples_filename, classname_positive_examples,
-            mime_type)
-        negative_examples_tuple = None
-        if negative_examples:
-            if not negative_examples_filename and hasattr(
-                    negative_examples, 'name'):
-                negative_examples_filename = negative_examples.name
-            if not negative_examples_filename:
-                raise ValueError('negative_examples_filename must be provided')
-            mime_type = 'application/octet-stream'
-            negative_examples_tuple = (negative_examples_filename,
-                                       negative_examples, mime_type)
+        data = {'name': name}
         url = '/v3/classifiers'
         response = self.request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
-            files={
-                'name': name_tuple,
-                'classname_positive_examples':
-                classname_positive_examples_tuple,
-                'negative_examples': negative_examples_tuple
-            },
+            data=data,
+            files=kwargs,
             accept_json=True)
         return response
 
@@ -337,30 +332,12 @@ class VisualRecognitionV3(WatsonService):
 
     def update_classifier(self,
                           classifier_id,
-                          classname_positive_examples=None,
-                          negative_examples=None,
-                          classname_positive_examples_filename=None,
-                          negative_examples_filename=None,
                           **kwargs):
         """
         Update a classifier.
-
-        Update a custom classifier by adding new positive or negative classes (examples)
-        or by adding new images to existing classes. You must supply at least one set of
-        positive or negative examples. For details, see [Updating custom
-        classifiers](https://console.bluemix.net/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
-         Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
-        file names, and classifier and class names). The service assumes UTF-8 encoding if
-        it encounters non-ASCII characters.  **Tip:** Don't make retraining calls on a
-        classifier until the status is ready. When you submit retraining requests in
-        parallel, the last request overwrites the previous requests. The retrained
-        property shows the last time the classifier retraining finished.
-
         :param str classifier_id: The ID of the classifier.
-        :param file classname_positive_examples: A .zip file of images that depict the visual subject of a class in the classifier. The positive examples create or update classes in the classifier. You can include more than one positive example file in a call.  Specify the parameter name by appending `_positive_examples` to the class name. For example, `goldenretriever_positive_examples` creates the class `goldenretriever`.  Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file.  Encode special characters in the file name in UTF-8.
-        :param file negative_examples: A .zip file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.  Encode special characters in the file name in UTF-8.
-        :param str classname_positive_examples_filename: The filename for classname_positive_examples.
-        :param str negative_examples_filename: The filename for negative_examples.
+        :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
+        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
@@ -371,25 +348,6 @@ class VisualRecognitionV3(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        classname_positive_examples_tuple = None
-        if classname_positive_examples:
-            if not classname_positive_examples_filename and hasattr(
-                    classname_positive_examples, 'name'):
-                classname_positive_examples_filename = classname_positive_examples.name
-            mime_type = 'application/octet-stream'
-            classname_positive_examples_tuple = (
-                classname_positive_examples_filename,
-                classname_positive_examples, mime_type)
-        negative_examples_tuple = None
-        if negative_examples:
-            if not negative_examples_filename and hasattr(
-                    negative_examples, 'name'):
-                negative_examples_filename = negative_examples.name
-            if not negative_examples_filename:
-                raise ValueError('negative_examples_filename must be provided')
-            mime_type = 'application/octet-stream'
-            negative_examples_tuple = (negative_examples_filename,
-                                       negative_examples, mime_type)
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -397,11 +355,7 @@ class VisualRecognitionV3(WatsonService):
             url=url,
             headers=headers,
             params=params,
-            files={
-                'classname_positive_examples':
-                classname_positive_examples_tuple,
-                'negative_examples': negative_examples_tuple
-            },
+            files=kwargs,
             accept_json=True)
         return response
 
