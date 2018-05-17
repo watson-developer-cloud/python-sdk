@@ -54,16 +54,17 @@ class Discoveryv1(TestCase):
         assert deleted_config['status'] == 'deleted'
 
     def test_collections_and_expansions(self):
+        name = 'Example collection for python' + random.choice('ABCDEFGHIJKLMNOPQ')
         new_collection_id = self.discovery.create_collection(
             self.environment_id,
-            name='Example collection for python' +
-            random.choice('ABCDEFGHIJKLMNOPQ'),
+            name,
             description="Integration test for python sdk")['collection_id']
         assert new_collection_id is not None
+
         self.discovery.get_collection(self.environment_id, new_collection_id)
         updated_collection = self.discovery.update_collection(
-            self.environment_id, new_collection_id, name='lala')
-        assert updated_collection['name'] == 'lala'
+            self.environment_id, new_collection_id, name, description='Updating description')
+        assert updated_collection['description'] == 'Updating description'
 
         self.discovery.create_expansions(self.environment_id,
                                          new_collection_id, [{
