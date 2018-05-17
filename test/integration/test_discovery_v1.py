@@ -40,15 +40,19 @@ class Discoveryv1(TestCase):
     def test_configurations(self):
         configs = self.discovery.list_configurations(self.environment_id)
         assert configs is not None
+
+        name = 'test' + random.choice('ABCDEFGHIJKLMNOPQ')
         new_configuration_id = self.discovery.create_configuration(
-            self.environment_id, 'test',
+            self.environment_id, name,
             'creating new config for python sdk')['configuration_id']
         assert new_configuration_id is not None
         self.discovery.get_configuration(self.environment_id,
                                          new_configuration_id)
+
         updated_config = self.discovery.update_configuration(
             self.environment_id, new_configuration_id, 'lala')
         assert updated_config['name'] == 'lala'
+
         deleted_config = self.discovery.delete_configuration(
             self.environment_id, new_configuration_id)
         assert deleted_config['status'] == 'deleted'
