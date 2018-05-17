@@ -48,7 +48,14 @@ class PersonalityInsightsV3(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
 
-    def __init__(self, version, url=default_url, username=None, password=None,
+    def __init__(self,
+                 version,
+                 url=default_url,
+                 username=None,
+                 password=None,
+                 iam_api_key=None,
+                 iam_access_token=None,
+                 iam_url=None):
         """
         Construct a new client for the Personality Insights service.
 
@@ -79,6 +86,17 @@ class PersonalityInsightsV3(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
+        :param str iam_api_key: An API key that can be used to request IAM tokens. If
+               this API key is provided, the SDK will manage the token and handle the
+               refreshing.
+
+        :param str iam_access_token:  An IAM access token is fully managed by the application.
+               Responsibility falls on the application to refresh the token, either before
+               it expires or reactively upon receiving a 401 from the service as any requests
+               made with an expired token will fail.
+
+        :param str iam_url: An optional URL for the IAM service API. Defaults to
+               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -87,6 +105,9 @@ class PersonalityInsightsV3(WatsonService):
             url=url,
             username=username,
             password=password,
+            iam_api_key=iam_api_key,
+            iam_access_token=iam_access_token,
+            iam_url=iam_url,
             use_vcap_services=True)
         self.version = version
 
@@ -96,48 +117,36 @@ class PersonalityInsightsV3(WatsonService):
 
     def profile(self,
                 content,
-                content_type,
+                content_type='application/json',
                 content_language=None,
+                accept='application/json',
                 accept_language=None,
                 raw_scores=None,
                 csv_headers=None,
                 consumption_preferences=None,
                 **kwargs):
         """
-        Get profile.
+        Generates a personality profile based on input text.
 
-        Generates a personality profile for the author of the input text. The service
-        accepts a maximum of 20 MB of input content, but it requires much less text to
-        produce an accurate profile; for more information, see [Providing sufficient
+        Derives personality insights for up to 20 MB of input content written by an
+        author, though the service requires much less text to produce an accurate profile;
+        for more information, see [Providing sufficient
         input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient).
-        The service analyzes text in Arabic, English, Japanese, Korean, or Spanish and
-        returns its results in a variety of languages. You can provide plain text, HTML,
-        or JSON input by specifying the **Content-Type** parameter; the default is
-        `text/plain`. Request a JSON or comma-separated values (CSV) response by
-        specifying the **Accept** parameter; CSV output includes a fixed number of columns
-        and optional headers.   Per the JSON specification, the default character encoding
-        for JSON content is effectively always UTF-8; per the HTTP specification, the
-        default encoding for plain text and HTML is ISO-8859-1 (effectively, the ASCII
-        character set). When specifying a content type of plain text or HTML, include the
-        `charset` parameter to indicate the character encoding of the input text; for
-        example: `Content-Type: text/plain;charset=utf-8`.   For detailed information
-        about calling the service and the responses it can generate, see [Requesting a
-        profile](https://console.bluemix.net/docs/services/personality-insights/input.html),
-        [Understanding a JSON
-        profile](https://console.bluemix.net/docs/services/personality-insights/output.html),
-        and [Understanding a CSV
-        profile](https://console.bluemix.net/docs/services/personality-insights/output-csv.html).
+        Accepts input in Arabic, English, Japanese, Korean, or Spanish and produces output
+        in one of eleven languages. Provide plain text, HTML, or JSON content, and receive
+        results in JSON or CSV format.
 
-        :param Content content: A maximum of 20 MB of content to analyze, though the service requires much less text; for more information, see [Providing sufficient input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient). For JSON input, provide an object of type `Content`.
+        :param Content content: A maximum of 20 MB of content to analyze, though the service requires much less text; for more information, see [Providing sufficient input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient). For JSON input, provide an object of type `Content`
         :param str content_type: The type of the input: application/json, text/html, or text/plain. A character encoding can be specified by including a `charset` parameter. For example, 'text/html;charset=utf-8'.
-        :param str content_language: The language of the input text for the request: Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`.   The effect of the **Content-Language** parameter depends on the **Content-Type** parameter. When **Content-Type** is `text/plain` or `text/html`, **Content-Language** is the only way to specify the language. When **Content-Type** is `application/json`, **Content-Language** overrides a language specified with the `language` parameter of a `ContentItem` object, and content items that specify a different language are ignored; omit this parameter to base the language on the specification of the content items. You can specify any combination of languages for **Content-Language** and **Accept-Language**.
+        :param str content_language: The language of the input text for the request: Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The effect of the `content_language` header depends on the `Content-Type` header. When `Content-Type` is `text/plain` or `text/html`, `content_language` is the only way to specify the language. When `Content-Type` is `application/json`, `content_language` overrides a language specified with the `language` parameter of a `ContentItem` object, and content items that specify a different language are ignored; omit this header to base the language on the specification of the content items. You can specify any combination of languages for `content_language` and `Accept-Language`.
+        :param accept: Type of the response: 'application/json' (default) or 'text/csv'
         :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for the input and response content.
         :param bool raw_scores: Indicates whether a raw score in addition to a normalized percentile is returned for each characteristic; raw scores are not compared with a sample population. By default, only normalized percentiles are returned.
         :param bool csv_headers: Indicates whether column labels are returned with a CSV response. By default, no column labels are returned. Applies only when the **Accept** parameter is set to `text/csv`.
         :param bool consumption_preferences: Indicates whether consumption preferences are returned with the results. By default, no consumption preferences are returned.
         :param dict headers: A `dict` containing the request headers
-        :return: A `Response <Response>` object representing the response.
-        :rtype: requests.models.Response
+        :return: A `dict` containing the `Profile` response.
+        :rtype: dict
         """
         if content is None:
             raise ValueError('content must be provided')
@@ -146,7 +155,8 @@ class PersonalityInsightsV3(WatsonService):
         headers = {
             'Content-Type': content_type,
             'Content-Language': content_language,
-            'Accept-Language': accept_language
+            'Accept-Language': accept_language,
+            'Accept': accept
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -167,7 +177,7 @@ class PersonalityInsightsV3(WatsonService):
             headers=headers,
             params=params,
             data=data,
-            accept_json=False)
+            accept_json=(accept is None or accept == 'application/json'))
         return response
 
     def profile_as_csv(self,
@@ -299,7 +309,8 @@ class Behavior(object):
             args['percentage'] = _dict.get('percentage')
         else:
             raise ValueError(
-                'Required property \'percentage\' not present in Behavior JSON')
+                'Required property \'percentage\' not present in Behavior JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -380,7 +391,7 @@ class ConsumptionPreferences(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_id'
-                  ) and self.consumption_preference_id is not None:
+                   ) and self.consumption_preference_id is not None:
             _dict['consumption_preference_id'] = self.consumption_preference_id
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
@@ -457,13 +468,13 @@ class ConsumptionPreferencesCategory(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_category_id'
-                  ) and self.consumption_preference_category_id is not None:
+                   ) and self.consumption_preference_category_id is not None:
             _dict[
                 'consumption_preference_category_id'] = self.consumption_preference_category_id
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'consumption_preferences'
-                  ) and self.consumption_preferences is not None:
+                   ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
                 x._to_dict() for x in self.consumption_preferences
             ]
@@ -591,7 +602,8 @@ class ContentItem(object):
             args['content'] = _dict.get('content')
         else:
             raise ValueError(
-                'Required property \'content\' not present in ContentItem JSON')
+                'Required property \'content\' not present in ContentItem JSON'
+            )
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         if 'created' in _dict:
@@ -719,7 +731,8 @@ class Profile(object):
             ]
         else:
             raise ValueError(
-                'Required property \'personality\' not present in Profile JSON')
+                'Required property \'personality\' not present in Profile JSON'
+            )
         if 'needs' in _dict:
             args['needs'] = [Trait._from_dict(x) for x in (_dict.get('needs'))]
         else:
@@ -772,7 +785,7 @@ class Profile(object):
         if hasattr(self, 'behavior') and self.behavior is not None:
             _dict['behavior'] = [x._to_dict() for x in self.behavior]
         if hasattr(self, 'consumption_preferences'
-                  ) and self.consumption_preferences is not None:
+                   ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
                 x._to_dict() for x in self.consumption_preferences
             ]
