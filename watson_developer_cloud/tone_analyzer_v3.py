@@ -40,7 +40,14 @@ class ToneAnalyzerV3(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
 
-    def __init__(self, version, url=default_url, username=None, password=None,
+    def __init__(self,
+                 version,
+                 url=default_url,
+                 username=None,
+                 password=None,
+                 iam_api_key=None,
+                 iam_access_token=None,
+                 iam_url=None):
         """
         Construct a new client for the Tone Analyzer service.
 
@@ -71,6 +78,17 @@ class ToneAnalyzerV3(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
+        :param str iam_api_key: An API key that can be used to request IAM tokens. If
+               this API key is provided, the SDK will manage the token and handle the
+               refreshing.
+
+        :param str iam_access_token:  An IAM access token is fully managed by the application.
+               Responsibility falls on the application to refresh the token, either before
+               it expires or reactively upon receiving a 401 from the service as any requests
+               made with an expired token will fail.
+
+        :param str iam_url: An optional URL for the IAM service API. Defaults to
+               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -79,6 +97,9 @@ class ToneAnalyzerV3(WatsonService):
             url=url,
             username=username,
             password=password,
+            iam_api_key=iam_api_key,
+            iam_access_token=iam_access_token,
+            iam_url=iam_url,
             use_vcap_services=True)
         self.version = version
 
@@ -537,7 +558,8 @@ class ToneChatScore(object):
             args['score'] = _dict.get('score')
         else:
             raise ValueError(
-                'Required property \'score\' not present in ToneChatScore JSON')
+                'Required property \'score\' not present in ToneChatScore JSON'
+            )
         if 'tone_id' in _dict:
             args['tone_id'] = _dict.get('tone_id')
         else:
@@ -665,7 +687,8 @@ class ToneScore(object):
             args['tone_name'] = _dict.get('tone_name')
         else:
             raise ValueError(
-                'Required property \'tone_name\' not present in ToneScore JSON')
+                'Required property \'tone_name\' not present in ToneScore JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
