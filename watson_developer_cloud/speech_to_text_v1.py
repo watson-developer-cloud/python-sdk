@@ -3874,7 +3874,7 @@ class Words(object):
         """Initialize a Words object from a json dictionary."""
         args = {}
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
+            args['words'] = [Word._from_dict(x) for x in _dict.get('words')]
         else:
             raise ValueError(
                 'Required property \'words\' not present in Words JSON')
