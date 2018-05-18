@@ -136,9 +136,7 @@ class ConversationV1(WatsonService):
         if context is not None:
             context = self._convert_model(context, Context)
         if entities is not None:
-            entities = [
-                self._convert_model(x, RuntimeEntity) for x in entities
-            ]
+            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
         if intents is not None:
             intents = [self._convert_model(x, RuntimeIntent) for x in intents]
         if output is not None:
@@ -259,8 +257,7 @@ class ConversationV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}'.format(
-            *self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         self.request(
             method='DELETE',
             url=url,
@@ -299,8 +296,7 @@ class ConversationV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}'.format(
-            *self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='GET',
             url=url,
@@ -417,8 +413,7 @@ class ConversationV1(WatsonService):
             'metadata': metadata,
             'learning_opt_out': learning_opt_out
         }
-        url = '/v1/workspaces/{0}'.format(
-            *self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='POST',
             url=url,
@@ -457,9 +452,7 @@ class ConversationV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [
-                self._convert_model(x, CreateExample) for x in examples
-            ]
+            examples = [self._convert_model(x, CreateExample) for x in examples]
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -500,8 +493,8 @@ class ConversationV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         self.request(
             method='DELETE',
             url=url,
@@ -544,8 +537,8 @@ class ConversationV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
             method='GET',
             url=url,
@@ -645,8 +638,8 @@ class ConversationV1(WatsonService):
             'description': new_description,
             'examples': new_examples
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
             method='POST',
             url=url,
@@ -1016,10 +1009,7 @@ class ConversationV1(WatsonService):
             accept_json=True)
         return response
 
-    def update_counterexample(self,
-                              workspace_id,
-                              text,
-                              new_text=None,
+    def update_counterexample(self, workspace_id, text, new_text=None,
                               **kwargs):
         """
         Update counterexample.
@@ -1131,8 +1121,8 @@ class ConversationV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
-            workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(
+            *self._encode_path_vars(workspace_id, entity))
         self.request(
             method='DELETE',
             url=url,
@@ -1175,8 +1165,8 @@ class ConversationV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
-            workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(
+            *self._encode_path_vars(workspace_id, entity))
         response = self.request(
             method='GET',
             url=url,
@@ -1282,8 +1272,8 @@ class ConversationV1(WatsonService):
             'fuzzy_match': new_fuzzy_match,
             'values': new_values
         }
-        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
-            workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(
+            *self._encode_path_vars(workspace_id, entity))
         response = self.request(
             method='POST',
             url=url,
@@ -2165,6 +2155,39 @@ class ConversationV1(WatsonService):
             accept_json=True)
         return response
 
+    #########################
+    # User data
+    #########################
+
+    def delete_user_data(self, customer_id, **kwargs):
+        """
+        Delete labeled data.
+
+        Deletes all data associated with a specified customer ID. The method has no effect
+        if no data is associated with the customer ID.   You associate a customer ID with
+        data by passing the `X-Watson-Metadata` header with a request that passes data.
+        For more information about personal data and customer IDs, see [Information
+        security](https://console.bluemix.net/docs/services/conversation/information-security.html).
+
+        :param str customer_id: The customer ID for which all data is to be deleted.
+        :param dict headers: A `dict` containing the request headers
+        :rtype: None
+        """
+        if customer_id is None:
+            raise ValueError('customer_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'customer_id': customer_id}
+        url = '/v1/user_data'
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return None
+
 
 ##############################################################################
 # Models
@@ -2329,8 +2352,7 @@ class Counterexample(object):
             args['text'] = _dict.get('text')
         else:
             raise ValueError(
-                'Required property \'text\' not present in Counterexample JSON'
-            )
+                'Required property \'text\' not present in Counterexample JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
@@ -2701,8 +2723,7 @@ class CreateEntity(object):
             args['entity'] = _dict.get('entity')
         else:
             raise ValueError(
-                'Required property \'entity\' not present in CreateEntity JSON'
-            )
+                'Required property \'entity\' not present in CreateEntity JSON')
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'metadata' in _dict:
@@ -2822,8 +2843,7 @@ class CreateIntent(object):
             args['intent'] = _dict.get('intent')
         else:
             raise ValueError(
-                'Required property \'intent\' not present in CreateIntent JSON'
-            )
+                'Required property \'intent\' not present in CreateIntent JSON')
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'examples' in _dict:
@@ -3451,8 +3471,8 @@ class Entity(object):
         """Initialize a Entity object from a json dictionary."""
         args = {}
         if 'entity' in _dict or 'entity_name' in _dict:
-            args['entity_name'] = _dict.get('entity') or _dict.get(
-                'entity_name')
+            args[
+                'entity_name'] = _dict.get('entity') or _dict.get('entity_name')
         else:
             raise ValueError(
                 'Required property \'entity\' not present in Entity JSON')
@@ -3607,12 +3627,11 @@ class EntityExport(object):
         """Initialize a EntityExport object from a json dictionary."""
         args = {}
         if 'entity' in _dict or 'entity_name' in _dict:
-            args['entity_name'] = _dict.get('entity') or _dict.get(
-                'entity_name')
+            args[
+                'entity_name'] = _dict.get('entity') or _dict.get('entity_name')
         else:
             raise ValueError(
-                'Required property \'entity\' not present in EntityExport JSON'
-            )
+                'Required property \'entity\' not present in EntityExport JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
@@ -3689,8 +3708,8 @@ class Example(object):
         """Initialize a Example object from a json dictionary."""
         args = {}
         if 'text' in _dict or 'example_text' in _dict:
-            args['example_text'] = _dict.get('text') or _dict.get(
-                'example_text')
+            args[
+                'example_text'] = _dict.get('text') or _dict.get('example_text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in Example JSON')
@@ -3869,8 +3888,8 @@ class Intent(object):
         """Initialize a Intent object from a json dictionary."""
         args = {}
         if 'intent' in _dict or 'intent_name' in _dict:
-            args['intent_name'] = _dict.get('intent') or _dict.get(
-                'intent_name')
+            args[
+                'intent_name'] = _dict.get('intent') or _dict.get('intent_name')
         else:
             raise ValueError(
                 'Required property \'intent\' not present in Intent JSON')
@@ -4009,12 +4028,11 @@ class IntentExport(object):
         """Initialize a IntentExport object from a json dictionary."""
         args = {}
         if 'intent' in _dict or 'intent_name' in _dict:
-            args['intent_name'] = _dict.get('intent') or _dict.get(
-                'intent_name')
+            args[
+                'intent_name'] = _dict.get('intent') or _dict.get('intent_name')
         else:
             raise ValueError(
-                'Required property \'intent\' not present in IntentExport JSON'
-            )
+                'Required property \'intent\' not present in IntentExport JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
@@ -4163,8 +4181,7 @@ class LogExport(object):
             raise ValueError(
                 'Required property \'request\' not present in LogExport JSON')
         if 'response' in _dict:
-            args['response'] = MessageResponse._from_dict(
-                _dict.get('response'))
+            args['response'] = MessageResponse._from_dict(_dict.get('response'))
         else:
             raise ValueError(
                 'Required property \'response\' not present in LogExport JSON')
@@ -4719,7 +4736,7 @@ class OutputData(object):
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
             _dict['nodes_visited'] = self.nodes_visited
         if hasattr(self, 'nodes_visited_details'
-                   ) and self.nodes_visited_details is not None:
+                  ) and self.nodes_visited_details is not None:
             _dict['nodes_visited_details'] = [
                 x._to_dict() for x in self.nodes_visited_details
             ]
@@ -4909,8 +4926,7 @@ class RuntimeEntity(object):
             del xtra['value']
         else:
             raise ValueError(
-                'Required property \'value\' not present in RuntimeEntity JSON'
-            )
+                'Required property \'value\' not present in RuntimeEntity JSON')
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
             del xtra['confidence']
