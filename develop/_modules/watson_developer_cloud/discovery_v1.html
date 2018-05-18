@@ -139,10 +139,12 @@
 
 <div class="viewcode-block" id="DiscoveryV1.create_environment"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.create_environment">[docs]</a>    <span class="k">def</span> <span class="nf">create_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add an environment.</span>
+<span class="sd">        Create an environment.</span>
 
-<span class="sd">        Creates a new environment.  You can create only one environment per service</span>
-<span class="sd">        instance. An attempt to create another environment results in an error.</span>
+<span class="sd">        Creates a new environment for private data. An environment must be created before</span>
+<span class="sd">        collections can be created.   **Note**: You can create only one environment for</span>
+<span class="sd">        private data per service instance. An attempt to create another environment</span>
+<span class="sd">        results in an error.</span>
 
 <span class="sd">        :param str name: Name that identifies the environment.</span>
 <span class="sd">        :param str description: Description of the environment.</span>
@@ -244,7 +246,7 @@
 
 <div class="viewcode-block" id="DiscoveryV1.list_fields"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.list_fields">[docs]</a>    <span class="k">def</span> <span class="nf">list_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_ids</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        List fields in specified collections.</span>
+<span class="sd">        List fields across collections.</span>
 
 <span class="sd">        Gets a list of the unique fields (and their types) stored in the indexes of the</span>
 <span class="sd">        specified collections.</span>
@@ -722,7 +724,7 @@
 
 <div class="viewcode-block" id="DiscoveryV1.list_collection_fields"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.list_collection_fields">[docs]</a>    <span class="k">def</span> <span class="nf">list_collection_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        List unique fields.</span>
+<span class="sd">        List collection fields.</span>
 
 <span class="sd">        Gets a list of the unique fields (and their types) stored in the index.</span>
 
@@ -828,7 +830,7 @@
 <div class="viewcode-block" id="DiscoveryV1.create_expansions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions">[docs]</a>    <span class="k">def</span> <span class="nf">create_expansions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">expansions</span><span class="p">,</span>
                           <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the expansion list.</span>
+<span class="sd">        Create or update expansion list.</span>
 
 <span class="sd">        Create or replace the Expansion list for this collection. The maximum number of</span>
 <span class="sd">        expanded terms per collection is `500`. The current expansion list is replaced</span>
@@ -866,7 +868,7 @@
 
 <div class="viewcode-block" id="DiscoveryV1.delete_expansions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions">[docs]</a>    <span class="k">def</span> <span class="nf">delete_expansions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delete the expansions list.</span>
+<span class="sd">        Delete the expansion list.</span>
 
 <span class="sd">        Remove the expansion information for this collection. The expansion list must be</span>
 <span class="sd">        deleted to disable query expansion for a collection.</span>
@@ -896,7 +898,7 @@
 
 <div class="viewcode-block" id="DiscoveryV1.list_expansions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions">[docs]</a>    <span class="k">def</span> <span class="nf">list_expansions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        List current expansions.</span>
+<span class="sd">        Get the expansion list.</span>
 
 <span class="sd">        Returns the current expansion list for the specified collection. If an expansion</span>
 <span class="sd">        list is not specified, an object with empty expansion arrays is returned.</span>
@@ -1313,11 +1315,11 @@
               <span class="n">similar_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Query documents.</span>
+<span class="sd">        Query your collection.</span>
 
-<span class="sd">        See the [Discovery service</span>
-<span class="sd">        documentation](https://console.bluemix.net/docs/services/discovery/using.html) for</span>
-<span class="sd">        more details.</span>
+<span class="sd">        After your content is uploaded and enriched by the Discovery service, you can</span>
+<span class="sd">        build queries to search your content. For details, see the [Discovery service</span>
+<span class="sd">        documentation](https://console.bluemix.net/docs/services/discovery/using.html).</span>
 
 <span class="sd">        :param str environment_id: The ID of the environment.</span>
 <span class="sd">        :param str collection_id: The ID of the collection.</span>
@@ -1593,7 +1595,7 @@
         <span class="k">return</span> <span class="n">response</span></div>
 
     <span class="c1">#########################</span>
-    <span class="c1"># Training Data</span>
+    <span class="c1"># Training data</span>
     <span class="c1">#########################</span>
 
 <div class="viewcode-block" id="DiscoveryV1.add_training_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">add_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -1653,7 +1655,7 @@
                                 <span class="n">relevance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds a new example to this training data query.</span>
+<span class="sd">        Adds a example to this training data query.</span>
 
 <span class="sd">        :param str environment_id: The ID of the environment.</span>
 <span class="sd">        :param str collection_id: The ID of the collection.</span>
@@ -1693,7 +1695,7 @@
 
 <div class="viewcode-block" id="DiscoveryV1.delete_all_training_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_all_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">delete_all_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Clears all training data for this collection.</span>
+<span class="sd">        Deletes all training data from a collection.</span>
 
 <span class="sd">        :param str environment_id: The ID of the environment.</span>
 <span class="sd">        :param str collection_id: The ID of the collection.</span>
@@ -1721,7 +1723,8 @@
 <div class="viewcode-block" id="DiscoveryV1.delete_training_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">delete_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">query_id</span><span class="p">,</span>
                              <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Removes the training data and all associated examples from the training data set.</span>
+<span class="sd">        Removes the training data query and all associated examples from the training data</span>
+<span class="sd">        set.</span>
 
 <span class="sd">        :param str environment_id: The ID of the environment.</span>
 <span class="sd">        :param str collection_id: The ID of the collection.</span>
@@ -1752,7 +1755,7 @@
 <div class="viewcode-block" id="DiscoveryV1.delete_training_example"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_example">[docs]</a>    <span class="k">def</span> <span class="nf">delete_training_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">query_id</span><span class="p">,</span>
                                 <span class="n">example_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Removes the example with the given ID for the training data query.</span>
+<span class="sd">        Deletes the example document with the given ID from the training data query.</span>
 
 <span class="sd">        :param str environment_id: The ID of the environment.</span>
 <span class="sd">        :param str collection_id: The ID of the collection.</span>
@@ -1787,7 +1790,7 @@
 <div class="viewcode-block" id="DiscoveryV1.get_training_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="n">query_id</span><span class="p">,</span>
                           <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Shows details for a specific training data query, including the query string and</span>
+<span class="sd">        Gets details for a specific training data query, including the query string and</span>
 <span class="sd">        all examples.</span>
 
 <span class="sd">        :param str environment_id: The ID of the environment.</span>
@@ -1855,7 +1858,7 @@
 
 <div class="viewcode-block" id="DiscoveryV1.list_training_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data">[docs]</a>    <span class="k">def</span> <span class="nf">list_training_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Lists the training data for this collection.</span>
+<span class="sd">        Lists the training data for the specified collection.</span>
 
 <span class="sd">        :param str environment_id: The ID of the environment.</span>
 <span class="sd">        :param str collection_id: The ID of the collection.</span>
@@ -1957,7 +1960,40 @@
             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
             <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">response</span></div></div>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># User data</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="DiscoveryV1.delete_user_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_user_data">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete labeled data.</span>
+
+<span class="sd">        Deletes all data associated with a specified customer ID. The method has no effect</span>
+<span class="sd">        if no data is associated with the customer ID.   You associate a customer ID with</span>
+<span class="sd">        data by passing the **X-Watson-Metadata** header with a request that passes data.</span>
+<span class="sd">        For more information about personal data and customer IDs, see [Information</span>
+<span class="sd">        security](https://console.bluemix.net/docs/services/discovery/information-security.html).</span>
+
+<span class="sd">        :param str customer_id: The customer ID for which all data is to be deleted.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">customer_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customer_id must be provided&#39;</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span> <span class="s1">&#39;customer_id&#39;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/user_data&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div></div>
 
 
 <span class="c1">##############################################################################</span>

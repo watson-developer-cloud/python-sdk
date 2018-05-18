@@ -52,9 +52,11 @@ results.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_environment">
 <code class="descname">create_environment</code><span class="sig-paren">(</span><em>name</em>, <em>description=None</em>, <em>size=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_environment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add an environment.</p>
-<p>Creates a new environment.  You can create only one environment per service
-instance. An attempt to create another environment results in an error.</p>
+<dd><p>Create an environment.</p>
+<p>Creates a new environment for private data. An environment must be created before
+collections can be created.   <strong>Note</strong>: You can create only one environment for
+private data per service instance. An attempt to create another environment
+results in an error.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -153,7 +155,7 @@ instance. An attempt to create another environment results in an error.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_fields">
 <code class="descname">list_fields</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_fields" title="Permalink to this definition">¶</a></dt>
-<dd><p>List fields in specified collections.</p>
+<dd><p>List fields across collections.</p>
 <p>Gets a list of the unique fields (and their types) stored in the indexes of the
 specified collections.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -476,7 +478,7 @@ processed. The document is not added to the index.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_collection_fields">
 <code class="descname">list_collection_fields</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_collection_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_collection_fields" title="Permalink to this definition">¶</a></dt>
-<dd><p>List unique fields.</p>
+<dd><p>List collection fields.</p>
 <p>Gets a list of the unique fields (and their types) stored in the index.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -556,7 +558,7 @@ processed. The document is not added to the index.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions">
 <code class="descname">create_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>expansions</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_expansions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the expansion list.</p>
+<dd><p>Create or update expansion list.</p>
 <p>Create or replace the Expansion list for this collection. The maximum number of
 expanded terms per collection is <cite>500</cite>. The current expansion list is replaced
 with the uploaded content.</p>
@@ -585,7 +587,7 @@ with the uploaded content.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions">
 <code class="descname">delete_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_expansions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete the expansions list.</p>
+<dd><p>Delete the expansion list.</p>
 <p>Remove the expansion information for this collection. The expansion list must be
 deleted to disable query expansion for a collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -609,7 +611,7 @@ deleted to disable query expansion for a collection.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions">
 <code class="descname">list_expansions</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_expansions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_expansions" title="Permalink to this definition">¶</a></dt>
-<dd><p>List current expansions.</p>
+<dd><p>Get the expansion list.</p>
 <p>Returns the current expansion list for the specified collection. If an expansion
 list is not specified, an object with empty expansion arrays is returned.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -854,10 +856,10 @@ more details on the query language.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.query">
 <code class="descname">query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>passages=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.query" title="Permalink to this definition">¶</a></dt>
-<dd><p>Query documents.</p>
-<p>See the [Discovery service
-documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/using.html">https://console.bluemix.net/docs/services/discovery/using.html</a>) for
-more details.</p>
+<dd><p>Query your collection.</p>
+<p>After your content is uploaded and enriched by the Discovery service, you can
+build queries to search your content. For details, see the [Discovery service
+documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/using.html">https://console.bluemix.net/docs/services/discovery/using.html</a>).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1043,7 +1045,7 @@ filter and natural language query.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_training_example">
 <code class="descname">create_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>document_id=None</em>, <em>cross_reference=None</em>, <em>relevance=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_training_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a new example to this training data query.</p>
+<dd><p>Adds a example to this training data query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1072,7 +1074,7 @@ filter and natural language query.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_all_training_data">
 <code class="descname">delete_all_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_all_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_all_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clears all training data for this collection.</p>
+<dd><p>Deletes all training data from a collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1094,7 +1096,8 @@ filter and natural language query.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data">
 <code class="descname">delete_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes the training data and all associated examples from the training data set.</p>
+<dd><p>Removes the training data query and all associated examples from the training data
+set.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1117,7 +1120,7 @@ filter and natural language query.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_example">
 <code class="descname">delete_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes the example with the given ID for the training data query.</p>
+<dd><p>Deletes the example document with the given ID from the training data query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1141,7 +1144,7 @@ filter and natural language query.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data">
 <code class="descname">get_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shows details for a specific training data query, including the query string and
+<dd><p>Gets details for a specific training data query, including the query string and
 all examples.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1195,7 +1198,7 @@ all examples.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data">
 <code class="descname">list_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lists the training data for this collection.</p>
+<dd><p>Lists the training data for the specified collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1266,6 +1269,32 @@ all examples.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_user_data">
+<code class="descname">delete_user_data</code><span class="sig-paren">(</span><em>customer_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_user_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete labeled data.</p>
+<p>Deletes all data associated with a specified customer ID. The method has no effect
+if no data is associated with the customer ID.   You associate a customer ID with
+data by passing the <strong>X-Watson-Metadata</strong> header with a request that passes data.
+For more information about personal data and customer IDs, see [Information
+security](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/information-security.html">https://console.bluemix.net/docs/services/discovery/information-security.html</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The customer ID for which all data is to be deleted.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
 </td>
 </tr>
 </tbody>
