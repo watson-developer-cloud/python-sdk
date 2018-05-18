@@ -106,10 +106,12 @@ class DiscoveryV1(WatsonService):
 
     def create_environment(self, name, description=None, size=None, **kwargs):
         """
-        Add an environment.
+        Create an environment.
 
-        Creates a new environment.  You can create only one environment per service
-        instance. An attempt to create another environment results in an error.
+        Creates a new environment for private data. An environment must be created before
+        collections can be created.   **Note**: You can create only one environment for
+        private data per service instance. An attempt to create another environment
+        results in an error.
 
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
@@ -211,7 +213,7 @@ class DiscoveryV1(WatsonService):
 
     def list_fields(self, environment_id, collection_ids, **kwargs):
         """
-        List fields in specified collections.
+        List fields across collections.
 
         Gets a list of the unique fields (and their types) stored in the indexes of the
         specified collections.
@@ -689,7 +691,7 @@ class DiscoveryV1(WatsonService):
 
     def list_collection_fields(self, environment_id, collection_id, **kwargs):
         """
-        List unique fields.
+        List collection fields.
 
         Gets a list of the unique fields (and their types) stored in the index.
 
@@ -795,7 +797,7 @@ class DiscoveryV1(WatsonService):
     def create_expansions(self, environment_id, collection_id, expansions,
                           **kwargs):
         """
-        Set the expansion list.
+        Create or update expansion list.
 
         Create or replace the Expansion list for this collection. The maximum number of
         expanded terms per collection is `500`. The current expansion list is replaced
@@ -833,7 +835,7 @@ class DiscoveryV1(WatsonService):
 
     def delete_expansions(self, environment_id, collection_id, **kwargs):
         """
-        Delete the expansions list.
+        Delete the expansion list.
 
         Remove the expansion information for this collection. The expansion list must be
         deleted to disable query expansion for a collection.
@@ -863,7 +865,7 @@ class DiscoveryV1(WatsonService):
 
     def list_expansions(self, environment_id, collection_id, **kwargs):
         """
-        List current expansions.
+        Get the expansion list.
 
         Returns the current expansion list for the specified collection. If an expansion
         list is not specified, an object with empty expansion arrays is returned.
@@ -1280,11 +1282,11 @@ class DiscoveryV1(WatsonService):
               similar_fields=None,
               **kwargs):
         """
-        Query documents.
+        Query your collection.
 
-        See the [Discovery service
-        documentation](https://console.bluemix.net/docs/services/discovery/using.html) for
-        more details.
+        After your content is uploaded and enriched by the Discovery service, you can
+        build queries to search your content. For details, see the [Discovery service
+        documentation](https://console.bluemix.net/docs/services/discovery/using.html).
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
@@ -1560,7 +1562,7 @@ class DiscoveryV1(WatsonService):
         return response
 
     #########################
-    # Training Data
+    # Training data
     #########################
 
     def add_training_data(self,
@@ -1620,7 +1622,7 @@ class DiscoveryV1(WatsonService):
                                 relevance=None,
                                 **kwargs):
         """
-        Adds a new example to this training data query.
+        Adds a example to this training data query.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
@@ -1660,7 +1662,7 @@ class DiscoveryV1(WatsonService):
 
     def delete_all_training_data(self, environment_id, collection_id, **kwargs):
         """
-        Clears all training data for this collection.
+        Deletes all training data from a collection.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
@@ -1688,7 +1690,8 @@ class DiscoveryV1(WatsonService):
     def delete_training_data(self, environment_id, collection_id, query_id,
                              **kwargs):
         """
-        Removes the training data and all associated examples from the training data set.
+        Removes the training data query and all associated examples from the training data
+        set.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
@@ -1719,7 +1722,7 @@ class DiscoveryV1(WatsonService):
     def delete_training_example(self, environment_id, collection_id, query_id,
                                 example_id, **kwargs):
         """
-        Removes the example with the given ID for the training data query.
+        Deletes the example document with the given ID from the training data query.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
@@ -1754,7 +1757,7 @@ class DiscoveryV1(WatsonService):
     def get_training_data(self, environment_id, collection_id, query_id,
                           **kwargs):
         """
-        Shows details for a specific training data query, including the query string and
+        Gets details for a specific training data query, including the query string and
         all examples.
 
         :param str environment_id: The ID of the environment.
@@ -1822,7 +1825,7 @@ class DiscoveryV1(WatsonService):
 
     def list_training_data(self, environment_id, collection_id, **kwargs):
         """
-        Lists the training data for this collection.
+        Lists the training data for the specified collection.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
@@ -1925,6 +1928,39 @@ class DiscoveryV1(WatsonService):
             json=data,
             accept_json=True)
         return response
+
+    #########################
+    # User data
+    #########################
+
+    def delete_user_data(self, customer_id, **kwargs):
+        """
+        Delete labeled data.
+
+        Deletes all data associated with a specified customer ID. The method has no effect
+        if no data is associated with the customer ID.   You associate a customer ID with
+        data by passing the **X-Watson-Metadata** header with a request that passes data.
+        For more information about personal data and customer IDs, see [Information
+        security](https://console.bluemix.net/docs/services/discovery/information-security.html).
+
+        :param str customer_id: The customer ID for which all data is to be deleted.
+        :param dict headers: A `dict` containing the request headers
+        :rtype: None
+        """
+        if customer_id is None:
+            raise ValueError('customer_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'customer_id': customer_id}
+        url = '/v1/user_data'
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return None
 
 
 ##############################################################################
