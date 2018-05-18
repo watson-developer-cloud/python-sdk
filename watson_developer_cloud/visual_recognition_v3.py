@@ -1354,7 +1354,7 @@ class ImageWithFaces(object):
         """Initialize a ImageWithFaces object from a json dictionary."""
         args = {}
         if 'faces' in _dict:
-            args['faces'] = [Face._from_dict(x) for x in (_dict.get('faces'))]
+            args['faces'] = [Face._from_dict(x) for x in _dict.get('faces')]
         else:
             raise ValueError(
                 'Required property \'faces\' not present in ImageWithFaces JSON'
