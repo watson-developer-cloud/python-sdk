@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>watson_developer_cloud.conversation_v1 module &#8212; Watson Developer Cloud Python SDK 1.3.2 documentation</title>
+    <title>watson_developer_cloud.conversation_v1 module &#8212; Watson Developer Cloud Python SDK 1.3.3 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="../_static/documentation_options.js"></script>
@@ -39,7 +39,7 @@ understanding, and integrated dialog tools to create conversation flows between 
 and your users.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.conversation_v1.ConversationV1">
-<em class="property">class </em><code class="descname">ConversationV1</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/conversation/api'</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">ConversationV1</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/conversation/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>iam_api_key=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
 <p>The Conversation V1 service.</p>
 <dl class="attribute">
@@ -1353,6 +1353,32 @@ is specified, the limit is 120 requests per minute. For more information, see
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.conversation_v1.ConversationV1.delete_user_data">
+<code class="descname">delete_user_data</code><span class="sig-paren">(</span><em>customer_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ConversationV1.delete_user_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ConversationV1.delete_user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete labeled data.</p>
+<p>Deletes all data associated with a specified customer ID. The method has no effect
+if no data is associated with the customer ID.   You associate a customer ID with
+data by passing the <cite>X-Watson-Metadata</cite> header with a request that passes data.
+For more information about personal data and customer IDs, see [Information
+security](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/information-security.html">https://console.bluemix.net/docs/services/conversation/information-security.html</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The customer ID for which all data is to be deleted.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
 </td>
 </tr>
 </tbody>
