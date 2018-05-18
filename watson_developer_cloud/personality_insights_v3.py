@@ -180,6 +180,7 @@ class PersonalityInsightsV3(WatsonService):
             accept_json=(accept is None or accept == 'application/json'))
         return response
 
+
 ##############################################################################
 # Models
 ##############################################################################
@@ -314,7 +315,7 @@ class ConsumptionPreferences(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_id'
-                   ) and self.consumption_preference_id is not None:
+                  ) and self.consumption_preference_id is not None:
             _dict['consumption_preference_id'] = self.consumption_preference_id
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
@@ -391,13 +392,13 @@ class ConsumptionPreferencesCategory(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_category_id'
-                   ) and self.consumption_preference_category_id is not None:
+                  ) and self.consumption_preference_category_id is not None:
             _dict[
                 'consumption_preference_category_id'] = self.consumption_preference_category_id
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'consumption_preferences'
-                   ) and self.consumption_preferences is not None:
+                  ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
                 x._to_dict() for x in self.consumption_preferences
             ]
@@ -657,7 +658,7 @@ class Profile(object):
                 'Required property \'personality\' not present in Profile JSON'
             )
         if 'needs' in _dict:
-            args['needs'] = [Trait._from_dict(x) for x in (_dict.get('needs'))]
+            args['needs'] = [Trait._from_dict(x) for x in _dict.get('needs')]
         else:
             raise ValueError(
                 'Required property \'needs\' not present in Profile JSON')
@@ -708,7 +709,7 @@ class Profile(object):
         if hasattr(self, 'behavior') and self.behavior is not None:
             _dict['behavior'] = [x._to_dict() for x in self.behavior]
         if hasattr(self, 'consumption_preferences'
-                   ) and self.consumption_preferences is not None:
+                  ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
                 x._to_dict() for x in self.consumption_preferences
             ]
