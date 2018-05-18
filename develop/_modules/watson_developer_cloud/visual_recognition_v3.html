@@ -316,6 +316,8 @@
 
 <div class="viewcode-block" id="VisualRecognitionV3.get_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">get_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve classifier details.</span>
+
 <span class="sd">        Retrieve information about a custom classifier.</span>
 
 <span class="sd">        :param str classifier_id: The ID of the classifier.</span>
@@ -399,7 +401,7 @@
 <span class="sd">        Retrieve a Core ML model of a classifier.</span>
 
 <span class="sd">        Download a Core ML model file (.mlmodel) of a custom classifier that returns</span>
-<span class="sd">        core_ml_enabled: true in the classifier details.</span>
+<span class="sd">        &lt;tt&gt;\&quot;core_ml_enabled\&quot;: true&lt;/tt&gt; in the classifier details.</span>
 
 <span class="sd">        :param str classifier_id: The ID of the classifier.</span>
 <span class="sd">        :param dict headers: A `dict` containing the request headers</span>
@@ -421,6 +423,7 @@
             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
             <span class="n">accept_json</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span></div></div>
+
 
 <span class="c1">##############################################################################</span>
 <span class="c1"># Models</span>
@@ -479,7 +482,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Result of a class within a classifier.</span>
 
-<span class="sd">    :attr str class_name: The name of the class.</span>
+<span class="sd">    :attr str class_name: Name of the class.</span>
 <span class="sd">    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -488,7 +491,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a ClassResult object.</span>
 
-<span class="sd">        :param str class_name: The name of the class.</span>
+<span class="sd">        :param str class_name: Name of the class.</span>
 <span class="sd">        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
 <span class="sd">        :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -539,13 +542,13 @@
 
 <div class="viewcode-block" id="ClassifiedImage"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.ClassifiedImage">[docs]</a><span class="k">class</span> <span class="nc">ClassifiedImage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classifier results for one image.</span>
+<span class="sd">    Results for one image.</span>
 
 <span class="sd">    :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.</span>
 <span class="sd">    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</span>
 <span class="sd">    :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</span>
 <span class="sd">    :attr ErrorInfo error: (optional)</span>
-<span class="sd">    :attr list[ClassifierResult] classifiers:</span>
+<span class="sd">    :attr list[ClassifierResult] classifiers: The classifiers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -557,7 +560,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a ClassifiedImage object.</span>
 
-<span class="sd">        :param list[ClassifierResult] classifiers:</span>
+<span class="sd">        :param list[ClassifierResult] classifiers: The classifiers.</span>
 <span class="sd">        :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.</span>
 <span class="sd">        :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</span>
 <span class="sd">        :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</span>
@@ -624,11 +627,11 @@
 
 <div class="viewcode-block" id="ClassifiedImages"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.ClassifiedImages">[docs]</a><span class="k">class</span> <span class="nc">ClassifiedImages</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classify results for multiple images.</span>
+<span class="sd">    Results for all images.</span>
 
-<span class="sd">    :attr int custom_classes: (optional) The number of custom classes identified in the images.</span>
+<span class="sd">    :attr int custom_classes: (optional) Number of custom classes identified in the images.</span>
 <span class="sd">    :attr int images_processed: (optional) Number of images processed for the API call.</span>
-<span class="sd">    :attr list[ClassifiedImage] images: The array of classified images.</span>
+<span class="sd">    :attr list[ClassifiedImage] images: Classified images.</span>
 <span class="sd">    :attr list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -640,8 +643,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a ClassifiedImages object.</span>
 
-<span class="sd">        :param list[ClassifiedImage] images: The array of classified images.</span>
-<span class="sd">        :param int custom_classes: (optional) The number of custom classes identified in the images.</span>
+<span class="sd">        :param list[ClassifiedImage] images: Classified images.</span>
+<span class="sd">        :param int custom_classes: (optional) Number of custom classes identified in the images.</span>
 <span class="sd">        :param int images_processed: (optional) Number of images processed for the API call.</span>
 <span class="sd">        :param list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -708,11 +711,11 @@
 <span class="sd">    :attr str classifier_id: ID of a classifier identified in the image.</span>
 <span class="sd">    :attr str name: Name of the classifier.</span>
 <span class="sd">    :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.</span>
-<span class="sd">    :attr str status: (optional) The training status of classifier.</span>
+<span class="sd">    :attr str status: (optional) Training status of classifier.</span>
 <span class="sd">    :attr bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML model after the training status is `ready`.</span>
 <span class="sd">    :attr str explanation: (optional) If classifier training has failed, this field may explain why.</span>
 <span class="sd">    :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.</span>
-<span class="sd">    :attr list[Class] classes: (optional) Array of classes that define a classifier.</span>
+<span class="sd">    :attr list[Class] classes: (optional) Classes that define a classifier.</span>
 <span class="sd">    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to `updated` and retained for backward compatibility.</span>
 <span class="sd">    :attr datetime updated: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -735,10 +738,10 @@
 <span class="sd">        :param str name: Name of the classifier.</span>
 <span class="sd">        :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML model after the training status is `ready`.</span>
 <span class="sd">        :param str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.</span>
-<span class="sd">        :param str status: (optional) The training status of classifier.</span>
+<span class="sd">        :param str status: (optional) Training status of classifier.</span>
 <span class="sd">        :param str explanation: (optional) If classifier training has failed, this field may explain why.</span>
 <span class="sd">        :param datetime created: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.</span>
-<span class="sd">        :param list[Class] classes: (optional) Array of classes that define a classifier.</span>
+<span class="sd">        :param list[Class] classes: (optional) Classes that define a classifier.</span>
 <span class="sd">        :param datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to `updated` and retained for backward compatibility.</span>
 <span class="sd">        :param datetime updated: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -838,8 +841,8 @@
 <span class="sd">    Classifier and score combination.</span>
 
 <span class="sd">    :attr str name: Name of the classifier.</span>
-<span class="sd">    :attr str classifier_id: The ID of a classifier identified in the image.</span>
-<span class="sd">    :attr list[ClassResult] classes: An array of classes within the classifier.</span>
+<span class="sd">    :attr str classifier_id: ID of a classifier identified in the image.</span>
+<span class="sd">    :attr list[ClassResult] classes: Classes within the classifier.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">,</span> <span class="n">classes</span><span class="p">):</span>
@@ -847,8 +850,8 @@
 <span class="sd">        Initialize a ClassifierResult object.</span>
 
 <span class="sd">        :param str name: Name of the classifier.</span>
-<span class="sd">        :param str classifier_id: The ID of a classifier identified in the image.</span>
-<span class="sd">        :param list[ClassResult] classes: An array of classes within the classifier.</span>
+<span class="sd">        :param str classifier_id: ID of a classifier identified in the image.</span>
+<span class="sd">        :param list[ClassResult] classes: Classes within the classifier.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="o">=</span> <span class="n">classifier_id</span>
@@ -908,16 +911,16 @@
 
 <div class="viewcode-block" id="Classifiers"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.Classifiers">[docs]</a><span class="k">class</span> <span class="nc">Classifiers</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    List of classifiers.</span>
+<span class="sd">    A container for the list of classifiers.</span>
 
-<span class="sd">    :attr list[Classifier] classifiers:</span>
+<span class="sd">    :attr list[Classifier] classifiers: List of classifiers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a Classifiers object.</span>
 
-<span class="sd">        :param list[Classifier] classifiers:</span>
+<span class="sd">        :param list[Classifier] classifiers: List of classifiers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span> <span class="o">=</span> <span class="n">classifiers</span>
 
@@ -959,10 +962,10 @@
 
 <div class="viewcode-block" id="DetectedFaces"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.DetectedFaces">[docs]</a><span class="k">class</span> <span class="nc">DetectedFaces</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    DetectedFaces.</span>
+<span class="sd">    Results for all faces.</span>
 
 <span class="sd">    :attr int images_processed: (optional) Number of images processed for the API call.</span>
-<span class="sd">    :attr list[ImageWithFaces] images: The array of images.</span>
+<span class="sd">    :attr list[ImageWithFaces] images: The images.</span>
 <span class="sd">    :attr list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -970,7 +973,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a DetectedFaces object.</span>
 
-<span class="sd">        :param list[ImageWithFaces] images: The array of images.</span>
+<span class="sd">        :param list[ImageWithFaces] images: The images.</span>
 <span class="sd">        :param int images_processed: (optional) Number of images processed for the API call.</span>
 <span class="sd">        :param list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1097,7 +1100,7 @@
 
 <div class="viewcode-block" id="Face"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.Face">[docs]</a><span class="k">class</span> <span class="nc">Face</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Provides information about the face.</span>
+<span class="sd">    Information about the face.</span>
 
 <span class="sd">    :attr FaceAge age: (optional)</span>
 <span class="sd">    :attr FaceGender gender: (optional)</span>
@@ -1157,7 +1160,7 @@
 
 <div class="viewcode-block" id="FaceAge"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.FaceAge">[docs]</a><span class="k">class</span> <span class="nc">FaceAge</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Provides age information about a face.</span>
+<span class="sd">    Age information about a face.</span>
 
 <span class="sd">    :attr int min: (optional) Estimated minimum age.</span>
 <span class="sd">    :attr int max: (optional) Estimated maximum age.</span>
@@ -1216,7 +1219,7 @@
 
 <div class="viewcode-block" id="FaceGender"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.FaceGender">[docs]</a><span class="k">class</span> <span class="nc">FaceGender</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Provides information about the gender of the face.</span>
+<span class="sd">    Information about the gender of the face.</span>
 
 <span class="sd">    :attr str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.</span>
 <span class="sd">    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.</span>
@@ -1271,7 +1274,7 @@
 
 <div class="viewcode-block" id="FaceLocation"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.FaceLocation">[docs]</a><span class="k">class</span> <span class="nc">FaceLocation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines the location of the bounding box around the face.</span>
+<span class="sd">    The location of the bounding box around the face.</span>
 
 <span class="sd">    :attr float width: Width in pixels of face region.</span>
 <span class="sd">    :attr float height: Height in pixels of face region.</span>
@@ -1306,8 +1309,7 @@
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">height</span><span class="se">\&#39;</span><span class="s1"> not present in FaceLocation JSON&#39;</span>
-            <span class="p">)</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">height</span><span class="se">\&#39;</span><span class="s1"> not present in FaceLocation JSON&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;left&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1350,9 +1352,9 @@
 
 <div class="viewcode-block" id="ImageWithFaces"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.ImageWithFaces">[docs]</a><span class="k">class</span> <span class="nc">ImageWithFaces</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ImageWithFaces.</span>
+<span class="sd">    Information about faces in the image.</span>
 
-<span class="sd">    :attr list[Face] faces: An array of the faces detected in the images.</span>
+<span class="sd">    :attr list[Face] faces: Faces detected in the images.</span>
 <span class="sd">    :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</span>
 <span class="sd">    :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.</span>
 <span class="sd">    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</span>
@@ -1368,7 +1370,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a ImageWithFaces object.</span>
 
-<span class="sd">        :param list[Face] faces: An array of the faces detected in the images.</span>
+<span class="sd">        :param list[Face] faces: Faces detected in the images.</span>
 <span class="sd">        :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</span>
 <span class="sd">        :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.</span>
 <span class="sd">        :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</span>
@@ -1385,7 +1387,7 @@
         <span class="sd">&quot;&quot;&quot;Initialize a ImageWithFaces object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;faces&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;faces&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Face</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;faces&#39;</span><span class="p">))]</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;faces&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Face</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;faces&#39;</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">faces</span><span class="se">\&#39;</span><span class="s1"> not present in ImageWithFaces JSON&#39;</span>

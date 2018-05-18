@@ -148,7 +148,8 @@ does not support general biometric facial recognition.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_classifier">
 <code class="descname">get_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_classifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve information about a custom classifier.</p>
+<dd><p>Retrieve classifier details.</p>
+<p>Retrieve information about a custom classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -210,7 +211,7 @@ does not support general biometric facial recognition.</p>
 <code class="descname">get_core_ml_model</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.get_core_ml_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.get_core_ml_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve a Core ML model of a classifier.</p>
 <p>Download a Core ML model file (.mlmodel) of a custom classifier that returns
-core_ml_enabled: true in the classifier details.</p>
+&lt;tt&gt;”core_ml_enabled”: true&lt;/tt&gt; in the classifier details.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -259,7 +260,7 @@ core_ml_enabled: true in the classifier details.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str class_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the class.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Name of the class.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</td>
@@ -275,7 +276,7 @@ core_ml_enabled: true in the classifier details.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.ClassifiedImage">
 <em class="property">class </em><code class="descname">ClassifiedImage</code><span class="sig-paren">(</span><em>classifiers</em>, <em>source_url=None</em>, <em>resolved_url=None</em>, <em>image=None</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassifiedImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassifiedImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Classifier results for one image.</p>
+<p>Results for one image.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -292,7 +293,7 @@ core_ml_enabled: true in the classifier details.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ClassifierResult] classifiers:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The classifiers.</td>
 </tr>
 </tbody>
 </table>
@@ -302,19 +303,19 @@ core_ml_enabled: true in the classifier details.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.ClassifiedImages">
 <em class="property">class </em><code class="descname">ClassifiedImages</code><span class="sig-paren">(</span><em>images</em>, <em>custom_classes=None</em>, <em>images_processed=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassifiedImages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassifiedImages" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Classify results for multiple images.</p>
+<p>Results for all images.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int custom_classes:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The number of custom classes identified in the images.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of custom classes identified in the images.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr int images_processed:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Number of images processed for the API call.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ClassifiedImage] images:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The array of classified images.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Classified images.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[WarningInfo] warnings:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</td>
@@ -340,7 +341,7 @@ core_ml_enabled: true in the classifier details.</p>
 <tr class="field-odd field"><th class="field-name">Attr str owner:</th><td class="field-body">(optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str status:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The training status of classifier.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Training status of classifier.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr bool core_ml_enabled:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">Whether the classifier can be downloaded as a Core ML model after the training status is <cite>ready</cite>.</td>
@@ -352,7 +353,7 @@ core_ml_enabled: true in the classifier details.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[Class] classes:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Array of classes that define a classifier.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Classes that define a classifier.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime retrained:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to <cite>updated</cite> and retained for backward compatibility.</td>
@@ -376,10 +377,10 @@ core_ml_enabled: true in the classifier details.</p>
 <tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">Name of the classifier.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str classifier_id:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The ID of a classifier identified in the image.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">ID of a classifier identified in the image.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ClassResult] classes:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of classes within the classifier.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Classes within the classifier.</td>
 </tr>
 </tbody>
 </table>
@@ -389,13 +390,13 @@ core_ml_enabled: true in the classifier details.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.Classifiers">
 <em class="property">class </em><code class="descname">Classifiers</code><span class="sig-paren">(</span><em>classifiers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Classifiers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>List of classifiers.</p>
+<p>A container for the list of classifiers.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Classifier] classifiers:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body"></td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">List of classifiers.</td>
 </tr>
 </tbody>
 </table>
@@ -405,7 +406,7 @@ core_ml_enabled: true in the classifier details.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.DetectedFaces">
 <em class="property">class </em><code class="descname">DetectedFaces</code><span class="sig-paren">(</span><em>images</em>, <em>images_processed=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#DetectedFaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.DetectedFaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>DetectedFaces.</p>
+<p>Results for all faces.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -414,7 +415,7 @@ core_ml_enabled: true in the classifier details.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of images processed for the API call.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[ImageWithFaces] images:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The array of images.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The images.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[WarningInfo] warnings:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</td>
@@ -449,7 +450,7 @@ large. Not returned when there is no error.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.Face">
 <em class="property">class </em><code class="descname">Face</code><span class="sig-paren">(</span><em>age=None</em>, <em>gender=None</em>, <em>face_location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Face"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Face" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Provides information about the face.</p>
+<p>Information about the face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -471,7 +472,7 @@ large. Not returned when there is no error.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.FaceAge">
 <em class="property">class </em><code class="descname">FaceAge</code><span class="sig-paren">(</span><em>min=None</em>, <em>max=None</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceAge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceAge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Provides age information about a face.</p>
+<p>Age information about a face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -491,7 +492,7 @@ large. Not returned when there is no error.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.FaceGender">
 <em class="property">class </em><code class="descname">FaceGender</code><span class="sig-paren">(</span><em>gender</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceGender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceGender" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Provides information about the gender of the face.</p>
+<p>Information about the gender of the face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -510,7 +511,7 @@ large. Not returned when there is no error.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.FaceLocation">
 <em class="property">class </em><code class="descname">FaceLocation</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>left</em>, <em>top</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceLocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Defines the location of the bounding box around the face.</p>
+<p>The location of the bounding box around the face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -534,13 +535,13 @@ large. Not returned when there is no error.</p>
 <dt id="watson_developer_cloud.visual_recognition_v3.ImageWithFaces">
 <em class="property">class </em><code class="descname">ImageWithFaces</code><span class="sig-paren">(</span><em>faces</em>, <em>image=None</em>, <em>source_url=None</em>, <em>resolved_url=None</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ImageWithFaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ImageWithFaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>ImageWithFaces.</p>
+<p>Information about faces in the image.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Face] faces:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of the faces detected in the images.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Faces detected in the images.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Attr str image:</th><td class="field-body">(optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</td>
 </tr>
