@@ -134,9 +134,7 @@ class AssistantV1(WatsonService):
         if context is not None:
             context = self._convert_model(context, Context)
         if entities is not None:
-            entities = [
-                self._convert_model(x, RuntimeEntity) for x in entities
-            ]
+            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
         if intents is not None:
             intents = [self._convert_model(x, RuntimeIntent) for x in intents]
         if output is not None:
@@ -296,8 +294,7 @@ class AssistantV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}'.format(
-            *self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='GET',
             url=url,
@@ -314,6 +311,8 @@ class AssistantV1(WatsonService):
                         include_audit=None,
                         **kwargs):
         """
+        List workspaces.
+
         List the workspaces associated with a Watson Assistant service instance.    This
         operation is limited to 500 requests per 30 minutes. For more information, see
         **Rate limiting**.
@@ -412,8 +411,7 @@ class AssistantV1(WatsonService):
             'metadata': metadata,
             'learning_opt_out': learning_opt_out
         }
-        url = '/v1/workspaces/{0}'.format(
-            *self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='POST',
             url=url,
@@ -452,9 +450,7 @@ class AssistantV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [
-                self._convert_model(x, CreateExample) for x in examples
-            ]
+            examples = [self._convert_model(x, CreateExample) for x in examples]
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -495,8 +491,8 @@ class AssistantV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         self.request(
             method='DELETE',
             url=url,
@@ -539,8 +535,8 @@ class AssistantV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
             method='GET',
             url=url,
@@ -640,8 +636,8 @@ class AssistantV1(WatsonService):
             'description': new_description,
             'examples': new_examples
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
             method='POST',
             url=url,
@@ -2156,6 +2152,39 @@ class AssistantV1(WatsonService):
             params=params,
             accept_json=True)
         return response
+
+    #########################
+    # User data
+    #########################
+
+    def delete_user_data(self, customer_id, **kwargs):
+        """
+        Delete labeled data.
+
+        Deletes all data associated with a specified customer ID. The method has no effect
+        if no data is associated with the customer ID.   You associate a customer ID with
+        data by passing the `X-Watson-Metadata` header with a request that passes data.
+        For more information about personal data and customer IDs, see [Information
+        security](https://console.bluemix.net/docs/services/conversation/information-security.html).
+
+        :param str customer_id: The customer ID for which all data is to be deleted.
+        :param dict headers: A `dict` containing the request headers
+        :rtype: None
+        """
+        if customer_id is None:
+            raise ValueError('customer_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'customer_id': customer_id}
+        url = '/v1/user_data'
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return None
 
 
 ##############################################################################
