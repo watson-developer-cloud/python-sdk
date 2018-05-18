@@ -799,3 +799,19 @@ def test_expansions():
     assert responses.calls[2].response.json() == {"description": "success"}
 
     assert len(responses.calls) == 3
+
+@responses.activate
+def test_delete_user_data():
+    url = 'https://gateway.watsonplatform.net/discovery/api/v1/user_data'
+    responses.add(
+        responses.DELETE,
+        url,
+        body='{"description": "success" }',
+        status=200,
+        content_type='application_json')
+
+    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
+
+    response = discovery.delete_user_data('id')
+    assert response is None
+    assert len(responses.calls) == 1

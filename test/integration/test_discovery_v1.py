@@ -40,30 +40,35 @@ class Discoveryv1(TestCase):
     def test_configurations(self):
         configs = self.discovery.list_configurations(self.environment_id)
         assert configs is not None
+
+        name = 'test' + random.choice('ABCDEFGHIJKLMNOPQ')
         new_configuration_id = self.discovery.create_configuration(
-            self.environment_id, 'test',
+            self.environment_id, name,
             'creating new config for python sdk')['configuration_id']
         assert new_configuration_id is not None
         self.discovery.get_configuration(self.environment_id,
                                          new_configuration_id)
+
         updated_config = self.discovery.update_configuration(
             self.environment_id, new_configuration_id, 'lala')
         assert updated_config['name'] == 'lala'
+
         deleted_config = self.discovery.delete_configuration(
             self.environment_id, new_configuration_id)
         assert deleted_config['status'] == 'deleted'
 
     def test_collections_and_expansions(self):
+        name = 'Example collection for python' + random.choice('ABCDEFGHIJKLMNOPQ')
         new_collection_id = self.discovery.create_collection(
             self.environment_id,
-            name='Example collection for python' +
-            random.choice('ABCDEFGHIJKLMNOPQ'),
+            name,
             description="Integration test for python sdk")['collection_id']
         assert new_collection_id is not None
+
         self.discovery.get_collection(self.environment_id, new_collection_id)
         updated_collection = self.discovery.update_collection(
-            self.environment_id, new_collection_id, name='lala')
-        assert updated_collection['name'] == 'lala'
+            self.environment_id, new_collection_id, name, description='Updating description')
+        assert updated_collection['description'] == 'Updating description'
 
         self.discovery.create_expansions(self.environment_id,
                                          new_collection_id, [{
