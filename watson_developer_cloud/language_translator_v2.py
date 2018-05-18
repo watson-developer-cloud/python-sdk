@@ -142,10 +142,11 @@ class LanguageTranslatorV2(WatsonService):
         """
         if text is None:
             raise ValueError('text must be provided')
-        data = text
-        headers = {'content-type': 'text/plain'}
+        headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        data = text
+        headers = {'content-type': 'text/plain'}
         url = '/v2/identify'
         response = self.request(
             method='POST',
@@ -239,6 +240,7 @@ class LanguageTranslatorV2(WatsonService):
         response = self.request(
             method='POST',
             url=url,
+            headers=headers,
             params=params,
             files={
                 'forced_glossary': forced_glossary_tuple,
