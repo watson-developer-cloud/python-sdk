@@ -61,7 +61,8 @@ To create an instance of the service:
 
 ## Visual Recognition
 The process for authenticating with Visual Recognition has changed:
-* For new service instances, authenticate by using IAM. See [Using IAM](#using-iam). Also set the service URL by calling the `set_url()` method of the service instance.
+* For new service instances, authenticate by using IAM. See [Using IAM](#using-iam). Also set the service URL by calling the `set_url('https://gateway.watsonplatform.net/visual-recognition/api')` method of the service instance.
+
 * For service instances created before May 23, 2018, authenticate by providing the API Key for the service instance. See [Using API Key](#api-key).
 
 ## Authentication
@@ -88,7 +89,7 @@ discovery.set_username_and_password('<username>', '<password>')
 ```
 
 ### API Key
-*Note: This version of instantiation only works with Visual Recognition, as it's the only service that uses an API key rather than a username and password.*
+*Important: Instantiation with API key works only with Visual Recognition service instances created before May 23, 2018. Visual Recognition instances created after May 22 use IAM.*
 
 ```python
 from watson_developer_cloud import VisualRecognitionV3
