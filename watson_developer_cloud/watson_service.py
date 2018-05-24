@@ -281,7 +281,7 @@ class WatsonService(object):
         self.api_key = api_key
         self.jar = CookieJar()
 
-    def set_token_manager(self, iam_api_key, iam_access_token, iam_url):
+    def set_token_manager(self, iam_api_key=None, iam_access_token=None, iam_url=None):
         if iam_api_key == 'YOUR IAM API KEY':
             iam_api_key = None
 
