@@ -9,7 +9,7 @@
     <title>watson_developer_cloud.assistant_v1 &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -68,14 +68,16 @@
 
     <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/assistant/api&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">version</span><span class="p">,</span>
-                 <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
-                 <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">version</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a new client for the Assistant service.</span>
 
@@ -146,6 +148,8 @@
                 <span class="n">nodes_visited_details</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get response to user input.</span>
+
 <span class="sd">        Get a response to a user&#39;s input.    There is no rate limit for this operation.</span>
 
 <span class="sd">        :param str workspace_id: Unique identifier of the workspace.</span>
@@ -167,7 +171,9 @@
         <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">Context</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">entities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">entities</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">RuntimeEntity</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">]</span>
+            <span class="n">entities</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">RuntimeEntity</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entities</span>
+            <span class="p">]</span>
         <span class="k">if</span> <span class="n">intents</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">intents</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">RuntimeIntent</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">intents</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -288,7 +294,8 @@
         <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -327,7 +334,8 @@
             <span class="s1">&#39;export&#39;</span><span class="p">:</span> <span class="n">export</span><span class="p">,</span>
             <span class="s1">&#39;include_audit&#39;</span><span class="p">:</span> <span class="n">include_audit</span>
         <span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -444,7 +452,8 @@
             <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="n">metadata</span><span class="p">,</span>
             <span class="s1">&#39;learning_opt_out&#39;</span><span class="p">:</span> <span class="n">learning_opt_out</span>
         <span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -483,7 +492,9 @@
         <span class="k">if</span> <span class="n">intent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;intent must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">examples</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">examples</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CreateExample</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">examples</span><span class="p">]</span>
+            <span class="n">examples</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CreateExample</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">examples</span>
+            <span class="p">]</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
@@ -524,8 +535,8 @@
         <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/intents/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span> <span class="n">intent</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/intents/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
+            <span class="n">workspace_id</span><span class="p">,</span> <span class="n">intent</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -568,8 +579,8 @@
             <span class="s1">&#39;export&#39;</span><span class="p">:</span> <span class="n">export</span><span class="p">,</span>
             <span class="s1">&#39;include_audit&#39;</span><span class="p">:</span> <span class="n">include_audit</span>
         <span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/intents/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span> <span class="n">intent</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/intents/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
+            <span class="n">workspace_id</span><span class="p">,</span> <span class="n">intent</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -669,8 +680,8 @@
             <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">new_description</span><span class="p">,</span>
             <span class="s1">&#39;examples&#39;</span><span class="p">:</span> <span class="n">new_examples</span>
         <span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/intents/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span> <span class="n">intent</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/intents/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
+            <span class="n">workspace_id</span><span class="p">,</span> <span class="n">intent</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -1040,7 +1051,10 @@
             <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="AssistantV1.update_counterexample"><a class="viewcode-back" href="../../apis/watson_developer_cloud.assistant_v1.html#watson_developer_cloud.assistant_v1.AssistantV1.update_counterexample">[docs]</a>    <span class="k">def</span> <span class="nf">update_counterexample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workspace_id</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">new_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="AssistantV1.update_counterexample"><a class="viewcode-back" href="../../apis/watson_developer_cloud.assistant_v1.html#watson_developer_cloud.assistant_v1.AssistantV1.update_counterexample">[docs]</a>    <span class="k">def</span> <span class="nf">update_counterexample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                              <span class="n">workspace_id</span><span class="p">,</span>
+                              <span class="n">text</span><span class="p">,</span>
+                              <span class="n">new_text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                               <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Update counterexample.</span>
@@ -1152,8 +1166,8 @@
         <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/entities/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span> <span class="n">entity</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/entities/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
+            <span class="n">workspace_id</span><span class="p">,</span> <span class="n">entity</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -1196,8 +1210,8 @@
             <span class="s1">&#39;export&#39;</span><span class="p">:</span> <span class="n">export</span><span class="p">,</span>
             <span class="s1">&#39;include_audit&#39;</span><span class="p">:</span> <span class="n">include_audit</span>
         <span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/entities/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span> <span class="n">entity</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/entities/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
+            <span class="n">workspace_id</span><span class="p">,</span> <span class="n">entity</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -1303,8 +1317,8 @@
             <span class="s1">&#39;fuzzy_match&#39;</span><span class="p">:</span> <span class="n">new_fuzzy_match</span><span class="p">,</span>
             <span class="s1">&#39;values&#39;</span><span class="p">:</span> <span class="n">new_values</span>
         <span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/entities/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">workspace_id</span><span class="p">,</span> <span class="n">entity</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/workspaces/</span><span class="si">{0}</span><span class="s1">/entities/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span>
+            <span class="n">workspace_id</span><span class="p">,</span> <span class="n">entity</span><span class="p">))</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
             <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
@@ -2383,7 +2397,8 @@
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">text</span><span class="se">\&#39;</span><span class="s1"> not present in Counterexample JSON&#39;</span><span class="p">)</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">text</span><span class="se">\&#39;</span><span class="s1"> not present in Counterexample JSON&#39;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;created&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">string_to_datetime</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">))</span>
         <span class="k">if</span> <span class="s1">&#39;updated&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
@@ -2754,7 +2769,8 @@
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;entity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">entity</span><span class="se">\&#39;</span><span class="s1"> not present in CreateEntity JSON&#39;</span><span class="p">)</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">entity</span><span class="se">\&#39;</span><span class="s1"> not present in CreateEntity JSON&#39;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;description&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;metadata&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
@@ -2874,7 +2890,8 @@
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;intent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">intent</span><span class="se">\&#39;</span><span class="s1"> not present in CreateIntent JSON&#39;</span><span class="p">)</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">intent</span><span class="se">\&#39;</span><span class="s1"> not present in CreateIntent JSON&#39;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;description&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;examples&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
@@ -3502,8 +3519,8 @@
         <span class="sd">&quot;&quot;&quot;Initialize a Entity object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;entity&#39;</span> <span class="ow">in</span> <span class="n">_dict</span> <span class="ow">or</span> <span class="s1">&#39;entity_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span>
-                <span class="s1">&#39;entity_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entity_name&#39;</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;entity_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;entity_name&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">entity</span><span class="se">\&#39;</span><span class="s1"> not present in Entity JSON&#39;</span><span class="p">)</span>
@@ -3658,11 +3675,12 @@
         <span class="sd">&quot;&quot;&quot;Initialize a EntityExport object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;entity&#39;</span> <span class="ow">in</span> <span class="n">_dict</span> <span class="ow">or</span> <span class="s1">&#39;entity_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span>
-                <span class="s1">&#39;entity_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entity_name&#39;</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;entity_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;entity&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;entity_name&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">entity</span><span class="se">\&#39;</span><span class="s1"> not present in EntityExport JSON&#39;</span><span class="p">)</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">entity</span><span class="se">\&#39;</span><span class="s1"> not present in EntityExport JSON&#39;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;created&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">string_to_datetime</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">))</span>
         <span class="k">if</span> <span class="s1">&#39;updated&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
@@ -3739,8 +3757,8 @@
         <span class="sd">&quot;&quot;&quot;Initialize a Example object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span> <span class="ow">or</span> <span class="s1">&#39;example_text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span>
-                <span class="s1">&#39;example_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;example_text&#39;</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;example_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;example_text&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">text</span><span class="se">\&#39;</span><span class="s1"> not present in Example JSON&#39;</span><span class="p">)</span>
@@ -3919,8 +3937,8 @@
         <span class="sd">&quot;&quot;&quot;Initialize a Intent object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;intent&#39;</span> <span class="ow">in</span> <span class="n">_dict</span> <span class="ow">or</span> <span class="s1">&#39;intent_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span>
-                <span class="s1">&#39;intent_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent_name&#39;</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;intent_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;intent_name&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">intent</span><span class="se">\&#39;</span><span class="s1"> not present in Intent JSON&#39;</span><span class="p">)</span>
@@ -4059,11 +4077,12 @@
         <span class="sd">&quot;&quot;&quot;Initialize a IntentExport object from a json dictionary.&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="s1">&#39;intent&#39;</span> <span class="ow">in</span> <span class="n">_dict</span> <span class="ow">or</span> <span class="s1">&#39;intent_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span>
-                <span class="s1">&#39;intent_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent_name&#39;</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;intent_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;intent&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;intent_name&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">intent</span><span class="se">\&#39;</span><span class="s1"> not present in IntentExport JSON&#39;</span><span class="p">)</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">intent</span><span class="se">\&#39;</span><span class="s1"> not present in IntentExport JSON&#39;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;created&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">string_to_datetime</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">))</span>
         <span class="k">if</span> <span class="s1">&#39;updated&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
@@ -4212,7 +4231,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">request</span><span class="se">\&#39;</span><span class="s1"> not present in LogExport JSON&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;response&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MessageResponse</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">))</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;response&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MessageResponse</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span>
+                <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">response</span><span class="se">\&#39;</span><span class="s1"> not present in LogExport JSON&#39;</span><span class="p">)</span>
@@ -4957,7 +4977,8 @@
             <span class="k">del</span> <span class="n">xtra</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">value</span><span class="se">\&#39;</span><span class="s1"> not present in RuntimeEntity JSON&#39;</span><span class="p">)</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">value</span><span class="se">\&#39;</span><span class="s1"> not present in RuntimeEntity JSON&#39;</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;confidence&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
             <span class="n">args</span><span class="p">[</span><span class="s1">&#39;confidence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;confidence&#39;</span><span class="p">)</span>
             <span class="k">del</span> <span class="n">xtra</span><span class="p">[</span><span class="s1">&#39;confidence&#39;</span><span class="p">]</span>

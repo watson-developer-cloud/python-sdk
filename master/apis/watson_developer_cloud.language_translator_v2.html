@@ -9,7 +9,7 @@
     <title>watson_developer_cloud.language_translator_v2 module &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -103,7 +103,8 @@ more.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_identifiable_languages">
 <code class="descname">list_identifiable_languages</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.list_identifiable_languages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_identifiable_languages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lists the languages that the service can identify. Returns the language code (for
+<dd><p>List identifiable languages.</p>
+<p>Lists the languages that the service can identify. Returns the language code (for
 example, <cite>en</cite> for English or <cite>es</cite> for Spanish) and name of each language.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -122,7 +123,8 @@ example, <cite>en</cite> for English or <cite>es</cite> for Spanish) and name of
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.create_model">
 <code class="descname">create_model</code><span class="sig-paren">(</span><em>base_model_id</em>, <em>name=None</em>, <em>forced_glossary=None</em>, <em>parallel_corpus=None</em>, <em>monolingual_corpus=None</em>, <em>forced_glossary_filename=None</em>, <em>parallel_corpus_filename=None</em>, <em>monolingual_corpus_filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.create_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.create_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Uploads a TMX glossary file on top of a domain to customize a translation model.
+<dd><p>Create model.</p>
+<p>Uploads a TMX glossary file on top of a domain to customize a translation model.
 Depending on the size of the file, training can range from minutes for a glossary
 to several hours for a large parallel corpus. Glossary files must be less than 10
 MB. The cumulative file size of all uploaded glossary and corpus files is limited
@@ -157,7 +159,8 @@ to 250 MB.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.delete_model">
 <code class="descname">delete_model</code><span class="sig-paren">(</span><em>model_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.delete_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.delete_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes a custom translation model.</p>
+<dd><p>Delete model.</p>
+<p>Deletes a custom translation model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -181,7 +184,8 @@ to 250 MB.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model">
 <code class="descname">get_model</code><span class="sig-paren">(</span><em>model_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets information about a translation model, including training status for custom
+<dd><p>Get model details.</p>
+<p>Gets information about a translation model, including training status for custom
 models.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -206,7 +210,8 @@ models.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_models">
 <code class="descname">list_models</code><span class="sig-paren">(</span><em>source=None</em>, <em>target=None</em>, <em>default_models=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.list_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lists available translation models.</p>
+<dd><p>List models.</p>
+<p>Lists available translation models.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

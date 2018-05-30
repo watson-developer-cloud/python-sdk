@@ -9,7 +9,7 @@
     <title>watson_developer_cloud.text_to_speech_v1 &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -53,55 +53,46 @@
 <span class="sd">dialects, and voices. The service supports at least one male or female voice, sometimes</span>
 <span class="sd">both, for each language. The audio is streamed back to the client with minimal delay. For</span>
 <span class="sd">more information about the service, see the [IBM&amp;reg; Cloud</span>
-<span class="sd">documentation](https://console.bluemix.net/docs/services/text-to-speech/getting-started.html).</span>
-<span class="sd">### API Overview</span>
-<span class="sd">The Text to Speech service provides the following endpoints:</span>
-<span class="sd">* **Voices** provides information about the voices available for synthesized speech.</span>
-<span class="sd">* **Synthesis** synthesizes written text to audio speech.</span>
-<span class="sd">* **Pronunciation** returns the pronunciation for a specified word. Currently a beta</span>
-<span class="sd">feature.</span>
-<span class="sd">* **Custom models** and let users create custom voice models, which are dictionaries of</span>
-<span class="sd">words and their translations for use in speech synthesis. All custom model methods are</span>
-<span class="sd">currently beta features.</span>
-<span class="sd">* **Custom words** let users manage the words in a custom voice model. All custom word</span>
-<span class="sd">methods are currently beta features.</span>
-<span class="sd">### API Usage</span>
-<span class="sd">The following information provides details about using the service to synthesize audio:</span>
-<span class="sd">* **Audio formats:** The service supports a number of audio formats (MIME types). For more</span>
-<span class="sd">information about audio formats and sampling rates, including links to a number of</span>
-<span class="sd">Internet sites that provide technical and usage details about the different formats, see</span>
+<span class="sd">documentation](https://console.bluemix.net/docs/services/text-to-speech/index.html).</span>
+<span class="sd">### API usage guidelines</span>
+<span class="sd">* **Audio formats:** The service can produce audio in many formats (MIME types). See</span>
 <span class="sd">[Specifying an audio</span>
 <span class="sd">format](https://console.bluemix.net/docs/services/text-to-speech/http.html#format).</span>
-<span class="sd">* **SSML:** Many methods refer to the Speech Synthesis Markup Language (SSML), an</span>
-<span class="sd">XML-based markup language that provides annotations of text for speech-synthesis</span>
-<span class="sd">applications; for example, many methods accept or produce translations that use an</span>
-<span class="sd">SSML-based phoneme format. See [Using</span>
-<span class="sd">SSML](https://console.bluemix.net/docs/services/text-to-speech/SSML.html) and [Using IBM</span>
-<span class="sd">SPR](https://console.bluemix.net/docs/services/text-to-speech/SPRs.html).</span>
-<span class="sd">* **Word translations:** Many customization methods accept or return sounds-like or</span>
-<span class="sd">phonetic translations for words. A phonetic translation is based on the SSML format for</span>
-<span class="sd">representing the phonetic string of a word. Phonetic translations can use standard</span>
-<span class="sd">International Phonetic Alphabet (IPA) representation:</span>
+<span class="sd">* **SSML:** Many methods refer to the Speech Synthesis Markup Language (SSML). SSML is an</span>
+<span class="sd">XML-based markup language that provides text annotation for speech-synthesis applications.</span>
+<span class="sd">See [Using SSML](https://console.bluemix.net/docs/services/text-to-speech/SSML.html) and</span>
+<span class="sd">[Using IBM SPR](https://console.bluemix.net/docs/services/text-to-speech/SPRs.html).</span>
+<span class="sd">* **Word translations:** Many customization methods accept sounds-like or phonetic</span>
+<span class="sd">translations for words. Phonetic translations are based on the SSML phoneme format for</span>
+<span class="sd">representing a word. You can specify them in standard International Phonetic Alphabet</span>
+<span class="sd">(IPA) representation</span>
 <span class="sd">  &amp;lt;phoneme alphabet=&quot;ipa&quot; ph=&quot;t&amp;#601;m&amp;#712;&amp;#593;to&quot;&amp;gt;&amp;lt;/phoneme&amp;gt;</span>
-<span class="sd">  or the proprietary IBM Symbolic Phonetic Representation (SPR):</span>
+<span class="sd">  or in the proprietary IBM Symbolic Phonetic Representation (SPR)</span>
 <span class="sd">  &amp;lt;phoneme alphabet=&quot;ibm&quot; ph=&quot;1gAstroEntxrYFXs&quot;&amp;gt;&amp;lt;/phoneme&amp;gt;</span>
-<span class="sd">  For more information about customization and about sounds-like and phonetic</span>
-<span class="sd">translations, see [Understanding</span>
+<span class="sd">  See [Understanding</span>
 <span class="sd">customization](https://console.bluemix.net/docs/services/text-to-speech/custom-intro.html).</span>
-<span class="sd">* **WebSocket interface:** The service also offers a WebSocket interface as an alternative</span>
-<span class="sd">to its HTTP REST interface for speech synthesis. The WebSocket interface supports both</span>
-<span class="sd">plain text and SSML input, including the SSML &amp;lt;mark&amp;gt; element and word timings. See</span>
-<span class="sd">[The WebSocket</span>
+<span class="sd">* **WebSocket interface:** The service also offers a WebSocket interface for speech</span>
+<span class="sd">synthesis. The WebSocket interface supports both plain text and SSML input, including the</span>
+<span class="sd">SSML &amp;lt;mark&amp;gt; element and word timings. See [The WebSocket</span>
 <span class="sd">interface](https://console.bluemix.net/docs/services/text-to-speech/websockets.html).</span>
-<span class="sd">* **GUIDs:** The pronunciation and customization methods accept or return a Globally</span>
-<span class="sd">Unique Identifier (GUID). For example, customization IDs (specified with the</span>
-<span class="sd">`customization_id` parameter) and service credentials are GUIDs. GUIDs are hexadecimal</span>
-<span class="sd">strings that have the format `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.</span>
-<span class="sd">* **Custom voice model ownership:** In all cases, you must use service credentials created</span>
-<span class="sd">for the instance of the service that owns a custom voice model to use the methods</span>
-<span class="sd">described in this documentation with that model. For more information, see [Ownership of</span>
-<span class="sd">custom voice</span>
-<span class="sd">models](https://console.bluemix.net/docs/services/text-to-speech/custom-models.html#customOwner).</span>
+<span class="sd">* **Customization IDs:** Many methods accept a customization ID, which is a Globally</span>
+<span class="sd">Unique Identifier (GUID). Customization IDs are hexadecimal strings that have the format</span>
+<span class="sd">`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.</span>
+<span class="sd">* **`X-Watson-Learning-Opt-Out`:** By default, all Watson services log requests and their</span>
+<span class="sd">results. Logging is done only to improve the services for future users. The logged data is</span>
+<span class="sd">not shared or made public. To prevent IBM from accessing your data for general service</span>
+<span class="sd">improvements, set the `X-Watson-Learning-Opt-Out` request header to `true` for all</span>
+<span class="sd">requests. You must set the header on each request that you do not want IBM to access for</span>
+<span class="sd">general service improvements.</span>
+<span class="sd">  Methods of the customization interface do not log words and translations that you use to</span>
+<span class="sd">build custom voice models. Your training data is never used to improve the service&#39;s base</span>
+<span class="sd">models. However, the service does log such data when a custom model is used with a</span>
+<span class="sd">synthesize request. You must set the `X-Watson-Learning-Opt-Out` request header to `true`</span>
+<span class="sd">to prevent IBM from accessing the data to improve the service.</span>
+<span class="sd">* **`X-Watson-Metadata`:** This header allows you to associate a customer ID with data</span>
+<span class="sd">that is passed with a request. If necessary, you can use the **Delete labeled data**</span>
+<span class="sd">method to delete the data for a customer ID. See [Information</span>
+<span class="sd">security](https://console.bluemix.net/docs/services/text-to-speech/information-security.html).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
@@ -120,13 +111,15 @@
 
     <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://stream.watsonplatform.net/text-to-speech/api&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
-                 <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a new client for the Text to Speech service.</span>
 
@@ -180,7 +173,8 @@
 
 <span class="sd">        Gets information about the specified voice. The information includes the name,</span>
 <span class="sd">        language, gender, and other details about the voice. Specify a customization ID to</span>
-<span class="sd">        obtain information for that custom voice model of the specified voice.</span>
+<span class="sd">        obtain information for that custom voice model of the specified voice. To list</span>
+<span class="sd">        information about all available voices, use the **List voices** method.</span>
 
 <span class="sd">        :param str voice: The voice for which information is to be returned.</span>
 <span class="sd">        :param str customization_id: The customization ID (GUID) of a custom voice model for which information is to be returned. You must make the request with service credentials created for the instance of the service that owns the custom model. Omit the parameter to see information about the specified voice with no customization.</span>
@@ -208,7 +202,8 @@
 <span class="sd">        List voices.</span>
 
 <span class="sd">        Lists all voices available for use with the service. The information includes the</span>
-<span class="sd">        name, language, gender, and other details about the voice.</span>
+<span class="sd">        name, language, gender, and other details about the voice. To see information</span>
+<span class="sd">        about a specific voice, use the **Get a voice** method.</span>
 
 <span class="sd">        :param dict headers: A `dict` containing the request headers</span>
 <span class="sd">        :return: A `dict` containing the `Voices` response.</span>
@@ -246,16 +241,13 @@
 <span class="sd">        information about the supported audio formats and sampling rates, see [Specifying</span>
 <span class="sd">        an audio</span>
 <span class="sd">        format](https://console.bluemix.net/docs/services/text-to-speech/http.html#format).</span>
-<span class="sd">          If a request includes invalid query parameters, the service returns a `Warnings`</span>
+<span class="sd">        Specify a value of `application/json` for the `Content-Type` header.   If a</span>
+<span class="sd">        request includes invalid query parameters, the service returns a `Warnings`</span>
 <span class="sd">        response header that provides messages about the invalid parameters. The warning</span>
 <span class="sd">        includes a descriptive message and a list of invalid argument strings. For</span>
 <span class="sd">        example, a message such as `\&quot;Unknown arguments:\&quot;` or `\&quot;Unknown url query</span>
 <span class="sd">        arguments:\&quot;` followed by a list of the form `\&quot;invalid_arg_1, invalid_arg_2.\&quot;`</span>
-<span class="sd">        The request succeeds despite the warnings.  **Note about the Try It Out feature:**</span>
-<span class="sd">        The `Try it out!` button is **not** supported for use with the the `POST</span>
-<span class="sd">        /v1/synthesize` method. For examples of calls to the method, see the [Text to</span>
-<span class="sd">        Speech API</span>
-<span class="sd">        reference](http://www.ibm.com/watson/developercloud/text-to-speech/api/v1/).</span>
+<span class="sd">        The request succeeds despite the warnings.</span>
 
 <span class="sd">        :param str text: The text to synthesize.</span>
 <span class="sd">        :param str accept: The type of the response: audio/basic, audio/flac, audio/l16;rate=nnnn, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/mp3, audio/mpeg, audio/mulaw;rate=nnnn, audio/wav, audio/webm, audio/webm;codecs=opus, or audio/webm;codecs=vorbis.</span>
@@ -346,9 +338,10 @@
 <span class="sd">        Create a custom model.</span>
 
 <span class="sd">        Creates a new empty custom voice model. You must specify a name for the new custom</span>
-<span class="sd">        model; you can optionally specify the language and a description of the new model.</span>
-<span class="sd">        The model is owned by the instance of the service whose credentials are used to</span>
-<span class="sd">        create it.  **Note:** This method is currently a beta release.</span>
+<span class="sd">        model. You can optionally specify the language and a description for the new</span>
+<span class="sd">        model. Specify a value of `application/json` for the `Content-Type` header. The</span>
+<span class="sd">        model is owned by the instance of the service whose credentials are used to create</span>
+<span class="sd">        it.  **Note:** This method is currently a beta release.</span>
 
 <span class="sd">        :param str name: The name of the new custom voice model.</span>
 <span class="sd">        :param str language: The language of the new custom voice model. Omit the parameter to use the the default language, `en-US`.</span>
@@ -479,9 +472,10 @@
 <span class="sd">        such as the name and description of the voice model. You can also update the words</span>
 <span class="sd">        in the model and their translations. Adding a new translation for a word that</span>
 <span class="sd">        already exists in a custom model overwrites the word&#39;s existing translation. A</span>
-<span class="sd">        custom model can contain no more than 20,000 entries. You must use credentials for</span>
-<span class="sd">        the instance of the service that owns a model to update it.  **Note:** This method</span>
-<span class="sd">        is currently a beta release.</span>
+<span class="sd">        custom model can contain no more than 20,000 entries. Specify a value of</span>
+<span class="sd">        `application/json` for the `Content-Type` header. You must use credentials for the</span>
+<span class="sd">        instance of the service that owns a model to update it.  **Note:** This method is</span>
+<span class="sd">        currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :param str name: A new name for the custom voice model.</span>
@@ -529,7 +523,9 @@
 <span class="sd">        Adds a single word and its translation to the specified custom voice model. Adding</span>
 <span class="sd">        a new translation for a word that already exists in a custom model overwrites the</span>
 <span class="sd">        word&#39;s existing translation. A custom model can contain no more than 20,000</span>
-<span class="sd">        entries.  **Note:** This method is currently a beta release.</span>
+<span class="sd">        entries. Specify a value of `application/json` for the `Content-Type` header. You</span>
+<span class="sd">        must use credentials for the instance of the service that owns a model to add a</span>
+<span class="sd">        word to it.   **Note:** This method is currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :param str word: The word that is to be added or updated for the custom voice model.</span>
@@ -551,7 +547,11 @@
         <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/customizations/</span><span class="si">{0}</span><span class="s1">/words/</span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">customization_id</span><span class="p">,</span> <span class="n">word</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
-            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;PUT&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use add_word() instead.&#39;</span><span class="p">)</span>
@@ -565,10 +565,12 @@
 <span class="sd">        Adds one or more words and their translations to the specified custom voice model.</span>
 <span class="sd">        Adding a new translation for a word that already exists in a custom model</span>
 <span class="sd">        overwrites the word&#39;s existing translation. A custom model can contain no more</span>
-<span class="sd">        than 20,000 entries.  **Note:** This method is currently a beta release.</span>
+<span class="sd">        than 20,000 entries. Specify a value of `application/json` for the `Content-Type`</span>
+<span class="sd">        header. You must use credentials for the instance of the service that owns a model</span>
+<span class="sd">        to add words to it.   **Note:** This method is currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
-<span class="sd">        :param list[Word] words: **When adding words to a custom voice model,** an array of `Word` objects that provides one or more words that are to be added or updated for the custom voice model and the translation for each specified word. **When listing words from a custom voice model,** an array of `Word` objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</span>
+<span class="sd">        :param list[Word] words: The **Add custom words** method accepts an array of `Word` objects. Each object provides a word that is to be added or updated for the custom voice model and the word&#39;s translation.   The **List custom words** method returns an array of `Word` objects. Each object shows a word and its translation from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</span>
 <span class="sd">        :param dict headers: A `dict` containing the request headers</span>
 <span class="sd">        :rtype: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -599,8 +601,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a custom word.</span>
 
-<span class="sd">        Deletes a single word from the specified custom voice model.  **Note:** This</span>
-<span class="sd">        method is currently a beta release.</span>
+<span class="sd">        Deletes a single word from the specified custom voice model. You must use</span>
+<span class="sd">        credentials for the instance of the service that owns a model to delete its words.</span>
+<span class="sd">          **Note:** This method is currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :param str word: The word that is to be deleted from the custom voice model.</span>
@@ -629,8 +632,9 @@
 <span class="sd">        Get a custom word.</span>
 
 <span class="sd">        Gets the translation for a single word from the specified custom model. The output</span>
-<span class="sd">        shows the translation as it is defined in the model.  **Note:** This method is</span>
-<span class="sd">        currently a beta release.</span>
+<span class="sd">        shows the translation as it is defined in the model. You must use credentials for</span>
+<span class="sd">        the instance of the service that owns a model to list its words.   **Note:** This</span>
+<span class="sd">        method is currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :param str word: The word that is to be queried from the custom voice model.</span>
@@ -660,8 +664,9 @@
 <span class="sd">        List custom words.</span>
 
 <span class="sd">        Lists all of the words and their translations for the specified custom voice</span>
-<span class="sd">        model. The output shows the translations as they are defined in the model.</span>
-<span class="sd">        **Note:** This method is currently a beta release.</span>
+<span class="sd">        model. The output shows the translations as they are defined in the model. You</span>
+<span class="sd">        must use credentials for the instance of the service that owns a model to list its</span>
+<span class="sd">        words.  **Note:** This method is currently a beta release.</span>
 
 <span class="sd">        :param str customization_id: The customization ID (GUID) of the custom voice model. You must make the request with service credentials created for the instance of the service that owns the custom model.</span>
 <span class="sd">        :param dict headers: A `dict` containing the request headers</span>
@@ -681,7 +686,45 @@
 
     <span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;Use list_words() instead.&#39;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">get_customization_words</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customization_id</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_words</span><span class="p">(</span><span class="n">customization_id</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_words</span><span class="p">(</span><span class="n">customization_id</span><span class="p">)</span>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># User data</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="TextToSpeechV1.delete_user_data"><a class="viewcode-back" href="../../apis/watson_developer_cloud.text_to_speech_v1.html#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_user_data">[docs]</a>    <span class="k">def</span> <span class="nf">delete_user_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">customer_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete labeled data.</span>
+
+<span class="sd">        Deletes all data that is associated with a specified customer ID. The method</span>
+<span class="sd">        deletes all data for the customer ID, regardless of the method by which the</span>
+<span class="sd">        information was added. The method has no effect if no data is associated with the</span>
+<span class="sd">        customer ID. You must issue the request with credentials for the same instance of</span>
+<span class="sd">        the service that was used to associate the customer ID with the data.   You</span>
+<span class="sd">        associate a customer ID with data by passing the `X-Watson-Metadata` header with a</span>
+<span class="sd">        request that passes the data. For more information about customer IDs and about</span>
+<span class="sd">        using this method, see [Information</span>
+<span class="sd">        security](https://console.bluemix.net/docs/services/text-to-speech/information-security.html).</span>
+
+<span class="sd">        :param str customer_id: The customer ID for which all data is to be deleted.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">customer_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;customer_id must be provided&#39;</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;customer_id&#39;</span><span class="p">:</span> <span class="n">customer_id</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/user_data&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div></div>
+
 
 <span class="c1">##############################################################################</span>
 <span class="c1"># Models</span>
@@ -692,14 +735,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pronunciation.</span>
 
-<span class="sd">    :attr str pronunciation: The pronunciation of the requested text in the specified voice and format.</span>
+<span class="sd">    :attr str pronunciation: The pronunciation of the specified text in the requested voice and format. If a custom voice model is specified, the pronunciation also reflects that custom voice.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pronunciation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a Pronunciation object.</span>
 
-<span class="sd">        :param str pronunciation: The pronunciation of the requested text in the specified voice and format.</span>
+<span class="sd">        :param str pronunciation: The pronunciation of the specified text in the requested voice and format. If a custom voice model is specified, the pronunciation also reflects that custom voice.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pronunciation</span> <span class="o">=</span> <span class="n">pronunciation</span>
 
@@ -866,7 +909,7 @@
 <span class="sd">    :attr str description: A textual description of the voice.</span>
 <span class="sd">    :attr bool customizable: If `true`, the voice can be customized; if `false`, the voice cannot be customized. (Same as `custom_pronunciation`; maintained for backward compatibility.).</span>
 <span class="sd">    :attr SupportedFeatures supported_features: Describes the additional service features supported with the voice.</span>
-<span class="sd">    :attr VoiceModel customization: (optional) Returns information about a specified custom voice model. **Note:** This field is returned only when you list information about a specific voice and specify the GUID of a custom voice model that is based on that voice.</span>
+<span class="sd">    :attr VoiceModel customization: (optional) Returns information about a specified custom voice model. This field is returned only by the **Get a voice** method and only when you specify the customization ID of a custom voice model.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -888,7 +931,7 @@
 <span class="sd">        :param str description: A textual description of the voice.</span>
 <span class="sd">        :param bool customizable: If `true`, the voice can be customized; if `false`, the voice cannot be customized. (Same as `custom_pronunciation`; maintained for backward compatibility.).</span>
 <span class="sd">        :param SupportedFeatures supported_features: Describes the additional service features supported with the voice.</span>
-<span class="sd">        :param VoiceModel customization: (optional) Returns information about a specified custom voice model. **Note:** This field is returned only when you list information about a specific voice and specify the GUID of a custom voice model that is based on that voice.</span>
+<span class="sd">        :param VoiceModel customization: (optional) Returns information about a specified custom voice model. This field is returned only by the **Get a voice** method and only when you specify the customization ID of a custom voice model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender</span>
@@ -987,14 +1030,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    VoiceModel.</span>
 
-<span class="sd">    :attr str customization_id: The customization ID (GUID) of the custom voice model. **Note:** When you create a new custom voice model, the service returns only the GUID of the new custom model; it does not return the other fields of this object.</span>
+<span class="sd">    :attr str customization_id: The customization ID (GUID) of the custom voice model. The **Create a custom model** method returns only this field. It does not not return the other fields of this object.</span>
 <span class="sd">    :attr str name: (optional) The name of the custom voice model.</span>
 <span class="sd">    :attr str language: (optional) The language identifier of the custom voice model (for example, `en-US`).</span>
 <span class="sd">    :attr str owner: (optional) The GUID of the service credentials for the instance of the service that owns the custom voice model.</span>
 <span class="sd">    :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at which the custom voice model was created. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).</span>
 <span class="sd">    :attr str last_modified: (optional) The date and time in Coordinated Universal Time (UTC) at which the custom voice model was last modified. Equals `created` when a new voice model is first added but has yet to be updated. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).</span>
 <span class="sd">    :attr str description: (optional) The description of the custom voice model.</span>
-<span class="sd">    :attr list[Word] words: (optional) An array of `Word` objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words. **Note:** This field is returned only when you list information about a specific custom voice model.</span>
+<span class="sd">    :attr list[Word] words: (optional) An array of `Word` objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words. This field is returned only by the **Get a voice** method and only when you specify the customization ID of a custom voice model.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -1009,14 +1052,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a VoiceModel object.</span>
 
-<span class="sd">        :param str customization_id: The customization ID (GUID) of the custom voice model. **Note:** When you create a new custom voice model, the service returns only the GUID of the new custom model; it does not return the other fields of this object.</span>
+<span class="sd">        :param str customization_id: The customization ID (GUID) of the custom voice model. The **Create a custom model** method returns only this field. It does not not return the other fields of this object.</span>
 <span class="sd">        :param str name: (optional) The name of the custom voice model.</span>
 <span class="sd">        :param str language: (optional) The language identifier of the custom voice model (for example, `en-US`).</span>
 <span class="sd">        :param str owner: (optional) The GUID of the service credentials for the instance of the service that owns the custom voice model.</span>
 <span class="sd">        :param str created: (optional) The date and time in Coordinated Universal Time (UTC) at which the custom voice model was created. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).</span>
 <span class="sd">        :param str last_modified: (optional) The date and time in Coordinated Universal Time (UTC) at which the custom voice model was last modified. Equals `created` when a new voice model is first added but has yet to be updated. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).</span>
 <span class="sd">        :param str description: (optional) The description of the custom voice model.</span>
-<span class="sd">        :param list[Word] words: (optional) An array of `Word` objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words. **Note:** This field is returned only when you list information about a specific custom voice model.</span>
+<span class="sd">        :param list[Word] words: (optional) An array of `Word` objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words. This field is returned only by the **Get a voice** method and only when you specify the customization ID of a custom voice model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">customization_id</span> <span class="o">=</span> <span class="n">customization_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
@@ -1262,14 +1305,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Words.</span>
 
-<span class="sd">    :attr list[Word] words: **When adding words to a custom voice model,** an array of `Word` objects that provides one or more words that are to be added or updated for the custom voice model and the translation for each specified word. **When listing words from a custom voice model,** an array of `Word` objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</span>
+<span class="sd">    :attr list[Word] words: The **Add custom words** method accepts an array of `Word` objects. Each object provides a word that is to be added or updated for the custom voice model and the word&#39;s translation.   The **List custom words** method returns an array of `Word` objects. Each object shows a word and its translation from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">words</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a Words object.</span>
 
-<span class="sd">        :param list[Word] words: **When adding words to a custom voice model,** an array of `Word` objects that provides one or more words that are to be added or updated for the custom voice model and the translation for each specified word. **When listing words from a custom voice model,** an array of `Word` objects that lists the words and their translations from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</span>
+<span class="sd">        :param list[Word] words: The **Add custom words** method accepts an array of `Word` objects. Each object provides a word that is to be added or updated for the custom voice model and the word&#39;s translation.   The **List custom words** method returns an array of `Word` objects. Each object shows a word and its translation from the custom voice model. The words are listed in alphabetical order, with uppercase letters listed before lowercase letters. The array is empty if the custom model contains no words.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">words</span> <span class="o">=</span> <span class="n">words</span>
 

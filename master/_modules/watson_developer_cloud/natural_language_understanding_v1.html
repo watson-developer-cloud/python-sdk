@@ -9,7 +9,7 @@
     <title>watson_developer_cloud.natural_language_understanding_v1 &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -72,14 +72,16 @@
 
     <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/natural-language-understanding/api&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">version</span><span class="p">,</span>
-                 <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
-                 <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">version</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a new client for the Natural Language Understanding service.</span>
 
@@ -155,6 +157,29 @@
 <span class="sd">        Analyze text, HTML, or a public webpage.</span>
 
 <span class="sd">        Analyzes text, HTML, or a public webpage with one or more text analysis features.</span>
+<span class="sd">        ### Concepts Identify general concepts that are referenced or alluded to in your</span>
+<span class="sd">        content. Concepts that are detected typically have an associated link to a DBpedia</span>
+<span class="sd">        resource.  ### Emotion Detect anger, disgust, fear, joy, or sadness that is</span>
+<span class="sd">        conveyed by your content. Emotion information can be returned for detected</span>
+<span class="sd">        entities, keywords, or user-specified target phrases found in the text.  ###</span>
+<span class="sd">        Entities Detect important people, places, geopolitical entities and other types of</span>
+<span class="sd">        entities in your content. Entity detection recognizes consecutive coreferences of</span>
+<span class="sd">        each entity. For example, analysis of the following text would count \&quot;Barack</span>
+<span class="sd">        Obama\&quot; and \&quot;He\&quot; as the same entity:  \&quot;Barack Obama was the 44th President of</span>
+<span class="sd">        the United States. He took office in January 2009.\&quot;  ### Keywords Determine the</span>
+<span class="sd">        most important keywords in your content. Keyword phrases are organized by</span>
+<span class="sd">        relevance in the results.  ### Metadata Get author information, publication date,</span>
+<span class="sd">        and the title of your text/HTML content.  ### Relations Recognize when two</span>
+<span class="sd">        entities are related, and identify the type of relation.  For example, you can</span>
+<span class="sd">        identify an \&quot;awardedTo\&quot; relation between an award and its recipient.  ###</span>
+<span class="sd">        Semantic Roles Parse sentences into subject-action-object form, and identify</span>
+<span class="sd">        entities and keywords that are subjects or objects of an action.  ### Sentiment</span>
+<span class="sd">        Determine whether your content conveys postive or negative sentiment. Sentiment</span>
+<span class="sd">        information can be returned for detected entities, keywords, or user-specified</span>
+<span class="sd">        target phrases found in the text.   ### Categories Categorize your content into a</span>
+<span class="sd">        hierarchical 5-level taxonomy. For example, \&quot;Leonardo DiCaprio won an Oscar\&quot;</span>
+<span class="sd">        returns \&quot;/art and entertainment/movies and tv/movies\&quot; as the most confident</span>
+<span class="sd">        classification.</span>
 
 <span class="sd">        :param Features features: Specific features to analyze the document for.</span>
 <span class="sd">        :param str text: The plain text to analyze.</span>
@@ -1457,51 +1482,6 @@
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return a `str` version of this Feed object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
-
-    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
-
-
-<div class="viewcode-block" id="InlineResponse200"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.InlineResponse200">[docs]</a><span class="k">class</span> <span class="nc">InlineResponse200</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    InlineResponse200.</span>
-
-<span class="sd">    :attr str deleted: (optional) model_id of the deleted model.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deleted</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a InlineResponse200 object.</span>
-
-<span class="sd">        :param str deleted: (optional) model_id of the deleted model.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deleted</span> <span class="o">=</span> <span class="n">deleted</span>
-
-    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize a InlineResponse200 object from a json dictionary.&quot;&quot;&quot;</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="s1">&#39;deleted&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;deleted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;deleted&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
-        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;deleted&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">deleted</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;deleted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deleted</span>
-        <span class="k">return</span> <span class="n">_dict</span>
-
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a `str` version of this InlineResponse200 object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>

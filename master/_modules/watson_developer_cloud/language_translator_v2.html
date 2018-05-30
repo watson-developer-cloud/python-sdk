@@ -9,7 +9,7 @@
     <title>watson_developer_cloud.language_translator_v2 &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
@@ -69,13 +69,15 @@
 
     <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/language-translator/api&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
-                 <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_api_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a new client for the Language Translator service.</span>
 
@@ -191,6 +193,8 @@
 
 <div class="viewcode-block" id="LanguageTranslatorV2.list_identifiable_languages"><a class="viewcode-back" href="../../apis/watson_developer_cloud.language_translator_v2.html#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_identifiable_languages">[docs]</a>    <span class="k">def</span> <span class="nf">list_identifiable_languages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List identifiable languages.</span>
+
 <span class="sd">        Lists the languages that the service can identify. Returns the language code (for</span>
 <span class="sd">        example, `en` for English or `es` for Spanish) and name of each language.</span>
 
@@ -221,6 +225,8 @@
                      <span class="n">monolingual_corpus_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create model.</span>
+
 <span class="sd">        Uploads a TMX glossary file on top of a domain to customize a translation model.</span>
 <span class="sd">        Depending on the size of the file, training can range from minutes for a glossary</span>
 <span class="sd">        to several hours for a large parallel corpus. Glossary files must be less than 10</span>
@@ -285,6 +291,8 @@
 
 <div class="viewcode-block" id="LanguageTranslatorV2.delete_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.language_translator_v2.html#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.delete_model">[docs]</a>    <span class="k">def</span> <span class="nf">delete_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete model.</span>
+
 <span class="sd">        Deletes a custom translation model.</span>
 
 <span class="sd">        :param str model_id: Model ID of the model to delete.</span>
@@ -304,6 +312,8 @@
 
 <div class="viewcode-block" id="LanguageTranslatorV2.get_model"><a class="viewcode-back" href="../../apis/watson_developer_cloud.language_translator_v2.html#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get model details.</span>
+
 <span class="sd">        Gets information about a translation model, including training status for custom</span>
 <span class="sd">        models.</span>
 
@@ -328,6 +338,8 @@
                     <span class="n">default_models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List models.</span>
+
 <span class="sd">        Lists available translation models.</span>
 
 <span class="sd">        :param str source: Specify a language code to filter results by source language.</span>
