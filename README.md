@@ -122,7 +122,7 @@ discovery = DiscoveryV1(version='2017-10-16',
 ```python
 # after instantiation, letting the SDK manage the IAM token
 discovery = DiscoveryV1(version='2017-10-16')
-discovery.set_token_manager('<iam_api_key>')
+discovery.set_iam_api_key('<iam_api_key>')
 ```
 
 ```python
