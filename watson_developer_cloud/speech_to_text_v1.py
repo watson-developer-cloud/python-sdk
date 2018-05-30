@@ -1065,7 +1065,11 @@ class SpeechToTextV1(WatsonService):
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word_name))
         self.request(
-            method='PUT', url=url, headers=headers, json=data, accept_json=True)
+            method='PUT',
+            url=url,
+            headers=headers,
+            json=data,
+            accept_json=True)
         return None
 
     def add_words(self, customization_id, words, **kwargs):
@@ -1199,7 +1203,8 @@ class SpeechToTextV1(WatsonService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    def list_words(self, customization_id, word_type=None, sort=None, **kwargs):
+    def list_words(self, customization_id, word_type=None, sort=None,
+                   **kwargs):
         """
         List custom words.
 
@@ -1934,7 +1939,8 @@ class AudioDetails(object):
     :attr str compression: (optional) **For an archive-type resource,** the format of the compressed archive: * `zip` for a **.zip** file * `gzip` for a **.tar.gz** file   Omitted for an audio-type resource.
     """
 
-    def __init__(self, type=None, codec=None, frequency=None, compression=None):
+    def __init__(self, type=None, codec=None, frequency=None,
+                 compression=None):
         """
         Initialize a AudioDetails object.
 
@@ -2039,7 +2045,8 @@ class AudioListing(object):
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'container' in _dict:
-            args['container'] = AudioResource._from_dict(_dict.get('container'))
+            args['container'] = AudioResource._from_dict(
+                _dict.get('container'))
         if 'audio' in _dict:
             args['audio'] = [
                 AudioResource._from_dict(x) for x in (_dict.get('audio'))
@@ -2182,7 +2189,8 @@ class AudioResources(object):
         """Initialize a AudioResources object from a json dictionary."""
         args = {}
         if 'total_minutes_of_audio' in _dict:
-            args['total_minutes_of_audio'] = _dict.get('total_minutes_of_audio')
+            args['total_minutes_of_audio'] = _dict.get(
+                'total_minutes_of_audio')
         else:
             raise ValueError(
                 'Required property \'total_minutes_of_audio\' not present in AudioResources JSON'
@@ -2201,7 +2209,7 @@ class AudioResources(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'total_minutes_of_audio'
-                  ) and self.total_minutes_of_audio is not None:
+                   ) and self.total_minutes_of_audio is not None:
             _dict['total_minutes_of_audio'] = self.total_minutes_of_audio
         if hasattr(self, 'audio') and self.audio is not None:
             _dict['audio'] = [x._to_dict() for x in self.audio]
@@ -2342,7 +2350,7 @@ class Corpus(object):
         if hasattr(self, 'total_words') and self.total_words is not None:
             _dict['total_words'] = self.total_words
         if hasattr(self, 'out_of_vocabulary_words'
-                  ) and self.out_of_vocabulary_words is not None:
+                   ) and self.out_of_vocabulary_words is not None:
             _dict['out_of_vocabulary_words'] = self.out_of_vocabulary_words
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
@@ -3330,87 +3338,87 @@ class SessionStatus(object):
         return not self == other
 
 
-# class SpeakerLabelsResult(object):
-#     """
-#     SpeakerLabelsResult.
+class SpeakerLabelsResult(object):
+    """
+    SpeakerLabelsResult.
 
-#     :attr float from: The start time of a word from the transcript. The value matches the start time of a word from the `timestamps` array.
-#     :attr float to: The end time of a word from the transcript. The value matches the end time of a word from the `timestamps` array.
-#     :attr int speaker: The numeric identifier that the service assigns to a speaker from the audio. Speaker IDs begin at `0` initially but can evolve and change across interim results (if supported by the method) and between interim and final results as the service processes the audio. They are not guaranteed to be sequential, contiguous, or ordered.
-#     :attr float confidence: A score that indicates the service's confidence in its identification of the speaker in the range of 0 to 1.
-#     :attr bool final_results: An indication of whether the service might further change word and speaker-label results. A value of `true` means that the service guarantees not to send any further updates for the current or any preceding results; `false` means that the service might send further updates to the results.
-#     """
+    :attr float from: The start time of a word from the transcript. The value matches the start time of a word from the `timestamps` array.
+    :attr float to: The end time of a word from the transcript. The value matches the end time of a word from the `timestamps` array.
+    :attr int speaker: The numeric identifier that the service assigns to a speaker from the audio. Speaker IDs begin at `0` initially but can evolve and change across interim results (if supported by the method) and between interim and final results as the service processes the audio. They are not guaranteed to be sequential, contiguous, or ordered.
+    :attr float confidence: A score that indicates the service's confidence in its identification of the speaker in the range of 0 to 1.
+    :attr bool final_results: An indication of whether the service might further change word and speaker-label results. A value of `true` means that the service guarantees not to send any further updates for the current or any preceding results; `false` means that the service might send further updates to the results.
+    """
 
-#     def __init__(self, from, to, speaker, confidence, final_results):
-#         """
-#         Initialize a SpeakerLabelsResult object.
+    def __init__(self, from, to, speaker, confidence, final_results):
+        """
+        Initialize a SpeakerLabelsResult object.
 
-#         :param float from: The start time of a word from the transcript. The value matches the start time of a word from the `timestamps` array.
-#         :param float to: The end time of a word from the transcript. The value matches the end time of a word from the `timestamps` array.
-#         :param int speaker: The numeric identifier that the service assigns to a speaker from the audio. Speaker IDs begin at `0` initially but can evolve and change across interim results (if supported by the method) and between interim and final results as the service processes the audio. They are not guaranteed to be sequential, contiguous, or ordered.
-#         :param float confidence: A score that indicates the service's confidence in its identification of the speaker in the range of 0 to 1.
-#         :param bool final_results: An indication of whether the service might further change word and speaker-label results. A value of `true` means that the service guarantees not to send any further updates for the current or any preceding results; `false` means that the service might send further updates to the results.
-#         """
-#         self.from = from
-#         self.to = to
-#         self.speaker = speaker
-#         self.confidence = confidence
-#         self.final_results = final_results
+        :param float from: The start time of a word from the transcript. The value matches the start time of a word from the `timestamps` array.
+        :param float to: The end time of a word from the transcript. The value matches the end time of a word from the `timestamps` array.
+        :param int speaker: The numeric identifier that the service assigns to a speaker from the audio. Speaker IDs begin at `0` initially but can evolve and change across interim results (if supported by the method) and between interim and final results as the service processes the audio. They are not guaranteed to be sequential, contiguous, or ordered.
+        :param float confidence: A score that indicates the service's confidence in its identification of the speaker in the range of 0 to 1.
+        :param bool final_results: An indication of whether the service might further change word and speaker-label results. A value of `true` means that the service guarantees not to send any further updates for the current or any preceding results; `false` means that the service might send further updates to the results.
+        """
+        self.from = from
+        self.to = to
+        self.speaker = speaker
+        self.confidence = confidence
+        self.final_results = final_results
 
-#     @classmethod
-#     def _from_dict(cls, _dict):
-#         """Initialize a SpeakerLabelsResult object from a json dictionary."""
-#         args = {}
-#         if 'from' in _dict:
-#             args['from'] = _dict.get('from')
-#         else:
-#             raise ValueError('Required property \'from\' not present in SpeakerLabelsResult JSON')
-#         if 'to' in _dict:
-#             args['to'] = _dict.get('to')
-#         else:
-#             raise ValueError('Required property \'to\' not present in SpeakerLabelsResult JSON')
-#         if 'speaker' in _dict:
-#             args['speaker'] = _dict.get('speaker')
-#         else:
-#             raise ValueError('Required property \'speaker\' not present in SpeakerLabelsResult JSON')
-#         if 'confidence' in _dict:
-#             args['confidence'] = _dict.get('confidence')
-#         else:
-#             raise ValueError('Required property \'confidence\' not present in SpeakerLabelsResult JSON')
-#         if 'final' in _dict or 'final_results' in _dict:
-#             args['final_results'] = _dict.get('final') or _dict.get('final_results')
-#         else:
-#             raise ValueError('Required property \'final\' not present in SpeakerLabelsResult JSON')
-#         return cls(**args)
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SpeakerLabelsResult object from a json dictionary."""
+        args = {}
+        if 'from' in _dict:
+            args['from'] = _dict.get('from')
+        else:
+            raise ValueError('Required property \'from\' not present in SpeakerLabelsResult JSON')
+        if 'to' in _dict:
+            args['to'] = _dict.get('to')
+        else:
+            raise ValueError('Required property \'to\' not present in SpeakerLabelsResult JSON')
+        if 'speaker' in _dict:
+            args['speaker'] = _dict.get('speaker')
+        else:
+            raise ValueError('Required property \'speaker\' not present in SpeakerLabelsResult JSON')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        else:
+            raise ValueError('Required property \'confidence\' not present in SpeakerLabelsResult JSON')
+        if 'final' in _dict or 'final_results' in _dict:
+            args['final_results'] = _dict.get('final') or _dict.get('final_results')
+        else:
+            raise ValueError('Required property \'final\' not present in SpeakerLabelsResult JSON')
+        return cls(**args)
 
-#     def _to_dict(self):
-#         """Return a json dictionary representing this model."""
-#         _dict = {}
-#         if hasattr(self, 'from') and self.from is not None:
-#             _dict['from'] = self.from
-#         if hasattr(self, 'to') and self.to is not None:
-#             _dict['to'] = self.to
-#         if hasattr(self, 'speaker') and self.speaker is not None:
-#             _dict['speaker'] = self.speaker
-#         if hasattr(self, 'confidence') and self.confidence is not None:
-#             _dict['confidence'] = self.confidence
-#         if hasattr(self, 'final_results') and self.final_results is not None:
-#             _dict['final'] = self.final_results
-#         return _dict
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'from') and self.from is not None:
+            _dict['from'] = self.from
+        if hasattr(self, 'to') and self.to is not None:
+            _dict['to'] = self.to
+        if hasattr(self, 'speaker') and self.speaker is not None:
+            _dict['speaker'] = self.speaker
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        if hasattr(self, 'final_results') and self.final_results is not None:
+            _dict['final'] = self.final_results
+        return _dict
 
-#     def __str__(self):
-#         """Return a `str` version of this SpeakerLabelsResult object."""
-#         return json.dumps(self._to_dict(), indent=2)
+    def __str__(self):
+        """Return a `str` version of this SpeakerLabelsResult object."""
+        return json.dumps(self._to_dict(), indent=2)
 
-#     def __eq__(self, other):
-#         """Return `true` when self and other are equal, false otherwise."""
-#         if not isinstance(other, self.__class__):
-#             return False
-#         return self.__dict__ == other.__dict__
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
 
-#     def __ne__(self, other):
-#         """Return `true` when self and other are not equal, false otherwise."""
-#         return not self == other
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class SpeechModel(object):
@@ -3556,7 +3564,8 @@ class SpeechModels(object):
             ]
         else:
             raise ValueError(
-                'Required property \'models\' not present in SpeechModels JSON')
+                'Required property \'models\' not present in SpeechModels JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -3983,7 +3992,7 @@ class SupportedFeatures(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'custom_language_model'
-                  ) and self.custom_language_model is not None:
+                   ) and self.custom_language_model is not None:
             _dict['custom_language_model'] = self.custom_language_model
         if hasattr(self, 'speaker_labels') and self.speaker_labels is not None:
             _dict['speaker_labels'] = self.speaker_labels
@@ -4016,7 +4025,12 @@ class Word(object):
     :attr list[WordError] error: (optional) If the service discovered one or more problems that you need to correct for the word's definition, an array that describes each of the errors.
     """
 
-    def __init__(self, word, sounds_like, display_as, count, source,
+    def __init__(self,
+                 word,
+                 sounds_like,
+                 display_as,
+                 count,
+                 source,
                  error=None):
         """
         Initialize a Word object.

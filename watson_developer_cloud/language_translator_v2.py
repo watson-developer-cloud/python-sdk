@@ -227,16 +227,16 @@ class LanguageTranslatorV2(WatsonService):
         params = {'base_model_id': base_model_id, 'name': name}
         forced_glossary_tuple = None
         if forced_glossary:
-            if not forced_glossary_filename and hasattr(forced_glossary,
-                                                        'name'):
+            if not forced_glossary_filename and hasattr(
+                    forced_glossary, 'name'):
                 forced_glossary_filename = forced_glossary.name
             mime_type = 'application/octet-stream'
             forced_glossary_tuple = (forced_glossary_filename, forced_glossary,
                                      mime_type)
         parallel_corpus_tuple = None
         if parallel_corpus:
-            if not parallel_corpus_filename and hasattr(parallel_corpus,
-                                                        'name'):
+            if not parallel_corpus_filename and hasattr(
+                    parallel_corpus, 'name'):
                 parallel_corpus_filename = parallel_corpus.name
             mime_type = 'application/octet-stream'
             parallel_corpus_tuple = (parallel_corpus_filename, parallel_corpus,
@@ -326,7 +326,11 @@ class LanguageTranslatorV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        params = {'source': source, 'target': target, 'default': default_models}
+        params = {
+            'source': source,
+            'target': target,
+            'default': default_models
+        }
         url = '/v2/models'
         response = self.request(
             method='GET',

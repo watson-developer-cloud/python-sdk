@@ -7,7 +7,7 @@
 # You may obtain a copy of the License at
 #
 #      http://www.apache.org/licenses/LICENSE-2.0
-#s
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -124,7 +124,9 @@ class NaturalLanguageClassifierV1(WatsonService):
             raise ValueError('classifier_id must be provided')
         if collection is None:
             raise ValueError('collection must be provided')
-        collection = [self._convert_model(x, ClassifyInput) for x in collection]
+        collection = [
+            self._convert_model(x, ClassifyInput) for x in collection
+        ]
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -177,7 +179,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         if not training_data_filename and hasattr(training_data, 'name'):
             training_data_filename = training_data.name
         mime_type = 'text/csv'
-        training_data_tuple = (training_data_filename, training_data, mime_type)
+        training_data_tuple = (training_data_filename, training_data,
+                               mime_type)
         url = '/v1/classifiers'
         response = self.request(
             method='POST',

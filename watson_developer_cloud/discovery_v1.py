@@ -994,7 +994,8 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id))
+            *self._encode_path_vars(environment_id, collection_id,
+                                    document_id))
         response = self.request(
             method='DELETE',
             url=url,
@@ -1031,7 +1032,8 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id))
+            *self._encode_path_vars(environment_id, collection_id,
+                                    document_id))
         response = self.request(
             method='GET',
             url=url,
@@ -1087,7 +1089,8 @@ class DiscoveryV1(WatsonService):
         if metadata:
             metadata_tuple = (None, metadata, 'text/plain')
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id))
+            *self._encode_path_vars(environment_id, collection_id,
+                                    document_id))
         response = self.request(
             method='POST',
             url=url,
@@ -1666,7 +1669,8 @@ class DiscoveryV1(WatsonService):
             accept_json=True)
         return response
 
-    def delete_all_training_data(self, environment_id, collection_id, **kwargs):
+    def delete_all_training_data(self, environment_id, collection_id,
+                                 **kwargs):
         """
         Delete all training data.
 
@@ -2459,9 +2463,8 @@ class Conversions(object):
             _dict['html'] = self.html._to_dict()
         if hasattr(self, 'segment') and self.segment is not None:
             _dict['segment'] = self.segment._to_dict()
-        if hasattr(
-                self,
-                'json_normalizations') and self.json_normalizations is not None:
+        if hasattr(self, 'json_normalizations'
+                   ) and self.json_normalizations is not None:
             _dict['json_normalizations'] = [
                 x._to_dict() for x in self.json_normalizations
             ]
@@ -2922,7 +2925,7 @@ class DiskUsage(object):
         if hasattr(self, 'used_bytes') and self.used_bytes is not None:
             _dict['used_bytes'] = self.used_bytes
         if hasattr(self, 'maximum_allowed_bytes'
-                  ) and self.maximum_allowed_bytes is not None:
+                   ) and self.maximum_allowed_bytes is not None:
             _dict['maximum_allowed_bytes'] = self.maximum_allowed_bytes
         if hasattr(self, 'total_bytes') and self.total_bytes is not None:
             _dict['total_bytes'] = self.total_bytes
@@ -3376,7 +3379,8 @@ class Enrichment(object):
             args['ignore_downstream_errors'] = _dict.get(
                 'ignore_downstream_errors')
         if 'options' in _dict:
-            args['options'] = EnrichmentOptions._from_dict(_dict.get('options'))
+            args['options'] = EnrichmentOptions._from_dict(
+                _dict.get('options'))
         return cls(**args)
 
     def _to_dict(self):
@@ -3395,7 +3399,7 @@ class Enrichment(object):
                    'enrichment_name') and self.enrichment_name is not None:
             _dict['enrichment'] = self.enrichment_name
         if hasattr(self, 'ignore_downstream_errors'
-                  ) and self.ignore_downstream_errors is not None:
+                   ) and self.ignore_downstream_errors is not None:
             _dict['ignore_downstream_errors'] = self.ignore_downstream_errors
         if hasattr(self, 'options') and self.options is not None:
             _dict['options'] = self.options._to_dict()
@@ -3702,7 +3706,8 @@ class ErrorResponse(object):
             args['error'] = _dict.get('error')
         else:
             raise ValueError(
-                'Required property \'error\' not present in ErrorResponse JSON')
+                'Required property \'error\' not present in ErrorResponse JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -4069,29 +4074,29 @@ class HtmlSettings(object):
         if 'keep_tag_attributes' in _dict:
             args['keep_tag_attributes'] = _dict.get('keep_tag_attributes')
         if 'exclude_tag_attributes' in _dict:
-            args['exclude_tag_attributes'] = _dict.get('exclude_tag_attributes')
+            args['exclude_tag_attributes'] = _dict.get(
+                'exclude_tag_attributes')
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'exclude_tags_completely'
-                  ) and self.exclude_tags_completely is not None:
+                   ) and self.exclude_tags_completely is not None:
             _dict['exclude_tags_completely'] = self.exclude_tags_completely
         if hasattr(self, 'exclude_tags_keep_content'
-                  ) and self.exclude_tags_keep_content is not None:
+                   ) and self.exclude_tags_keep_content is not None:
             _dict['exclude_tags_keep_content'] = self.exclude_tags_keep_content
         if hasattr(self, 'keep_content') and self.keep_content is not None:
             _dict['keep_content'] = self.keep_content._to_dict()
         if hasattr(self,
                    'exclude_content') and self.exclude_content is not None:
             _dict['exclude_content'] = self.exclude_content._to_dict()
-        if hasattr(
-                self,
-                'keep_tag_attributes') and self.keep_tag_attributes is not None:
+        if hasattr(self, 'keep_tag_attributes'
+                   ) and self.keep_tag_attributes is not None:
             _dict['keep_tag_attributes'] = self.keep_tag_attributes
         if hasattr(self, 'exclude_tag_attributes'
-                  ) and self.exclude_tag_attributes is not None:
+                   ) and self.exclude_tag_attributes is not None:
             _dict['exclude_tag_attributes'] = self.exclude_tag_attributes
         return _dict
 
@@ -4257,7 +4262,7 @@ class LanguageEnrichmentOptions(object):
                    'show_source_text') and self.show_source_text is not None:
             _dict['showSourceText'] = self.show_source_text
         if hasattr(self, 'hierarchical_typed_relations'
-                  ) and self.hierarchical_typed_relations is not None:
+                   ) and self.hierarchical_typed_relations is not None:
             _dict[
                 'hierarchicalTypedRelations'] = self.hierarchical_typed_relations
         if hasattr(self, 'model') and self.model is not None:
@@ -4566,7 +4571,8 @@ class NewTrainingQuery(object):
     :attr list[TrainingExample] examples: (optional)
     """
 
-    def __init__(self, natural_language_query=None, filter=None, examples=None):
+    def __init__(self, natural_language_query=None, filter=None,
+                 examples=None):
         """
         Initialize a NewTrainingQuery object.
 
@@ -4583,7 +4589,8 @@ class NewTrainingQuery(object):
         """Initialize a NewTrainingQuery object from a json dictionary."""
         args = {}
         if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict.get('natural_language_query')
+            args['natural_language_query'] = _dict.get(
+                'natural_language_query')
         if 'filter' in _dict:
             args['filter'] = _dict.get('filter')
         if 'examples' in _dict:
@@ -4596,7 +4603,7 @@ class NewTrainingQuery(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'natural_language_query'
-                  ) and self.natural_language_query is not None:
+                   ) and self.natural_language_query is not None:
             _dict['natural_language_query'] = self.natural_language_query
         if hasattr(self, 'filter') and self.filter is not None:
             _dict['filter'] = self.filter
@@ -5591,7 +5598,8 @@ class QueryEntities(object):
         if 'feature' in _dict:
             args['feature'] = _dict.get('feature')
         if 'entity' in _dict:
-            args['entity'] = QueryEntitiesEntity._from_dict(_dict.get('entity'))
+            args['entity'] = QueryEntitiesEntity._from_dict(
+                _dict.get('entity'))
         if 'context' in _dict:
             args['context'] = QueryEntitiesContext._from_dict(
                 _dict.get('context'))
@@ -5930,7 +5938,10 @@ class QueryEvidenceEntity(object):
     :attr int end_offset: (optional) The end location of the entity text in the identified field. This value is exclusive.
     """
 
-    def __init__(self, type=None, text=None, start_offset=None,
+    def __init__(self,
+                 type=None,
+                 text=None,
+                 start_offset=None,
                  end_offset=None):
         """
         Initialize a QueryEvidenceEntity object.
@@ -6079,7 +6090,8 @@ class QueryNoticesResponse(object):
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
             args['results'] = [
-                QueryNoticesResult._from_dict(x) for x in (_dict.get('results'))
+                QueryNoticesResult._from_dict(x)
+                for x in (_dict.get('results'))
             ]
         if 'aggregations' in _dict:
             args['aggregations'] = [
@@ -6261,8 +6273,8 @@ class QueryNoticesResult(object):
             'code', 'filename', 'file_type', 'sha1', 'notices'
         }
         if not hasattr(self, '_additionalProperties'):
-            super(QueryNoticesResult, self).__setattr__('_additionalProperties',
-                                                        set())
+            super(QueryNoticesResult, self).__setattr__(
+                '_additionalProperties', set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(QueryNoticesResult, self).__setattr__(name, value)
@@ -6640,7 +6652,10 @@ class QueryRelationsRelationship(object):
     :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
     """
 
-    def __init__(self, type=None, frequency=None, arguments=None,
+    def __init__(self,
+                 type=None,
+                 frequency=None,
+                 arguments=None,
                  evidence=None):
         """
         Initialize a QueryRelationsRelationship object.
@@ -6924,7 +6939,8 @@ class QueryResult(object):
             'id', 'score', 'metadata', 'collection_id', 'result_metadata'
         }
         if not hasattr(self, '_additionalProperties'):
-            super(QueryResult, self).__setattr__('_additionalProperties', set())
+            super(QueryResult, self).__setattr__('_additionalProperties',
+                                                 set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(QueryResult, self).__setattr__(name, value)
@@ -7091,7 +7107,8 @@ class TestDocument(object):
             args['original_media_type'] = _dict.get('original_media_type')
         if 'snapshots' in _dict:
             args['snapshots'] = [
-                DocumentSnapshot._from_dict(x) for x in (_dict.get('snapshots'))
+                DocumentSnapshot._from_dict(x)
+                for x in (_dict.get('snapshots'))
             ]
         if 'notices' in _dict:
             args['notices'] = [
@@ -7108,11 +7125,10 @@ class TestDocument(object):
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'enriched_field_units'
-                  ) and self.enriched_field_units is not None:
+                   ) and self.enriched_field_units is not None:
             _dict['enriched_field_units'] = self.enriched_field_units
-        if hasattr(
-                self,
-                'original_media_type') and self.original_media_type is not None:
+        if hasattr(self, 'original_media_type'
+                   ) and self.original_media_type is not None:
             _dict['original_media_type'] = self.original_media_type
         if hasattr(self, 'snapshots') and self.snapshots is not None:
             _dict['snapshots'] = [x._to_dict() for x in self.snapshots]
@@ -7446,7 +7462,8 @@ class TrainingQuery(object):
         if 'query_id' in _dict:
             args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict.get('natural_language_query')
+            args['natural_language_query'] = _dict.get(
+                'natural_language_query')
         if 'filter' in _dict:
             args['filter'] = _dict.get('filter')
         if 'examples' in _dict:
@@ -7461,7 +7478,7 @@ class TrainingQuery(object):
         if hasattr(self, 'query_id') and self.query_id is not None:
             _dict['query_id'] = self.query_id
         if hasattr(self, 'natural_language_query'
-                  ) and self.natural_language_query is not None:
+                   ) and self.natural_language_query is not None:
             _dict['natural_language_query'] = self.natural_language_query
         if hasattr(self, 'filter') and self.filter is not None:
             _dict['filter'] = self.filter
@@ -7545,7 +7562,8 @@ class TrainingStatus(object):
         if 'minimum_queries_added' in _dict:
             args['minimum_queries_added'] = _dict.get('minimum_queries_added')
         if 'minimum_examples_added' in _dict:
-            args['minimum_examples_added'] = _dict.get('minimum_examples_added')
+            args['minimum_examples_added'] = _dict.get(
+                'minimum_examples_added')
         if 'sufficient_label_diversity' in _dict:
             args['sufficient_label_diversity'] = _dict.get(
                 'sufficient_label_diversity')
@@ -7555,7 +7573,8 @@ class TrainingStatus(object):
             args['successfully_trained'] = string_to_datetime(
                 _dict.get('successfully_trained'))
         if 'data_updated' in _dict:
-            args['data_updated'] = string_to_datetime(_dict.get('data_updated'))
+            args['data_updated'] = string_to_datetime(
+                _dict.get('data_updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -7568,19 +7587,19 @@ class TrainingStatus(object):
         if hasattr(self, 'processing') and self.processing is not None:
             _dict['processing'] = self.processing
         if hasattr(self, 'minimum_queries_added'
-                  ) and self.minimum_queries_added is not None:
+                   ) and self.minimum_queries_added is not None:
             _dict['minimum_queries_added'] = self.minimum_queries_added
         if hasattr(self, 'minimum_examples_added'
-                  ) and self.minimum_examples_added is not None:
+                   ) and self.minimum_examples_added is not None:
             _dict['minimum_examples_added'] = self.minimum_examples_added
         if hasattr(self, 'sufficient_label_diversity'
-                  ) and self.sufficient_label_diversity is not None:
+                   ) and self.sufficient_label_diversity is not None:
             _dict[
                 'sufficient_label_diversity'] = self.sufficient_label_diversity
         if hasattr(self, 'notices') and self.notices is not None:
             _dict['notices'] = self.notices
         if hasattr(self, 'successfully_trained'
-                  ) and self.successfully_trained is not None:
+                   ) and self.successfully_trained is not None:
             _dict['successfully_trained'] = datetime_to_string(
                 self.successfully_trained)
         if hasattr(self, 'data_updated') and self.data_updated is not None:

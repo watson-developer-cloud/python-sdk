@@ -683,7 +683,8 @@ class ToneChatScore(object):
             args['score'] = _dict.get('score')
         else:
             raise ValueError(
-                'Required property \'score\' not present in ToneChatScore JSON')
+                'Required property \'score\' not present in ToneChatScore JSON'
+            )
         if 'tone_id' in _dict:
             args['tone_id'] = _dict.get('tone_id')
         else:
@@ -811,7 +812,8 @@ class ToneScore(object):
             args['tone_name'] = _dict.get('tone_name')
         else:
             raise ValueError(
-                'Required property \'tone_name\' not present in ToneScore JSON')
+                'Required property \'tone_name\' not present in ToneScore JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):

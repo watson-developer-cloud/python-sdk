@@ -1380,7 +1380,8 @@ class ErrorResponse(object):
             args['error'] = _dict.get('error')
         else:
             raise ValueError(
-                'Required property \'error\' not present in ErrorResponse JSON')
+                'Required property \'error\' not present in ErrorResponse JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -1657,7 +1658,8 @@ class FaceLocation(object):
             args['height'] = _dict.get('height')
         else:
             raise ValueError(
-                'Required property \'height\' not present in FaceLocation JSON')
+                'Required property \'height\' not present in FaceLocation JSON'
+            )
         if 'left' in _dict:
             args['left'] = _dict.get('left')
         else:

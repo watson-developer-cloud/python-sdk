@@ -1475,7 +1475,8 @@ class ErrorResponse(object):
             args['error'] = _dict.get('error')
         else:
             raise ValueError(
-                'Required property \'error\' not present in ErrorResponse JSON')
+                'Required property \'error\' not present in ErrorResponse JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -1600,15 +1601,19 @@ class Features(object):
         """Initialize a Features object from a json dictionary."""
         args = {}
         if 'concepts' in _dict:
-            args['concepts'] = ConceptsOptions._from_dict(_dict.get('concepts'))
+            args['concepts'] = ConceptsOptions._from_dict(
+                _dict.get('concepts'))
         if 'emotion' in _dict:
             args['emotion'] = EmotionOptions._from_dict(_dict.get('emotion'))
         if 'entities' in _dict:
-            args['entities'] = EntitiesOptions._from_dict(_dict.get('entities'))
+            args['entities'] = EntitiesOptions._from_dict(
+                _dict.get('entities'))
         if 'keywords' in _dict:
-            args['keywords'] = KeywordsOptions._from_dict(_dict.get('keywords'))
+            args['keywords'] = KeywordsOptions._from_dict(
+                _dict.get('keywords'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataOptions._from_dict(_dict.get('metadata'))
+            args['metadata'] = MetadataOptions._from_dict(
+                _dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = RelationsOptions._from_dict(
                 _dict.get('relations'))
@@ -1948,7 +1953,8 @@ class KeywordsResult(object):
     :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the keyword, enabled with the "sentiment" option.
     """
 
-    def __init__(self, relevance=None, text=None, emotion=None, sentiment=None):
+    def __init__(self, relevance=None, text=None, emotion=None,
+                 sentiment=None):
         """
         Initialize a KeywordsResult object.
 
@@ -2456,7 +2462,8 @@ class Parameters(object):
             args['features'] = Features._from_dict(_dict.get('features'))
         else:
             raise ValueError(
-                'Required property \'features\' not present in Parameters JSON')
+                'Required property \'features\' not present in Parameters JSON'
+            )
         if 'clean' in _dict:
             args['clean'] = _dict.get('clean')
         if 'xpath' in _dict:
@@ -2490,12 +2497,12 @@ class Parameters(object):
                    'fallback_to_raw') and self.fallback_to_raw is not None:
             _dict['fallback_to_raw'] = self.fallback_to_raw
         if hasattr(self, 'return_analyzed_text'
-                  ) and self.return_analyzed_text is not None:
+                   ) and self.return_analyzed_text is not None:
             _dict['return_analyzed_text'] = self.return_analyzed_text
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'limit_text_characters'
-                  ) and self.limit_text_characters is not None:
+                   ) and self.limit_text_characters is not None:
             _dict['limit_text_characters'] = self.limit_text_characters
         return _dict
 
@@ -2709,7 +2716,8 @@ class RelationsResult(object):
             args['type'] = _dict.get('type')
         if 'arguments' in _dict:
             args['arguments'] = [
-                RelationArgument._from_dict(x) for x in (_dict.get('arguments'))
+                RelationArgument._from_dict(x)
+                for x in (_dict.get('arguments'))
             ]
         return cls(**args)
 
@@ -3084,9 +3092,11 @@ class SemanticRolesResult(object):
             args['subject'] = SemanticRolesSubject._from_dict(
                 _dict.get('subject'))
         if 'action' in _dict:
-            args['action'] = SemanticRolesAction._from_dict(_dict.get('action'))
+            args['action'] = SemanticRolesAction._from_dict(
+                _dict.get('action'))
         if 'object' in _dict:
-            args['object'] = SemanticRolesObject._from_dict(_dict.get('object'))
+            args['object'] = SemanticRolesObject._from_dict(
+                _dict.get('object'))
         return cls(**args)
 
     def _to_dict(self):

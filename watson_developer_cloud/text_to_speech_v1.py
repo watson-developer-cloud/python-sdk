@@ -484,7 +484,11 @@ class TextToSpeechV1(WatsonService):
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
         self.request(
-            method='PUT', url=url, headers=headers, json=data, accept_json=True)
+            method='PUT',
+            url=url,
+            headers=headers,
+            json=data,
+            accept_json=True)
         return None
 
     def add_words(self, customization_id, words, **kwargs):
@@ -862,10 +866,10 @@ class SupportedFeatures(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'custom_pronunciation'
-                  ) and self.custom_pronunciation is not None:
+                   ) and self.custom_pronunciation is not None:
             _dict['custom_pronunciation'] = self.custom_pronunciation
         if hasattr(self, 'voice_transformation'
-                  ) and self.voice_transformation is not None:
+                   ) and self.voice_transformation is not None:
             _dict['voice_transformation'] = self.voice_transformation
         return _dict
 

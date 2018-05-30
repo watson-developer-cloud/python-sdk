@@ -249,7 +249,8 @@ class Behavior(object):
             args['percentage'] = _dict.get('percentage')
         else:
             raise ValueError(
-                'Required property \'percentage\' not present in Behavior JSON')
+                'Required property \'percentage\' not present in Behavior JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -330,7 +331,7 @@ class ConsumptionPreferences(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_id'
-                  ) and self.consumption_preference_id is not None:
+                   ) and self.consumption_preference_id is not None:
             _dict['consumption_preference_id'] = self.consumption_preference_id
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
@@ -407,13 +408,13 @@ class ConsumptionPreferencesCategory(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_category_id'
-                  ) and self.consumption_preference_category_id is not None:
+                   ) and self.consumption_preference_category_id is not None:
             _dict[
                 'consumption_preference_category_id'] = self.consumption_preference_category_id
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'consumption_preferences'
-                  ) and self.consumption_preferences is not None:
+                   ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
                 x._to_dict() for x in self.consumption_preferences
             ]
@@ -541,7 +542,8 @@ class ContentItem(object):
             args['content'] = _dict.get('content')
         else:
             raise ValueError(
-                'Required property \'content\' not present in ContentItem JSON')
+                'Required property \'content\' not present in ContentItem JSON'
+            )
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         if 'created' in _dict:
@@ -741,7 +743,8 @@ class Profile(object):
             ]
         else:
             raise ValueError(
-                'Required property \'personality\' not present in Profile JSON')
+                'Required property \'personality\' not present in Profile JSON'
+            )
         if 'needs' in _dict:
             args['needs'] = [Trait._from_dict(x) for x in (_dict.get('needs'))]
         else:
@@ -794,7 +797,7 @@ class Profile(object):
         if hasattr(self, 'behavior') and self.behavior is not None:
             _dict['behavior'] = [x._to_dict() for x in self.behavior]
         if hasattr(self, 'consumption_preferences'
-                  ) and self.consumption_preferences is not None:
+                   ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
                 x._to_dict() for x in self.consumption_preferences
             ]
