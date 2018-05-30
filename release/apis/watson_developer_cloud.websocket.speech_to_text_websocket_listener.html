@@ -1,0 +1,173 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.websocket.speech_to_text_websocket_listener module &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="watson_developer_cloud.websocket.recognize_abstract_callback module" href="watson_developer_cloud.websocket.recognize_abstract_callback.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.websocket.speech_to_text_websocket_listener">
+<span id="watson-developer-cloud-websocket-speech-to-text-websocket-listener-module"></span><h1>watson_developer_cloud.websocket.speech_to_text_websocket_listener module<a class="headerlink" href="#module-watson_developer_cloud.websocket.speech_to_text_websocket_listener" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener">
+<em class="property">class </em><code class="descname">RecognizeListener</code><span class="sig-paren">(</span><em>audio</em>, <em>options</em>, <em>recognize_callback</em>, <em>url</em>, <em>headers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="class">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient">
+<em class="property">class </em><code class="descname">WebSocketClient</code><span class="sig-paren">(</span><em>factory</em>, <em>audio</em>, <em>options</em>, <em>callback</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">autobahn.twisted.websocket.WebSocketClientProtocol</span></code></p>
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.build_start_message">
+<code class="descname">build_start_message</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient.build_start_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.build_start_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.build_close_message">
+<code class="descname">build_close_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient.build_close_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.build_close_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.send_audio">
+<code class="descname">send_audio</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient.send_audio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.send_audio" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.extract_transcripts">
+<code class="descname">extract_transcripts</code><span class="sig-paren">(</span><em>alternatives</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient.extract_transcripts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.extract_transcripts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onConnect">
+<code class="descname">onConnect</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient.onConnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onConnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback fired directly after WebSocket opening handshake when new WebSocket server
+connection was established.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>response</strong> (instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">autobahn.websocket.protocol.ConnectionResponse</span></code>) – WebSocket connection response information.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onOpen">
+<code class="descname">onOpen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient.onOpen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onOpen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements <code class="xref py py-func docutils literal notranslate"><span class="pre">autobahn.websocket.interfaces.IWebSocketChannel.onOpen</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onMessage">
+<code class="descname">onMessage</code><span class="sig-paren">(</span><em>payload</em>, <em>isBinary</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient.onMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements <code class="xref py py-func docutils literal notranslate"><span class="pre">autobahn.websocket.interfaces.IWebSocketChannel.onMessage</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onClose">
+<code class="descname">onClose</code><span class="sig-paren">(</span><em>wasClean</em>, <em>code</em>, <em>reason</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClient.onClose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onClose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements <code class="xref py py-func docutils literal notranslate"><span class="pre">autobahn.websocket.interfaces.IWebSocketChannel.onClose</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClientFactory">
+<em class="property">class </em><code class="descname">WebSocketClientFactory</code><span class="sig-paren">(</span><em>audio</em>, <em>options</em>, <em>callback</em>, <em>url=None</em>, <em>headers=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClientFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClientFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">autobahn.twisted.websocket.WebSocketClientFactory</span></code></p>
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClientFactory.endReactor">
+<code class="descname">endReactor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClientFactory.endReactor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClientFactory.endReactor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClientFactory.buildProtocol">
+<code class="descname">buildProtocol</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/speech_to_text_websocket_listener.html#RecognizeListener.WebSocketClientFactory.buildProtocol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClientFactory.buildProtocol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an instance of a subclass of Protocol.</p>
+<p>The returned instance will handle input on an incoming server
+connection, and an attribute “factory” pointing to the creating
+factory.</p>
+<p>Alternatively, L{None} may be returned to immediately close the
+new connection.</p>
+<p>Override this method to alter how Protocol instances get created.</p>
+<p>&#64;param addr: an object implementing L{twisted.internet.interfaces.IAddress}</p>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="watson_developer_cloud.websocket.html">watson_developer_cloud.websocket package</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.websocket.recognize_abstract_callback.html" title="previous chapter">watson_developer_cloud.websocket.recognize_abstract_callback module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
