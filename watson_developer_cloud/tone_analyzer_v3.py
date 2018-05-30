@@ -295,78 +295,6 @@ class DocumentAnalysis(object):
         return not self == other
 
 
-class ErrorModel(object):
-    """
-    ErrorModel.
-
-    :attr int code: The HTTP status code.
-    :attr str sub_code: (optional) A service-specific error code.
-    :attr str error: A description of the error.
-    :attr str help: (optional) A URL to documentation explaining the cause and possibly solutions for the error.
-    """
-
-    def __init__(self, code, error, sub_code=None, help=None):
-        """
-        Initialize a ErrorModel object.
-
-        :param int code: The HTTP status code.
-        :param str error: A description of the error.
-        :param str sub_code: (optional) A service-specific error code.
-        :param str help: (optional) A URL to documentation explaining the cause and possibly solutions for the error.
-        """
-        self.code = code
-        self.sub_code = sub_code
-        self.error = error
-        self.help = help
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ErrorModel object from a json dictionary."""
-        args = {}
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
-        else:
-            raise ValueError(
-                'Required property \'code\' not present in ErrorModel JSON')
-        if 'sub_code' in _dict:
-            args['sub_code'] = _dict.get('sub_code')
-        if 'error' in _dict:
-            args['error'] = _dict.get('error')
-        else:
-            raise ValueError(
-                'Required property \'error\' not present in ErrorModel JSON')
-        if 'help' in _dict:
-            args['help'] = _dict.get('help')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'code') and self.code is not None:
-            _dict['code'] = self.code
-        if hasattr(self, 'sub_code') and self.sub_code is not None:
-            _dict['sub_code'] = self.sub_code
-        if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = self.error
-        if hasattr(self, 'help') and self.help is not None:
-            _dict['help'] = self.help
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ErrorModel object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class SentenceAnalysis(object):
     """
     SentenceAnalysis.
@@ -590,57 +518,6 @@ class ToneCategory(object):
 
     def __str__(self):
         """Return a `str` version of this ToneCategory object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ToneChatInput(object):
-    """
-    ToneChatInput.
-
-    :attr list[Utterance] utterances: An array of `Utterance` objects that provides the input content that the service is to analyze.
-    """
-
-    def __init__(self, utterances):
-        """
-        Initialize a ToneChatInput object.
-
-        :param list[Utterance] utterances: An array of `Utterance` objects that provides the input content that the service is to analyze.
-        """
-        self.utterances = utterances
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ToneChatInput object from a json dictionary."""
-        args = {}
-        if 'utterances' in _dict:
-            args['utterances'] = [
-                Utterance._from_dict(x) for x in (_dict.get('utterances'))
-            ]
-        else:
-            raise ValueError(
-                'Required property \'utterances\' not present in ToneChatInput JSON'
-            )
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'utterances') and self.utterances is not None:
-            _dict['utterances'] = [x._to_dict() for x in self.utterances]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ToneChatInput object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

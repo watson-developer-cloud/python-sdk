@@ -1065,11 +1065,7 @@ class SpeechToTextV1(WatsonService):
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word_name))
         self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            json=data,
-            accept_json=True)
+            method='PUT', url=url, headers=headers, json=data, accept_json=True)
         return None
 
     def add_words(self, customization_id, words, **kwargs):
@@ -1203,8 +1199,7 @@ class SpeechToTextV1(WatsonService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    def list_words(self, customization_id, word_type=None, sort=None,
-                   **kwargs):
+    def list_words(self, customization_id, word_type=None, sort=None, **kwargs):
         """
         List custom words.
 
@@ -1939,8 +1934,7 @@ class AudioDetails(object):
     :attr str compression: (optional) **For an archive-type resource,** the format of the compressed archive: * `zip` for a **.zip** file * `gzip` for a **.tar.gz** file   Omitted for an audio-type resource.
     """
 
-    def __init__(self, type=None, codec=None, frequency=None,
-                 compression=None):
+    def __init__(self, type=None, codec=None, frequency=None, compression=None):
         """
         Initialize a AudioDetails object.
 
@@ -2045,8 +2039,7 @@ class AudioListing(object):
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'container' in _dict:
-            args['container'] = AudioResource._from_dict(
-                _dict.get('container'))
+            args['container'] = AudioResource._from_dict(_dict.get('container'))
         if 'audio' in _dict:
             args['audio'] = [
                 AudioResource._from_dict(x) for x in (_dict.get('audio'))
@@ -2189,8 +2182,7 @@ class AudioResources(object):
         """Initialize a AudioResources object from a json dictionary."""
         args = {}
         if 'total_minutes_of_audio' in _dict:
-            args['total_minutes_of_audio'] = _dict.get(
-                'total_minutes_of_audio')
+            args['total_minutes_of_audio'] = _dict.get('total_minutes_of_audio')
         else:
             raise ValueError(
                 'Required property \'total_minutes_of_audio\' not present in AudioResources JSON'
@@ -2209,7 +2201,7 @@ class AudioResources(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'total_minutes_of_audio'
-                   ) and self.total_minutes_of_audio is not None:
+                  ) and self.total_minutes_of_audio is not None:
             _dict['total_minutes_of_audio'] = self.total_minutes_of_audio
         if hasattr(self, 'audio') and self.audio is not None:
             _dict['audio'] = [x._to_dict() for x in self.audio]
@@ -2350,7 +2342,7 @@ class Corpus(object):
         if hasattr(self, 'total_words') and self.total_words is not None:
             _dict['total_words'] = self.total_words
         if hasattr(self, 'out_of_vocabulary_words'
-                   ) and self.out_of_vocabulary_words is not None:
+                  ) and self.out_of_vocabulary_words is not None:
             _dict['out_of_vocabulary_words'] = self.out_of_vocabulary_words
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
@@ -2360,149 +2352,6 @@ class Corpus(object):
 
     def __str__(self):
         """Return a `str` version of this Corpus object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class CreateAcousticModel(object):
-    """
-    CreateAcousticModel.
-
-    :attr str name: A user-defined name for the new custom acoustic model. Use a name that is unique among all custom acoustic models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the acoustic environment of the custom model, such as `Mobile custom model` or `Noisy car custom model`.
-    :attr str base_model_name: The name of the base language model that is to be customized by the new custom acoustic model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports acoustic model customization, refer to [Language support for customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
-    :attr str description: (optional) A description of the new custom acoustic model. Use a localized description that matches the language of the custom model.
-    """
-
-    def __init__(self, name, base_model_name, description=None):
-        """
-        Initialize a CreateAcousticModel object.
-
-        :param str name: A user-defined name for the new custom acoustic model. Use a name that is unique among all custom acoustic models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the acoustic environment of the custom model, such as `Mobile custom model` or `Noisy car custom model`.
-        :param str base_model_name: The name of the base language model that is to be customized by the new custom acoustic model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports acoustic model customization, refer to [Language support for customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
-        :param str description: (optional) A description of the new custom acoustic model. Use a localized description that matches the language of the custom model.
-        """
-        self.name = name
-        self.base_model_name = base_model_name
-        self.description = description
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a CreateAcousticModel object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError(
-                'Required property \'name\' not present in CreateAcousticModel JSON'
-            )
-        if 'base_model_name' in _dict:
-            args['base_model_name'] = _dict.get('base_model_name')
-        else:
-            raise ValueError(
-                'Required property \'base_model_name\' not present in CreateAcousticModel JSON'
-            )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self,
-                   'base_model_name') and self.base_model_name is not None:
-            _dict['base_model_name'] = self.base_model_name
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this CreateAcousticModel object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class CreateLanguageModel(object):
-    """
-    CreateLanguageModel.
-
-    :attr str name: A user-defined name for the new custom language model. Use a name that is unique among all custom language models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the domain of the custom model, such as `Medical custom model` or `Legal custom model`.
-    :attr str base_model_name: The name of the base language model that is to be customized by the new custom language model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports language model customization, request information about the base model and check that the attribute `custom_language_model` is set to `true`, or refer to [Language support for customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
-    :attr str dialect: (optional) The dialect of the specified language that is to be used with the custom language model. The parameter is meaningful only for Spanish models, for which the service creates a custom language model that is suited for speech in one of the following dialects: * `es-ES` for Castilian Spanish (the default) * `es-LA` for Latin American Spanish * `es-US` for North American (Mexican) Spanish   A specified dialect must be valid for the base model. By default, the dialect matches the language of the base model; for example, `en-US` for either of the US English language models.
-    :attr str description: (optional) A description of the new custom language model. Use a localized description that matches the language of the custom model.
-    """
-
-    def __init__(self, name, base_model_name, dialect=None, description=None):
-        """
-        Initialize a CreateLanguageModel object.
-
-        :param str name: A user-defined name for the new custom language model. Use a name that is unique among all custom language models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the domain of the custom model, such as `Medical custom model` or `Legal custom model`.
-        :param str base_model_name: The name of the base language model that is to be customized by the new custom language model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports language model customization, request information about the base model and check that the attribute `custom_language_model` is set to `true`, or refer to [Language support for customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
-        :param str dialect: (optional) The dialect of the specified language that is to be used with the custom language model. The parameter is meaningful only for Spanish models, for which the service creates a custom language model that is suited for speech in one of the following dialects: * `es-ES` for Castilian Spanish (the default) * `es-LA` for Latin American Spanish * `es-US` for North American (Mexican) Spanish   A specified dialect must be valid for the base model. By default, the dialect matches the language of the base model; for example, `en-US` for either of the US English language models.
-        :param str description: (optional) A description of the new custom language model. Use a localized description that matches the language of the custom model.
-        """
-        self.name = name
-        self.base_model_name = base_model_name
-        self.dialect = dialect
-        self.description = description
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a CreateLanguageModel object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError(
-                'Required property \'name\' not present in CreateLanguageModel JSON'
-            )
-        if 'base_model_name' in _dict:
-            args['base_model_name'] = _dict.get('base_model_name')
-        else:
-            raise ValueError(
-                'Required property \'base_model_name\' not present in CreateLanguageModel JSON'
-            )
-        if 'dialect' in _dict:
-            args['dialect'] = _dict.get('dialect')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self,
-                   'base_model_name') and self.base_model_name is not None:
-            _dict['base_model_name'] = self.base_model_name
-        if hasattr(self, 'dialect') and self.dialect is not None:
-            _dict['dialect'] = self.dialect
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this CreateLanguageModel object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2562,216 +2411,6 @@ class CustomWord(object):
 
     def __str__(self):
         """Return a `str` version of this CustomWord object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class CustomWords(object):
-    """
-    CustomWords.
-
-    :attr list[CustomWord] words: An array of objects that provides information about each custom word that is to be added to or updated in the custom language model.
-    """
-
-    def __init__(self, words):
-        """
-        Initialize a CustomWords object.
-
-        :param list[CustomWord] words: An array of objects that provides information about each custom word that is to be added to or updated in the custom language model.
-        """
-        self.words = words
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a CustomWords object from a json dictionary."""
-        args = {}
-        if 'words' in _dict:
-            args['words'] = [
-                CustomWord._from_dict(x) for x in (_dict.get('words'))
-            ]
-        else:
-            raise ValueError(
-                'Required property \'words\' not present in CustomWords JSON')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'words') and self.words is not None:
-            _dict['words'] = [x._to_dict() for x in self.words]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this CustomWords object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ErrorModel(object):
-    """
-    ErrorModel.
-
-    :attr str error: Description of the problem.
-    :attr int code: HTTP response code.
-    :attr str code_description: Response message.
-    :attr list[str] warnings: (optional) Warnings associated with the error.
-    """
-
-    def __init__(self, error, code, code_description, warnings=None):
-        """
-        Initialize a ErrorModel object.
-
-        :param str error: Description of the problem.
-        :param int code: HTTP response code.
-        :param str code_description: Response message.
-        :param list[str] warnings: (optional) Warnings associated with the error.
-        """
-        self.error = error
-        self.code = code
-        self.code_description = code_description
-        self.warnings = warnings
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ErrorModel object from a json dictionary."""
-        args = {}
-        if 'error' in _dict:
-            args['error'] = _dict.get('error')
-        else:
-            raise ValueError(
-                'Required property \'error\' not present in ErrorModel JSON')
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
-        else:
-            raise ValueError(
-                'Required property \'code\' not present in ErrorModel JSON')
-        if 'code_description' in _dict:
-            args['code_description'] = _dict.get('code_description')
-        else:
-            raise ValueError(
-                'Required property \'code_description\' not present in ErrorModel JSON'
-            )
-        if 'warnings' in _dict:
-            args['warnings'] = _dict.get('warnings')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = self.error
-        if hasattr(self, 'code') and self.code is not None:
-            _dict['code'] = self.code
-        if hasattr(self,
-                   'code_description') and self.code_description is not None:
-            _dict['code_description'] = self.code_description
-        if hasattr(self, 'warnings') and self.warnings is not None:
-            _dict['warnings'] = self.warnings
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ErrorModel object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ErrorModelSession(object):
-    """
-    ErrorModelSession.
-
-    :attr str error: Description of the problem.
-    :attr int code: HTTP response code.
-    :attr str code_description: Response message.
-    :attr bool session_closed: Specifies `true` if the active session is closed as a result of the problem.
-    """
-
-    def __init__(self, error, code, code_description, session_closed):
-        """
-        Initialize a ErrorModelSession object.
-
-        :param str error: Description of the problem.
-        :param int code: HTTP response code.
-        :param str code_description: Response message.
-        :param bool session_closed: Specifies `true` if the active session is closed as a result of the problem.
-        """
-        self.error = error
-        self.code = code
-        self.code_description = code_description
-        self.session_closed = session_closed
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ErrorModelSession object from a json dictionary."""
-        args = {}
-        if 'error' in _dict:
-            args['error'] = _dict.get('error')
-        else:
-            raise ValueError(
-                'Required property \'error\' not present in ErrorModelSession JSON'
-            )
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
-        else:
-            raise ValueError(
-                'Required property \'code\' not present in ErrorModelSession JSON'
-            )
-        if 'code_description' in _dict:
-            args['code_description'] = _dict.get('code_description')
-        else:
-            raise ValueError(
-                'Required property \'code_description\' not present in ErrorModelSession JSON'
-            )
-        if 'session_closed' in _dict:
-            args['session_closed'] = _dict.get('session_closed')
-        else:
-            raise ValueError(
-                'Required property \'session_closed\' not present in ErrorModelSession JSON'
-            )
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = self.error
-        if hasattr(self, 'code') and self.code is not None:
-            _dict['code'] = self.code
-        if hasattr(self,
-                   'code_description') and self.code_description is not None:
-            _dict['code_description'] = self.code_description
-        if hasattr(self, 'session_closed') and self.session_closed is not None:
-            _dict['session_closed'] = self.session_closed
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ErrorModelSession object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -3289,55 +2928,6 @@ class RegisterStatus(object):
         return not self == other
 
 
-class SessionStatus(object):
-    """
-    SessionStatus.
-
-    :attr SpeechSession session: Information about the specified existing session.
-    """
-
-    def __init__(self, session):
-        """
-        Initialize a SessionStatus object.
-
-        :param SpeechSession session: Information about the specified existing session.
-        """
-        self.session = session
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a SessionStatus object from a json dictionary."""
-        args = {}
-        if 'session' in _dict:
-            args['session'] = SpeechSession._from_dict(_dict.get('session'))
-        else:
-            raise ValueError(
-                'Required property \'session\' not present in SessionStatus JSON'
-            )
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'session') and self.session is not None:
-            _dict['session'] = self.session._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this SessionStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class SpeakerLabelsResult(object):
     """
     SpeakerLabelsResult.
@@ -3564,8 +3154,7 @@ class SpeechModels(object):
             ]
         else:
             raise ValueError(
-                'Required property \'models\' not present in SpeechModels JSON'
-            )
+                'Required property \'models\' not present in SpeechModels JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -3832,126 +3421,6 @@ class SpeechRecognitionResults(object):
         return not self == other
 
 
-class SpeechSession(object):
-    """
-    SpeechSession.
-
-    :attr str recognize: URI for HTTP REST recognition requests.
-    :attr str recognize_ws: URI for WebSocket recognition requests. **Note:** This field is needed only for working with the WebSocket interface.
-    :attr str observe_result: URI for HTTP REST results observers.
-    :attr str session_id: (optional) Identifier for the new session. This field is returned only by the **Create a session** method.
-    :attr str new_session_uri: (optional) URI for the new session. This field is returned only by the **Create a session** method.
-    :attr str state: (optional) State of the session. The state must be `initialized` for the session to accept another recognition request. Other internal states are possible, but they have no meaning for the user. This field is returned only by the **Get session status** method.
-    :attr str model: (optional) URI for information about the model that is used with the session. This field is returned only by the **Get session status** method.
-    :attr str validate_grammar: **Undocumented pre-release feature.** URI for HTTP REST grammar validation.
-    """
-
-    def __init__(self,
-                 recognize,
-                 recognize_ws,
-                 observe_result,
-                 validate_grammar,
-                 session_id=None,
-                 new_session_uri=None,
-                 state=None,
-                 model=None):
-        """
-        Initialize a SpeechSession object.
-
-        :param str recognize: URI for HTTP REST recognition requests.
-        :param str recognize_ws: URI for WebSocket recognition requests. **Note:** This field is needed only for working with the WebSocket interface.
-        :param str observe_result: URI for HTTP REST results observers.
-        :param str validate_grammar: **Undocumented pre-release feature.** URI for HTTP REST grammar validation.
-        :param str session_id: (optional) Identifier for the new session. This field is returned only by the **Create a session** method.
-        :param str new_session_uri: (optional) URI for the new session. This field is returned only by the **Create a session** method.
-        :param str state: (optional) State of the session. The state must be `initialized` for the session to accept another recognition request. Other internal states are possible, but they have no meaning for the user. This field is returned only by the **Get session status** method.
-        :param str model: (optional) URI for information about the model that is used with the session. This field is returned only by the **Get session status** method.
-        """
-        self.recognize = recognize
-        self.recognize_ws = recognize_ws
-        self.observe_result = observe_result
-        self.session_id = session_id
-        self.new_session_uri = new_session_uri
-        self.state = state
-        self.model = model
-        self.validate_grammar = validate_grammar
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a SpeechSession object from a json dictionary."""
-        args = {}
-        if 'recognize' in _dict:
-            args['recognize'] = _dict.get('recognize')
-        else:
-            raise ValueError(
-                'Required property \'recognize\' not present in SpeechSession JSON'
-            )
-        if 'recognizeWS' in _dict:
-            args['recognize_ws'] = _dict.get('recognizeWS')
-        else:
-            raise ValueError(
-                'Required property \'recognizeWS\' not present in SpeechSession JSON'
-            )
-        if 'observe_result' in _dict:
-            args['observe_result'] = _dict.get('observe_result')
-        else:
-            raise ValueError(
-                'Required property \'observe_result\' not present in SpeechSession JSON'
-            )
-        if 'session_id' in _dict:
-            args['session_id'] = _dict.get('session_id')
-        if 'new_session_uri' in _dict:
-            args['new_session_uri'] = _dict.get('new_session_uri')
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
-        if 'validate_grammar' in _dict:
-            args['validate_grammar'] = _dict.get('validate_grammar')
-        else:
-            raise ValueError(
-                'Required property \'validate_grammar\' not present in SpeechSession JSON'
-            )
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'recognize') and self.recognize is not None:
-            _dict['recognize'] = self.recognize
-        if hasattr(self, 'recognize_ws') and self.recognize_ws is not None:
-            _dict['recognizeWS'] = self.recognize_ws
-        if hasattr(self, 'observe_result') and self.observe_result is not None:
-            _dict['observe_result'] = self.observe_result
-        if hasattr(self, 'session_id') and self.session_id is not None:
-            _dict['session_id'] = self.session_id
-        if hasattr(self,
-                   'new_session_uri') and self.new_session_uri is not None:
-            _dict['new_session_uri'] = self.new_session_uri
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
-        if hasattr(self, 'model') and self.model is not None:
-            _dict['model'] = self.model
-        if hasattr(self,
-                   'validate_grammar') and self.validate_grammar is not None:
-            _dict['validate_grammar'] = self.validate_grammar
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this SpeechSession object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class SupportedFeatures(object):
     """
     SupportedFeatures.
@@ -3992,7 +3461,7 @@ class SupportedFeatures(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'custom_language_model'
-                   ) and self.custom_language_model is not None:
+                  ) and self.custom_language_model is not None:
             _dict['custom_language_model'] = self.custom_language_model
         if hasattr(self, 'speaker_labels') and self.speaker_labels is not None:
             _dict['speaker_labels'] = self.speaker_labels
@@ -4025,12 +3494,7 @@ class Word(object):
     :attr list[WordError] error: (optional) If the service discovered one or more problems that you need to correct for the word's definition, an array that describes each of the errors.
     """
 
-    def __init__(self,
-                 word,
-                 sounds_like,
-                 display_as,
-                 count,
-                 source,
+    def __init__(self, word, sounds_like, display_as, count, source,
                  error=None):
         """
         Initialize a Word object.

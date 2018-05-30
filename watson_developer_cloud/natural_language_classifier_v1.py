@@ -605,57 +605,6 @@ class ClassifierList(object):
         return not self == other
 
 
-class ClassifyCollectionInput(object):
-    """
-    Request payload to classify.
-
-    :attr list[ClassifyInput] collection: The submitted phrases.
-    """
-
-    def __init__(self, collection):
-        """
-        Initialize a ClassifyCollectionInput object.
-
-        :param list[ClassifyInput] collection: The submitted phrases.
-        """
-        self.collection = collection
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ClassifyCollectionInput object from a json dictionary."""
-        args = {}
-        if 'collection' in _dict:
-            args['collection'] = [
-                ClassifyInput._from_dict(x) for x in (_dict.get('collection'))
-            ]
-        else:
-            raise ValueError(
-                'Required property \'collection\' not present in ClassifyCollectionInput JSON'
-            )
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'collection') and self.collection is not None:
-            _dict['collection'] = [x._to_dict() for x in self.collection]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ClassifyCollectionInput object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class ClassifyInput(object):
     """
     Request payload to classify.
@@ -752,65 +701,6 @@ class CollectionItem(object):
 
     def __str__(self):
         """Return a `str` version of this CollectionItem object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ErrorResponse(object):
-    """
-    Response payload for HTTP errors.
-
-    :attr int code: (optional) HTTP status code.
-    :attr str error: (optional) Error name.
-    :attr str description: (optional) Error description.
-    """
-
-    def __init__(self, code=None, error=None, description=None):
-        """
-        Initialize a ErrorResponse object.
-
-        :param int code: (optional) HTTP status code.
-        :param str error: (optional) Error name.
-        :param str description: (optional) Error description.
-        """
-        self.code = code
-        self.error = error
-        self.description = description
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ErrorResponse object from a json dictionary."""
-        args = {}
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
-        if 'error' in _dict:
-            args['error'] = _dict.get('error')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'code') and self.code is not None:
-            _dict['code'] = self.code
-        if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = self.error
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ErrorResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
