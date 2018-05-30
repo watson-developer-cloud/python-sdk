@@ -33,15 +33,17 @@ from .watson_service import WatsonService
 class VisualRecognitionV3(WatsonService):
     """The Visual Recognition V3 service."""
 
-    default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
+    default_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 api_key=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            version,
+            url=default_url,
+            api_key=None,
+            iam_api_key=None,
+            iam_access_token=None,
+            iam_url=None,
+    ):
         """
         Construct a new client for the Visual Recognition service.
 
@@ -57,7 +59,7 @@ class VisualRecognitionV3(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway-a.watsonplatform.net/visual-recognition/api").
+               "https://gateway.watsonplatform.net/visual-recognition/api").
                The base url may differ between Bluemix regions.
 
         :param str api_key: The API Key used to authenticate.
@@ -92,29 +94,27 @@ class VisualRecognitionV3(WatsonService):
 
     def classify(self,
                  images_file=None,
-                 parameters=None,
                  accept_language=None,
-                 images_file_content_type=None,
-                 images_filename=None,
                  url=None,
                  threshold=None,
                  owners=None,
                  classifier_ids=None,
+                 images_file_content_type=None,
+                 images_filename=None,
                  **kwargs):
         """
         Classify images.
 
         Classify images with built-in or custom classifiers.
 
-        :param file images_file: An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters. You can also include images with the `url` property in the **parameters** object.
-        :param str parameters: (Deprecated) A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - **url**: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter. - **threshold**: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values. - **owners**: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.      The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `{\"classifier_ids\":[\"CarsvsTrucks_1479118188\",\"explicit\"],\"threshold\":0.6}`.
-        :param str accept_language: Specifies the language of the output class names.  Can be `en` (English), `ar` (Arabic), `de` (German), `es` (Spanish), `it` (Italian), `ja` (Japanese), or `ko` (Korean).  Classes for which no translation is available are omitted.  The response might not be in the specified language under these conditions: - English is returned when the requested language is not supported. - Classes are not returned when there is no translation for them. - Custom classifiers returned with this method return tags in the language of the custom classifier.
+        :param file images_file: An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters.  You can also include an image with the **url** parameter.
+        :param str accept_language: The language of the output class names. The full set of languages is supported only for the built-in `default` classifier ID. The class names of custom classifiers are not translated.  The response might not be in the specified language when the requested language is not supported or when there is no translation for the class name.
+        :param str url: The URL of an image to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB.  You can also include images with the **images_file** parameter.
+        :param float threshold: The minimum score a class must have to be displayed in the response. Set the threshold to `0.0` to ignore the classification score and return all values.
+        :param list[str] owners: The categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`.   The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty.
+        :param list[str] classifier_ids: Which classifiers to apply. Overrides the **owners** parameter. You can specify both custom and built-in classifier IDs. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
-        :param str url: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter.
-        :param float threshold: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values.
-        :param list[str] owners: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`.   The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty.
-        :param list[str] classifier_ids: The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `\"classifier_ids=\"CarsvsTrucks_1479118188\",\"explicit\"`.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ClassifiedImages` response.
         :rtype: dict
@@ -129,11 +129,6 @@ class VisualRecognitionV3(WatsonService):
                 images_filename = images_file.name
             mime_type = images_file_content_type or 'application/octet-stream'
             images_file_tuple = (images_filename, images_file, mime_type)
-
-        parameters_tuple = None
-        if parameters is not None:
-            parameters_tuple = (None, parameters, 'text/plain')
-
         url_tuple = None
         if url:
             url_tuple = (None, url, 'text/plain')
@@ -142,13 +137,9 @@ class VisualRecognitionV3(WatsonService):
             threshold_tuple = (None, threshold, 'application/json')
         owners_tuple = None
         if owners:
-            if isinstance(owners, (list,)):
-                owners = ','.join(owners)
             owners_tuple = (None, owners, 'application/json')
         classifier_ids_tuple = None
         if classifier_ids:
-            if isinstance(classifier_ids, (list,)):
-                classifier_ids = ','.join(classifier_ids)
             classifier_ids_tuple = (None, classifier_ids, 'application/json')
         url = '/v3/classify'
         response = self.request(
@@ -157,7 +148,6 @@ class VisualRecognitionV3(WatsonService):
             headers=headers,
             params=params,
             files={
-                'parameters': parameters_tuple,
                 'images_file': images_file_tuple,
                 'url': url_tuple,
                 'threshold': threshold_tuple,
@@ -173,24 +163,28 @@ class VisualRecognitionV3(WatsonService):
 
     def detect_faces(self,
                      images_file=None,
-                     parameters=None,
+                     url=None,
                      images_file_content_type=None,
                      images_filename=None,
-                     url=None,
                      **kwargs):
         """
         Detect faces in images.
 
-        Analyze and get data about faces in images. Responses can include estimated age
-        and gender, and the service can identify celebrities. This feature uses a built-in
-        classifier, so you do not train it on custom classifiers. The Detect faces method
-        does not support general biometric facial recognition.
+        **Important:** On April 2, 2018, the identity information in the response to calls
+        to the Face model was removed. The identity information refers to the `name` of
+        the person, `score`, and `type_hierarchy` knowledge graph. For details about the
+        enhanced Face model, see the [Release
+        notes](https://console.bluemix.net/docs/services/visual-recognition/release-notes.html#2april2018).
+         Analyze and get data about faces in images. Responses can include estimated age
+        and gender. This feature uses a built-in model, so no training is necessary. The
+        Detect faces method does not support general biometric facial recognition.
+        Supported image formats include .gif, .jpg, .png, and .tif. The maximum image size
+        is 10 MB. The minimum recommended pixel density is 32X32 pixels per inch.
 
-        :param file images_file: An image file (.jpg, .png) or .zip file with images. Include no more than 15 images. You can also include images with the `url` property in the **parameters** object.  All faces are detected, but if there are more than 10 faces in an image, age and gender confidence scores might return scores of 0.
-        :param str parameters: (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: `{\"url\":\"http://www.example.com/images/myimage.jpg\"}`.
+        :param file images_file: An image file (gif, .jpg, .png, .tif.) or .zip file with images. Limit the .zip file to 100 MB. You can include a maximum of 15 images in a request.  Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters.  You can also include an image with the **url** parameter.
+        :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the **images_file** parameter.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
-        :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the **images_file** parameter.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DetectedFaces` response.
         :rtype: dict
@@ -205,9 +199,6 @@ class VisualRecognitionV3(WatsonService):
                 images_filename = images_file.name
             mime_type = images_file_content_type or 'application/octet-stream'
             images_file_tuple = (images_filename, images_file, mime_type)
-        parameters_tuple = None
-        if parameters is not None:
-            parameters_tuple = (None, parameters, 'text/plain')
         url_tuple = None
         if url:
             url_tuple = (None, url, 'text/plain')
@@ -218,7 +209,6 @@ class VisualRecognitionV3(WatsonService):
             headers=headers,
             params=params,
             files={'images_file': images_file_tuple,
-                   'parameters': parameters_tuple,
                    'url': url_tuple},
             accept_json=True)
         return response
@@ -229,31 +219,68 @@ class VisualRecognitionV3(WatsonService):
 
     def create_classifier(self,
                           name,
+                          classname_positive_examples,
+                          negative_examples=None,
+                          classname_positive_examples_filename=None,
+                          negative_examples_filename=None,
                           **kwargs):
         """
         Create a classifier.
+
+        Train a new multi-faceted classifier on the uploaded image data. Create your
+        custom classifier with positive or negative examples. Include at least two sets of
+        examples, either two positive example files or one positive and one negative file.
+        You can upload a maximum of 256 MB per call.  Encode all names in UTF-8 if they
+        contain non-ASCII characters (.zip and image file names, and classifier and class
+        names). The service assumes UTF-8 encoding if it encounters non-ASCII characters.
+
         :param str name: The name of the new classifier. Encode special characters in UTF-8.
-        :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
-        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+        :param file classname_positive_examples: A .zip file of images that depict the visual subject of a class in the new classifier. You can include more than one positive example file in a call.  Specify the parameter name by appending `_positive_examples` to the class name. For example, `goldenretriever_positive_examples` creates the class **goldenretriever**.  Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file.  Encode special characters in the file name in UTF-8.
+        :param file negative_examples: A .zip file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.  Encode special characters in the file name in UTF-8.
+        :param str classname_positive_examples_filename: The filename for classname_positive_examples.
+        :param str negative_examples_filename: The filename for negative_examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
         """
         if name is None:
             raise ValueError('name must be provided')
+        if classname_positive_examples is None:
+            raise ValueError('classname_positive_examples must be provided')
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        data = {'name': name}
+        name_tuple = (None, name, 'text/plain')
+        if not classname_positive_examples_filename and hasattr(
+                classname_positive_examples, 'name'):
+            classname_positive_examples_filename = classname_positive_examples.name
+        mime_type = 'application/octet-stream'
+        classname_positive_examples_tuple = (
+            classname_positive_examples_filename, classname_positive_examples,
+            mime_type)
+        negative_examples_tuple = None
+        if negative_examples:
+            if not negative_examples_filename and hasattr(
+                    negative_examples, 'name'):
+                negative_examples_filename = negative_examples.name
+            if not negative_examples_filename:
+                raise ValueError('negative_examples_filename must be provided')
+            mime_type = 'application/octet-stream'
+            negative_examples_tuple = (negative_examples_filename,
+                                       negative_examples, mime_type)
         url = '/v3/classifiers'
         response = self.request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
-            data=data,
-            files=kwargs,
+            files={
+                'name': name_tuple,
+                'classname_positive_examples':
+                classname_positive_examples_tuple,
+                'negative_examples': negative_examples_tuple
+            },
             accept_json=True)
         return response
 
@@ -332,12 +359,30 @@ class VisualRecognitionV3(WatsonService):
 
     def update_classifier(self,
                           classifier_id,
+                          classname_positive_examples=None,
+                          negative_examples=None,
+                          classname_positive_examples_filename=None,
+                          negative_examples_filename=None,
                           **kwargs):
         """
         Update a classifier.
+
+        Update a custom classifier by adding new positive or negative classes (examples)
+        or by adding new images to existing classes. You must supply at least one set of
+        positive or negative examples. For details, see [Updating custom
+        classifiers](https://console.bluemix.net/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
+         Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
+        file names, and classifier and class names). The service assumes UTF-8 encoding if
+        it encounters non-ASCII characters.  **Tip:** Don't make retraining calls on a
+        classifier until the status is ready. When you submit retraining requests in
+        parallel, the last request overwrites the previous requests. The retrained
+        property shows the last time the classifier retraining finished.
+
         :param str classifier_id: The ID of the classifier.
-        :param file <NAME>_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
-        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+        :param file classname_positive_examples: A .zip file of images that depict the visual subject of a class in the classifier. The positive examples create or update classes in the classifier. You can include more than one positive example file in a call.  Specify the parameter name by appending `_positive_examples` to the class name. For example, `goldenretriever_positive_examples` creates the class `goldenretriever`.  Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file.  Encode special characters in the file name in UTF-8.
+        :param file negative_examples: A .zip file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.  Encode special characters in the file name in UTF-8.
+        :param str classname_positive_examples_filename: The filename for classname_positive_examples.
+        :param str negative_examples_filename: The filename for negative_examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifier` response.
         :rtype: dict
@@ -348,6 +393,25 @@ class VisualRecognitionV3(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
+        classname_positive_examples_tuple = None
+        if classname_positive_examples:
+            if not classname_positive_examples_filename and hasattr(
+                    classname_positive_examples, 'name'):
+                classname_positive_examples_filename = classname_positive_examples.name
+            mime_type = 'application/octet-stream'
+            classname_positive_examples_tuple = (
+                classname_positive_examples_filename,
+                classname_positive_examples, mime_type)
+        negative_examples_tuple = None
+        if negative_examples:
+            if not negative_examples_filename and hasattr(
+                    negative_examples, 'name'):
+                negative_examples_filename = negative_examples.name
+            if not negative_examples_filename:
+                raise ValueError('negative_examples_filename must be provided')
+            mime_type = 'application/octet-stream'
+            negative_examples_tuple = (negative_examples_filename,
+                                       negative_examples, mime_type)
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -355,7 +419,11 @@ class VisualRecognitionV3(WatsonService):
             url=url,
             headers=headers,
             params=params,
-            files=kwargs,
+            files={
+                'classname_positive_examples':
+                classname_positive_examples_tuple,
+                'negative_examples': negative_examples_tuple
+            },
             accept_json=True)
         return response
 
@@ -390,6 +458,39 @@ class VisualRecognitionV3(WatsonService):
             params=params,
             accept_json=False)
         return response
+
+    #########################
+    # User data
+    #########################
+
+    def delete_user_data(self, customer_id, **kwargs):
+        """
+        Delete labeled data.
+
+        Deletes all data associated with a specified customer ID. The method has no effect
+        if no data is associated with the customer ID.   You associate a customer ID with
+        data by passing the `X-Watson-Metadata` header with a request that passes data.
+        For more information about personal data and customer IDs, see [Information
+        security](https://console.bluemix.net/docs/services/visual-recognition/information-security.html).
+
+        :param str customer_id: The customer ID for which all data is to be deleted.
+        :param dict headers: A `dict` containing the request headers
+        :rtype: None
+        """
+        if customer_id is None:
+            raise ValueError('customer_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'customer_id': customer_id}
+        url = '/v3/user_data'
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return None
 
 
 ##############################################################################
@@ -514,7 +615,7 @@ class ClassifiedImage(object):
     :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
     :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
     :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
-    :attr ErrorInfo error: (optional)
+    :attr ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
     :attr list[ClassifierResult] classifiers: The classifiers.
     """
 
@@ -531,7 +632,7 @@ class ClassifiedImage(object):
         :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
         :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
         :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
-        :param ErrorInfo error: (optional)
+        :param ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
         """
         self.source_url = source_url
         self.resolved_url = resolved_url
@@ -927,6 +1028,84 @@ class Classifiers(object):
         return not self == other
 
 
+class ConfidenceScore(object):
+    """
+    Confidence score for the property in the range of 0 to 1. A higher score indicates
+    greater likelihood that the class is depicted in the image. The default threshold for
+    returning scores from a classifier is 0.5.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a ConfidenceScore object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ConfidenceScore object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ConfidenceScore object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CustomClassesProcessed(object):
+    """
+    Number of custom classes identified in the images.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a CustomClassesProcessed object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CustomClassesProcessed object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CustomClassesProcessed object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class DetectedFaces(object):
     """
     Results for all faces.
@@ -982,6 +1161,111 @@ class DetectedFaces(object):
 
     def __str__(self):
         """Return a `str` version of this DetectedFaces object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ErrorAuthentication(object):
+    """
+    ErrorAuthentication.
+
+    :attr str status: The status of error.
+    :attr str status_info: Information about the error.
+    """
+
+    def __init__(self, status, status_info):
+        """
+        Initialize a ErrorAuthentication object.
+
+        :param str status: The status of error.
+        :param str status_info: Information about the error.
+        """
+        self.status = status
+        self.status_info = status_info
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ErrorAuthentication object from a json dictionary."""
+        args = {}
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError(
+                'Required property \'status\' not present in ErrorAuthentication JSON'
+            )
+        if 'statusInfo' in _dict:
+            args['status_info'] = _dict.get('statusInfo')
+        else:
+            raise ValueError(
+                'Required property \'statusInfo\' not present in ErrorAuthentication JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'status_info') and self.status_info is not None:
+            _dict['statusInfo'] = self.status_info
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ErrorAuthentication object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ErrorHTML(object):
+    """
+    ErrorHTML.
+
+    :attr str error: (optional) HTML description of the error.
+    """
+
+    def __init__(self, error=None):
+        """
+        Initialize a ErrorHTML object.
+
+        :param str error: (optional) HTML description of the error.
+        """
+        self.error = error
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ErrorHTML object from a json dictionary."""
+        args = {}
+        if 'Error' in _dict:
+            args['error'] = _dict.get('Error')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['Error'] = self.error
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ErrorHTML object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1065,22 +1349,80 @@ class ErrorInfo(object):
         return not self == other
 
 
+class ErrorResponse(object):
+    """
+    ErrorResponse.
+
+    :attr int code: HTTP error code.
+    :attr str error: Human-readable error string, like 'Invalid image file'.
+    """
+
+    def __init__(self, code, error):
+        """
+        Initialize a ErrorResponse object.
+
+        :param int code: HTTP error code.
+        :param str error: Human-readable error string, like 'Invalid image file'.
+        """
+        self.code = code
+        self.error = error
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ErrorResponse object from a json dictionary."""
+        args = {}
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        else:
+            raise ValueError(
+                'Required property \'code\' not present in ErrorResponse JSON')
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
+        else:
+            raise ValueError(
+                'Required property \'error\' not present in ErrorResponse JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ErrorResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Face(object):
     """
     Information about the face.
 
-    :attr FaceAge age: (optional)
-    :attr FaceGender gender: (optional)
-    :attr FaceLocation face_location: (optional)
+    :attr FaceAge age: (optional) Age information about a face.
+    :attr FaceGender gender: (optional) Information about the gender of the face.
+    :attr FaceLocation face_location: (optional) The location of the bounding box around the face.
     """
 
     def __init__(self, age=None, gender=None, face_location=None):
         """
         Initialize a Face object.
 
-        :param FaceAge age: (optional)
-        :param FaceGender gender: (optional)
-        :param FaceLocation face_location: (optional)
+        :param FaceAge age: (optional) Age information about a face.
+        :param FaceGender gender: (optional) Information about the gender of the face.
+        :param FaceLocation face_location: (optional) The location of the bounding box around the face.
         """
         self.age = age
         self.gender = gender
@@ -1171,6 +1513,45 @@ class FaceAge(object):
 
     def __str__(self):
         """Return a `str` version of this FaceAge object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class FaceConfidenceScore(object):
+    """
+    Confidence score in the range of 0 to 1. A higher score indicates greater confidence
+    in the estimated value for the property.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a FaceConfidenceScore object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FaceConfidenceScore object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this FaceConfidenceScore object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1317,6 +1698,45 @@ class FaceLocation(object):
         return not self == other
 
 
+class ImageFile(object):
+    """
+    Relative path of the image file if uploaded directly. Not returned when the image is
+    passed by URL.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a ImageFile object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ImageFile object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ImageFile object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ImageWithFaces(object):
     """
     Information about faces in the image.
@@ -1325,7 +1745,7 @@ class ImageWithFaces(object):
     :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
     :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
     :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
-    :attr ErrorInfo error: (optional)
+    :attr ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
     """
 
     def __init__(self,
@@ -1341,7 +1761,7 @@ class ImageWithFaces(object):
         :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
         :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
         :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
-        :param ErrorInfo error: (optional)
+        :param ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
         """
         self.faces = faces
         self.image = image
@@ -1354,7 +1774,7 @@ class ImageWithFaces(object):
         """Initialize a ImageWithFaces object from a json dictionary."""
         args = {}
         if 'faces' in _dict:
-            args['faces'] = [Face._from_dict(x) for x in _dict.get('faces')]
+            args['faces'] = [Face._from_dict(x) for x in (_dict.get('faces'))]
         else:
             raise ValueError(
                 'Required property \'faces\' not present in ImageWithFaces JSON'
@@ -1386,6 +1806,160 @@ class ImageWithFaces(object):
 
     def __str__(self):
         """Return a `str` version of this ImageWithFaces object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ImagesProcessed(object):
+    """
+    Number of images processed for the API call.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a ImagesProcessed object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ImagesProcessed object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ImagesProcessed object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ResolvedURL(object):
+    """
+    Fully resolved URL of the image after redirects are followed. Not returned when the
+    image is uploaded.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a ResolvedURL object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResolvedURL object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ResolvedURL object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SourceURL(object):
+    """
+    Source of the image before any redirects. Not returned when the image is uploaded.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a SourceURL object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SourceURL object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SourceURL object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class TypeHierarchy(object):
+    """
+    Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny
+    Smith`. Included only if identified.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a TypeHierarchy object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TypeHierarchy object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this TypeHierarchy object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

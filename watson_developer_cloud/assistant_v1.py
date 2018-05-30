@@ -35,14 +35,16 @@ class AssistantV1(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/assistant/api'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            version,
+            url=default_url,
+            username=None,
+            password=None,
+            iam_api_key=None,
+            iam_access_token=None,
+            iam_url=None,
+    ):
         """
         Construct a new client for the Assistant service.
 
@@ -113,6 +115,8 @@ class AssistantV1(WatsonService):
                 nodes_visited_details=None,
                 **kwargs):
         """
+        Get response to user input.
+
         Get a response to a user's input.    There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
@@ -2192,6 +2196,638 @@ class AssistantV1(WatsonService):
 ##############################################################################
 
 
+class BaseCounterexample(object):
+    """
+    BaseCounterexample.
+
+    :attr str text: (optional) The text of a user input counterexample.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a BaseCounterexample object.
+
+        :param str text: (optional) The text of a user input counterexample.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseCounterexample object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseCounterexample object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseDialogNode(object):
+    """
+    BaseDialogNode.
+
+    :attr str dialog_node: (optional) The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+    :attr str description: (optional) The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr str conditions: (optional) The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+    :attr str parent: (optional) The ID of the parent dialog node.
+    :attr str previous_sibling: (optional) The ID of the previous sibling dialog node.
+    :attr object output: (optional) The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+    :attr object context: (optional) The context for the dialog node.
+    :attr object metadata: (optional) The metadata for the dialog node.
+    :attr DialogNodeNextStep next_step: (optional) The next step to be executed in dialog processing.
+    :attr str title: (optional) The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
+    :attr str node_type: (optional) How the dialog node is processed.
+    :attr str event_name: (optional) How an `event_handler` node is processed.
+    :attr str variable: (optional) The location in the dialog context where output is stored.
+    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any actions to be invoked by the dialog node.
+    :attr str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+    :attr str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+    :attr str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
+    """
+
+    def __init__(self,
+                 dialog_node=None,
+                 description=None,
+                 conditions=None,
+                 parent=None,
+                 previous_sibling=None,
+                 output=None,
+                 context=None,
+                 metadata=None,
+                 next_step=None,
+                 title=None,
+                 node_type=None,
+                 event_name=None,
+                 variable=None,
+                 actions=None,
+                 digress_in=None,
+                 digress_out=None,
+                 digress_out_slots=None):
+        """
+        Initialize a BaseDialogNode object.
+
+        :param str dialog_node: (optional) The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+        :param str description: (optional) The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str conditions: (optional) The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param str parent: (optional) The ID of the parent dialog node.
+        :param str previous_sibling: (optional) The ID of the previous sibling dialog node.
+        :param object output: (optional) The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+        :param object context: (optional) The context for the dialog node.
+        :param object metadata: (optional) The metadata for the dialog node.
+        :param DialogNodeNextStep next_step: (optional) The next step to be executed in dialog processing.
+        :param str title: (optional) The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
+        :param str node_type: (optional) How the dialog node is processed.
+        :param str event_name: (optional) How an `event_handler` node is processed.
+        :param str variable: (optional) The location in the dialog context where output is stored.
+        :param list[DialogNodeAction] actions: (optional) An array of objects describing any actions to be invoked by the dialog node.
+        :param str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+        :param str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+        :param str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
+        """
+        self.dialog_node = dialog_node
+        self.description = description
+        self.conditions = conditions
+        self.parent = parent
+        self.previous_sibling = previous_sibling
+        self.output = output
+        self.context = context
+        self.metadata = metadata
+        self.next_step = next_step
+        self.title = title
+        self.node_type = node_type
+        self.event_name = event_name
+        self.variable = variable
+        self.actions = actions
+        self.digress_in = digress_in
+        self.digress_out = digress_out
+        self.digress_out_slots = digress_out_slots
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseDialogNode object from a json dictionary."""
+        args = {}
+        if 'dialog_node' in _dict:
+            args['dialog_node'] = _dict.get('dialog_node')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'conditions' in _dict:
+            args['conditions'] = _dict.get('conditions')
+        if 'parent' in _dict:
+            args['parent'] = _dict.get('parent')
+        if 'previous_sibling' in _dict:
+            args['previous_sibling'] = _dict.get('previous_sibling')
+        if 'output' in _dict:
+            args['output'] = _dict.get('output')
+        if 'context' in _dict:
+            args['context'] = _dict.get('context')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'next_step' in _dict:
+            args['next_step'] = DialogNodeNextStep._from_dict(
+                _dict.get('next_step'))
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'type' in _dict or 'node_type' in _dict:
+            args['node_type'] = _dict.get('type') or _dict.get('node_type')
+        if 'event_name' in _dict:
+            args['event_name'] = _dict.get('event_name')
+        if 'variable' in _dict:
+            args['variable'] = _dict.get('variable')
+        if 'actions' in _dict:
+            args['actions'] = [
+                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+            ]
+        if 'digress_in' in _dict:
+            args['digress_in'] = _dict.get('digress_in')
+        if 'digress_out' in _dict:
+            args['digress_out'] = _dict.get('digress_out')
+        if 'digress_out_slots' in _dict:
+            args['digress_out_slots'] = _dict.get('digress_out_slots')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
+            _dict['dialog_node'] = self.dialog_node
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'conditions') and self.conditions is not None:
+            _dict['conditions'] = self.conditions
+        if hasattr(self, 'parent') and self.parent is not None:
+            _dict['parent'] = self.parent
+        if hasattr(self,
+                   'previous_sibling') and self.previous_sibling is not None:
+            _dict['previous_sibling'] = self.previous_sibling
+        if hasattr(self, 'output') and self.output is not None:
+            _dict['output'] = self.output
+        if hasattr(self, 'context') and self.context is not None:
+            _dict['context'] = self.context
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'next_step') and self.next_step is not None:
+            _dict['next_step'] = self.next_step._to_dict()
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'node_type') and self.node_type is not None:
+            _dict['type'] = self.node_type
+        if hasattr(self, 'event_name') and self.event_name is not None:
+            _dict['event_name'] = self.event_name
+        if hasattr(self, 'variable') and self.variable is not None:
+            _dict['variable'] = self.variable
+        if hasattr(self, 'actions') and self.actions is not None:
+            _dict['actions'] = [x._to_dict() for x in self.actions]
+        if hasattr(self, 'digress_in') and self.digress_in is not None:
+            _dict['digress_in'] = self.digress_in
+        if hasattr(self, 'digress_out') and self.digress_out is not None:
+            _dict['digress_out'] = self.digress_out
+        if hasattr(self,
+                   'digress_out_slots') and self.digress_out_slots is not None:
+            _dict['digress_out_slots'] = self.digress_out_slots
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseDialogNode object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseEntity(object):
+    """
+    BaseEntity.
+
+    :attr str entity: (optional) The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+    :attr str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr object metadata: (optional) Any metadata related to the entity.
+    :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+    """
+
+    def __init__(self,
+                 entity=None,
+                 description=None,
+                 metadata=None,
+                 fuzzy_match=None):
+        """
+        Initialize a BaseEntity object.
+
+        :param str entity: (optional) The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param object metadata: (optional) Any metadata related to the entity.
+        :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+        """
+        self.entity = entity
+        self.description = description
+        self.metadata = metadata
+        self.fuzzy_match = fuzzy_match
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseEntity object from a json dictionary."""
+        args = {}
+        if 'entity' in _dict:
+            args['entity'] = _dict.get('entity')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'fuzzy_match' in _dict:
+            args['fuzzy_match'] = _dict.get('fuzzy_match')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'entity') and self.entity is not None:
+            _dict['entity'] = self.entity
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
+            _dict['fuzzy_match'] = self.fuzzy_match
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseEntity object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseExample(object):
+    """
+    BaseExample.
+
+    :attr str text: (optional) The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a BaseExample object.
+
+        :param str text: (optional) The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseExample object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseExample object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseIntent(object):
+    """
+    BaseIntent.
+
+    :attr str intent: (optional) The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+    :attr str description: (optional) The description of the intent.
+    """
+
+    def __init__(self, intent=None, description=None):
+        """
+        Initialize a BaseIntent object.
+
+        :param str intent: (optional) The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+        :param str description: (optional) The description of the intent.
+        """
+        self.intent = intent
+        self.description = description
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseIntent object from a json dictionary."""
+        args = {}
+        if 'intent' in _dict:
+            args['intent'] = _dict.get('intent')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'intent') and self.intent is not None:
+            _dict['intent'] = self.intent
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseIntent object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseMessage(object):
+    """
+    BaseMessage.
+
+    :attr MessageInput input: (optional) The user input from the request.
+    :attr list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
+    :attr list[RuntimeEntity] entities: An array of entities identified in the user input.
+    :attr bool alternate_intents: (optional) Whether to return more than one intent. A value of `true` indicates that all matching intents are returned.
+    """
+
+    def __init__(self, intents, entities, input=None, alternate_intents=None):
+        """
+        Initialize a BaseMessage object.
+
+        :param list[RuntimeIntent] intents: An array of intents recognized in the user input, sorted in descending order of confidence.
+        :param list[RuntimeEntity] entities: An array of entities identified in the user input.
+        :param MessageInput input: (optional) The user input from the request.
+        :param bool alternate_intents: (optional) Whether to return more than one intent. A value of `true` indicates that all matching intents are returned.
+        """
+        self.input = input
+        self.intents = intents
+        self.entities = entities
+        self.alternate_intents = alternate_intents
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseMessage object from a json dictionary."""
+        args = {}
+        if 'input' in _dict:
+            args['input'] = MessageInput._from_dict(_dict.get('input'))
+        if 'intents' in _dict:
+            args['intents'] = [
+                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'intents\' not present in BaseMessage JSON')
+        if 'entities' in _dict:
+            args['entities'] = [
+                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'entities\' not present in BaseMessage JSON'
+            )
+        if 'alternate_intents' in _dict:
+            args['alternate_intents'] = _dict.get('alternate_intents')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input') and self.input is not None:
+            _dict['input'] = self.input._to_dict()
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self,
+                   'alternate_intents') and self.alternate_intents is not None:
+            _dict['alternate_intents'] = self.alternate_intents
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseMessage object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseSynonym(object):
+    """
+    BaseSynonym.
+
+    :attr str synonym: (optional) The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    """
+
+    def __init__(self, synonym=None):
+        """
+        Initialize a BaseSynonym object.
+
+        :param str synonym: (optional) The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        """
+        self.synonym = synonym
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseSynonym object from a json dictionary."""
+        args = {}
+        if 'synonym' in _dict:
+            args['synonym'] = _dict.get('synonym')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'synonym') and self.synonym is not None:
+            _dict['synonym'] = self.synonym
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseSynonym object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseValue(object):
+    """
+    BaseValue.
+
+    :attr str value: (optional) The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    :attr object metadata: (optional) Any metadata related to the entity value.
+    :attr str value_type: (optional) Specifies the type of value.
+    """
+
+    def __init__(self, value=None, metadata=None, value_type=None):
+        """
+        Initialize a BaseValue object.
+
+        :param str value: (optional) The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param object metadata: (optional) Any metadata related to the entity value.
+        :param str value_type: (optional) Specifies the type of value.
+        """
+        self.value = value
+        self.metadata = metadata
+        self.value_type = value_type
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseValue object from a json dictionary."""
+        args = {}
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'type' in _dict or 'value_type' in _dict:
+            args['value_type'] = _dict.get('type') or _dict.get('value_type')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'value_type') and self.value_type is not None:
+            _dict['type'] = self.value_type
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseValue object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BaseWorkspace(object):
+    """
+    BaseWorkspace.
+
+    :attr str name: (optional) The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+    :attr str description: (optional) The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr str language: (optional) The language of the workspace.
+    """
+
+    def __init__(self, name=None, description=None, language=None):
+        """
+        Initialize a BaseWorkspace object.
+
+        :param str name: (optional) The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+        :param str description: (optional) The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str language: (optional) The language of the workspace.
+        """
+        self.name = name
+        self.description = description
+        self.language = language
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BaseWorkspace object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this BaseWorkspace object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class CaptureGroup(object):
     """
     CaptureGroup.
@@ -2436,6 +3072,51 @@ class CounterexampleCollection(object):
 
     def __str__(self):
         """Return a `str` version of this CounterexampleCollection object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CounterexampleRequest(object):
+    """
+    CounterexampleRequest.
+
+    :attr str text: (optional) The text of a user input counterexample.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a CounterexampleRequest object.
+
+        :param str text: (optional) The text of a user input counterexample.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CounterexampleRequest object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CounterexampleRequest object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2876,6 +3557,55 @@ class CreateIntent(object):
         return not self == other
 
 
+class CreateSynonym(object):
+    """
+    CreateSynonym.
+
+    :attr str synonym: The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    """
+
+    def __init__(self, synonym):
+        """
+        Initialize a CreateSynonym object.
+
+        :param str synonym: The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        """
+        self.synonym = synonym
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CreateSynonym object from a json dictionary."""
+        args = {}
+        if 'synonym' in _dict:
+            args['synonym'] = _dict.get('synonym')
+        else:
+            raise ValueError(
+                'Required property \'synonym\' not present in CreateSynonym JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'synonym') and self.synonym is not None:
+            _dict['synonym'] = self.synonym
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CreateSynonym object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class CreateValue(object):
     """
     CreateValue.
@@ -2944,6 +3674,130 @@ class CreateValue(object):
 
     def __str__(self):
         """Return a `str` version of this CreateValue object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CreateWorkspace(object):
+    """
+    CreateWorkspace.
+
+    :attr str name: (optional) The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+    :attr str description: (optional) The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr str language: (optional) The language of the workspace.
+    :attr list[CreateIntent] intents: (optional) An array of objects defining the intents for the workspace.
+    :attr list[CreateEntity] entities: (optional) An array of objects defining the entities for the workspace.
+    :attr list[CreateDialogNode] dialog_nodes: (optional) An array of objects defining the nodes in the workspace dialog.
+    :attr list[CreateCounterexample] counterexamples: (optional) An array of objects defining input examples that have been marked as irrelevant input.
+    :attr object metadata: (optional) Any metadata related to the workspace.
+    :attr bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+    """
+
+    def __init__(self,
+                 name=None,
+                 description=None,
+                 language=None,
+                 intents=None,
+                 entities=None,
+                 dialog_nodes=None,
+                 counterexamples=None,
+                 metadata=None,
+                 learning_opt_out=None):
+        """
+        Initialize a CreateWorkspace object.
+
+        :param str name: (optional) The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+        :param str description: (optional) The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str language: (optional) The language of the workspace.
+        :param list[CreateIntent] intents: (optional) An array of objects defining the intents for the workspace.
+        :param list[CreateEntity] entities: (optional) An array of objects defining the entities for the workspace.
+        :param list[CreateDialogNode] dialog_nodes: (optional) An array of objects defining the nodes in the workspace dialog.
+        :param list[CreateCounterexample] counterexamples: (optional) An array of objects defining input examples that have been marked as irrelevant input.
+        :param object metadata: (optional) Any metadata related to the workspace.
+        :param bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        """
+        self.name = name
+        self.description = description
+        self.language = language
+        self.intents = intents
+        self.entities = entities
+        self.dialog_nodes = dialog_nodes
+        self.counterexamples = counterexamples
+        self.metadata = metadata
+        self.learning_opt_out = learning_opt_out
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CreateWorkspace object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'intents' in _dict:
+            args['intents'] = [
+                CreateIntent._from_dict(x) for x in (_dict.get('intents'))
+            ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                CreateEntity._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        if 'dialog_nodes' in _dict:
+            args['dialog_nodes'] = [
+                CreateDialogNode._from_dict(x)
+                for x in (_dict.get('dialog_nodes'))
+            ]
+        if 'counterexamples' in _dict:
+            args['counterexamples'] = [
+                CreateCounterexample._from_dict(x)
+                for x in (_dict.get('counterexamples'))
+            ]
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'learning_opt_out' in _dict:
+            args['learning_opt_out'] = _dict.get('learning_opt_out')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self, 'dialog_nodes') and self.dialog_nodes is not None:
+            _dict['dialog_nodes'] = [x._to_dict() for x in self.dialog_nodes]
+        if hasattr(self,
+                   'counterexamples') and self.counterexamples is not None:
+            _dict['counterexamples'] = [
+                x._to_dict() for x in self.counterexamples
+            ]
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self,
+                   'learning_opt_out') and self.learning_opt_out is not None:
+            _dict['learning_opt_out'] = self.learning_opt_out
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CreateWorkspace object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -3680,6 +4534,208 @@ class EntityExport(object):
         return not self == other
 
 
+class EntityRequest(object):
+    """
+    EntityRequest.
+
+    :attr str entity: (optional) The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+    :attr str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr object metadata: (optional) Any metadata related to the entity.
+    :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+    :attr list[CreateValue] values: (optional) An array of entity values.
+    """
+
+    def __init__(self,
+                 entity=None,
+                 description=None,
+                 metadata=None,
+                 fuzzy_match=None,
+                 values=None):
+        """
+        Initialize a EntityRequest object.
+
+        :param str entity: (optional) The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param object metadata: (optional) Any metadata related to the entity.
+        :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+        :param list[CreateValue] values: (optional) An array of entity values.
+        """
+        self.entity = entity
+        self.description = description
+        self.metadata = metadata
+        self.fuzzy_match = fuzzy_match
+        self.values = values
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EntityRequest object from a json dictionary."""
+        args = {}
+        if 'entity' in _dict:
+            args['entity'] = _dict.get('entity')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'fuzzy_match' in _dict:
+            args['fuzzy_match'] = _dict.get('fuzzy_match')
+        if 'values' in _dict:
+            args['values'] = [
+                CreateValue._from_dict(x) for x in (_dict.get('values'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'entity') and self.entity is not None:
+            _dict['entity'] = self.entity
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
+            _dict['fuzzy_match'] = self.fuzzy_match
+        if hasattr(self, 'values') and self.values is not None:
+            _dict['values'] = [x._to_dict() for x in self.values]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this EntityRequest object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ErrorDetail(object):
+    """
+    ErrorDetail.
+
+    :attr str message: Description of a specific constraint violation.
+    :attr str path: (optional) The location of the constraint violation.
+    """
+
+    def __init__(self, message, path=None):
+        """
+        Initialize a ErrorDetail object.
+
+        :param str message: Description of a specific constraint violation.
+        :param str path: (optional) The location of the constraint violation.
+        """
+        self.message = message
+        self.path = path
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ErrorDetail object from a json dictionary."""
+        args = {}
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        else:
+            raise ValueError(
+                'Required property \'message\' not present in ErrorDetail JSON')
+        if 'path' in _dict:
+            args['path'] = _dict.get('path')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        if hasattr(self, 'path') and self.path is not None:
+            _dict['path'] = self.path
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ErrorDetail object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ErrorResponse(object):
+    """
+    ErrorResponse.
+
+    :attr str error: General description of an error.
+    :attr list[ErrorDetail] errors: (optional) Collection of specific constraint violations associated with the error.
+    :attr int code: HTTP status code for the error response.
+    """
+
+    def __init__(self, error, code, errors=None):
+        """
+        Initialize a ErrorResponse object.
+
+        :param str error: General description of an error.
+        :param int code: HTTP status code for the error response.
+        :param list[ErrorDetail] errors: (optional) Collection of specific constraint violations associated with the error.
+        """
+        self.error = error
+        self.errors = errors
+        self.code = code
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ErrorResponse object from a json dictionary."""
+        args = {}
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
+        else:
+            raise ValueError(
+                'Required property \'error\' not present in ErrorResponse JSON')
+        if 'errors' in _dict:
+            args['errors'] = [
+                ErrorDetail._from_dict(x) for x in (_dict.get('errors'))
+            ]
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        else:
+            raise ValueError(
+                'Required property \'code\' not present in ErrorResponse JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
+        if hasattr(self, 'errors') and self.errors is not None:
+            _dict['errors'] = [x._to_dict() for x in self.errors]
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ErrorResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Example(object):
     """
     Example.
@@ -3792,6 +4848,51 @@ class ExampleCollection(object):
 
     def __str__(self):
         """Return a `str` version of this ExampleCollection object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ExampleRequest(object):
+    """
+    ExampleRequest.
+
+    :attr str text: (optional) The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a ExampleRequest object.
+
+        :param str text: (optional) The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ExampleRequest object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ExampleRequest object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4060,6 +5161,181 @@ class IntentExport(object):
 
     def __str__(self):
         """Return a `str` version of this IntentExport object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class IntentRequest(object):
+    """
+    IntentRequest.
+
+    :attr str intent: (optional) The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+    :attr str description: (optional) The description of the intent.
+    :attr list[CreateExample] examples: (optional) An array of user input examples for the intent.
+    """
+
+    def __init__(self, intent=None, description=None, examples=None):
+        """
+        Initialize a IntentRequest object.
+
+        :param str intent: (optional) The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+        :param str description: (optional) The description of the intent.
+        :param list[CreateExample] examples: (optional) An array of user input examples for the intent.
+        """
+        self.intent = intent
+        self.description = description
+        self.examples = examples
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a IntentRequest object from a json dictionary."""
+        args = {}
+        if 'intent' in _dict:
+            args['intent'] = _dict.get('intent')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'examples' in _dict:
+            args['examples'] = [
+                CreateExample._from_dict(x) for x in (_dict.get('examples'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'intent') and self.intent is not None:
+            _dict['intent'] = self.intent
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'examples') and self.examples is not None:
+            _dict['examples'] = [x._to_dict() for x in self.examples]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this IntentRequest object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Log(object):
+    """
+    Log.
+
+    :attr MessageRequest request: A request received by the workspace, including the user input and context.
+    :attr MessageResponse response: The response sent by the workspace, including the output text, detected intents and entities, and context.
+    :attr str log_id: A unique identifier for the logged event.
+    :attr str request_timestamp: The timestamp for receipt of the message.
+    :attr str response_timestamp: The timestamp for the system response to the message.
+    :attr str workspace_id: The unique identifier of the workspace where the request was made.
+    :attr str language: The language of the workspace where the message request was made.
+    """
+
+    def __init__(self, request, response, log_id, request_timestamp,
+                 response_timestamp, workspace_id, language):
+        """
+        Initialize a Log object.
+
+        :param MessageRequest request: A request received by the workspace, including the user input and context.
+        :param MessageResponse response: The response sent by the workspace, including the output text, detected intents and entities, and context.
+        :param str log_id: A unique identifier for the logged event.
+        :param str request_timestamp: The timestamp for receipt of the message.
+        :param str response_timestamp: The timestamp for the system response to the message.
+        :param str workspace_id: The unique identifier of the workspace where the request was made.
+        :param str language: The language of the workspace where the message request was made.
+        """
+        self.request = request
+        self.response = response
+        self.log_id = log_id
+        self.request_timestamp = request_timestamp
+        self.response_timestamp = response_timestamp
+        self.workspace_id = workspace_id
+        self.language = language
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Log object from a json dictionary."""
+        args = {}
+        if 'request' in _dict:
+            args['request'] = MessageRequest._from_dict(_dict.get('request'))
+        else:
+            raise ValueError(
+                'Required property \'request\' not present in Log JSON')
+        if 'response' in _dict:
+            args['response'] = MessageResponse._from_dict(_dict.get('response'))
+        else:
+            raise ValueError(
+                'Required property \'response\' not present in Log JSON')
+        if 'log_id' in _dict:
+            args['log_id'] = _dict.get('log_id')
+        else:
+            raise ValueError(
+                'Required property \'log_id\' not present in Log JSON')
+        if 'request_timestamp' in _dict:
+            args['request_timestamp'] = _dict.get('request_timestamp')
+        else:
+            raise ValueError(
+                'Required property \'request_timestamp\' not present in Log JSON'
+            )
+        if 'response_timestamp' in _dict:
+            args['response_timestamp'] = _dict.get('response_timestamp')
+        else:
+            raise ValueError(
+                'Required property \'response_timestamp\' not present in Log JSON'
+            )
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict.get('workspace_id')
+        else:
+            raise ValueError(
+                'Required property \'workspace_id\' not present in Log JSON')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in Log JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'request') and self.request is not None:
+            _dict['request'] = self.request._to_dict()
+        if hasattr(self, 'response') and self.response is not None:
+            _dict['response'] = self.response._to_dict()
+        if hasattr(self, 'log_id') and self.log_id is not None:
+            _dict['log_id'] = self.log_id
+        if hasattr(self,
+                   'request_timestamp') and self.request_timestamp is not None:
+            _dict['request_timestamp'] = self.request_timestamp
+        if hasattr(
+                self,
+                'response_timestamp') and self.response_timestamp is not None:
+            _dict['response_timestamp'] = self.response_timestamp
+        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
+            _dict['workspace_id'] = self.workspace_id
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Log object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -5193,6 +6469,51 @@ class SynonymCollection(object):
         return not self == other
 
 
+class SynonymRequest(object):
+    """
+    SynonymRequest.
+
+    :attr str synonym: (optional) The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    """
+
+    def __init__(self, synonym=None):
+        """
+        Initialize a SynonymRequest object.
+
+        :param str synonym: (optional) The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        """
+        self.synonym = synonym
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SynonymRequest object from a json dictionary."""
+        args = {}
+        if 'synonym' in _dict:
+            args['synonym'] = _dict.get('synonym')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'synonym') and self.synonym is not None:
+            _dict['synonym'] = self.synonym
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SynonymRequest object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class SystemResponse(object):
     """
     For internal use only.
@@ -5237,6 +6558,663 @@ class SystemResponse(object):
 
     def __str__(self):
         """Return a `str` version of this SystemResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateCounterexample(object):
+    """
+    UpdateCounterexample.
+
+    :attr str text: (optional) The text of a user input counterexample.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a UpdateCounterexample object.
+
+        :param str text: (optional) The text of a user input counterexample.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateCounterexample object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this UpdateCounterexample object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateDialogNode(object):
+    """
+    UpdateDialogNode.
+
+    :attr str dialog_node: (optional) The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+    :attr str description: (optional) The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr str conditions: (optional) The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+    :attr str parent: (optional) The ID of the parent dialog node.
+    :attr str previous_sibling: (optional) The ID of the previous sibling dialog node.
+    :attr object output: (optional) The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+    :attr object context: (optional) The context for the dialog node.
+    :attr object metadata: (optional) The metadata for the dialog node.
+    :attr DialogNodeNextStep next_step: (optional) The next step to be executed in dialog processing.
+    :attr str title: (optional) The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
+    :attr str node_type: (optional) How the dialog node is processed.
+    :attr str event_name: (optional) How an `event_handler` node is processed.
+    :attr str variable: (optional) The location in the dialog context where output is stored.
+    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any actions to be invoked by the dialog node.
+    :attr str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+    :attr str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+    :attr str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
+    """
+
+    def __init__(self,
+                 dialog_node=None,
+                 description=None,
+                 conditions=None,
+                 parent=None,
+                 previous_sibling=None,
+                 output=None,
+                 context=None,
+                 metadata=None,
+                 next_step=None,
+                 title=None,
+                 node_type=None,
+                 event_name=None,
+                 variable=None,
+                 actions=None,
+                 digress_in=None,
+                 digress_out=None,
+                 digress_out_slots=None):
+        """
+        Initialize a UpdateDialogNode object.
+
+        :param str dialog_node: (optional) The dialog node ID. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 1024 characters.
+        :param str description: (optional) The description of the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str conditions: (optional) The condition that will trigger the dialog node. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param str parent: (optional) The ID of the parent dialog node.
+        :param str previous_sibling: (optional) The ID of the previous sibling dialog node.
+        :param object output: (optional) The output of the dialog node. For more information about how to specify dialog node output, see the [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+        :param object context: (optional) The context for the dialog node.
+        :param object metadata: (optional) The metadata for the dialog node.
+        :param DialogNodeNextStep next_step: (optional) The next step to be executed in dialog processing.
+        :param str title: (optional) The alias used to identify the dialog node. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot characters.  - It must be no longer than 64 characters.
+        :param str node_type: (optional) How the dialog node is processed.
+        :param str event_name: (optional) How an `event_handler` node is processed.
+        :param str variable: (optional) The location in the dialog context where output is stored.
+        :param list[DialogNodeAction] actions: (optional) An array of objects describing any actions to be invoked by the dialog node.
+        :param str digress_in: (optional) Whether this top-level dialog node can be digressed into.
+        :param str digress_out: (optional) Whether this dialog node can be returned to after a digression.
+        :param str digress_out_slots: (optional) Whether the user can digress to top-level nodes while filling out slots.
+        """
+        self.dialog_node = dialog_node
+        self.description = description
+        self.conditions = conditions
+        self.parent = parent
+        self.previous_sibling = previous_sibling
+        self.output = output
+        self.context = context
+        self.metadata = metadata
+        self.next_step = next_step
+        self.title = title
+        self.node_type = node_type
+        self.event_name = event_name
+        self.variable = variable
+        self.actions = actions
+        self.digress_in = digress_in
+        self.digress_out = digress_out
+        self.digress_out_slots = digress_out_slots
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateDialogNode object from a json dictionary."""
+        args = {}
+        if 'dialog_node' in _dict:
+            args['dialog_node'] = _dict.get('dialog_node')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'conditions' in _dict:
+            args['conditions'] = _dict.get('conditions')
+        if 'parent' in _dict:
+            args['parent'] = _dict.get('parent')
+        if 'previous_sibling' in _dict:
+            args['previous_sibling'] = _dict.get('previous_sibling')
+        if 'output' in _dict:
+            args['output'] = _dict.get('output')
+        if 'context' in _dict:
+            args['context'] = _dict.get('context')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'next_step' in _dict:
+            args['next_step'] = DialogNodeNextStep._from_dict(
+                _dict.get('next_step'))
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'type' in _dict or 'node_type' in _dict:
+            args['node_type'] = _dict.get('type') or _dict.get('node_type')
+        if 'event_name' in _dict:
+            args['event_name'] = _dict.get('event_name')
+        if 'variable' in _dict:
+            args['variable'] = _dict.get('variable')
+        if 'actions' in _dict:
+            args['actions'] = [
+                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+            ]
+        if 'digress_in' in _dict:
+            args['digress_in'] = _dict.get('digress_in')
+        if 'digress_out' in _dict:
+            args['digress_out'] = _dict.get('digress_out')
+        if 'digress_out_slots' in _dict:
+            args['digress_out_slots'] = _dict.get('digress_out_slots')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
+            _dict['dialog_node'] = self.dialog_node
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'conditions') and self.conditions is not None:
+            _dict['conditions'] = self.conditions
+        if hasattr(self, 'parent') and self.parent is not None:
+            _dict['parent'] = self.parent
+        if hasattr(self,
+                   'previous_sibling') and self.previous_sibling is not None:
+            _dict['previous_sibling'] = self.previous_sibling
+        if hasattr(self, 'output') and self.output is not None:
+            _dict['output'] = self.output
+        if hasattr(self, 'context') and self.context is not None:
+            _dict['context'] = self.context
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'next_step') and self.next_step is not None:
+            _dict['next_step'] = self.next_step._to_dict()
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'node_type') and self.node_type is not None:
+            _dict['type'] = self.node_type
+        if hasattr(self, 'event_name') and self.event_name is not None:
+            _dict['event_name'] = self.event_name
+        if hasattr(self, 'variable') and self.variable is not None:
+            _dict['variable'] = self.variable
+        if hasattr(self, 'actions') and self.actions is not None:
+            _dict['actions'] = [x._to_dict() for x in self.actions]
+        if hasattr(self, 'digress_in') and self.digress_in is not None:
+            _dict['digress_in'] = self.digress_in
+        if hasattr(self, 'digress_out') and self.digress_out is not None:
+            _dict['digress_out'] = self.digress_out
+        if hasattr(self,
+                   'digress_out_slots') and self.digress_out_slots is not None:
+            _dict['digress_out_slots'] = self.digress_out_slots
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this UpdateDialogNode object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateEntity(object):
+    """
+    UpdateEntity.
+
+    :attr str entity: (optional) The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+    :attr str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr object metadata: (optional) Any metadata related to the entity.
+    :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+    :attr list[CreateValue] values: (optional) An array of entity values.
+    """
+
+    def __init__(self,
+                 entity=None,
+                 description=None,
+                 metadata=None,
+                 fuzzy_match=None,
+                 values=None):
+        """
+        Initialize a UpdateEntity object.
+
+        :param str entity: (optional) The name of the entity. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, and hyphen characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 64 characters.
+        :param str description: (optional) The description of the entity. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param object metadata: (optional) Any metadata related to the entity.
+        :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+        :param list[CreateValue] values: (optional) An array of entity values.
+        """
+        self.entity = entity
+        self.description = description
+        self.metadata = metadata
+        self.fuzzy_match = fuzzy_match
+        self.values = values
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateEntity object from a json dictionary."""
+        args = {}
+        if 'entity' in _dict:
+            args['entity'] = _dict.get('entity')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'fuzzy_match' in _dict:
+            args['fuzzy_match'] = _dict.get('fuzzy_match')
+        if 'values' in _dict:
+            args['values'] = [
+                CreateValue._from_dict(x) for x in (_dict.get('values'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'entity') and self.entity is not None:
+            _dict['entity'] = self.entity
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
+            _dict['fuzzy_match'] = self.fuzzy_match
+        if hasattr(self, 'values') and self.values is not None:
+            _dict['values'] = [x._to_dict() for x in self.values]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this UpdateEntity object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateExample(object):
+    """
+    UpdateExample.
+
+    :attr str text: (optional) The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a UpdateExample object.
+
+        :param str text: (optional) The text of the user input example. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 1024 characters.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateExample object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this UpdateExample object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateIntent(object):
+    """
+    UpdateIntent.
+
+    :attr str intent: (optional) The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+    :attr str description: (optional) The description of the intent.
+    :attr list[CreateExample] examples: (optional) An array of user input examples for the intent.
+    """
+
+    def __init__(self, intent=None, description=None, examples=None):
+        """
+        Initialize a UpdateIntent object.
+
+        :param str intent: (optional) The name of the intent. This string must conform to the following restrictions:  - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.  - It cannot begin with the reserved prefix `sys-`.  - It must be no longer than 128 characters.
+        :param str description: (optional) The description of the intent.
+        :param list[CreateExample] examples: (optional) An array of user input examples for the intent.
+        """
+        self.intent = intent
+        self.description = description
+        self.examples = examples
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateIntent object from a json dictionary."""
+        args = {}
+        if 'intent' in _dict:
+            args['intent'] = _dict.get('intent')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'examples' in _dict:
+            args['examples'] = [
+                CreateExample._from_dict(x) for x in (_dict.get('examples'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'intent') and self.intent is not None:
+            _dict['intent'] = self.intent
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'examples') and self.examples is not None:
+            _dict['examples'] = [x._to_dict() for x in self.examples]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this UpdateIntent object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateSynonym(object):
+    """
+    UpdateSynonym.
+
+    :attr str synonym: (optional) The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    """
+
+    def __init__(self, synonym=None):
+        """
+        Initialize a UpdateSynonym object.
+
+        :param str synonym: (optional) The text of the synonym. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        """
+        self.synonym = synonym
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateSynonym object from a json dictionary."""
+        args = {}
+        if 'synonym' in _dict:
+            args['synonym'] = _dict.get('synonym')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'synonym') and self.synonym is not None:
+            _dict['synonym'] = self.synonym
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this UpdateSynonym object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateValue(object):
+    """
+    UpdateValue.
+
+    :attr str value: (optional) The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    :attr object metadata: (optional) Any metadata related to the entity value.
+    :attr str value_type: (optional) Specifies the type of value.
+    :attr list[str] synonyms: (optional) An array of synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following resrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    :attr list[str] patterns: (optional) An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+    """
+
+    def __init__(self,
+                 value=None,
+                 metadata=None,
+                 value_type=None,
+                 synonyms=None,
+                 patterns=None):
+        """
+        Initialize a UpdateValue object.
+
+        :param str value: (optional) The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param object metadata: (optional) Any metadata related to the entity value.
+        :param str value_type: (optional) Specifies the type of value.
+        :param list[str] synonyms: (optional) An array of synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following resrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param list[str] patterns: (optional) An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        """
+        self.value = value
+        self.metadata = metadata
+        self.value_type = value_type
+        self.synonyms = synonyms
+        self.patterns = patterns
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateValue object from a json dictionary."""
+        args = {}
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'type' in _dict or 'value_type' in _dict:
+            args['value_type'] = _dict.get('type') or _dict.get('value_type')
+        if 'synonyms' in _dict:
+            args['synonyms'] = _dict.get('synonyms')
+        if 'patterns' in _dict:
+            args['patterns'] = _dict.get('patterns')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'value_type') and self.value_type is not None:
+            _dict['type'] = self.value_type
+        if hasattr(self, 'synonyms') and self.synonyms is not None:
+            _dict['synonyms'] = self.synonyms
+        if hasattr(self, 'patterns') and self.patterns is not None:
+            _dict['patterns'] = self.patterns
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this UpdateValue object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateWorkspace(object):
+    """
+    UpdateWorkspace.
+
+    :attr str name: (optional) The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+    :attr str description: (optional) The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr str language: (optional) The language of the workspace.
+    :attr list[CreateIntent] intents: (optional) An array of objects defining the intents for the workspace.
+    :attr list[CreateEntity] entities: (optional) An array of objects defining the entities for the workspace.
+    :attr list[CreateDialogNode] dialog_nodes: (optional) An array of objects defining the nodes in the workspace dialog.
+    :attr list[CreateCounterexample] counterexamples: (optional) An array of objects defining input examples that have been marked as irrelevant input.
+    :attr object metadata: (optional) Any metadata related to the workspace.
+    :attr bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+    """
+
+    def __init__(self,
+                 name=None,
+                 description=None,
+                 language=None,
+                 intents=None,
+                 entities=None,
+                 dialog_nodes=None,
+                 counterexamples=None,
+                 metadata=None,
+                 learning_opt_out=None):
+        """
+        Initialize a UpdateWorkspace object.
+
+        :param str name: (optional) The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+        :param str description: (optional) The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str language: (optional) The language of the workspace.
+        :param list[CreateIntent] intents: (optional) An array of objects defining the intents for the workspace.
+        :param list[CreateEntity] entities: (optional) An array of objects defining the entities for the workspace.
+        :param list[CreateDialogNode] dialog_nodes: (optional) An array of objects defining the nodes in the workspace dialog.
+        :param list[CreateCounterexample] counterexamples: (optional) An array of objects defining input examples that have been marked as irrelevant input.
+        :param object metadata: (optional) Any metadata related to the workspace.
+        :param bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        """
+        self.name = name
+        self.description = description
+        self.language = language
+        self.intents = intents
+        self.entities = entities
+        self.dialog_nodes = dialog_nodes
+        self.counterexamples = counterexamples
+        self.metadata = metadata
+        self.learning_opt_out = learning_opt_out
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateWorkspace object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'intents' in _dict:
+            args['intents'] = [
+                CreateIntent._from_dict(x) for x in (_dict.get('intents'))
+            ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                CreateEntity._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        if 'dialog_nodes' in _dict:
+            args['dialog_nodes'] = [
+                CreateDialogNode._from_dict(x)
+                for x in (_dict.get('dialog_nodes'))
+            ]
+        if 'counterexamples' in _dict:
+            args['counterexamples'] = [
+                CreateCounterexample._from_dict(x)
+                for x in (_dict.get('counterexamples'))
+            ]
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'learning_opt_out' in _dict:
+            args['learning_opt_out'] = _dict.get('learning_opt_out')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self, 'dialog_nodes') and self.dialog_nodes is not None:
+            _dict['dialog_nodes'] = [x._to_dict() for x in self.dialog_nodes]
+        if hasattr(self,
+                   'counterexamples') and self.counterexamples is not None:
+            _dict['counterexamples'] = [
+                x._to_dict() for x in self.counterexamples
+            ]
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self,
+                   'learning_opt_out') and self.learning_opt_out is not None:
+            _dict['learning_opt_out'] = self.learning_opt_out
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this UpdateWorkspace object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -5499,6 +7477,84 @@ class ValueExport(object):
 
     def __str__(self):
         """Return a `str` version of this ValueExport object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ValueRequest(object):
+    """
+    ValueRequest.
+
+    :attr str value: (optional) The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    :attr object metadata: (optional) Any metadata related to the entity value.
+    :attr str value_type: (optional) Specifies the type of value.
+    :attr list[str] synonyms: (optional) An array of synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following resrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+    :attr list[str] patterns: (optional) An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+    """
+
+    def __init__(self,
+                 value=None,
+                 metadata=None,
+                 value_type=None,
+                 synonyms=None,
+                 patterns=None):
+        """
+        Initialize a ValueRequest object.
+
+        :param str value: (optional) The text of the entity value. This string must conform to the following restrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param object metadata: (optional) Any metadata related to the entity value.
+        :param str value_type: (optional) Specifies the type of value.
+        :param list[str] synonyms: (optional) An array of synonyms for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A synonym must conform to the following resrictions:  - It cannot contain carriage return, newline, or tab characters.  - It cannot consist of only whitespace characters.  - It must be no longer than 64 characters.
+        :param list[str] patterns: (optional) An array of patterns for the entity value. You can provide either synonyms or patterns (as indicated by **type**), but not both. A pattern is a regular expression no longer than 128 characters. For more information about how to specify a pattern, see the [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        """
+        self.value = value
+        self.metadata = metadata
+        self.value_type = value_type
+        self.synonyms = synonyms
+        self.patterns = patterns
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ValueRequest object from a json dictionary."""
+        args = {}
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'type' in _dict or 'value_type' in _dict:
+            args['value_type'] = _dict.get('type') or _dict.get('value_type')
+        if 'synonyms' in _dict:
+            args['synonyms'] = _dict.get('synonyms')
+        if 'patterns' in _dict:
+            args['patterns'] = _dict.get('patterns')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'value_type') and self.value_type is not None:
+            _dict['type'] = self.value_type
+        if hasattr(self, 'synonyms') and self.synonyms is not None:
+            _dict['synonyms'] = self.synonyms
+        if hasattr(self, 'patterns') and self.patterns is not None:
+            _dict['patterns'] = self.patterns
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ValueRequest object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -5857,6 +7913,269 @@ class WorkspaceExport(object):
 
     def __str__(self):
         """Return a `str` version of this WorkspaceExport object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WorkspaceRequest(object):
+    """
+    WorkspaceRequest.
+
+    :attr str name: (optional) The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+    :attr str description: (optional) The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+    :attr str language: (optional) The language of the workspace.
+    :attr list[CreateIntent] intents: (optional) An array of objects defining the intents for the workspace.
+    :attr list[CreateEntity] entities: (optional) An array of objects defining the entities for the workspace.
+    :attr list[CreateDialogNode] dialog_nodes: (optional) An array of objects defining the nodes in the workspace dialog.
+    :attr list[CreateCounterexample] counterexamples: (optional) An array of objects defining input examples that have been marked as irrelevant input.
+    :attr object metadata: (optional) Any metadata related to the workspace.
+    :attr bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+    """
+
+    def __init__(self,
+                 name=None,
+                 description=None,
+                 language=None,
+                 intents=None,
+                 entities=None,
+                 dialog_nodes=None,
+                 counterexamples=None,
+                 metadata=None,
+                 learning_opt_out=None):
+        """
+        Initialize a WorkspaceRequest object.
+
+        :param str name: (optional) The name of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 64 characters.
+        :param str description: (optional) The description of the workspace. This string cannot contain carriage return, newline, or tab characters, and it must be no longer than 128 characters.
+        :param str language: (optional) The language of the workspace.
+        :param list[CreateIntent] intents: (optional) An array of objects defining the intents for the workspace.
+        :param list[CreateEntity] entities: (optional) An array of objects defining the entities for the workspace.
+        :param list[CreateDialogNode] dialog_nodes: (optional) An array of objects defining the nodes in the workspace dialog.
+        :param list[CreateCounterexample] counterexamples: (optional) An array of objects defining input examples that have been marked as irrelevant input.
+        :param object metadata: (optional) Any metadata related to the workspace.
+        :param bool learning_opt_out: (optional) Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        """
+        self.name = name
+        self.description = description
+        self.language = language
+        self.intents = intents
+        self.entities = entities
+        self.dialog_nodes = dialog_nodes
+        self.counterexamples = counterexamples
+        self.metadata = metadata
+        self.learning_opt_out = learning_opt_out
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceRequest object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'intents' in _dict:
+            args['intents'] = [
+                CreateIntent._from_dict(x) for x in (_dict.get('intents'))
+            ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                CreateEntity._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        if 'dialog_nodes' in _dict:
+            args['dialog_nodes'] = [
+                CreateDialogNode._from_dict(x)
+                for x in (_dict.get('dialog_nodes'))
+            ]
+        if 'counterexamples' in _dict:
+            args['counterexamples'] = [
+                CreateCounterexample._from_dict(x)
+                for x in (_dict.get('counterexamples'))
+            ]
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'learning_opt_out' in _dict:
+            args['learning_opt_out'] = _dict.get('learning_opt_out')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self, 'dialog_nodes') and self.dialog_nodes is not None:
+            _dict['dialog_nodes'] = [x._to_dict() for x in self.dialog_nodes]
+        if hasattr(self,
+                   'counterexamples') and self.counterexamples is not None:
+            _dict['counterexamples'] = [
+                x._to_dict() for x in self.counterexamples
+            ]
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self,
+                   'learning_opt_out') and self.learning_opt_out is not None:
+            _dict['learning_opt_out'] = self.learning_opt_out
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WorkspaceRequest object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WorkspaceStatus(object):
+    """
+    WorkspaceStatus.
+
+    :attr str name: The name of the workspace.
+    :attr str description: The description of the workspace.
+    :attr str language: The language of the workspace.
+    :attr object metadata: Any metadata that is required by the workspace.
+    :attr datetime created: (optional) The timestamp for creation of the workspace.
+    :attr datetime updated: (optional) The timestamp for the last update to the workspace.
+    :attr str workspace_id: The workspace ID.
+    :attr str status: The current status of the workspace.
+    :attr bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+    """
+
+    def __init__(self,
+                 name,
+                 description,
+                 language,
+                 metadata,
+                 workspace_id,
+                 status,
+                 learning_opt_out,
+                 created=None,
+                 updated=None):
+        """
+        Initialize a WorkspaceStatus object.
+
+        :param str name: The name of the workspace.
+        :param str description: The description of the workspace.
+        :param str language: The language of the workspace.
+        :param object metadata: Any metadata that is required by the workspace.
+        :param str workspace_id: The workspace ID.
+        :param str status: The current status of the workspace.
+        :param bool learning_opt_out: Whether training data from the workspace can be used by IBM for general service improvements. `true` indicates that workspace training data is not to be used.
+        :param datetime created: (optional) The timestamp for creation of the workspace.
+        :param datetime updated: (optional) The timestamp for the last update to the workspace.
+        """
+        self.name = name
+        self.description = description
+        self.language = language
+        self.metadata = metadata
+        self.created = created
+        self.updated = updated
+        self.workspace_id = workspace_id
+        self.status = status
+        self.learning_opt_out = learning_opt_out
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceStatus object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in WorkspaceStatus JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        else:
+            raise ValueError(
+                'Required property \'description\' not present in WorkspaceStatus JSON'
+            )
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in WorkspaceStatus JSON'
+            )
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        else:
+            raise ValueError(
+                'Required property \'metadata\' not present in WorkspaceStatus JSON'
+            )
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict.get('workspace_id')
+        else:
+            raise ValueError(
+                'Required property \'workspace_id\' not present in WorkspaceStatus JSON'
+            )
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError(
+                'Required property \'status\' not present in WorkspaceStatus JSON'
+            )
+        if 'learning_opt_out' in _dict:
+            args['learning_opt_out'] = _dict.get('learning_opt_out')
+        else:
+            raise ValueError(
+                'Required property \'learning_opt_out\' not present in WorkspaceStatus JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
+            _dict['workspace_id'] = self.workspace_id
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self,
+                   'learning_opt_out') and self.learning_opt_out is not None:
+            _dict['learning_opt_out'] = self.learning_opt_out
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WorkspaceStatus object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

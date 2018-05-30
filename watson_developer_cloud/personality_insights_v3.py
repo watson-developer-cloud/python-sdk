@@ -48,14 +48,16 @@ class PersonalityInsightsV3(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            version,
+            url=default_url,
+            username=None,
+            password=None,
+            iam_api_key=None,
+            iam_access_token=None,
+            iam_url=None,
+    ):
         """
         Construct a new client for the Personality Insights service.
 
@@ -117,29 +119,43 @@ class PersonalityInsightsV3(WatsonService):
 
     def profile(self,
                 content,
-                content_type='application/json',
+                content_type,
+                accept=None,
                 content_language=None,
-                accept='application/json',
                 accept_language=None,
                 raw_scores=None,
                 csv_headers=None,
                 consumption_preferences=None,
                 **kwargs):
         """
-        Generates a personality profile based on input text.
+        Get profile.
 
-        Derives personality insights for up to 20 MB of input content written by an
-        author, though the service requires much less text to produce an accurate profile;
-        for more information, see [Providing sufficient
+        Generates a personality profile for the author of the input text. The service
+        accepts a maximum of 20 MB of input content, but it requires much less text to
+        produce an accurate profile; for more information, see [Providing sufficient
         input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient).
-        Accepts input in Arabic, English, Japanese, Korean, or Spanish and produces output
-        in one of eleven languages. Provide plain text, HTML, or JSON content, and receive
-        results in JSON or CSV format.
+        The service analyzes text in Arabic, English, Japanese, Korean, or Spanish and
+        returns its results in a variety of languages. You can provide plain text, HTML,
+        or JSON input by specifying the **Content-Type** parameter; the default is
+        `text/plain`. Request a JSON or comma-separated values (CSV) response by
+        specifying the **Accept** parameter; CSV output includes a fixed number of columns
+        and optional headers.   Per the JSON specification, the default character encoding
+        for JSON content is effectively always UTF-8; per the HTTP specification, the
+        default encoding for plain text and HTML is ISO-8859-1 (effectively, the ASCII
+        character set). When specifying a content type of plain text or HTML, include the
+        `charset` parameter to indicate the character encoding of the input text; for
+        example: `Content-Type: text/plain;charset=utf-8`.   For detailed information
+        about calling the service and the responses it can generate, see [Requesting a
+        profile](https://console.bluemix.net/docs/services/personality-insights/input.html),
+        [Understanding a JSON
+        profile](https://console.bluemix.net/docs/services/personality-insights/output.html),
+        and [Understanding a CSV
+        profile](https://console.bluemix.net/docs/services/personality-insights/output-csv.html).
 
-        :param Content content: A maximum of 20 MB of content to analyze, though the service requires much less text; for more information, see [Providing sufficient input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient). For JSON input, provide an object of type `Content`
+        :param Content content: A maximum of 20 MB of content to analyze, though the service requires much less text; for more information, see [Providing sufficient input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient). For JSON input, provide an object of type `Content`.
         :param str content_type: The type of the input: application/json, text/html, or text/plain. A character encoding can be specified by including a `charset` parameter. For example, 'text/html;charset=utf-8'.
-        :param str content_language: The language of the input text for the request: Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The effect of the `content_language` header depends on the `Content-Type` header. When `Content-Type` is `text/plain` or `text/html`, `content_language` is the only way to specify the language. When `Content-Type` is `application/json`, `content_language` overrides a language specified with the `language` parameter of a `ContentItem` object, and content items that specify a different language are ignored; omit this header to base the language on the specification of the content items. You can specify any combination of languages for `content_language` and `Accept-Language`.
-        :param accept: Type of the response: 'application/json' (default) or 'text/csv'
+        :param str accept: The type of the response: application/json or text/csv. A character encoding can be specified by including a `charset` parameter. For example, 'text/csv;charset=utf-8'.
+        :param str content_language: The language of the input text for the request: Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`.   The effect of the **Content-Language** parameter depends on the **Content-Type** parameter. When **Content-Type** is `text/plain` or `text/html`, **Content-Language** is the only way to specify the language. When **Content-Type** is `application/json`, **Content-Language** overrides a language specified with the `language` parameter of a `ContentItem` object, and content items that specify a different language are ignored; omit this parameter to base the language on the specification of the content items. You can specify any combination of languages for **Content-Language** and **Accept-Language**.
         :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can specify any combination of languages for the input and response content.
         :param bool raw_scores: Indicates whether a raw score in addition to a normalized percentile is returned for each characteristic; raw scores are not compared with a sample population. By default, only normalized percentiles are returned.
         :param bool csv_headers: Indicates whether column labels are returned with a CSV response. By default, no column labels are returned. Applies only when the **Accept** parameter is set to `text/csv`.
@@ -154,9 +170,9 @@ class PersonalityInsightsV3(WatsonService):
             raise ValueError('content_type must be provided')
         headers = {
             'Content-Type': content_type,
+            'Accept': accept,
             'Content-Language': content_language,
-            'Accept-Language': accept_language,
-            'Accept': accept
+            'Accept-Language': accept_language
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -177,7 +193,7 @@ class PersonalityInsightsV3(WatsonService):
             headers=headers,
             params=params,
             data=data,
-            accept_json=(accept is None or accept == 'application/json'))
+            accept_json=True)
         return response
 
 
@@ -233,8 +249,7 @@ class Behavior(object):
             args['percentage'] = _dict.get('percentage')
         else:
             raise ValueError(
-                'Required property \'percentage\' not present in Behavior JSON'
-            )
+                'Required property \'percentage\' not present in Behavior JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -526,8 +541,7 @@ class ContentItem(object):
             args['content'] = _dict.get('content')
         else:
             raise ValueError(
-                'Required property \'content\' not present in ContentItem JSON'
-            )
+                'Required property \'content\' not present in ContentItem JSON')
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         if 'created' in _dict:
@@ -571,6 +585,78 @@ class ContentItem(object):
 
     def __str__(self):
         """Return a `str` version of this ContentItem object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ErrorModel(object):
+    """
+    ErrorModel.
+
+    :attr int code: The HTTP status code.
+    :attr str sub_code: (optional) A service-specific error code.
+    :attr str error: A description of the error.
+    :attr str help: (optional) A URL to documentation explaining the cause and possibly solutions for the error.
+    """
+
+    def __init__(self, code, error, sub_code=None, help=None):
+        """
+        Initialize a ErrorModel object.
+
+        :param int code: The HTTP status code.
+        :param str error: A description of the error.
+        :param str sub_code: (optional) A service-specific error code.
+        :param str help: (optional) A URL to documentation explaining the cause and possibly solutions for the error.
+        """
+        self.code = code
+        self.sub_code = sub_code
+        self.error = error
+        self.help = help
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ErrorModel object from a json dictionary."""
+        args = {}
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        else:
+            raise ValueError(
+                'Required property \'code\' not present in ErrorModel JSON')
+        if 'sub_code' in _dict:
+            args['sub_code'] = _dict.get('sub_code')
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
+        else:
+            raise ValueError(
+                'Required property \'error\' not present in ErrorModel JSON')
+        if 'help' in _dict:
+            args['help'] = _dict.get('help')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'sub_code') and self.sub_code is not None:
+            _dict['sub_code'] = self.sub_code
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
+        if hasattr(self, 'help') and self.help is not None:
+            _dict['help'] = self.help
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ErrorModel object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -655,10 +741,9 @@ class Profile(object):
             ]
         else:
             raise ValueError(
-                'Required property \'personality\' not present in Profile JSON'
-            )
+                'Required property \'personality\' not present in Profile JSON')
         if 'needs' in _dict:
-            args['needs'] = [Trait._from_dict(x) for x in _dict.get('needs')]
+            args['needs'] = [Trait._from_dict(x) for x in (_dict.get('needs'))]
         else:
             raise ValueError(
                 'Required property \'needs\' not present in Profile JSON')

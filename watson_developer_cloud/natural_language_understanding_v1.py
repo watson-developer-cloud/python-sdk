@@ -39,14 +39,16 @@ class NaturalLanguageUnderstandingV1(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            version,
+            url=default_url,
+            username=None,
+            password=None,
+            iam_api_key=None,
+            iam_access_token=None,
+            iam_url=None,
+    ):
         """
         Construct a new client for the Natural Language Understanding service.
 
@@ -122,6 +124,29 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         Analyze text, HTML, or a public webpage.
 
         Analyzes text, HTML, or a public webpage with one or more text analysis features.
+        ### Concepts Identify general concepts that are referenced or alluded to in your
+        content. Concepts that are detected typically have an associated link to a DBpedia
+        resource.  ### Emotion Detect anger, disgust, fear, joy, or sadness that is
+        conveyed by your content. Emotion information can be returned for detected
+        entities, keywords, or user-specified target phrases found in the text.  ###
+        Entities Detect important people, places, geopolitical entities and other types of
+        entities in your content. Entity detection recognizes consecutive coreferences of
+        each entity. For example, analysis of the following text would count \"Barack
+        Obama\" and \"He\" as the same entity:  \"Barack Obama was the 44th President of
+        the United States. He took office in January 2009.\"  ### Keywords Determine the
+        most important keywords in your content. Keyword phrases are organized by
+        relevance in the results.  ### Metadata Get author information, publication date,
+        and the title of your text/HTML content.  ### Relations Recognize when two
+        entities are related, and identify the type of relation.  For example, you can
+        identify an \"awardedTo\" relation between an award and its recipient.  ###
+        Semantic Roles Parse sentences into subject-action-object form, and identify
+        entities and keywords that are subjects or objects of an action.  ### Sentiment
+        Determine whether your content conveys postive or negative sentiment. Sentiment
+        information can be returned for detected entities, keywords, or user-specified
+        target phrases found in the text.   ### Categories Categorize your content into a
+        hierarchical 5-level taxonomy. For example, \"Leonardo DiCaprio won an Oscar\"
+        returns \"/art and entertainment/movies and tv/movies\" as the most confident
+        classification.
 
         :param Features features: Specific features to analyze the document for.
         :param str text: The plain text to analyze.
@@ -540,6 +565,44 @@ class CategoriesResult(object):
         return not self == other
 
 
+class CategoriesResults(object):
+    """
+    CategoriesResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a CategoriesResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoriesResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CategoriesResults object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ConceptsOptions(object):
     """
     Whether or not to analyze content for general concepts that are referenced or alluded
@@ -633,6 +696,82 @@ class ConceptsResult(object):
 
     def __str__(self):
         """Return a `str` version of this ConceptsResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ConceptsResults(object):
+    """
+    ConceptsResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a ConceptsResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ConceptsResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ConceptsResults object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DBpediaResource(object):
+    """
+    Link to the corresponding DBpedia resource.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a DBpediaResource object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DBpediaResource object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DBpediaResource object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -913,6 +1052,44 @@ class EmotionResult(object):
         return not self == other
 
 
+class EmotionResults(object):
+    """
+    EmotionResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a EmotionResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EmotionResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this EmotionResults object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class EmotionScores(object):
     """
     EmotionScores.
@@ -1177,6 +1354,44 @@ class EntitiesResult(object):
         return not self == other
 
 
+class EntitiesResults(object):
+    """
+    EntitiesResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a EntitiesResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EntitiesResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this EntitiesResults object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class EntityMention(object):
     """
     EntityMention.
@@ -1216,6 +1431,64 @@ class EntityMention(object):
 
     def __str__(self):
         """Return a `str` version of this EntityMention object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ErrorResponse(object):
+    """
+    ErrorResponse.
+
+    :attr int code: The HTTP error status code.
+    :attr str error: A message describing the error.
+    """
+
+    def __init__(self, code, error):
+        """
+        Initialize a ErrorResponse object.
+
+        :param int code: The HTTP error status code.
+        :param str error: A message describing the error.
+        """
+        self.code = code
+        self.error = error
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ErrorResponse object from a json dictionary."""
+        args = {}
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        else:
+            raise ValueError(
+                'Required property \'code\' not present in ErrorResponse JSON')
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
+        else:
+            raise ValueError(
+                'Required property \'error\' not present in ErrorResponse JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ErrorResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1327,19 +1600,15 @@ class Features(object):
         """Initialize a Features object from a json dictionary."""
         args = {}
         if 'concepts' in _dict:
-            args['concepts'] = ConceptsOptions._from_dict(
-                _dict.get('concepts'))
+            args['concepts'] = ConceptsOptions._from_dict(_dict.get('concepts'))
         if 'emotion' in _dict:
             args['emotion'] = EmotionOptions._from_dict(_dict.get('emotion'))
         if 'entities' in _dict:
-            args['entities'] = EntitiesOptions._from_dict(
-                _dict.get('entities'))
+            args['entities'] = EntitiesOptions._from_dict(_dict.get('entities'))
         if 'keywords' in _dict:
-            args['keywords'] = KeywordsOptions._from_dict(
-                _dict.get('keywords'))
+            args['keywords'] = KeywordsOptions._from_dict(_dict.get('keywords'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataOptions._from_dict(
-                _dict.get('metadata'))
+            args['metadata'] = MetadataOptions._from_dict(_dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = RelationsOptions._from_dict(
                 _dict.get('relations'))
@@ -1379,6 +1648,133 @@ class Features(object):
 
     def __str__(self):
         """Return a `str` version of this Features object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class FeaturesResults(object):
+    """
+    Analysis results for each requested feature.
+
+    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.
+    :attr list[EntitiesResult] entities: (optional) The important entities in the specified content.
+    :attr list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.
+    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.
+    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.
+    :attr MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.
+    :attr list[RelationsResult] relations: (optional) The relationships between entities in the content.
+    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.
+    :attr SentimentResult sentiment: (optional) The sentiment of the content.
+    """
+
+    def __init__(self,
+                 concepts=None,
+                 entities=None,
+                 keywords=None,
+                 categories=None,
+                 emotion=None,
+                 metadata=None,
+                 relations=None,
+                 semantic_roles=None,
+                 sentiment=None):
+        """
+        Initialize a FeaturesResults object.
+
+        :param list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.
+        :param list[EntitiesResult] entities: (optional) The important entities in the specified content.
+        :param list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.
+        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.
+        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.
+        :param MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.
+        :param list[RelationsResult] relations: (optional) The relationships between entities in the content.
+        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.
+        :param SentimentResult sentiment: (optional) The sentiment of the content.
+        """
+        self.concepts = concepts
+        self.entities = entities
+        self.keywords = keywords
+        self.categories = categories
+        self.emotion = emotion
+        self.metadata = metadata
+        self.relations = relations
+        self.semantic_roles = semantic_roles
+        self.sentiment = sentiment
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FeaturesResults object from a json dictionary."""
+        args = {}
+        if 'concepts' in _dict:
+            args['concepts'] = [
+                ConceptsResult._from_dict(x) for x in (_dict.get('concepts'))
+            ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                EntitiesResult._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        if 'keywords' in _dict:
+            args['keywords'] = [
+                KeywordsResult._from_dict(x) for x in (_dict.get('keywords'))
+            ]
+        if 'categories' in _dict:
+            args['categories'] = [
+                CategoriesResult._from_dict(x)
+                for x in (_dict.get('categories'))
+            ]
+        if 'emotion' in _dict:
+            args['emotion'] = EmotionResult._from_dict(_dict.get('emotion'))
+        if 'metadata' in _dict:
+            args['metadata'] = MetadataResult._from_dict(_dict.get('metadata'))
+        if 'relations' in _dict:
+            args['relations'] = [
+                RelationsResult._from_dict(x) for x in (_dict.get('relations'))
+            ]
+        if 'semantic_roles' in _dict:
+            args['semantic_roles'] = [
+                SemanticRolesResult._from_dict(x)
+                for x in (_dict.get('semantic_roles'))
+            ]
+        if 'sentiment' in _dict:
+            args['sentiment'] = SentimentResult._from_dict(
+                _dict.get('sentiment'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'concepts') and self.concepts is not None:
+            _dict['concepts'] = [x._to_dict() for x in self.concepts]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self, 'keywords') and self.keywords is not None:
+            _dict['keywords'] = [x._to_dict() for x in self.keywords]
+        if hasattr(self, 'categories') and self.categories is not None:
+            _dict['categories'] = [x._to_dict() for x in self.categories]
+        if hasattr(self, 'emotion') and self.emotion is not None:
+            _dict['emotion'] = self.emotion._to_dict()
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata._to_dict()
+        if hasattr(self, 'relations') and self.relations is not None:
+            _dict['relations'] = [x._to_dict() for x in self.relations]
+        if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
+            _dict['semantic_roles'] = [
+                x._to_dict() for x in self.semantic_roles
+            ]
+        if hasattr(self, 'sentiment') and self.sentiment is not None:
+            _dict['sentiment'] = self.sentiment._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this FeaturesResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1552,8 +1948,7 @@ class KeywordsResult(object):
     :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the keyword, enabled with the "sentiment" option.
     """
 
-    def __init__(self, relevance=None, text=None, emotion=None,
-                 sentiment=None):
+    def __init__(self, relevance=None, text=None, emotion=None, sentiment=None):
         """
         Initialize a KeywordsResult object.
 
@@ -1597,6 +1992,96 @@ class KeywordsResult(object):
 
     def __str__(self):
         """Return a `str` version of this KeywordsResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class KeywordsResults(object):
+    """
+    KeywordsResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a KeywordsResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a KeywordsResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this KeywordsResults object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LinkedDataResult(object):
+    """
+    LinkedDataResult.
+
+    :attr str source: (optional) Name of the Linked Data source.
+    :attr str link: (optional) URL to the Linked Data page.
+    """
+
+    def __init__(self, source=None, link=None):
+        """
+        Initialize a LinkedDataResult object.
+
+        :param str source: (optional) Name of the Linked Data source.
+        :param str link: (optional) URL to the Linked Data page.
+        """
+        self.source = source
+        self.link = link
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LinkedDataResult object from a json dictionary."""
+        args = {}
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        if 'link' in _dict:
+            args['link'] = _dict.get('link')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'link') and self.link is not None:
+            _dict['link'] = self.link
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this LinkedDataResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1763,7 +2248,7 @@ class MetadataResult(object):
         if 'image' in _dict:
             args['image'] = _dict.get('image')
         if 'feeds' in _dict:
-            args['feeds'] = [Feed._from_dict(x) for x in _dict.get('feeds')]
+            args['feeds'] = [Feed._from_dict(x) for x in (_dict.get('feeds'))]
         return cls(**args)
 
     def _to_dict(self):
@@ -1784,6 +2269,44 @@ class MetadataResult(object):
 
     def __str__(self):
         """Return a `str` version of this MetadataResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MetadataResults(object):
+    """
+    MetadataResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a MetadataResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetadataResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MetadataResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1854,6 +2377,130 @@ class Model(object):
 
     def __str__(self):
         """Return a `str` version of this Model object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Parameters(object):
+    """
+    An object containing request parameters.
+
+    :attr str text: (optional) The plain text to analyze.
+    :attr str html: (optional) The HTML file to analyze.
+    :attr str url: (optional) The web page to analyze.
+    :attr Features features: Specific features to analyze the document for.
+    :attr bool clean: (optional) Remove website elements, such as links, ads, etc.
+    :attr str xpath: (optional) XPath query for targeting nodes in HTML.
+    :attr bool fallback_to_raw: (optional) Whether to use raw HTML content if text cleaning fails.
+    :attr bool return_analyzed_text: (optional) Whether or not to return the analyzed text.
+    :attr str language: (optional) ISO 639-1 code indicating the language to use in the analysis.
+    :attr int limit_text_characters: (optional) Sets the maximum number of characters that are processed by the service.
+    """
+
+    def __init__(self,
+                 features,
+                 text=None,
+                 html=None,
+                 url=None,
+                 clean=None,
+                 xpath=None,
+                 fallback_to_raw=None,
+                 return_analyzed_text=None,
+                 language=None,
+                 limit_text_characters=None):
+        """
+        Initialize a Parameters object.
+
+        :param Features features: Specific features to analyze the document for.
+        :param str text: (optional) The plain text to analyze.
+        :param str html: (optional) The HTML file to analyze.
+        :param str url: (optional) The web page to analyze.
+        :param bool clean: (optional) Remove website elements, such as links, ads, etc.
+        :param str xpath: (optional) XPath query for targeting nodes in HTML.
+        :param bool fallback_to_raw: (optional) Whether to use raw HTML content if text cleaning fails.
+        :param bool return_analyzed_text: (optional) Whether or not to return the analyzed text.
+        :param str language: (optional) ISO 639-1 code indicating the language to use in the analysis.
+        :param int limit_text_characters: (optional) Sets the maximum number of characters that are processed by the service.
+        """
+        self.text = text
+        self.html = html
+        self.url = url
+        self.features = features
+        self.clean = clean
+        self.xpath = xpath
+        self.fallback_to_raw = fallback_to_raw
+        self.return_analyzed_text = return_analyzed_text
+        self.language = language
+        self.limit_text_characters = limit_text_characters
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Parameters object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'html' in _dict:
+            args['html'] = _dict.get('html')
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        if 'features' in _dict:
+            args['features'] = Features._from_dict(_dict.get('features'))
+        else:
+            raise ValueError(
+                'Required property \'features\' not present in Parameters JSON')
+        if 'clean' in _dict:
+            args['clean'] = _dict.get('clean')
+        if 'xpath' in _dict:
+            args['xpath'] = _dict.get('xpath')
+        if 'fallback_to_raw' in _dict:
+            args['fallback_to_raw'] = _dict.get('fallback_to_raw')
+        if 'return_analyzed_text' in _dict:
+            args['return_analyzed_text'] = _dict.get('return_analyzed_text')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'limit_text_characters' in _dict:
+            args['limit_text_characters'] = _dict.get('limit_text_characters')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'html') and self.html is not None:
+            _dict['html'] = self.html
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'features') and self.features is not None:
+            _dict['features'] = self.features._to_dict()
+        if hasattr(self, 'clean') and self.clean is not None:
+            _dict['clean'] = self.clean
+        if hasattr(self, 'xpath') and self.xpath is not None:
+            _dict['xpath'] = self.xpath
+        if hasattr(self,
+                   'fallback_to_raw') and self.fallback_to_raw is not None:
+            _dict['fallback_to_raw'] = self.fallback_to_raw
+        if hasattr(self, 'return_analyzed_text'
+                  ) and self.return_analyzed_text is not None:
+            _dict['return_analyzed_text'] = self.return_analyzed_text
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'limit_text_characters'
+                  ) and self.limit_text_characters is not None:
+            _dict['limit_text_characters'] = self.limit_text_characters
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Parameters object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2062,8 +2709,7 @@ class RelationsResult(object):
             args['type'] = _dict.get('type')
         if 'arguments' in _dict:
             args['arguments'] = [
-                RelationArgument._from_dict(x)
-                for x in (_dict.get('arguments'))
+                RelationArgument._from_dict(x) for x in (_dict.get('arguments'))
             ]
         return cls(**args)
 
@@ -2082,6 +2728,44 @@ class RelationsResult(object):
 
     def __str__(self):
         """Return a `str` version of this RelationsResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RelationsResults(object):
+    """
+    RelationsResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a RelationsResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RelationsResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this RelationsResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2400,11 +3084,9 @@ class SemanticRolesResult(object):
             args['subject'] = SemanticRolesSubject._from_dict(
                 _dict.get('subject'))
         if 'action' in _dict:
-            args['action'] = SemanticRolesAction._from_dict(
-                _dict.get('action'))
+            args['action'] = SemanticRolesAction._from_dict(_dict.get('action'))
         if 'object' in _dict:
-            args['object'] = SemanticRolesObject._from_dict(
-                _dict.get('object'))
+            args['object'] = SemanticRolesObject._from_dict(_dict.get('object'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2422,6 +3104,44 @@ class SemanticRolesResult(object):
 
     def __str__(self):
         """Return a `str` version of this SemanticRolesResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SemanticRolesResults(object):
+    """
+    SemanticRolesResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a SemanticRolesResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SemanticRolesResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2648,6 +3368,44 @@ class SentimentResult(object):
 
     def __str__(self):
         """Return a `str` version of this SentimentResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SentimentResults(object):
+    """
+    SentimentResults.
+
+    """
+
+    def __init__(self):
+        """
+        Initialize a SentimentResults object.
+
+        """
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SentimentResults object from a json dictionary."""
+        args = {}
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SentimentResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

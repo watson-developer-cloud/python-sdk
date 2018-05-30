@@ -7,7 +7,7 @@
 # You may obtain a copy of the License at
 #
 #      http://www.apache.org/licenses/LICENSE-2.0
-#
+#s
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,13 +36,12 @@ class NaturalLanguageClassifierV1(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
 
-    def __init__(self,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            url=default_url,
+            username=None,
+            password=None,
+    ):
         """
         Construct a new client for the Natural Language Classifier service.
 
@@ -62,17 +61,6 @@ class NaturalLanguageClassifierV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.ng.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -81,9 +69,6 @@ class NaturalLanguageClassifierV1(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
             use_vcap_services=True)
 
     #########################
@@ -92,6 +77,8 @@ class NaturalLanguageClassifierV1(WatsonService):
 
     def classify(self, classifier_id, text, **kwargs):
         """
+        Classify a phrase.
+
         Returns label information for the input. The status must be `Available` before you
         can use the classifier to classify text.
 
@@ -121,6 +108,8 @@ class NaturalLanguageClassifierV1(WatsonService):
 
     def classify_collection(self, classifier_id, collection, **kwargs):
         """
+        Classify multiple phrases.
+
         Returns label information for multiple phrases. The status must be `Available`
         before you can use the classifier to classify text.  Note that classifying
         Japanese texts is a beta feature.
@@ -135,9 +124,7 @@ class NaturalLanguageClassifierV1(WatsonService):
             raise ValueError('classifier_id must be provided')
         if collection is None:
             raise ValueError('collection must be provided')
-        collection = [
-            self._convert_model(x, ClassifyInput) for x in collection
-        ]
+        collection = [self._convert_model(x, ClassifyInput) for x in collection]
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -615,6 +602,57 @@ class ClassifierList(object):
         return not self == other
 
 
+class ClassifyCollectionInput(object):
+    """
+    Request payload to classify.
+
+    :attr list[ClassifyInput] collection: The submitted phrases.
+    """
+
+    def __init__(self, collection):
+        """
+        Initialize a ClassifyCollectionInput object.
+
+        :param list[ClassifyInput] collection: The submitted phrases.
+        """
+        self.collection = collection
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassifyCollectionInput object from a json dictionary."""
+        args = {}
+        if 'collection' in _dict:
+            args['collection'] = [
+                ClassifyInput._from_dict(x) for x in (_dict.get('collection'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'collection\' not present in ClassifyCollectionInput JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'collection') and self.collection is not None:
+            _dict['collection'] = [x._to_dict() for x in self.collection]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ClassifyCollectionInput object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ClassifyInput(object):
     """
     Request payload to classify.
@@ -711,6 +749,65 @@ class CollectionItem(object):
 
     def __str__(self):
         """Return a `str` version of this CollectionItem object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ErrorResponse(object):
+    """
+    Response payload for HTTP errors.
+
+    :attr int code: (optional) HTTP status code.
+    :attr str error: (optional) Error name.
+    :attr str description: (optional) Error description.
+    """
+
+    def __init__(self, code=None, error=None, description=None):
+        """
+        Initialize a ErrorResponse object.
+
+        :param int code: (optional) HTTP status code.
+        :param str error: (optional) Error name.
+        :param str description: (optional) Error description.
+        """
+        self.code = code
+        self.error = error
+        self.description = description
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ErrorResponse object from a json dictionary."""
+        args = {}
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ErrorResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
