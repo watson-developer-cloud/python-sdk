@@ -97,25 +97,21 @@ class LanguageTranslatorV2(WatsonService):
                   model_id=None,
                   source=None,
                   target=None,
-                  accept=None,
                   **kwargs):
         """
-        Translate.
-
         Translates the input text from the source language to the target language.
 
         :param list[str] text: Input text in UTF-8 encoding. Multiple entries will result in multiple translations in the response.
         :param str model_id: Model ID of the translation model to use. If this is specified, the **source** and **target** parameters will be ignored. The method requires either a model ID or both the **source** and **target** parameters.
         :param str source: Language code of the source text language. Use with `target` as an alternative way to select a translation model. When `source` and `target` are set, and a model ID is not set, the system chooses a default model for the language pair (usually the model based on the news domain).
         :param str target: Language code of the translation target language. Use with source as an alternative way to select a translation model.
-        :param str accept: The type of the response: application/json or text/plain. A character encoding can be specified by including a `charset` parameter. For example, 'text/plain;charset=utf-8'.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TranslationResult` response.
         :rtype: dict
         """
         if text is None:
             raise ValueError('text must be provided')
-        headers = {'Accept': accept}
+        headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         data = {
@@ -137,25 +133,22 @@ class LanguageTranslatorV2(WatsonService):
     # Identification
     #########################
 
-    def identify(self, text, accept=None, **kwargs):
+    def identify(self, text, **kwargs):
         """
-        Identify language.
-
         Identifies the language of the input text.
 
         :param str text: Input text in UTF-8 format.
-        :param str accept: The type of the response: application/json or text/plain. A character encoding can be specified by including a `charset` parameter. For example, 'text/plain;charset=utf-8'.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `IdentifiedLanguages` response.
         :rtype: dict
         """
         if text is None:
             raise ValueError('text must be provided')
-        headers = {'Accept': accept}
+        headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         data = text
-        headers['content-type'] = 'text/plain'
+        headers = {'content-type': 'text/plain'}
         url = '/v2/identify'
         response = self.request(
             method='POST',

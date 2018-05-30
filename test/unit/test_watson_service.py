@@ -14,6 +14,7 @@ class AnyServiceV1(WatsonService):
     default_url = 'https://gateway.watsonplatform.net/test/api'
 
     def __init__(self, version, url=default_url, username=None, password=None,
+                 api_key=None,
                  iam_api_key=None,
                  iam_access_token=None,
                  iam_url=None):
@@ -21,6 +22,7 @@ class AnyServiceV1(WatsonService):
             self,
             vcap_services_name='test',
             url=url,
+            api_key=api_key,
             username=username,
             password=password,
             use_vcap_services=True,
@@ -100,6 +102,12 @@ def test_fail_http_config():
 def test_iam():
     iam_url = "https://iam.bluemix.net/identity/token"
     service = AnyServiceV1('2017-07-07', iam_api_key="iam_api_key")
+    assert service.token_manager is not None
+
+    iam_url = "https://iam.bluemix.net/identity/token"
+    service = AnyServiceV1('2017-07-07', username='xxx', password='yyy')
+    assert service.token_manager is None
+    service.set_iam_api_key('yyy')
     assert service.token_manager is not None
 
     service.token_manager.token_info = {

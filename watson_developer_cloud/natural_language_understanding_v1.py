@@ -1743,7 +1743,7 @@ class MetadataResult(object):
         if 'image' in _dict:
             args['image'] = _dict.get('image')
         if 'feeds' in _dict:
-            args['feeds'] = [Feed._from_dict(x) for x in (_dict.get('feeds'))]
+            args['feeds'] = [Feed._from_dict(x) for x in _dict.get('feeds')]
         return cls(**args)
 
     def _to_dict(self):

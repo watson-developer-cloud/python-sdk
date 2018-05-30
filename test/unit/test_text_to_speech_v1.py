@@ -227,3 +227,19 @@ def test_custom_words():
     text_to_speech.delete_word(customization_id="custid", word="word")
 
     assert len(responses.calls) == 5
+
+@responses.activate
+
+def test_delete_user_data():
+    url = 'https://stream.watsonplatform.net/text-to-speech/api/v1/user_data'
+    responses.add(
+        responses.DELETE,
+        url,
+        body='{"description": "success" }',
+        status=200,
+        content_type='application_json')
+
+    text_to_speech = watson_developer_cloud.TextToSpeechV1(username="username", password="password")
+    response = text_to_speech.delete_user_data('id')
+    assert response is None
+    assert len(responses.calls) == 1
