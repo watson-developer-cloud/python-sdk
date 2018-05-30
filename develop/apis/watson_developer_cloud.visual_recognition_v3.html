@@ -9,7 +9,7 @@
     <title>watson_developer_cloud.visual_recognition_v3 module &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -39,12 +39,12 @@ scenes, objects, and faces  in images you upload to the service. You can create 
 a custom classifier to identify subjects that suit your needs.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3">
-<em class="property">class </em><code class="descname">VisualRecognitionV3</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway-a.watsonplatform.net/visual-recognition/api'</em>, <em>api_key=None</em>, <em>iam_api_key=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">VisualRecognitionV3</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/visual-recognition/api'</em>, <em>api_key=None</em>, <em>iam_api_key=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
 <p>The Visual Recognition V3 service.</p>
 <dl class="attribute">
 <dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.default_url">
-<code class="descname">default_url</code><em class="property"> = 'https://gateway-a.watsonplatform.net/visual-recognition/api'</em><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.default_url" title="Permalink to this definition">¶</a></dt>
+<code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/visual-recognition/api'</em><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.default_url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -232,6 +232,32 @@ does not support general biometric facial recognition.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_user_data">
+<code class="descname">delete_user_data</code><span class="sig-paren">(</span><em>customer_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.delete_user_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.delete_user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete labeled data.</p>
+<p>Deletes all data associated with a specified customer ID. The method has no effect
+if no data is associated with the customer ID.   You associate a customer ID with
+data by passing the <cite>X-Watson-Metadata</cite> header with a request that passes data.
+For more information about personal data and customer IDs, see [Information
+security](<a class="reference external" href="https://console.bluemix.net/docs/services/visual-recognition/information-security.html">https://console.bluemix.net/docs/services/visual-recognition/information-security.html</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The customer ID for which all data is to be deleted.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -290,7 +316,7 @@ does not support general biometric facial recognition.</p>
 <tr class="field-odd field"><th class="field-name">Attr str image:</th><td class="field-body">(optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr ErrorInfo error:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ClassifierResult] classifiers:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The classifiers.</td>
@@ -456,13 +482,13 @@ large. Not returned when there is no error.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr FaceAge age:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Age information about a face.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr FaceGender gender:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Information about the gender of the face.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr FaceLocation face_location:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The location of the bounding box around the face.</td>
 </tr>
 </tbody>
 </table>
@@ -552,7 +578,7 @@ large. Not returned when there is no error.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr ErrorInfo error:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.</td>
 </tr>
 </tbody>
 </table>

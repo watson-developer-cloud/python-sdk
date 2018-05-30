@@ -9,7 +9,7 @@
     <title>watson_developer_cloud.discovery_v1 module &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -1016,7 +1016,8 @@ for more details.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data">
 <code class="descname">add_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>natural_language_query=None</em>, <em>filter=None</em>, <em>examples=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.add_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.add_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a query to the training data for this collection. The query can contain a
+<dd><p>Add query to training data.</p>
+<p>Adds a query to the training data for this collection. The query can contain a
 filter and natural language query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1045,7 +1046,8 @@ filter and natural language query.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_training_example">
 <code class="descname">create_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>document_id=None</em>, <em>cross_reference=None</em>, <em>relevance=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_training_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a example to this training data query.</p>
+<dd><p>Add example to training data query.</p>
+<p>Adds a example to this training data query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1074,7 +1076,8 @@ filter and natural language query.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_all_training_data">
 <code class="descname">delete_all_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_all_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_all_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes all training data from a collection.</p>
+<dd><p>Delete all training data.</p>
+<p>Deletes all training data from a collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1096,7 +1099,8 @@ filter and natural language query.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data">
 <code class="descname">delete_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes the training data query and all associated examples from the training data
+<dd><p>Delete a training data query.</p>
+<p>Removes the training data query and all associated examples from the training data
 set.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1120,7 +1124,8 @@ set.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_example">
 <code class="descname">delete_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_training_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes the example document with the given ID from the training data query.</p>
+<dd><p>Delete example for training data query.</p>
+<p>Deletes the example document with the given ID from the training data query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1144,7 +1149,8 @@ set.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data">
 <code class="descname">get_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets details for a specific training data query, including the query string and
+<dd><p>Get details about a query.</p>
+<p>Gets details for a specific training data query, including the query string and
 all examples.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1171,7 +1177,8 @@ all examples.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_example">
 <code class="descname">get_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_training_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets the details for this training example.</p>
+<dd><p>Get details for training data example.</p>
+<p>Gets the details for this training example.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1198,7 +1205,8 @@ all examples.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data">
 <code class="descname">list_training_data</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lists the training data for the specified collection.</p>
+<dd><p>List training data.</p>
+<p>Lists the training data for the specified collection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1223,7 +1231,8 @@ all examples.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_examples">
 <code class="descname">list_training_examples</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_training_examples"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_training_examples" title="Permalink to this definition">¶</a></dt>
-<dd><p>List all examples for this training data query.</p>
+<dd><p>List examples for a training data query.</p>
+<p>List all examples for this training data query.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1249,7 +1258,8 @@ all examples.</p>
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_training_example">
 <code class="descname">update_training_example</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>query_id</em>, <em>example_id</em>, <em>cross_reference=None</em>, <em>relevance=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_training_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_training_example" title="Permalink to this definition">¶</a></dt>
-<dd><p>Changes the label or cross reference query for this training example.</p>
+<dd><p>Change label or cross reference for example.</p>
+<p>Changes the label or cross reference query for this training data example.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2767,6 +2777,25 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.TopHitsResults">
+<em class="property">class </em><code class="descname">TopHitsResults</code><span class="sig-paren">(</span><em>matching_results=None</em>, <em>hits=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#TopHitsResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.TopHitsResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>TopHitsResults.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int matching_results:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of matching results.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[QueryResult] hits:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Top results returned by the aggregation.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.TrainingDataSet">
 <em class="property">class </em><code class="descname">TrainingDataSet</code><span class="sig-paren">(</span><em>environment_id=None</em>, <em>collection_id=None</em>, <em>queries=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#TrainingDataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.TrainingDataSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
@@ -2955,6 +2984,128 @@ query would look for <cite>London</cite> with the context of <cite>England</cite
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[str] xpaths:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Calculation">
+<em class="property">class </em><code class="descname">Calculation</code><span class="sig-paren">(</span><em>type=None</em>, <em>results=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em>, <em>field=None</em>, <em>value=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Calculation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Calculation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str field:</th><td class="field-body">(optional) The field where the aggregation is located in the document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float value:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Value of the aggregation.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Filter">
+<em class="property">class </em><code class="descname">Filter</code><span class="sig-paren">(</span><em>type=None</em>, <em>results=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em>, <em>match=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str match:</th><td class="field-body">(optional) The match the aggregated results queried for.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Histogram">
+<em class="property">class </em><code class="descname">Histogram</code><span class="sig-paren">(</span><em>type=None</em>, <em>results=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em>, <em>field=None</em>, <em>interval=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Histogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Histogram.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str field:</th><td class="field-body">(optional) The field where the aggregation is located in the document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int interval:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Interval of the aggregation. (For ‘histogram’ type).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Nested">
+<em class="property">class </em><code class="descname">Nested</code><span class="sig-paren">(</span><em>type=None</em>, <em>results=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Nested"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Nested" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Nested.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str path:</th><td class="field-body">(optional) The area of the results the aggregation was restricted to.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Term">
+<em class="property">class </em><code class="descname">Term</code><span class="sig-paren">(</span><em>type=None</em>, <em>results=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em>, <em>field=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Term"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Term.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str field:</th><td class="field-body">(optional) The field where the aggregation is located in the document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr int count:</th><td class="field-body">(optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Timeslice">
+<em class="property">class </em><code class="descname">Timeslice</code><span class="sig-paren">(</span><em>type=None</em>, <em>results=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em>, <em>field=None</em>, <em>interval=None</em>, <em>anomaly=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Timeslice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Timeslice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Timeslice.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str field:</th><td class="field-body">(optional) The field where the aggregation is located in the document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str interval:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Interval of the aggregation. Valid date interval values are second/seconds minute/minutes, hour/hours, day/days, week/weeks, month/months, and year/years.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool anomaly:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Used to inducate that anomaly detection should be performed. Anomaly detection is used to locate unusual datapoints within a time series.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.TopHits">
+<em class="property">class </em><code class="descname">TopHits</code><span class="sig-paren">(</span><em>type=None</em>, <em>results=None</em>, <em>matching_results=None</em>, <em>aggregations=None</em>, <em>size=None</em>, <em>hits=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#TopHits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.TopHits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>TopHits.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr int size:</th><td class="field-body">(optional) Number of top hits returned by the aggregation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr TopHitsResults hits:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 </tbody>
 </table>

@@ -9,7 +9,7 @@
     <title>watson_developer_cloud.speech_to_text_v1 module &#8212; Watson Developer Cloud Python SDK 1.3.4 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -34,67 +34,57 @@
             
   <div class="section" id="module-watson_developer_cloud.speech_to_text_v1">
 <span id="watson-developer-cloud-speech-to-text-v1-module"></span><h1>watson_developer_cloud.speech_to_text_v1 module<a class="headerlink" href="#module-watson_developer_cloud.speech_to_text_v1" title="Permalink to this headline">¶</a></h1>
-<p>The IBM&amp;reg; Speech to Text service provides an API that enables you to add IBM’s speech
-recognition capabilities to your applications. The service transcribes speech from various
-languages and audio formats to text with low latency. For most languages, the service
-supports two sampling rates, broadband and narrowband. The service returns all JSON
+<p>The IBM&amp;reg; Speech to Text service provides an API that uses IBM’s speech-recognition
+capabilities to produce transcripts of spoken audio. The service can transcribe speech
+from various languages and audio formats. It addition to basic transcription, the service
+can produce detailed information about many aspects of the audio. For most languages, the
+service supports two sampling rates, broadband and narrowband. It returns all JSON
 response content in the UTF-8 character set. For more information about the service, see
 the [IBM&amp;reg; Cloud
-documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/getting-started.html">https://console.bluemix.net/docs/services/speech-to-text/getting-started.html</a>).
-### API Overview
-The Speech to Text service provides the following endpoints:
-* <strong>Models</strong> includes methods that return information about the language models that are
-available for speech recognition.
-* <strong>WebSockets</strong> includes a single method that establishes a persistent connection with
-the service over the WebSocket protocol.
-* <strong>Sessionless</strong> includes a method that provides a simple means of transcribing audio
-without the overhead of establishing and maintaining a session.
-* <strong>Sessions</strong> provides methods that allow a client to maintain a long, multi-turn
-exchange, or session, with the service or to establish multiple parallel conversations
-with a particular instance of the service.
-* <strong>Asynchronous</strong> provides a non-blocking interface for transcribing audio. You can
-register a callback URL to be notified of job status and, optionally, results, or you can
-poll the service to learn job status and retrieve results manually.
-* <strong>Custom language models</strong> provides an interface for creating and managing custom
-language models. The interface lets you expand the vocabulary of a base model with
-domain-specific terminology.
-* <strong>Custom corpora</strong> provides an interface for managing the corpora associated with a
-custom language model. You add corpora to extract out-of-vocabulary (OOV) words from the
-corpora into the custom language model’s vocabulary. You can add, list, and delete corpora
-from a custom language model.
-* <strong>Custom words</strong> provides an interface for managing individual words in a custom
-language model. You can add, modify, list, and delete words from a custom language model.
-* <strong>Custom acoustic models</strong> provides an interface for creating and managing custom
-acoustic models. The interface lets you adapt a base model for the audio characteristics
-of your environment and speakers.
-* <strong>Custom audio resources</strong> provides an interface for managing the audio resources
-associated with a custom acoustic model. You add audio resources that closely match the
-acoustic characteristics of the audio that you want to transcribe. You can add, list, and
-delete audio resources from a custom acoustic model.
-### Usage guidelines for customization
-The following information pertains to methods of the customization interface:
-* Language model customization is not available for all languages; it is generally
-available for production use for all languages for which it is available. Acoustic model
-customization is beta functionality that is available for all languages supported by the
-service. For a complete list of supported languages and the status of their availability,
-see [Language support for
-customization](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport">https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport</a>).
-* In all cases, you must use service credentials created for the instance of the service
-that owns a custom model to use the methods described in this documentation with that
-model. For more information, see [Ownership of custom language
-models](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/custom.html#customOwner">https://console.bluemix.net/docs/services/speech-to-text/custom.html#customOwner</a>).
-* How the service handles request logging for the customization interface depends on the
-request. The service does not log data that are used to build custom models. But it does
-log data when a custom model is used with a recognition request. For more information, see
-[Request logging and data
-privacy](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/custom.html#customLogging">https://console.bluemix.net/docs/services/speech-to-text/custom.html#customLogging</a>).
-* Each custom model is identified by a customization ID, which is a Globally Unique
-Identifier (GUID). A GUID is a hexadecimal string that has the same format as Watson
-service credentials: <cite>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</cite>. You specify a custom model’s
-GUID with the appropriate customization parameter of methods that support customization.
-For more information about using the service’s customization interface, see [The
-customization
-interface](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/custom.html">https://console.bluemix.net/docs/services/speech-to-text/custom.html</a>).</p>
+documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/index.html">https://console.bluemix.net/docs/services/speech-to-text/index.html</a>).
+### API usage guidelines
+* <strong>Audio formats:</strong> The service accepts audio in many formats (MIME types). See [Audio
+formats](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html">https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html</a>).
+* <strong>HTTP interfaces:</strong> The service provides three HTTP interfaces for speech recognition.
+The sessionless interface includes a single synchronous method. The session-based
+interface includes multiple synchronous methods for maintaining a long, multi-turn
+exchange with the service. And the asynchronous interface provides multiple methods that
+use registered callbacks and polling for non-blocking recognition. See [The HTTP REST
+interface](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/http.html">https://console.bluemix.net/docs/services/speech-to-text/http.html</a>) and [The
+asynchronous HTTP
+interface](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/async.html">https://console.bluemix.net/docs/services/speech-to-text/async.html</a>).
+* <strong>WebSocket interface:</strong> The service also offers a WebSocket interface for speech
+recognition. The WebSocket interface provides a full-duplex, low-latency communication
+channel. Clients send requests and audio to the service and receive results over a single
+connection in an asynchronous fashion. See [The WebSocket
+interface](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/websockets.html">https://console.bluemix.net/docs/services/speech-to-text/websockets.html</a>).
+* <strong>Customization:</strong> Use language model customization to expand the vocabulary of a base
+model with domain-specific terminology. Use acoustic model customization to adapt a base
+model for the acoustic characteristics of your audio. Language model customization is
+generally available for production use by most supported languages; acoustic model
+customization is beta functionality that is available for all supported languages. See
+[The customization
+interface](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/custom.html">https://console.bluemix.net/docs/services/speech-to-text/custom.html</a>).
+* <strong>Customization IDs:</strong> Many methods accept a customization ID to identify a custom
+language or custom acoustic model. Customization IDs are Globally Unique Identifiers
+(GUIDs). They are hexadecimal strings that have the format
+<cite>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</cite>.
+* <strong>`X-Watson-Learning-Opt-Out`:</strong> By default, all Watson services log requests and their
+results. Logging is done only to improve the services for future users. The logged data is
+not shared or made public. To prevent IBM from accessing your data for general service
+improvements, set the <cite>X-Watson-Learning-Opt-Out</cite> request header to <cite>true</cite> for all
+requests. You must set the header on each request that you do not want IBM to access for
+general service improvements.</p>
+<blockquote>
+<div>Methods of the customization interface do not log corpora, words, and audio resources</div></blockquote>
+<p>that you use to build custom models. Your training data is never used to improve the
+service’s base models. However, the service does log such data when a custom model is used
+with a recognition request. You must set the <cite>X-Watson-Learning-Opt-Out</cite> request header to
+<cite>true</cite> to prevent IBM from accessing the data to improve the service.
+* <strong>`X-Watson-Metadata`</strong>: This header allows you to associate a customer ID with data
+that is passed with a request. If necessary, you can use the <strong>Delete labeled data</strong>
+method to delete the data for a customer ID. See [Information
+security](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/information-security.html">https://console.bluemix.net/docs/services/speech-to-text/information-security.html</a>).</p>
 <dl class="class">
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1">
 <em class="property">class </em><code class="descname">SpeechToTextV1</code><span class="sig-paren">(</span><em>url='https://stream.watsonplatform.net/speech-to-text/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>iam_api_key=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1" title="Permalink to this definition">¶</a></dt>
@@ -318,8 +308,8 @@ results are to remain available after the job is complete. For detailed usage
 information about the two approaches, including callback notifications, see
 [Creating a
 job](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/async.html#create">https://console.bluemix.net/docs/services/speech-to-text/async.html#create</a>).
-Note that using the HTTPS <strong>Check a job</strong> method to retrieve results is more
-secure than receiving them via callback notification over HTTP because it provides
+Using the HTTPS <strong>Check a job</strong> method to retrieve results is more secure than
+receiving them via callback notification over HTTP because it provides
 confidentiality in addition to authentication and data integrity.   The method
 supports the same basic parameters as other HTTP and WebSocket recognition
 requests. The service imposes a data size limit of 100 MB. It automatically
@@ -363,7 +353,7 @@ formats](<a class="reference external" href="https://console.bluemix.net/docs/se
 <li><strong>word_confidence</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, a confidence measure in the range of 0 to 1 is returned for each word. By default, no word confidence measures are returned.</li>
 <li><strong>timestamps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, time alignment is returned for each word. By default, no timestamps are returned.</li>
 <li><strong>profanity_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite> (the default), filters profanity from all output except for keyword results by replacing inappropriate words with a series of asterisks. Set the parameter to <cite>false</cite> to return results with no censoring. Applies to US English transcription only.</li>
-<li><strong>smart_formatting</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, converts dates, times, series of digits and numbers, phone numbers, currency values, and Internet addresses into more readable, conventional representations in the final transcript of a recognition request. By default, no smart formatting is performed. Applies to US English transcription only.</li>
+<li><strong>smart_formatting</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, converts dates, times, series of digits and numbers, phone numbers, currency values, and internet addresses into more readable, conventional representations in the final transcript of a recognition request. For US English, also converts certain keyword strings to punctuation symbols. By default, no smart formatting is performed. Applies to US English and Spanish transcription only.</li>
 <li><strong>speaker_labels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If <cite>true</cite>, the response includes labels that identify which words were spoken by which participants in a multi-person exchange. By default, no speaker labels are returned. Setting <cite>speaker_labels</cite> to <cite>true</cite> forces the <cite>timestamps</cite> parameter to be <cite>true</cite>, regardless of whether you specify <cite>false</cite> for the parameter.   To determine whether a language model supports speaker labels, use the <strong>Get models</strong> method and check that the attribute <cite>speaker_labels</cite> is set to <cite>true</cite>. You can also refer to [Speaker labels](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels">https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels</a>).</li>
 <li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
@@ -730,14 +720,14 @@ models](<a class="reference external" href="https://console.bluemix.net/docs/ser
 <p>Adds a single corpus text file of new training data to a custom language model.
 Use multiple requests to submit multiple corpus text files. You must use
 credentials for the instance of the service that owns a model to add a corpus to
-it. Note that adding a corpus does not affect the custom language model until you
-train the model for the new data by using the <strong>Train a custom language model</strong>
-method.   Submit a plain text file that contains sample sentences from the domain
-of interest to enable the service to extract words in context. The more sentences
-you add that represent the context in which speakers use words from the domain,
-the better the service’s recognition accuracy. For guidelines about adding a
-corpus text file and for information about how the service parses a corpus file,
-see [Preparing a corpus text
+it. Adding a corpus does not affect the custom language model until you train the
+model for the new data by using the <strong>Train a custom language model</strong> method.
+Submit a plain text file that contains sample sentences from the domain of
+interest to enable the service to extract words in context. The more sentences you
+add that represent the context in which speakers use words from the domain, the
+better the service’s recognition accuracy. For guidelines about adding a corpus
+text file and for information about how the service parses a corpus file, see
+[Preparing a corpus text
 file](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#prepareCorpus">https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#prepareCorpus</a>).</p>
 <blockquote>
 <div>The call returns an HTTP 201 response code if the corpus is valid. The service</div></blockquote>
@@ -912,7 +902,7 @@ the <strong>List a custom word</strong> method to review the word that you add.<
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
-<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word for the custom language model. When adding or updating a custom word, do not include spaces in the word; use a <cite>-</cite> (dash) or <cite>_</cite> (underscore) to connect the tokens of compound words.</li>
+<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word for the custom language model. When you add or update a custom word with the <strong>Add a custom word</strong> method, do not include spaces in the word. Use a <cite>-</cite> (dash) or <cite>_</cite> (underscore) to connect the tokens of compound words.</li>
 <li><strong>sounds_like</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service’s base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service’s base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.</li>
 <li><strong>display_as</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.</li>
 <li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
@@ -1021,7 +1011,7 @@ instance of the service that owns a model to delete its words.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
-<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word for the custom language model. When adding or updating a custom word, do not include spaces in the word; use a <cite>-</cite> (dash) or <cite>_</cite> (underscore) to connect the tokens of compound words.</li>
+<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word for the custom language model. When you add or update a custom word with the <strong>Add a custom word</strong> method, do not include spaces in the word. Use a <cite>-</cite> (dash) or <cite>_</cite> (underscore) to connect the tokens of compound words.</li>
 <li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
@@ -1051,7 +1041,7 @@ about its words.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.</li>
-<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word for the custom language model. When adding or updating a custom word, do not include spaces in the word; use a <cite>-</cite> (dash) or <cite>_</cite> (underscore) to connect the tokens of compound words.</li>
+<li><strong>word_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The custom word for the custom language model. When you add or update a custom word with the <strong>Add a custom word</strong> method, do not include spaces in the word. Use a <cite>-</cite> (dash) or <cite>_</cite> (underscore) to connect the tokens of compound words.</li>
 <li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
@@ -1527,6 +1517,36 @@ the instance of the service that owns a model to list its audio resources.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_user_data">
+<code class="descname">delete_user_data</code><span class="sig-paren">(</span><em>customer_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.delete_user_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.delete_user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete labeled data.</p>
+<p>Deletes all data that is associated with a specified customer ID. The method
+deletes all data for the customer ID, regardless of the method by which the
+information was added. The method has no effect if no data is associated with the
+customer ID. You must issue the request with credentials for the same instance of
+the service that was used to associate the customer ID with the data.   You
+associate a customer ID with data by passing the <cite>X-Watson-Metadata</cite> header with a
+request that passes the data. For more information about customer IDs and about
+using this method, see [Information
+security](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/information-security.html">https://console.bluemix.net/docs/services/speech-to-text/information-security.html</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The customer ID for which all data is to be deleted.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -1539,7 +1559,7 @@ the instance of the service that owns a model to list its audio resources.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str customization_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The customization ID (GUID) of the custom acoustic model. <strong>Note:</strong> When you create a new custom acoustic model, the service returns only the GUID of the new model; it does not return the other fields of this object.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The customization ID (GUID) of the custom acoustic model. The <strong>Create a custom acoustic model</strong> method returns only this field of the object; it does not return the other fields.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str created:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The date and time in Coordinated Universal Time (UTC) at which the custom acoustic model was created. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).</td>
@@ -1564,7 +1584,7 @@ the instance of the service that owns a model to list its audio resources.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The current status of the custom acoustic model: * <cite>pending</cite> indicates that the model was created but is waiting either for training data to be added or for the service to finish analyzing added data. * <cite>ready</cite> indicates that the model contains data and is ready to be trained. * <cite>training</cite> indicates that the model is currently being trained. * <cite>available</cite> indicates that the model is trained and ready to use. * <cite>upgrading</cite> indicates that the model is currently being upgraded. * <cite>failed</cite> indicates that training of the model failed.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr int progress:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A percentage that indicates the progress of the custom acoustic model’s current training. A value of <cite>100</cite> means that the model is fully trained. <strong>Note:</strong> The <cite>progress</cite> field does not currently reflect the progress of the training; the field changes from <cite>0</cite> to <cite>100</cite> when training is complete.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A percentage that indicates the progress of the custom acoustic model’s current training. A value of <cite>100</cite> means that the model is fully trained. <strong>Note:</strong> The <cite>progress</cite> field does not currently reflect the progress of the training. The field changes from <cite>0</cite> to <cite>100</cite> when training is complete.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str warnings:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If the request included unknown parameters, the following message: <cite>Unexpected query parameter(s) [‘parameters’] detected</cite>, where <cite>parameters</cite> is a list that includes a quoted string for each unknown parameter.</td>
@@ -1736,7 +1756,7 @@ the instance of the service that owns a model to list its audio resources.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attr str word:</th><td class="field-body">(optional) <strong>When specifying an array of one or more words,</strong> you must specify the custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a - (dash) or _ (underscore) to connect the tokens of compound words. <strong>When adding or updating a single word directly,</strong> omit this field.</td>
+<tr class="field-odd field"><th class="field-name">Attr str word:</th><td class="field-body">(optional) For the <strong>Add custom words</strong> method, you must specify the custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a <cite>-</cite> (dash) or <cite>_</cite> (underscore) to connect the tokens of compound words.   Omit this field for the <strong>Add a custom word</strong> method.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] sounds_like:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service’s base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service’s base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.</td>
@@ -1783,7 +1803,7 @@ the instance of the service that owns a model to list its audio resources.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str customization_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The customization ID (GUID) of the custom language model. <strong>Note:</strong> When you create a new custom language model, the service returns only the GUID of the new model; it does not return the other fields of this object.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The customization ID (GUID) of the custom language model. The <strong>Create a custom language model</strong> method returns only this field of the object; it does not return the other fields.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str created:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The date and time in Coordinated Universal Time (UTC) at which the custom language model was created. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).</td>
@@ -1811,7 +1831,7 @@ the instance of the service that owns a model to list its audio resources.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The current status of the custom language model: * <cite>pending</cite> indicates that the model was created but is waiting either for training data to be added or for the service to finish analyzing added data. * <cite>ready</cite> indicates that the model contains data and is ready to be trained. * <cite>training</cite> indicates that the model is currently being trained. * <cite>available</cite> indicates that the model is trained and ready to use. * <cite>upgrading</cite> indicates that the model is currently being upgraded. * <cite>failed</cite> indicates that training of the model failed.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int progress:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A percentage that indicates the progress of the custom language model’s current training. A value of <cite>100</cite> means that the model is fully trained. <strong>Note:</strong> The <cite>progress</cite> field does not currently reflect the progress of the training; the field changes from <cite>0</cite> to <cite>100</cite> when training is complete.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A percentage that indicates the progress of the custom language model’s current training. A value of <cite>100</cite> means that the model is fully trained. <strong>Note:</strong> The <cite>progress</cite> field does not currently reflect the progress of the training. The field changes from <cite>0</cite> to <cite>100</cite> when training is complete.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str warnings:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If the request included unknown parameters, the following message: <cite>Unexpected query parameter(s) [‘parameters’] detected</cite>, where <cite>parameters</cite> is a list that includes a quoted string for each unknown parameter.</td>
@@ -1854,18 +1874,18 @@ the instance of the service that owns a model to list its audio resources.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The date and time in Coordinated Universal Time (UTC) at which the job was created. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str updated:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The date and time in Coordinated Universal Time (UTC) at which the job was last updated by the service. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>). <strong>Note:</strong> This field is returned only when you list information about a specific or all existing jobs.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The date and time in Coordinated Universal Time (UTC) at which the job was last updated by the service. The value is provided in full ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>). This field is returned only by the <strong>Check jobs</strong> and <strong>Check a job</strong> methods.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Attr str url:</th><td class="field-body">(optional) The URL to use to request information about the job with the <strong>Check a job</strong> method. <strong>Note:</strong> This field is returned only when you create a new job.</td>
+<tr class="field-odd field"><th class="field-name">Attr str url:</th><td class="field-body">(optional) The URL to use to request information about the job with the <strong>Check a job</strong> method. This field is returned only by the <strong>Create a job</strong> method.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str user_token:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The user token associated with a job that was created with a callback URL and a user token. <strong>Note:</strong> This field can be returned only when you list information about all existing jobs.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The user token associated with a job that was created with a callback URL and a user token. This field can be returned only by the <strong>Check jobs</strong> method.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[SpeechRecognitionResults] results:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If the status is <cite>completed</cite>, the results of the recognition request as an array that includes a single instance of a <cite>SpeechRecognitionResults</cite> object. <strong>Note:</strong> This field can be returned only when you list information about a specific existing job.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) If the status is <cite>completed</cite>, the results of the recognition request as an array that includes a single instance of a <cite>SpeechRecognitionResults</cite> object. This field is returned only by the <strong>Check a job</strong> method.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] warnings:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of warning messages about invalid parameters included with the request. Each warning includes a descriptive message and a list of invalid argument strings, for example, <cite>“unexpected query parameter ‘user_token’, query parameter ‘callback_url’ was not specified”</cite>. The request succeeds despite the warnings. <strong>Note:</strong> This field can be returned only when you create a new job.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of warning messages about invalid parameters included with the request. Each warning includes a descriptive message and a list of invalid argument strings, for example, <cite>“unexpected query parameter ‘user_token’, query parameter ‘callback_url’ was not specified”</cite>. The request succeeds despite the warnings. This field can be returned only by the <strong>Create a job</strong> method.</td>
 </tr>
 </tbody>
 </table>
@@ -1957,7 +1977,7 @@ the instance of the service that owns a model to list its audio resources.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">Brief description of the model.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str sessions:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The URI for the model for use with the <strong>Create a session</strong> method. (Returned only for requests for a single model with the <strong>Get a model</strong> method.).</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The URI for the model for use with the <strong>Create a session</strong> method. This field is returned only by the <strong>Get a model</strong> method.</td>
 </tr>
 </tbody>
 </table>
@@ -2067,7 +2087,7 @@ the instance of the service that owns a model to list its audio resources.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">Indicates whether the customization interface can be used to create a custom language model based on the language model.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr bool speaker_labels:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">Indicates whether the <strong>speaker_labels</strong> parameter can be used with the language model.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Indicates whether the <cite>speaker_labels</cite> parameter can be used with the language model.</td>
 </tr>
 </tbody>
 </table>
@@ -2152,7 +2172,7 @@ the instance of the service that owns a model to list its audio resources.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str element:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">A key-value pair that describes an error associated with the definition of a word in the words resource. Each pair has the format <cite>“element”: “message”</cite>, where <cite>element</cite> is the aspect of the definition that caused the problem and <cite>message</cite> describes the problem. The following example describes a problem with one of the word’s sounds-like definitions: <cite>“sounds_like_string”: “Numbers are not allowed in sounds-like. You can try for example ‘{suggested_string}’.”</cite> You must correct the error before you can train the model.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A key-value pair that describes an error associated with the definition of a word in the words resource. Each pair has the format <cite>“element”: “message”</cite>, where <cite>element</cite> is the aspect of the definition that caused the problem and <cite>message</cite> describes the problem. The following example describes a problem with one of the word’s sounds-like definitions: <cite>“{sounds_like_string}”: “Numbers are not allowed in sounds-like. You can try for example ‘{suggested_string}’.”</cite> You must correct the error before you can train the model.</td>
 </tr>
 </tbody>
 </table>
