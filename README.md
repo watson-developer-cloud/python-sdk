@@ -59,12 +59,6 @@ To create an instance of the service:
    1. Type a unique name for the service instance in the **Service name** field. For example, type `my-service-name`. Leave the default values for the other options.
    1. Click **Create**.
 
-## Visual Recognition
-The process for authenticating with Visual Recognition has changed:
-* For new service instances, authenticate by using IAM. See [Using IAM](#using-iam). Also set the service URL by calling the `set_url('https://gateway.watsonplatform.net/visual-recognition/api')` method of the service instance.
-
-* For service instances created before May 23, 2018, authenticate by providing the API Key for the service instance. See [Using API Key](#api-key).
-
 ## Authentication
 To get your service credentials:
 
