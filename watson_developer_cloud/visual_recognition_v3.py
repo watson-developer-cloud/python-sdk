@@ -33,15 +33,17 @@ from .watson_service import WatsonService
 class VisualRecognitionV3(WatsonService):
     """The Visual Recognition V3 service."""
 
-    default_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api'
+    default_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 api_key=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            version,
+            url=default_url,
+            api_key=None,
+            iam_api_key=None,
+            iam_access_token=None,
+            iam_url=None,
+    ):
         """
         Construct a new client for the Visual Recognition service.
 
@@ -57,7 +59,7 @@ class VisualRecognitionV3(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway-a.watsonplatform.net/visual-recognition/api").
+               "https://gateway.watsonplatform.net/visual-recognition/api").
                The base url may differ between Bluemix regions.
 
         :param str api_key: The API Key used to authenticate.
@@ -391,6 +393,39 @@ class VisualRecognitionV3(WatsonService):
             accept_json=False)
         return response
 
+    #########################
+    # User data
+    #########################
+
+    def delete_user_data(self, customer_id, **kwargs):
+        """
+        Delete labeled data.
+
+        Deletes all data associated with a specified customer ID. The method has no effect
+        if no data is associated with the customer ID.   You associate a customer ID with
+        data by passing the `X-Watson-Metadata` header with a request that passes data.
+        For more information about personal data and customer IDs, see [Information
+        security](https://console.bluemix.net/docs/services/visual-recognition/information-security.html).
+
+        :param str customer_id: The customer ID for which all data is to be deleted.
+        :param dict headers: A `dict` containing the request headers
+        :rtype: None
+        """
+        if customer_id is None:
+            raise ValueError('customer_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'customer_id': customer_id}
+        url = '/v3/user_data'
+        self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return None
+
 
 ##############################################################################
 # Models
@@ -514,7 +549,7 @@ class ClassifiedImage(object):
     :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
     :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
     :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
-    :attr ErrorInfo error: (optional)
+    :attr ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
     :attr list[ClassifierResult] classifiers: The classifiers.
     """
 
@@ -531,7 +566,7 @@ class ClassifiedImage(object):
         :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
         :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
         :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
-        :param ErrorInfo error: (optional)
+        :param ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
         """
         self.source_url = source_url
         self.resolved_url = resolved_url
@@ -1069,18 +1104,18 @@ class Face(object):
     """
     Information about the face.
 
-    :attr FaceAge age: (optional)
-    :attr FaceGender gender: (optional)
-    :attr FaceLocation face_location: (optional)
+    :attr FaceAge age: (optional) Age information about a face.
+    :attr FaceGender gender: (optional) Information about the gender of the face.
+    :attr FaceLocation face_location: (optional) The location of the bounding box around the face.
     """
 
     def __init__(self, age=None, gender=None, face_location=None):
         """
         Initialize a Face object.
 
-        :param FaceAge age: (optional)
-        :param FaceGender gender: (optional)
-        :param FaceLocation face_location: (optional)
+        :param FaceAge age: (optional) Age information about a face.
+        :param FaceGender gender: (optional) Information about the gender of the face.
+        :param FaceLocation face_location: (optional) The location of the bounding box around the face.
         """
         self.age = age
         self.gender = gender
@@ -1276,7 +1311,8 @@ class FaceLocation(object):
             args['height'] = _dict.get('height')
         else:
             raise ValueError(
-                'Required property \'height\' not present in FaceLocation JSON')
+                'Required property \'height\' not present in FaceLocation JSON'
+            )
         if 'left' in _dict:
             args['left'] = _dict.get('left')
         else:
@@ -1325,7 +1361,7 @@ class ImageWithFaces(object):
     :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
     :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
     :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
-    :attr ErrorInfo error: (optional)
+    :attr ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
     """
 
     def __init__(self,
@@ -1341,7 +1377,7 @@ class ImageWithFaces(object):
         :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
         :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
         :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
-        :param ErrorInfo error: (optional)
+        :param ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
         """
         self.faces = faces
         self.image = image

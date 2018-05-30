@@ -59,14 +59,79 @@ To create an instance of the service:
    1. Type a unique name for the service instance in the **Service name** field. For example, type `my-service-name`. Leave the default values for the other options.
    1. Click **Create**.
 
+## Authentication
 To get your service credentials:
 
 Copy your credentials from the **Manage** page. To find the Service details page for an existing service, navigate to your [IBM Cloud][ibm_cloud] dashboard and click the service name.
 
 1. On the **Manage** page, you will see a **Credentials** pane
 1. Depending on the service you will see use either:
-* 2.a: `username`, `password`, and `url`(optional).
+* 2.a: `username`, `password`, and `url`(optional) or `apikey`(for Visual Recognition).
 * 2.b: `apikey` which is the value for parameter `iam_api_key` when initializing the constructor.
+
+### Username and Password
+```python
+from watson_developer_cloud import DiscoveryV1
+# In the constructor
+discovery = DiscoveryV1(version='2017-10-16', username='<username>', password='<password>')
+```
+
+```python
+# After instantiation
+discovery = DiscoveryV1(version='2017-10-16')
+discovery.set_username_and_password('<username>', '<password>')
+```
+
+### API Key
+*Important: Instantiation with API key works only with Visual Recognition service instances created before May 23, 2018. Visual Recognition instances created after May 22 use IAM.*
+
+```python
+from watson_developer_cloud import VisualRecognitionV3
+# In the constructor
+visual_recognition = VisualRecognitionV3(version='2018-05-22', api_key='<api_key>')
+```
+
+```python
+# After instantiation
+visual_recognition = VisualRecognitionV3(version='2018-05-22')
+visual_recognition.set_api_key('<api_key>')
+```
+
+### Using IAM
+
+When authenticating with IAM, you have the option of passing in:
+
+* the IAM API key and, optionally, the IAM service URL
+* an IAM access token
+
+**Be aware that passing in an access token means that you're assuming responsibility for maintaining that token's lifecycle.** If you instead pass in an IAM API key, the SDK will manage it for you.
+
+```python
+# In the constructor, letting the SDK manage the IAM token
+discovery = DiscoveryV1(version='2017-10-16',
+                        iam_api_key='<iam_api_key>',
+                        iam_url='<iam_url>') # optional - the default value is https://iam.ng.bluemix.net/identity/token
+```
+
+```python
+# after instantiation, letting the SDK manage the IAM token
+discovery = DiscoveryV1(version='2017-10-16')
+discovery.set_iam_api_key('<iam_api_key>')
+```
+
+```python
+# in the constructor, assuming control of managing IAM token
+discovery = DiscoveryV1(version='2017-10-16',
+                        iam_access_token='<iam_access_token>')
+```
+
+```python
+# after instantiation, assuming control of managing IAM token
+discovery = DiscoveryV1(version='2017-10-16')
+discovery.set_iam_access_token('<access_token>')
+```
+
+If at any time you would like to let the SDK take over managing your IAM token, simply override your stored IAM credentials with an IAM API key by calling the `set_token_manager()` method again.
 
 ## Python Version
 

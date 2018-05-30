@@ -279,9 +279,13 @@ class WatsonService(object):
             api_key = None
 
         self.api_key = api_key
+
+        # This would be called only for Visual recognition
+        if self.url is self.default_url:
+            self.set_url('https://gateway-a.watsonplatform.net/visual-recognition/api')
         self.jar = CookieJar()
 
-    def set_token_manager(self, iam_api_key, iam_access_token, iam_url):
+    def set_token_manager(self, iam_api_key=None, iam_access_token=None, iam_url=None):
         if iam_api_key == 'YOUR IAM API KEY':
             iam_api_key = None
 
@@ -297,6 +301,15 @@ class WatsonService(object):
         else:
             self.token_manager = IAMTokenManager(iam_access_token=iam_access_token)
         self.iam_access_token = iam_access_token
+        self.jar = CookieJar()
+
+    def set_iam_api_key(self, iam_api_key):
+        if self.token_manager:
+            self.token_manager.set_iam_api_key(iam_api_key)
+        else:
+            self.token_manager = IAMTokenManager(iam_api_key=iam_api_key)
+        self.iam_api_key = iam_api_key
+        self.jar = CookieJar()
 
     def set_url(self, url):
         self.url = url

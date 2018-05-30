@@ -36,13 +36,15 @@ class LanguageTranslatorV2(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/language-translator/api'
 
-    def __init__(self,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            url=default_url,
+            username=None,
+            password=None,
+            iam_api_key=None,
+            iam_access_token=None,
+            iam_url=None,
+    ):
         """
         Construct a new client for the Language Translator service.
 
@@ -158,6 +160,8 @@ class LanguageTranslatorV2(WatsonService):
 
     def list_identifiable_languages(self, **kwargs):
         """
+        List identifiable languages.
+
         Lists the languages that the service can identify. Returns the language code (for
         example, `en` for English or `es` for Spanish) and name of each language.
 
@@ -188,6 +192,8 @@ class LanguageTranslatorV2(WatsonService):
                      monolingual_corpus_filename=None,
                      **kwargs):
         """
+        Create model.
+
         Uploads a TMX glossary file on top of a domain to customize a translation model.
         Depending on the size of the file, training can range from minutes for a glossary
         to several hours for a large parallel corpus. Glossary files must be less than 10
@@ -252,6 +258,8 @@ class LanguageTranslatorV2(WatsonService):
 
     def delete_model(self, model_id, **kwargs):
         """
+        Delete model.
+
         Deletes a custom translation model.
 
         :param str model_id: Model ID of the model to delete.
@@ -271,6 +279,8 @@ class LanguageTranslatorV2(WatsonService):
 
     def get_model(self, model_id, **kwargs):
         """
+        Get model details.
+
         Gets information about a translation model, including training status for custom
         models.
 
@@ -295,6 +305,8 @@ class LanguageTranslatorV2(WatsonService):
                     default_models=None,
                     **kwargs):
         """
+        List models.
+
         Lists available translation models.
 
         :param str source: Specify a language code to filter results by source language.

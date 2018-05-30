@@ -233,3 +233,18 @@ class TestVisualRecognitionV3(TestCase):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/test.jpg'), 'rb') as image_file:
             vr_service.detect_faces(images_file=image_file)
         assert len(responses.calls) == 2
+
+@responses.activate
+def test_delete_user_data():
+    url = "{0}{1}".format(base_url, 'v3/user_data')
+    responses.add(
+        responses.DELETE,
+        url,
+        body='{"description": "success" }',
+        status=200,
+        content_type='application_json')
+
+    vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
+    response = vr_service.delete_user_data('id')
+    assert response is None
+    assert len(responses.calls) == 1

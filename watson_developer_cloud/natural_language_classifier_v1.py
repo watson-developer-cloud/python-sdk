@@ -92,6 +92,8 @@ class NaturalLanguageClassifierV1(WatsonService):
 
     def classify(self, classifier_id, text, **kwargs):
         """
+        Classify a phrase.
+
         Returns label information for the input. The status must be `Available` before you
         can use the classifier to classify text.
 
@@ -121,6 +123,8 @@ class NaturalLanguageClassifierV1(WatsonService):
 
     def classify_collection(self, classifier_id, collection, **kwargs):
         """
+        Classify multiple phrases.
+
         Returns label information for multiple phrases. The status must be `Available`
         before you can use the classifier to classify text.  Note that classifying
         Japanese texts is a beta feature.
@@ -190,7 +194,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         if not training_data_filename and hasattr(training_data, 'name'):
             training_data_filename = training_data.name
         mime_type = 'text/csv'
-        training_data_tuple = (training_data_filename, training_data, mime_type)
+        training_data_tuple = (training_data_filename, training_data,
+                               mime_type)
         url = '/v1/classifiers'
         response = self.request(
             method='POST',

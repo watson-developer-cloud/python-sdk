@@ -39,14 +39,16 @@ class NaturalLanguageUnderstandingV1(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            version,
+            url=default_url,
+            username=None,
+            password=None,
+            iam_api_key=None,
+            iam_access_token=None,
+            iam_url=None,
+    ):
         """
         Construct a new client for the Natural Language Understanding service.
 
@@ -122,6 +124,29 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         Analyze text, HTML, or a public webpage.
 
         Analyzes text, HTML, or a public webpage with one or more text analysis features.
+        ### Concepts Identify general concepts that are referenced or alluded to in your
+        content. Concepts that are detected typically have an associated link to a DBpedia
+        resource.  ### Emotion Detect anger, disgust, fear, joy, or sadness that is
+        conveyed by your content. Emotion information can be returned for detected
+        entities, keywords, or user-specified target phrases found in the text.  ###
+        Entities Detect important people, places, geopolitical entities and other types of
+        entities in your content. Entity detection recognizes consecutive coreferences of
+        each entity. For example, analysis of the following text would count \"Barack
+        Obama\" and \"He\" as the same entity:  \"Barack Obama was the 44th President of
+        the United States. He took office in January 2009.\"  ### Keywords Determine the
+        most important keywords in your content. Keyword phrases are organized by
+        relevance in the results.  ### Metadata Get author information, publication date,
+        and the title of your text/HTML content.  ### Relations Recognize when two
+        entities are related, and identify the type of relation.  For example, you can
+        identify an \"awardedTo\" relation between an award and its recipient.  ###
+        Semantic Roles Parse sentences into subject-action-object form, and identify
+        entities and keywords that are subjects or objects of an action.  ### Sentiment
+        Determine whether your content conveys postive or negative sentiment. Sentiment
+        information can be returned for detected entities, keywords, or user-specified
+        target phrases found in the text.   ### Categories Categorize your content into a
+        hierarchical 5-level taxonomy. For example, \"Leonardo DiCaprio won an Oscar\"
+        returns \"/art and entertainment/movies and tv/movies\" as the most confident
+        classification.
 
         :param Features features: Specific features to analyze the document for.
         :param str text: The plain text to analyze.
@@ -1424,51 +1449,6 @@ class Feed(object):
 
     def __str__(self):
         """Return a `str` version of this Feed object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class InlineResponse200(object):
-    """
-    InlineResponse200.
-
-    :attr str deleted: (optional) model_id of the deleted model.
-    """
-
-    def __init__(self, deleted=None):
-        """
-        Initialize a InlineResponse200 object.
-
-        :param str deleted: (optional) model_id of the deleted model.
-        """
-        self.deleted = deleted
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a InlineResponse200 object from a json dictionary."""
-        args = {}
-        if 'deleted' in _dict:
-            args['deleted'] = _dict.get('deleted')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'deleted') and self.deleted is not None:
-            _dict['deleted'] = self.deleted
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this InlineResponse200 object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

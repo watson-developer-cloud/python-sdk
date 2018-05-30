@@ -493,3 +493,18 @@ def test_custom_audio_resources():
 
     speech_to_text.list_audio('custid')
     assert responses.calls[3].response.json() == {"get response all": "done"}
+
+@responses.activate
+def test_delete_user_data():
+    url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/user_data'
+    responses.add(
+        responses.DELETE,
+        url,
+        body='{"description": "success" }',
+        status=200,
+        content_type='application_json')
+
+    speech_to_text = watson_developer_cloud.SpeechToTextV1(username="username", password="password")
+    response = speech_to_text.delete_user_data('id')
+    assert response is None
+    assert len(responses.calls) == 1
