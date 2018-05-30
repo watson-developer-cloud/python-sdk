@@ -105,6 +105,12 @@ class IAMTokenManager(object):
         """
         self.user_access_token = iam_access_token
 
+    def set_iam_api_key(self, iam_api_key):
+        """
+        Set the IAM api key
+        """
+        self.iam_api_key = iam_api_key
+
     def _is_token_expired(self):
         """
         Check if currently stored token is expired.
