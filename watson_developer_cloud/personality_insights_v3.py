@@ -119,9 +119,9 @@ class PersonalityInsightsV3(WatsonService):
 
     def profile(self,
                 content,
-                content_type,
-                accept=None,
+                content_type='application/json',
                 content_language=None,
+                accept='application/json',
                 accept_language=None,
                 raw_scores=None,
                 csv_headers=None,
@@ -161,9 +161,6 @@ class PersonalityInsightsV3(WatsonService):
         :param str content_type: The type of the input: application/json, text/html, or
         text/plain. A character encoding can be specified by including a `charset`
         parameter. For example, 'text/html;charset=utf-8'.
-        :param str accept: The type of the response: application/json or text/csv. A
-        character encoding can be specified by including a `charset` parameter. For
-        example, 'text/csv;charset=utf-8'.
         :param str content_language: The language of the input text for the request:
         Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as
         their parent language; for example, `en-US` is interpreted as `en`.
@@ -175,6 +172,9 @@ class PersonalityInsightsV3(WatsonService):
         items that specify a different language are ignored; omit this parameter to base
         the language on the specification of the content items. You can specify any
         combination of languages for **Content-Language** and **Accept-Language**.
+        :param str accept: The type of the response: application/json or text/csv. A
+        character encoding can be specified by including a `charset` parameter. For
+        example, 'text/csv;charset=utf-8'.
         :param str accept_language: The desired language of the response. For
         two-character arguments, regional variants are treated as their parent language;
         for example, `en-US` is interpreted as `en`. You can specify any combination of
@@ -197,9 +197,9 @@ class PersonalityInsightsV3(WatsonService):
             raise ValueError('content_type must be provided')
         headers = {
             'Content-Type': content_type,
-            'Accept': accept,
             'Content-Language': content_language,
-            'Accept-Language': accept_language
+            'Accept-Language': accept_language,
+            'Accept': accept
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -220,7 +220,7 @@ class PersonalityInsightsV3(WatsonService):
             headers=headers,
             params=params,
             data=data,
-            accept_json=True)
+            accept_json=(accept is None or accept == 'application/json'))
         return response
 
 
@@ -381,7 +381,7 @@ class ConsumptionPreferences(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_id'
-                   ) and self.consumption_preference_id is not None:
+                  ) and self.consumption_preference_id is not None:
             _dict['consumption_preference_id'] = self.consumption_preference_id
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
@@ -464,13 +464,13 @@ class ConsumptionPreferencesCategory(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_category_id'
-                   ) and self.consumption_preference_category_id is not None:
+                  ) and self.consumption_preference_category_id is not None:
             _dict[
                 'consumption_preference_category_id'] = self.consumption_preference_category_id
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'consumption_preferences'
-                   ) and self.consumption_preferences is not None:
+                  ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
                 x._to_dict() for x in self.consumption_preferences
             ]
@@ -800,7 +800,7 @@ class Profile(object):
                 'Required property \'personality\' not present in Profile JSON'
             )
         if 'needs' in _dict:
-            args['needs'] = [Trait._from_dict(x) for x in (_dict.get('needs'))]
+            args['needs'] = [Trait._from_dict(x) for x in _dict.get('needs')]
         else:
             raise ValueError(
                 'Required property \'needs\' not present in Profile JSON')
@@ -851,7 +851,7 @@ class Profile(object):
         if hasattr(self, 'behavior') and self.behavior is not None:
             _dict['behavior'] = [x._to_dict() for x in self.behavior]
         if hasattr(self, 'consumption_preferences'
-                   ) and self.consumption_preferences is not None:
+                  ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
                 x._to_dict() for x in self.consumption_preferences
             ]

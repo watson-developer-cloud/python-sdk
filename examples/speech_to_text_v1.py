@@ -50,6 +50,9 @@ class MyRecognizeCallback(RecognizeCallback):
     def on_hypothesis(self, hypothesis):
         print(hypothesis)
 
+    def on_data(self, data):
+        print(data)
+
 mycallback = MyRecognizeCallback()
 with open(join(dirname(__file__), '../resources/speech.wav'),
           'rb') as audio_file:
