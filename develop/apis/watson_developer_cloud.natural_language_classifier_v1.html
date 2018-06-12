@@ -17,7 +17,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="watson_developer_cloud.natural_language_understanding package" href="watson_developer_cloud.natural_language_understanding.html" />
-    <link rel="prev" title="watson_developer_cloud.language_translator_v2 module" href="watson_developer_cloud.language_translator_v2.html" />
+    <link rel="prev" title="watson_developer_cloud.language_translator_v3 module" href="watson_developer_cloud.language_translator_v3.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -34,10 +34,10 @@
             
   <div class="section" id="module-watson_developer_cloud.natural_language_classifier_v1">
 <span id="watson-developer-cloud-natural-language-classifier-v1-module"></span><h1>watson_developer_cloud.natural_language_classifier_v1 module<a class="headerlink" href="#module-watson_developer_cloud.natural_language_classifier_v1" title="Permalink to this headline">¶</a></h1>
-<p>IBM Watson Natural Language Classifier uses machine learning algorithms to return the top
-matching predefined classes for short text input. You create and train a classifier to
-connect predefined classes to example texts so that the service can apply those classes to
-new inputs.</p>
+<p>IBM Watson&amp;trade; Natural Language Classifier uses machine learning algorithms to return
+the top matching predefined classes for short text input. You create and train a
+classifier to connect predefined classes to example texts so that the service can apply
+those classes to new inputs.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1">
 <em class="property">class </em><code class="descname">NaturalLanguageClassifierV1</code><span class="sig-paren">(</span><em>url='https://gateway.watsonplatform.net/natural-language-classifier/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>iam_api_key=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1" title="Permalink to this definition">¶</a></dt>
@@ -80,8 +80,8 @@ can use the classifier to classify text.</p>
 <code class="descname">classify_collection</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>collection</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.classify_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify_collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Classify multiple phrases.</p>
 <p>Returns label information for multiple phrases. The status must be <cite>Available</cite>
-before you can use the classifier to classify text.  Note that classifying
-Japanese texts is a beta feature.</p>
+before you can use the classifier to classify text.
+Note that classifying Japanese texts is a beta feature.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -113,23 +113,24 @@ classifier.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>metadata</strong> (<em>file</em>) – Metadata in JSON format. The metadata identifies the language of the data, and an optional name to identify the classifier. Specify the language with the 2-letter primary language code as assigned in ISO standard 639.  Supported languages are English (<cite>en</cite>), Arabic (<cite>ar</cite>), French (<cite>fr</cite>), German, (<cite>de</cite>), Italian (<cite>it</cite>), Japanese (<cite>ja</cite>), Korean (<cite>ko</cite>), Brazilian Portuguese (<cite>pt</cite>), and Spanish (<cite>es</cite>).</li>
-<li><strong>training_data</strong> (<em>file</em>) – Training data in CSV format. Each text value must have at least one class. The data can include up to 20,000 records. For details, see [Data preparation](<a class="reference external" href="https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html">https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html</a>).</li>
-<li><strong>metadata_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for training_metadata.</li>
-<li><strong>training_data_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for training_data.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Classifier</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>metadata</strong> (<em>file</em>) – Metadata in JSON format. The metadata identifies the</td>
 </tr>
 </tbody>
 </table>
+<p>language of the data, and an optional name to identify the classifier. Specify the
+language with the 2-letter primary language code as assigned in ISO standard 639.
+Supported languages are English (<cite>en</cite>), Arabic (<cite>ar</cite>), French (<cite>fr</cite>), German,
+(<cite>de</cite>), Italian (<cite>it</cite>), Japanese (<cite>ja</cite>), Korean (<cite>ko</cite>), Brazilian Portuguese
+(<cite>pt</cite>), and Spanish (<cite>es</cite>).
+:param file training_data: Training data in CSV format. Each text value must have
+at least one class. The data can include up to 20,000 records. For details, see
+[Data
+preparation](<a class="reference external" href="https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html">https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html</a>).
+:param str metadata_filename: The filename for training_metadata.
+:param str training_data_filename: The filename for training_data.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>Classifier</cite> response.
+:rtype: dict</p>
 </dd></dl>
 
 <dl class="method">
@@ -219,10 +220,11 @@ classifier.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The class with the highest confidence.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ClassifiedClass] classes:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of up to ten class-confidence</td>
 </tr>
 </tbody>
 </table>
+<p>pairs sorted in descending order of confidence.</p>
 </dd></dl>
 
 <dl class="class">
@@ -240,10 +242,11 @@ classifier.</p>
 <tr class="field-even field"><th class="field-name">Attr str url:</th><td class="field-body">(optional) Link to the classifier.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[CollectionItem] collection:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of classifier responses for each submitted phrase.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of classifier responses for</td>
 </tr>
 </tbody>
 </table>
+<p>each submitted phrase.</p>
 </dd></dl>
 
 <dl class="class">
@@ -256,13 +259,12 @@ classifier.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float confidence:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A decimal percentage that represents the confidence that Watson has in this class. Higher values represent higher confidences.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str class_name:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Class label.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A decimal percentage that represents the confidence</td>
 </tr>
 </tbody>
 </table>
+<p>that Watson has in this class. Higher values represent higher confidences.
+:attr str class_name: (optional) Class label.</p>
 </dd></dl>
 
 <dl class="class">
@@ -307,10 +309,11 @@ classifier.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Classifier] classifiers:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The classifiers available to the user. Returns an empty array if no classifiers are available.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The classifiers available to the user. Returns an</td>
 </tr>
 </tbody>
 </table>
+<p>empty array if no classifiers are available.</p>
 </dd></dl>
 
 <dl class="class">
@@ -343,10 +346,11 @@ classifier.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The class with the highest confidence.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ClassifiedClass] classes:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of up to ten class-confidence</td>
 </tr>
 </tbody>
 </table>
+<p>pairs sorted in descending order of confidence.</p>
 </dd></dl>
 
 </div>
@@ -366,7 +370,7 @@ classifier.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="watson_developer_cloud.language_translator_v2.html" title="previous chapter">watson_developer_cloud.language_translator_v2 module</a></li>
+      <li>Previous: <a href="watson_developer_cloud.language_translator_v3.html" title="previous chapter">watson_developer_cloud.language_translator_v3 module</a></li>
       <li>Next: <a href="watson_developer_cloud.natural_language_understanding.html" title="next chapter">watson_developer_cloud.natural_language_understanding package</a></li>
   </ul></li>
 </ul>

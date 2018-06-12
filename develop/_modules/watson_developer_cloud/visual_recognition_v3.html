@@ -47,7 +47,7 @@
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">The IBM Watson Visual Recognition service uses deep learning algorithms to identify</span>
+<span class="sd">The IBM Watson&amp;trade; Visual Recognition service uses deep learning algorithms to identify</span>
 <span class="sd">scenes, objects, and faces  in images you upload to the service. You can create and train</span>
 <span class="sd">a custom classifier to identify subjects that suit your needs.</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -347,7 +347,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Retrieve a list of classifiers.</span>
 
-<span class="sd">        :param bool verbose: Specify `true` to return details about the classifiers. Omit this parameter to return a brief list of classifiers.</span>
+<span class="sd">        :param bool verbose: Specify `true` to return details about the classifiers. Omit</span>
+<span class="sd">        this parameter to return a brief list of classifiers.</span>
 <span class="sd">        :param dict headers: A `dict` containing the request headers</span>
 <span class="sd">        :return: A `dict` containing the `Classifiers` response.</span>
 <span class="sd">        :rtype: dict</span>
@@ -435,9 +436,10 @@
 <span class="sd">        Delete labeled data.</span>
 
 <span class="sd">        Deletes all data associated with a specified customer ID. The method has no effect</span>
-<span class="sd">        if no data is associated with the customer ID.   You associate a customer ID with</span>
-<span class="sd">        data by passing the `X-Watson-Metadata` header with a request that passes data.</span>
-<span class="sd">        For more information about personal data and customer IDs, see [Information</span>
+<span class="sd">        if no data is associated with the customer ID.</span>
+<span class="sd">        You associate a customer ID with data by passing the `X-Watson-Metadata` header</span>
+<span class="sd">        with a request that passes data. For more information about personal data and</span>
+<span class="sd">        customer IDs, see [Information</span>
 <span class="sd">        security](https://console.bluemix.net/docs/services/visual-recognition/information-security.html).</span>
 
 <span class="sd">        :param str customer_id: The customer ID for which all data is to be deleted.</span>
@@ -518,8 +520,11 @@
 <span class="sd">    Result of a class within a classifier.</span>
 
 <span class="sd">    :attr str class_name: Name of the class.</span>
-<span class="sd">    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
-<span class="sd">    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.</span>
+<span class="sd">    :attr float score: (optional) Confidence score for the property in the range of 0 to</span>
+<span class="sd">    1. A higher score indicates greater likelihood that the class is depicted in the</span>
+<span class="sd">    image. The default threshold for returning scores from a classifier is 0.5.</span>
+<span class="sd">    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example,</span>
+<span class="sd">    `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">type_hierarchy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -527,8 +532,12 @@
 <span class="sd">        Initialize a ClassResult object.</span>
 
 <span class="sd">        :param str class_name: Name of the class.</span>
-<span class="sd">        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.</span>
-<span class="sd">        :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.</span>
+<span class="sd">        :param float score: (optional) Confidence score for the property in the range of 0</span>
+<span class="sd">        to 1. A higher score indicates greater likelihood that the class is depicted in</span>
+<span class="sd">        the image. The default threshold for returning scores from a classifier is 0.5.</span>
+<span class="sd">        :param str type_hierarchy: (optional) Knowledge graph of the property. For</span>
+<span class="sd">        example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if</span>
+<span class="sd">        identified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span> <span class="o">=</span> <span class="n">class_name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
@@ -579,10 +588,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Results for one image.</span>
 
-<span class="sd">    :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.</span>
-<span class="sd">    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</span>
-<span class="sd">    :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</span>
-<span class="sd">    :attr ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.</span>
+<span class="sd">    :attr str source_url: (optional) Source of the image before any redirects. Not</span>
+<span class="sd">    returned when the image is uploaded.</span>
+<span class="sd">    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are</span>
+<span class="sd">    followed. Not returned when the image is uploaded.</span>
+<span class="sd">    :attr str image: (optional) Relative path of the image file if uploaded directly. Not</span>
+<span class="sd">    returned when the image is passed by URL.</span>
+<span class="sd">    :attr ErrorInfo error: (optional) Information about what might have caused a failure,</span>
+<span class="sd">    such as an image that is too large. Not returned when there is no error.</span>
 <span class="sd">    :attr list[ClassifierResult] classifiers: The classifiers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -596,10 +609,14 @@
 <span class="sd">        Initialize a ClassifiedImage object.</span>
 
 <span class="sd">        :param list[ClassifierResult] classifiers: The classifiers.</span>
-<span class="sd">        :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.</span>
-<span class="sd">        :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</span>
-<span class="sd">        :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</span>
-<span class="sd">        :param ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.</span>
+<span class="sd">        :param str source_url: (optional) Source of the image before any redirects. Not</span>
+<span class="sd">        returned when the image is uploaded.</span>
+<span class="sd">        :param str resolved_url: (optional) Fully resolved URL of the image after</span>
+<span class="sd">        redirects are followed. Not returned when the image is uploaded.</span>
+<span class="sd">        :param str image: (optional) Relative path of the image file if uploaded directly.</span>
+<span class="sd">        Not returned when the image is passed by URL.</span>
+<span class="sd">        :param ErrorInfo error: (optional) Information about what might have caused a</span>
+<span class="sd">        failure, such as an image that is too large. Not returned when there is no error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source_url</span> <span class="o">=</span> <span class="n">source_url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">resolved_url</span> <span class="o">=</span> <span class="n">resolved_url</span>
@@ -664,10 +681,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Results for all images.</span>
 
-<span class="sd">    :attr int custom_classes: (optional) Number of custom classes identified in the images.</span>
+<span class="sd">    :attr int custom_classes: (optional) Number of custom classes identified in the</span>
+<span class="sd">    images.</span>
 <span class="sd">    :attr int images_processed: (optional) Number of images processed for the API call.</span>
 <span class="sd">    :attr list[ClassifiedImage] images: Classified images.</span>
-<span class="sd">    :attr list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</span>
+<span class="sd">    :attr list[WarningInfo] warnings: (optional) Information about what might cause less</span>
+<span class="sd">    than optimal output. For example, a request sent with a corrupt .zip file and a list</span>
+<span class="sd">    of image URLs will still complete, but does not return the expected output. Not</span>
+<span class="sd">    returned when there is no warning.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -679,9 +700,14 @@
 <span class="sd">        Initialize a ClassifiedImages object.</span>
 
 <span class="sd">        :param list[ClassifiedImage] images: Classified images.</span>
-<span class="sd">        :param int custom_classes: (optional) Number of custom classes identified in the images.</span>
-<span class="sd">        :param int images_processed: (optional) Number of images processed for the API call.</span>
-<span class="sd">        :param list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</span>
+<span class="sd">        :param int custom_classes: (optional) Number of custom classes identified in the</span>
+<span class="sd">        images.</span>
+<span class="sd">        :param int images_processed: (optional) Number of images processed for the API</span>
+<span class="sd">        call.</span>
+<span class="sd">        :param list[WarningInfo] warnings: (optional) Information about what might cause</span>
+<span class="sd">        less than optimal output. For example, a request sent with a corrupt .zip file and</span>
+<span class="sd">        a list of image URLs will still complete, but does not return the expected output.</span>
+<span class="sd">        Not returned when there is no warning.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">custom_classes</span> <span class="o">=</span> <span class="n">custom_classes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">images_processed</span> <span class="o">=</span> <span class="n">images_processed</span>
@@ -745,14 +771,22 @@
 
 <span class="sd">    :attr str classifier_id: ID of a classifier identified in the image.</span>
 <span class="sd">    :attr str name: Name of the classifier.</span>
-<span class="sd">    :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.</span>
+<span class="sd">    :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned</span>
+<span class="sd">    when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">    :attr str status: (optional) Training status of classifier.</span>
-<span class="sd">    :attr bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML model after the training status is `ready`.</span>
-<span class="sd">    :attr str explanation: (optional) If classifier training has failed, this field may explain why.</span>
-<span class="sd">    :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.</span>
+<span class="sd">    :attr bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML</span>
+<span class="sd">    model after the training status is `ready`.</span>
+<span class="sd">    :attr str explanation: (optional) If classifier training has failed, this field may</span>
+<span class="sd">    explain why.</span>
+<span class="sd">    :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC)</span>
+<span class="sd">    that the classifier was created.</span>
 <span class="sd">    :attr list[Class] classes: (optional) Classes that define a classifier.</span>
-<span class="sd">    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to `updated` and retained for backward compatibility.</span>
-<span class="sd">    :attr datetime updated: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by some requests.</span>
+<span class="sd">    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC)</span>
+<span class="sd">    that the classifier was updated. Returned when verbose=`true`. Might not be returned</span>
+<span class="sd">    by some requests. Identical to `updated` and retained for backward compatibility.</span>
+<span class="sd">    :attr datetime updated: (optional) Date and time in Coordinated Universal Time (UTC)</span>
+<span class="sd">    that the classifier was most recently updated. The field matches either `retrained` or</span>
+<span class="sd">    `created`.  Returned when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -771,14 +805,24 @@
 
 <span class="sd">        :param str classifier_id: ID of a classifier identified in the image.</span>
 <span class="sd">        :param str name: Name of the classifier.</span>
-<span class="sd">        :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML model after the training status is `ready`.</span>
-<span class="sd">        :param str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.</span>
+<span class="sd">        :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML</span>
+<span class="sd">        model after the training status is `ready`.</span>
+<span class="sd">        :param str owner: (optional) Unique ID of the account who owns the classifier.</span>
+<span class="sd">        Returned when verbose=`true`. Might not be returned by some requests.</span>
 <span class="sd">        :param str status: (optional) Training status of classifier.</span>
-<span class="sd">        :param str explanation: (optional) If classifier training has failed, this field may explain why.</span>
-<span class="sd">        :param datetime created: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.</span>
+<span class="sd">        :param str explanation: (optional) If classifier training has failed, this field</span>
+<span class="sd">        may explain why.</span>
+<span class="sd">        :param datetime created: (optional) Date and time in Coordinated Universal Time</span>
+<span class="sd">        (UTC) that the classifier was created.</span>
 <span class="sd">        :param list[Class] classes: (optional) Classes that define a classifier.</span>
-<span class="sd">        :param datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to `updated` and retained for backward compatibility.</span>
-<span class="sd">        :param datetime updated: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by some requests.</span>
+<span class="sd">        :param datetime retrained: (optional) Date and time in Coordinated Universal Time</span>
+<span class="sd">        (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be</span>
+<span class="sd">        returned by some requests. Identical to `updated` and retained for backward</span>
+<span class="sd">        compatibility.</span>
+<span class="sd">        :param datetime updated: (optional) Date and time in Coordinated Universal Time</span>
+<span class="sd">        (UTC) that the classifier was most recently updated. The field matches either</span>
+<span class="sd">        `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by</span>
+<span class="sd">        some requests.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="o">=</span> <span class="n">classifier_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
@@ -1001,7 +1045,10 @@
 
 <span class="sd">    :attr int images_processed: (optional) Number of images processed for the API call.</span>
 <span class="sd">    :attr list[ImageWithFaces] images: The images.</span>
-<span class="sd">    :attr list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</span>
+<span class="sd">    :attr list[WarningInfo] warnings: (optional) Information about what might cause less</span>
+<span class="sd">    than optimal output. For example, a request sent with a corrupt .zip file and a list</span>
+<span class="sd">    of image URLs will still complete, but does not return the expected output. Not</span>
+<span class="sd">    returned when there is no warning.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">images_processed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">warnings</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1009,8 +1056,12 @@
 <span class="sd">        Initialize a DetectedFaces object.</span>
 
 <span class="sd">        :param list[ImageWithFaces] images: The images.</span>
-<span class="sd">        :param int images_processed: (optional) Number of images processed for the API call.</span>
-<span class="sd">        :param list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.</span>
+<span class="sd">        :param int images_processed: (optional) Number of images processed for the API</span>
+<span class="sd">        call.</span>
+<span class="sd">        :param list[WarningInfo] warnings: (optional) Information about what might cause</span>
+<span class="sd">        less than optimal output. For example, a request sent with a corrupt .zip file and</span>
+<span class="sd">        a list of image URLs will still complete, but does not return the expected output.</span>
+<span class="sd">        Not returned when there is no warning.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">images_processed</span> <span class="o">=</span> <span class="n">images_processed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="n">images</span>
@@ -1069,7 +1120,8 @@
 <span class="sd">    large. Not returned when there is no error.</span>
 
 <span class="sd">    :attr int code: HTTP status code.</span>
-<span class="sd">    :attr str description: Human-readable error description. For example, `File size limit exceeded`.</span>
+<span class="sd">    :attr str description: Human-readable error description. For example, `File size limit</span>
+<span class="sd">    exceeded`.</span>
 <span class="sd">    :attr str error_id: Codified error string. For example, `limit_exceeded`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1078,7 +1130,8 @@
 <span class="sd">        Initialize a ErrorInfo object.</span>
 
 <span class="sd">        :param int code: HTTP status code.</span>
-<span class="sd">        :param str description: Human-readable error description. For example, `File size limit exceeded`.</span>
+<span class="sd">        :param str description: Human-readable error description. For example, `File size</span>
+<span class="sd">        limit exceeded`.</span>
 <span class="sd">        :param str error_id: Codified error string. For example, `limit_exceeded`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
@@ -1139,7 +1192,8 @@
 
 <span class="sd">    :attr FaceAge age: (optional) Age information about a face.</span>
 <span class="sd">    :attr FaceGender gender: (optional) Information about the gender of the face.</span>
-<span class="sd">    :attr FaceLocation face_location: (optional) The location of the bounding box around the face.</span>
+<span class="sd">    :attr FaceLocation face_location: (optional) The location of the bounding box around</span>
+<span class="sd">    the face.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gender</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">face_location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1148,7 +1202,8 @@
 
 <span class="sd">        :param FaceAge age: (optional) Age information about a face.</span>
 <span class="sd">        :param FaceGender gender: (optional) Information about the gender of the face.</span>
-<span class="sd">        :param FaceLocation face_location: (optional) The location of the bounding box around the face.</span>
+<span class="sd">        :param FaceLocation face_location: (optional) The location of the bounding box</span>
+<span class="sd">        around the face.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender</span>
@@ -1199,7 +1254,8 @@
 
 <span class="sd">    :attr int min: (optional) Estimated minimum age.</span>
 <span class="sd">    :attr int max: (optional) Estimated maximum age.</span>
-<span class="sd">    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.</span>
+<span class="sd">    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score</span>
+<span class="sd">    indicates greater confidence in the estimated value for the property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1208,7 +1264,8 @@
 
 <span class="sd">        :param int min: (optional) Estimated minimum age.</span>
 <span class="sd">        :param int max: (optional) Estimated maximum age.</span>
-<span class="sd">        :param float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.</span>
+<span class="sd">        :param float score: (optional) Confidence score in the range of 0 to 1. A higher</span>
+<span class="sd">        score indicates greater confidence in the estimated value for the property.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
@@ -1257,7 +1314,8 @@
 <span class="sd">    Information about the gender of the face.</span>
 
 <span class="sd">    :attr str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.</span>
-<span class="sd">    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.</span>
+<span class="sd">    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score</span>
+<span class="sd">    indicates greater confidence in the estimated value for the property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gender</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1265,7 +1323,8 @@
 <span class="sd">        Initialize a FaceGender object.</span>
 
 <span class="sd">        :param str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.</span>
-<span class="sd">        :param float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.</span>
+<span class="sd">        :param float score: (optional) Confidence score in the range of 0 to 1. A higher</span>
+<span class="sd">        score indicates greater confidence in the estimated value for the property.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gender</span> <span class="o">=</span> <span class="n">gender</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
@@ -1391,10 +1450,14 @@
 <span class="sd">    Information about faces in the image.</span>
 
 <span class="sd">    :attr list[Face] faces: Faces detected in the images.</span>
-<span class="sd">    :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</span>
-<span class="sd">    :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.</span>
-<span class="sd">    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</span>
-<span class="sd">    :attr ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.</span>
+<span class="sd">    :attr str image: (optional) Relative path of the image file if uploaded directly. Not</span>
+<span class="sd">    returned when the image is passed by URL.</span>
+<span class="sd">    :attr str source_url: (optional) Source of the image before any redirects. Not</span>
+<span class="sd">    returned when the image is uploaded.</span>
+<span class="sd">    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are</span>
+<span class="sd">    followed. Not returned when the image is uploaded.</span>
+<span class="sd">    :attr ErrorInfo error: (optional) Information about what might have caused a failure,</span>
+<span class="sd">    such as an image that is too large. Not returned when there is no error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -1407,10 +1470,14 @@
 <span class="sd">        Initialize a ImageWithFaces object.</span>
 
 <span class="sd">        :param list[Face] faces: Faces detected in the images.</span>
-<span class="sd">        :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.</span>
-<span class="sd">        :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.</span>
-<span class="sd">        :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.</span>
-<span class="sd">        :param ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.</span>
+<span class="sd">        :param str image: (optional) Relative path of the image file if uploaded directly.</span>
+<span class="sd">        Not returned when the image is passed by URL.</span>
+<span class="sd">        :param str source_url: (optional) Source of the image before any redirects. Not</span>
+<span class="sd">        returned when the image is uploaded.</span>
+<span class="sd">        :param str resolved_url: (optional) Fully resolved URL of the image after</span>
+<span class="sd">        redirects are followed. Not returned when the image is uploaded.</span>
+<span class="sd">        :param ErrorInfo error: (optional) Information about what might have caused a</span>
+<span class="sd">        failure, such as an image that is too large. Not returned when there is no error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">faces</span> <span class="o">=</span> <span class="n">faces</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
