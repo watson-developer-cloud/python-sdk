@@ -124,29 +124,41 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         Analyze text, HTML, or a public webpage.
 
         Analyzes text, HTML, or a public webpage with one or more text analysis features.
-        ### Concepts Identify general concepts that are referenced or alluded to in your
-        content. Concepts that are detected typically have an associated link to a DBpedia
-        resource.  ### Emotion Detect anger, disgust, fear, joy, or sadness that is
-        conveyed by your content. Emotion information can be returned for detected
-        entities, keywords, or user-specified target phrases found in the text.  ###
-        Entities Detect important people, places, geopolitical entities and other types of
-        entities in your content. Entity detection recognizes consecutive coreferences of
-        each entity. For example, analysis of the following text would count \"Barack
-        Obama\" and \"He\" as the same entity:  \"Barack Obama was the 44th President of
-        the United States. He took office in January 2009.\"  ### Keywords Determine the
-        most important keywords in your content. Keyword phrases are organized by
-        relevance in the results.  ### Metadata Get author information, publication date,
-        and the title of your text/HTML content.  ### Relations Recognize when two
-        entities are related, and identify the type of relation.  For example, you can
-        identify an \"awardedTo\" relation between an award and its recipient.  ###
-        Semantic Roles Parse sentences into subject-action-object form, and identify
-        entities and keywords that are subjects or objects of an action.  ### Sentiment
+        ### Concepts
+        Identify general concepts that are referenced or alluded to in your content.
+        Concepts that are detected typically have an associated link to a DBpedia
+        resource.
+        ### Emotion
+        Detect anger, disgust, fear, joy, or sadness that is conveyed by your content.
+        Emotion information can be returned for detected entities, keywords, or
+        user-specified target phrases found in the text.
+        ### Entities
+        Detect important people, places, geopolitical entities and other types of entities
+        in your content. Entity detection recognizes consecutive coreferences of each
+        entity. For example, analysis of the following text would count \"Barack Obama\"
+        and \"He\" as the same entity:
+        \"Barack Obama was the 44th President of the United States. He took office in
+        January 2009.\"
+        ### Keywords
+        Determine the most important keywords in your content. Keyword phrases are
+        organized by relevance in the results.
+        ### Metadata
+        Get author information, publication date, and the title of your text/HTML content.
+        ### Relations
+        Recognize when two entities are related, and identify the type of relation.  For
+        example, you can identify an \"awardedTo\" relation between an award and its
+        recipient.
+        ### Semantic Roles
+        Parse sentences into subject-action-object form, and identify entities and
+        keywords that are subjects or objects of an action.
+        ### Sentiment
         Determine whether your content conveys postive or negative sentiment. Sentiment
         information can be returned for detected entities, keywords, or user-specified
-        target phrases found in the text.   ### Categories Categorize your content into a
-        hierarchical 5-level taxonomy. For example, \"Leonardo DiCaprio won an Oscar\"
-        returns \"/art and entertainment/movies and tv/movies\" as the most confident
-        classification.
+        target phrases found in the text.
+        ### Categories
+        Categorize your content into a hierarchical 5-level taxonomy. For example,
+        \"Leonardo DiCaprio won an Oscar\" returns \"/art and entertainment/movies and
+        tv/movies\" as the most confident classification.
 
         :param Features features: Specific features to analyze the document for.
         :param str text: The plain text to analyze.
@@ -154,10 +166,13 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         :param str url: The web page to analyze.
         :param bool clean: Remove website elements, such as links, ads, etc.
         :param str xpath: XPath query for targeting nodes in HTML.
-        :param bool fallback_to_raw: Whether to use raw HTML content if text cleaning fails.
+        :param bool fallback_to_raw: Whether to use raw HTML content if text cleaning
+        fails.
         :param bool return_analyzed_text: Whether or not to return the analyzed text.
-        :param str language: ISO 639-1 code indicating the language to use in the analysis.
-        :param int limit_text_characters: Sets the maximum number of characters that are processed by the service.
+        :param str language: ISO 639-1 code indicating the language to use in the
+        analysis.
+        :param int limit_text_characters: Sets the maximum number of characters that are
+        processed by the service.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `AnalysisResults` response.
         :rtype: dict
@@ -260,14 +275,22 @@ class AnalysisResults(object):
     :attr str analyzed_text: (optional) Text that was used in the analysis.
     :attr str retrieved_url: (optional) URL that was used to retrieve HTML content.
     :attr Usage usage: (optional) API usage information for the request.
-    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.
-    :attr list[EntitiesResult] entities: (optional) The important entities in the specified content.
-    :attr list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.
-    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.
-    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.
-    :attr MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.
-    :attr list[RelationsResult] relations: (optional) The relationships between entities in the content.
-    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.
+    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or
+    alluded to in the specified content.
+    :attr list[EntitiesResult] entities: (optional) The important entities in the
+    specified content.
+    :attr list[KeywordsResult] keywords: (optional) The important keywords in content
+    organized by relevance.
+    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy
+    the content is categorized into.
+    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
+    conveyed by the content.
+    :attr MetadataResult metadata: (optional) The metadata holds author information,
+    publication date and the title of the text/HTML content.
+    :attr list[RelationsResult] relations: (optional) The relationships between entities
+    in the content.
+    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and
+    the objects the actions act upon.
     :attr SentimentResult sentiment: (optional) The sentiment of the content.
     """
 
@@ -292,14 +315,22 @@ class AnalysisResults(object):
         :param str analyzed_text: (optional) Text that was used in the analysis.
         :param str retrieved_url: (optional) URL that was used to retrieve HTML content.
         :param Usage usage: (optional) API usage information for the request.
-        :param list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.
-        :param list[EntitiesResult] entities: (optional) The important entities in the specified content.
-        :param list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.
-        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.
-        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.
-        :param MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.
-        :param list[RelationsResult] relations: (optional) The relationships between entities in the content.
-        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.
+        :param list[ConceptsResult] concepts: (optional) The general concepts referenced
+        or alluded to in the specified content.
+        :param list[EntitiesResult] entities: (optional) The important entities in the
+        specified content.
+        :param list[KeywordsResult] keywords: (optional) The important keywords in content
+        organized by relevance.
+        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level
+        taxonomy the content is categorized into.
+        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
+        conveyed by the content.
+        :param MetadataResult metadata: (optional) The metadata holds author information,
+        publication date and the title of the text/HTML content.
+        :param list[RelationsResult] relations: (optional) The relationships between
+        entities in the content.
+        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of
+        actions and the objects the actions act upon.
         :param SentimentResult sentiment: (optional) The sentiment of the content.
         """
         self.language = language
@@ -518,15 +549,18 @@ class CategoriesResult(object):
     The hierarchical 5-level taxonomy the content is categorized into.
 
     :attr str label: (optional) The path to the category through the taxonomy hierarchy.
-    :attr float score: (optional) Confidence score for the category classification. Higher values indicate greater confidence.
+    :attr float score: (optional) Confidence score for the category classification. Higher
+    values indicate greater confidence.
     """
 
     def __init__(self, label=None, score=None):
         """
         Initialize a CategoriesResult object.
 
-        :param str label: (optional) The path to the category through the taxonomy hierarchy.
-        :param float score: (optional) Confidence score for the category classification. Higher values indicate greater confidence.
+        :param str label: (optional) The path to the category through the taxonomy
+        hierarchy.
+        :param float score: (optional) Confidence score for the category classification.
+        Higher values indicate greater confidence.
         """
         self.label = label
         self.score = score
@@ -616,7 +650,8 @@ class ConceptsResult(object):
     The general concepts referenced or alluded to in the specified content.
 
     :attr str text: (optional) Name of the concept.
-    :attr float relevance: (optional) Relevance score between 0 and 1. Higher scores indicate greater relevance.
+    :attr float relevance: (optional) Relevance score between 0 and 1. Higher scores
+    indicate greater relevance.
     :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.
     """
 
@@ -625,8 +660,10 @@ class ConceptsResult(object):
         Initialize a ConceptsResult object.
 
         :param str text: (optional) Name of the concept.
-        :param float relevance: (optional) Relevance score between 0 and 1. Higher scores indicate greater relevance.
-        :param str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.
+        :param float relevance: (optional) Relevance score between 0 and 1. Higher scores
+        indicate greater relevance.
+        :param str dbpedia_resource: (optional) Link to the corresponding DBpedia
+        resource.
         """
         self.text = text
         self.relevance = relevance
@@ -685,7 +722,8 @@ class DisambiguationResult(object):
         Initialize a DisambiguationResult object.
 
         :param str name: (optional) Common entity name.
-        :param str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.
+        :param str dbpedia_resource: (optional) Link to the corresponding DBpedia
+        resource.
         :param list[str] subtype: (optional) Entity subtype information.
         """
         self.name = name
@@ -735,14 +773,16 @@ class DocumentEmotionResults(object):
     """
     An object containing the emotion results of a document.
 
-    :attr EmotionScores emotion: (optional) An object containing the emotion results for the document.
+    :attr EmotionScores emotion: (optional) An object containing the emotion results for
+    the document.
     """
 
     def __init__(self, emotion=None):
         """
         Initialize a DocumentEmotionResults object.
 
-        :param EmotionScores emotion: (optional) An object containing the emotion results for the document.
+        :param EmotionScores emotion: (optional) An object containing the emotion results
+        for the document.
         """
         self.emotion = emotion
 
@@ -780,7 +820,8 @@ class DocumentSentimentResults(object):
     """
     DocumentSentimentResults.
 
-    :attr str label: (optional) Indicates whether the sentiment is positive, neutral, or negative.
+    :attr str label: (optional) Indicates whether the sentiment is positive, neutral, or
+    negative.
     :attr float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
     """
 
@@ -788,7 +829,8 @@ class DocumentSentimentResults(object):
         """
         Initialize a DocumentSentimentResults object.
 
-        :param str label: (optional) Indicates whether the sentiment is positive, neutral, or negative.
+        :param str label: (optional) Indicates whether the sentiment is positive, neutral,
+        or negative.
         :param float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
         """
         self.label = label
@@ -832,16 +874,20 @@ class EmotionOptions(object):
     """
     Whether or not to return emotion analysis of the content.
 
-    :attr bool document: (optional) Set this to false to hide document-level emotion results.
-    :attr list[str] targets: (optional) Emotion results will be returned for each target string that is found in the document.
+    :attr bool document: (optional) Set this to false to hide document-level emotion
+    results.
+    :attr list[str] targets: (optional) Emotion results will be returned for each target
+    string that is found in the document.
     """
 
     def __init__(self, document=None, targets=None):
         """
         Initialize a EmotionOptions object.
 
-        :param bool document: (optional) Set this to false to hide document-level emotion results.
-        :param list[str] targets: (optional) Emotion results will be returned for each target string that is found in the document.
+        :param bool document: (optional) Set this to false to hide document-level emotion
+        results.
+        :param list[str] targets: (optional) Emotion results will be returned for each
+        target string that is found in the document.
         """
         self.document = document
         self.targets = targets
@@ -886,16 +932,20 @@ class EmotionResult(object):
     Emotion information can be returned for detected entities, keywords, or user-specified
     target phrases found in the text.
 
-    :attr DocumentEmotionResults document: (optional) The returned emotion results across the document.
-    :attr list[TargetedEmotionResults] targets: (optional) The returned emotion results per specified target.
+    :attr DocumentEmotionResults document: (optional) The returned emotion results across
+    the document.
+    :attr list[TargetedEmotionResults] targets: (optional) The returned emotion results
+    per specified target.
     """
 
     def __init__(self, document=None, targets=None):
         """
         Initialize a EmotionResult object.
 
-        :param DocumentEmotionResults document: (optional) The returned emotion results across the document.
-        :param list[TargetedEmotionResults] targets: (optional) The returned emotion results per specified target.
+        :param DocumentEmotionResults document: (optional) The returned emotion results
+        across the document.
+        :param list[TargetedEmotionResults] targets: (optional) The returned emotion
+        results per specified target.
         """
         self.document = document
         self.targets = targets
@@ -942,11 +992,16 @@ class EmotionScores(object):
     """
     EmotionScores.
 
-    :attr float anger: (optional) Anger score from 0 to 1. A higher score means that the text is more likely to convey anger.
-    :attr float disgust: (optional) Disgust score from 0 to 1. A higher score means that the text is more likely to convey disgust.
-    :attr float fear: (optional) Fear score from 0 to 1. A higher score means that the text is more likely to convey fear.
-    :attr float joy: (optional) Joy score from 0 to 1. A higher score means that the text is more likely to convey joy.
-    :attr float sadness: (optional) Sadness score from 0 to 1. A higher score means that the text is more likely to convey sadness.
+    :attr float anger: (optional) Anger score from 0 to 1. A higher score means that the
+    text is more likely to convey anger.
+    :attr float disgust: (optional) Disgust score from 0 to 1. A higher score means that
+    the text is more likely to convey disgust.
+    :attr float fear: (optional) Fear score from 0 to 1. A higher score means that the
+    text is more likely to convey fear.
+    :attr float joy: (optional) Joy score from 0 to 1. A higher score means that the text
+    is more likely to convey joy.
+    :attr float sadness: (optional) Sadness score from 0 to 1. A higher score means that
+    the text is more likely to convey sadness.
     """
 
     def __init__(self,
@@ -958,11 +1013,16 @@ class EmotionScores(object):
         """
         Initialize a EmotionScores object.
 
-        :param float anger: (optional) Anger score from 0 to 1. A higher score means that the text is more likely to convey anger.
-        :param float disgust: (optional) Disgust score from 0 to 1. A higher score means that the text is more likely to convey disgust.
-        :param float fear: (optional) Fear score from 0 to 1. A higher score means that the text is more likely to convey fear.
-        :param float joy: (optional) Joy score from 0 to 1. A higher score means that the text is more likely to convey joy.
-        :param float sadness: (optional) Sadness score from 0 to 1. A higher score means that the text is more likely to convey sadness.
+        :param float anger: (optional) Anger score from 0 to 1. A higher score means that
+        the text is more likely to convey anger.
+        :param float disgust: (optional) Disgust score from 0 to 1. A higher score means
+        that the text is more likely to convey disgust.
+        :param float fear: (optional) Fear score from 0 to 1. A higher score means that
+        the text is more likely to convey fear.
+        :param float joy: (optional) Joy score from 0 to 1. A higher score means that the
+        text is more likely to convey joy.
+        :param float sadness: (optional) Sadness score from 0 to 1. A higher score means
+        that the text is more likely to convey sadness.
         """
         self.anger = anger
         self.disgust = disgust
@@ -1022,10 +1082,14 @@ class EntitiesOptions(object):
     detected in the analyzed content.
 
     :attr int limit: (optional) Maximum number of entities to return.
-    :attr bool mentions: (optional) Set this to true to return locations of entity mentions.
-    :attr str model: (optional) Enter a custom model ID to override the standard entity detection model.
-    :attr bool sentiment: (optional) Set this to true to return sentiment information for detected entities.
-    :attr bool emotion: (optional) Set this to true to analyze emotion for detected keywords.
+    :attr bool mentions: (optional) Set this to true to return locations of entity
+    mentions.
+    :attr str model: (optional) Enter a custom model ID to override the standard entity
+    detection model.
+    :attr bool sentiment: (optional) Set this to true to return sentiment information for
+    detected entities.
+    :attr bool emotion: (optional) Set this to true to analyze emotion for detected
+    keywords.
     """
 
     def __init__(self,
@@ -1038,10 +1102,14 @@ class EntitiesOptions(object):
         Initialize a EntitiesOptions object.
 
         :param int limit: (optional) Maximum number of entities to return.
-        :param bool mentions: (optional) Set this to true to return locations of entity mentions.
-        :param str model: (optional) Enter a custom model ID to override the standard entity detection model.
-        :param bool sentiment: (optional) Set this to true to return sentiment information for detected entities.
-        :param bool emotion: (optional) Set this to true to analyze emotion for detected keywords.
+        :param bool mentions: (optional) Set this to true to return locations of entity
+        mentions.
+        :param str model: (optional) Enter a custom model ID to override the standard
+        entity detection model.
+        :param bool sentiment: (optional) Set this to true to return sentiment information
+        for detected entities.
+        :param bool emotion: (optional) Set this to true to analyze emotion for detected
+        keywords.
         """
         self.limit = limit
         self.mentions = mentions
@@ -1102,12 +1170,16 @@ class EntitiesResult(object):
 
     :attr str type: (optional) Entity type.
     :attr str text: (optional) The name of the entity.
-    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.
+    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate
+    greater relevance.
     :attr list[EntityMention] mentions: (optional) Entity mentions and locations.
     :attr int count: (optional) How many times the entity was mentioned in the text.
-    :attr EmotionScores emotion: (optional) Emotion analysis results for the entity, enabled with the "emotion" option.
-    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the entity, enabled with the "sentiment" option.
-    :attr DisambiguationResult disambiguation: (optional) Disambiguation information for the entity.
+    :attr EmotionScores emotion: (optional) Emotion analysis results for the entity,
+    enabled with the "emotion" option.
+    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the
+    entity, enabled with the "sentiment" option.
+    :attr DisambiguationResult disambiguation: (optional) Disambiguation information for
+    the entity.
     """
 
     def __init__(self,
@@ -1124,12 +1196,16 @@ class EntitiesResult(object):
 
         :param str type: (optional) Entity type.
         :param str text: (optional) The name of the entity.
-        :param float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.
+        :param float relevance: (optional) Relevance score from 0 to 1. Higher values
+        indicate greater relevance.
         :param list[EntityMention] mentions: (optional) Entity mentions and locations.
         :param int count: (optional) How many times the entity was mentioned in the text.
-        :param EmotionScores emotion: (optional) Emotion analysis results for the entity, enabled with the "emotion" option.
-        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the entity, enabled with the "sentiment" option.
-        :param DisambiguationResult disambiguation: (optional) Disambiguation information for the entity.
+        :param EmotionScores emotion: (optional) Emotion analysis results for the entity,
+        enabled with the "emotion" option.
+        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results
+        for the entity, enabled with the "sentiment" option.
+        :param DisambiguationResult disambiguation: (optional) Disambiguation information
+        for the entity.
         """
         self.type = type
         self.text = text
@@ -1207,7 +1283,8 @@ class EntityMention(object):
     EntityMention.
 
     :attr str text: (optional) Entity mention text.
-    :attr list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.
+    :attr list[int] location: (optional) Character offsets indicating the beginning and
+    end of the mention in the analyzed text.
     """
 
     def __init__(self, text=None, location=None):
@@ -1215,7 +1292,8 @@ class EntityMention(object):
         Initialize a EntityMention object.
 
         :param str text: (optional) Entity mention text.
-        :param list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.
+        :param list[int] location: (optional) Character offsets indicating the beginning
+        and end of the mention in the analyzed text.
         """
         self.text = text
         self.location = location
@@ -1303,15 +1381,25 @@ class Features(object):
     """
     Analysis features and options.
 
-    :attr ConceptsOptions concepts: (optional) Whether or not to return the concepts that are mentioned in the analyzed text.
-    :attr EmotionOptions emotion: (optional) Whether or not to extract the emotions implied in the analyzed text.
-    :attr EntitiesOptions entities: (optional) Whether or not to extract detected entity objects from the analyzed text.
-    :attr KeywordsOptions keywords: (optional) Whether or not to return the keywords in the analyzed text.
-    :attr MetadataOptions metadata: (optional) Whether or not the author, publication date, and title of the analyzed text should be returned. This parameter is only available for URL and HTML input.
-    :attr RelationsOptions relations: (optional) Whether or not to return the relationships between detected entities in the analyzed text.
-    :attr SemanticRolesOptions semantic_roles: (optional) Whether or not to return the subject-action-object relations from the analyzed text.
-    :attr SentimentOptions sentiment: (optional) Whether or not to return the overall sentiment of the analyzed text.
-    :attr CategoriesOptions categories: (optional) Whether or not to return the high level category the content is categorized as (i.e. news, art).
+    :attr ConceptsOptions concepts: (optional) Whether or not to return the concepts that
+    are mentioned in the analyzed text.
+    :attr EmotionOptions emotion: (optional) Whether or not to extract the emotions
+    implied in the analyzed text.
+    :attr EntitiesOptions entities: (optional) Whether or not to extract detected entity
+    objects from the analyzed text.
+    :attr KeywordsOptions keywords: (optional) Whether or not to return the keywords in
+    the analyzed text.
+    :attr MetadataOptions metadata: (optional) Whether or not the author, publication
+    date, and title of the analyzed text should be returned. This parameter is only
+    available for URL and HTML input.
+    :attr RelationsOptions relations: (optional) Whether or not to return the
+    relationships between detected entities in the analyzed text.
+    :attr SemanticRolesOptions semantic_roles: (optional) Whether or not to return the
+    subject-action-object relations from the analyzed text.
+    :attr SentimentOptions sentiment: (optional) Whether or not to return the overall
+    sentiment of the analyzed text.
+    :attr CategoriesOptions categories: (optional) Whether or not to return the high level
+    category the content is categorized as (i.e. news, art).
     """
 
     def __init__(self,
@@ -1327,15 +1415,25 @@ class Features(object):
         """
         Initialize a Features object.
 
-        :param ConceptsOptions concepts: (optional) Whether or not to return the concepts that are mentioned in the analyzed text.
-        :param EmotionOptions emotion: (optional) Whether or not to extract the emotions implied in the analyzed text.
-        :param EntitiesOptions entities: (optional) Whether or not to extract detected entity objects from the analyzed text.
-        :param KeywordsOptions keywords: (optional) Whether or not to return the keywords in the analyzed text.
-        :param MetadataOptions metadata: (optional) Whether or not the author, publication date, and title of the analyzed text should be returned. This parameter is only available for URL and HTML input.
-        :param RelationsOptions relations: (optional) Whether or not to return the relationships between detected entities in the analyzed text.
-        :param SemanticRolesOptions semantic_roles: (optional) Whether or not to return the subject-action-object relations from the analyzed text.
-        :param SentimentOptions sentiment: (optional) Whether or not to return the overall sentiment of the analyzed text.
-        :param CategoriesOptions categories: (optional) Whether or not to return the high level category the content is categorized as (i.e. news, art).
+        :param ConceptsOptions concepts: (optional) Whether or not to return the concepts
+        that are mentioned in the analyzed text.
+        :param EmotionOptions emotion: (optional) Whether or not to extract the emotions
+        implied in the analyzed text.
+        :param EntitiesOptions entities: (optional) Whether or not to extract detected
+        entity objects from the analyzed text.
+        :param KeywordsOptions keywords: (optional) Whether or not to return the keywords
+        in the analyzed text.
+        :param MetadataOptions metadata: (optional) Whether or not the author, publication
+        date, and title of the analyzed text should be returned. This parameter is only
+        available for URL and HTML input.
+        :param RelationsOptions relations: (optional) Whether or not to return the
+        relationships between detected entities in the analyzed text.
+        :param SemanticRolesOptions semantic_roles: (optional) Whether or not to return
+        the subject-action-object relations from the analyzed text.
+        :param SentimentOptions sentiment: (optional) Whether or not to return the overall
+        sentiment of the analyzed text.
+        :param CategoriesOptions categories: (optional) Whether or not to return the high
+        level category the content is categorized as (i.e. news, art).
         """
         self.concepts = concepts
         self.emotion = emotion
@@ -1462,14 +1560,61 @@ class Feed(object):
         return not self == other
 
 
+class InlineResponse200(object):
+    """
+    InlineResponse200.
+
+    :attr str deleted: (optional) model_id of the deleted model.
+    """
+
+    def __init__(self, deleted=None):
+        """
+        Initialize a InlineResponse200 object.
+
+        :param str deleted: (optional) model_id of the deleted model.
+        """
+        self.deleted = deleted
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a InlineResponse200 object from a json dictionary."""
+        args = {}
+        if 'deleted' in _dict:
+            args['deleted'] = _dict.get('deleted')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'deleted') and self.deleted is not None:
+            _dict['deleted'] = self.deleted
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this InlineResponse200 object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class KeywordsOptions(object):
     """
     An option indicating whether or not important keywords from the analyzed content
     should be returned.
 
     :attr int limit: (optional) Maximum number of keywords to return.
-    :attr bool sentiment: (optional) Set this to true to return sentiment information for detected keywords.
-    :attr bool emotion: (optional) Set this to true to analyze emotion for detected keywords.
+    :attr bool sentiment: (optional) Set this to true to return sentiment information for
+    detected keywords.
+    :attr bool emotion: (optional) Set this to true to analyze emotion for detected
+    keywords.
     """
 
     def __init__(self, limit=None, sentiment=None, emotion=None):
@@ -1477,8 +1622,10 @@ class KeywordsOptions(object):
         Initialize a KeywordsOptions object.
 
         :param int limit: (optional) Maximum number of keywords to return.
-        :param bool sentiment: (optional) Set this to true to return sentiment information for detected keywords.
-        :param bool emotion: (optional) Set this to true to analyze emotion for detected keywords.
+        :param bool sentiment: (optional) Set this to true to return sentiment information
+        for detected keywords.
+        :param bool emotion: (optional) Set this to true to analyze emotion for detected
+        keywords.
         """
         self.limit = limit
         self.sentiment = sentiment
@@ -1526,10 +1673,13 @@ class KeywordsResult(object):
     """
     The most important keywords in the content, organized by relevance.
 
-    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.
+    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate
+    greater relevance.
     :attr str text: (optional) The keyword text.
-    :attr EmotionScores emotion: (optional) Emotion analysis results for the keyword, enabled with the "emotion" option.
-    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the keyword, enabled with the "sentiment" option.
+    :attr EmotionScores emotion: (optional) Emotion analysis results for the keyword,
+    enabled with the "emotion" option.
+    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the
+    keyword, enabled with the "sentiment" option.
     """
 
     def __init__(self, relevance=None, text=None, emotion=None,
@@ -1537,10 +1687,13 @@ class KeywordsResult(object):
         """
         Initialize a KeywordsResult object.
 
-        :param float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.
+        :param float relevance: (optional) Relevance score from 0 to 1. Higher values
+        indicate greater relevance.
         :param str text: (optional) The keyword text.
-        :param EmotionScores emotion: (optional) Emotion analysis results for the keyword, enabled with the "emotion" option.
-        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the keyword, enabled with the "sentiment" option.
+        :param EmotionScores emotion: (optional) Emotion analysis results for the keyword,
+        enabled with the "emotion" option.
+        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results
+        for the keyword, enabled with the "sentiment" option.
         """
         self.relevance = relevance
         self.text = text
@@ -1717,7 +1870,8 @@ class MetadataResult(object):
         Initialize a MetadataResult object.
 
         :param list[Author] authors: (optional) The authors of the document.
-        :param str publication_date: (optional) The publication date in the format ISO 8601.
+        :param str publication_date: (optional) The publication date in the format ISO
+        8601.
         :param str title: (optional) The title of the document.
         :param str image: (optional) URL of a prominent image on the webpage.
         :param list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
@@ -1797,7 +1951,8 @@ class Model(object):
 
         :param str status: (optional) Shows as available if the model is ready for use.
         :param str model_id: (optional) Unique model ID.
-        :param str language: (optional) ISO 639-1 code indicating the language of the model.
+        :param str language: (optional) ISO 639-1 code indicating the language of the
+        model.
         :param str description: (optional) Model description.
         """
         self.status = status
@@ -1852,7 +2007,8 @@ class RelationArgument(object):
     RelationArgument.
 
     :attr list[RelationEntity] entities: (optional)
-    :attr list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.
+    :attr list[int] location: (optional) Character offsets indicating the beginning and
+    end of the mention in the analyzed text.
     :attr str text: (optional) Text that corresponds to the argument.
     """
 
@@ -1861,7 +2017,8 @@ class RelationArgument(object):
         Initialize a RelationArgument object.
 
         :param list[RelationEntity] entities: (optional)
-        :param list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.
+        :param list[int] location: (optional) Character offsets indicating the beginning
+        and end of the mention in the analyzed text.
         :param str text: (optional) Text that corresponds to the argument.
         """
         self.entities = entities
@@ -1972,7 +2129,8 @@ class RelationsOptions(object):
         """
         Initialize a RelationsOptions object.
 
-        :param str model: (optional) Enter a custom model ID to override the default model.
+        :param str model: (optional) Enter a custom model ID to override the default
+        model.
         """
         self.model = model
 
@@ -2010,20 +2168,24 @@ class RelationsResult(object):
     """
     The relations between entities found in the content.
 
-    :attr float score: (optional) Confidence score for the relation. Higher values indicate greater confidence.
+    :attr float score: (optional) Confidence score for the relation. Higher values
+    indicate greater confidence.
     :attr str sentence: (optional) The sentence that contains the relation.
     :attr str type: (optional) The type of the relation.
-    :attr list[RelationArgument] arguments: (optional) The extracted relation objects from the text.
+    :attr list[RelationArgument] arguments: (optional) The extracted relation objects from
+    the text.
     """
 
     def __init__(self, score=None, sentence=None, type=None, arguments=None):
         """
         Initialize a RelationsResult object.
 
-        :param float score: (optional) Confidence score for the relation. Higher values indicate greater confidence.
+        :param float score: (optional) Confidence score for the relation. Higher values
+        indicate greater confidence.
         :param str sentence: (optional) The sentence that contains the relation.
         :param str type: (optional) The type of the relation.
-        :param list[RelationArgument] arguments: (optional) The extracted relation objects from the text.
+        :param list[RelationArgument] arguments: (optional) The extracted relation objects
+        from the text.
         """
         self.score = score
         self.sentence = sentence
@@ -2292,8 +2454,10 @@ class SemanticRolesOptions(object):
     the analyzed content.
 
     :attr int limit: (optional) Maximum number of semantic_roles results to return.
-    :attr bool keywords: (optional) Set this to true to return keyword information for subjects and objects.
-    :attr bool entities: (optional) Set this to true to return entity information for subjects and objects.
+    :attr bool keywords: (optional) Set this to true to return keyword information for
+    subjects and objects.
+    :attr bool entities: (optional) Set this to true to return entity information for
+    subjects and objects.
     """
 
     def __init__(self, limit=None, keywords=None, entities=None):
@@ -2301,8 +2465,10 @@ class SemanticRolesOptions(object):
         Initialize a SemanticRolesOptions object.
 
         :param int limit: (optional) Maximum number of semantic_roles results to return.
-        :param bool keywords: (optional) Set this to true to return keyword information for subjects and objects.
-        :param bool entities: (optional) Set this to true to return entity information for subjects and objects.
+        :param bool keywords: (optional) Set this to true to return keyword information
+        for subjects and objects.
+        :param bool entities: (optional) Set this to true to return entity information for
+        subjects and objects.
         """
         self.limit = limit
         self.keywords = keywords
@@ -2350,8 +2516,10 @@ class SemanticRolesResult(object):
     """
     The object containing the actions and the objects the actions act upon.
 
-    :attr str sentence: (optional) Sentence from the source that contains the subject, action, and object.
-    :attr SemanticRolesSubject subject: (optional) The extracted subject from the sentence.
+    :attr str sentence: (optional) Sentence from the source that contains the subject,
+    action, and object.
+    :attr SemanticRolesSubject subject: (optional) The extracted subject from the
+    sentence.
     :attr SemanticRolesAction action: (optional) The extracted action from the sentence.
     :attr SemanticRolesObject object: (optional) The extracted object from the sentence.
     """
@@ -2360,10 +2528,14 @@ class SemanticRolesResult(object):
         """
         Initialize a SemanticRolesResult object.
 
-        :param str sentence: (optional) Sentence from the source that contains the subject, action, and object.
-        :param SemanticRolesSubject subject: (optional) The extracted subject from the sentence.
-        :param SemanticRolesAction action: (optional) The extracted action from the sentence.
-        :param SemanticRolesObject object: (optional) The extracted object from the sentence.
+        :param str sentence: (optional) Sentence from the source that contains the
+        subject, action, and object.
+        :param SemanticRolesSubject subject: (optional) The extracted subject from the
+        sentence.
+        :param SemanticRolesAction action: (optional) The extracted action from the
+        sentence.
+        :param SemanticRolesObject object: (optional) The extracted object from the
+        sentence.
         """
         self.sentence = sentence
         self.subject = subject
@@ -2537,16 +2709,20 @@ class SentimentOptions(object):
     An option specifying if sentiment of detected entities, keywords, or phrases should be
     returned.
 
-    :attr bool document: (optional) Set this to false to hide document-level sentiment results.
-    :attr list[str] targets: (optional) Sentiment results will be returned for each target string that is found in the document.
+    :attr bool document: (optional) Set this to false to hide document-level sentiment
+    results.
+    :attr list[str] targets: (optional) Sentiment results will be returned for each target
+    string that is found in the document.
     """
 
     def __init__(self, document=None, targets=None):
         """
         Initialize a SentimentOptions object.
 
-        :param bool document: (optional) Set this to false to hide document-level sentiment results.
-        :param list[str] targets: (optional) Sentiment results will be returned for each target string that is found in the document.
+        :param bool document: (optional) Set this to false to hide document-level
+        sentiment results.
+        :param list[str] targets: (optional) Sentiment results will be returned for each
+        target string that is found in the document.
         """
         self.document = document
         self.targets = targets
@@ -2590,7 +2766,8 @@ class SentimentResult(object):
     The sentiment of the content.
 
     :attr DocumentSentimentResults document: (optional) The document level sentiment.
-    :attr list[TargetedSentimentResults] targets: (optional) The targeted sentiment to analyze.
+    :attr list[TargetedSentimentResults] targets: (optional) The targeted sentiment to
+    analyze.
     """
 
     def __init__(self, document=None, targets=None):
@@ -2598,7 +2775,8 @@ class SentimentResult(object):
         Initialize a SentimentResult object.
 
         :param DocumentSentimentResults document: (optional) The document level sentiment.
-        :param list[TargetedSentimentResults] targets: (optional) The targeted sentiment to analyze.
+        :param list[TargetedSentimentResults] targets: (optional) The targeted sentiment
+        to analyze.
         """
         self.document = document
         self.targets = targets
@@ -2646,7 +2824,8 @@ class TargetedEmotionResults(object):
     An object containing the emotion results for the target.
 
     :attr str text: (optional) Targeted text.
-    :attr EmotionScores emotion: (optional) An object containing the emotion results for the target.
+    :attr EmotionScores emotion: (optional) An object containing the emotion results for
+    the target.
     """
 
     def __init__(self, text=None, emotion=None):
@@ -2654,7 +2833,8 @@ class TargetedEmotionResults(object):
         Initialize a TargetedEmotionResults object.
 
         :param str text: (optional) Targeted text.
-        :param EmotionScores emotion: (optional) An object containing the emotion results for the target.
+        :param EmotionScores emotion: (optional) An object containing the emotion results
+        for the target.
         """
         self.text = text
         self.emotion = emotion

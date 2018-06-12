@@ -14,11 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The IBM Watson Discovery Service is a cognitive search and content analytics engine that
-you can add to applications to identify patterns, trends and actionable insights to drive
-better decision-making. Securely unify structured and unstructured data with pre-enriched
-content, and use a simplified query language to eliminate the need for manual filtering of
-results.
+The IBM Watson&trade; Discovery Service is a cognitive search and content analytics engine
+that you can add to applications to identify patterns, trends and actionable insights to
+drive better decision-making. Securely unify structured and unstructured data with
+pre-enriched content, and use a simplified query language to eliminate the need for manual
+filtering of results.
 """
 
 from __future__ import absolute_import
@@ -111,9 +111,9 @@ class DiscoveryV1(WatsonService):
         Create an environment.
 
         Creates a new environment for private data. An environment must be created before
-        collections can be created.   **Note**: You can create only one environment for
-        private data per service instance. An attempt to create another environment
-        results in an error.
+        collections can be created.
+        **Note**: You can create only one environment for private data per service
+        instance. An attempt to create another environment results in an error.
 
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
@@ -221,7 +221,8 @@ class DiscoveryV1(WatsonService):
         specified collections.
 
         :param str environment_id: The ID of the environment.
-        :param list[str] collection_ids: A comma-separated list of collection IDs to be queried against.
+        :param list[str] collection_ids: A comma-separated list of collection IDs to be
+        queried against.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ListCollectionFieldsResponse` response.
         :rtype: dict
@@ -298,21 +299,27 @@ class DiscoveryV1(WatsonService):
         """
         Add configuration.
 
-        Creates a new configuration.  If the input configuration contains the
-        `configuration_id`, `created`, or `updated` properties, then they are ignored and
-        overridden by the system, and an error is not returned so that the overridden
-        fields do not need to be removed when copying a configuration.  The configuration
-        can contain unrecognized JSON fields. Any such fields are ignored and do not
-        generate an error. This makes it easier to use newer configuration files with
-        older versions of the API and the service. It also makes it possible for the
-        tooling to add additional metadata and information to the configuration.
+        Creates a new configuration.
+        If the input configuration contains the `configuration_id`, `created`, or
+        `updated` properties, then they are ignored and overridden by the system, and an
+        error is not returned so that the overridden fields do not need to be removed when
+        copying a configuration.
+        The configuration can contain unrecognized JSON fields. Any such fields are
+        ignored and do not generate an error. This makes it easier to use newer
+        configuration files with older versions of the API and the service. It also makes
+        it possible for the tooling to add additional metadata and information to the
+        configuration.
 
         :param str environment_id: The ID of the environment.
         :param str name: The name of the configuration.
         :param str description: The description of the configuration, if available.
-        :param Conversions conversions: The document conversion settings for the configuration.
-        :param list[Enrichment] enrichments: An array of document enrichment settings for the configuration.
-        :param list[NormalizationOperation] normalizations: Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
+        :param Conversions conversions: The document conversion settings for the
+        configuration.
+        :param list[Enrichment] enrichments: An array of document enrichment settings for
+        the configuration.
+        :param list[NormalizationOperation] normalizations: Defines operations that can be
+        used to transform the final output JSON into a normalized form. Operations are
+        executed in the order that they appear in the array.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Configuration` response.
         :rtype: dict
@@ -457,21 +464,27 @@ class DiscoveryV1(WatsonService):
         """
         Update a configuration.
 
-        Replaces an existing configuration.   * Completely replaces the original
-        configuration.   * The `configuration_id`, `updated`, and `created` fields are
-        accepted in the request, but they are ignored, and an error is not generated. It
-        is also acceptable for users to submit an updated configuration with none of the
-        three properties.   * Documents are processed with a snapshot of the configuration
-        as it was at the time the document was submitted to be ingested. This means that
-        already submitted documents will not see any updates made to the configuration.
+        Replaces an existing configuration.
+          * Completely replaces the original configuration.
+          * The `configuration_id`, `updated`, and `created` fields are accepted in the
+        request, but they are ignored, and an error is not generated. It is also
+        acceptable for users to submit an updated configuration with none of the three
+        properties.
+          * Documents are processed with a snapshot of the configuration as it was at the
+        time the document was submitted to be ingested. This means that already submitted
+        documents will not see any updates made to the configuration.
 
         :param str environment_id: The ID of the environment.
         :param str configuration_id: The ID of the configuration.
         :param str name: The name of the configuration.
         :param str description: The description of the configuration, if available.
-        :param Conversions conversions: The document conversion settings for the configuration.
-        :param list[Enrichment] enrichments: An array of document enrichment settings for the configuration.
-        :param list[NormalizationOperation] normalizations: Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
+        :param Conversions conversions: The document conversion settings for the
+        configuration.
+        :param list[Enrichment] enrichments: An array of document enrichment settings for
+        the configuration.
+        :param list[NormalizationOperation] normalizations: Defines operations that can be
+        used to transform the final output JSON into a normalized form. Operations are
+        executed in the order that they appear in the array.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Configuration` response.
         :rtype: dict
@@ -537,11 +550,29 @@ class DiscoveryV1(WatsonService):
         processed. The document is not added to the index.
 
         :param str environment_id: The ID of the environment.
-        :param str configuration: The configuration to use to process the document. If this part is provided, then the provided configuration is used to process the document. If the `configuration_id` is also provided (both are present at the same time), then request is rejected. The maximum supported configuration size is 1 MB. Configuration parts larger than 1 MB are rejected. See the `GET /configurations/{configuration_id}` operation for an example configuration.
-        :param str step: Specify to only run the input document through the given step instead of running the input document through the entire ingestion workflow. Valid values are `convert`, `enrich`, and `normalize`.
-        :param str configuration_id: The ID of the configuration to use to process the document. If the `configuration` form part is also provided (both are present at the same time), then request will be rejected.
-        :param file file: The content of the document to ingest. The maximum supported file size is 50 megabytes. Files larger than 50 megabytes is rejected.
-        :param str metadata: If you're using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {   \"Creator\": \"Johnny Appleseed\",   \"Subject\": \"Apples\" } ```.
+        :param str configuration: The configuration to use to process the document. If
+        this part is provided, then the provided configuration is used to process the
+        document. If the `configuration_id` is also provided (both are present at the same
+        time), then request is rejected. The maximum supported configuration size is 1 MB.
+        Configuration parts larger than 1 MB are rejected.
+        See the `GET /configurations/{configuration_id}` operation for an example
+        configuration.
+        :param str step: Specify to only run the input document through the given step
+        instead of running the input document through the entire ingestion workflow. Valid
+        values are `convert`, `enrich`, and `normalize`.
+        :param str configuration_id: The ID of the configuration to use to process the
+        document. If the `configuration` form part is also provided (both are present at
+        the same time), then request will be rejected.
+        :param file file: The content of the document to ingest. The maximum supported
+        file size is 50 megabytes. Files larger than 50 megabytes is rejected.
+        :param str metadata: If you're using the Data Crawler to upload your documents,
+        you can test a document against the type of metadata that the Data Crawler might
+        send. The maximum supported metadata file size is 1 MB. Metadata parts larger than
+        1 MB are rejected.
+        Example:  ``` {
+          \"Creator\": \"Johnny Appleseed\",
+          \"Subject\": \"Apples\"
+        } ```.
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
         :param dict headers: A `dict` containing the request headers
@@ -604,8 +635,10 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str name: The name of the collection to be created.
         :param str description: A description of the collection.
-        :param str configuration_id: The ID of the configuration in which the collection is to be created.
-        :param str language: The language of the documents stored in the collection, in the form of an ISO 639-1 language code.
+        :param str configuration_id: The ID of the configuration in which the collection
+        is to be created.
+        :param str language: The language of the documents stored in the collection, in
+        the form of an ISO 639-1 language code.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Collection` response.
         :rtype: dict
@@ -763,7 +796,8 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str name: The name of the collection.
         :param str description: A description of the collection.
-        :param str configuration_id: The ID of the configuration in which the collection is to be updated.
+        :param str configuration_id: The ID of the configuration in which the collection
+        is to be updated.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Collection` response.
         :rtype: dict
@@ -802,12 +836,22 @@ class DiscoveryV1(WatsonService):
         Create or update expansion list.
 
         Create or replace the Expansion list for this collection. The maximum number of
-        expanded terms per collection is `500`. The current expansion list is replaced
-        with the uploaded content.
+        expanded terms per collection is `500`.
+        The current expansion list is replaced with the uploaded content.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param list[Expansion] expansions: An array of query expansion definitions.    Each object in the `expansions` array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an `expanded_terms` array. When found in a query, all items in the `expanded_terms` array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of `input_terms` and an array of `expanded_terms`. When items in the `input_terms` array are present in a query, they are expanded using the items listed in the `expanded_terms` array.
+        :param list[Expansion] expansions: An array of query expansion definitions.
+         Each object in the `expansions` array represents a term or set of terms that will
+        be expanded into other terms. Each expansion object can be configured so that all
+        terms are expanded to all other terms in the object - bi-directional, or a set
+        list of terms can be expanded into a second list of terms - uni-directional.
+         To create a bi-directional expansion specify an `expanded_terms` array. When
+        found in a query, all items in the `expanded_terms` array are then expanded to the
+        other items in the same array.
+         To create a uni-directional expansion, specify both an array of `input_terms` and
+        an array of `expanded_terms`. When items in the `input_terms` array are present in
+        a query, they are expanded using the items listed in the `expanded_terms` array.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Expansions` response.
         :rtype: dict
@@ -911,25 +955,35 @@ class DiscoveryV1(WatsonService):
         """
         Add a document.
 
-        Add a document to a collection with optional metadata.    * The `version` query
-        parameter is still required.    * Returns immediately after the system has
-        accepted the document for processing.    * The user must provide document content,
-        metadata, or both. If the request is missing both document content and metadata,
-        it is rejected.    * The user can set the `Content-Type` parameter on the `file`
-        part to indicate the media type of the document. If the `Content-Type` parameter
-        is missing or is one of the generic media types (for example,
-        `application/octet-stream`), then the service attempts to automatically detect the
-        document's media type.    * The following field names are reserved and will be
-        filtered out if present after normalization: `id`, `score`, `highlight`, and any
-        field with the prefix of: `_`, `+`, or `-`    * Fields with empty name values
-        after normalization are filtered out before indexing.    * Fields containing the
-        following characters after normalization are filtered out before indexing: `#` and
-        `,`.
+        Add a document to a collection with optional metadata.
+          * The `version` query parameter is still required.
+          * Returns immediately after the system has accepted the document for processing.
+          * The user must provide document content, metadata, or both. If the request is
+        missing both document content and metadata, it is rejected.
+          * The user can set the `Content-Type` parameter on the `file` part to indicate
+        the media type of the document. If the `Content-Type` parameter is missing or is
+        one of the generic media types (for example, `application/octet-stream`), then the
+        service attempts to automatically detect the document's media type.
+          * The following field names are reserved and will be filtered out if present
+        after normalization: `id`, `score`, `highlight`, and any field with the prefix of:
+        `_`, `+`, or `-`
+          * Fields with empty name values after normalization are filtered out before
+        indexing.
+          * Fields containing the following characters after normalization are filtered
+        out before indexing: `#` and `,`.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param file file: The content of the document to ingest. The maximum supported file size is 50 megabytes. Files larger than 50 megabytes is rejected.
-        :param str metadata: If you're using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {   \"Creator\": \"Johnny Appleseed\",   \"Subject\": \"Apples\" } ```.
+        :param file file: The content of the document to ingest. The maximum supported
+        file size is 50 megabytes. Files larger than 50 megabytes is rejected.
+        :param str metadata: If you're using the Data Crawler to upload your documents,
+        you can test a document against the type of metadata that the Data Crawler might
+        send. The maximum supported metadata file size is 1 MB. Metadata parts larger than
+        1 MB are rejected.
+        Example:  ``` {
+          \"Creator\": \"Johnny Appleseed\",
+          \"Subject\": \"Apples\"
+        } ```.
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
         :param dict headers: A `dict` containing the request headers
@@ -1059,8 +1113,16 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
-        :param file file: The content of the document to ingest. The maximum supported file size is 50 megabytes. Files larger than 50 megabytes is rejected.
-        :param str metadata: If you're using the Data Crawler to upload your documents, you can test a document against the type of metadata that the Data Crawler might send. The maximum supported metadata file size is 1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {   \"Creator\": \"Johnny Appleseed\",   \"Subject\": \"Apples\" } ```.
+        :param file file: The content of the document to ingest. The maximum supported
+        file size is 50 megabytes. Files larger than 50 megabytes is rejected.
+        :param str metadata: If you're using the Data Crawler to upload your documents,
+        you can test a document against the type of metadata that the Data Crawler might
+        send. The maximum supported metadata file size is 1 MB. Metadata parts larger than
+        1 MB are rejected.
+        Example:  ``` {
+          \"Creator\": \"Johnny Appleseed\",
+          \"Subject\": \"Apples\"
+        } ```.
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
         :param dict headers: A `dict` containing the request headers
@@ -1131,21 +1193,57 @@ class DiscoveryV1(WatsonService):
         more details.
 
         :param str environment_id: The ID of the environment.
-        :param list[str] collection_ids: A comma-separated list of collection IDs to be queried against.
-        :param str filter: A cacheable query that limits the documents returned to exclude any documents that don't mention the query content. Filter searches are better for metadata type searches and when you are trying to get a sense of concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full enrichments and full text, but with the most relevant documents listed first. Use a query search when you want to find the most relevant search results. You cannot use `natural_language_query` and `query` at the same time.
-        :param str natural_language_query: A natural language query that returns relevant documents by utilizing training data and natural language understanding. You cannot use `natural_language_query` and `query` at the same time.
-        :param str aggregation: An aggregation search uses combinations of filters and query search to return an exact answer. Aggregations are useful for building applications, because you can use them to build lists, tables, and time series. For a full list of possible aggregrations, see the Query reference.
+        :param list[str] collection_ids: A comma-separated list of collection IDs to be
+        queried against.
+        :param str filter: A cacheable query that limits the documents returned to exclude
+        any documents that don't mention the query content. Filter searches are better for
+        metadata type searches and when you are trying to get a sense of concepts in the
+        data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first. Use
+        a query search when you want to find the most relevant search results. You cannot
+        use `natural_language_query` and `query` at the same time.
+        :param str natural_language_query: A natural language query that returns relevant
+        documents by utilizing training data and natural language understanding. You
+        cannot use `natural_language_query` and `query` at the same time.
+        :param str aggregation: An aggregation search uses combinations of filters and
+        query search to return an exact answer. Aggregations are useful for building
+        applications, because you can use them to build lists, tables, and time series.
+        For a full list of possible aggregrations, see the Query reference.
         :param int count: Number of documents to return.
-        :param list[str] return_fields: A comma separated list of the portion of the document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For example, if the total number of results that are returned is 10, and the offset is 8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the default sort direction if no prefix is specified.
-        :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `<em></em>` tags around the matching query terms. Defaults to false.
-        :param bool deduplicate: When `true` and used with a Watson Discovery News collection, duplicate results (based on the contents of the `title` field) are removed. Duplicate comparison is limited to the current query only, `offset` is not considered. Defaults to `false`. This parameter is currently Beta functionality.
-        :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
-        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
+        :param list[str] return_fields: A comma separated list of the portion of the
+        document hierarchy to return.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10, and the offset is
+        8, it returns the last two results.
+        :param list[str] sort: A comma separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
+        :param bool highlight: When true a highlight field is returned for each result
+        which contains the fields that match the query with `<em></em>` tags around the
+        matching query terms. Defaults to false.
+        :param bool deduplicate: When `true` and used with a Watson Discovery News
+        collection, duplicate results (based on the contents of the `title` field) are
+        removed. Duplicate comparison is limited to the current query only, `offset` is
+        not considered. Defaults to `false`. This parameter is currently Beta
+        functionality.
+        :param str deduplicate_field: When specified, duplicate results based on the field
+        specified are removed from the returned results. Duplicate comparison is limited
+        to the current query only, `offset` is not considered. This parameter is currently
+        Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity
+        to the document IDs specified in the `similar.document_ids` parameter. The default
+        is `false`.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that
+        will be used to find similar documents.
+        **Note:** If the `natural_language_query` parameter is also specified, it will be
+        used to expand the scope of the document similarity search to include the natural
+        language query. Other query parameters, such as `filter` and `query` are
+        subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will
+        be used as a basis for comparison to identify similar documents. If not specified,
+        the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
@@ -1212,20 +1310,52 @@ class DiscoveryV1(WatsonService):
         more details on the query language.
 
         :param str environment_id: The ID of the environment.
-        :param list[str] collection_ids: A comma-separated list of collection IDs to be queried against.
-        :param str filter: A cacheable query that limits the documents returned to exclude any documents that don't mention the query content. Filter searches are better for metadata type searches and when you are trying to get a sense of concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full enrichments and full text, but with the most relevant documents listed first. Use a query search when you want to find the most relevant search results. You cannot use `natural_language_query` and `query` at the same time.
-        :param str natural_language_query: A natural language query that returns relevant documents by utilizing training data and natural language understanding. You cannot use `natural_language_query` and `query` at the same time.
-        :param str aggregation: An aggregation search uses combinations of filters and query search to return an exact answer. Aggregations are useful for building applications, because you can use them to build lists, tables, and time series. For a full list of possible aggregrations, see the Query reference.
+        :param list[str] collection_ids: A comma-separated list of collection IDs to be
+        queried against.
+        :param str filter: A cacheable query that limits the documents returned to exclude
+        any documents that don't mention the query content. Filter searches are better for
+        metadata type searches and when you are trying to get a sense of concepts in the
+        data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first. Use
+        a query search when you want to find the most relevant search results. You cannot
+        use `natural_language_query` and `query` at the same time.
+        :param str natural_language_query: A natural language query that returns relevant
+        documents by utilizing training data and natural language understanding. You
+        cannot use `natural_language_query` and `query` at the same time.
+        :param str aggregation: An aggregation search uses combinations of filters and
+        query search to return an exact answer. Aggregations are useful for building
+        applications, because you can use them to build lists, tables, and time series.
+        For a full list of possible aggregrations, see the Query reference.
         :param int count: Number of documents to return.
-        :param list[str] return_fields: A comma separated list of the portion of the document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For example, if the total number of results that are returned is 10, and the offset is 8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the default sort direction if no prefix is specified.
-        :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `<em></em>` tags around the matching query terms. Defaults to false.
-        :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
-        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
+        :param list[str] return_fields: A comma separated list of the portion of the
+        document hierarchy to return.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10, and the offset is
+        8, it returns the last two results.
+        :param list[str] sort: A comma separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
+        :param bool highlight: When true a highlight field is returned for each result
+        which contains the fields that match the query with `<em></em>` tags around the
+        matching query terms. Defaults to false.
+        :param str deduplicate_field: When specified, duplicate results based on the field
+        specified are removed from the returned results. Duplicate comparison is limited
+        to the current query only, `offset` is not considered. This parameter is currently
+        Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity
+        to the document IDs specified in the `similar.document_ids` parameter. The default
+        is `false`.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that
+        will be used to find similar documents.
+        **Note:** If the `natural_language_query` parameter is also specified, it will be
+        used to expand the scope of the document similarity search to include the natural
+        language query. Other query parameters, such as `filter` and `query` are
+        subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will
+        be used as a basis for comparison to identify similar documents. If not specified,
+        the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryNoticesResponse` response.
         :rtype: dict
@@ -1295,24 +1425,66 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that limits the documents returned to exclude any documents that don't mention the query content. Filter searches are better for metadata type searches and when you are trying to get a sense of concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full enrichments and full text, but with the most relevant documents listed first. Use a query search when you want to find the most relevant search results. You cannot use `natural_language_query` and `query` at the same time.
-        :param str natural_language_query: A natural language query that returns relevant documents by utilizing training data and natural language understanding. You cannot use `natural_language_query` and `query` at the same time.
-        :param bool passages: A passages query that returns the most relevant passages from the results.
-        :param str aggregation: An aggregation search uses combinations of filters and query search to return an exact answer. Aggregations are useful for building applications, because you can use them to build lists, tables, and time series. For a full list of possible aggregrations, see the Query reference.
+        :param str filter: A cacheable query that limits the documents returned to exclude
+        any documents that don't mention the query content. Filter searches are better for
+        metadata type searches and when you are trying to get a sense of concepts in the
+        data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first. Use
+        a query search when you want to find the most relevant search results. You cannot
+        use `natural_language_query` and `query` at the same time.
+        :param str natural_language_query: A natural language query that returns relevant
+        documents by utilizing training data and natural language understanding. You
+        cannot use `natural_language_query` and `query` at the same time.
+        :param bool passages: A passages query that returns the most relevant passages
+        from the results.
+        :param str aggregation: An aggregation search uses combinations of filters and
+        query search to return an exact answer. Aggregations are useful for building
+        applications, because you can use them to build lists, tables, and time series.
+        For a full list of possible aggregrations, see the Query reference.
         :param int count: Number of documents to return.
-        :param list[str] return_fields: A comma separated list of the portion of the document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For example, if the total number of results that are returned is 10, and the offset is 8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the default sort direction if no prefix is specified.
-        :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `<em></em>` tags around the matching query terms. Defaults to false.
-        :param list[str] passages_fields: A comma-separated list of fields that passages are drawn from. If this parameter not specified, then all top-level fields are included.
-        :param int passages_count: The maximum number of passages to return. The search returns fewer passages if the requested total is not found. The default is `10`. The maximum is `100`.
-        :param int passages_characters: The approximate number of characters that any one passage will have. The default is `400`. The minimum is `50`. The maximum is `2000`.
-        :param bool deduplicate: When `true` and used with a Watson Discovery News collection, duplicate results (based on the contents of the `title` field) are removed. Duplicate comparison is limited to the current query only, `offset` is not considered. Defaults to `false`. This parameter is currently Beta functionality.
-        :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
-        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
+        :param list[str] return_fields: A comma separated list of the portion of the
+        document hierarchy to return.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10, and the offset is
+        8, it returns the last two results.
+        :param list[str] sort: A comma separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
+        :param bool highlight: When true a highlight field is returned for each result
+        which contains the fields that match the query with `<em></em>` tags around the
+        matching query terms. Defaults to false.
+        :param list[str] passages_fields: A comma-separated list of fields that passages
+        are drawn from. If this parameter not specified, then all top-level fields are
+        included.
+        :param int passages_count: The maximum number of passages to return. The search
+        returns fewer passages if the requested total is not found. The default is `10`.
+        The maximum is `100`.
+        :param int passages_characters: The approximate number of characters that any one
+        passage will have. The default is `400`. The minimum is `50`. The maximum is
+        `2000`.
+        :param bool deduplicate: When `true` and used with a Watson Discovery News
+        collection, duplicate results (based on the contents of the `title` field) are
+        removed. Duplicate comparison is limited to the current query only, `offset` is
+        not considered. Defaults to `false`. This parameter is currently Beta
+        functionality.
+        :param str deduplicate_field: When specified, duplicate results based on the field
+        specified are removed from the returned results. Duplicate comparison is limited
+        to the current query only, `offset` is not considered. This parameter is currently
+        Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity
+        to the document IDs specified in the `similar.document_ids` parameter. The default
+        is `false`.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that
+        will be used to find similar documents.
+        **Note:** If the `natural_language_query` parameter is also specified, it will be
+        used to expand the scope of the document similarity search to include the natural
+        language query. Other query parameters, such as `filter` and `query` are
+        subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will
+        be used as a basis for comparison to identify similar documents. If not specified,
+        the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
@@ -1373,11 +1545,18 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str feature: The entity query feature to perform. Supported features are `disambiguate` and `similar_entities`.
-        :param QueryEntitiesEntity entity: A text string that appears within the entity text field.
-        :param QueryEntitiesContext context: Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
-        :param int count: The number of results to return. The default is `10`. The maximum is `1000`.
-        :param int evidence_count: The number of evidence items to return for each result. The default is `0`. The maximum number of evidence items per query is 10,000.
+        :param str feature: The entity query feature to perform. Supported features are
+        `disambiguate` and `similar_entities`.
+        :param QueryEntitiesEntity entity: A text string that appears within the entity
+        text field.
+        :param QueryEntitiesContext context: Entity text to provide context for the
+        queried entity and rank based on that association. For example, if you wanted to
+        query the city of London in England your query would look for `London` with the
+        context of `England`.
+        :param int count: The number of results to return. The default is `10`. The
+        maximum is `1000`.
+        :param int evidence_count: The number of evidence items to return for each result.
+        The default is `0`. The maximum number of evidence items per query is 10,000.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryEntitiesResponse` response.
         :rtype: dict
@@ -1444,23 +1623,61 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that limits the documents returned to exclude any documents that don't mention the query content. Filter searches are better for metadata type searches and when you are trying to get a sense of concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full enrichments and full text, but with the most relevant documents listed first. Use a query search when you want to find the most relevant search results. You cannot use `natural_language_query` and `query` at the same time.
-        :param str natural_language_query: A natural language query that returns relevant documents by utilizing training data and natural language understanding. You cannot use `natural_language_query` and `query` at the same time.
-        :param bool passages: A passages query that returns the most relevant passages from the results.
-        :param str aggregation: An aggregation search uses combinations of filters and query search to return an exact answer. Aggregations are useful for building applications, because you can use them to build lists, tables, and time series. For a full list of possible aggregrations, see the Query reference.
+        :param str filter: A cacheable query that limits the documents returned to exclude
+        any documents that don't mention the query content. Filter searches are better for
+        metadata type searches and when you are trying to get a sense of concepts in the
+        data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first. Use
+        a query search when you want to find the most relevant search results. You cannot
+        use `natural_language_query` and `query` at the same time.
+        :param str natural_language_query: A natural language query that returns relevant
+        documents by utilizing training data and natural language understanding. You
+        cannot use `natural_language_query` and `query` at the same time.
+        :param bool passages: A passages query that returns the most relevant passages
+        from the results.
+        :param str aggregation: An aggregation search uses combinations of filters and
+        query search to return an exact answer. Aggregations are useful for building
+        applications, because you can use them to build lists, tables, and time series.
+        For a full list of possible aggregrations, see the Query reference.
         :param int count: Number of documents to return.
-        :param list[str] return_fields: A comma separated list of the portion of the document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For example, if the total number of results that are returned is 10, and the offset is 8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort on. You can optionally specify a sort direction by prefixing the field with `-` for descending or `+` for ascending. Ascending is the default sort direction if no prefix is specified.
-        :param bool highlight: When true a highlight field is returned for each result which contains the fields that match the query with `<em></em>` tags around the matching query terms. Defaults to false.
-        :param list[str] passages_fields: A comma-separated list of fields that passages are drawn from. If this parameter not specified, then all top-level fields are included.
-        :param int passages_count: The maximum number of passages to return. The search returns fewer passages if the requested total is not found. The default is `10`. The maximum is `100`.
-        :param int passages_characters: The approximate number of characters that any one passage will have. The default is `400`. The minimum is `50`. The maximum is `2000`.
-        :param str deduplicate_field: When specified, duplicate results based on the field specified are removed from the returned results. Duplicate comparison is limited to the current query only, `offset` is not considered. This parameter is currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity to the document IDs specified in the `similar.document_ids` parameter. The default is `false`.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs that will be used to find similar documents.   **Note:** If the `natural_language_query` parameter is also specified, it will be used to expand the scope of the document similarity search to include the natural language query. Other query parameters, such as `filter` and `query` are subsequently applied and reduce the query scope.
-        :param list[str] similar_fields: A comma-separated list of field names that will be used as a basis for comparison to identify similar documents. If not specified, the entire document is used for comparison.
+        :param list[str] return_fields: A comma separated list of the portion of the
+        document hierarchy to return.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10, and the offset is
+        8, it returns the last two results.
+        :param list[str] sort: A comma separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
+        :param bool highlight: When true a highlight field is returned for each result
+        which contains the fields that match the query with `<em></em>` tags around the
+        matching query terms. Defaults to false.
+        :param list[str] passages_fields: A comma-separated list of fields that passages
+        are drawn from. If this parameter not specified, then all top-level fields are
+        included.
+        :param int passages_count: The maximum number of passages to return. The search
+        returns fewer passages if the requested total is not found. The default is `10`.
+        The maximum is `100`.
+        :param int passages_characters: The approximate number of characters that any one
+        passage will have. The default is `400`. The minimum is `50`. The maximum is
+        `2000`.
+        :param str deduplicate_field: When specified, duplicate results based on the field
+        specified are removed from the returned results. Duplicate comparison is limited
+        to the current query only, `offset` is not considered. This parameter is currently
+        Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity
+        to the document IDs specified in the `similar.document_ids` parameter. The default
+        is `false`.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that
+        will be used to find similar documents.
+        **Note:** If the `natural_language_query` parameter is also specified, it will be
+        used to expand the scope of the document similarity search to include the natural
+        language query. Other query parameters, such as `filter` and `query` are
+        subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will
+        be used as a basis for comparison to identify similar documents. If not specified,
+        the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryNoticesResponse` response.
         :rtype: dict
@@ -1521,12 +1738,20 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param list[QueryRelationsEntity] entities: An array of entities to find relationships for.
-        :param QueryEntitiesContext context: Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
-        :param str sort: The sorting method for the relationships, can be `score` or `frequency`. `frequency` is the number of unique times each entity is identified. The default is `score`.
+        :param list[QueryRelationsEntity] entities: An array of entities to find
+        relationships for.
+        :param QueryEntitiesContext context: Entity text to provide context for the
+        queried entity and rank based on that association. For example, if you wanted to
+        query the city of London in England your query would look for `London` with the
+        context of `England`.
+        :param str sort: The sorting method for the relationships, can be `score` or
+        `frequency`. `frequency` is the number of unique times each entity is identified.
+        The default is `score`.
         :param QueryRelationsFilter filter: Filters to apply to the relationship query.
-        :param int count: The number of results to return. The default is `10`. The maximum is `1000`.
-        :param int evidence_count: The number of evidence items to return for each result. The default is `0`. The maximum number of evidence items per query is 10,000.
+        :param int count: The number of results to return. The default is `10`. The
+        maximum is `1000`.
+        :param int evidence_count: The number of evidence items to return for each result.
+        The default is `0`. The maximum number of evidence items per query is 10,000.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryRelationsResponse` response.
         :rtype: dict
@@ -1964,9 +2189,10 @@ class DiscoveryV1(WatsonService):
         Delete labeled data.
 
         Deletes all data associated with a specified customer ID. The method has no effect
-        if no data is associated with the customer ID.   You associate a customer ID with
-        data by passing the **X-Watson-Metadata** header with a request that passes data.
-        For more information about personal data and customer IDs, see [Information
+        if no data is associated with the customer ID.
+        You associate a customer ID with data by passing the **X-Watson-Metadata** header
+        with a request that passes data. For more information about personal data and
+        customer IDs, see [Information
         security](https://console.bluemix.net/docs/services/discovery/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
@@ -2000,7 +2226,8 @@ class AggregationResult(object):
 
     :attr str key: (optional) Key that matched the aggregation type.
     :attr int matching_results: (optional) Number of matching results.
-    :attr list[QueryAggregation] aggregations: (optional) Aggregations returned in the case of chained aggregations.
+    :attr list[QueryAggregation] aggregations: (optional) Aggregations returned in the
+    case of chained aggregations.
     """
 
     def __init__(self, key=None, matching_results=None, aggregations=None):
@@ -2009,7 +2236,8 @@ class AggregationResult(object):
 
         :param str key: (optional) Key that matched the aggregation type.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned in the case of chained aggregations.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned in
+        the case of chained aggregations.
         """
         self.key = key
         self.matching_results = matching_results
@@ -2064,14 +2292,23 @@ class Collection(object):
     :attr str collection_id: (optional) The unique identifier of the collection.
     :attr str name: (optional) The name of the collection.
     :attr str description: (optional) The description of the collection.
-    :attr datetime created: (optional) The creation date of the collection in the format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
-    :attr datetime updated: (optional) The timestamp of when the collection was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime created: (optional) The creation date of the collection in the format
+    yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
+    :attr datetime updated: (optional) The timestamp of when the collection was last
+    updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str status: (optional) The status of the collection.
-    :attr str configuration_id: (optional) The unique identifier of the collection's configuration.
-    :attr str language: (optional) The language of the documents stored in the collection. Permitted values include `en` (English), `de` (German), and `es` (Spanish).
-    :attr DocumentCounts document_counts: (optional) The object providing information about the documents in the collection. Present only when retrieving details of a collection.
-    :attr CollectionDiskUsage disk_usage: (optional) The object providing information about the disk usage of the collection. Present only when retrieving details of a collection.
-    :attr TrainingStatus training_status: (optional) Provides information about the status of relevance training for collection.
+    :attr str configuration_id: (optional) The unique identifier of the collection's
+    configuration.
+    :attr str language: (optional) The language of the documents stored in the collection.
+    Permitted values include `en` (English), `de` (German), and `es` (Spanish).
+    :attr DocumentCounts document_counts: (optional) The object providing information
+    about the documents in the collection. Present only when retrieving details of a
+    collection.
+    :attr CollectionDiskUsage disk_usage: (optional) The object providing information
+    about the disk usage of the collection. Present only when retrieving details of a
+    collection.
+    :attr TrainingStatus training_status: (optional) Provides information about the status
+    of relevance training for collection.
     """
 
     def __init__(self,
@@ -2092,14 +2329,24 @@ class Collection(object):
         :param str collection_id: (optional) The unique identifier of the collection.
         :param str name: (optional) The name of the collection.
         :param str description: (optional) The description of the collection.
-        :param datetime created: (optional) The creation date of the collection in the format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
-        :param datetime updated: (optional) The timestamp of when the collection was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param datetime created: (optional) The creation date of the collection in the
+        format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
+        :param datetime updated: (optional) The timestamp of when the collection was last
+        updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str status: (optional) The status of the collection.
-        :param str configuration_id: (optional) The unique identifier of the collection's configuration.
-        :param str language: (optional) The language of the documents stored in the collection. Permitted values include `en` (English), `de` (German), and `es` (Spanish).
-        :param DocumentCounts document_counts: (optional) The object providing information about the documents in the collection. Present only when retrieving details of a collection.
-        :param CollectionDiskUsage disk_usage: (optional) The object providing information about the disk usage of the collection. Present only when retrieving details of a collection.
-        :param TrainingStatus training_status: (optional) Provides information about the status of relevance training for collection.
+        :param str configuration_id: (optional) The unique identifier of the collection's
+        configuration.
+        :param str language: (optional) The language of the documents stored in the
+        collection. Permitted values include `en` (English), `de` (German), and `es`
+        (Spanish).
+        :param DocumentCounts document_counts: (optional) The object providing information
+        about the documents in the collection. Present only when retrieving details of a
+        collection.
+        :param CollectionDiskUsage disk_usage: (optional) The object providing information
+        about the disk usage of the collection. Present only when retrieving details of a
+        collection.
+        :param TrainingStatus training_status: (optional) Provides information about the
+        status of relevance training for collection.
         """
         self.collection_id = collection_id
         self.name = name
@@ -2239,7 +2486,8 @@ class CollectionUsage(object):
     Summary of the collection usage in the environment.
 
     :attr int available: (optional) Number of active collections in the environment.
-    :attr int maximum_allowed: (optional) Total number of collections allowed in the environment.
+    :attr int maximum_allowed: (optional) Total number of collections allowed in the
+    environment.
     """
 
     def __init__(self, available=None, maximum_allowed=None):
@@ -2247,7 +2495,8 @@ class CollectionUsage(object):
         Initialize a CollectionUsage object.
 
         :param int available: (optional) Number of active collections in the environment.
-        :param int maximum_allowed: (optional) Total number of collections allowed in the environment.
+        :param int maximum_allowed: (optional) Total number of collections allowed in the
+        environment.
         """
         self.available = available
         self.maximum_allowed = maximum_allowed
@@ -2293,12 +2542,18 @@ class Configuration(object):
 
     :attr str configuration_id: (optional) The unique identifier of the configuration.
     :attr str name: The name of the configuration.
-    :attr datetime created: (optional) The creation date of the configuration in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr datetime updated: (optional) The timestamp of when the configuration was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime created: (optional) The creation date of the configuration in the
+    format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime updated: (optional) The timestamp of when the configuration was last
+    updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str description: (optional) The description of the configuration, if available.
-    :attr Conversions conversions: (optional) The document conversion settings for the configuration.
-    :attr list[Enrichment] enrichments: (optional) An array of document enrichment settings for the configuration.
-    :attr list[NormalizationOperation] normalizations: (optional) Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
+    :attr Conversions conversions: (optional) The document conversion settings for the
+    configuration.
+    :attr list[Enrichment] enrichments: (optional) An array of document enrichment
+    settings for the configuration.
+    :attr list[NormalizationOperation] normalizations: (optional) Defines operations that
+    can be used to transform the final output JSON into a normalized form. Operations are
+    executed in the order that they appear in the array.
     """
 
     def __init__(self,
@@ -2314,13 +2569,21 @@ class Configuration(object):
         Initialize a Configuration object.
 
         :param str name: The name of the configuration.
-        :param str configuration_id: (optional) The unique identifier of the configuration.
-        :param datetime created: (optional) The creation date of the configuration in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param datetime updated: (optional) The timestamp of when the configuration was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param str description: (optional) The description of the configuration, if available.
-        :param Conversions conversions: (optional) The document conversion settings for the configuration.
-        :param list[Enrichment] enrichments: (optional) An array of document enrichment settings for the configuration.
-        :param list[NormalizationOperation] normalizations: (optional) Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
+        :param str configuration_id: (optional) The unique identifier of the
+        configuration.
+        :param datetime created: (optional) The creation date of the configuration in the
+        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param datetime updated: (optional) The timestamp of when the configuration was
+        last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param str description: (optional) The description of the configuration, if
+        available.
+        :param Conversions conversions: (optional) The document conversion settings for
+        the configuration.
+        :param list[Enrichment] enrichments: (optional) An array of document enrichment
+        settings for the configuration.
+        :param list[NormalizationOperation] normalizations: (optional) Defines operations
+        that can be used to transform the final output JSON into a normalized form.
+        Operations are executed in the order that they appear in the array.
         """
         self.configuration_id = configuration_id
         self.name = name
@@ -2409,7 +2672,9 @@ class Conversions(object):
     :attr WordSettings word: (optional) A list of Word conversion settings.
     :attr HtmlSettings html: (optional) A list of HTML conversion settings.
     :attr SegmentSettings segment: (optional) A list of Document Segmentation settings.
-    :attr list[NormalizationOperation] json_normalizations: (optional) Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
+    :attr list[NormalizationOperation] json_normalizations: (optional) Defines operations
+    that can be used to transform the final output JSON into a normalized form. Operations
+    are executed in the order that they appear in the array.
     """
 
     def __init__(self,
@@ -2424,8 +2689,11 @@ class Conversions(object):
         :param PdfSettings pdf: (optional) A list of PDF conversion settings.
         :param WordSettings word: (optional) A list of Word conversion settings.
         :param HtmlSettings html: (optional) A list of HTML conversion settings.
-        :param SegmentSettings segment: (optional) A list of Document Segmentation settings.
-        :param list[NormalizationOperation] json_normalizations: (optional) Defines operations that can be used to transform the final output JSON into a normalized form. Operations are executed in the order that they appear in the array.
+        :param SegmentSettings segment: (optional) A list of Document Segmentation
+        settings.
+        :param list[NormalizationOperation] json_normalizations: (optional) Defines
+        operations that can be used to transform the final output JSON into a normalized
+        form. Operations are executed in the order that they appear in the array.
         """
         self.pdf = pdf
         self.word = word
@@ -2489,16 +2757,20 @@ class DeleteCollectionResponse(object):
     """
     DeleteCollectionResponse.
 
-    :attr str collection_id: The unique identifier of the collection that is being deleted.
-    :attr str status: The status of the collection. The status of a successful deletion operation is `deleted`.
+    :attr str collection_id: The unique identifier of the collection that is being
+    deleted.
+    :attr str status: The status of the collection. The status of a successful deletion
+    operation is `deleted`.
     """
 
     def __init__(self, collection_id, status):
         """
         Initialize a DeleteCollectionResponse object.
 
-        :param str collection_id: The unique identifier of the collection that is being deleted.
-        :param str status: The status of the collection. The status of a successful deletion operation is `deleted`.
+        :param str collection_id: The unique identifier of the collection that is being
+        deleted.
+        :param str status: The status of the collection. The status of a successful
+        deletion operation is `deleted`.
         """
         self.collection_id = collection_id
         self.status = status
@@ -2550,7 +2822,8 @@ class DeleteConfigurationResponse(object):
     DeleteConfigurationResponse.
 
     :attr str configuration_id: The unique identifier for the configuration.
-    :attr str status: Status of the configuration. A deleted configuration has the status deleted.
+    :attr str status: Status of the configuration. A deleted configuration has the status
+    deleted.
     :attr list[Notice] notices: (optional) An array of notice messages, if any.
     """
 
@@ -2559,7 +2832,8 @@ class DeleteConfigurationResponse(object):
         Initialize a DeleteConfigurationResponse object.
 
         :param str configuration_id: The unique identifier for the configuration.
-        :param str status: Status of the configuration. A deleted configuration has the status deleted.
+        :param str status: Status of the configuration. A deleted configuration has the
+        status deleted.
         :param list[Notice] notices: (optional) An array of notice messages, if any.
         """
         self.configuration_id = configuration_id
@@ -2620,7 +2894,8 @@ class DeleteDocumentResponse(object):
     DeleteDocumentResponse.
 
     :attr str document_id: (optional) The unique identifier of the document.
-    :attr str status: (optional) Status of the document. A deleted document has the status deleted.
+    :attr str status: (optional) Status of the document. A deleted document has the status
+    deleted.
     """
 
     def __init__(self, document_id=None, status=None):
@@ -2628,7 +2903,8 @@ class DeleteDocumentResponse(object):
         Initialize a DeleteDocumentResponse object.
 
         :param str document_id: (optional) The unique identifier of the document.
-        :param str status: (optional) Status of the document. A deleted document has the status deleted.
+        :param str status: (optional) Status of the document. A deleted document has the
+        status deleted.
         """
         self.document_id = document_id
         self.status = status
@@ -2731,12 +3007,18 @@ class DiskUsage(object):
     """
     Summary of the disk usage statistics for the environment.
 
-    :attr int used_bytes: (optional) Number of bytes used on the environment's disk capacity.
-    :attr int maximum_allowed_bytes: (optional) Total number of bytes available in the environment's disk capacity.
-    :attr int total_bytes: (optional) **Deprecated**: Total number of bytes available in the environment's disk capacity.
-    :attr str used: (optional) **Deprecated**: Amount of disk capacity used, in KB or GB format.
-    :attr str total: (optional) **Deprecated**: Total amount of the environment's disk capacity, in KB or GB format.
-    :attr float percent_used: (optional) **Deprecated**: Percentage of the environment's disk capacity that is being used.
+    :attr int used_bytes: (optional) Number of bytes used on the environment's disk
+    capacity.
+    :attr int maximum_allowed_bytes: (optional) Total number of bytes available in the
+    environment's disk capacity.
+    :attr int total_bytes: (optional) **Deprecated**: Total number of bytes available in
+    the environment's disk capacity.
+    :attr str used: (optional) **Deprecated**: Amount of disk capacity used, in KB or GB
+    format.
+    :attr str total: (optional) **Deprecated**: Total amount of the environment's disk
+    capacity, in KB or GB format.
+    :attr float percent_used: (optional) **Deprecated**: Percentage of the environment's
+    disk capacity that is being used.
     """
 
     def __init__(self,
@@ -2749,12 +3031,18 @@ class DiskUsage(object):
         """
         Initialize a DiskUsage object.
 
-        :param int used_bytes: (optional) Number of bytes used on the environment's disk capacity.
-        :param int maximum_allowed_bytes: (optional) Total number of bytes available in the environment's disk capacity.
-        :param int total_bytes: (optional) **Deprecated**: Total number of bytes available in the environment's disk capacity.
-        :param str used: (optional) **Deprecated**: Amount of disk capacity used, in KB or GB format.
-        :param str total: (optional) **Deprecated**: Total amount of the environment's disk capacity, in KB or GB format.
-        :param float percent_used: (optional) **Deprecated**: Percentage of the environment's disk capacity that is being used.
+        :param int used_bytes: (optional) Number of bytes used on the environment's disk
+        capacity.
+        :param int maximum_allowed_bytes: (optional) Total number of bytes available in
+        the environment's disk capacity.
+        :param int total_bytes: (optional) **Deprecated**: Total number of bytes available
+        in the environment's disk capacity.
+        :param str used: (optional) **Deprecated**: Amount of disk capacity used, in KB or
+        GB format.
+        :param str total: (optional) **Deprecated**: Total amount of the environment's
+        disk capacity, in KB or GB format.
+        :param float percent_used: (optional) **Deprecated**: Percentage of the
+        environment's disk capacity that is being used.
         """
         self.used_bytes = used_bytes
         self.maximum_allowed_bytes = maximum_allowed_bytes
@@ -2820,7 +3108,8 @@ class DocumentAccepted(object):
 
     :attr str document_id: (optional) The unique identifier of the ingested document.
     :attr str status: (optional) Status of the document in the ingestion process.
-    :attr list[Notice] notices: (optional) Array of notices produced by the document-ingestion process.
+    :attr list[Notice] notices: (optional) Array of notices produced by the
+    document-ingestion process.
     """
 
     def __init__(self, document_id=None, status=None, notices=None):
@@ -2829,7 +3118,8 @@ class DocumentAccepted(object):
 
         :param str document_id: (optional) The unique identifier of the ingested document.
         :param str status: (optional) Status of the document in the ingestion process.
-        :param list[Notice] notices: (optional) Array of notices produced by the document-ingestion process.
+        :param list[Notice] notices: (optional) Array of notices produced by the
+        document-ingestion process.
         """
         self.document_id = document_id
         self.status = status
@@ -2879,18 +3169,24 @@ class DocumentCounts(object):
     """
     DocumentCounts.
 
-    :attr int available: (optional) The total number of available documents in the collection.
-    :attr int processing: (optional) The number of documents in the collection that are currently being processed.
-    :attr int failed: (optional) The number of documents in the collection that failed to be ingested.
+    :attr int available: (optional) The total number of available documents in the
+    collection.
+    :attr int processing: (optional) The number of documents in the collection that are
+    currently being processed.
+    :attr int failed: (optional) The number of documents in the collection that failed to
+    be ingested.
     """
 
     def __init__(self, available=None, processing=None, failed=None):
         """
         Initialize a DocumentCounts object.
 
-        :param int available: (optional) The total number of available documents in the collection.
-        :param int processing: (optional) The number of documents in the collection that are currently being processed.
-        :param int failed: (optional) The number of documents in the collection that failed to be ingested.
+        :param int available: (optional) The total number of available documents in the
+        collection.
+        :param int processing: (optional) The number of documents in the collection that
+        are currently being processed.
+        :param int failed: (optional) The number of documents in the collection that
+        failed to be ingested.
         """
         self.available = available
         self.processing = processing
@@ -2992,14 +3288,18 @@ class DocumentStatus(object):
 
     :attr str document_id: The unique identifier of the document.
     :attr str configuration_id: (optional) The unique identifier for the configuration.
-    :attr datetime created: (optional) The creation date of the document in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr datetime updated: (optional) Date of the most recent document update, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime created: (optional) The creation date of the document in the format
+    yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime updated: (optional) Date of the most recent document update, in the
+    format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str status: Status of the document in the ingestion process.
     :attr str status_description: Description of the document status.
     :attr str filename: (optional) Name of the original source file (if available).
     :attr str file_type: (optional) The type of the original source file.
-    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted as a hexadecimal string).
-    :attr list[Notice] notices: Array of notices produced by the document-ingestion process.
+    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted as a
+    hexadecimal string).
+    :attr list[Notice] notices: Array of notices produced by the document-ingestion
+    process.
     """
 
     def __init__(self,
@@ -3019,13 +3319,18 @@ class DocumentStatus(object):
         :param str document_id: The unique identifier of the document.
         :param str status: Status of the document in the ingestion process.
         :param str status_description: Description of the document status.
-        :param list[Notice] notices: Array of notices produced by the document-ingestion process.
-        :param str configuration_id: (optional) The unique identifier for the configuration.
-        :param datetime created: (optional) The creation date of the document in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param datetime updated: (optional) Date of the most recent document update, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param list[Notice] notices: Array of notices produced by the document-ingestion
+        process.
+        :param str configuration_id: (optional) The unique identifier for the
+        configuration.
+        :param datetime created: (optional) The creation date of the document in the
+        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param datetime updated: (optional) Date of the most recent document update, in
+        the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str filename: (optional) Name of the original source file (if available).
         :param str file_type: (optional) The type of the original source file.
-        :param str sha1: (optional) The SHA-1 hash of the original source file (formatted as a hexadecimal string).
+        :param str sha1: (optional) The SHA-1 hash of the original source file (formatted
+        as a hexadecimal string).
         """
         self.document_id = document_id
         self.configuration_id = configuration_id
@@ -3130,12 +3435,27 @@ class Enrichment(object):
     Enrichment.
 
     :attr str description: (optional) Describes what the enrichment step does.
-    :attr str destination_field: Field where enrichments will be stored. This field must already exist or be at most 1 level deeper than an existing field. For example, if `text` is a top-level field with no sub-fields, `text.foo` is a valid destination but `text.foo.bar` is not.
+    :attr str destination_field: Field where enrichments will be stored. This field must
+    already exist or be at most 1 level deeper than an existing field. For example, if
+    `text` is a top-level field with no sub-fields, `text.foo` is a valid destination but
+    `text.foo.bar` is not.
     :attr str source_field: Field to be enriched.
-    :attr bool overwrite: (optional) Indicates that the enrichments will overwrite the destination_field field if it already exists.
-    :attr str enrichment_name: Name of the enrichment service to call. Current options are `natural_language_understanding` and `elements`.   When using `natual_language_understanding`, the `options` object must contain Natural Language Understanding Options.   When using `elements` the `options` object must contain Element Classification options. Additionally, when using the `elements` enrichment the configuration specified and files ingested must meet all the criteria specified in [the documentation](https://console.bluemix.net/docs/services/discovery/element-classification.html)     Previous API versions also supported `alchemy_language`.
-    :attr bool ignore_downstream_errors: (optional) If true, then most errors generated during the enrichment process will be treated as warnings and will not cause the document to fail processing.
-    :attr EnrichmentOptions options: (optional) A list of options specific to the enrichment.
+    :attr bool overwrite: (optional) Indicates that the enrichments will overwrite the
+    destination_field field if it already exists.
+    :attr str enrichment_name: Name of the enrichment service to call. Current options are
+    `natural_language_understanding` and `elements`.
+     When using `natual_language_understanding`, the `options` object must contain Natural
+    Language Understanding Options.
+     When using `elements` the `options` object must contain Element Classification
+    options. Additionally, when using the `elements` enrichment the configuration
+    specified and files ingested must meet all the criteria specified in [the
+    documentation](https://console.bluemix.net/docs/services/discovery/element-classification.html)
+     Previous API versions also supported `alchemy_language`.
+    :attr bool ignore_downstream_errors: (optional) If true, then most errors generated
+    during the enrichment process will be treated as warnings and will not cause the
+    document to fail processing.
+    :attr EnrichmentOptions options: (optional) A list of options specific to the
+    enrichment.
     """
 
     def __init__(self,
@@ -3149,13 +3469,28 @@ class Enrichment(object):
         """
         Initialize a Enrichment object.
 
-        :param str destination_field: Field where enrichments will be stored. This field must already exist or be at most 1 level deeper than an existing field. For example, if `text` is a top-level field with no sub-fields, `text.foo` is a valid destination but `text.foo.bar` is not.
+        :param str destination_field: Field where enrichments will be stored. This field
+        must already exist or be at most 1 level deeper than an existing field. For
+        example, if `text` is a top-level field with no sub-fields, `text.foo` is a valid
+        destination but `text.foo.bar` is not.
         :param str source_field: Field to be enriched.
-        :param str enrichment_name: Name of the enrichment service to call. Current options are `natural_language_understanding` and `elements`.   When using `natual_language_understanding`, the `options` object must contain Natural Language Understanding Options.   When using `elements` the `options` object must contain Element Classification options. Additionally, when using the `elements` enrichment the configuration specified and files ingested must meet all the criteria specified in [the documentation](https://console.bluemix.net/docs/services/discovery/element-classification.html)     Previous API versions also supported `alchemy_language`.
+        :param str enrichment_name: Name of the enrichment service to call. Current
+        options are `natural_language_understanding` and `elements`.
+         When using `natual_language_understanding`, the `options` object must contain
+        Natural Language Understanding Options.
+         When using `elements` the `options` object must contain Element Classification
+        options. Additionally, when using the `elements` enrichment the configuration
+        specified and files ingested must meet all the criteria specified in [the
+        documentation](https://console.bluemix.net/docs/services/discovery/element-classification.html)
+         Previous API versions also supported `alchemy_language`.
         :param str description: (optional) Describes what the enrichment step does.
-        :param bool overwrite: (optional) Indicates that the enrichments will overwrite the destination_field field if it already exists.
-        :param bool ignore_downstream_errors: (optional) If true, then most errors generated during the enrichment process will be treated as warnings and will not cause the document to fail processing.
-        :param EnrichmentOptions options: (optional) A list of options specific to the enrichment.
+        :param bool overwrite: (optional) Indicates that the enrichments will overwrite
+        the destination_field field if it already exists.
+        :param bool ignore_downstream_errors: (optional) If true, then most errors
+        generated during the enrichment process will be treated as warnings and will not
+        cause the document to fail processing.
+        :param EnrichmentOptions options: (optional) A list of options specific to the
+        enrichment.
         """
         self.description = description
         self.destination_field = destination_field
@@ -3241,16 +3576,20 @@ class EnrichmentOptions(object):
     """
     Options which are specific to a particular enrichment.
 
-    :attr NluEnrichmentFeatures features: (optional) An object representing the enrichment features that will be applied to the specified field.
-    :attr str model: (optional) *For use with `elements` enrichments only.* The element extraction model to use. Models available are: `contract`.
+    :attr NluEnrichmentFeatures features: (optional) An object representing the enrichment
+    features that will be applied to the specified field.
+    :attr str model: (optional) *For use with `elements` enrichments only.* The element
+    extraction model to use. Models available are: `contract`.
     """
 
     def __init__(self, features=None, model=None):
         """
         Initialize a EnrichmentOptions object.
 
-        :param NluEnrichmentFeatures features: (optional) An object representing the enrichment features that will be applied to the specified field.
-        :param str model: (optional) *For use with `elements` enrichments only.* The element extraction model to use. Models available are: `contract`.
+        :param NluEnrichmentFeatures features: (optional) An object representing the
+        enrichment features that will be applied to the specified field.
+        :param str model: (optional) *For use with `elements` enrichments only.* The
+        element extraction model to use. Models available are: `contract`.
         """
         self.features = features
         self.model = model
@@ -3297,12 +3636,16 @@ class Environment(object):
     :attr str environment_id: (optional) Unique identifier for the environment.
     :attr str name: (optional) Name that identifies the environment.
     :attr str description: (optional) Description of the environment.
-    :attr datetime created: (optional) Creation date of the environment, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr datetime updated: (optional) Date of most recent environment update, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime created: (optional) Creation date of the environment, in the format
+    yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime updated: (optional) Date of most recent environment update, in the
+    format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str status: (optional) Status of the environment.
-    :attr bool read_only: (optional) If true, then the environment contains read-only collections which are maintained by IBM.
+    :attr bool read_only: (optional) If true, then the environment contains read-only
+    collections which are maintained by IBM.
     :attr int size: (optional) **Deprecated**: Size of the environment.
-    :attr IndexCapacity index_capacity: (optional) Details about the resource usage and capacity of the environment.
+    :attr IndexCapacity index_capacity: (optional) Details about the resource usage and
+    capacity of the environment.
     """
 
     def __init__(self,
@@ -3321,12 +3664,16 @@ class Environment(object):
         :param str environment_id: (optional) Unique identifier for the environment.
         :param str name: (optional) Name that identifies the environment.
         :param str description: (optional) Description of the environment.
-        :param datetime created: (optional) Creation date of the environment, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param datetime updated: (optional) Date of most recent environment update, in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param datetime created: (optional) Creation date of the environment, in the
+        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param datetime updated: (optional) Date of most recent environment update, in the
+        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str status: (optional) Status of the environment.
-        :param bool read_only: (optional) If true, then the environment contains read-only collections which are maintained by IBM.
+        :param bool read_only: (optional) If true, then the environment contains read-only
+        collections which are maintained by IBM.
         :param int size: (optional) **Deprecated**: Size of the environment.
-        :param IndexCapacity index_capacity: (optional) Details about the resource usage and capacity of the environment.
+        :param IndexCapacity index_capacity: (optional) Details about the resource usage
+        and capacity of the environment.
         """
         self.environment_id = environment_id
         self.name = name
@@ -3406,7 +3753,8 @@ class EnvironmentDocuments(object):
     Summary of the document usage statistics for the environment.
 
     :attr int indexed: (optional) Number of documents indexed for the environment.
-    :attr int maximum_allowed: (optional) Total number of documents allowed in the environment's capacity.
+    :attr int maximum_allowed: (optional) Total number of documents allowed in the
+    environment's capacity.
     """
 
     def __init__(self, indexed=None, maximum_allowed=None):
@@ -3414,7 +3762,8 @@ class EnvironmentDocuments(object):
         Initialize a EnvironmentDocuments object.
 
         :param int indexed: (optional) Number of documents indexed for the environment.
-        :param int maximum_allowed: (optional) Total number of documents allowed in the environment's capacity.
+        :param int maximum_allowed: (optional) Total number of documents allowed in the
+        environment's capacity.
         """
         self.indexed = indexed
         self.maximum_allowed = maximum_allowed
@@ -3460,16 +3809,21 @@ class Expansion(object):
     example, you could have expansions for the word `hot` in one object, and expansions
     for the word `cold` in another.
 
-    :attr list[str] input_terms: (optional) A list of terms that will be expanded for this expansion. If specified, only the items in this list are expanded.
-    :attr list[str] expanded_terms: A list of terms that this expansion will be expanded to. If specified without `input_terms`, it also functions as the input term list.
+    :attr list[str] input_terms: (optional) A list of terms that will be expanded for this
+    expansion. If specified, only the items in this list are expanded.
+    :attr list[str] expanded_terms: A list of terms that this expansion will be expanded
+    to. If specified without `input_terms`, it also functions as the input term list.
     """
 
     def __init__(self, expanded_terms, input_terms=None):
         """
         Initialize a Expansion object.
 
-        :param list[str] expanded_terms: A list of terms that this expansion will be expanded to. If specified without `input_terms`, it also functions as the input term list.
-        :param list[str] input_terms: (optional) A list of terms that will be expanded for this expansion. If specified, only the items in this list are expanded.
+        :param list[str] expanded_terms: A list of terms that this expansion will be
+        expanded to. If specified without `input_terms`, it also functions as the input
+        term list.
+        :param list[str] input_terms: (optional) A list of terms that will be expanded for
+        this expansion. If specified, only the items in this list are expanded.
         """
         self.input_terms = input_terms
         self.expanded_terms = expanded_terms
@@ -3516,14 +3870,34 @@ class Expansions(object):
     """
     The query expansion definitions for the specified collection.
 
-    :attr list[Expansion] expansions: An array of query expansion definitions.    Each object in the `expansions` array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an `expanded_terms` array. When found in a query, all items in the `expanded_terms` array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of `input_terms` and an array of `expanded_terms`. When items in the `input_terms` array are present in a query, they are expanded using the items listed in the `expanded_terms` array.
+    :attr list[Expansion] expansions: An array of query expansion definitions.
+     Each object in the `expansions` array represents a term or set of terms that will be
+    expanded into other terms. Each expansion object can be configured so that all terms
+    are expanded to all other terms in the object - bi-directional, or a set list of terms
+    can be expanded into a second list of terms - uni-directional.
+     To create a bi-directional expansion specify an `expanded_terms` array. When found in
+    a query, all items in the `expanded_terms` array are then expanded to the other items
+    in the same array.
+     To create a uni-directional expansion, specify both an array of `input_terms` and an
+    array of `expanded_terms`. When items in the `input_terms` array are present in a
+    query, they are expanded using the items listed in the `expanded_terms` array.
     """
 
     def __init__(self, expansions):
         """
         Initialize a Expansions object.
 
-        :param list[Expansion] expansions: An array of query expansion definitions.    Each object in the `expansions` array represents a term or set of terms that will be expanded into other terms. Each expansion object can be configured so that all terms are expanded to all other terms in the object - bi-directional, or a set list of terms can be expanded into a second list of terms - uni-directional.   To create a bi-directional expansion specify an `expanded_terms` array. When found in a query, all items in the `expanded_terms` array are then expanded to the other items in the same array.   To create a uni-directional expansion, specify both an array of `input_terms` and an array of `expanded_terms`. When items in the `input_terms` array are present in a query, they are expanded using the items listed in the `expanded_terms` array.
+        :param list[Expansion] expansions: An array of query expansion definitions.
+         Each object in the `expansions` array represents a term or set of terms that will
+        be expanded into other terms. Each expansion object can be configured so that all
+        terms are expanded to all other terms in the object - bi-directional, or a set
+        list of terms can be expanded into a second list of terms - uni-directional.
+         To create a bi-directional expansion specify an `expanded_terms` array. When
+        found in a query, all items in the `expanded_terms` array are then expanded to the
+        other items in the same array.
+         To create a uni-directional expansion, specify both an array of `input_terms` and
+        an array of `expanded_terms`. When items in the `input_terms` array are present in
+        a query, they are expanded using the items listed in the `expanded_terms` array.
         """
         self.expansions = expansions
 
@@ -3801,10 +4175,13 @@ class IndexCapacity(object):
     """
     Details about the resource usage and capacity of the environment.
 
-    :attr EnvironmentDocuments documents: (optional) Summary of the document usage statistics for the environment.
+    :attr EnvironmentDocuments documents: (optional) Summary of the document usage
+    statistics for the environment.
     :attr DiskUsage disk_usage: (optional) Summary of the disk usage of the environment.
-    :attr CollectionUsage collections: (optional) Summary of the collection usage in the environment.
-    :attr MemoryUsage memory_usage: (optional) **Deprecated**: Summary of the memory usage of the environment.
+    :attr CollectionUsage collections: (optional) Summary of the collection usage in the
+    environment.
+    :attr MemoryUsage memory_usage: (optional) **Deprecated**: Summary of the memory usage
+    of the environment.
     """
 
     def __init__(self,
@@ -3815,10 +4192,14 @@ class IndexCapacity(object):
         """
         Initialize a IndexCapacity object.
 
-        :param EnvironmentDocuments documents: (optional) Summary of the document usage statistics for the environment.
-        :param DiskUsage disk_usage: (optional) Summary of the disk usage of the environment.
-        :param CollectionUsage collections: (optional) Summary of the collection usage in the environment.
-        :param MemoryUsage memory_usage: (optional) **Deprecated**: Summary of the memory usage of the environment.
+        :param EnvironmentDocuments documents: (optional) Summary of the document usage
+        statistics for the environment.
+        :param DiskUsage disk_usage: (optional) Summary of the disk usage of the
+        environment.
+        :param CollectionUsage collections: (optional) Summary of the collection usage in
+        the environment.
+        :param MemoryUsage memory_usage: (optional) **Deprecated**: Summary of the memory
+        usage of the environment.
         """
         self.documents = documents
         self.disk_usage = disk_usage
@@ -3872,23 +4253,27 @@ class IndexCapacity(object):
 
 class ListCollectionFieldsResponse(object):
     """
-    The list of fetched fields.  The fields are returned using a fully qualified name
-    format, however, the format differs slightly from that used by the query operations.
-     * Fields which contain nested JSON objects are assigned a type of "nested".    *
-    Fields which belong to a nested object are prefixed with `.properties` (for example,
-    `warnings.properties.severity` means that the `warnings` object has a property called
-    `severity`).    * Fields returned from the News collection are prefixed with
+    The list of fetched fields.
+    The fields are returned using a fully qualified name format, however, the format
+    differs slightly from that used by the query operations.
+      * Fields which contain nested JSON objects are assigned a type of "nested".
+      * Fields which belong to a nested object are prefixed with `.properties` (for
+    example, `warnings.properties.severity` means that the `warnings` object has a
+    property called `severity`).
+      * Fields returned from the News collection are prefixed with
     `v{N}-fullnews-t3-{YEAR}.mappings` (for example,
     `v5-fullnews-t3-2016.mappings.text.properties.author`).
 
-    :attr list[Field] fields: (optional) An array containing information about each field in the collections.
+    :attr list[Field] fields: (optional) An array containing information about each field
+    in the collections.
     """
 
     def __init__(self, fields=None):
         """
         Initialize a ListCollectionFieldsResponse object.
 
-        :param list[Field] fields: (optional) An array containing information about each field in the collections.
+        :param list[Field] fields: (optional) An array containing information about each
+        field in the collections.
         """
         self.fields = fields
 
@@ -3928,14 +4313,16 @@ class ListCollectionsResponse(object):
     """
     ListCollectionsResponse.
 
-    :attr list[Collection] collections: (optional) An array containing information about each collection in the environment.
+    :attr list[Collection] collections: (optional) An array containing information about
+    each collection in the environment.
     """
 
     def __init__(self, collections=None):
         """
         Initialize a ListCollectionsResponse object.
 
-        :param list[Collection] collections: (optional) An array containing information about each collection in the environment.
+        :param list[Collection] collections: (optional) An array containing information
+        about each collection in the environment.
         """
         self.collections = collections
 
@@ -3975,14 +4362,16 @@ class ListConfigurationsResponse(object):
     """
     ListConfigurationsResponse.
 
-    :attr list[Configuration] configurations: (optional) An array of Configurations that are available for the service instance.
+    :attr list[Configuration] configurations: (optional) An array of Configurations that
+    are available for the service instance.
     """
 
     def __init__(self, configurations=None):
         """
         Initialize a ListConfigurationsResponse object.
 
-        :param list[Configuration] configurations: (optional) An array of Configurations that are available for the service instance.
+        :param list[Configuration] configurations: (optional) An array of Configurations
+        that are available for the service instance.
         """
         self.configurations = configurations
 
@@ -4025,14 +4414,16 @@ class ListEnvironmentsResponse(object):
     """
     ListEnvironmentsResponse.
 
-    :attr list[Environment] environments: (optional) An array of [environments] that are available for the service instance.
+    :attr list[Environment] environments: (optional) An array of [environments] that are
+    available for the service instance.
     """
 
     def __init__(self, environments=None):
         """
         Initialize a ListEnvironmentsResponse object.
 
-        :param list[Environment] environments: (optional) An array of [environments] that are available for the service instance.
+        :param list[Environment] environments: (optional) An array of [environments] that
+        are available for the service instance.
         """
         self.environments = environments
 
@@ -4072,11 +4463,16 @@ class MemoryUsage(object):
     """
     **Deprecated**: Summary of the memory usage statistics for this environment.
 
-    :attr int used_bytes: (optional) **Deprecated**: Number of bytes used in the environment's memory capacity.
-    :attr int total_bytes: (optional) **Deprecated**: Total number of bytes available in the environment's memory capacity.
-    :attr str used: (optional) **Deprecated**: Amount of memory capacity used, in KB or GB format.
-    :attr str total: (optional) **Deprecated**: Total amount of the environment's memory capacity, in KB or GB format.
-    :attr float percent_used: (optional) **Deprecated**: Percentage of the environment's memory capacity that is being used.
+    :attr int used_bytes: (optional) **Deprecated**: Number of bytes used in the
+    environment's memory capacity.
+    :attr int total_bytes: (optional) **Deprecated**: Total number of bytes available in
+    the environment's memory capacity.
+    :attr str used: (optional) **Deprecated**: Amount of memory capacity used, in KB or GB
+    format.
+    :attr str total: (optional) **Deprecated**: Total amount of the environment's memory
+    capacity, in KB or GB format.
+    :attr float percent_used: (optional) **Deprecated**: Percentage of the environment's
+    memory capacity that is being used.
     """
 
     def __init__(self,
@@ -4088,11 +4484,16 @@ class MemoryUsage(object):
         """
         Initialize a MemoryUsage object.
 
-        :param int used_bytes: (optional) **Deprecated**: Number of bytes used in the environment's memory capacity.
-        :param int total_bytes: (optional) **Deprecated**: Total number of bytes available in the environment's memory capacity.
-        :param str used: (optional) **Deprecated**: Amount of memory capacity used, in KB or GB format.
-        :param str total: (optional) **Deprecated**: Total amount of the environment's memory capacity, in KB or GB format.
-        :param float percent_used: (optional) **Deprecated**: Percentage of the environment's memory capacity that is being used.
+        :param int used_bytes: (optional) **Deprecated**: Number of bytes used in the
+        environment's memory capacity.
+        :param int total_bytes: (optional) **Deprecated**: Total number of bytes available
+        in the environment's memory capacity.
+        :param str used: (optional) **Deprecated**: Amount of memory capacity used, in KB
+        or GB format.
+        :param str total: (optional) **Deprecated**: Total amount of the environment's
+        memory capacity, in KB or GB format.
+        :param float percent_used: (optional) **Deprecated**: Percentage of the
+        environment's memory capacity that is being used.
         """
         self.used_bytes = used_bytes
         self.total_bytes = total_bytes
@@ -4208,16 +4609,20 @@ class NluEnrichmentEmotion(object):
     """
     An object specifying the emotion detection enrichment and related parameters.
 
-    :attr bool document: (optional) When `true`, emotion detection is performed on the entire field.
-    :attr list[str] targets: (optional) A comma-separated list of target strings that will have any associated emotions detected.
+    :attr bool document: (optional) When `true`, emotion detection is performed on the
+    entire field.
+    :attr list[str] targets: (optional) A comma-separated list of target strings that will
+    have any associated emotions detected.
     """
 
     def __init__(self, document=None, targets=None):
         """
         Initialize a NluEnrichmentEmotion object.
 
-        :param bool document: (optional) When `true`, emotion detection is performed on the entire field.
-        :param list[str] targets: (optional) A comma-separated list of target strings that will have any associated emotions detected.
+        :param bool document: (optional) When `true`, emotion detection is performed on
+        the entire field.
+        :param list[str] targets: (optional) A comma-separated list of target strings that
+        will have any associated emotions detected.
         """
         self.document = document
         self.targets = targets
@@ -4260,13 +4665,21 @@ class NluEnrichmentEntities(object):
     """
     An object speficying the Entities enrichment and related parameters.
 
-    :attr bool sentiment: (optional) When `true`, sentiment analysis of entities will be performed on the specified field.
-    :attr bool emotion: (optional) When `true`, emotion detection of entities will be performed on the specified field.
-    :attr int limit: (optional) The maximum number of entities to extract for each instance of the specified field.
-    :attr bool mentions: (optional) When `true`, the number of mentions of each identified entity is recorded. The default is `false`.
-    :attr bool mention_types: (optional) When `true`, the types of mentions for each idetifieid entity is recorded. The default is `false`.
-    :attr bool sentence_location: (optional) When `true`, a list of sentence locations for each instance of each identified entity is recorded. The default is `false`.
-    :attr str model: (optional) The enrichement model to use with entity extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph `en-news`, or the default public model `alchemy`.
+    :attr bool sentiment: (optional) When `true`, sentiment analysis of entities will be
+    performed on the specified field.
+    :attr bool emotion: (optional) When `true`, emotion detection of entities will be
+    performed on the specified field.
+    :attr int limit: (optional) The maximum number of entities to extract for each
+    instance of the specified field.
+    :attr bool mentions: (optional) When `true`, the number of mentions of each identified
+    entity is recorded. The default is `false`.
+    :attr bool mention_types: (optional) When `true`, the types of mentions for each
+    idetifieid entity is recorded. The default is `false`.
+    :attr bool sentence_location: (optional) When `true`, a list of sentence locations for
+    each instance of each identified entity is recorded. The default is `false`.
+    :attr str model: (optional) The enrichement model to use with entity extraction. May
+    be a custom model provided by Watson Knowledge Studio, the public model for use with
+    Knowledge Graph `en-news`, or the default public model `alchemy`.
     """
 
     def __init__(self,
@@ -4280,13 +4693,22 @@ class NluEnrichmentEntities(object):
         """
         Initialize a NluEnrichmentEntities object.
 
-        :param bool sentiment: (optional) When `true`, sentiment analysis of entities will be performed on the specified field.
-        :param bool emotion: (optional) When `true`, emotion detection of entities will be performed on the specified field.
-        :param int limit: (optional) The maximum number of entities to extract for each instance of the specified field.
-        :param bool mentions: (optional) When `true`, the number of mentions of each identified entity is recorded. The default is `false`.
-        :param bool mention_types: (optional) When `true`, the types of mentions for each idetifieid entity is recorded. The default is `false`.
-        :param bool sentence_location: (optional) When `true`, a list of sentence locations for each instance of each identified entity is recorded. The default is `false`.
-        :param str model: (optional) The enrichement model to use with entity extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph `en-news`, or the default public model `alchemy`.
+        :param bool sentiment: (optional) When `true`, sentiment analysis of entities will
+        be performed on the specified field.
+        :param bool emotion: (optional) When `true`, emotion detection of entities will be
+        performed on the specified field.
+        :param int limit: (optional) The maximum number of entities to extract for each
+        instance of the specified field.
+        :param bool mentions: (optional) When `true`, the number of mentions of each
+        identified entity is recorded. The default is `false`.
+        :param bool mention_types: (optional) When `true`, the types of mentions for each
+        idetifieid entity is recorded. The default is `false`.
+        :param bool sentence_location: (optional) When `true`, a list of sentence
+        locations for each instance of each identified entity is recorded. The default is
+        `false`.
+        :param str model: (optional) The enrichement model to use with entity extraction.
+        May be a custom model provided by Watson Knowledge Studio, the public model for
+        use with Knowledge Graph `en-news`, or the default public model `alchemy`.
         """
         self.sentiment = sentiment
         self.emotion = emotion
@@ -4355,13 +4777,20 @@ class NluEnrichmentFeatures(object):
     """
     NluEnrichmentFeatures.
 
-    :attr NluEnrichmentKeywords keywords: (optional) An object specifying the Keyword enrichment and related parameters.
-    :attr NluEnrichmentEntities entities: (optional) An object speficying the Entities enrichment and related parameters.
-    :attr NluEnrichmentSentiment sentiment: (optional) An object specifying the sentiment extraction enrichment and related parameters.
-    :attr NluEnrichmentEmotion emotion: (optional) An object specifying the emotion detection enrichment and related parameters.
-    :attr NluEnrichmentCategories categories: (optional) An object specifying the categories enrichment and related parameters.
-    :attr NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying the semantic roles enrichment and related parameters.
-    :attr NluEnrichmentRelations relations: (optional) An object specifying the relations enrichment and related parameters.
+    :attr NluEnrichmentKeywords keywords: (optional) An object specifying the Keyword
+    enrichment and related parameters.
+    :attr NluEnrichmentEntities entities: (optional) An object speficying the Entities
+    enrichment and related parameters.
+    :attr NluEnrichmentSentiment sentiment: (optional) An object specifying the sentiment
+    extraction enrichment and related parameters.
+    :attr NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
+    detection enrichment and related parameters.
+    :attr NluEnrichmentCategories categories: (optional) An object specifying the
+    categories enrichment and related parameters.
+    :attr NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying the
+    semantic roles enrichment and related parameters.
+    :attr NluEnrichmentRelations relations: (optional) An object specifying the relations
+    enrichment and related parameters.
     """
 
     def __init__(self,
@@ -4375,13 +4804,20 @@ class NluEnrichmentFeatures(object):
         """
         Initialize a NluEnrichmentFeatures object.
 
-        :param NluEnrichmentKeywords keywords: (optional) An object specifying the Keyword enrichment and related parameters.
-        :param NluEnrichmentEntities entities: (optional) An object speficying the Entities enrichment and related parameters.
-        :param NluEnrichmentSentiment sentiment: (optional) An object specifying the sentiment extraction enrichment and related parameters.
-        :param NluEnrichmentEmotion emotion: (optional) An object specifying the emotion detection enrichment and related parameters.
-        :param NluEnrichmentCategories categories: (optional) An object specifying the categories enrichment and related parameters.
-        :param NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying the semantic roles enrichment and related parameters.
-        :param NluEnrichmentRelations relations: (optional) An object specifying the relations enrichment and related parameters.
+        :param NluEnrichmentKeywords keywords: (optional) An object specifying the Keyword
+        enrichment and related parameters.
+        :param NluEnrichmentEntities entities: (optional) An object speficying the
+        Entities enrichment and related parameters.
+        :param NluEnrichmentSentiment sentiment: (optional) An object specifying the
+        sentiment extraction enrichment and related parameters.
+        :param NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
+        detection enrichment and related parameters.
+        :param NluEnrichmentCategories categories: (optional) An object specifying the
+        categories enrichment and related parameters.
+        :param NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying
+        the semantic roles enrichment and related parameters.
+        :param NluEnrichmentRelations relations: (optional) An object specifying the
+        relations enrichment and related parameters.
         """
         self.keywords = keywords
         self.entities = entities
@@ -4456,18 +4892,24 @@ class NluEnrichmentKeywords(object):
     """
     An object specifying the Keyword enrichment and related parameters.
 
-    :attr bool sentiment: (optional) When `true`, sentiment analysis of keywords will be performed on the specified field.
-    :attr bool emotion: (optional) When `true`, emotion detection of keywords will be performed on the specified field.
-    :attr int limit: (optional) The maximum number of keywords to extract for each instance of the specified field.
+    :attr bool sentiment: (optional) When `true`, sentiment analysis of keywords will be
+    performed on the specified field.
+    :attr bool emotion: (optional) When `true`, emotion detection of keywords will be
+    performed on the specified field.
+    :attr int limit: (optional) The maximum number of keywords to extract for each
+    instance of the specified field.
     """
 
     def __init__(self, sentiment=None, emotion=None, limit=None):
         """
         Initialize a NluEnrichmentKeywords object.
 
-        :param bool sentiment: (optional) When `true`, sentiment analysis of keywords will be performed on the specified field.
-        :param bool emotion: (optional) When `true`, emotion detection of keywords will be performed on the specified field.
-        :param int limit: (optional) The maximum number of keywords to extract for each instance of the specified field.
+        :param bool sentiment: (optional) When `true`, sentiment analysis of keywords will
+        be performed on the specified field.
+        :param bool emotion: (optional) When `true`, emotion detection of keywords will be
+        performed on the specified field.
+        :param int limit: (optional) The maximum number of keywords to extract for each
+        instance of the specified field.
         """
         self.sentiment = sentiment
         self.emotion = emotion
@@ -4515,14 +4957,20 @@ class NluEnrichmentRelations(object):
     """
     An object specifying the relations enrichment and related parameters.
 
-    :attr str model: (optional) *For use with `natural_language_understanding` enrichments only.* The enrichement model to use with relationship extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph `en-news`, the default is`en-news`.
+    :attr str model: (optional) *For use with `natural_language_understanding` enrichments
+    only.* The enrichement model to use with relationship extraction. May be a custom
+    model provided by Watson Knowledge Studio, the public model for use with Knowledge
+    Graph `en-news`, the default is`en-news`.
     """
 
     def __init__(self, model=None):
         """
         Initialize a NluEnrichmentRelations object.
 
-        :param str model: (optional) *For use with `natural_language_understanding` enrichments only.* The enrichement model to use with relationship extraction. May be a custom model provided by Watson Knowledge Studio, the public model for use with Knowledge Graph `en-news`, the default is`en-news`.
+        :param str model: (optional) *For use with `natural_language_understanding`
+        enrichments only.* The enrichement model to use with relationship extraction. May
+        be a custom model provided by Watson Knowledge Studio, the public model for use
+        with Knowledge Graph `en-news`, the default is`en-news`.
         """
         self.model = model
 
@@ -4560,18 +5008,24 @@ class NluEnrichmentSemanticRoles(object):
     """
     An object specifiying the semantic roles enrichment and related parameters.
 
-    :attr bool entities: (optional) When `true` entities are extracted from the identified sentence parts.
-    :attr bool keywords: (optional) When `true`, keywords are extracted from the identified sentence parts.
-    :attr int limit: (optional) The maximum number of semantic roles enrichments to extact from each instance of the specified field.
+    :attr bool entities: (optional) When `true` entities are extracted from the identified
+    sentence parts.
+    :attr bool keywords: (optional) When `true`, keywords are extracted from the
+    identified sentence parts.
+    :attr int limit: (optional) The maximum number of semantic roles enrichments to extact
+    from each instance of the specified field.
     """
 
     def __init__(self, entities=None, keywords=None, limit=None):
         """
         Initialize a NluEnrichmentSemanticRoles object.
 
-        :param bool entities: (optional) When `true` entities are extracted from the identified sentence parts.
-        :param bool keywords: (optional) When `true`, keywords are extracted from the identified sentence parts.
-        :param int limit: (optional) The maximum number of semantic roles enrichments to extact from each instance of the specified field.
+        :param bool entities: (optional) When `true` entities are extracted from the
+        identified sentence parts.
+        :param bool keywords: (optional) When `true`, keywords are extracted from the
+        identified sentence parts.
+        :param int limit: (optional) The maximum number of semantic roles enrichments to
+        extact from each instance of the specified field.
         """
         self.entities = entities
         self.keywords = keywords
@@ -4619,16 +5073,20 @@ class NluEnrichmentSentiment(object):
     """
     An object specifying the sentiment extraction enrichment and related parameters.
 
-    :attr bool document: (optional) When `true`, sentiment analysis is performed on the entire field.
-    :attr list[str] targets: (optional) A comma-separated list of target strings that will have any associated sentiment analyzed.
+    :attr bool document: (optional) When `true`, sentiment analysis is performed on the
+    entire field.
+    :attr list[str] targets: (optional) A comma-separated list of target strings that will
+    have any associated sentiment analyzed.
     """
 
     def __init__(self, document=None, targets=None):
         """
         Initialize a NluEnrichmentSentiment object.
 
-        :param bool document: (optional) When `true`, sentiment analysis is performed on the entire field.
-        :param list[str] targets: (optional) A comma-separated list of target strings that will have any associated sentiment analyzed.
+        :param bool document: (optional) When `true`, sentiment analysis is performed on
+        the entire field.
+        :param list[str] targets: (optional) A comma-separated list of target strings that
+        will have any associated sentiment analyzed.
         """
         self.document = document
         self.targets = targets
@@ -4671,7 +5129,29 @@ class NormalizationOperation(object):
     """
     NormalizationOperation.
 
-    :attr str operation: (optional) Identifies what type of operation to perform.   **copy** - Copies the value of the `source_field` to the `destination_field` field. If the `destination_field` already exists, then the value of the `source_field` overwrites the original value of the `destination_field`.   **move** - Renames (moves) the `source_field` to the `destination_field`. If the `destination_field` already exists, then the value of the `source_field` overwrites the original value of the `destination_field`. Rename is identical to copy, except that the `source_field` is removed after the value has been copied to the `destination_field` (it is the same as a _copy_ followed by a _remove_).   **merge** - Merges the value of the `source_field` with the value of the `destination_field`. The `destination_field` is converted into an array if it is not already an array, and the value of the `source_field` is appended to the array. This operation removes the `source_field` after the merge. If the `source_field` does not exist in the current document, then the `destination_field` is still converted into an array (if it is not an array already). This is ensures the type for `destination_field` is consistent across all documents.   **remove** - Deletes the `source_field` field. The `destination_field` is ignored for this operation.   **remove_nulls** - Removes all nested null (blank) leif values from the JSON tree. `source_field` and `destination_field` are ignored by this operation because _remove_nulls_ operates on the entire JSON tree. Typically, `remove_nulls` is invoked as the last normalization operation (if it is inoked at all, it can be time-expensive).
+    :attr str operation: (optional) Identifies what type of operation to perform.
+    **copy** - Copies the value of the `source_field` to the `destination_field` field. If
+    the `destination_field` already exists, then the value of the `source_field`
+    overwrites the original value of the `destination_field`.
+    **move** - Renames (moves) the `source_field` to the `destination_field`. If the
+    `destination_field` already exists, then the value of the `source_field` overwrites
+    the original value of the `destination_field`. Rename is identical to copy, except
+    that the `source_field` is removed after the value has been copied to the
+    `destination_field` (it is the same as a _copy_ followed by a _remove_).
+    **merge** - Merges the value of the `source_field` with the value of the
+    `destination_field`. The `destination_field` is converted into an array if it is not
+    already an array, and the value of the `source_field` is appended to the array. This
+    operation removes the `source_field` after the merge. If the `source_field` does not
+    exist in the current document, then the `destination_field` is still converted into an
+    array (if it is not an array already). This is ensures the type for
+    `destination_field` is consistent across all documents.
+    **remove** - Deletes the `source_field` field. The `destination_field` is ignored for
+    this operation.
+    **remove_nulls** - Removes all nested null (blank) leif values from the JSON tree.
+    `source_field` and `destination_field` are ignored by this operation because
+    _remove_nulls_ operates on the entire JSON tree. Typically, `remove_nulls` is invoked
+    as the last normalization operation (if it is inoked at all, it can be
+    time-expensive).
     :attr str source_field: (optional) The source field for the operation.
     :attr str destination_field: (optional) The destination field for the operation.
     """
@@ -4683,7 +5163,30 @@ class NormalizationOperation(object):
         """
         Initialize a NormalizationOperation object.
 
-        :param str operation: (optional) Identifies what type of operation to perform.   **copy** - Copies the value of the `source_field` to the `destination_field` field. If the `destination_field` already exists, then the value of the `source_field` overwrites the original value of the `destination_field`.   **move** - Renames (moves) the `source_field` to the `destination_field`. If the `destination_field` already exists, then the value of the `source_field` overwrites the original value of the `destination_field`. Rename is identical to copy, except that the `source_field` is removed after the value has been copied to the `destination_field` (it is the same as a _copy_ followed by a _remove_).   **merge** - Merges the value of the `source_field` with the value of the `destination_field`. The `destination_field` is converted into an array if it is not already an array, and the value of the `source_field` is appended to the array. This operation removes the `source_field` after the merge. If the `source_field` does not exist in the current document, then the `destination_field` is still converted into an array (if it is not an array already). This is ensures the type for `destination_field` is consistent across all documents.   **remove** - Deletes the `source_field` field. The `destination_field` is ignored for this operation.   **remove_nulls** - Removes all nested null (blank) leif values from the JSON tree. `source_field` and `destination_field` are ignored by this operation because _remove_nulls_ operates on the entire JSON tree. Typically, `remove_nulls` is invoked as the last normalization operation (if it is inoked at all, it can be time-expensive).
+        :param str operation: (optional) Identifies what type of operation to perform.
+        **copy** - Copies the value of the `source_field` to the `destination_field`
+        field. If the `destination_field` already exists, then the value of the
+        `source_field` overwrites the original value of the `destination_field`.
+        **move** - Renames (moves) the `source_field` to the `destination_field`. If the
+        `destination_field` already exists, then the value of the `source_field`
+        overwrites the original value of the `destination_field`. Rename is identical to
+        copy, except that the `source_field` is removed after the value has been copied to
+        the `destination_field` (it is the same as a _copy_ followed by a _remove_).
+        **merge** - Merges the value of the `source_field` with the value of the
+        `destination_field`. The `destination_field` is converted into an array if it is
+        not already an array, and the value of the `source_field` is appended to the
+        array. This operation removes the `source_field` after the merge. If the
+        `source_field` does not exist in the current document, then the
+        `destination_field` is still converted into an array (if it is not an array
+        already). This is ensures the type for `destination_field` is consistent across
+        all documents.
+        **remove** - Deletes the `source_field` field. The `destination_field` is ignored
+        for this operation.
+        **remove_nulls** - Removes all nested null (blank) leif values from the JSON tree.
+        `source_field` and `destination_field` are ignored by this operation because
+        _remove_nulls_ operates on the entire JSON tree. Typically, `remove_nulls` is
+        invoked as the last normalization operation (if it is inoked at all, it can be
+        time-expensive).
         :param str source_field: (optional) The source field for the operation.
         :param str destination_field: (optional) The destination field for the operation.
         """
@@ -4734,10 +5237,14 @@ class Notice(object):
     """
     A notice produced for the collection.
 
-    :attr str notice_id: (optional) Identifies the notice. Many notices might have the same ID. This field exists so that user applications can programmatically identify a notice and take automatic corrective action.
-    :attr datetime created: (optional) The creation date of the collection in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr str notice_id: (optional) Identifies the notice. Many notices might have the
+    same ID. This field exists so that user applications can programmatically identify a
+    notice and take automatic corrective action.
+    :attr datetime created: (optional) The creation date of the collection in the format
+    yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str document_id: (optional) Unique identifier of the document.
-    :attr str query_id: (optional) Unique identifier of the query used for relevance training.
+    :attr str query_id: (optional) Unique identifier of the query used for relevance
+    training.
     :attr str severity: (optional) Severity level of the notice.
     :attr str step: (optional) Ingestion or training step in which the notice occurred.
     :attr str description: (optional) The description of the notice.
@@ -4754,12 +5261,17 @@ class Notice(object):
         """
         Initialize a Notice object.
 
-        :param str notice_id: (optional) Identifies the notice. Many notices might have the same ID. This field exists so that user applications can programmatically identify a notice and take automatic corrective action.
-        :param datetime created: (optional) The creation date of the collection in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param str notice_id: (optional) Identifies the notice. Many notices might have
+        the same ID. This field exists so that user applications can programmatically
+        identify a notice and take automatic corrective action.
+        :param datetime created: (optional) The creation date of the collection in the
+        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str document_id: (optional) Unique identifier of the document.
-        :param str query_id: (optional) Unique identifier of the query used for relevance training.
+        :param str query_id: (optional) Unique identifier of the query used for relevance
+        training.
         :param str severity: (optional) Severity level of the notice.
-        :param str step: (optional) Ingestion or training step in which the notice occurred.
+        :param str step: (optional) Ingestion or training step in which the notice
+        occurred.
         :param str description: (optional) The description of the notice.
         """
         self.notice_id = notice_id
@@ -4921,10 +5433,12 @@ class QueryAggregation(object):
     """
     An aggregation produced by the Discovery service to analyze the input provided.
 
-    :attr str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+    :attr str type: (optional) The type of aggregation command used. For example: term,
+    filter, max, min, etc.
     :attr list[AggregationResult] results: (optional)
     :attr int matching_results: (optional) Number of matching results.
-    :attr list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
+    :attr list[QueryAggregation] aggregations: (optional) Aggregations returned by the
+    Discovery service.
     """
 
     def __init__(self,
@@ -4935,10 +5449,12 @@ class QueryAggregation(object):
         """
         Initialize a QueryAggregation object.
 
-        :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+        :param str type: (optional) The type of aggregation command used. For example:
+        term, filter, max, min, etc.
         :param list[AggregationResult] results: (optional)
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
+        the Discovery service.
         """
         self.type = type
         self.results = results
@@ -4999,14 +5515,19 @@ class QueryEntitiesContext(object):
     association. For example, if you wanted to query the city of London in England your
     query would look for `London` with the context of `England`.
 
-    :attr str text: (optional) Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
+    :attr str text: (optional) Entity text to provide context for the queried entity and
+    rank based on that association. For example, if you wanted to query the city of London
+    in England your query would look for `London` with the context of `England`.
     """
 
     def __init__(self, text=None):
         """
         Initialize a QueryEntitiesContext object.
 
-        :param str text: (optional) Entity text to provide context for the queried entity and rank based on that association. For example, if you wanted to query the city of London in England your query would look for `London` with the context of `England`.
+        :param str text: (optional) Entity text to provide context for the queried entity
+        and rank based on that association. For example, if you wanted to query the city
+        of London in England your query would look for `London` with the context of
+        `England`.
         """
         self.text = text
 
@@ -5146,7 +5667,8 @@ class QueryEntitiesResponseItem(object):
 
     :attr str text: (optional) Entity text content.
     :attr str type: (optional) The type of the result entity.
-    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
+    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to
+    support the result.
     """
 
     def __init__(self, text=None, type=None, evidence=None):
@@ -5155,7 +5677,8 @@ class QueryEntitiesResponseItem(object):
 
         :param str text: (optional) Entity text content.
         :param str type: (optional) The type of the result entity.
-        :param list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
+        :param list[QueryEvidence] evidence: (optional) List of different evidentiary
+        items to support the result.
         """
         self.text = text
         self.type = type
@@ -5205,11 +5728,16 @@ class QueryEvidence(object):
     """
     Description of evidence location supporting Knoweldge Graph query result.
 
-    :attr str document_id: (optional) The docuemnt ID (as indexed in Discovery) of the evidence location.
-    :attr str field: (optional) The field of the document where the supporting evidence was identified.
-    :attr int start_offset: (optional) The start location of the evidence in the identified field. This value is inclusive.
-    :attr int end_offset: (optional) The end location of the evidence in the identified field. This value is inclusive.
-    :attr list[QueryEvidenceEntity] entities: (optional) An array of entity objects that show evidence of the result.
+    :attr str document_id: (optional) The docuemnt ID (as indexed in Discovery) of the
+    evidence location.
+    :attr str field: (optional) The field of the document where the supporting evidence
+    was identified.
+    :attr int start_offset: (optional) The start location of the evidence in the
+    identified field. This value is inclusive.
+    :attr int end_offset: (optional) The end location of the evidence in the identified
+    field. This value is inclusive.
+    :attr list[QueryEvidenceEntity] entities: (optional) An array of entity objects that
+    show evidence of the result.
     """
 
     def __init__(self,
@@ -5221,11 +5749,16 @@ class QueryEvidence(object):
         """
         Initialize a QueryEvidence object.
 
-        :param str document_id: (optional) The docuemnt ID (as indexed in Discovery) of the evidence location.
-        :param str field: (optional) The field of the document where the supporting evidence was identified.
-        :param int start_offset: (optional) The start location of the evidence in the identified field. This value is inclusive.
-        :param int end_offset: (optional) The end location of the evidence in the identified field. This value is inclusive.
-        :param list[QueryEvidenceEntity] entities: (optional) An array of entity objects that show evidence of the result.
+        :param str document_id: (optional) The docuemnt ID (as indexed in Discovery) of
+        the evidence location.
+        :param str field: (optional) The field of the document where the supporting
+        evidence was identified.
+        :param int start_offset: (optional) The start location of the evidence in the
+        identified field. This value is inclusive.
+        :param int end_offset: (optional) The end location of the evidence in the
+        identified field. This value is inclusive.
+        :param list[QueryEvidenceEntity] entities: (optional) An array of entity objects
+        that show evidence of the result.
         """
         self.document_id = document_id
         self.field = field
@@ -5286,10 +5819,14 @@ class QueryEvidenceEntity(object):
     """
     Entity description and location within evidence field.
 
-    :attr str type: (optional) The entity type for this entity. Possible types vary based on model used.
-    :attr str text: (optional) The original text of this entity as found in the evidence field.
-    :attr int start_offset: (optional) The start location of the entity text in the identified field. This value is inclusive.
-    :attr int end_offset: (optional) The end location of the entity text in the identified field. This value is exclusive.
+    :attr str type: (optional) The entity type for this entity. Possible types vary based
+    on model used.
+    :attr str text: (optional) The original text of this entity as found in the evidence
+    field.
+    :attr int start_offset: (optional) The start location of the entity text in the
+    identified field. This value is inclusive.
+    :attr int end_offset: (optional) The end location of the entity text in the identified
+    field. This value is exclusive.
     """
 
     def __init__(self,
@@ -5300,10 +5837,14 @@ class QueryEvidenceEntity(object):
         """
         Initialize a QueryEvidenceEntity object.
 
-        :param str type: (optional) The entity type for this entity. Possible types vary based on model used.
-        :param str text: (optional) The original text of this entity as found in the evidence field.
-        :param int start_offset: (optional) The start location of the entity text in the identified field. This value is inclusive.
-        :param int end_offset: (optional) The end location of the entity text in the identified field. This value is exclusive.
+        :param str type: (optional) The entity type for this entity. Possible types vary
+        based on model used.
+        :param str text: (optional) The original text of this entity as found in the
+        evidence field.
+        :param int start_offset: (optional) The start location of the entity text in the
+        identified field. This value is inclusive.
+        :param int end_offset: (optional) The end location of the entity text in the
+        identified field. This value is exclusive.
         """
         self.type = type
         self.text = text
@@ -5357,7 +5898,8 @@ class QueryFilterType(object):
     QueryFilterType.
 
     :attr list[str] exclude: (optional) A comma-separated list of types to exclude.
-    :attr list[str] include: (optional) A comma-separated list of types to include. All other types are excluded.
+    :attr list[str] include: (optional) A comma-separated list of types to include. All
+    other types are excluded.
     """
 
     def __init__(self, exclude=None, include=None):
@@ -5365,7 +5907,8 @@ class QueryFilterType(object):
         Initialize a QueryFilterType object.
 
         :param list[str] exclude: (optional) A comma-separated list of types to exclude.
-        :param list[str] include: (optional) A comma-separated list of types to include. All other types are excluded.
+        :param list[str] include: (optional) A comma-separated list of types to include.
+        All other types are excluded.
         """
         self.exclude = exclude
         self.include = include
@@ -5498,14 +6041,19 @@ class QueryNoticesResult(object):
     QueryNoticesResult.
 
     :attr str id: (optional) The unique identifier of the document.
-    :attr float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
+    :attr float score: (optional) *Deprecated* This field is now part of the
+    `result_metadata` object.
     :attr object metadata: (optional) Metadata of the document.
-    :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query result.
-    :attr int code: (optional) The internal status code returned by the ingestion subsystem indicating the overall result of ingesting the source document.
+    :attr str collection_id: (optional) The collection ID of the collection containing the
+    document for this result.
+    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query
+    result.
+    :attr int code: (optional) The internal status code returned by the ingestion
+    subsystem indicating the overall result of ingesting the source document.
     :attr str filename: (optional) Name of the original source file (if available).
     :attr str file_type: (optional) The type of the original source file.
-    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted as a hexadecimal string).
+    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted as a
+    hexadecimal string).
     :attr list[Notice] notices: (optional) Array of notices for the document.
     """
 
@@ -5525,14 +6073,19 @@ class QueryNoticesResult(object):
         Initialize a QueryNoticesResult object.
 
         :param str id: (optional) The unique identifier of the document.
-        :param float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
+        :param float score: (optional) *Deprecated* This field is now part of the
+        `result_metadata` object.
         :param object metadata: (optional) Metadata of the document.
-        :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query result.
-        :param int code: (optional) The internal status code returned by the ingestion subsystem indicating the overall result of ingesting the source document.
+        :param str collection_id: (optional) The collection ID of the collection
+        containing the document for this result.
+        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query
+        result.
+        :param int code: (optional) The internal status code returned by the ingestion
+        subsystem indicating the overall result of ingesting the source document.
         :param str filename: (optional) Name of the original source file (if available).
         :param str file_type: (optional) The type of the original source file.
-        :param str sha1: (optional) The SHA-1 hash of the original source file (formatted as a hexadecimal string).
+        :param str sha1: (optional) The SHA-1 hash of the original source file (formatted
+        as a hexadecimal string).
         :param list[Notice] notices: (optional) Array of notices for the document.
         :param **kwargs: (optional) Any additional properties.
         """
@@ -5652,12 +6205,17 @@ class QueryPassages(object):
     """
     QueryPassages.
 
-    :attr str document_id: (optional) The unique identifier of the document from which the passage has been extracted.
-    :attr float passage_score: (optional) The confidence score of the passages's analysis. A higher score indicates greater confidence.
+    :attr str document_id: (optional) The unique identifier of the document from which the
+    passage has been extracted.
+    :attr float passage_score: (optional) The confidence score of the passages's analysis.
+    A higher score indicates greater confidence.
     :attr str passage_text: (optional) The content of the extracted passage.
-    :attr int start_offset: (optional) The position of the first character of the extracted passage in the originating field.
-    :attr int end_offset: (optional) The position of the last character of the extracted passage in the originating field.
-    :attr str field: (optional) The label of the field from which the passage has been extracted.
+    :attr int start_offset: (optional) The position of the first character of the
+    extracted passage in the originating field.
+    :attr int end_offset: (optional) The position of the last character of the extracted
+    passage in the originating field.
+    :attr str field: (optional) The label of the field from which the passage has been
+    extracted.
     """
 
     def __init__(self,
@@ -5670,12 +6228,17 @@ class QueryPassages(object):
         """
         Initialize a QueryPassages object.
 
-        :param str document_id: (optional) The unique identifier of the document from which the passage has been extracted.
-        :param float passage_score: (optional) The confidence score of the passages's analysis. A higher score indicates greater confidence.
+        :param str document_id: (optional) The unique identifier of the document from
+        which the passage has been extracted.
+        :param float passage_score: (optional) The confidence score of the passages's
+        analysis. A higher score indicates greater confidence.
         :param str passage_text: (optional) The content of the extracted passage.
-        :param int start_offset: (optional) The position of the first character of the extracted passage in the originating field.
-        :param int end_offset: (optional) The position of the last character of the extracted passage in the originating field.
-        :param str field: (optional) The label of the field from which the passage has been extracted.
+        :param int start_offset: (optional) The position of the first character of the
+        extracted passage in the originating field.
+        :param int end_offset: (optional) The position of the last character of the
+        extracted passage in the originating field.
+        :param str field: (optional) The label of the field from which the passage has
+        been extracted.
         """
         self.document_id = document_id
         self.passage_score = passage_score
@@ -5788,7 +6351,8 @@ class QueryRelationsEntity(object):
 
     :attr str text: (optional) Entity text content.
     :attr str type: (optional) The type of the specified entity.
-    :attr bool exact: (optional) If false, implicit querying is performed. The default is `false`.
+    :attr bool exact: (optional) If false, implicit querying is performed. The default is
+    `false`.
     """
 
     def __init__(self, text=None, type=None, exact=None):
@@ -5797,7 +6361,8 @@ class QueryRelationsEntity(object):
 
         :param str text: (optional) Entity text content.
         :param str type: (optional) The type of the specified entity.
-        :param bool exact: (optional) If false, implicit querying is performed. The default is `false`.
+        :param bool exact: (optional) If false, implicit querying is performed. The
+        default is `false`.
         """
         self.text = text
         self.type = type
@@ -5845,9 +6410,12 @@ class QueryRelationsFilter(object):
     """
     QueryRelationsFilter.
 
-    :attr QueryFilterType relation_types: (optional) A list of relation types to include or exclude from the query.
-    :attr QueryFilterType entity_types: (optional) A list of entity types to include or exclude from the query.
-    :attr list[str] document_ids: (optional) A comma-separated list of document IDs to include in the query.
+    :attr QueryFilterType relation_types: (optional) A list of relation types to include
+    or exclude from the query.
+    :attr QueryFilterType entity_types: (optional) A list of entity types to include or
+    exclude from the query.
+    :attr list[str] document_ids: (optional) A comma-separated list of document IDs to
+    include in the query.
     """
 
     def __init__(self,
@@ -5857,9 +6425,12 @@ class QueryRelationsFilter(object):
         """
         Initialize a QueryRelationsFilter object.
 
-        :param QueryFilterType relation_types: (optional) A list of relation types to include or exclude from the query.
-        :param QueryFilterType entity_types: (optional) A list of entity types to include or exclude from the query.
-        :param list[str] document_ids: (optional) A comma-separated list of document IDs to include in the query.
+        :param QueryFilterType relation_types: (optional) A list of relation types to
+        include or exclude from the query.
+        :param QueryFilterType entity_types: (optional) A list of entity types to include
+        or exclude from the query.
+        :param list[str] document_ids: (optional) A comma-separated list of document IDs
+        to include in the query.
         """
         self.relation_types = relation_types
         self.entity_types = entity_types
@@ -5911,8 +6482,10 @@ class QueryRelationsRelationship(object):
 
     :attr str type: (optional) The identified relationship type.
     :attr int frequency: (optional) The number of times the relationship is mentioned.
-    :attr list[QueryRelationsArgument] arguments: (optional) Information about the relationship.
-    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
+    :attr list[QueryRelationsArgument] arguments: (optional) Information about the
+    relationship.
+    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to
+    support the result.
     """
 
     def __init__(self,
@@ -5924,9 +6497,12 @@ class QueryRelationsRelationship(object):
         Initialize a QueryRelationsRelationship object.
 
         :param str type: (optional) The identified relationship type.
-        :param int frequency: (optional) The number of times the relationship is mentioned.
-        :param list[QueryRelationsArgument] arguments: (optional) Information about the relationship.
-        :param list[QueryEvidence] evidence: (optional) List of different evidentiary items to support the result.
+        :param int frequency: (optional) The number of times the relationship is
+        mentioned.
+        :param list[QueryRelationsArgument] arguments: (optional) Information about the
+        relationship.
+        :param list[QueryEvidence] evidence: (optional) List of different evidentiary
+        items to support the result.
         """
         self.type = type
         self.frequency = frequency
@@ -6121,10 +6697,13 @@ class QueryResult(object):
     QueryResult.
 
     :attr str id: (optional) The unique identifier of the document.
-    :attr float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
+    :attr float score: (optional) *Deprecated* This field is now part of the
+    `result_metadata` object.
     :attr object metadata: (optional) Metadata of the document.
-    :attr str collection_id: (optional) The collection ID of the collection containing the document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query result.
+    :attr str collection_id: (optional) The collection ID of the collection containing the
+    document for this result.
+    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query
+    result.
     """
 
     def __init__(self,
@@ -6138,10 +6717,13 @@ class QueryResult(object):
         Initialize a QueryResult object.
 
         :param str id: (optional) The unique identifier of the document.
-        :param float score: (optional) *Deprecated* This field is now part of the `result_metadata` object.
+        :param float score: (optional) *Deprecated* This field is now part of the
+        `result_metadata` object.
         :param object metadata: (optional) Metadata of the document.
-        :param str collection_id: (optional) The collection ID of the collection containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query result.
+        :param str collection_id: (optional) The collection ID of the collection
+        containing the document for this result.
+        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query
+        result.
         :param **kwargs: (optional) Any additional properties.
         """
         self.id = id
@@ -6227,14 +6809,16 @@ class QueryResultResultMetadata(object):
     """
     Metadata of a query result.
 
-    :attr float score: (optional) The confidence score of the result's analysis. A higher score indicating greater confidence.
+    :attr float score: (optional) The confidence score of the result's analysis. A higher
+    score indicating greater confidence.
     """
 
     def __init__(self, score=None):
         """
         Initialize a QueryResultResultMetadata object.
 
-        :param float score: (optional) The confidence score of the result's analysis. A higher score indicating greater confidence.
+        :param float score: (optional) The confidence score of the result's analysis. A
+        higher score indicating greater confidence.
         """
         self.score = score
 
@@ -6273,15 +6857,18 @@ class SegmentSettings(object):
     A list of Document Segmentation settings.
 
     :attr bool enabled: (optional) Enables/disables the Document Segmentation feature.
-    :attr list[str] selector_tags: (optional) Defines the heading level that splits into document segments. Valid values are h1, h2, h3, h4, h5, h6.
+    :attr list[str] selector_tags: (optional) Defines the heading level that splits into
+    document segments. Valid values are h1, h2, h3, h4, h5, h6.
     """
 
     def __init__(self, enabled=None, selector_tags=None):
         """
         Initialize a SegmentSettings object.
 
-        :param bool enabled: (optional) Enables/disables the Document Segmentation feature.
-        :param list[str] selector_tags: (optional) Defines the heading level that splits into document segments. Valid values are h1, h2, h3, h4, h5, h6.
+        :param bool enabled: (optional) Enables/disables the Document Segmentation
+        feature.
+        :param list[str] selector_tags: (optional) Defines the heading level that splits
+        into document segments. Valid values are h1, h2, h3, h4, h5, h6.
         """
         self.enabled = enabled
         self.selector_tags = selector_tags
@@ -6326,10 +6913,13 @@ class TestDocument(object):
 
     :attr str configuration_id: (optional) The unique identifier for the configuration.
     :attr str status: (optional) Status of the preview operation.
-    :attr int enriched_field_units: (optional) The number of 10-kB chunks of field data that were enriched. This can be used to estimate the cost of running a real ingestion.
+    :attr int enriched_field_units: (optional) The number of 10-kB chunks of field data
+    that were enriched. This can be used to estimate the cost of running a real ingestion.
     :attr str original_media_type: (optional) Format of the test document.
-    :attr list[DocumentSnapshot] snapshots: (optional) An array of objects that describe each step in the preview process.
-    :attr list[Notice] notices: (optional) An array of notice messages about the preview operation.
+    :attr list[DocumentSnapshot] snapshots: (optional) An array of objects that describe
+    each step in the preview process.
+    :attr list[Notice] notices: (optional) An array of notice messages about the preview
+    operation.
     """
 
     def __init__(self,
@@ -6342,12 +6932,17 @@ class TestDocument(object):
         """
         Initialize a TestDocument object.
 
-        :param str configuration_id: (optional) The unique identifier for the configuration.
+        :param str configuration_id: (optional) The unique identifier for the
+        configuration.
         :param str status: (optional) Status of the preview operation.
-        :param int enriched_field_units: (optional) The number of 10-kB chunks of field data that were enriched. This can be used to estimate the cost of running a real ingestion.
+        :param int enriched_field_units: (optional) The number of 10-kB chunks of field
+        data that were enriched. This can be used to estimate the cost of running a real
+        ingestion.
         :param str original_media_type: (optional) Format of the test document.
-        :param list[DocumentSnapshot] snapshots: (optional) An array of objects that describe each step in the preview process.
-        :param list[Notice] notices: (optional) An array of notice messages about the preview operation.
+        :param list[DocumentSnapshot] snapshots: (optional) An array of objects that
+        describe each step in the preview process.
+        :param list[Notice] notices: (optional) An array of notice messages about the
+        preview operation.
         """
         self.configuration_id = configuration_id
         self.status = status
@@ -7034,7 +7629,8 @@ class Calculation(object):
     """
     Calculation.
 
-    :attr str field: (optional) The field where the aggregation is located in the document.
+    :attr str field: (optional) The field where the aggregation is located in the
+    document.
     :attr float value: (optional) Value of the aggregation.
     """
 
@@ -7048,11 +7644,14 @@ class Calculation(object):
         """
         Initialize a Calculation object.
 
-        :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+        :param str type: (optional) The type of aggregation command used. For example:
+        term, filter, max, min, etc.
         :param list[AggregationResult] results: (optional)
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
-        :param str field: (optional) The field where the aggregation is located in the document.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
+        the Discovery service.
+        :param str field: (optional) The field where the aggregation is located in the
+        document.
         :param float value: (optional) Value of the aggregation.
         """
         self.field = field
@@ -7108,10 +7707,12 @@ class Filter(object):
         """
         Initialize a Filter object.
 
-        :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+        :param str type: (optional) The type of aggregation command used. For example:
+        term, filter, max, min, etc.
         :param list[AggregationResult] results: (optional)
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
+        the Discovery service.
         :param str match: (optional) The match the aggregated results queried for.
         """
         self.match = match
@@ -7150,7 +7751,8 @@ class Histogram(object):
     """
     Histogram.
 
-    :attr str field: (optional) The field where the aggregation is located in the document.
+    :attr str field: (optional) The field where the aggregation is located in the
+    document.
     :attr int interval: (optional) Interval of the aggregation. (For 'histogram' type).
     """
 
@@ -7164,12 +7766,16 @@ class Histogram(object):
         """
         Initialize a Histogram object.
 
-        :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+        :param str type: (optional) The type of aggregation command used. For example:
+        term, filter, max, min, etc.
         :param list[AggregationResult] results: (optional)
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
-        :param str field: (optional) The field where the aggregation is located in the document.
-        :param int interval: (optional) Interval of the aggregation. (For 'histogram' type).
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
+        the Discovery service.
+        :param str field: (optional) The field where the aggregation is located in the
+        document.
+        :param int interval: (optional) Interval of the aggregation. (For 'histogram'
+        type).
         """
         self.field = field
         self.interval = interval
@@ -7224,11 +7830,14 @@ class Nested(object):
         """
         Initialize a Nested object.
 
-        :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+        :param str type: (optional) The type of aggregation command used. For example:
+        term, filter, max, min, etc.
         :param list[AggregationResult] results: (optional)
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
-        :param str path: (optional) The area of the results the aggregation was restricted to.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
+        the Discovery service.
+        :param str path: (optional) The area of the results the aggregation was restricted
+        to.
         """
         self.path = path
 
@@ -7266,7 +7875,8 @@ class Term(object):
     """
     Term.
 
-    :attr str field: (optional) The field where the aggregation is located in the document.
+    :attr str field: (optional) The field where the aggregation is located in the
+    document.
     :attr int count: (optional)
     """
 
@@ -7280,11 +7890,14 @@ class Term(object):
         """
         Initialize a Term object.
 
-        :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+        :param str type: (optional) The type of aggregation command used. For example:
+        term, filter, max, min, etc.
         :param list[AggregationResult] results: (optional)
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
-        :param str field: (optional) The field where the aggregation is located in the document.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
+        the Discovery service.
+        :param str field: (optional) The field where the aggregation is located in the
+        document.
         :param int count: (optional)
         """
         self.field = field
@@ -7328,9 +7941,14 @@ class Timeslice(object):
     """
     Timeslice.
 
-    :attr str field: (optional) The field where the aggregation is located in the document.
-    :attr str interval: (optional) Interval of the aggregation. Valid date interval values are second/seconds minute/minutes, hour/hours, day/days, week/weeks, month/months, and year/years.
-    :attr bool anomaly: (optional) Used to inducate that anomaly detection should be performed. Anomaly detection is used to locate unusual datapoints within a time series.
+    :attr str field: (optional) The field where the aggregation is located in the
+    document.
+    :attr str interval: (optional) Interval of the aggregation. Valid date interval values
+    are second/seconds minute/minutes, hour/hours, day/days, week/weeks, month/months, and
+    year/years.
+    :attr bool anomaly: (optional) Used to inducate that anomaly detection should be
+    performed. Anomaly detection is used to locate unusual datapoints within a time
+    series.
     """
 
     def __init__(self,
@@ -7344,13 +7962,20 @@ class Timeslice(object):
         """
         Initialize a Timeslice object.
 
-        :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+        :param str type: (optional) The type of aggregation command used. For example:
+        term, filter, max, min, etc.
         :param list[AggregationResult] results: (optional)
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
-        :param str field: (optional) The field where the aggregation is located in the document.
-        :param str interval: (optional) Interval of the aggregation. Valid date interval values are second/seconds minute/minutes, hour/hours, day/days, week/weeks, month/months, and year/years.
-        :param bool anomaly: (optional) Used to inducate that anomaly detection should be performed. Anomaly detection is used to locate unusual datapoints within a time series.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
+        the Discovery service.
+        :param str field: (optional) The field where the aggregation is located in the
+        document.
+        :param str interval: (optional) Interval of the aggregation. Valid date interval
+        values are second/seconds minute/minutes, hour/hours, day/days, week/weeks,
+        month/months, and year/years.
+        :param bool anomaly: (optional) Used to inducate that anomaly detection should be
+        performed. Anomaly detection is used to locate unusual datapoints within a time
+        series.
         """
         self.field = field
         self.interval = interval
@@ -7412,10 +8037,12 @@ class TopHits(object):
         """
         Initialize a TopHits object.
 
-        :param str type: (optional) The type of aggregation command used. For example: term, filter, max, min, etc.
+        :param str type: (optional) The type of aggregation command used. For example:
+        term, filter, max, min, etc.
         :param list[AggregationResult] results: (optional)
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by the Discovery service.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
+        the Discovery service.
         :param int size: (optional) Number of top hits returned by the aggregation.
         :param TopHitsResults hits: (optional)
         """
