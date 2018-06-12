@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The IBM Watson Visual Recognition service uses deep learning algorithms to identify
+The IBM Watson&trade; Visual Recognition service uses deep learning algorithms to identify
 scenes, objects, and faces  in images you upload to the service. You can create and train
 a custom classifier to identify subjects that suit your needs.
 """
@@ -314,7 +314,8 @@ class VisualRecognitionV3(WatsonService):
         """
         Retrieve a list of classifiers.
 
-        :param bool verbose: Specify `true` to return details about the classifiers. Omit this parameter to return a brief list of classifiers.
+        :param bool verbose: Specify `true` to return details about the classifiers. Omit
+        this parameter to return a brief list of classifiers.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classifiers` response.
         :rtype: dict
@@ -402,9 +403,10 @@ class VisualRecognitionV3(WatsonService):
         Delete labeled data.
 
         Deletes all data associated with a specified customer ID. The method has no effect
-        if no data is associated with the customer ID.   You associate a customer ID with
-        data by passing the `X-Watson-Metadata` header with a request that passes data.
-        For more information about personal data and customer IDs, see [Information
+        if no data is associated with the customer ID.
+        You associate a customer ID with data by passing the `X-Watson-Metadata` header
+        with a request that passes data. For more information about personal data and
+        customer IDs, see [Information
         security](https://console.bluemix.net/docs/services/visual-recognition/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
@@ -485,8 +487,11 @@ class ClassResult(object):
     Result of a class within a classifier.
 
     :attr str class_name: Name of the class.
-    :attr float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
-    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
+    :attr float score: (optional) Confidence score for the property in the range of 0 to
+    1. A higher score indicates greater likelihood that the class is depicted in the
+    image. The default threshold for returning scores from a classifier is 0.5.
+    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example,
+    `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
     """
 
     def __init__(self, class_name, score=None, type_hierarchy=None):
@@ -494,8 +499,12 @@ class ClassResult(object):
         Initialize a ClassResult object.
 
         :param str class_name: Name of the class.
-        :param float score: (optional) Confidence score for the property in the range of 0 to 1. A higher score indicates greater likelihood that the class is depicted in the image. The default threshold for returning scores from a classifier is 0.5.
-        :param str type_hierarchy: (optional) Knowledge graph of the property. For example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
+        :param float score: (optional) Confidence score for the property in the range of 0
+        to 1. A higher score indicates greater likelihood that the class is depicted in
+        the image. The default threshold for returning scores from a classifier is 0.5.
+        :param str type_hierarchy: (optional) Knowledge graph of the property. For
+        example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if
+        identified.
         """
         self.class_name = class_name
         self.score = score
@@ -546,10 +555,14 @@ class ClassifiedImage(object):
     """
     Results for one image.
 
-    :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
-    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
-    :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
-    :attr ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
+    :attr str source_url: (optional) Source of the image before any redirects. Not
+    returned when the image is uploaded.
+    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are
+    followed. Not returned when the image is uploaded.
+    :attr str image: (optional) Relative path of the image file if uploaded directly. Not
+    returned when the image is passed by URL.
+    :attr ErrorInfo error: (optional) Information about what might have caused a failure,
+    such as an image that is too large. Not returned when there is no error.
     :attr list[ClassifierResult] classifiers: The classifiers.
     """
 
@@ -563,10 +576,14 @@ class ClassifiedImage(object):
         Initialize a ClassifiedImage object.
 
         :param list[ClassifierResult] classifiers: The classifiers.
-        :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
-        :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
-        :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
-        :param ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
+        :param str source_url: (optional) Source of the image before any redirects. Not
+        returned when the image is uploaded.
+        :param str resolved_url: (optional) Fully resolved URL of the image after
+        redirects are followed. Not returned when the image is uploaded.
+        :param str image: (optional) Relative path of the image file if uploaded directly.
+        Not returned when the image is passed by URL.
+        :param ErrorInfo error: (optional) Information about what might have caused a
+        failure, such as an image that is too large. Not returned when there is no error.
         """
         self.source_url = source_url
         self.resolved_url = resolved_url
@@ -631,10 +648,14 @@ class ClassifiedImages(object):
     """
     Results for all images.
 
-    :attr int custom_classes: (optional) Number of custom classes identified in the images.
+    :attr int custom_classes: (optional) Number of custom classes identified in the
+    images.
     :attr int images_processed: (optional) Number of images processed for the API call.
     :attr list[ClassifiedImage] images: Classified images.
-    :attr list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.
+    :attr list[WarningInfo] warnings: (optional) Information about what might cause less
+    than optimal output. For example, a request sent with a corrupt .zip file and a list
+    of image URLs will still complete, but does not return the expected output. Not
+    returned when there is no warning.
     """
 
     def __init__(self,
@@ -646,9 +667,14 @@ class ClassifiedImages(object):
         Initialize a ClassifiedImages object.
 
         :param list[ClassifiedImage] images: Classified images.
-        :param int custom_classes: (optional) Number of custom classes identified in the images.
-        :param int images_processed: (optional) Number of images processed for the API call.
-        :param list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.
+        :param int custom_classes: (optional) Number of custom classes identified in the
+        images.
+        :param int images_processed: (optional) Number of images processed for the API
+        call.
+        :param list[WarningInfo] warnings: (optional) Information about what might cause
+        less than optimal output. For example, a request sent with a corrupt .zip file and
+        a list of image URLs will still complete, but does not return the expected output.
+        Not returned when there is no warning.
         """
         self.custom_classes = custom_classes
         self.images_processed = images_processed
@@ -712,14 +738,22 @@ class Classifier(object):
 
     :attr str classifier_id: ID of a classifier identified in the image.
     :attr str name: Name of the classifier.
-    :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.
+    :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned
+    when verbose=`true`. Might not be returned by some requests.
     :attr str status: (optional) Training status of classifier.
-    :attr bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML model after the training status is `ready`.
-    :attr str explanation: (optional) If classifier training has failed, this field may explain why.
-    :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.
+    :attr bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML
+    model after the training status is `ready`.
+    :attr str explanation: (optional) If classifier training has failed, this field may
+    explain why.
+    :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC)
+    that the classifier was created.
     :attr list[Class] classes: (optional) Classes that define a classifier.
-    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to `updated` and retained for backward compatibility.
-    :attr datetime updated: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by some requests.
+    :attr datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC)
+    that the classifier was updated. Returned when verbose=`true`. Might not be returned
+    by some requests. Identical to `updated` and retained for backward compatibility.
+    :attr datetime updated: (optional) Date and time in Coordinated Universal Time (UTC)
+    that the classifier was most recently updated. The field matches either `retrained` or
+    `created`.  Returned when verbose=`true`. Might not be returned by some requests.
     """
 
     def __init__(self,
@@ -738,14 +772,24 @@ class Classifier(object):
 
         :param str classifier_id: ID of a classifier identified in the image.
         :param str name: Name of the classifier.
-        :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML model after the training status is `ready`.
-        :param str owner: (optional) Unique ID of the account who owns the classifier. Returned when verbose=`true`. Might not be returned by some requests.
+        :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML
+        model after the training status is `ready`.
+        :param str owner: (optional) Unique ID of the account who owns the classifier.
+        Returned when verbose=`true`. Might not be returned by some requests.
         :param str status: (optional) Training status of classifier.
-        :param str explanation: (optional) If classifier training has failed, this field may explain why.
-        :param datetime created: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was created.
+        :param str explanation: (optional) If classifier training has failed, this field
+        may explain why.
+        :param datetime created: (optional) Date and time in Coordinated Universal Time
+        (UTC) that the classifier was created.
         :param list[Class] classes: (optional) Classes that define a classifier.
-        :param datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be returned by some requests. Identical to `updated` and retained for backward compatibility.
-        :param datetime updated: (optional) Date and time in Coordinated Universal Time (UTC) that the classifier was most recently updated. The field matches either `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by some requests.
+        :param datetime retrained: (optional) Date and time in Coordinated Universal Time
+        (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be
+        returned by some requests. Identical to `updated` and retained for backward
+        compatibility.
+        :param datetime updated: (optional) Date and time in Coordinated Universal Time
+        (UTC) that the classifier was most recently updated. The field matches either
+        `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by
+        some requests.
         """
         self.classifier_id = classifier_id
         self.name = name
@@ -968,7 +1012,10 @@ class DetectedFaces(object):
 
     :attr int images_processed: (optional) Number of images processed for the API call.
     :attr list[ImageWithFaces] images: The images.
-    :attr list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.
+    :attr list[WarningInfo] warnings: (optional) Information about what might cause less
+    than optimal output. For example, a request sent with a corrupt .zip file and a list
+    of image URLs will still complete, but does not return the expected output. Not
+    returned when there is no warning.
     """
 
     def __init__(self, images, images_processed=None, warnings=None):
@@ -976,8 +1023,12 @@ class DetectedFaces(object):
         Initialize a DetectedFaces object.
 
         :param list[ImageWithFaces] images: The images.
-        :param int images_processed: (optional) Number of images processed for the API call.
-        :param list[WarningInfo] warnings: (optional) Information about what might cause less than optimal output. For example, a request sent with a corrupt .zip file and a list of image URLs will still complete, but does not return the expected output. Not returned when there is no warning.
+        :param int images_processed: (optional) Number of images processed for the API
+        call.
+        :param list[WarningInfo] warnings: (optional) Information about what might cause
+        less than optimal output. For example, a request sent with a corrupt .zip file and
+        a list of image URLs will still complete, but does not return the expected output.
+        Not returned when there is no warning.
         """
         self.images_processed = images_processed
         self.images = images
@@ -1036,7 +1087,8 @@ class ErrorInfo(object):
     large. Not returned when there is no error.
 
     :attr int code: HTTP status code.
-    :attr str description: Human-readable error description. For example, `File size limit exceeded`.
+    :attr str description: Human-readable error description. For example, `File size limit
+    exceeded`.
     :attr str error_id: Codified error string. For example, `limit_exceeded`.
     """
 
@@ -1045,7 +1097,8 @@ class ErrorInfo(object):
         Initialize a ErrorInfo object.
 
         :param int code: HTTP status code.
-        :param str description: Human-readable error description. For example, `File size limit exceeded`.
+        :param str description: Human-readable error description. For example, `File size
+        limit exceeded`.
         :param str error_id: Codified error string. For example, `limit_exceeded`.
         """
         self.code = code
@@ -1106,7 +1159,8 @@ class Face(object):
 
     :attr FaceAge age: (optional) Age information about a face.
     :attr FaceGender gender: (optional) Information about the gender of the face.
-    :attr FaceLocation face_location: (optional) The location of the bounding box around the face.
+    :attr FaceLocation face_location: (optional) The location of the bounding box around
+    the face.
     """
 
     def __init__(self, age=None, gender=None, face_location=None):
@@ -1115,7 +1169,8 @@ class Face(object):
 
         :param FaceAge age: (optional) Age information about a face.
         :param FaceGender gender: (optional) Information about the gender of the face.
-        :param FaceLocation face_location: (optional) The location of the bounding box around the face.
+        :param FaceLocation face_location: (optional) The location of the bounding box
+        around the face.
         """
         self.age = age
         self.gender = gender
@@ -1166,7 +1221,8 @@ class FaceAge(object):
 
     :attr int min: (optional) Estimated minimum age.
     :attr int max: (optional) Estimated maximum age.
-    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.
+    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score
+    indicates greater confidence in the estimated value for the property.
     """
 
     def __init__(self, min=None, max=None, score=None):
@@ -1175,7 +1231,8 @@ class FaceAge(object):
 
         :param int min: (optional) Estimated minimum age.
         :param int max: (optional) Estimated maximum age.
-        :param float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.
+        :param float score: (optional) Confidence score in the range of 0 to 1. A higher
+        score indicates greater confidence in the estimated value for the property.
         """
         self.min = min
         self.max = max
@@ -1224,7 +1281,8 @@ class FaceGender(object):
     Information about the gender of the face.
 
     :attr str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
-    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.
+    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score
+    indicates greater confidence in the estimated value for the property.
     """
 
     def __init__(self, gender, score=None):
@@ -1232,7 +1290,8 @@ class FaceGender(object):
         Initialize a FaceGender object.
 
         :param str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
-        :param float score: (optional) Confidence score in the range of 0 to 1. A higher score indicates greater confidence in the estimated value for the property.
+        :param float score: (optional) Confidence score in the range of 0 to 1. A higher
+        score indicates greater confidence in the estimated value for the property.
         """
         self.gender = gender
         self.score = score
@@ -1358,10 +1417,14 @@ class ImageWithFaces(object):
     Information about faces in the image.
 
     :attr list[Face] faces: Faces detected in the images.
-    :attr str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
-    :attr str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
-    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
-    :attr ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
+    :attr str image: (optional) Relative path of the image file if uploaded directly. Not
+    returned when the image is passed by URL.
+    :attr str source_url: (optional) Source of the image before any redirects. Not
+    returned when the image is uploaded.
+    :attr str resolved_url: (optional) Fully resolved URL of the image after redirects are
+    followed. Not returned when the image is uploaded.
+    :attr ErrorInfo error: (optional) Information about what might have caused a failure,
+    such as an image that is too large. Not returned when there is no error.
     """
 
     def __init__(self,
@@ -1374,10 +1437,14 @@ class ImageWithFaces(object):
         Initialize a ImageWithFaces object.
 
         :param list[Face] faces: Faces detected in the images.
-        :param str image: (optional) Relative path of the image file if uploaded directly. Not returned when the image is passed by URL.
-        :param str source_url: (optional) Source of the image before any redirects. Not returned when the image is uploaded.
-        :param str resolved_url: (optional) Fully resolved URL of the image after redirects are followed. Not returned when the image is uploaded.
-        :param ErrorInfo error: (optional) Information about what might have caused a failure, such as an image that is too large. Not returned when there is no error.
+        :param str image: (optional) Relative path of the image file if uploaded directly.
+        Not returned when the image is passed by URL.
+        :param str source_url: (optional) Source of the image before any redirects. Not
+        returned when the image is uploaded.
+        :param str resolved_url: (optional) Fully resolved URL of the image after
+        redirects are followed. Not returned when the image is uploaded.
+        :param ErrorInfo error: (optional) Information about what might have caused a
+        failure, such as an image that is too large. Not returned when there is no error.
         """
         self.faces = faces
         self.image = image

@@ -152,7 +152,8 @@ class SpeechToTextV1(WatsonService):
         for use with the service. The information includes the name of the model and its
         minimum sampling rate in Hertz, among other things.
 
-        :param str model_id: The identifier of the model in the form of its name from the output of the **Get models** method.
+        :param str model_id: The identifier of the model in the form of its name from the
+        output of the **Get models** method.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechModel` response.
         :rtype: dict
@@ -169,7 +170,7 @@ class SpeechToTextV1(WatsonService):
 
     def list_models(self, **kwargs):
         """
-        Get models.
+        List models.
 
         Retrieves a list of all language models that are available for use with the
         service. The information includes the name of the model and its minimum sampling
@@ -215,25 +216,141 @@ class SpeechToTextV1(WatsonService):
                   speaker_labels=None,
                   **kwargs):
         """
-        Sends audio for speech recognition in sessionless mode.
+        Recognize audio (sessionless).
 
-        :param str model: The identifier of the model that is to be used for the recognition request.
-        :param str customization_id: The GUID of a custom language model that is to be used with the request. The base model of the specified custom language model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom language model is used.
-        :param str acoustic_customization_id: The GUID of a custom acoustic model that is to be used with the request. The base model of the specified custom acoustic model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom acoustic model is used.
-        :param float customization_weight: NON-MULTIPART ONLY: If you specify a customization ID with the request, you can use the customization weight to tell the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition.   Specify a value between 0.0 and 1.0. Unless a different customization weight was specified for the custom model when it was trained, the default value is 0.3. A customization weight that you specify overrides a weight that was specified when the custom model was trained.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model's domain, but it can negatively affect performance on non-domain phrases.
-        :param str version: The version of the specified base `model` that is to be used for speech recognition. Multiple versions of a base model can exist when a model is updated for internal improvements. The parameter is intended primarily for use with custom models that have been upgraded for a new base model. The default value depends on whether the parameter is used with or without a custom model. For more information, see [Base model version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
-        :param str audio: NON-MULTIPART ONLY: Audio to transcribe in the format specified by the `Content-Type` header. **Required for a non-multipart request.**.
-        :param str content_type: The type of the input: audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, audio/webm;codecs=vorbis, or multipart/form-data.
-        :param int inactivity_timeout: NON-MULTIPART ONLY: The time in seconds after which, if only silence (no speech) is detected in submitted audio, the connection is closed with a 400 error. Useful for stopping audio submission from a live microphone when a user simply walks away. Use `-1` for infinity.
-        :param list[str] keywords: NON-MULTIPART ONLY: Array of keyword strings to spot in the audio. Each keyword string can include one or more tokens. Keywords are spotted only in the final hypothesis, not in interim results. If you specify any keywords, you must also specify a keywords threshold. You can spot a maximum of 1000 keywords. Omit the parameter or specify an empty array if you do not need to spot keywords.
-        :param float keywords_threshold: NON-MULTIPART ONLY: Confidence value that is the lower bound for spotting a keyword. A word is considered to match a keyword if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No keyword spotting is performed if you omit the parameter. If you specify a threshold, you must also specify one or more keywords.
-        :param int max_alternatives: NON-MULTIPART ONLY: Maximum number of alternative transcripts to be returned. By default, a single transcription is returned.
-        :param float word_alternatives_threshold: NON-MULTIPART ONLY: Confidence value that is the lower bound for identifying a hypothesis as a possible word alternative (also known as \"Confusion Networks\"). An alternative word is considered if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No alternative words are computed if you omit the parameter.
-        :param bool word_confidence: NON-MULTIPART ONLY: If `true`, confidence measure per word is returned.
-        :param bool timestamps: NON-MULTIPART ONLY: If `true`, time alignment for each word is returned.
-        :param bool profanity_filter: NON-MULTIPART ONLY: If `true` (the default), filters profanity from all output except for keyword results by replacing inappropriate words with a series of asterisks. Set the parameter to `false` to return results with no censoring. Applies to US English transcription only.
-        :param bool smart_formatting: NON-MULTIPART ONLY: If `true`, converts dates, times, series of digits and numbers, phone numbers, currency values, and Internet addresses into more readable, conventional representations in the final transcript of a recognition request. If `false` (the default), no formatting is performed. Applies to US English transcription only.
-        :param bool speaker_labels: NON-MULTIPART ONLY: Indicates whether labels that identify which words were spoken by which participants in a multi-person exchange are to be included in the response. The default is `false`; no speaker labels are returned. Setting `speaker_labels` to `true` forces the `timestamps` parameter to be `true`, regardless of whether you specify `false` for the parameter.   To determine whether a language model supports speaker labels, use the **Get models** method and check that the attribute `speaker_labels` is set to `true`. You can also refer to [Speaker labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
+        Sends audio and returns transcription results for a sessionless recognition
+        request. Returns only the final results; to enable interim results, use
+        session-based requests or the WebSocket API. The service imposes a data size limit
+        of 100 MB. It automatically detects the endianness of the incoming audio and, for
+        audio that includes multiple channels, downmixes the audio to one-channel mono
+        during transcoding. (For the `audio/l16` format, you can specify the endianness.)
+        ### Streaming mode
+         For requests to transcribe live audio as it becomes available, you must set the
+        `Transfer-Encoding` header to `chunked` to use streaming mode. In streaming mode,
+        the server closes the connection (status code 408) if the service receives no data
+        chunk for 30 seconds and the service has no audio to transcribe for 30 seconds.
+        The server also closes the connection (status code 400) if no speech is detected
+        for `inactivity_timeout` seconds of audio (not processing time); use the
+        `inactivity_timeout` parameter to change the default of 30 seconds.
+        ### Audio formats (content types)
+         Use the `Content-Type` header to specify the audio format (MIME type) of the
+        audio. The service accepts the following formats:
+        * `audio/basic` (Use only with narrowband models.)
+        * `audio/flac`
+        * `audio/l16` (Specify the sampling rate (`rate`) and optionally the number of
+        channels (`channels`) and endianness (`endianness`) of the audio.)
+        * `audio/mp3`
+        * `audio/mpeg`
+        * `audio/mulaw` (Specify the sampling rate (`rate`) of the audio.)
+        * `audio/ogg` (The service automatically detects the codec of the input audio.)
+        * `audio/ogg;codecs=opus`
+        * `audio/ogg;codecs=vorbis`
+        * `audio/wav` (Provide audio with a maximum of nine channels.)
+        * `audio/webm` (The service automatically detects the codec of the input audio.)
+        * `audio/webm;codecs=opus`
+        * `audio/webm;codecs=vorbis`
+        For information about the supported audio formats, including specifying the
+        sampling rate, channels, and endianness for the indicated formats, see [Audio
+        formats](https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html).
+        ### Multipart speech recognition
+         The method also supports multipart recognition requests. With multipart requests,
+        you pass all audio data as multipart form data. You specify some parameters as
+        request headers and query parameters, but you pass JSON metadata as form data to
+        control most aspects of the transcription.
+        The multipart approach is intended for use with browsers for which JavaScript is
+        disabled or when the parameters used with the request are greater than the 8 KB
+        limit imposed by most HTTP servers and proxies. You can encounter this limit, for
+        example, if you want to spot a very large number of keywords.
+        For information about submitting a multipart request, see [Submitting multipart
+        requests as form
+        data](https://console.bluemix.net/docs/services/speech-to-text/http.html#HTTP-multi).
+
+        :param str model: The identifier of the model that is to be used for the
+        recognition request or, for the **Create a session** method, with the new session.
+        :param str customization_id: The customization ID (GUID) of a custom language
+        model that is to be used with the recognition request or, for the **Create a
+        session** method, with the new session. The base model of the specified custom
+        language model must match the model specified with the `model` parameter. You must
+        make the request with service credentials created for the instance of the service
+        that owns the custom model. By default, no custom language model is used.
+        :param str acoustic_customization_id: The customization ID (GUID) of a custom
+        acoustic model that is to be used with the recognition request or, for the
+        **Create a session** method, with the new session. The base model of the specified
+        custom acoustic model must match the model specified with the `model` parameter.
+        You must make the request with service credentials created for the instance of the
+        service that owns the custom model. By default, no custom acoustic model is used.
+        :param float customization_weight: If you specify the customization ID (GUID) of a
+        custom language model with the recognition request or, for sessions, with the
+        **Create a session** method, the customization weight tells the service how much
+        weight to give to words from the custom language model compared to those from the
+        base model for the current request.
+        Specify a value between 0.0 and 1.0. Unless a different customization weight was
+        specified for the custom model when it was trained, the default value is 0.3. A
+        customization weight that you specify overrides a weight that was specified when
+        the custom model was trained.
+        The default value yields the best performance in general. Assign a higher value if
+        your audio makes frequent use of OOV words from the custom model. Use caution when
+        setting the weight: a higher value can improve the accuracy of phrases from the
+        custom model's domain, but it can negatively affect performance on non-domain
+        phrases.
+        :param str version: The version of the specified base model that is to
+        be used with recognition request or, for the **Create a session** method, with the
+        new session. Multiple versions of a base model can exist when a model is updated
+        for internal improvements. The parameter is intended primarily for use with custom
+        models that have been upgraded for a new base model. The default value depends on
+        whether the parameter is used with or without a custom model. For more
+        information, see [Base model
+        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
+        :param str audio: The audio to transcribe in the format specified by the
+        `Content-Type` header.
+        :param str content_type: The type of the input: audio/basic, audio/flac,
+        audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus,
+        audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or
+        audio/webm;codecs=vorbis.
+        :param int inactivity_timeout: The time in seconds after which, if only silence
+        (no speech) is detected in submitted audio, the connection is closed with a 400
+        error. Useful for stopping audio submission from a live microphone when a user
+        simply walks away. Use `-1` for infinity.
+        :param list[str] keywords: An array of keyword strings to spot in the audio. Each
+        keyword string can include one or more tokens. Keywords are spotted only in the
+        final hypothesis, not in interim results. If you specify any keywords, you must
+        also specify a keywords threshold. You can spot a maximum of 1000 keywords. Omit
+        the parameter or specify an empty array if you do not need to spot keywords.
+        :param float keywords_threshold: A confidence value that is the lower bound for
+        spotting a keyword. A word is considered to match a keyword if its confidence is
+        greater than or equal to the threshold. Specify a probability between 0 and 1
+        inclusive. No keyword spotting is performed if you omit the parameter. If you
+        specify a threshold, you must also specify one or more keywords.
+        :param int max_alternatives: The maximum number of alternative transcripts to be
+        returned. By default, a single transcription is returned.
+        :param float word_alternatives_threshold: A confidence value that is the lower
+        bound for identifying a hypothesis as a possible word alternative (also known as
+        \"Confusion Networks\"). An alternative word is considered if its confidence is
+        greater than or equal to the threshold. Specify a probability between 0 and 1
+        inclusive. No alternative words are computed if you omit the parameter.
+        :param bool word_confidence: If `true`, a confidence measure in the range of 0 to
+        1 is returned for each word. By default, no word confidence measures are returned.
+        :param bool timestamps: If `true`, time alignment is returned for each word. By
+        default, no timestamps are returned.
+        :param bool profanity_filter: If `true` (the default), filters profanity from all
+        output except for keyword results by replacing inappropriate words with a series
+        of asterisks. Set the parameter to `false` to return results with no censoring.
+        Applies to US English transcription only.
+        :param bool smart_formatting: If `true`, converts dates, times, series of digits
+        and numbers, phone numbers, currency values, and internet addresses into more
+        readable, conventional representations in the final transcript of a recognition
+        request. For US English, also converts certain keyword strings to punctuation
+        symbols. By default, no smart formatting is performed. Applies to US English and
+        Spanish transcription only.
+        :param bool speaker_labels: If `true`, the response includes labels that identify
+        which words were spoken by which participants in a multi-person exchange. By
+        default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
+        the `timestamps` parameter to be `true`, regardless of whether you specify `false`
+        for the parameter.
+         To determine whether a language model supports speaker labels, use the **Get
+        models** method and check that the attribute `speaker_labels` is set to `true`.
+        You can also refer to [Speaker
+        labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
@@ -295,27 +412,95 @@ class SpeechToTextV1(WatsonService):
         """
         Sends audio for speech recognition using web sockets.
 
-        :param str audio: Audio to transcribe in the format specified by the `Content-Type` header.
-        :param str content_type: The type of the input: audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, audio/webm;codecs=vorbis, or multipart/form-data.
-        :param str model: The identifier of the model to be used for the recognition request.
-        :param RecognizeCallback recognize_callback: The instance handling events returned from the service.
-        :param str customization_id: The GUID of a custom language model that is to be used with the request. The base model of the specified custom language model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom language model is used.
-        :param str acoustic_customization_id: The GUID of a custom acoustic model that is to be used with the request. The base model of the specified custom acoustic model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom acoustic model is used.
-        :param float customization_weight: If you specify a `customization_id` with the request, you can use the `customization_weight` parameter to tell the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition.   Specify a value between 0.0 and 1.0. Unless a different customization weight was specified for the custom model when it was trained, the default value is 0.3. A customization weight that you specify overrides a weight that was specified when the custom model was trained.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model's domain, but it can negatively affect performance on non-domain phrases.
-        :param str version: The version of the specified base `model` that is to be used for speech recognition. Multiple versions of a base model can exist when a model is updated for internal improvements. The parameter is intended primarily for use with custom models that have been upgraded for a new base model. The default value depends on whether the parameter is used with or without a custom model. For more information, see [Base model version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
-        :param int inactivity_timeout: The time in seconds after which, if only silence (no speech) is detected in submitted audio, the connection is closed with a 400 error. Useful for stopping audio submission from a live microphone when a user simply walks away. Use `-1` for infinity.
-        :param bool interim_results: Send back non-final previews of each "sentence" as it is being processed. These results are ignored in text mode.
-        :param list[str] keywords: Array of keyword strings to spot in the audio. Each keyword string can include one or more tokens. Keywords are spotted only in the final hypothesis, not in interim results. If you specify any keywords, you must also specify a keywords threshold. Omit the parameter or specify an empty array if you do not need to spot keywords.
-        :param float keywords_threshold: Confidence value that is the lower bound for spotting a keyword. A word is considered to match a keyword if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No keyword spotting is performed if you omit the parameter. If you specify a threshold, you must also specify one or more keywords.
-        :param int max_alternatives: Maximum number of alternative transcripts to be returned. By default, a single transcription is returned.
-        :param float word_alternatives_threshold: Confidence value that is the lower bound for identifying a hypothesis as a possible word alternative (also known as \"Confusion Networks\"). An alternative word is considered if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No alternative words are computed if you omit the parameter.
-        :param bool word_confidence: If `true`, confidence measure per word is returned.
-        :param bool timestamps: If `true`, time alignment for each word is returned.
-        :param bool profanity_filter: If `true` (the default), filters profanity from all output except for keyword results by replacing inappropriate words with a series of asterisks. Set the parameter to `false` to return results with no censoring. Applies to US English transcription only.
-        :param bool smart_formatting: If `true`, converts dates, times, series of digits and numbers, phone numbers, currency values, and Internet addresses into more readable, conventional representations in the final transcript of a recognition request. If `false` (the default), no formatting is performed. Applies to US English transcription only.
-        :param bool speaker_labels: Indicates whether labels that identify which words were spoken by which participants in a multi-person exchange are to be included in the response. The default is `false`; no speaker labels are returned. Setting `speaker_labels` to `true` forces the `timestamps` parameter to be `true`, regardless of whether you specify `false` for the parameter.   To determine whether a language model supports speaker labels, use the `GET /v1/models` method and check that the attribute `speaker_labels` is set to `true`. You can also refer to [Speaker labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
+        :param str model: The identifier of the model that is to be used for the
+        recognition request or, for the **Create a session** method, with the new session.
+        :param str customization_id: The customization ID (GUID) of a custom language
+        model that is to be used with the recognition request or, for the **Create a
+        session** method, with the new session. The base model of the specified custom
+        language model must match the model specified with the `model` parameter. You must
+        make the request with service credentials created for the instance of the service
+        that owns the custom model. By default, no custom language model is used.
+        :param str acoustic_customization_id: The customization ID (GUID) of a custom
+        acoustic model that is to be used with the recognition request or, for the
+        **Create a session** method, with the new session. The base model of the specified
+        custom acoustic model must match the model specified with the `model` parameter.
+        You must make the request with service credentials created for the instance of the
+        service that owns the custom model. By default, no custom acoustic model is used.
+        :param float customization_weight: If you specify the customization ID (GUID) of a
+        custom language model with the recognition request or, for sessions, with the
+        **Create a session** method, the customization weight tells the service how much
+        weight to give to words from the custom language model compared to those from the
+        base model for the current request.
+        Specify a value between 0.0 and 1.0. Unless a different customization weight was
+        specified for the custom model when it was trained, the default value is 0.3. A
+        customization weight that you specify overrides a weight that was specified when
+        the custom model was trained.
+        The default value yields the best performance in general. Assign a higher value if
+        your audio makes frequent use of OOV words from the custom model. Use caution when
+        setting the weight: a higher value can improve the accuracy of phrases from the
+        custom model's domain, but it can negatively affect performance on non-domain
+        phrases.
+        :param str version: The version of the specified base model that is to
+        be used with recognition request or, for the **Create a session** method, with the
+        new session. Multiple versions of a base model can exist when a model is updated
+        for internal improvements. The parameter is intended primarily for use with custom
+        models that have been upgraded for a new base model. The default value depends on
+        whether the parameter is used with or without a custom model. For more
+        information, see [Base model
+        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
+        :param str audio: The audio to transcribe in the format specified by the
+        `Content-Type` header.
+        :param str content_type: The type of the input: audio/basic, audio/flac,
+        audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus,
+        audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or
+        audio/webm;codecs=vorbis.
+        :param int inactivity_timeout: The time in seconds after which, if only silence
+        (no speech) is detected in submitted audio, the connection is closed with a 400
+        error. Useful for stopping audio submission from a live microphone when a user
+        simply walks away. Use `-1` for infinity.
+        :param list[str] keywords: An array of keyword strings to spot in the audio. Each
+        keyword string can include one or more tokens. Keywords are spotted only in the
+        final hypothesis, not in interim results. If you specify any keywords, you must
+        also specify a keywords threshold. You can spot a maximum of 1000 keywords. Omit
+        the parameter or specify an empty array if you do not need to spot keywords.
+        :param float keywords_threshold: A confidence value that is the lower bound for
+        spotting a keyword. A word is considered to match a keyword if its confidence is
+        greater than or equal to the threshold. Specify a probability between 0 and 1
+        inclusive. No keyword spotting is performed if you omit the parameter. If you
+        specify a threshold, you must also specify one or more keywords.
+        :param int max_alternatives: The maximum number of alternative transcripts to be
+        returned. By default, a single transcription is returned.
+        :param float word_alternatives_threshold: A confidence value that is the lower
+        bound for identifying a hypothesis as a possible word alternative (also known as
+        \"Confusion Networks\"). An alternative word is considered if its confidence is
+        greater than or equal to the threshold. Specify a probability between 0 and 1
+        inclusive. No alternative words are computed if you omit the parameter.
+        :param bool word_confidence: If `true`, a confidence measure in the range of 0 to
+        1 is returned for each word. By default, no word confidence measures are returned.
+        :param bool timestamps: If `true`, time alignment is returned for each word. By
+        default, no timestamps are returned.
+        :param bool profanity_filter: If `true` (the default), filters profanity from all
+        output except for keyword results by replacing inappropriate words with a series
+        of asterisks. Set the parameter to `false` to return results with no censoring.
+        Applies to US English transcription only.
+        :param bool smart_formatting: If `true`, converts dates, times, series of digits
+        and numbers, phone numbers, currency values, and internet addresses into more
+        readable, conventional representations in the final transcript of a recognition
+        request. For US English, also converts certain keyword strings to punctuation
+        symbols. By default, no smart formatting is performed. Applies to US English and
+        Spanish transcription only.
+        :param bool speaker_labels: If `true`, the response includes labels that identify
+        which words were spoken by which participants in a multi-person exchange. By
+        default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
+        the `timestamps` parameter to be `true`, regardless of whether you specify `false`
+        for the parameter.
+         To determine whether a language model supports speaker labels, use the **Get
+        models** method and check that the attribute `speaker_labels` is set to `true`.
+        You can also refer to [Speaker
+        labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
         :param dict headers: A `dict` containing the request headers
-        :return:
+        :return: A `dict` containing the `SpeechRecognitionResults` response.
+        :rtype: dict
         """
         if audio is None:
             raise ValueError('Audio must be provided')
@@ -375,10 +560,10 @@ class SpeechToTextV1(WatsonService):
         Returns information about the specified job. The response always includes the
         status of the job and its creation and update times. If the status is `completed`,
         the response includes the results of the recognition request. You must submit the
-        request with the service credentials of the user who created the job.   You can
-        use the method to retrieve the results of any job, regardless of whether it was
-        submitted with a callback URL and the `recognitions.completed_with_results` event,
-        and you can retrieve the results multiple times for as long as they remain
+        request with the service credentials of the user who created the job.
+        You can use the method to retrieve the results of any job, regardless of whether
+        it was submitted with a callback URL and the `recognitions.completed_with_results`
+        event, and you can retrieve the results multiple times for as long as they remain
         available. Use the **Check jobs** method to request information about the most
         recent jobs associated with the calling user.
 
@@ -451,64 +636,167 @@ class SpeechToTextV1(WatsonService):
         Creates a job for a new asynchronous recognition request. The job is owned by the
         user whose service credentials are used to create it. How you learn the status and
         results of a job depends on the parameters you include with the job creation
-        request: * By callback notification: Include the `callback_url` parameter to
-        specify a URL to which the service is to send callback notifications when the
-        status of the job changes. Optionally, you can also include the `events` and
-        `user_token` parameters to subscribe to specific events and to specify a string
-        that is to be included with each notification for the job. * By polling the
-        service: Omit the `callback_url`, `events`, and `user_token` parameters. You must
-        then use the **Check jobs** or **Check a job** methods to check the status of the
-        job, using the latter to retrieve the results when the job is complete.  The two
-        approaches are not mutually exclusive. You can poll the service for job status or
-        obtain results from the service manually even if you include a callback URL. In
-        both cases, you can include the `results_ttl` parameter to specify how long the
-        results are to remain available after the job is complete. For detailed usage
-        information about the two approaches, including callback notifications, see
+        request:
+        * By callback notification: Include the `callback_url` parameter to specify a URL
+        to which the service is to send callback notifications when the status of the job
+        changes. Optionally, you can also include the `events` and `user_token` parameters
+        to subscribe to specific events and to specify a string that is to be included
+        with each notification for the job.
+        * By polling the service: Omit the `callback_url`, `events`, and `user_token`
+        parameters. You must then use the **Check jobs** or **Check a job** methods to
+        check the status of the job, using the latter to retrieve the results when the job
+        is complete.
+        The two approaches are not mutually exclusive. You can poll the service for job
+        status or obtain results from the service manually even if you include a callback
+        URL. In both cases, you can include the `results_ttl` parameter to specify how
+        long the results are to remain available after the job is complete. For detailed
+        usage information about the two approaches, including callback notifications, see
         [Creating a
         job](https://console.bluemix.net/docs/services/speech-to-text/async.html#create).
         Using the HTTPS **Check a job** method to retrieve results is more secure than
         receiving them via callback notification over HTTP because it provides
-        confidentiality in addition to authentication and data integrity.   The method
-        supports the same basic parameters as other HTTP and WebSocket recognition
-        requests. The service imposes a data size limit of 100 MB. It automatically
-        detects the endianness of the incoming audio and, for audio that includes multiple
-        channels, downmixes the audio to one-channel mono during transcoding. (For the
-        `audio/l16` format, you can specify the endianness.)   ### Audio formats (content
-        types)   Use the `Content-Type` parameter to specify the audio format (MIME type)
-        of the audio: * `audio/basic` (Use only with narrowband models.) * `audio/flac` *
-        `audio/l16` (Specify the sampling rate (`rate`) and optionally the number of
-        channels (`channels`) and endianness (`endianness`) of the audio.) * `audio/mp3` *
-        `audio/mpeg` * `audio/mulaw` (Specify the sampling rate (`rate`) of the audio.) *
-        `audio/ogg` (The service automatically detects the codec of the input audio.) *
-        `audio/ogg;codecs=opus` * `audio/ogg;codecs=vorbis` * `audio/wav` (Provide audio
-        with a maximum of nine channels.) * `audio/webm` (The service automatically
-        detects the codec of the input audio.) * `audio/webm;codecs=opus` *
-        `audio/webm;codecs=vorbis`   For information about the supported audio formats,
-        including specifying the sampling rate, channels, and endianness for the indicated
-        formats, see [Audio
+        confidentiality in addition to authentication and data integrity.
+        The method supports the same basic parameters as other HTTP and WebSocket
+        recognition requests. The service imposes a data size limit of 100 MB. It
+        automatically detects the endianness of the incoming audio and, for audio that
+        includes multiple channels, downmixes the audio to one-channel mono during
+        transcoding. (For the `audio/l16` format, you can specify the endianness.)
+        ### Audio formats (content types)
+         Use the `Content-Type` parameter to specify the audio format (MIME type) of the
+        audio:
+        * `audio/basic` (Use only with narrowband models.)
+        * `audio/flac`
+        * `audio/l16` (Specify the sampling rate (`rate`) and optionally the number of
+        channels (`channels`) and endianness (`endianness`) of the audio.)
+        * `audio/mp3`
+        * `audio/mpeg`
+        * `audio/mulaw` (Specify the sampling rate (`rate`) of the audio.)
+        * `audio/ogg` (The service automatically detects the codec of the input audio.)
+        * `audio/ogg;codecs=opus`
+        * `audio/ogg;codecs=vorbis`
+        * `audio/wav` (Provide audio with a maximum of nine channels.)
+        * `audio/webm` (The service automatically detects the codec of the input audio.)
+        * `audio/webm;codecs=opus`
+        * `audio/webm;codecs=vorbis`
+        For information about the supported audio formats, including specifying the
+        sampling rate, channels, and endianness for the indicated formats, see [Audio
         formats](https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html).
 
-        :param str audio: The audio to transcribe in the format specified by the `Content-Type` header.
-        :param str content_type: The type of the input: audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or audio/webm;codecs=vorbis.
-        :param str model: The identifier of the model that is to be used for the recognition request or, for the **Create a session** method, with the new session.
-        :param str callback_url: A URL to which callback notifications are to be sent. The URL must already be successfully white-listed by using the **Register a callback** method. Omit the parameter to poll the service for job completion and results. You can include the same callback URL with any number of job creation requests. Use the `user_token` parameter to specify a unique user-specified string with each job to differentiate the callback notifications for the jobs.
-        :param str events: If the job includes a callback URL, a comma-separated list of notification events to which to subscribe. Valid events are: `recognitions.started` generates a callback notification when the service begins to process the job. `recognitions.completed` generates a callback notification when the job is complete; you must use the **Check a job** method to retrieve the results before they time out or are deleted. `recognitions.completed_with_results` generates a callback notification when the job is complete; the notification includes the results of the request. `recognitions.failed` generates a callback notification if the service experiences an error while processing the job. Omit the parameter to subscribe to the default events: `recognitions.started`, `recognitions.completed`, and `recognitions.failed`. The `recognitions.completed` and `recognitions.completed_with_results` events are incompatible; you can specify only of the two events. If the job does not include a callback URL, omit the parameter.
-        :param str user_token: If the job includes a callback URL, a user-specified string that the service is to include with each callback notification for the job; the token allows the user to maintain an internal mapping between jobs and notification events. If the job does not include a callback URL, omit the parameter.
-        :param int results_ttl: The number of minutes for which the results are to be available after the job has finished. If not delivered via a callback, the results must be retrieved within this time. Omit the parameter to use a time to live of one week. The parameter is valid with or without a callback URL.
-        :param str customization_id: The customization ID (GUID) of a custom language model that is to be used with the recognition request or, for the **Create a session** method, with the new session. The base model of the specified custom language model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom language model is used.
-        :param str acoustic_customization_id: The customization ID (GUID) of a custom acoustic model that is to be used with the recognition request or, for the **Create a session** method, with the new session. The base model of the specified custom acoustic model must match the model specified with the `model` parameter. You must make the request with service credentials created for the instance of the service that owns the custom model. By default, no custom acoustic model is used.
-        :param str version: The version of the specified base model that is to be used with recognition request or, for the **Create a session** method, with the new session. Multiple versions of a base model can exist when a model is updated for internal improvements. The parameter is intended primarily for use with custom models that have been upgraded for a new base model. The default value depends on whether the parameter is used with or without a custom model. For more information, see [Base model version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
-        :param float customization_weight: If you specify the customization ID (GUID) of a custom language model with the recognition request or, for sessions, with the **Create a session** method, the customization weight tells the service how much weight to give to words from the custom language model compared to those from the base model for the current request.   Specify a value between 0.0 and 1.0. Unless a different customization weight was specified for the custom model when it was trained, the default value is 0.3. A customization weight that you specify overrides a weight that was specified when the custom model was trained.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model's domain, but it can negatively affect performance on non-domain phrases.
-        :param int inactivity_timeout: The time in seconds after which, if only silence (no speech) is detected in submitted audio, the connection is closed with a 400 error. Useful for stopping audio submission from a live microphone when a user simply walks away. Use `-1` for infinity.
-        :param list[str] keywords: An array of keyword strings to spot in the audio. Each keyword string can include one or more tokens. Keywords are spotted only in the final hypothesis, not in interim results. If you specify any keywords, you must also specify a keywords threshold. You can spot a maximum of 1000 keywords. Omit the parameter or specify an empty array if you do not need to spot keywords.
-        :param float keywords_threshold: A confidence value that is the lower bound for spotting a keyword. A word is considered to match a keyword if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No keyword spotting is performed if you omit the parameter. If you specify a threshold, you must also specify one or more keywords.
-        :param int max_alternatives: The maximum number of alternative transcripts to be returned. By default, a single transcription is returned.
-        :param float word_alternatives_threshold: A confidence value that is the lower bound for identifying a hypothesis as a possible word alternative (also known as \"Confusion Networks\"). An alternative word is considered if its confidence is greater than or equal to the threshold. Specify a probability between 0 and 1 inclusive. No alternative words are computed if you omit the parameter.
-        :param bool word_confidence: If `true`, a confidence measure in the range of 0 to 1 is returned for each word. By default, no word confidence measures are returned.
-        :param bool timestamps: If `true`, time alignment is returned for each word. By default, no timestamps are returned.
-        :param bool profanity_filter: If `true` (the default), filters profanity from all output except for keyword results by replacing inappropriate words with a series of asterisks. Set the parameter to `false` to return results with no censoring. Applies to US English transcription only.
-        :param bool smart_formatting: If `true`, converts dates, times, series of digits and numbers, phone numbers, currency values, and internet addresses into more readable, conventional representations in the final transcript of a recognition request. For US English, also converts certain keyword strings to punctuation symbols. By default, no smart formatting is performed. Applies to US English and Spanish transcription only.
-        :param bool speaker_labels: If `true`, the response includes labels that identify which words were spoken by which participants in a multi-person exchange. By default, no speaker labels are returned. Setting `speaker_labels` to `true` forces the `timestamps` parameter to be `true`, regardless of whether you specify `false` for the parameter.   To determine whether a language model supports speaker labels, use the **Get models** method and check that the attribute `speaker_labels` is set to `true`. You can also refer to [Speaker labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
+        :param str audio: The audio to transcribe in the format specified by the
+        `Content-Type` header.
+        :param str content_type: The type of the input: audio/basic, audio/flac,
+        audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus,
+        audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or
+        audio/webm;codecs=vorbis.
+        :param str model: The identifier of the model that is to be used for the
+        recognition request or, for the **Create a session** method, with the new session.
+        :param str callback_url: A URL to which callback notifications are to be sent. The
+        URL must already be successfully white-listed by using the **Register a callback**
+        method. Omit the parameter to poll the service for job completion and results. You
+        can include the same callback URL with any number of job creation requests. Use
+        the `user_token` parameter to specify a unique user-specified string with each job
+        to differentiate the callback notifications for the jobs.
+        :param str events: If the job includes a callback URL, a comma-separated list of
+        notification events to which to subscribe. Valid events are:
+        `recognitions.started` generates a callback notification when the service begins
+        to process the job. `recognitions.completed` generates a callback notification
+        when the job is complete; you must use the **Check a job** method to retrieve the
+        results before they time out or are deleted. `recognitions.completed_with_results`
+        generates a callback notification when the job is complete; the notification
+        includes the results of the request. `recognitions.failed` generates a callback
+        notification if the service experiences an error while processing the job. Omit
+        the parameter to subscribe to the default events: `recognitions.started`,
+        `recognitions.completed`, and `recognitions.failed`. The `recognitions.completed`
+        and `recognitions.completed_with_results` events are incompatible; you can specify
+        only of the two events. If the job does not include a callback URL, omit the
+        parameter.
+        :param str user_token: If the job includes a callback URL, a user-specified string
+        that the service is to include with each callback notification for the job; the
+        token allows the user to maintain an internal mapping between jobs and
+        notification events. If the job does not include a callback URL, omit the
+        parameter.
+        :param int results_ttl: The number of minutes for which the results are to be
+        available after the job has finished. If not delivered via a callback, the results
+        must be retrieved within this time. Omit the parameter to use a time to live of
+        one week. The parameter is valid with or without a callback URL.
+        :param str customization_id: The customization ID (GUID) of a custom language
+        model that is to be used with the recognition request or, for the **Create a
+        session** method, with the new session. The base model of the specified custom
+        language model must match the model specified with the `model` parameter. You must
+        make the request with service credentials created for the instance of the service
+        that owns the custom model. By default, no custom language model is used.
+        :param str acoustic_customization_id: The customization ID (GUID) of a custom
+        acoustic model that is to be used with the recognition request or, for the
+        **Create a session** method, with the new session. The base model of the specified
+        custom acoustic model must match the model specified with the `model` parameter.
+        You must make the request with service credentials created for the instance of the
+        service that owns the custom model. By default, no custom acoustic model is used.
+        :param float customization_weight: If you specify the customization ID (GUID) of a
+        custom language model with the recognition request or, for sessions, with the
+        **Create a session** method, the customization weight tells the service how much
+        weight to give to words from the custom language model compared to those from the
+        base model for the current request.
+        Specify a value between 0.0 and 1.0. Unless a different customization weight was
+        specified for the custom model when it was trained, the default value is 0.3. A
+        customization weight that you specify overrides a weight that was specified when
+        the custom model was trained.
+        The default value yields the best performance in general. Assign a higher value if
+        your audio makes frequent use of OOV words from the custom model. Use caution when
+        setting the weight: a higher value can improve the accuracy of phrases from the
+        custom model's domain, but it can negatively affect performance on non-domain
+        :param str version: The version of the specified base model that is to
+        be used with recognition request or, for the **Create a session** method, with the
+        new session. Multiple versions of a base model can exist when a model is updated
+        for internal improvements. The parameter is intended primarily for use with custom
+        models that have been upgraded for a new base model. The default value depends on
+        whether the parameter is used with or without a custom model. For more
+        information, see [Base model
+        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
+        phrases.
+        :param int inactivity_timeout: The time in seconds after which, if only silence
+        (no speech) is detected in submitted audio, the connection is closed with a 400
+        error. Useful for stopping audio submission from a live microphone when a user
+        simply walks away. Use `-1` for infinity.
+        :param list[str] keywords: An array of keyword strings to spot in the audio. Each
+        keyword string can include one or more tokens. Keywords are spotted only in the
+        final hypothesis, not in interim results. If you specify any keywords, you must
+        also specify a keywords threshold. You can spot a maximum of 1000 keywords. Omit
+        the parameter or specify an empty array if you do not need to spot keywords.
+        :param float keywords_threshold: A confidence value that is the lower bound for
+        spotting a keyword. A word is considered to match a keyword if its confidence is
+        greater than or equal to the threshold. Specify a probability between 0 and 1
+        inclusive. No keyword spotting is performed if you omit the parameter. If you
+        specify a threshold, you must also specify one or more keywords.
+        :param int max_alternatives: The maximum number of alternative transcripts to be
+        returned. By default, a single transcription is returned.
+        :param float word_alternatives_threshold: A confidence value that is the lower
+        bound for identifying a hypothesis as a possible word alternative (also known as
+        \"Confusion Networks\"). An alternative word is considered if its confidence is
+        greater than or equal to the threshold. Specify a probability between 0 and 1
+        inclusive. No alternative words are computed if you omit the parameter.
+        :param bool word_confidence: If `true`, a confidence measure in the range of 0 to
+        1 is returned for each word. By default, no word confidence measures are returned.
+        :param bool timestamps: If `true`, time alignment is returned for each word. By
+        default, no timestamps are returned.
+        :param bool profanity_filter: If `true` (the default), filters profanity from all
+        output except for keyword results by replacing inappropriate words with a series
+        of asterisks. Set the parameter to `false` to return results with no censoring.
+        Applies to US English transcription only.
+        :param bool smart_formatting: If `true`, converts dates, times, series of digits
+        and numbers, phone numbers, currency values, and internet addresses into more
+        readable, conventional representations in the final transcript of a recognition
+        request. For US English, also converts certain keyword strings to punctuation
+        symbols. By default, no smart formatting is performed. Applies to US English and
+        Spanish transcription only.
+        :param bool speaker_labels: If `true`, the response includes labels that identify
+        which words were spoken by which participants in a multi-person exchange. By
+        default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
+        the `timestamps` parameter to be `true`, regardless of whether you specify `false`
+        for the parameter.
+         To determine whether a language model supports speaker labels, use the **Get
+        models** method and check that the attribute `speaker_labels` is set to `true`.
+        You can also refer to [Speaker
+        labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `RecognitionJob` response.
         :rtype: dict
@@ -586,31 +874,40 @@ class SpeechToTextV1(WatsonService):
         callback URL if it is not already registered by sending a `GET` request to the
         callback URL. The service passes a random alphanumeric challenge string via the
         `challenge_string` parameter of the request. The request includes an `Accept`
-        header that specifies `text/plain` as the required response type.   To be
-        registered successfully, the callback URL must respond to the `GET` request from
-        the service. The response must send status code 200 and must include the challenge
-        string in its body. Set the `Content-Type` response header to `text/plain`. Upon
-        receiving this response, the service responds to the original registration request
-        with response code 201.   The service sends only a single `GET` request to the
-        callback URL. If the service does not receive a reply with a response code of 200
-        and a body that echoes the challenge string sent by the service within five
-        seconds, it does not white-list the URL; it instead sends status code 400 in
-        response to the **Register a callback** request. If the requested callback URL is
-        already white-listed, the service responds to the initial registration request
-        with response code 200.   If you specify a user secret with the request, the
-        service uses it as a key to calculate an HMAC-SHA1 signature of the challenge
-        string in its response to the `POST` request. It sends this signature in the
-        `X-Callback-Signature` header of its `GET` request to the URL during registration.
-        It also uses the secret to calculate a signature over the payload of every
-        callback notification that uses the URL. The signature provides authentication and
-        data integrity for HTTP communications.   After you successfully register a
-        callback URL, you can use it with an indefinite number of recognition requests.
-        You can register a maximum of 20 callback URLS in a one-hour span of time. For
-        more information, see [Registering a callback
+        header that specifies `text/plain` as the required response type.
+        To be registered successfully, the callback URL must respond to the `GET` request
+        from the service. The response must send status code 200 and must include the
+        challenge string in its body. Set the `Content-Type` response header to
+        `text/plain`. Upon receiving this response, the service responds to the original
+        registration request with response code 201.
+        The service sends only a single `GET` request to the callback URL. If the service
+        does not receive a reply with a response code of 200 and a body that echoes the
+        challenge string sent by the service within five seconds, it does not white-list
+        the URL; it instead sends status code 400 in response to the **Register a
+        callback** request. If the requested callback URL is already white-listed, the
+        service responds to the initial registration request with response code 200.
+        If you specify a user secret with the request, the service uses it as a key to
+        calculate an HMAC-SHA1 signature of the challenge string in its response to the
+        `POST` request. It sends this signature in the `X-Callback-Signature` header of
+        its `GET` request to the URL during registration. It also uses the secret to
+        calculate a signature over the payload of every callback notification that uses
+        the URL. The signature provides authentication and data integrity for HTTP
+        communications.
+        After you successfully register a callback URL, you can use it with an indefinite
+        number of recognition requests. You can register a maximum of 20 callback URLS in
+        a one-hour span of time. For more information, see [Registering a callback
         URL](https://console.bluemix.net/docs/services/speech-to-text/async.html#register).
 
-        :param str callback_url: An HTTP or HTTPS URL to which callback notifications are to be sent. To be white-listed, the URL must successfully echo the challenge string during URL verification. During verification, the client can also check the signature that the service sends in the `X-Callback-Signature` header to verify the origin of the request.
-        :param str user_secret: A user-specified string that the service uses to generate the HMAC-SHA1 signature that it sends via the `X-Callback-Signature` header. The service includes the header during URL verification and with every notification sent to the callback URL. It calculates the signature over the payload of the notification. If you omit the parameter, the service does not send the header.
+        :param str callback_url: An HTTP or HTTPS URL to which callback notifications are
+        to be sent. To be white-listed, the URL must successfully echo the challenge
+        string during URL verification. During verification, the client can also check the
+        signature that the service sends in the `X-Callback-Signature` header to verify
+        the origin of the request.
+        :param str user_secret: A user-specified string that the service uses to generate
+        the HMAC-SHA1 signature that it sends via the `X-Callback-Signature` header. The
+        service includes the header during URL verification and with every notification
+        sent to the callback URL. It calculates the signature over the payload of the
+        notification. If you omit the parameter, the service does not send the header.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `RegisterStatus` response.
         :rtype: dict
@@ -673,12 +970,32 @@ class SpeechToTextV1(WatsonService):
         Creates a new custom language model for a specified base model. The custom
         language model can be used only with the base model for which it is created. The
         model is owned by the instance of the service whose credentials are used to create
-        it. You must pass a value of `application/json` with the `Content-Type` header.
+        it.
 
-        :param str name: A user-defined name for the new custom language model. Use a name that is unique among all custom language models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the domain of the custom model, such as `Medical custom model` or `Legal custom model`.
-        :param str base_model_name: The name of the base language model that is to be customized by the new custom language model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports language model customization, request information about the base model and check that the attribute `custom_language_model` is set to `true`, or refer to [Language support for customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
-        :param str dialect: The dialect of the specified language that is to be used with the custom language model. The parameter is meaningful only for Spanish models, for which the service creates a custom language model that is suited for speech in one of the following dialects: * `es-ES` for Castilian Spanish (the default) * `es-LA` for Latin American Spanish * `es-US` for North American (Mexican) Spanish   A specified dialect must be valid for the base model. By default, the dialect matches the language of the base model; for example, `en-US` for either of the US English language models.
-        :param str description: A description of the new custom language model. Use a localized description that matches the language of the custom model.
+        :param str name: A user-defined name for the new custom language model. Use a name
+        that is unique among all custom language models that you own. Use a localized name
+        that matches the language of the custom model. Use a name that describes the
+        domain of the custom model, such as `Medical custom model` or `Legal custom
+        model`.
+        :param str base_model_name: The name of the base language model that is to be
+        customized by the new custom language model. The new custom model can be used only
+        with the base model that it customizes. To determine whether a base model supports
+        language model customization, request information about the base model and check
+        that the attribute `custom_language_model` is set to `true`, or refer to [Language
+        support for
+        customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
+        :param str dialect: The dialect of the specified language that is to be used with
+        the custom language model. The parameter is meaningful only for Spanish models,
+        for which the service creates a custom language model that is suited for speech in
+        one of the following dialects:
+        * `es-ES` for Castilian Spanish (the default)
+        * `es-LA` for Latin American Spanish
+        * `es-US` for North American (Mexican) Spanish
+        A specified dialect must be valid for the base model. By default, the dialect
+        matches the language of the base model; for example, `en-US` for either of the US
+        English language models.
+        :param str description: A description of the new custom language model. Use a
+        localized description that matches the language of the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `LanguageModel` response.
         :rtype: dict
@@ -722,7 +1039,9 @@ class SpeechToTextV1(WatsonService):
         processed. You must use credentials for the instance of the service that owns a
         model to delete it.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -743,13 +1062,14 @@ class SpeechToTextV1(WatsonService):
 
     def get_language_model(self, customization_id, **kwargs):
         """
-        List a custom language model.
+        Get a custom language model.
 
-        Lists information about a specified custom language model. You must use
-        credentials for the instance of the service that owns a model to list information
-        about it.
+        Gets information about a specified custom language model. You must use credentials
+        for the instance of the service that owns a model to list information about it.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `LanguageModel` response.
         :rtype: dict
@@ -779,7 +1099,10 @@ class SpeechToTextV1(WatsonService):
         all languages. You must use credentials for the instance of the service that owns
         a model to list information about it.
 
-        :param str language: The identifier of the language for which custom language or custom acoustic models are to be returned (for example, `en-US`). Omit the parameter to see all custom language or custom acoustic models owned by the requesting service credentials.
+        :param str language: The identifier of the language for which custom language or
+        custom acoustic models are to be returned (for example, `en-US`). Omit the
+        parameter to see all custom language or custom acoustic models owned by the
+        requesting service credentials.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `LanguageModels` response.
         :rtype: dict
@@ -811,7 +1134,9 @@ class SpeechToTextV1(WatsonService):
         but the model's words resource is removed and must be re-created. You must use
         credentials for the instance of the service that owns a model to reset it.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -839,25 +1164,45 @@ class SpeechToTextV1(WatsonService):
         latest data. You can specify whether the custom language model is to be trained
         with all words from its words resource or only with words that were added or
         modified by the user. You must use credentials for the instance of the service
-        that owns a model to train it.   The training method is asynchronous. It can take
-        on the order of minutes to complete depending on the amount of data on which the
-        service is being trained and the current load on the service. The method returns
-        an HTTP 200 response code to indicate that the training process has begun.   You
-        can monitor the status of the training by using the **List a custom language
+        that owns a model to train it.
+        The training method is asynchronous. It can take on the order of minutes to
+        complete depending on the amount of data on which the service is being trained and
+        the current load on the service. The method returns an HTTP 200 response code to
+        indicate that the training process has begun.
+        You can monitor the status of the training by using the **List a custom language
         model** method to poll the model's status. Use a loop to check the status every 10
         seconds. The method returns a `Customization` object that includes `status` and
         `progress` fields. A status of `available` means that the custom model is trained
         and ready to use. The service cannot accept subsequent training requests, or
         requests to add new corpora or words, until the existing request completes.
-        Training can fail to start for the following reasons: * The service is currently
-        handling another request for the custom model, such as another training request or
-        a request to add a corpus or words to the model. * No training data (corpora or
-        words) have been added to the custom model. * One or more words that were added to
-        the custom model have invalid sounds-like pronunciations that you must fix.
+        Training can fail to start for the following reasons:
+        * The service is currently handling another request for the custom model, such as
+        another training request or a request to add a corpus or words to the model.
+        * No training data (corpora or words) have been added to the custom model.
+        * One or more words that were added to the custom model have invalid sounds-like
+        pronunciations that you must fix.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str word_type_to_add: The type of words from the custom language model's words resource on which to train the model: * `all` (the default) trains the model on all new words, regardless of whether they were extracted from corpora or were added or modified by the user. * `user` trains the model only on new words that were added or modified by the user; the model is not trained on new words extracted from corpora.
-        :param float customization_weight: Specifies a customization weight for the custom language model. The customization weight tells the service how much weight to give to words from the custom language model compared to those from the base model for speech recognition. Specify a value between 0.0 and 1.0; the default is 0.3.   The default value yields the best performance in general. Assign a higher value if your audio makes frequent use of OOV words from the custom model. Use caution when setting the weight: a higher value can improve the accuracy of phrases from the custom model's domain, but it can negatively affect performance on non-domain phrases.   The value that you assign is used for all recognition requests that use the model. You can override it for any recognition request by specifying a customization weight for that request.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str word_type_to_add: The type of words from the custom language model's
+        words resource on which to train the model:
+        * `all` (the default) trains the model on all new words, regardless of whether
+        they were extracted from corpora or were added or modified by the user.
+        * `user` trains the model only on new words that were added or modified by the
+        user; the model is not trained on new words extracted from corpora.
+        :param float customization_weight: Specifies a customization weight for the custom
+        language model. The customization weight tells the service how much weight to give
+        to words from the custom language model compared to those from the base model for
+        speech recognition. Specify a value between 0.0 and 1.0; the default is 0.3.
+        The default value yields the best performance in general. Assign a higher value if
+        your audio makes frequent use of OOV words from the custom model. Use caution when
+        setting the weight: a higher value can improve the accuracy of phrases from the
+        custom model's domain, but it can negatively affect performance on non-domain
+        phrases.
+        The value that you assign is used for all recognition requests that use the model.
+        You can override it for any recognition request by specifying a customization
+        weight for that request.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -897,17 +1242,20 @@ class SpeechToTextV1(WatsonService):
         minutes to complete depending on the amount of data in the custom model and the
         current load on the service. A custom model must be in the `ready` or `available`
         state to be upgraded. You must use credentials for the instance of the service
-        that owns a model to upgrade it.   The method returns an HTTP 200 response code to
-        indicate that the upgrade process has begun successfully. You can monitor the
-        status of the upgrade by using the **List a custom language model** method to poll
-        the model's status. Use a loop to check the status every 10 seconds. While it is
-        being upgraded, the custom model has the status `upgrading`. When the upgrade is
-        complete, the model resumes the status that it had prior to upgrade. The service
-        cannot accept subsequent requests for the model until the upgrade completes.   For
-        more information, see [Upgrading custom
+        that owns a model to upgrade it.
+        The method returns an HTTP 200 response code to indicate that the upgrade process
+        has begun successfully. You can monitor the status of the upgrade by using the
+        **List a custom language model** method to poll the model's status. Use a loop to
+        check the status every 10 seconds. While it is being upgraded, the custom model
+        has the status `upgrading`. When the upgrade is complete, the model resumes the
+        status that it had prior to upgrade. The service cannot accept subsequent requests
+        for the model until the upgrade completes.
+        For more information, see [Upgrading custom
         models](https://console.bluemix.net/docs/services/speech-to-text/custom-upgrade.html).
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -948,34 +1296,47 @@ class SpeechToTextV1(WatsonService):
         text file and for information about how the service parses a corpus file, see
         [Preparing a corpus text
         file](https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#prepareCorpus).
-          The call returns an HTTP 201 response code if the corpus is valid. The service
+        The call returns an HTTP 201 response code if the corpus is valid. The service
         then asynchronously processes the contents of the corpus and automatically
         extracts new words that it finds. This can take on the order of a minute or two to
         complete depending on the total number of words and the number of new words in the
         corpus, as well as the current load on the service. You cannot submit requests to
         add additional corpora or words to the custom model, or to train the model, until
         the service's analysis of the corpus for the current request completes. Use the
-        **List a corpus** method to check the status of the analysis.   The service
-        auto-populates the model's words resource with any word that is not found in its
-        base vocabulary; these are referred to as out-of-vocabulary (OOV) words. You can
-        use the **List custom words** method to examine the words resource, using other
-        words method to eliminate typos and modify how words are pronounced as needed.
+        **List a corpus** method to check the status of the analysis.
+        The service auto-populates the model's words resource with any word that is not
+        found in its base vocabulary; these are referred to as out-of-vocabulary (OOV)
+        words. You can use the **List custom words** method to examine the words resource,
+        using other words method to eliminate typos and modify how words are pronounced as
+        needed.
         To add a corpus file that has the same name as an existing corpus, set the
         `allow_overwrite` parameter to `true`; otherwise, the request fails. Overwriting
         an existing corpus causes the service to process the corpus text file and extract
         OOV words anew. Before doing so, it removes any OOV words associated with the
         existing corpus from the model's words resource unless they were also added by
         another corpus or they have been modified in some way with the **Add custom
-        words** or **Add a custom word** method.   The service limits the overall amount
-        of data that you can add to a custom model to a maximum of 10 million total words
-        from all corpora combined. Also, you can add no more than 30 thousand custom (OOV)
-        words to a model; this includes words that the service extracts from corpora and
-        words that you add directly.
+        words** or **Add a custom word** method.
+        The service limits the overall amount of data that you can add to a custom model
+        to a maximum of 10 million total words from all corpora combined. Also, you can
+        add no more than 30 thousand custom (OOV) words to a model; this includes words
+        that the service extracts from corpora and words that you add directly.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str corpus_name: The name of the corpus for the custom language model. When adding a corpus, do not include spaces in the name; use a localized name that matches the language of the custom model; and do not use the name `user`, which is reserved by the service to denote custom words added or modified by the user.
-        :param file corpus_file: A plain text file that contains the training data for the corpus. Encode the file in UTF-8 if it contains non-ASCII characters; the service assumes UTF-8 encoding if it encounters non-ASCII characters. With cURL, use the `--data-binary` option to upload the file for the request.
-        :param bool allow_overwrite: If `true`, the specified corpus or audio resource overwrites an existing corpus or audio resource with the same name. If `false` (the default), the request fails if a corpus or audio resource with the same name already exists. The parameter has no effect if a corpus or audio resource with the same name does not already exist.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str corpus_name: The name of the corpus for the custom language model. When
+        adding a corpus, do not include spaces in the name; use a localized name that
+        matches the language of the custom model; and do not use the name `user`, which is
+        reserved by the service to denote custom words added or modified by the user.
+        :param file corpus_file: A plain text file that contains the training data for the
+        corpus. Encode the file in UTF-8 if it contains non-ASCII characters; the service
+        assumes UTF-8 encoding if it encounters non-ASCII characters. With cURL, use the
+        `--data-binary` option to upload the file for the request.
+        :param bool allow_overwrite: If `true`, the specified corpus or audio resource
+        overwrites an existing corpus or audio resource with the same name. If `false`
+        (the default), the request fails if a corpus or audio resource with the same name
+        already exists. The parameter has no effect if a corpus or audio resource with the
+        same name does not already exist.
         :param str corpus_file_content_type: The content type of corpus_file.
         :param str corpus_filename: The filename for corpus_file.
         :param dict headers: A `dict` containing the request headers
@@ -1018,8 +1379,13 @@ class SpeechToTextV1(WatsonService):
         model with the **Train a custom language model** method. You must use credentials
         for the instance of the service that owns a model to delete its corpora.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str corpus_name: The name of the corpus for the custom language model. When adding a corpus, do not include spaces in the name; use a localized name that matches the language of the custom model; and do not use the name `user`, which is reserved by the service to denote custom words added or modified by the user.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str corpus_name: The name of the corpus for the custom language model. When
+        adding a corpus, do not include spaces in the name; use a localized name that
+        matches the language of the custom model; and do not use the name `user`, which is
+        reserved by the service to denote custom words added or modified by the user.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1038,15 +1404,20 @@ class SpeechToTextV1(WatsonService):
 
     def get_corpus(self, customization_id, corpus_name, **kwargs):
         """
-        List a corpus.
+        Get a corpus.
 
-        Lists information about a corpus from a custom language model. The information
+        Gets information about a corpus from a custom language model. The information
         includes the total number of words and out-of-vocabulary (OOV) words, name, and
         status of the corpus. You must use credentials for the instance of the service
         that owns a model to list its corpora.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str corpus_name: The name of the corpus for the custom language model. When adding a corpus, do not include spaces in the name; use a localized name that matches the language of the custom model; and do not use the name `user`, which is reserved by the service to denote custom words added or modified by the user.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str corpus_name: The name of the corpus for the custom language model. When
+        adding a corpus, do not include spaces in the name; use a localized name that
+        matches the language of the custom model; and do not use the name `user`, which is
+        reserved by the service to denote custom words added or modified by the user.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Corpus` response.
         :rtype: dict
@@ -1073,7 +1444,9 @@ class SpeechToTextV1(WatsonService):
         status of each corpus. You must use credentials for the instance of the service
         that owns a model to list its corpora.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Corpora` response.
         :rtype: dict
@@ -1107,36 +1480,53 @@ class SpeechToTextV1(WatsonService):
         corpus added to the model. You can use this method to add a word or to modify an
         existing word in the words resource. The words resource for a model can contain a
         maximum of 30 thousand custom (OOV) words, including words that the service
-        extracts from corpora and words that you add directly.   You must use credentials
-        for the instance of the service that owns a model to add or modify a custom word
-        for the model. You must pass a value of `application/json` with the `Content-Type`
-        header. Adding or modifying a custom word does not affect the custom model until
-        you train the model for the new data by using the **Train a custom language
-        model** method.   Use the `word_name` parameter to specify the custom word that is
-        to be added or modified. Use the `CustomWord` object to provide one or both of the
-        optional `sounds_like` and `display_as` fields for the word. * The `sounds_like`
-        field provides an array of one or more pronunciations for the word. Use the
-        parameter to specify how the word can be pronounced by users. Use the parameter
-        for words that are difficult to pronounce, foreign words, acronyms, and so on. For
-        example, you might specify that the word `IEEE` can sound like `i triple e`. You
-        can specify a maximum of five sounds-like pronunciations for a word. For
-        information about pronunciation rules, see [Using the sounds_like
+        extracts from corpora and words that you add directly.
+        You must use credentials for the instance of the service that owns a model to add
+        or modify a custom word for the model. Adding or modifying a custom word does not
+        affect the custom model until you train the model for the new data by using the
+        **Train a custom language model** method.
+        Use the `word_name` parameter to specify the custom word that is to be added or
+        modified. Use the `CustomWord` object to provide one or both of the optional
+        `sounds_like` and `display_as` fields for the word.
+        * The `sounds_like` field provides an array of one or more pronunciations for the
+        word. Use the parameter to specify how the word can be pronounced by users. Use
+        the parameter for words that are difficult to pronounce, foreign words, acronyms,
+        and so on. For example, you might specify that the word `IEEE` can sound like `i
+        triple e`. You can specify a maximum of five sounds-like pronunciations for a
+        word. For information about pronunciation rules, see [Using the sounds_like
         field](https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#soundsLike).
         * The `display_as` field provides a different way of spelling the word in a
         transcript. Use the parameter when you want the word to appear different from its
         usual representation or from its spelling in corpora training data. For example,
-        you might indicate that the word `IBM(trademark)` is to be displayed as `IBM`. For
-        more information, see [Using the display_as
+        you might indicate that the word `IBM(trademark)` is to be displayed as
+        `IBM&trade;`. For more information, see [Using the display_as
         field](https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#displayAs).
-           If you add a custom word that already exists in the words resource for the
-        custom model, the new definition overwrites the existing data for the word. If the
+        If you add a custom word that already exists in the words resource for the custom
+        model, the new definition overwrites the existing data for the word. If the
         service encounters an error, it does not add the word to the words resource. Use
         the **List a custom word** method to review the word that you add.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str word_name: The custom word for the custom language model. When you add or update a custom word with the **Add a custom word** method, do not include spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of compound words.
-        :param list[str] sounds_like: An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service's base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service's base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.
-        :param str display_as: An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str word_name: The custom word for the custom language model. When you add
+        or update a custom word with the **Add a custom word** method, do not include
+        spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
+        compound words.
+        :param list[str] sounds_like: An array of sounds-like pronunciations for the
+        custom word. Specify how words that are difficult to pronounce, foreign words,
+        acronyms, and so on can be pronounced by users. For a word that is not in the
+        service's base vocabulary, omit the parameter to have the service automatically
+        generate a sounds-like pronunciation for the word. For a word that is in the
+        service's base vocabulary, use the parameter to specify additional pronunciations
+        for the word. You cannot override the default pronunciation of a word;
+        pronunciations you add augment the pronunciation from the base vocabulary. A word
+        can have at most five sounds-like pronunciations, and a pronunciation can include
+        at most 40 characters not including spaces.
+        :param str display_as: An alternative spelling for the custom word when it appears
+        in a transcript. Use the parameter when you want the word to have a spelling that
+        is different from its usual representation or from its spelling in corpora
+        training data.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1171,49 +1561,52 @@ class SpeechToTextV1(WatsonService):
         each corpus added to the model. You can use this method to add additional words or
         to modify existing words in the words resource. The words resource for a model can
         contain a maximum of 30 thousand custom (OOV) words, including words that the
-        service extracts from corpora and words that you add directly.   You must use
-        credentials for the instance of the service that owns a model to add or modify
-        custom words for the model. You must pass a value of `application/json` with the
-        `Content-Type` header. Adding or modifying custom words does not affect the custom
-        model until you train the model for the new data by using the **Train a custom
-        language model** method.   You add custom words by providing a `Words` object,
-        which is an array of `Word` objects, one per word. You must use the object's word
-        parameter to identify the word that is to be added. You can also provide one or
-        both of the optional `sounds_like` and `display_as` fields for each word. * The
-        `sounds_like` field provides an array of one or more pronunciations for the word.
-        Use the parameter to specify how the word can be pronounced by users. Use the
-        parameter for words that are difficult to pronounce, foreign words, acronyms, and
-        so on. For example, you might specify that the word `IEEE` can sound like `i
+        service extracts from corpora and words that you add directly.
+        You must use credentials for the instance of the service that owns a model to add
+        or modify custom words for the model. Adding or modifying custom words does not
+        affect the custom model until you train the model for the new data by using the
+        **Train a custom language model** method.
+        You add custom words by providing a `Words` object, which is an array of `Word`
+        objects, one per word. You must use the object's word parameter to identify the
+        word that is to be added. You can also provide one or both of the optional
+        `sounds_like` and `display_as` fields for each word.
+        * The `sounds_like` field provides an array of one or more pronunciations for the
+        word. Use the parameter to specify how the word can be pronounced by users. Use
+        the parameter for words that are difficult to pronounce, foreign words, acronyms,
+        and so on. For example, you might specify that the word `IEEE` can sound like `i
         triple e`. You can specify a maximum of five sounds-like pronunciations for a
         word. For information about pronunciation rules, see [Using the sounds_like
         field](https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#soundsLike).
         * The `display_as` field provides a different way of spelling the word in a
         transcript. Use the parameter when you want the word to appear different from its
         usual representation or from its spelling in corpora training data. For example,
-        you might indicate that the word `IBM(trademark)` is to be displayed as `IBM`. For
-        more information, see [Using the display_as
+        you might indicate that the word `IBM(trademark)` is to be displayed as
+        `IBM&trade;`. For more information, see [Using the display_as
         field](https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#displayAs).
-           If you add a custom word that already exists in the words resource for the
-        custom model, the new definition overwrites the existing data for the word. If the
+        If you add a custom word that already exists in the words resource for the custom
+        model, the new definition overwrites the existing data for the word. If the
         service encounters an error with the input data, it returns a failure code and
-        does not add any of the words to the words resource.   The call returns an HTTP
-        201 response code if the input data is valid. It then asynchronously processes the
-        words to add them to the model's words resource. The time that it takes for the
-        analysis to complete depends on the number of new words that you add but is
-        generally faster than adding a corpus or training a model.   You can monitor the
-        status of the request by using the **List a custom language model** method to poll
-        the model's status. Use a loop to check the status every 10 seconds. The method
-        returns a `Customization` object that includes a `status` field. A status of
-        `ready` means that the words have been added to the custom model. The service
-        cannot accept requests to add new corpora or words or to train the model until the
-        existing request completes.   You can use the **List custom words** or **List a
-        custom word** method to review the words that you add. Words with an invalid
-        `sounds_like` field include an `error` field that describes the problem. You can
-        use other words-related methods to correct errors, eliminate typos, and modify how
-        words are pronounced as needed.
+        does not add any of the words to the words resource.
+        The call returns an HTTP 201 response code if the input data is valid. It then
+        asynchronously processes the words to add them to the model's words resource. The
+        time that it takes for the analysis to complete depends on the number of new words
+        that you add but is generally faster than adding a corpus or training a model.
+        You can monitor the status of the request by using the **List a custom language
+        model** method to poll the model's status. Use a loop to check the status every 10
+        seconds. The method returns a `Customization` object that includes a `status`
+        field. A status of `ready` means that the words have been added to the custom
+        model. The service cannot accept requests to add new corpora or words or to train
+        the model until the existing request completes.
+        You can use the **List custom words** or **List a custom word** method to review
+        the words that you add. Words with an invalid `sounds_like` field include an
+        `error` field that describes the problem. You can use other words-related methods
+        to correct errors, eliminate typos, and modify how words are pronounced as needed.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param list[CustomWord] words: An array of objects that provides information about each custom word that is to be added to or updated in the custom language model.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param list[CustomWord] words: An array of objects that provides information about
+        each custom word that is to be added to or updated in the custom language model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1252,8 +1645,13 @@ class SpeechToTextV1(WatsonService):
         **Train a custom language model** method. You must use credentials for the
         instance of the service that owns a model to delete its words.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str word_name: The custom word for the custom language model. When you add or update a custom word with the **Add a custom word** method, do not include spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of compound words.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str word_name: The custom word for the custom language model. When you add
+        or update a custom word with the **Add a custom word** method, do not include
+        spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
+        compound words.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1276,14 +1674,19 @@ class SpeechToTextV1(WatsonService):
 
     def get_word(self, customization_id, word_name, **kwargs):
         """
-        List a custom word.
+        Get a custom word.
 
-        Lists information about a custom word from a custom language model. You must use
+        Gets information about a custom word from a custom language model. You must use
         credentials for the instance of the service that owns a model to query information
         about its words.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str word_name: The custom word for the custom language model. When you add or update a custom word with the **Add a custom word** method, do not include spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of compound words.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str word_name: The custom word for the custom language model. When you add
+        or update a custom word with the **Add a custom word** method, do not include
+        spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
+        compound words.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Word` response.
         :rtype: dict
@@ -1317,9 +1720,21 @@ class SpeechToTextV1(WatsonService):
         must use credentials for the instance of the service that owns a model to query
         information about its words.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str word_type: The type of words to be listed from the custom language model's words resource: * `all` (the default) shows all words. * `user` shows only custom words that were added or modified by the user. * `corpora` shows only OOV that were extracted from corpora.
-        :param str sort: Indicates the order in which the words are to be listed, `alphabetical` or by `count`. You can prepend an optional `+` or `-` to an argument to indicate whether the results are to be sorted in ascending or descending order. By default, words are sorted in ascending alphabetical order. For alphabetical ordering, the lexicographical precedence is numeric values, uppercase letters, and lowercase letters. For count ordering, values with the same count are ordered alphabetically. With cURL, URL encode the `+` symbol as `%2B`.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str word_type: The type of words to be listed from the custom language
+        model's words resource:
+        * `all` (the default) shows all words.
+        * `user` shows only custom words that were added or modified by the user.
+        * `corpora` shows only OOV that were extracted from corpora.
+        :param str sort: Indicates the order in which the words are to be listed,
+        `alphabetical` or by `count`. You can prepend an optional `+` or `-` to an
+        argument to indicate whether the results are to be sorted in ascending or
+        descending order. By default, words are sorted in ascending alphabetical order.
+        For alphabetical ordering, the lexicographical precedence is numeric values,
+        uppercase letters, and lowercase letters. For count ordering, values with the same
+        count are ordered alphabetically. With cURL, URL encode the `+` symbol as `%2B`.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Words` response.
         :rtype: dict
@@ -1359,11 +1774,20 @@ class SpeechToTextV1(WatsonService):
         Creates a new custom acoustic model for a specified base model. The custom
         acoustic model can be used only with the base model for which it is created. The
         model is owned by the instance of the service whose credentials are used to create
-        it. You must pass a value of `application/json` with the `Content-Type` header.
+        it.
 
-        :param str name: A user-defined name for the new custom acoustic model. Use a name that is unique among all custom acoustic models that you own. Use a localized name that matches the language of the custom model. Use a name that describes the acoustic environment of the custom model, such as `Mobile custom model` or `Noisy car custom model`.
-        :param str base_model_name: The name of the base language model that is to be customized by the new custom acoustic model. The new custom model can be used only with the base model that it customizes. To determine whether a base model supports acoustic model customization, refer to [Language support for customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
-        :param str description: A description of the new custom acoustic model. Use a localized description that matches the language of the custom model.
+        :param str name: A user-defined name for the new custom acoustic model. Use a name
+        that is unique among all custom acoustic models that you own. Use a localized name
+        that matches the language of the custom model. Use a name that describes the
+        acoustic environment of the custom model, such as `Mobile custom model` or `Noisy
+        car custom model`.
+        :param str base_model_name: The name of the base language model that is to be
+        customized by the new custom acoustic model. The new custom model can be used only
+        with the base model that it customizes. To determine whether a base model supports
+        acoustic model customization, refer to [Language support for
+        customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
+        :param str description: A description of the new custom acoustic model. Use a
+        localized description that matches the language of the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `AcousticModel` response.
         :rtype: dict
@@ -1398,7 +1822,9 @@ class SpeechToTextV1(WatsonService):
         processed. You must use credentials for the instance of the service that owns a
         model to delete it.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1415,13 +1841,14 @@ class SpeechToTextV1(WatsonService):
 
     def get_acoustic_model(self, customization_id, **kwargs):
         """
-        List a custom acoustic model.
+        Get a custom acoustic model.
 
-        Lists information about a specified custom acoustic model. You must use
-        credentials for the instance of the service that owns a model to list information
-        about it.
+        Gets information about a specified custom acoustic model. You must use credentials
+        for the instance of the service that owns a model to list information about it.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `AcousticModel` response.
         :rtype: dict
@@ -1447,7 +1874,10 @@ class SpeechToTextV1(WatsonService):
         all languages. You must use credentials for the instance of the service that owns
         a model to list information about it.
 
-        :param str language: The identifier of the language for which custom language or custom acoustic models are to be returned (for example, `en-US`). Omit the parameter to see all custom language or custom acoustic models owned by the requesting service credentials.
+        :param str language: The identifier of the language for which custom language or
+        custom acoustic models are to be returned (for example, `en-US`). Omit the
+        parameter to see all custom language or custom acoustic models owned by the
+        requesting service credentials.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `AcousticModels` response.
         :rtype: dict
@@ -1475,7 +1905,9 @@ class SpeechToTextV1(WatsonService):
         but the model's audio resources are removed and must be re-created. You must use
         credentials for the instance of the service that owns a model to reset it.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1501,17 +1933,18 @@ class SpeechToTextV1(WatsonService):
         use this method to begin the actual training of the model on the latest audio
         data. The custom acoustic model does not reflect its changed data until you train
         it. You must use credentials for the instance of the service that owns a model to
-        train it.   The training method is asynchronous. It can take on the order of
-        minutes or hours to complete depending on the total amount of audio data on which
-        the custom acoustic model is being trained and the current load on the service.
-        Typically, training a custom acoustic model takes approximately two to four times
-        the length of its audio data. The range of time depends on the model being trained
-        and the nature of the audio, such as whether the audio is clean or noisy. The
-        method returns an HTTP 200 response code to indicate that the training process has
-        begun.   You can monitor the status of the training by using the **List a custom
-        acoustic model** method to poll the model's status. Use a loop to check the status
-        once a minute. The method returns an `Customization` object that includes `status`
-        and `progress` fields. A status of `available` indicates that the custom model is
+        train it.
+        The training method is asynchronous. It can take on the order of minutes or hours
+        to complete depending on the total amount of audio data on which the custom
+        acoustic model is being trained and the current load on the service. Typically,
+        training a custom acoustic model takes approximately two to four times the length
+        of its audio data. The range of time depends on the model being trained and the
+        nature of the audio, such as whether the audio is clean or noisy. The method
+        returns an HTTP 200 response code to indicate that the training process has begun.
+        You can monitor the status of the training by using the **List a custom acoustic
+        model** method to poll the model's status. Use a loop to check the status once a
+        minute. The method returns an `Customization` object that includes `status` and
+        `progress` fields. A status of `available` indicates that the custom model is
         trained and ready to use. The service cannot accept subsequent training requests,
         or requests to add new audio resources, until the existing request completes.
         You can use the optional `custom_language_model_id` parameter to specify the GUID
@@ -1522,14 +1955,21 @@ class SpeechToTextV1(WatsonService):
         For information about creating a separate custom language model, see [Creating a
         custom language
         model](https://console.bluemix.net/docs/services/speech-to-text/language-create.html).
-          Training can fail to start for the following reasons: * The service is currently
-        handling another request for the custom model, such as another training request or
-        a request to add audio resources to the model. * The custom model contains less
-        than 10 minutes or more than 50 hours of audio data. * One or more of the custom
-        model's audio resources is invalid.
+        Training can fail to start for the following reasons:
+        * The service is currently handling another request for the custom model, such as
+        another training request or a request to add audio resources to the model.
+        * The custom model contains less than 10 minutes or more than 50 hours of audio
+        data.
+        * One or more of the custom model's audio resources is invalid.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str custom_language_model_id: The customization ID (GUID) of a custom language model that is to be used during training of the custom acoustic model. Specify a custom language model that has been trained with verbatim transcriptions of the audio resources or that contains words that are relevant to the contents of the audio resources.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str custom_language_model_id: The customization ID (GUID) of a custom
+        language model that is to be used during training of the custom acoustic model.
+        Specify a custom language model that has been trained with verbatim transcriptions
+        of the audio resources or that contains words that are relevant to the contents of
+        the audio resources.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1562,23 +2002,29 @@ class SpeechToTextV1(WatsonService):
         and the current load on the service; typically, upgrade takes approximately twice
         the length of the total audio contained in the custom model. A custom model must
         be in the `ready` or `available` state to be upgraded. You must use credentials
-        for the instance of the service that owns a model to upgrade it.   The method
-        returns an HTTP 200 response code to indicate that the upgrade process has begun
-        successfully. You can monitor the status of the upgrade by using the **List a
-        custom acoustic model** method to poll the model's status. Use a loop to check the
-        status once a minute. While it is being upgraded, the custom model has the status
-        `upgrading`. When the upgrade is complete, the model resumes the status that it
-        had prior to upgrade. The service cannot accept subsequent requests for the model
-        until the upgrade completes.   If the custom acoustic model was trained with a
-        separately created custom language model, you must use the
-        `custom_language_model_id` parameter to specify the GUID of that custom language
-        model. The custom language model must be upgraded before the custom acoustic model
-        can be upgraded. Omit the parameter if the custom acoustic model was not trained
-        with a custom language model.   For more information, see [Upgrading custom
+        for the instance of the service that owns a model to upgrade it.
+        The method returns an HTTP 200 response code to indicate that the upgrade process
+        has begun successfully. You can monitor the status of the upgrade by using the
+        **List a custom acoustic model** method to poll the model's status. Use a loop to
+        check the status once a minute. While it is being upgraded, the custom model has
+        the status `upgrading`. When the upgrade is complete, the model resumes the status
+        that it had prior to upgrade. The service cannot accept subsequent requests for
+        the model until the upgrade completes.
+        If the custom acoustic model was trained with a separately created custom language
+        model, you must use the `custom_language_model_id` parameter to specify the GUID
+        of that custom language model. The custom language model must be upgraded before
+        the custom acoustic model can be upgraded. Omit the parameter if the custom
+        acoustic model was not trained with a custom language model.
+        For more information, see [Upgrading custom
         models](https://console.bluemix.net/docs/services/speech-to-text/custom-upgrade.html).
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str custom_language_model_id: If the custom acoustic model was trained with a custom language model, the customization ID (GUID) of that custom language model. The custom language model must be upgraded before the custom acoustic model can be upgraded.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str custom_language_model_id: If the custom acoustic model was trained with
+        a custom language model, the customization ID (GUID) of that custom language
+        model. The custom language model must be upgraded before the custom acoustic model
+        can be upgraded.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1618,69 +2064,96 @@ class SpeechToTextV1(WatsonService):
         use credentials for the instance of the service that owns a model to add an audio
         resource to it. Adding audio data does not affect the custom acoustic model until
         you train the model for the new data by using the **Train a custom acoustic
-        model** method.   You can add individual audio files or an archive file that
-        contains multiple audio files. Adding multiple audio files via a single archive
-        file is significantly more efficient than adding each file individually. You can
-        add audio resources in any format that the service supports for speech
-        recognition.   You can use this method to add any number of audio resources to a
-        custom model by calling the method once for each audio or archive file. But the
-        addition of one audio resource must be fully complete before you can add another.
-        You must add a minimum of 10 minutes and a maximum of 50 hours of audio that
-        includes speech, not just silence, to a custom acoustic model before you can train
-        it. No audio resource, audio- or archive-type, can be larger than 100 MB. To add
-        an audio resource that has the same name as an existing audio resource, set the
-        `allow_overwrite` parameter to `true`; otherwise, the request fails.   The method
-        is asynchronous. It can take several seconds to complete depending on the duration
-        of the audio and, in the case of an archive file, the total number of audio files
-        being processed. The service returns a 201 response code if the audio is valid. It
-        then asynchronously analyzes the contents of the audio file or files and
-        automatically extracts information about the audio such as its length, sampling
-        rate, and encoding. You cannot submit requests to add additional audio resources
-        to a custom acoustic model, or to train the model, until the service's analysis of
-        all audio files for the current request completes.   To determine the status of
-        the service's analysis of the audio, use the **List an audio resource** method to
-        poll the status of the audio. The method accepts the GUID of the custom model and
-        the name of the audio resource, and it returns the status of the resource. Use a
-        loop to check the status of the audio every few seconds until it becomes `ok`.
-        ### Content types for audio-type resources   You can add an individual audio file
-        in any format that the service supports for speech recognition. For an audio-type
-        resource, use the `Content-Type` parameter to specify the audio format (MIME type)
-        of the audio file: * `audio/basic` (Use only with narrowband models.) *
-        `audio/flac` * `audio/l16` (Specify the sampling rate (`rate`) and optionally the
-        number of channels (`channels`) and endianness (`endianness`) of the audio.) *
-        `audio/mp3` * `audio/mpeg` * `audio/mulaw` (Specify the sampling rate (`rate`) of
-        the audio.) * `audio/ogg` (The service automatically detects the codec of the
-        input audio.) * `audio/ogg;codecs=opus` * `audio/ogg;codecs=vorbis` * `audio/wav`
-        (Provide audio with a maximum of nine channels.) * `audio/webm` (The service
-        automatically detects the codec of the input audio.) * `audio/webm;codecs=opus` *
-        `audio/webm;codecs=vorbis`   For information about the supported audio formats,
-        including specifying the sampling rate, channels, and endianness for the indicated
-        formats, see [Audio
+        model** method.
+        You can add individual audio files or an archive file that contains multiple audio
+        files. Adding multiple audio files via a single archive file is significantly more
+        efficient than adding each file individually. You can add audio resources in any
+        format that the service supports for speech recognition.
+        You can use this method to add any number of audio resources to a custom model by
+        calling the method once for each audio or archive file. But the addition of one
+        audio resource must be fully complete before you can add another. You must add a
+        minimum of 10 minutes and a maximum of 50 hours of audio that includes speech, not
+        just silence, to a custom acoustic model before you can train it. No audio
+        resource, audio- or archive-type, can be larger than 100 MB. To add an audio
+        resource that has the same name as an existing audio resource, set the
+        `allow_overwrite` parameter to `true`; otherwise, the request fails.
+        The method is asynchronous. It can take several seconds to complete depending on
+        the duration of the audio and, in the case of an archive file, the total number of
+        audio files being processed. The service returns a 201 response code if the audio
+        is valid. It then asynchronously analyzes the contents of the audio file or files
+        and automatically extracts information about the audio such as its length,
+        sampling rate, and encoding. You cannot submit requests to add additional audio
+        resources to a custom acoustic model, or to train the model, until the service's
+        analysis of all audio files for the current request completes.
+        To determine the status of the service's analysis of the audio, use the **List an
+        audio resource** method to poll the status of the audio. The method accepts the
+        GUID of the custom model and the name of the audio resource, and it returns the
+        status of the resource. Use a loop to check the status of the audio every few
+        seconds until it becomes `ok`.
+        ### Content types for audio-type resources
+         You can add an individual audio file in any format that the service supports for
+        speech recognition. For an audio-type resource, use the `Content-Type` parameter
+        to specify the audio format (MIME type) of the audio file:
+        * `audio/basic` (Use only with narrowband models.)
+        * `audio/flac`
+        * `audio/l16` (Specify the sampling rate (`rate`) and optionally the number of
+        channels (`channels`) and endianness (`endianness`) of the audio.)
+        * `audio/mp3`
+        * `audio/mpeg`
+        * `audio/mulaw` (Specify the sampling rate (`rate`) of the audio.)
+        * `audio/ogg` (The service automatically detects the codec of the input audio.)
+        * `audio/ogg;codecs=opus`
+        * `audio/ogg;codecs=vorbis`
+        * `audio/wav` (Provide audio with a maximum of nine channels.)
+        * `audio/webm` (The service automatically detects the codec of the input audio.)
+        * `audio/webm;codecs=opus`
+        * `audio/webm;codecs=vorbis`
+        For information about the supported audio formats, including specifying the
+        sampling rate, channels, and endianness for the indicated formats, see [Audio
         formats](https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html).
-          **Note:** The sampling rate of an audio file must match the sampling rate of the
+        **Note:** The sampling rate of an audio file must match the sampling rate of the
         base model for the custom model: for broadband models, at least 16 kHz; for
         narrowband models, at least 8 kHz. If the sampling rate of the audio is higher
         than the minimum required rate, the service down-samples the audio to the
         appropriate rate. If the sampling rate of the audio is lower than the minimum
-        required rate, the service labels the audio file as `invalid`.   ### Content types
-        for archive-type resources   You can add an archive file (**.zip** or **.tar.gz**
-        file) that contains audio files in any format that the service supports for speech
-        recognition. For an archive-type resource, use the `Content-Type` parameter to
-        specify the media type of the archive file: * `application/zip` for a **.zip**
-        file * `application/gzip` for a **.tar.gz** file.   All audio files contained in
-        the archive must have the same audio format. Use the `Contained-Content-Type`
-        parameter to specify the format of the contained audio files. The parameter
-        accepts all of the audio formats supported for use with speech recognition and
-        with the `Content-Type` header, including the `rate`, `channels`, and `endianness`
-        parameters that are used with some formats. The default contained audio format is
-        `audio/wav`.
+        required rate, the service labels the audio file as `invalid`.
+        ### Content types for archive-type resources
+         You can add an archive file (**.zip** or **.tar.gz** file) that contains audio
+        files in any format that the service supports for speech recognition. For an
+        archive-type resource, use the `Content-Type` parameter to specify the media type
+        of the archive file:
+        * `application/zip` for a **.zip** file
+        * `application/gzip` for a **.tar.gz** file.
+        All audio files contained in the archive must have the same audio format. Use the
+        `Contained-Content-Type` parameter to specify the format of the contained audio
+        files. The parameter accepts all of the audio formats supported for use with
+        speech recognition and with the `Content-Type` header, including the `rate`,
+        `channels`, and `endianness` parameters that are used with some formats. The
+        default contained audio format is `audio/wav`.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str audio_name: The name of the audio resource for the custom acoustic model. When adding an audio resource, do not include spaces in the name; use a localized name that matches the language of the custom model.
-        :param list[str] audio_resource: The audio resource that is to be added to the custom acoustic model, an individual audio file or an archive file.
-        :param str content_type: The type of the input: application/zip, application/gzip, audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or audio/webm;codecs=vorbis.
-        :param str contained_content_type: For an archive-type resource, specifies the format of the audio files contained in the archive file. The parameter accepts all of the audio formats supported for use with speech recognition, including the `rate`, `channels`, and `endianness` parameters that are used with some formats. For a complete list of supported audio formats, see [Audio formats](/docs/services/speech-to-text/input.html#formats).
-        :param bool allow_overwrite: If `true`, the specified corpus or audio resource overwrites an existing corpus or audio resource with the same name. If `false` (the default), the request fails if a corpus or audio resource with the same name already exists. The parameter has no effect if a corpus or audio resource with the same name does not already exist.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str audio_name: The name of the audio resource for the custom acoustic
+        model. When adding an audio resource, do not include spaces in the name; use a
+        localized name that matches the language of the custom model.
+        :param list[str] audio_resource: The audio resource that is to be added to the
+        custom acoustic model, an individual audio file or an archive file.
+        :param str content_type: The type of the input: application/zip, application/gzip,
+        audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg,
+        audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm,
+        audio/webm;codecs=opus, or audio/webm;codecs=vorbis.
+        :param str contained_content_type: For an archive-type resource, specifies the
+        format of the audio files contained in the archive file. The parameter accepts all
+        of the audio formats supported for use with speech recognition, including the
+        `rate`, `channels`, and `endianness` parameters that are used with some formats.
+        For a complete list of supported audio formats, see [Audio
+        formats](/docs/services/speech-to-text/input.html#formats).
+        :param bool allow_overwrite: If `true`, the specified corpus or audio resource
+        overwrites an existing corpus or audio resource with the same name. If `false`
+        (the default), the request fails if a corpus or audio resource with the same name
+        already exists. The parameter has no effect if a corpus or audio resource with the
+        same name does not already exist.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1723,8 +2196,12 @@ class SpeechToTextV1(WatsonService):
         You must use credentials for the instance of the service that owns a model to
         delete its audio resources.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str audio_name: The name of the audio resource for the custom acoustic model. When adding an audio resource, do not include spaces in the name; use a localized name that matches the language of the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str audio_name: The name of the audio resource for the custom acoustic
+        model. When adding an audio resource, do not include spaces in the name; use a
+        localized name that matches the language of the custom model.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -1743,24 +2220,28 @@ class SpeechToTextV1(WatsonService):
 
     def get_audio(self, customization_id, audio_name, **kwargs):
         """
-        List an audio resource.
+        Get an audio resource.
 
-        Lists information about an audio resource from a custom acoustic model. The method
+        gets information about an audio resource from a custom acoustic model. The method
         returns an `AudioListing` object whose fields depend on the type of audio resource
-        you specify with the method's `audio_name` parameter: * **For an audio-type
-        resource,** the object's fields match those of an `AudioResource` object:
-        `duration`, `name`, `details`, and `status`. * **For an archive-type resource,**
-        the object includes a `container` field whose fields match those of an
-        `AudioResource` object. It also includes an `audio` field, which contains an array
-        of `AudioResource` objects that provides information about the audio files that
-        are contained in the archive.   The information includes the status of the
-        specified audio resource, which is important for checking the service's analysis
-        of the resource in response to a request to add it to the custom model. You must
-        use credentials for the instance of the service that owns a model to list its
-        audio resources.
+        you specify with the method's `audio_name` parameter:
+        * **For an audio-type resource,** the object's fields match those of an
+        `AudioResource` object: `duration`, `name`, `details`, and `status`.
+        * **For an archive-type resource,** the object includes a `container` field whose
+        fields match those of an `AudioResource` object. It also includes an `audio`
+        field, which contains an array of `AudioResource` objects that provides
+        information about the audio files that are contained in the archive.
+        The information includes the status of the specified audio resource, which is
+        important for checking the service's analysis of the resource in response to a
+        request to add it to the custom model. You must use credentials for the instance
+        of the service that owns a model to list its audio resources.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
-        :param str audio_name: The name of the audio resource for the custom acoustic model. When adding an audio resource, do not include spaces in the name; use a localized name that matches the language of the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str audio_name: The name of the audio resource for the custom acoustic
+        model. When adding an audio resource, do not include spaces in the name; use a
+        localized name that matches the language of the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `AudioListing` response.
         :rtype: dict
@@ -1789,7 +2270,9 @@ class SpeechToTextV1(WatsonService):
         to a request to add it to the custom acoustic model. You must use credentials for
         the instance of the service that owns a model to list its audio resources.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. You must make the request with service credentials created for the instance of the service that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `AudioResources` response.
         :rtype: dict
@@ -1817,10 +2300,10 @@ class SpeechToTextV1(WatsonService):
         deletes all data for the customer ID, regardless of the method by which the
         information was added. The method has no effect if no data is associated with the
         customer ID. You must issue the request with credentials for the same instance of
-        the service that was used to associate the customer ID with the data.   You
-        associate a customer ID with data by passing the `X-Watson-Metadata` header with a
-        request that passes the data. For more information about customer IDs and about
-        using this method, see [Information
+        the service that was used to associate the customer ID with the data.
+        You associate a customer ID with data by passing the `X-Watson-Metadata` header
+        with a request that passes the data. For more information about customer IDs and
+        about using this method, see [Information
         security](https://console.bluemix.net/docs/services/speech-to-text/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
@@ -1852,17 +2335,39 @@ class AcousticModel(object):
     """
     AcousticModel.
 
-    :attr str customization_id: The customization ID (GUID) of the custom acoustic model. The **Create a custom acoustic model** method returns only this field of the object; it does not return the other fields.
-    :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at which the custom acoustic model was created. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str language: (optional) The language identifier of the custom acoustic model (for example, `en-US`).
-    :attr list[str] versions: (optional) A list of the available versions of the custom acoustic model. Each element of the array indicates a version of the base model with which the custom model can be used. Multiple versions exist only if the custom model has been upgraded; otherwise, only a single version is shown.
-    :attr str owner: (optional) The GUID of the service credentials for the instance of the service that owns the custom acoustic model.
+    :attr str customization_id: The customization ID (GUID) of the custom acoustic model.
+    The **Create a custom acoustic model** method returns only this field of the object;
+    it does not return the other fields.
+    :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at
+    which the custom acoustic model was created. The value is provided in full ISO 8601
+    format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str language: (optional) The language identifier of the custom acoustic model
+    (for example, `en-US`).
+    :attr list[str] versions: (optional) A list of the available versions of the custom
+    acoustic model. Each element of the array indicates a version of the base model with
+    which the custom model can be used. Multiple versions exist only if the custom model
+    has been upgraded; otherwise, only a single version is shown.
+    :attr str owner: (optional) The GUID of the service credentials for the instance of
+    the service that owns the custom acoustic model.
     :attr str name: (optional) The name of the custom acoustic model.
     :attr str description: (optional) The description of the custom acoustic model.
-    :attr str base_model_name: (optional) The name of the language model for which the custom acoustic model was created.
-    :attr str status: (optional) The current status of the custom acoustic model: * `pending` indicates that the model was created but is waiting either for training data to be added or for the service to finish analyzing added data. * `ready` indicates that the model contains data and is ready to be trained. * `training` indicates that the model is currently being trained. * `available` indicates that the model is trained and ready to use. * `upgrading` indicates that the model is currently being upgraded. * `failed` indicates that training of the model failed.
-    :attr int progress: (optional) A percentage that indicates the progress of the custom acoustic model's current training. A value of `100` means that the model is fully trained. **Note:** The `progress` field does not currently reflect the progress of the training. The field changes from `0` to `100` when training is complete.
-    :attr str warnings: (optional) If the request included unknown parameters, the following message: `Unexpected query parameter(s) ['parameters'] detected`, where `parameters` is a list that includes a quoted string for each unknown parameter.
+    :attr str base_model_name: (optional) The name of the language model for which the
+    custom acoustic model was created.
+    :attr str status: (optional) The current status of the custom acoustic model:
+    * `pending` indicates that the model was created but is waiting either for training
+    data to be added or for the service to finish analyzing added data.
+    * `ready` indicates that the model contains data and is ready to be trained.
+    * `training` indicates that the model is currently being trained.
+    * `available` indicates that the model is trained and ready to use.
+    * `upgrading` indicates that the model is currently being upgraded.
+    * `failed` indicates that training of the model failed.
+    :attr int progress: (optional) A percentage that indicates the progress of the custom
+    acoustic model's current training. A value of `100` means that the model is fully
+    trained. **Note:** The `progress` field does not currently reflect the progress of the
+    training. The field changes from `0` to `100` when training is complete.
+    :attr str warnings: (optional) If the request included unknown parameters, the
+    following message: `Unexpected query parameter(s) ['parameters'] detected`, where
+    `parameters` is a list that includes a quoted string for each unknown parameter.
     """
 
     def __init__(self,
@@ -1880,17 +2385,40 @@ class AcousticModel(object):
         """
         Initialize a AcousticModel object.
 
-        :param str customization_id: The customization ID (GUID) of the custom acoustic model. The **Create a custom acoustic model** method returns only this field of the object; it does not return the other fields.
-        :param str created: (optional) The date and time in Coordinated Universal Time (UTC) at which the custom acoustic model was created. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-        :param str language: (optional) The language identifier of the custom acoustic model (for example, `en-US`).
-        :param list[str] versions: (optional) A list of the available versions of the custom acoustic model. Each element of the array indicates a version of the base model with which the custom model can be used. Multiple versions exist only if the custom model has been upgraded; otherwise, only a single version is shown.
-        :param str owner: (optional) The GUID of the service credentials for the instance of the service that owns the custom acoustic model.
+        :param str customization_id: The customization ID (GUID) of the custom acoustic
+        model. The **Create a custom acoustic model** method returns only this field of
+        the object; it does not return the other fields.
+        :param str created: (optional) The date and time in Coordinated Universal Time
+        (UTC) at which the custom acoustic model was created. The value is provided in
+        full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str language: (optional) The language identifier of the custom acoustic
+        model (for example, `en-US`).
+        :param list[str] versions: (optional) A list of the available versions of the
+        custom acoustic model. Each element of the array indicates a version of the base
+        model with which the custom model can be used. Multiple versions exist only if the
+        custom model has been upgraded; otherwise, only a single version is shown.
+        :param str owner: (optional) The GUID of the service credentials for the instance
+        of the service that owns the custom acoustic model.
         :param str name: (optional) The name of the custom acoustic model.
         :param str description: (optional) The description of the custom acoustic model.
-        :param str base_model_name: (optional) The name of the language model for which the custom acoustic model was created.
-        :param str status: (optional) The current status of the custom acoustic model: * `pending` indicates that the model was created but is waiting either for training data to be added or for the service to finish analyzing added data. * `ready` indicates that the model contains data and is ready to be trained. * `training` indicates that the model is currently being trained. * `available` indicates that the model is trained and ready to use. * `upgrading` indicates that the model is currently being upgraded. * `failed` indicates that training of the model failed.
-        :param int progress: (optional) A percentage that indicates the progress of the custom acoustic model's current training. A value of `100` means that the model is fully trained. **Note:** The `progress` field does not currently reflect the progress of the training. The field changes from `0` to `100` when training is complete.
-        :param str warnings: (optional) If the request included unknown parameters, the following message: `Unexpected query parameter(s) ['parameters'] detected`, where `parameters` is a list that includes a quoted string for each unknown parameter.
+        :param str base_model_name: (optional) The name of the language model for which
+        the custom acoustic model was created.
+        :param str status: (optional) The current status of the custom acoustic model:
+        * `pending` indicates that the model was created but is waiting either for
+        training data to be added or for the service to finish analyzing added data.
+        * `ready` indicates that the model contains data and is ready to be trained.
+        * `training` indicates that the model is currently being trained.
+        * `available` indicates that the model is trained and ready to use.
+        * `upgrading` indicates that the model is currently being upgraded.
+        * `failed` indicates that training of the model failed.
+        :param int progress: (optional) A percentage that indicates the progress of the
+        custom acoustic model's current training. A value of `100` means that the model is
+        fully trained. **Note:** The `progress` field does not currently reflect the
+        progress of the training. The field changes from `0` to `100` when training is
+        complete.
+        :param str warnings: (optional) If the request included unknown parameters, the
+        following message: `Unexpected query parameter(s) ['parameters'] detected`, where
+        `parameters` is a list that includes a quoted string for each unknown parameter.
         """
         self.customization_id = customization_id
         self.created = created
@@ -1984,14 +2512,20 @@ class AcousticModels(object):
     """
     AcousticModels.
 
-    :attr list[AcousticModel] customizations: An array of objects that provides information about each available custom acoustic model. The array is empty if the requesting service credentials own no custom acoustic models (if no language is specified) or own no custom acoustic models for the specified language.
+    :attr list[AcousticModel] customizations: An array of objects that provides
+    information about each available custom acoustic model. The array is empty if the
+    requesting service credentials own no custom acoustic models (if no language is
+    specified) or own no custom acoustic models for the specified language.
     """
 
     def __init__(self, customizations):
         """
         Initialize a AcousticModels object.
 
-        :param list[AcousticModel] customizations: An array of objects that provides information about each available custom acoustic model. The array is empty if the requesting service credentials own no custom acoustic models (if no language is specified) or own no custom acoustic models for the specified language.
+        :param list[AcousticModel] customizations: An array of objects that provides
+        information about each available custom acoustic model. The array is empty if the
+        requesting service credentials own no custom acoustic models (if no language is
+        specified) or own no custom acoustic models for the specified language.
         """
         self.customizations = customizations
 
@@ -2038,20 +2572,42 @@ class AudioDetails(object):
     """
     AudioDetails.
 
-    :attr str type: (optional) The type of the audio resource: * `audio` for an individual audio file * `archive` for an archive (**.zip** or **.tar.gz**) file that contains audio files.
-    :attr str codec: (optional) **For an audio-type resource,** the codec in which the audio is encoded. Omitted for an archive-type resource.
-    :attr int frequency: (optional) **For an audio-type resource,** the sampling rate of the audio in Hertz (samples per second). Omitted for an archive-type resource.
-    :attr str compression: (optional) **For an archive-type resource,** the format of the compressed archive: * `zip` for a **.zip** file * `gzip` for a **.tar.gz** file   Omitted for an audio-type resource.
+    :attr str type: (optional) The type of the audio resource:
+    * `audio` for an individual audio file
+    * `archive` for an archive (**.zip** or **.tar.gz**) file that contains audio files
+    * `undetermined` for a resource that the service cannot validate (for example, if the
+    user mistakenly passes a file that does not contain audio, such as a JPEG file).
+    :attr str codec: (optional) **For an audio-type resource,** the codec in which the
+    audio is encoded. Omitted for an archive-type resource.
+    :attr int frequency: (optional) **For an audio-type resource,** the sampling rate of
+    the audio in Hertz (samples per second). Omitted for an archive-type resource.
+    :attr str compression: (optional) **For an archive-type resource,** the format of the
+    compressed archive:
+    * `zip` for a **.zip** file
+    * `gzip` for a **.tar.gz** file
+    Omitted for an audio-type resource.
     """
 
     def __init__(self, type=None, codec=None, frequency=None, compression=None):
         """
         Initialize a AudioDetails object.
 
-        :param str type: (optional) The type of the audio resource: * `audio` for an individual audio file * `archive` for an archive (**.zip** or **.tar.gz**) file that contains audio files.
-        :param str codec: (optional) **For an audio-type resource,** the codec in which the audio is encoded. Omitted for an archive-type resource.
-        :param int frequency: (optional) **For an audio-type resource,** the sampling rate of the audio in Hertz (samples per second). Omitted for an archive-type resource.
-        :param str compression: (optional) **For an archive-type resource,** the format of the compressed archive: * `zip` for a **.zip** file * `gzip` for a **.tar.gz** file   Omitted for an audio-type resource.
+        :param str type: (optional) The type of the audio resource:
+        * `audio` for an individual audio file
+        * `archive` for an archive (**.zip** or **.tar.gz**) file that contains audio
+        files
+        * `undetermined` for a resource that the service cannot validate (for example, if
+        the user mistakenly passes a file that does not contain audio, such as a JPEG
+        file).
+        :param str codec: (optional) **For an audio-type resource,** the codec in which
+        the audio is encoded. Omitted for an archive-type resource.
+        :param int frequency: (optional) **For an audio-type resource,** the sampling rate
+        of the audio in Hertz (samples per second). Omitted for an archive-type resource.
+        :param str compression: (optional) **For an archive-type resource,** the format of
+        the compressed archive:
+        * `zip` for a **.zip** file
+        * `gzip` for a **.tar.gz** file
+        Omitted for an audio-type resource.
         """
         self.type = type
         self.codec = codec
@@ -2104,12 +2660,32 @@ class AudioListing(object):
     """
     AudioListing.
 
-    :attr float duration: (optional) **For an audio-type resource,**  the total seconds of audio in the resource. Omitted for an archive-type resource.
-    :attr str name: (optional) **For an audio-type resource,** the name of the resource. Omitted for an archive-type resource.
-    :attr AudioDetails details: (optional) **For an audio-type resource,** an `AudioDetails` object that provides detailed information about the resource. The object is empty until the service finishes processing the audio. Omitted for an archive-type resource.
-    :attr str status: (optional) **For an audio-type resource,** the status of the resource: * `ok` indicates that the service has successfully analyzed the audio data. The data can be used to train the custom model. * `being_processed` indicates that the service is still analyzing the audio data. The service cannot accept requests to add new audio resources or to train the custom model until its analysis is complete. * `invalid` indicates that the audio data is not valid for training the custom model (possibly because it has the wrong format or sampling rate, or because it is corrupted).   Omitted for an archive-type resource.
-    :attr AudioResource container: (optional) **For an archive-type resource,** an object of type `AudioResource` that provides information about the resource. Omitted for an audio-type resource.
-    :attr list[AudioResource] audio: (optional) **For an archive-type resource,** an array of `AudioResource` objects that provides information about the audio-type resources that are contained in the resource. Omitted for an audio-type resource.
+    :attr float duration: (optional) **For an audio-type resource,**  the total seconds of
+    audio in the resource. The value is always a whole number. Omitted for an archive-type
+    resource.
+    :attr str name: (optional) **For an audio-type resource,** the user-specified name of
+    the resource. Omitted for an archive-type resource.
+    :attr AudioDetails details: (optional) **For an audio-type resource,** an
+    `AudioDetails` object that provides detailed information about the resource. The
+    object is empty until the service finishes processing the audio. Omitted for an
+    archive-type resource.
+    :attr str status: (optional) **For an audio-type resource,** the status of the
+    resource:
+    * `ok` indicates that the service has successfully analyzed the audio data. The data
+    can be used to train the custom model.
+    * `being_processed` indicates that the service is still analyzing the audio data. The
+    service cannot accept requests to add new audio resources or to train the custom model
+    until its analysis is complete.
+    * `invalid` indicates that the audio data is not valid for training the custom model
+    (possibly because it has the wrong format or sampling rate, or because it is
+    corrupted).
+    Omitted for an archive-type resource.
+    :attr AudioResource container: (optional) **For an archive-type resource,** an object
+    of type `AudioResource` that provides information about the resource. Omitted for an
+    audio-type resource.
+    :attr list[AudioResource] audio: (optional) **For an archive-type resource,** an array
+    of `AudioResource` objects that provides information about the audio-type resources
+    that are contained in the resource. Omitted for an audio-type resource.
     """
 
     def __init__(self,
@@ -2122,12 +2698,32 @@ class AudioListing(object):
         """
         Initialize a AudioListing object.
 
-        :param float duration: (optional) **For an audio-type resource,**  the total seconds of audio in the resource. Omitted for an archive-type resource.
-        :param str name: (optional) **For an audio-type resource,** the name of the resource. Omitted for an archive-type resource.
-        :param AudioDetails details: (optional) **For an audio-type resource,** an `AudioDetails` object that provides detailed information about the resource. The object is empty until the service finishes processing the audio. Omitted for an archive-type resource.
-        :param str status: (optional) **For an audio-type resource,** the status of the resource: * `ok` indicates that the service has successfully analyzed the audio data. The data can be used to train the custom model. * `being_processed` indicates that the service is still analyzing the audio data. The service cannot accept requests to add new audio resources or to train the custom model until its analysis is complete. * `invalid` indicates that the audio data is not valid for training the custom model (possibly because it has the wrong format or sampling rate, or because it is corrupted).   Omitted for an archive-type resource.
-        :param AudioResource container: (optional) **For an archive-type resource,** an object of type `AudioResource` that provides information about the resource. Omitted for an audio-type resource.
-        :param list[AudioResource] audio: (optional) **For an archive-type resource,** an array of `AudioResource` objects that provides information about the audio-type resources that are contained in the resource. Omitted for an audio-type resource.
+        :param float duration: (optional) **For an audio-type resource,**  the total
+        seconds of audio in the resource. The value is always a whole number. Omitted for
+        an archive-type resource.
+        :param str name: (optional) **For an audio-type resource,** the user-specified
+        name of the resource. Omitted for an archive-type resource.
+        :param AudioDetails details: (optional) **For an audio-type resource,** an
+        `AudioDetails` object that provides detailed information about the resource. The
+        object is empty until the service finishes processing the audio. Omitted for an
+        archive-type resource.
+        :param str status: (optional) **For an audio-type resource,** the status of the
+        resource:
+        * `ok` indicates that the service has successfully analyzed the audio data. The
+        data can be used to train the custom model.
+        * `being_processed` indicates that the service is still analyzing the audio data.
+        The service cannot accept requests to add new audio resources or to train the
+        custom model until its analysis is complete.
+        * `invalid` indicates that the audio data is not valid for training the custom
+        model (possibly because it has the wrong format or sampling rate, or because it is
+        corrupted).
+        Omitted for an archive-type resource.
+        :param AudioResource container: (optional) **For an archive-type resource,** an
+        object of type `AudioResource` that provides information about the resource.
+        Omitted for an audio-type resource.
+        :param list[AudioResource] audio: (optional) **For an archive-type resource,** an
+        array of `AudioResource` objects that provides information about the audio-type
+        resources that are contained in the resource. Omitted for an audio-type resource.
         """
         self.duration = duration
         self.name = name
@@ -2192,20 +2788,52 @@ class AudioResource(object):
     """
     AudioResource.
 
-    :attr float duration: The total seconds of audio in the audio resource.
-    :attr str name: The name of the audio resource.
-    :attr AudioDetails details: An `AudioDetails` object that provides detailed information about the audio resource. The object is empty until the service finishes processing the audio.
-    :attr str status: The status of the audio resource: * `ok` indicates that the service has successfully analyzed the audio data. The data can be used to train the custom model. * `being_processed` indicates that the service is still analyzing the audio data. The service cannot accept requests to add new audio resources or to train the custom model until its analysis is complete. * `invalid` indicates that the audio data is not valid for training the custom model (possibly because it has the wrong format or sampling rate, or because it is corrupted). For an archive file, the entire archive is invalid if any of its audio files are invalid.
+    :attr float duration: The total seconds of audio in the audio resource. The value is
+    always a whole number.
+    :attr str name: **For an archive-type resource,** the user-specified name of the
+    resource.
+    **For an audio-type resource,** the user-specified name of the resource or the name of
+    the audio file that the user added for the resource. The value depends on the method
+    that is called.
+    :attr AudioDetails details: An `AudioDetails` object that provides detailed
+    information about the audio resource. The object is empty until the service finishes
+    processing the audio.
+    :attr str status: The status of the audio resource:
+    * `ok` indicates that the service has successfully analyzed the audio data. The data
+    can be used to train the custom model.
+    * `being_processed` indicates that the service is still analyzing the audio data. The
+    service cannot accept requests to add new audio resources or to train the custom model
+    until its analysis is complete.
+    * `invalid` indicates that the audio data is not valid for training the custom model
+    (possibly because it has the wrong format or sampling rate, or because it is
+    corrupted). For an archive file, the entire archive is invalid if any of its audio
+    files are invalid.
     """
 
     def __init__(self, duration, name, details, status):
         """
         Initialize a AudioResource object.
 
-        :param float duration: The total seconds of audio in the audio resource.
-        :param str name: The name of the audio resource.
-        :param AudioDetails details: An `AudioDetails` object that provides detailed information about the audio resource. The object is empty until the service finishes processing the audio.
-        :param str status: The status of the audio resource: * `ok` indicates that the service has successfully analyzed the audio data. The data can be used to train the custom model. * `being_processed` indicates that the service is still analyzing the audio data. The service cannot accept requests to add new audio resources or to train the custom model until its analysis is complete. * `invalid` indicates that the audio data is not valid for training the custom model (possibly because it has the wrong format or sampling rate, or because it is corrupted). For an archive file, the entire archive is invalid if any of its audio files are invalid.
+        :param float duration: The total seconds of audio in the audio resource. The value
+        is always a whole number.
+        :param str name: **For an archive-type resource,** the user-specified name of the
+        resource.
+        **For an audio-type resource,** the user-specified name of the resource or the
+        name of the audio file that the user added for the resource. The value depends on
+        the method that is called.
+        :param AudioDetails details: An `AudioDetails` object that provides detailed
+        information about the audio resource. The object is empty until the service
+        finishes processing the audio.
+        :param str status: The status of the audio resource:
+        * `ok` indicates that the service has successfully analyzed the audio data. The
+        data can be used to train the custom model.
+        * `being_processed` indicates that the service is still analyzing the audio data.
+        The service cannot accept requests to add new audio resources or to train the
+        custom model until its analysis is complete.
+        * `invalid` indicates that the audio data is not valid for training the custom
+        model (possibly because it has the wrong format or sampling rate, or because it is
+        corrupted). For an archive file, the entire archive is invalid if any of its audio
+        files are invalid.
         """
         self.duration = duration
         self.name = name
@@ -2273,16 +2901,26 @@ class AudioResources(object):
     """
     AudioResources.
 
-    :attr float total_minutes_of_audio: The total minutes of accumulated audio summed over all of the valid audio resources for the custom acoustic model. You can use this value to determine whether the custom model has too little or too much audio to begin training.
-    :attr list[AudioResource] audio: An array of `AudioResource` objects that provides information about the audio resources of the custom acoustic model. The array is empty if the custom model has no audio resources.
+    :attr float total_minutes_of_audio: The total minutes of accumulated audio summed over
+    all of the valid audio resources for the custom acoustic model. You can use this value
+    to determine whether the custom model has too little or too much audio to begin
+    training.
+    :attr list[AudioResource] audio: An array of `AudioResource` objects that provides
+    information about the audio resources of the custom acoustic model. The array is empty
+    if the custom model has no audio resources.
     """
 
     def __init__(self, total_minutes_of_audio, audio):
         """
         Initialize a AudioResources object.
 
-        :param float total_minutes_of_audio: The total minutes of accumulated audio summed over all of the valid audio resources for the custom acoustic model. You can use this value to determine whether the custom model has too little or too much audio to begin training.
-        :param list[AudioResource] audio: An array of `AudioResource` objects that provides information about the audio resources of the custom acoustic model. The array is empty if the custom model has no audio resources.
+        :param float total_minutes_of_audio: The total minutes of accumulated audio summed
+        over all of the valid audio resources for the custom acoustic model. You can use
+        this value to determine whether the custom model has too little or too much audio
+        to begin training.
+        :param list[AudioResource] audio: An array of `AudioResource` objects that
+        provides information about the audio resources of the custom acoustic model. The
+        array is empty if the custom model has no audio resources.
         """
         self.total_minutes_of_audio = total_minutes_of_audio
         self.audio = audio
@@ -2336,14 +2974,17 @@ class Corpora(object):
     """
     Corpora.
 
-    :attr list[Corpus] corpora: Information about corpora of the custom model. The array is empty if the custom model has no corpora.
+    :attr list[Corpus] corpora: An array of objects that provides information about the
+    corpora for the custom model. The array is empty if the custom model has no corpora.
     """
 
     def __init__(self, corpora):
         """
         Initialize a Corpora object.
 
-        :param list[Corpus] corpora: Information about corpora of the custom model. The array is empty if the custom model has no corpora.
+        :param list[Corpus] corpora: An array of objects that provides information about
+        the corpora for the custom model. The array is empty if the custom model has no
+        corpora.
         """
         self.corpora = corpora
 
@@ -2387,10 +3028,21 @@ class Corpus(object):
     Corpus.
 
     :attr str name: The name of the corpus.
-    :attr int total_words: The total number of words in the corpus. The value is `0` while the corpus is being processed.
-    :attr int out_of_vocabulary_words: The number of OOV words in the corpus. The value is `0` while the corpus is being processed.
-    :attr str status: The status of the corpus: * `analyzed` indicates that the service has successfully analyzed the corpus; the custom model can be trained with data from the corpus. * `being_processed` indicates that the service is still analyzing the corpus; the service cannot accept requests to add new corpora or words, or to train the custom model. * `undetermined` indicates that the service encountered an error while processing the corpus.
-    :attr str error: (optional) If the status of the corpus is `undetermined`, the following message: `Analysis of corpus 'name' failed. Please try adding the corpus again by setting the 'allow_overwrite' flag to 'true'`.
+    :attr int total_words: The total number of words in the corpus. The value is `0` while
+    the corpus is being processed.
+    :attr int out_of_vocabulary_words: The number of OOV words in the corpus. The value is
+    `0` while the corpus is being processed.
+    :attr str status: The status of the corpus:
+    * `analyzed` indicates that the service has successfully analyzed the corpus; the
+    custom model can be trained with data from the corpus.
+    * `being_processed` indicates that the service is still analyzing the corpus; the
+    service cannot accept requests to add new corpora or words, or to train the custom
+    model.
+    * `undetermined` indicates that the service encountered an error while processing the
+    corpus.
+    :attr str error: (optional) If the status of the corpus is `undetermined`, the
+    following message: `Analysis of corpus 'name' failed. Please try adding the corpus
+    again by setting the 'allow_overwrite' flag to 'true'`.
     """
 
     def __init__(self,
@@ -2403,10 +3055,21 @@ class Corpus(object):
         Initialize a Corpus object.
 
         :param str name: The name of the corpus.
-        :param int total_words: The total number of words in the corpus. The value is `0` while the corpus is being processed.
-        :param int out_of_vocabulary_words: The number of OOV words in the corpus. The value is `0` while the corpus is being processed.
-        :param str status: The status of the corpus: * `analyzed` indicates that the service has successfully analyzed the corpus; the custom model can be trained with data from the corpus. * `being_processed` indicates that the service is still analyzing the corpus; the service cannot accept requests to add new corpora or words, or to train the custom model. * `undetermined` indicates that the service encountered an error while processing the corpus.
-        :param str error: (optional) If the status of the corpus is `undetermined`, the following message: `Analysis of corpus 'name' failed. Please try adding the corpus again by setting the 'allow_overwrite' flag to 'true'`.
+        :param int total_words: The total number of words in the corpus. The value is `0`
+        while the corpus is being processed.
+        :param int out_of_vocabulary_words: The number of OOV words in the corpus. The
+        value is `0` while the corpus is being processed.
+        :param str status: The status of the corpus:
+        * `analyzed` indicates that the service has successfully analyzed the corpus; the
+        custom model can be trained with data from the corpus.
+        * `being_processed` indicates that the service is still analyzing the corpus; the
+        service cannot accept requests to add new corpora or words, or to train the custom
+        model.
+        * `undetermined` indicates that the service encountered an error while processing
+        the corpus.
+        :param str error: (optional) If the status of the corpus is `undetermined`, the
+        following message: `Analysis of corpus 'name' failed. Please try adding the corpus
+        again by setting the 'allow_overwrite' flag to 'true'`.
         """
         self.name = name
         self.total_words = total_words
@@ -2479,18 +3142,50 @@ class CustomWord(object):
     """
     CustomWord.
 
-    :attr str word: (optional) For the **Add custom words** method, you must specify the custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of compound words.   Omit this field for the **Add a custom word** method.
-    :attr list[str] sounds_like: (optional) An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service's base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service's base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.
-    :attr str display_as: (optional) An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.
+    :attr str word: (optional) For the **Add custom words** method, you must specify the
+    custom word that is to be added to or updated in the custom model. Do not include
+    spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
+    compound words.
+    Omit this field for the **Add a custom word** method.
+    :attr list[str] sounds_like: (optional) An array of sounds-like pronunciations for the
+    custom word. Specify how words that are difficult to pronounce, foreign words,
+    acronyms, and so on can be pronounced by users. For a word that is not in the
+    service's base vocabulary, omit the parameter to have the service automatically
+    generate a sounds-like pronunciation for the word. For a word that is in the service's
+    base vocabulary, use the parameter to specify additional pronunciations for the word.
+    You cannot override the default pronunciation of a word; pronunciations you add
+    augment the pronunciation from the base vocabulary. A word can have at most five
+    sounds-like pronunciations, and a pronunciation can include at most 40 characters not
+    including spaces.
+    :attr str display_as: (optional) An alternative spelling for the custom word when it
+    appears in a transcript. Use the parameter when you want the word to have a spelling
+    that is different from its usual representation or from its spelling in corpora
+    training data.
     """
 
     def __init__(self, word=None, sounds_like=None, display_as=None):
         """
         Initialize a CustomWord object.
 
-        :param str word: (optional) For the **Add custom words** method, you must specify the custom word that is to be added to or updated in the custom model. Do not include spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of compound words.   Omit this field for the **Add a custom word** method.
-        :param list[str] sounds_like: (optional) An array of sounds-like pronunciations for the custom word. Specify how words that are difficult to pronounce, foreign words, acronyms, and so on can be pronounced by users. For a word that is not in the service's base vocabulary, omit the parameter to have the service automatically generate a sounds-like pronunciation for the word. For a word that is in the service's base vocabulary, use the parameter to specify additional pronunciations for the word. You cannot override the default pronunciation of a word; pronunciations you add augment the pronunciation from the base vocabulary. A word can have at most five sounds-like pronunciations, and a pronunciation can include at most 40 characters not including spaces.
-        :param str display_as: (optional) An alternative spelling for the custom word when it appears in a transcript. Use the parameter when you want the word to have a spelling that is different from its usual representation or from its spelling in corpora training data.
+        :param str word: (optional) For the **Add custom words** method, you must specify
+        the custom word that is to be added to or updated in the custom model. Do not
+        include spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the
+        tokens of compound words.
+        Omit this field for the **Add a custom word** method.
+        :param list[str] sounds_like: (optional) An array of sounds-like pronunciations
+        for the custom word. Specify how words that are difficult to pronounce, foreign
+        words, acronyms, and so on can be pronounced by users. For a word that is not in
+        the service's base vocabulary, omit the parameter to have the service
+        automatically generate a sounds-like pronunciation for the word. For a word that
+        is in the service's base vocabulary, use the parameter to specify additional
+        pronunciations for the word. You cannot override the default pronunciation of a
+        word; pronunciations you add augment the pronunciation from the base vocabulary. A
+        word can have at most five sounds-like pronunciations, and a pronunciation can
+        include at most 40 characters not including spaces.
+        :param str display_as: (optional) An alternative spelling for the custom word when
+        it appears in a transcript. Use the parameter when you want the word to have a
+        spelling that is different from its usual representation or from its spelling in
+        corpora training data.
         """
         self.word = word
         self.sounds_like = sounds_like
@@ -2538,20 +3233,24 @@ class KeywordResult(object):
     """
     KeywordResult.
 
-    :attr str normalized_text: A specified keyword normalized to the spoken phrase that matched in the audio input.
+    :attr str normalized_text: A specified keyword normalized to the spoken phrase that
+    matched in the audio input.
     :attr float start_time: The start time in seconds of the keyword match.
     :attr float end_time: The end time in seconds of the keyword match.
-    :attr float confidence: A confidence score for the keyword match in the range of 0 to 1.
+    :attr float confidence: A confidence score for the keyword match in the range of 0 to
+    1.
     """
 
     def __init__(self, normalized_text, start_time, end_time, confidence):
         """
         Initialize a KeywordResult object.
 
-        :param str normalized_text: A specified keyword normalized to the spoken phrase that matched in the audio input.
+        :param str normalized_text: A specified keyword normalized to the spoken phrase
+        that matched in the audio input.
         :param float start_time: The start time in seconds of the keyword match.
         :param float end_time: The end time in seconds of the keyword match.
-        :param float confidence: A confidence score for the keyword match in the range of 0 to 1.
+        :param float confidence: A confidence score for the keyword match in the range of
+        0 to 1.
         """
         self.normalized_text = normalized_text
         self.start_time = start_time
@@ -2621,18 +3320,46 @@ class LanguageModel(object):
     """
     LanguageModel.
 
-    :attr str customization_id: The customization ID (GUID) of the custom language model. The **Create a custom language model** method returns only this field of the object; it does not return the other fields.
-    :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at which the custom language model was created. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str language: (optional) The language identifier of the custom language model (for example, `en-US`).
-    :attr str dialect: (optional) The dialect of the language for the custom language model. By default, the dialect matches the language of the base model; for example, `en-US` for either of the US English language models. For Spanish models, the field indicates the dialect for which the model was created: * `es-ES` for Castilian Spanish (the default) * `es-LA` for Latin American Spanish * `es-US` for North American (Mexican) Spanish.
-    :attr list[str] versions: (optional) A list of the available versions of the custom language model. Each element of the array indicates a version of the base model with which the custom model can be used. Multiple versions exist only if the custom model has been upgraded; otherwise, only a single version is shown.
-    :attr str owner: (optional) The GUID of the service credentials for the instance of the service that owns the custom language model.
+    :attr str customization_id: The customization ID (GUID) of the custom language model.
+    The **Create a custom language model** method returns only this field of the object;
+    it does not return the other fields.
+    :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at
+    which the custom language model was created. The value is provided in full ISO 8601
+    format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str language: (optional) The language identifier of the custom language model
+    (for example, `en-US`).
+    :attr str dialect: (optional) The dialect of the language for the custom language
+    model. By default, the dialect matches the language of the base model; for example,
+    `en-US` for either of the US English language models. For Spanish models, the field
+    indicates the dialect for which the model was created:
+    * `es-ES` for Castilian Spanish (the default)
+    * `es-LA` for Latin American Spanish
+    * `es-US` for North American (Mexican) Spanish.
+    :attr list[str] versions: (optional) A list of the available versions of the custom
+    language model. Each element of the array indicates a version of the base model with
+    which the custom model can be used. Multiple versions exist only if the custom model
+    has been upgraded; otherwise, only a single version is shown.
+    :attr str owner: (optional) The GUID of the service credentials for the instance of
+    the service that owns the custom language model.
     :attr str name: (optional) The name of the custom language model.
     :attr str description: (optional) The description of the custom language model.
-    :attr str base_model_name: (optional) The name of the language model for which the custom language model was created.
-    :attr str status: (optional) The current status of the custom language model: * `pending` indicates that the model was created but is waiting either for training data to be added or for the service to finish analyzing added data. * `ready` indicates that the model contains data and is ready to be trained. * `training` indicates that the model is currently being trained. * `available` indicates that the model is trained and ready to use. * `upgrading` indicates that the model is currently being upgraded. * `failed` indicates that training of the model failed.
-    :attr int progress: (optional) A percentage that indicates the progress of the custom language model's current training. A value of `100` means that the model is fully trained. **Note:** The `progress` field does not currently reflect the progress of the training. The field changes from `0` to `100` when training is complete.
-    :attr str warnings: (optional) If the request included unknown parameters, the following message: `Unexpected query parameter(s) ['parameters'] detected`, where `parameters` is a list that includes a quoted string for each unknown parameter.
+    :attr str base_model_name: (optional) The name of the language model for which the
+    custom language model was created.
+    :attr str status: (optional) The current status of the custom language model:
+    * `pending` indicates that the model was created but is waiting either for training
+    data to be added or for the service to finish analyzing added data.
+    * `ready` indicates that the model contains data and is ready to be trained.
+    * `training` indicates that the model is currently being trained.
+    * `available` indicates that the model is trained and ready to use.
+    * `upgrading` indicates that the model is currently being upgraded.
+    * `failed` indicates that training of the model failed.
+    :attr int progress: (optional) A percentage that indicates the progress of the custom
+    language model's current training. A value of `100` means that the model is fully
+    trained. **Note:** The `progress` field does not currently reflect the progress of the
+    training. The field changes from `0` to `100` when training is complete.
+    :attr str warnings: (optional) If the request included unknown parameters, the
+    following message: `Unexpected query parameter(s) ['parameters'] detected`, where
+    `parameters` is a list that includes a quoted string for each unknown parameter.
     """
 
     def __init__(self,
@@ -2651,18 +3378,47 @@ class LanguageModel(object):
         """
         Initialize a LanguageModel object.
 
-        :param str customization_id: The customization ID (GUID) of the custom language model. The **Create a custom language model** method returns only this field of the object; it does not return the other fields.
-        :param str created: (optional) The date and time in Coordinated Universal Time (UTC) at which the custom language model was created. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-        :param str language: (optional) The language identifier of the custom language model (for example, `en-US`).
-        :param str dialect: (optional) The dialect of the language for the custom language model. By default, the dialect matches the language of the base model; for example, `en-US` for either of the US English language models. For Spanish models, the field indicates the dialect for which the model was created: * `es-ES` for Castilian Spanish (the default) * `es-LA` for Latin American Spanish * `es-US` for North American (Mexican) Spanish.
-        :param list[str] versions: (optional) A list of the available versions of the custom language model. Each element of the array indicates a version of the base model with which the custom model can be used. Multiple versions exist only if the custom model has been upgraded; otherwise, only a single version is shown.
-        :param str owner: (optional) The GUID of the service credentials for the instance of the service that owns the custom language model.
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. The **Create a custom language model** method returns only this field of
+        the object; it does not return the other fields.
+        :param str created: (optional) The date and time in Coordinated Universal Time
+        (UTC) at which the custom language model was created. The value is provided in
+        full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str language: (optional) The language identifier of the custom language
+        model (for example, `en-US`).
+        :param str dialect: (optional) The dialect of the language for the custom language
+        model. By default, the dialect matches the language of the base model; for
+        example, `en-US` for either of the US English language models. For Spanish models,
+        the field indicates the dialect for which the model was created:
+        * `es-ES` for Castilian Spanish (the default)
+        * `es-LA` for Latin American Spanish
+        * `es-US` for North American (Mexican) Spanish.
+        :param list[str] versions: (optional) A list of the available versions of the
+        custom language model. Each element of the array indicates a version of the base
+        model with which the custom model can be used. Multiple versions exist only if the
+        custom model has been upgraded; otherwise, only a single version is shown.
+        :param str owner: (optional) The GUID of the service credentials for the instance
+        of the service that owns the custom language model.
         :param str name: (optional) The name of the custom language model.
         :param str description: (optional) The description of the custom language model.
-        :param str base_model_name: (optional) The name of the language model for which the custom language model was created.
-        :param str status: (optional) The current status of the custom language model: * `pending` indicates that the model was created but is waiting either for training data to be added or for the service to finish analyzing added data. * `ready` indicates that the model contains data and is ready to be trained. * `training` indicates that the model is currently being trained. * `available` indicates that the model is trained and ready to use. * `upgrading` indicates that the model is currently being upgraded. * `failed` indicates that training of the model failed.
-        :param int progress: (optional) A percentage that indicates the progress of the custom language model's current training. A value of `100` means that the model is fully trained. **Note:** The `progress` field does not currently reflect the progress of the training. The field changes from `0` to `100` when training is complete.
-        :param str warnings: (optional) If the request included unknown parameters, the following message: `Unexpected query parameter(s) ['parameters'] detected`, where `parameters` is a list that includes a quoted string for each unknown parameter.
+        :param str base_model_name: (optional) The name of the language model for which
+        the custom language model was created.
+        :param str status: (optional) The current status of the custom language model:
+        * `pending` indicates that the model was created but is waiting either for
+        training data to be added or for the service to finish analyzing added data.
+        * `ready` indicates that the model contains data and is ready to be trained.
+        * `training` indicates that the model is currently being trained.
+        * `available` indicates that the model is trained and ready to use.
+        * `upgrading` indicates that the model is currently being upgraded.
+        * `failed` indicates that training of the model failed.
+        :param int progress: (optional) A percentage that indicates the progress of the
+        custom language model's current training. A value of `100` means that the model is
+        fully trained. **Note:** The `progress` field does not currently reflect the
+        progress of the training. The field changes from `0` to `100` when training is
+        complete.
+        :param str warnings: (optional) If the request included unknown parameters, the
+        following message: `Unexpected query parameter(s) ['parameters'] detected`, where
+        `parameters` is a list that includes a quoted string for each unknown parameter.
         """
         self.customization_id = customization_id
         self.created = created
@@ -2761,14 +3517,20 @@ class LanguageModels(object):
     """
     LanguageModels.
 
-    :attr list[LanguageModel] customizations: An array of objects that provides information about each available custom language model. The array is empty if the requesting service credentials own no custom language models (if no language is specified) or own no custom language models for the specified language.
+    :attr list[LanguageModel] customizations: An array of objects that provides
+    information about each available custom language model. The array is empty if the
+    requesting service credentials own no custom language models (if no language is
+    specified) or own no custom language models for the specified language.
     """
 
     def __init__(self, customizations):
         """
         Initialize a LanguageModels object.
 
-        :param list[LanguageModel] customizations: An array of objects that provides information about each available custom language model. The array is empty if the requesting service credentials own no custom language models (if no language is specified) or own no custom language models for the specified language.
+        :param list[LanguageModel] customizations: An array of objects that provides
+        information about each available custom language model. The array is empty if the
+        requesting service credentials own no custom language models (if no language is
+        specified) or own no custom language models for the specified language.
         """
         self.customizations = customizations
 
@@ -2816,13 +3578,38 @@ class RecognitionJob(object):
     RecognitionJob.
 
     :attr str id: The ID of the asynchronous job.
-    :attr str status: The current status of the job: * `waiting`: The service is preparing the job for processing. The service returns this status when the job is initially created or when it is waiting for capacity to process the job. The job remains in this state until the service has the capacity to begin processing it. * `processing`: The service is actively processing the job. * `completed`: The service has finished processing the job. If the job specified a callback URL and the event `recognitions.completed_with_results`, the service sent the results with the callback notification; otherwise, you must retrieve the results by checking the individual job. * `failed`: The job failed.
-    :attr str created: The date and time in Coordinated Universal Time (UTC) at which the job was created. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str updated: (optional) The date and time in Coordinated Universal Time (UTC) at which the job was last updated by the service. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`). This field is returned only by the **Check jobs** and **Check a job** methods.
-    :attr str url: (optional) The URL to use to request information about the job with the **Check a job** method. This field is returned only by the **Create a job** method.
-    :attr str user_token: (optional) The user token associated with a job that was created with a callback URL and a user token. This field can be returned only by the **Check jobs** method.
-    :attr list[SpeechRecognitionResults] results: (optional) If the status is `completed`, the results of the recognition request as an array that includes a single instance of a `SpeechRecognitionResults` object. This field is returned only by the **Check a job** method.
-    :attr list[str] warnings: (optional) An array of warning messages about invalid parameters included with the request. Each warning includes a descriptive message and a list of invalid argument strings, for example, `"unexpected query parameter 'user_token', query parameter 'callback_url' was not specified"`. The request succeeds despite the warnings. This field can be returned only by the **Create a job** method.
+    :attr str status: The current status of the job:
+    * `waiting`: The service is preparing the job for processing. The service returns this
+    status when the job is initially created or when it is waiting for capacity to process
+    the job. The job remains in this state until the service has the capacity to begin
+    processing it.
+    * `processing`: The service is actively processing the job.
+    * `completed`: The service has finished processing the job. If the job specified a
+    callback URL and the event `recognitions.completed_with_results`, the service sent the
+    results with the callback notification; otherwise, you must retrieve the results by
+    checking the individual job.
+    * `failed`: The job failed.
+    :attr str created: The date and time in Coordinated Universal Time (UTC) at which the
+    job was created. The value is provided in full ISO 8601 format
+    (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str updated: (optional) The date and time in Coordinated Universal Time (UTC) at
+    which the job was last updated by the service. The value is provided in full ISO 8601
+    format (`YYYY-MM-DDThh:mm:ss.sTZD`). This field is returned only by the **Check jobs**
+    and **Check a job** methods.
+    :attr str url: (optional) The URL to use to request information about the job with the
+    **Check a job** method. This field is returned only by the **Create a job** method.
+    :attr str user_token: (optional) The user token associated with a job that was created
+    with a callback URL and a user token. This field can be returned only by the **Check
+    jobs** method.
+    :attr list[SpeechRecognitionResults] results: (optional) If the status is `completed`,
+    the results of the recognition request as an array that includes a single instance of
+    a `SpeechRecognitionResults` object. This field is returned only by the **Check a
+    job** method.
+    :attr list[str] warnings: (optional) An array of warning messages about invalid
+    parameters included with the request. Each warning includes a descriptive message and
+    a list of invalid argument strings, for example, `"unexpected query parameter
+    'user_token', query parameter 'callback_url' was not specified"`. The request succeeds
+    despite the warnings. This field can be returned only by the **Create a job** method.
     """
 
     def __init__(self,
@@ -2838,13 +3625,40 @@ class RecognitionJob(object):
         Initialize a RecognitionJob object.
 
         :param str id: The ID of the asynchronous job.
-        :param str status: The current status of the job: * `waiting`: The service is preparing the job for processing. The service returns this status when the job is initially created or when it is waiting for capacity to process the job. The job remains in this state until the service has the capacity to begin processing it. * `processing`: The service is actively processing the job. * `completed`: The service has finished processing the job. If the job specified a callback URL and the event `recognitions.completed_with_results`, the service sent the results with the callback notification; otherwise, you must retrieve the results by checking the individual job. * `failed`: The job failed.
-        :param str created: The date and time in Coordinated Universal Time (UTC) at which the job was created. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-        :param str updated: (optional) The date and time in Coordinated Universal Time (UTC) at which the job was last updated by the service. The value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`). This field is returned only by the **Check jobs** and **Check a job** methods.
-        :param str url: (optional) The URL to use to request information about the job with the **Check a job** method. This field is returned only by the **Create a job** method.
-        :param str user_token: (optional) The user token associated with a job that was created with a callback URL and a user token. This field can be returned only by the **Check jobs** method.
-        :param list[SpeechRecognitionResults] results: (optional) If the status is `completed`, the results of the recognition request as an array that includes a single instance of a `SpeechRecognitionResults` object. This field is returned only by the **Check a job** method.
-        :param list[str] warnings: (optional) An array of warning messages about invalid parameters included with the request. Each warning includes a descriptive message and a list of invalid argument strings, for example, `"unexpected query parameter 'user_token', query parameter 'callback_url' was not specified"`. The request succeeds despite the warnings. This field can be returned only by the **Create a job** method.
+        :param str status: The current status of the job:
+        * `waiting`: The service is preparing the job for processing. The service returns
+        this status when the job is initially created or when it is waiting for capacity
+        to process the job. The job remains in this state until the service has the
+        capacity to begin processing it.
+        * `processing`: The service is actively processing the job.
+        * `completed`: The service has finished processing the job. If the job specified a
+        callback URL and the event `recognitions.completed_with_results`, the service sent
+        the results with the callback notification; otherwise, you must retrieve the
+        results by checking the individual job.
+        * `failed`: The job failed.
+        :param str created: The date and time in Coordinated Universal Time (UTC) at which
+        the job was created. The value is provided in full ISO 8601 format
+        (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str updated: (optional) The date and time in Coordinated Universal Time
+        (UTC) at which the job was last updated by the service. The value is provided in
+        full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`). This field is returned only by
+        the **Check jobs** and **Check a job** methods.
+        :param str url: (optional) The URL to use to request information about the job
+        with the **Check a job** method. This field is returned only by the **Create a
+        job** method.
+        :param str user_token: (optional) The user token associated with a job that was
+        created with a callback URL and a user token. This field can be returned only by
+        the **Check jobs** method.
+        :param list[SpeechRecognitionResults] results: (optional) If the status is
+        `completed`, the results of the recognition request as an array that includes a
+        single instance of a `SpeechRecognitionResults` object. This field is returned
+        only by the **Check a job** method.
+        :param list[str] warnings: (optional) An array of warning messages about invalid
+        parameters included with the request. Each warning includes a descriptive message
+        and a list of invalid argument strings, for example, `"unexpected query parameter
+        'user_token', query parameter 'callback_url' was not specified"`. The request
+        succeeds despite the warnings. This field can be returned only by the **Create a
+        job** method.
         """
         self.id = id
         self.status = status
@@ -2931,14 +3745,18 @@ class RecognitionJobs(object):
     """
     RecognitionJobs.
 
-    :attr list[RecognitionJob] recognitions: An array of objects that provides the status for each of the user's current jobs. The array is empty if the user has no current jobs.
+    :attr list[RecognitionJob] recognitions: An array of objects that provides the status
+    for each of the user's current jobs. The array is empty if the user has no current
+    jobs.
     """
 
     def __init__(self, recognitions):
         """
         Initialize a RecognitionJobs object.
 
-        :param list[RecognitionJob] recognitions: An array of objects that provides the status for each of the user's current jobs. The array is empty if the user has no current jobs.
+        :param list[RecognitionJob] recognitions: An array of objects that provides the
+        status for each of the user's current jobs. The array is empty if the user has no
+        current jobs.
         """
         self.recognitions = recognitions
 
@@ -2983,7 +3801,9 @@ class RegisterStatus(object):
     """
     RegisterStatus.
 
-    :attr str status: The current status of the job: * `created` if the callback URL was successfully white-listed as a result of the call. * `already created` if the URL was already white-listed.
+    :attr str status: The current status of the job:
+    * `created` if the callback URL was successfully white-listed as a result of the call.
+    * `already created` if the URL was already white-listed.
     :attr str url: The callback URL that is successfully registered.
     """
 
@@ -2991,7 +3811,10 @@ class RegisterStatus(object):
         """
         Initialize a RegisterStatus object.
 
-        :param str status: The current status of the job: * `created` if the callback URL was successfully white-listed as a result of the call. * `already created` if the URL was already white-listed.
+        :param str status: The current status of the job:
+        * `created` if the callback URL was successfully white-listed as a result of the
+        call.
+        * `already created` if the URL was already white-listed.
         :param str url: The callback URL that is successfully registered.
         """
         self.status = status
@@ -3134,13 +3957,17 @@ class SpeechModel(object):
     """
     SpeechModel.
 
-    :attr str name: The name of the model for use as an identifier in calls to the service (for example, `en-US_BroadbandModel`).
+    :attr str name: The name of the model for use as an identifier in calls to the service
+    (for example, `en-US_BroadbandModel`).
     :attr str language: The language identifier of the model (for example, `en-US`).
-    :attr int rate: The sampling rate (minimum acceptable rate for audio) used by the model in Hertz.
+    :attr int rate: The sampling rate (minimum acceptable rate for audio) used by the
+    model in Hertz.
     :attr str url: The URI for the model.
-    :attr SupportedFeatures supported_features: Describes the additional service features supported with the model.
+    :attr SupportedFeatures supported_features: Describes the additional service features
+    supported with the model.
     :attr str description: Brief description of the model.
-    :attr str sessions: (optional) The URI for the model for use with the **Create a session** method. This field is returned only by the **Get a model** method.
+    :attr str sessions: (optional) The URI for the model for use with the **Create a
+    session** method. This field is returned only by the **Get a model** method.
     """
 
     def __init__(self,
@@ -3154,13 +3981,17 @@ class SpeechModel(object):
         """
         Initialize a SpeechModel object.
 
-        :param str name: The name of the model for use as an identifier in calls to the service (for example, `en-US_BroadbandModel`).
+        :param str name: The name of the model for use as an identifier in calls to the
+        service (for example, `en-US_BroadbandModel`).
         :param str language: The language identifier of the model (for example, `en-US`).
-        :param int rate: The sampling rate (minimum acceptable rate for audio) used by the model in Hertz.
+        :param int rate: The sampling rate (minimum acceptable rate for audio) used by the
+        model in Hertz.
         :param str url: The URI for the model.
-        :param SupportedFeatures supported_features: Describes the additional service features supported with the model.
+        :param SupportedFeatures supported_features: Describes the additional service
+        features supported with the model.
         :param str description: Brief description of the model.
-        :param str sessions: (optional) The URI for the model for use with the **Create a session** method. This field is returned only by the **Get a model** method.
+        :param str sessions: (optional) The URI for the model for use with the **Create a
+        session** method. This field is returned only by the **Get a model** method.
         """
         self.name = name
         self.language = language
@@ -3252,14 +4083,16 @@ class SpeechModels(object):
     """
     SpeechModels.
 
-    :attr list[SpeechModel] models: Information about each available model.
+    :attr list[SpeechModel] models: An array of objects that provides information about
+    each available model.
     """
 
     def __init__(self, models):
         """
         Initialize a SpeechModels object.
 
-        :param list[SpeechModel] models: Information about each available model.
+        :param list[SpeechModel] models: An array of objects that provides information
+        about each available model.
         """
         self.models = models
 
@@ -3303,9 +4136,18 @@ class SpeechRecognitionAlternative(object):
     SpeechRecognitionAlternative.
 
     :attr str transcript: A transcription of the audio.
-    :attr float confidence: (optional) A score that indicates the service's confidence in the transcript in the range of 0 to 1. Returned only for the best alternative and only with results marked as final.
-    :attr list[str] timestamps: (optional) Time alignments for each word from the transcript as a list of lists. Each inner list consists of three elements: the word followed by its start and end time in seconds. Example: `[["hello",0.0,1.2],["world",1.2,2.5]]`. Returned only for the best alternative.
-    :attr list[str] word_confidence: (optional) A confidence score for each word of the transcript as a list of lists. Each inner list consists of two elements: the word and its confidence score in the range of 0 to 1. Example: `[["hello",0.95],["world",0.866]]`. Returned only for the best alternative and only with results marked as final.
+    :attr float confidence: (optional) A score that indicates the service's confidence in
+    the transcript in the range of 0 to 1. Returned only for the best alternative and only
+    with results marked as final.
+    :attr list[str] timestamps: (optional) Time alignments for each word from the
+    transcript as a list of lists. Each inner list consists of three elements: the word
+    followed by its start and end time in seconds. Example:
+    `[["hello",0.0,1.2],["world",1.2,2.5]]`. Returned only for the best alternative.
+    :attr list[str] word_confidence: (optional) A confidence score for each word of the
+    transcript as a list of lists. Each inner list consists of two elements: the word and
+    its confidence score in the range of 0 to 1. Example:
+    `[["hello",0.95],["world",0.866]]`. Returned only for the best alternative and only
+    with results marked as final.
     """
 
     def __init__(self,
@@ -3317,9 +4159,18 @@ class SpeechRecognitionAlternative(object):
         Initialize a SpeechRecognitionAlternative object.
 
         :param str transcript: A transcription of the audio.
-        :param float confidence: (optional) A score that indicates the service's confidence in the transcript in the range of 0 to 1. Returned only for the best alternative and only with results marked as final.
-        :param list[str] timestamps: (optional) Time alignments for each word from the transcript as a list of lists. Each inner list consists of three elements: the word followed by its start and end time in seconds. Example: `[["hello",0.0,1.2],["world",1.2,2.5]]`. Returned only for the best alternative.
-        :param list[str] word_confidence: (optional) A confidence score for each word of the transcript as a list of lists. Each inner list consists of two elements: the word and its confidence score in the range of 0 to 1. Example: `[["hello",0.95],["world",0.866]]`. Returned only for the best alternative and only with results marked as final.
+        :param float confidence: (optional) A score that indicates the service's
+        confidence in the transcript in the range of 0 to 1. Returned only for the best
+        alternative and only with results marked as final.
+        :param list[str] timestamps: (optional) Time alignments for each word from the
+        transcript as a list of lists. Each inner list consists of three elements: the
+        word followed by its start and end time in seconds. Example:
+        `[["hello",0.0,1.2],["world",1.2,2.5]]`. Returned only for the best alternative.
+        :param list[str] word_confidence: (optional) A confidence score for each word of
+        the transcript as a list of lists. Each inner list consists of two elements: the
+        word and its confidence score in the range of 0 to 1. Example:
+        `[["hello",0.95],["world",0.866]]`. Returned only for the best alternative and
+        only with results marked as final.
         """
         self.transcript = transcript
         self.confidence = confidence
@@ -3377,10 +4228,20 @@ class SpeechRecognitionResult(object):
     """
     SpeechRecognitionResult.
 
-    :attr bool final_results: An indication of whether the transcription results are final. If `true`, the results for this utterance are not updated further; no additional results are sent for a `result_index` once its results are indicated as final.
-    :attr list[SpeechRecognitionAlternative] alternatives: An array of alternative transcripts. The `alternatives` array can include additional requested output such as word confidence or timestamps.
-    :attr dict keywords_result: (optional) A dictionary (or associative array) whose keys are the strings specified for `keywords` if both that parameter and `keywords_threshold` are specified. A keyword for which no matches are found is omitted from the array. The array is omitted if no matches are found for any keywords.
-    :attr list[WordAlternativeResults] word_alternatives: (optional) An array of alternative hypotheses found for words of the input audio if a `word_alternatives_threshold` is specified.
+    :attr bool final_results: An indication of whether the transcription results are
+    final. If `true`, the results for this utterance are not updated further; no
+    additional results are sent for a `result_index` once its results are indicated as
+    final.
+    :attr list[SpeechRecognitionAlternative] alternatives: An array of alternative
+    transcripts. The `alternatives` array can include additional requested output such as
+    word confidence or timestamps.
+    :attr dict keywords_result: (optional) A dictionary (or associative array) whose keys
+    are the strings specified for `keywords` if both that parameter and
+    `keywords_threshold` are specified. A keyword for which no matches are found is
+    omitted from the array. The array is omitted if no matches are found for any keywords.
+    :attr list[WordAlternativeResults] word_alternatives: (optional) An array of
+    alternative hypotheses found for words of the input audio if a
+    `word_alternatives_threshold` is specified.
     """
 
     def __init__(self,
@@ -3391,10 +4252,21 @@ class SpeechRecognitionResult(object):
         """
         Initialize a SpeechRecognitionResult object.
 
-        :param bool final_results: An indication of whether the transcription results are final. If `true`, the results for this utterance are not updated further; no additional results are sent for a `result_index` once its results are indicated as final.
-        :param list[SpeechRecognitionAlternative] alternatives: An array of alternative transcripts. The `alternatives` array can include additional requested output such as word confidence or timestamps.
-        :param dict keywords_result: (optional) A dictionary (or associative array) whose keys are the strings specified for `keywords` if both that parameter and `keywords_threshold` are specified. A keyword for which no matches are found is omitted from the array. The array is omitted if no matches are found for any keywords.
-        :param list[WordAlternativeResults] word_alternatives: (optional) An array of alternative hypotheses found for words of the input audio if a `word_alternatives_threshold` is specified.
+        :param bool final_results: An indication of whether the transcription results are
+        final. If `true`, the results for this utterance are not updated further; no
+        additional results are sent for a `result_index` once its results are indicated as
+        final.
+        :param list[SpeechRecognitionAlternative] alternatives: An array of alternative
+        transcripts. The `alternatives` array can include additional requested output such
+        as word confidence or timestamps.
+        :param dict keywords_result: (optional) A dictionary (or associative array) whose
+        keys are the strings specified for `keywords` if both that parameter and
+        `keywords_threshold` are specified. A keyword for which no matches are found is
+        omitted from the array. The array is omitted if no matches are found for any
+        keywords.
+        :param list[WordAlternativeResults] word_alternatives: (optional) An array of
+        alternative hypotheses found for words of the input audio if a
+        `word_alternatives_threshold` is specified.
         """
         self.final_results = final_results
         self.alternatives = alternatives
@@ -3466,10 +4338,32 @@ class SpeechRecognitionResults(object):
     """
     SpeechRecognitionResults.
 
-    :attr list[SpeechRecognitionResult] results: (optional) An array that can include interim and final results (interim results are returned only if supported by the method). Final results are guaranteed not to change; interim results might be replaced by further interim results and final results. The service periodically sends updates to the results list; the `result_index` is set to the lowest index in the array that has changed; it is incremented for new results.
-    :attr int result_index: (optional) An index that indicates a change point in the `results` array. The service increments the index only for additional results that it sends for new audio for the same request.
-    :attr list[SpeakerLabelsResult] speaker_labels: (optional) An array that identifies which words were spoken by which speakers in a multi-person exchange. Returned in the response only if `speaker_labels` is `true`. When interim results are also requested for methods that support them, it is possible for a `SpeechRecognitionResults` object to include only the `speaker_labels` field.
-    :attr list[str] warnings: (optional) An array of warning messages associated with the request: * Warnings for invalid parameters or fields can include a descriptive message and a list of invalid argument strings, for example, `"Unknown arguments:"` or `"Unknown url query arguments:"` followed by a list of the form `"invalid_arg_1, invalid_arg_2."` * The following warning is returned if the request passes a custom model that is based on an older version of a base model for which an updated version is available: `"Using previous version of base model, because your custom model has been built with it. Please note that this version will be supported only for a limited time. Consider updating your custom model to the new base model. If you do not do that you will be automatically switched to base model when you used the non-updated custom model."`  In both cases, the request succeeds despite the warnings.
+    :attr list[SpeechRecognitionResult] results: (optional) An array that can include
+    interim and final results (interim results are returned only if supported by the
+    method). Final results are guaranteed not to change; interim results might be replaced
+    by further interim results and final results. The service periodically sends updates
+    to the results list; the `result_index` is set to the lowest index in the array that
+    has changed; it is incremented for new results.
+    :attr int result_index: (optional) An index that indicates a change point in the
+    `results` array. The service increments the index only for additional results that it
+    sends for new audio for the same request.
+    :attr list[SpeakerLabelsResult] speaker_labels: (optional) An array that identifies
+    which words were spoken by which speakers in a multi-person exchange. Returned in the
+    response only if `speaker_labels` is `true`. When interim results are also requested
+    for methods that support them, it is possible for a `SpeechRecognitionResults` object
+    to include only the `speaker_labels` field.
+    :attr list[str] warnings: (optional) An array of warning messages associated with the
+    request:
+    * Warnings for invalid parameters or fields can include a descriptive message and a
+    list of invalid argument strings, for example, `"Unknown arguments:"` or `"Unknown url
+    query arguments:"` followed by a list of the form `"invalid_arg_1, invalid_arg_2."`
+    * The following warning is returned if the request passes a custom model that is based
+    on an older version of a base model for which an updated version is available: `"Using
+    previous version of base model, because your custom model has been built with it.
+    Please note that this version will be supported only for a limited time. Consider
+    updating your custom model to the new base model. If you do not do that you will be
+    automatically switched to base model when you used the non-updated custom model."`
+    In both cases, the request succeeds despite the warnings.
     """
 
     def __init__(self,
@@ -3480,10 +4374,34 @@ class SpeechRecognitionResults(object):
         """
         Initialize a SpeechRecognitionResults object.
 
-        :param list[SpeechRecognitionResult] results: (optional) An array that can include interim and final results (interim results are returned only if supported by the method). Final results are guaranteed not to change; interim results might be replaced by further interim results and final results. The service periodically sends updates to the results list; the `result_index` is set to the lowest index in the array that has changed; it is incremented for new results.
-        :param int result_index: (optional) An index that indicates a change point in the `results` array. The service increments the index only for additional results that it sends for new audio for the same request.
-        :param list[SpeakerLabelsResult] speaker_labels: (optional) An array that identifies which words were spoken by which speakers in a multi-person exchange. Returned in the response only if `speaker_labels` is `true`. When interim results are also requested for methods that support them, it is possible for a `SpeechRecognitionResults` object to include only the `speaker_labels` field.
-        :param list[str] warnings: (optional) An array of warning messages associated with the request: * Warnings for invalid parameters or fields can include a descriptive message and a list of invalid argument strings, for example, `"Unknown arguments:"` or `"Unknown url query arguments:"` followed by a list of the form `"invalid_arg_1, invalid_arg_2."` * The following warning is returned if the request passes a custom model that is based on an older version of a base model for which an updated version is available: `"Using previous version of base model, because your custom model has been built with it. Please note that this version will be supported only for a limited time. Consider updating your custom model to the new base model. If you do not do that you will be automatically switched to base model when you used the non-updated custom model."`  In both cases, the request succeeds despite the warnings.
+        :param list[SpeechRecognitionResult] results: (optional) An array that can include
+        interim and final results (interim results are returned only if supported by the
+        method). Final results are guaranteed not to change; interim results might be
+        replaced by further interim results and final results. The service periodically
+        sends updates to the results list; the `result_index` is set to the lowest index
+        in the array that has changed; it is incremented for new results.
+        :param int result_index: (optional) An index that indicates a change point in the
+        `results` array. The service increments the index only for additional results that
+        it sends for new audio for the same request.
+        :param list[SpeakerLabelsResult] speaker_labels: (optional) An array that
+        identifies which words were spoken by which speakers in a multi-person exchange.
+        Returned in the response only if `speaker_labels` is `true`. When interim results
+        are also requested for methods that support them, it is possible for a
+        `SpeechRecognitionResults` object to include only the `speaker_labels` field.
+        :param list[str] warnings: (optional) An array of warning messages associated with
+        the request:
+        * Warnings for invalid parameters or fields can include a descriptive message and
+        a list of invalid argument strings, for example, `"Unknown arguments:"` or
+        `"Unknown url query arguments:"` followed by a list of the form `"invalid_arg_1,
+        invalid_arg_2."`
+        * The following warning is returned if the request passes a custom model that is
+        based on an older version of a base model for which an updated version is
+        available: `"Using previous version of base model, because your custom model has
+        been built with it. Please note that this version will be supported only for a
+        limited time. Consider updating your custom model to the new base model. If you do
+        not do that you will be automatically switched to base model when you used the
+        non-updated custom model."`
+        In both cases, the request succeeds despite the warnings.
         """
         self.results = results
         self.result_index = result_index
@@ -3544,16 +4462,20 @@ class SupportedFeatures(object):
     """
     SupportedFeatures.
 
-    :attr bool custom_language_model: Indicates whether the customization interface can be used to create a custom language model based on the language model.
-    :attr bool speaker_labels: Indicates whether the `speaker_labels` parameter can be used with the language model.
+    :attr bool custom_language_model: Indicates whether the customization interface can be
+    used to create a custom language model based on the language model.
+    :attr bool speaker_labels: Indicates whether the `speaker_labels` parameter can be
+    used with the language model.
     """
 
     def __init__(self, custom_language_model, speaker_labels):
         """
         Initialize a SupportedFeatures object.
 
-        :param bool custom_language_model: Indicates whether the customization interface can be used to create a custom language model based on the language model.
-        :param bool speaker_labels: Indicates whether the `speaker_labels` parameter can be used with the language model.
+        :param bool custom_language_model: Indicates whether the customization interface
+        can be used to create a custom language model based on the language model.
+        :param bool speaker_labels: Indicates whether the `speaker_labels` parameter can
+        be used with the language model.
         """
         self.custom_language_model = custom_language_model
         self.speaker_labels = speaker_labels
@@ -3605,12 +4527,28 @@ class Word(object):
     """
     Word.
 
-    :attr str word: A word from the custom model's words resource. The spelling of the word is used to train the model.
-    :attr list[str] sounds_like: An array of pronunciations for the word. The array can include the sounds-like pronunciation automatically generated by the service if none is provided for the word; the service adds this pronunciation when it finishes processing the word.
-    :attr str display_as: The spelling of the word that the service uses to display the word in a transcript. The field contains an empty string if no display-as value is provided for the word, in which case the word is displayed as it is spelled.
-    :attr int count: A sum of the number of times the word is found across all corpora. For example, if the word occurs five times in one corpus and seven times in another, its count is `12`. If you add a custom word to a model before it is added by any corpora, the count begins at `1`; if the word is added from a corpus first and later modified, the count reflects only the number of times it is found in corpora.
-    :attr list[str] source: An array of sources that describes how the word was added to the custom model's words resource. For OOV words added from a corpus, includes the name of the corpus; if the word was added by multiple corpora, the names of all corpora are listed. If the word was modified or added by the user directly, the field includes the string `user`.
-    :attr list[WordError] error: (optional) If the service discovered one or more problems that you need to correct for the word's definition, an array that describes each of the errors.
+    :attr str word: A word from the custom model's words resource. The spelling of the
+    word is used to train the model.
+    :attr list[str] sounds_like: An array of pronunciations for the word. The array can
+    include the sounds-like pronunciation automatically generated by the service if none
+    is provided for the word; the service adds this pronunciation when it finishes
+    processing the word.
+    :attr str display_as: The spelling of the word that the service uses to display the
+    word in a transcript. The field contains an empty string if no display-as value is
+    provided for the word, in which case the word is displayed as it is spelled.
+    :attr int count: A sum of the number of times the word is found across all corpora.
+    For example, if the word occurs five times in one corpus and seven times in another,
+    its count is `12`. If you add a custom word to a model before it is added by any
+    corpora, the count begins at `1`; if the word is added from a corpus first and later
+    modified, the count reflects only the number of times it is found in corpora.
+    :attr list[str] source: An array of sources that describes how the word was added to
+    the custom model's words resource. For OOV words added from a corpus, includes the
+    name of the corpus; if the word was added by multiple corpora, the names of all
+    corpora are listed. If the word was modified or added by the user directly, the field
+    includes the string `user`.
+    :attr list[WordError] error: (optional) If the service discovered one or more problems
+    that you need to correct for the word's definition, an array that describes each of
+    the errors.
     """
 
     def __init__(self, word, sounds_like, display_as, count, source,
@@ -3618,12 +4556,30 @@ class Word(object):
         """
         Initialize a Word object.
 
-        :param str word: A word from the custom model's words resource. The spelling of the word is used to train the model.
-        :param list[str] sounds_like: An array of pronunciations for the word. The array can include the sounds-like pronunciation automatically generated by the service if none is provided for the word; the service adds this pronunciation when it finishes processing the word.
-        :param str display_as: The spelling of the word that the service uses to display the word in a transcript. The field contains an empty string if no display-as value is provided for the word, in which case the word is displayed as it is spelled.
-        :param int count: A sum of the number of times the word is found across all corpora. For example, if the word occurs five times in one corpus and seven times in another, its count is `12`. If you add a custom word to a model before it is added by any corpora, the count begins at `1`; if the word is added from a corpus first and later modified, the count reflects only the number of times it is found in corpora.
-        :param list[str] source: An array of sources that describes how the word was added to the custom model's words resource. For OOV words added from a corpus, includes the name of the corpus; if the word was added by multiple corpora, the names of all corpora are listed. If the word was modified or added by the user directly, the field includes the string `user`.
-        :param list[WordError] error: (optional) If the service discovered one or more problems that you need to correct for the word's definition, an array that describes each of the errors.
+        :param str word: A word from the custom model's words resource. The spelling of
+        the word is used to train the model.
+        :param list[str] sounds_like: An array of pronunciations for the word. The array
+        can include the sounds-like pronunciation automatically generated by the service
+        if none is provided for the word; the service adds this pronunciation when it
+        finishes processing the word.
+        :param str display_as: The spelling of the word that the service uses to display
+        the word in a transcript. The field contains an empty string if no display-as
+        value is provided for the word, in which case the word is displayed as it is
+        spelled.
+        :param int count: A sum of the number of times the word is found across all
+        corpora. For example, if the word occurs five times in one corpus and seven times
+        in another, its count is `12`. If you add a custom word to a model before it is
+        added by any corpora, the count begins at `1`; if the word is added from a corpus
+        first and later modified, the count reflects only the number of times it is found
+        in corpora.
+        :param list[str] source: An array of sources that describes how the word was added
+        to the custom model's words resource. For OOV words added from a corpus, includes
+        the name of the corpus; if the word was added by multiple corpora, the names of
+        all corpora are listed. If the word was modified or added by the user directly,
+        the field includes the string `user`.
+        :param list[WordError] error: (optional) If the service discovered one or more
+        problems that you need to correct for the word's definition, an array that
+        describes each of the errors.
         """
         self.word = word
         self.sounds_like = sounds_like
@@ -3703,7 +4659,8 @@ class WordAlternativeResult(object):
     """
     WordAlternativeResult.
 
-    :attr float confidence: A confidence score for the word alternative hypothesis in the range of 0 to 1.
+    :attr float confidence: A confidence score for the word alternative hypothesis in the
+    range of 0 to 1.
     :attr str word: An alternative hypothesis for a word from the input audio.
     """
 
@@ -3711,7 +4668,8 @@ class WordAlternativeResult(object):
         """
         Initialize a WordAlternativeResult object.
 
-        :param float confidence: A confidence score for the word alternative hypothesis in the range of 0 to 1.
+        :param float confidence: A confidence score for the word alternative hypothesis in
+        the range of 0 to 1.
         :param str word: An alternative hypothesis for a word from the input audio.
         """
         self.confidence = confidence
@@ -3763,18 +4721,24 @@ class WordAlternativeResults(object):
     """
     WordAlternativeResults.
 
-    :attr float start_time: The start time in seconds of the word from the input audio that corresponds to the word alternatives.
-    :attr float end_time: The end time in seconds of the word from the input audio that corresponds to the word alternatives.
-    :attr list[WordAlternativeResult] alternatives: An array of alternative hypotheses for a word from the input audio.
+    :attr float start_time: The start time in seconds of the word from the input audio
+    that corresponds to the word alternatives.
+    :attr float end_time: The end time in seconds of the word from the input audio that
+    corresponds to the word alternatives.
+    :attr list[WordAlternativeResult] alternatives: An array of alternative hypotheses for
+    a word from the input audio.
     """
 
     def __init__(self, start_time, end_time, alternatives):
         """
         Initialize a WordAlternativeResults object.
 
-        :param float start_time: The start time in seconds of the word from the input audio that corresponds to the word alternatives.
-        :param float end_time: The end time in seconds of the word from the input audio that corresponds to the word alternatives.
-        :param list[WordAlternativeResult] alternatives: An array of alternative hypotheses for a word from the input audio.
+        :param float start_time: The start time in seconds of the word from the input
+        audio that corresponds to the word alternatives.
+        :param float end_time: The end time in seconds of the word from the input audio
+        that corresponds to the word alternatives.
+        :param list[WordAlternativeResult] alternatives: An array of alternative
+        hypotheses for a word from the input audio.
         """
         self.start_time = start_time
         self.end_time = end_time
@@ -3837,14 +4801,26 @@ class WordError(object):
     """
     WordError.
 
-    :attr str element: A key-value pair that describes an error associated with the definition of a word in the words resource. Each pair has the format `"element": "message"`, where `element` is the aspect of the definition that caused the problem and `message` describes the problem. The following example describes a problem with one of the word's sounds-like definitions: `"{sounds_like_string}": "Numbers are not allowed in sounds-like. You can try for example '{suggested_string}'."` You must correct the error before you can train the model.
+    :attr str element: A key-value pair that describes an error associated with the
+    definition of a word in the words resource. Each pair has the format `"element":
+    "message"`, where `element` is the aspect of the definition that caused the problem
+    and `message` describes the problem. The following example describes a problem with
+    one of the word's sounds-like definitions: `"{sounds_like_string}": "Numbers are not
+    allowed in sounds-like. You can try for example '{suggested_string}'."` You must
+    correct the error before you can train the model.
     """
 
     def __init__(self, element):
         """
         Initialize a WordError object.
 
-        :param str element: A key-value pair that describes an error associated with the definition of a word in the words resource. Each pair has the format `"element": "message"`, where `element` is the aspect of the definition that caused the problem and `message` describes the problem. The following example describes a problem with one of the word's sounds-like definitions: `"{sounds_like_string}": "Numbers are not allowed in sounds-like. You can try for example '{suggested_string}'."` You must correct the error before you can train the model.
+        :param str element: A key-value pair that describes an error associated with the
+        definition of a word in the words resource. Each pair has the format `"element":
+        "message"`, where `element` is the aspect of the definition that caused the
+        problem and `message` describes the problem. The following example describes a
+        problem with one of the word's sounds-like definitions: `"{sounds_like_string}":
+        "Numbers are not allowed in sounds-like. You can try for example
+        '{suggested_string}'."` You must correct the error before you can train the model.
         """
         self.element = element
 
@@ -3885,14 +4861,18 @@ class Words(object):
     """
     Words.
 
-    :attr list[Word] words: Information about each word in the custom model's words resource. The array is empty if the custom model has no words.
+    :attr list[Word] words: An array of objects that provides information about each word
+    in the custom model's words resource. The array is empty if the custom model has no
+    words.
     """
 
     def __init__(self, words):
         """
         Initialize a Words object.
 
-        :param list[Word] words: Information about each word in the custom model's words resource. The array is empty if the custom model has no words.
+        :param list[Word] words: An array of objects that provides information about each
+        word in the custom model's words resource. The array is empty if the custom model
+        has no words.
         """
         self.words = words
 
