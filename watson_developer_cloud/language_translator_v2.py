@@ -25,7 +25,6 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import WatsonService
-from .utils import deprecated
 
 ##############################################################################
 # Service
@@ -93,7 +92,6 @@ class LanguageTranslatorV2(WatsonService):
     # Translation
     #########################
 
-    @deprecated('Use Language Translator V3.')
     def translate(self,
                   text,
                   model_id=None,
@@ -144,7 +142,6 @@ class LanguageTranslatorV2(WatsonService):
     # Identification
     #########################
 
-    @deprecated('Use Language Translator V3.')
     def identify(self, text, **kwargs):
         """
         Identify language.
@@ -172,7 +169,6 @@ class LanguageTranslatorV2(WatsonService):
             accept_json=True)
         return response
 
-    @deprecated('Use Language Translator V3.')
     def list_identifiable_languages(self, **kwargs):
         """
         List identifiable languages.
@@ -196,7 +192,6 @@ class LanguageTranslatorV2(WatsonService):
     # Models
     #########################
 
-    @deprecated('Use Language Translator V3.')
     def create_model(self,
                      base_model_id,
                      name=None,
@@ -280,7 +275,6 @@ class LanguageTranslatorV2(WatsonService):
             accept_json=True)
         return response
 
-    @deprecated('Use Language Translator V3.')
     def delete_model(self, model_id, **kwargs):
         """
         Delete model.
@@ -302,7 +296,6 @@ class LanguageTranslatorV2(WatsonService):
             method='DELETE', url=url, headers=headers, accept_json=True)
         return response
 
-    @deprecated('Use Language Translator V3.')
     def get_model(self, model_id, **kwargs):
         """
         Get model details.
@@ -325,7 +318,6 @@ class LanguageTranslatorV2(WatsonService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    @deprecated('Use Language Translator V3.')
     def list_models(self,
                     source=None,
                     target=None,
