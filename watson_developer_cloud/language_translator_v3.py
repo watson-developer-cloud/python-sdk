@@ -15,10 +15,10 @@
 # limitations under the License.
 """
 IBM Watson&trade; Language Translator translates text from one language to another. The
-service offers multiple domain-specific models that you can customize based on your unique
-terminology and language. Use Language Translator to take news from across the globe and
-present it in your language, communicate with your customers in their own language, and
-more.
+service offers multiple IBM provided translation models that you can customize based on
+your unique terminology and language. Use Language Translator to take news from across the
+globe and present it in your language, communicate with your customers in their own
+language, and more.
 """
 
 from __future__ import absolute_import
@@ -31,13 +31,14 @@ from .watson_service import WatsonService
 ##############################################################################
 
 
-class LanguageTranslatorV2(WatsonService):
-    """The Language Translator V2 service."""
+class LanguageTranslatorV3(WatsonService):
+    """The Language Translator V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/language-translator/api'
 
     def __init__(
             self,
+            version,
             url=default_url,
             username=None,
             password=None,
@@ -47,6 +48,17 @@ class LanguageTranslatorV2(WatsonService):
     ):
         """
         Construct a new client for the Language Translator service.
+
+        :param str version: The API version date to use with the service, in
+               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
+               incompatible way, a new minor version of the API is released.
+               The service uses the API version for the date you specify, or
+               the most recent version before that date. Note that you should
+               not programmatically specify the current date at runtime, in
+               case the API has been updated since your application's release.
+               Instead, specify a version date that is compatible with your
+               application, and don't change it until your application is
+               ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
                "https://gateway.watsonplatform.net/language-translator/api").
@@ -87,6 +99,7 @@ class LanguageTranslatorV2(WatsonService):
             iam_access_token=iam_access_token,
             iam_url=iam_url,
             use_vcap_services=True)
+        self.version = version
 
     #########################
     # Translation
@@ -123,17 +136,19 @@ class LanguageTranslatorV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
         data = {
             'text': text,
             'model_id': model_id,
             'source': source,
             'target': target
         }
-        url = '/v2/translate'
+        url = '/v3/translate'
         response = self.request(
             method='POST',
             url=url,
             headers=headers,
+            params=params,
             json=data,
             accept_json=True)
         return response
@@ -158,13 +173,15 @@ class LanguageTranslatorV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
         data = text
         headers = {'content-type': 'text/plain'}
-        url = '/v2/identify'
+        url = '/v3/identify'
         response = self.request(
             method='POST',
             url=url,
             headers=headers,
+            params=params,
             data=data,
             accept_json=True)
         return response
@@ -183,9 +200,14 @@ class LanguageTranslatorV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        url = '/v2/identifiable_languages'
+        params = {'version': self.version}
+        url = '/v3/identifiable_languages'
         response = self.request(
-            method='GET', url=url, headers=headers, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     #########################
@@ -197,36 +219,45 @@ class LanguageTranslatorV2(WatsonService):
                      name=None,
                      forced_glossary=None,
                      parallel_corpus=None,
-                     monolingual_corpus=None,
                      forced_glossary_filename=None,
                      parallel_corpus_filename=None,
-                     monolingual_corpus_filename=None,
                      **kwargs):
         """
         Create model.
 
-        Uploads a TMX glossary file on top of a domain to customize a translation model.
-        Depending on the size of the file, training can range from minutes for a glossary
-        to several hours for a large parallel corpus. Glossary files must be less than 10
-        MB. The cumulative file size of all uploaded glossary and corpus files is limited
-        to 250 MB.
+        Uploads Translation Memory eXchange (TMX) files to customize a translation model.
+        You can either customize a model with a forced glossary or with a corpus that
+        contains parallel sentences. To create a model that is customized with a parallel
+        corpus <b>and</b> a forced glossary, proceed in two steps: customize with a
+        parallel corpus first and then customize the resulting model with a glossary.
+        Depending on the type of customization and the size of the uploaded corpora,
+        training can range from minutes for a glossary to several hours for a large
+        parallel corpus. You can upload a single forced glossary file and this file must
+        be less than <b>10 MB</b>. You can upload multiple parallel corpora tmx files. The
+        cumulative file size of all uploaded files is limited to <b>250 MB</b>. To
+        successfully train with a parallel corpus you must have at least <b>5,000 parallel
+        sentences</b> in your corpus.
+        You can have a <b>maxium of 10 custom models per language pair</b>.
 
         :param str base_model_id: The model ID of the model to use as the base for
-        customization. To see available models, use the `List models` method.
+        customization. To see available models, use the `List models` method. Usually all
+        IBM provided models are customizable. In addition, all your models that have been
+        created via parallel corpus customization, can be further customized with a forced
+        glossary.
         :param str name: An optional model name that you can use to identify the model.
         Valid characters are letters, numbers, dashes, underscores, spaces and
         apostrophes. The maximum length is 32 characters.
         :param file forced_glossary: A TMX file with your customizations. The
         customizations in the file completely overwrite the domain translaton data,
         including high frequency or high confidence phrase translations. You can upload
-        only one glossary with a file size less than 10 MB per call.
-        :param file parallel_corpus: A TMX file that contains entries that are treated as
-        a parallel corpus instead of a glossary.
-        :param file monolingual_corpus: A UTF-8 encoded plain text file that is used to
-        customize the target language model.
+        only one glossary with a file size less than 10 MB per call. A forced glossary
+        should contain single words or short phrases.
+        :param file parallel_corpus: A TMX file with parallel sentences for source and
+        target language. You can upload multiple parallel_corpus files in one request. All
+        uploaded parallel_corpus files combined, your parallel corpus must contain at
+        least 5,000 parallel sentences to train successfully.
         :param str forced_glossary_filename: The filename for forced_glossary.
         :param str parallel_corpus_filename: The filename for parallel_corpus.
-        :param str monolingual_corpus_filename: The filename for monolingual_corpus.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TranslationModel` response.
         :rtype: dict
@@ -236,7 +267,11 @@ class LanguageTranslatorV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        params = {'base_model_id': base_model_id, 'name': name}
+        params = {
+            'version': self.version,
+            'base_model_id': base_model_id,
+            'name': name
+        }
         forced_glossary_tuple = None
         if forced_glossary:
             if not forced_glossary_filename and hasattr(
@@ -253,15 +288,7 @@ class LanguageTranslatorV2(WatsonService):
             mime_type = 'application/octet-stream'
             parallel_corpus_tuple = (parallel_corpus_filename, parallel_corpus,
                                      mime_type)
-        monolingual_corpus_tuple = None
-        if monolingual_corpus:
-            if not monolingual_corpus_filename and hasattr(
-                    monolingual_corpus, 'name'):
-                monolingual_corpus_filename = monolingual_corpus.name
-            mime_type = 'text/plain'
-            monolingual_corpus_tuple = (monolingual_corpus_filename,
-                                        monolingual_corpus, mime_type)
-        url = '/v2/models'
+        url = '/v3/models'
         response = self.request(
             method='POST',
             url=url,
@@ -269,8 +296,7 @@ class LanguageTranslatorV2(WatsonService):
             params=params,
             files={
                 'forced_glossary': forced_glossary_tuple,
-                'parallel_corpus': parallel_corpus_tuple,
-                'monolingual_corpus': monolingual_corpus_tuple
+                'parallel_corpus': parallel_corpus_tuple
             },
             accept_json=True)
         return response
@@ -291,9 +317,14 @@ class LanguageTranslatorV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        url = '/v2/models/{0}'.format(*self._encode_path_vars(model_id))
+        params = {'version': self.version}
+        url = '/v3/models/{0}'.format(*self._encode_path_vars(model_id))
         response = self.request(
-            method='DELETE', url=url, headers=headers, accept_json=True)
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def get_model(self, model_id, **kwargs):
@@ -301,7 +332,8 @@ class LanguageTranslatorV2(WatsonService):
         Get model details.
 
         Gets information about a translation model, including training status for custom
-        models.
+        models. Use this API call to poll the status of your customization request. A
+        successfully completed training will have a status of `available`.
 
         :param str model_id: Model ID of the model to get.
         :param dict headers: A `dict` containing the request headers
@@ -313,9 +345,14 @@ class LanguageTranslatorV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        url = '/v2/models/{0}'.format(*self._encode_path_vars(model_id))
+        params = {'version': self.version}
+        url = '/v3/models/{0}'.format(*self._encode_path_vars(model_id))
         response = self.request(
-            method='GET', url=url, headers=headers, accept_json=True)
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
         return response
 
     def list_models(self,
@@ -333,7 +370,8 @@ class LanguageTranslatorV2(WatsonService):
         :param bool default_models: If the default parameter isn't specified, the service
         will return all models (default and non-default) for each language pair. To return
         only default models, set this to `true`. To return only non-default models, set
-        this to `false`.
+        this to `false`. There is exactly one default model per language pair, the IBM
+        provided base model.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `TranslationModels` response.
         :rtype: dict
@@ -342,11 +380,12 @@ class LanguageTranslatorV2(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {
+            'version': self.version,
             'source': source,
             'target': target,
             'default': default_models
         }
-        url = '/v2/models'
+        url = '/v3/models'
         response = self.request(
             method='GET',
             url=url,

@@ -60,3 +60,9 @@ class RecognizeCallback(object):
     Called when the service returns the final hypothesis
     """
         pass
+
+    def on_data(self, data):
+        """
+    Called when the service returns results. The data is returned unparsed.
+    """
+        pass

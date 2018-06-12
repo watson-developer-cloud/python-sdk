@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The IBM Watson Tone Analyzer service uses linguistic analysis to detect emotional and
-language tones in written text. The service can analyze tone at both the document and
+The IBM Watson&trade; Tone Analyzer service uses linguistic analysis to detect emotional
+and language tones in written text. The service can analyze tone at both the document and
 sentence levels. You can use the service to understand how your written communications are
 perceived and then to improve the tone of your communications. Businesses can use the
 service to learn the tone of their customers' communications and to respond to each
@@ -123,24 +123,45 @@ class ToneAnalyzerV3(WatsonService):
         Use the general purpose endpoint to analyze the tone of your input content. The
         service analyzes the content for emotional and language tones. The method always
         analyzes the tone of the full document; by default, it also analyzes the tone of
-        each individual sentence of the content.   You can submit no more than 128 KB of
-        total input content and no more than 1000 individual sentences in JSON, plain
-        text, or HTML format. The service analyzes the first 1000 sentences for
-        document-level analysis and only the first 100 sentences for sentence-level
-        analysis.   Per the JSON specification, the default character encoding for JSON
-        content is effectively always UTF-8; per the HTTP specification, the default
-        encoding for plain text and HTML is ISO-8859-1 (effectively, the ASCII character
-        set). When specifying a content type of plain text or HTML, include the `charset`
-        parameter to indicate the character encoding of the input text; for example:
-        `Content-Type: text/plain;charset=utf-8`. For `text/html`, the service removes
-        HTML tags and analyzes only the textual content.
+        each individual sentence of the content.
+        You can submit no more than 128 KB of total input content and no more than 1000
+        individual sentences in JSON, plain text, or HTML format. The service analyzes the
+        first 1000 sentences for document-level analysis and only the first 100 sentences
+        for sentence-level analysis.
+        Per the JSON specification, the default character encoding for JSON content is
+        effectively always UTF-8; per the HTTP specification, the default encoding for
+        plain text and HTML is ISO-8859-1 (effectively, the ASCII character set). When
+        specifying a content type of plain text or HTML, include the `charset` parameter
+        to indicate the character encoding of the input text; for example: `Content-Type:
+        text/plain;charset=utf-8`. For `text/html`, the service removes HTML tags and
+        analyzes only the textual content.
 
-        :param ToneInput tone_input: JSON, plain text, or HTML input that contains the content to be analyzed. For JSON input, provide an object of type `ToneInput`.
-        :param str content_type: The type of the input: application/json, text/plain, or text/html. A character encoding can be specified by including a `charset` parameter. For example, 'text/plain;charset=utf-8'.
-        :param bool sentences: Indicates whether the service is to return an analysis of each individual sentence in addition to its analysis of the full document. If `true` (the default), the service returns results for each sentence.
-        :param list[str] tones: **`2017-09-21`:** Deprecated. The service continues to accept the parameter for backward-compatibility, but the parameter no longer affects the response.   **`2016-05-19`:** A comma-separated list of tones for which the service is to return its analysis of the input; the indicated tones apply both to the full document and to individual sentences of the document. You can specify one or more of the valid values. Omit the parameter to request results for all three tones.
-        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can use different languages for **Content-Language** and **Accept-Language**. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
-        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can use different languages for **Content-Language** and **Accept-Language**.
+        :param ToneInput tone_input: JSON, plain text, or HTML input that contains the
+        content to be analyzed. For JSON input, provide an object of type `ToneInput`.
+        :param str content_type: The type of the input: application/json, text/plain, or
+        text/html. A character encoding can be specified by including a `charset`
+        parameter. For example, 'text/plain;charset=utf-8'.
+        :param bool sentences: Indicates whether the service is to return an analysis of
+        each individual sentence in addition to its analysis of the full document. If
+        `true` (the default), the service returns results for each sentence.
+        :param list[str] tones: **`2017-09-21`:** Deprecated. The service continues to
+        accept the parameter for backward-compatibility, but the parameter no longer
+        affects the response.
+        **`2016-05-19`:** A comma-separated list of tones for which the service is to
+        return its analysis of the input; the indicated tones apply both to the full
+        document and to individual sentences of the document. You can specify one or more
+        of the valid values. Omit the parameter to request results for all three tones.
+        :param str content_language: The language of the input text for the request:
+        English or French. Regional variants are treated as their parent language; for
+        example, `en-US` is interpreted as `en`. The input content must match the
+        specified language. Do not submit content that contains both languages. You can
+        use different languages for **Content-Language** and **Accept-Language**.
+        * **`2017-09-21`:** Accepts `en` or `fr`.
+        * **`2016-05-19`:** Accepts only `en`.
+        :param str accept_language: The desired language of the response. For
+        two-character arguments, regional variants are treated as their parent language;
+        for example, `en-US` is interpreted as `en`. You can use different languages for
+        **Content-Language** and **Accept-Language**.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `ToneAnalysis` response.
         :rtype: dict
@@ -186,17 +207,28 @@ class ToneAnalyzerV3(WatsonService):
         Use the customer engagement endpoint to analyze the tone of customer service and
         customer support conversations. For each utterance of a conversation, the method
         reports the most prevalent subset of the following seven tones: sad, frustrated,
-        satisfied, excited, polite, impolite, and sympathetic.   If you submit more than
-        50 utterances, the service returns a warning for the overall content and analyzes
-        only the first 50 utterances. If you submit a single utterance that contains more
-        than 500 characters, the service returns an error for that utterance and does not
-        analyze the utterance. The request fails if all utterances have more than 500
-        characters.   Per the JSON specification, the default character encoding for JSON
-        content is effectively always UTF-8.
+        satisfied, excited, polite, impolite, and sympathetic.
+        If you submit more than 50 utterances, the service returns a warning for the
+        overall content and analyzes only the first 50 utterances. If you submit a single
+        utterance that contains more than 500 characters, the service returns an error for
+        that utterance and does not analyze the utterance. The request fails if all
+        utterances have more than 500 characters.
+        Per the JSON specification, the default character encoding for JSON content is
+        effectively always UTF-8.
 
-        :param list[Utterance] utterances: An array of `Utterance` objects that provides the input content that the service is to analyze.
-        :param str content_language: The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. The input content must match the specified language. Do not submit content that contains both languages. You can use different languages for **Content-Language** and **Accept-Language**. * **`2017-09-21`:** Accepts `en` or `fr`. * **`2016-05-19`:** Accepts only `en`.
-        :param str accept_language: The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, `en-US` is interpreted as `en`. You can use different languages for **Content-Language** and **Accept-Language**.
+        :param list[Utterance] utterances: An array of `Utterance` objects that provides
+        the input content that the service is to analyze.
+        :param str content_language: The language of the input text for the request:
+        English or French. Regional variants are treated as their parent language; for
+        example, `en-US` is interpreted as `en`. The input content must match the
+        specified language. Do not submit content that contains both languages. You can
+        use different languages for **Content-Language** and **Accept-Language**.
+        * **`2017-09-21`:** Accepts `en` or `fr`.
+        * **`2016-05-19`:** Accepts only `en`.
+        :param str accept_language: The desired language of the response. For
+        two-character arguments, regional variants are treated as their parent language;
+        for example, `en-US` is interpreted as `en`. You can use different languages for
+        **Content-Language** and **Accept-Language**.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `UtteranceAnalyses` response.
         :rtype: dict
@@ -232,18 +264,39 @@ class DocumentAnalysis(object):
     """
     DocumentAnalysis.
 
-    :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the document. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not returned.
-    :attr list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the tone analysis for the full document of the input content. The service returns results only for the tones specified with the `tones` parameter of the request.
-    :attr str warning: (optional) **`2017-09-21`:** A warning message if the overall content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only the first 1000 sentences for document-level analysis and the first 100 sentences for sentence-level analysis. **`2016-05-19`:** Not returned.
+    :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore`
+    objects that provides the results of the analysis for each qualifying tone of the
+    document. The array includes results for any tone whose score is at least 0.5. The
+    array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not
+    returned.
+    :attr list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned.
+    **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the
+    tone analysis for the full document of the input content. The service returns results
+    only for the tones specified with the `tones` parameter of the request.
+    :attr str warning: (optional) **`2017-09-21`:** A warning message if the overall
+    content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only
+    the first 1000 sentences for document-level analysis and the first 100 sentences for
+    sentence-level analysis. **`2016-05-19`:** Not returned.
     """
 
     def __init__(self, tones=None, tone_categories=None, warning=None):
         """
         Initialize a DocumentAnalysis object.
 
-        :param list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the document. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not returned.
-        :param list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the tone analysis for the full document of the input content. The service returns results only for the tones specified with the `tones` parameter of the request.
-        :param str warning: (optional) **`2017-09-21`:** A warning message if the overall content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only the first 1000 sentences for document-level analysis and the first 100 sentences for sentence-level analysis. **`2016-05-19`:** Not returned.
+        :param list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore`
+        objects that provides the results of the analysis for each qualifying tone of the
+        document. The array includes results for any tone whose score is at least 0.5. The
+        array is empty if no tone has a score that meets this threshold. **`2016-05-19`:**
+        Not returned.
+        :param list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
+        returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the
+        results of the tone analysis for the full document of the input content. The
+        service returns results only for the tones specified with the `tones` parameter of
+        the request.
+        :param str warning: (optional) **`2017-09-21`:** A warning message if the overall
+        content exceeds 128 KB or contains more than 1000 sentences. The service analyzes
+        only the first 1000 sentences for document-level analysis and the first 100
+        sentences for sentence-level analysis. **`2016-05-19`:** Not returned.
         """
         self.tones = tones
         self.tone_categories = tone_categories
@@ -299,12 +352,22 @@ class SentenceAnalysis(object):
     """
     SentenceAnalysis.
 
-    :attr int sentence_id: The unique identifier of a sentence of the input content. The first sentence has ID 0, and the ID of each subsequent sentence is incremented by one.
+    :attr int sentence_id: The unique identifier of a sentence of the input content. The
+    first sentence has ID 0, and the ID of each subsequent sentence is incremented by one.
     :attr str text: The text of the input sentence.
-    :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the sentence. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not returned.
-    :attr list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the tone analysis for the sentence. The service returns results only for the tones specified with the `tones` parameter of the request.
-    :attr int input_from: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The offset of the first character of the sentence in the overall input content.
-    :attr int input_to: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The offset of the last character of the sentence in the overall input content.
+    :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore`
+    objects that provides the results of the analysis for each qualifying tone of the
+    sentence. The array includes results for any tone whose score is at least 0.5. The
+    array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not
+    returned.
+    :attr list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned.
+    **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the
+    tone analysis for the sentence. The service returns results only for the tones
+    specified with the `tones` parameter of the request.
+    :attr int input_from: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The
+    offset of the first character of the sentence in the overall input content.
+    :attr int input_to: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The
+    offset of the last character of the sentence in the overall input content.
     """
 
     def __init__(self,
@@ -317,12 +380,24 @@ class SentenceAnalysis(object):
         """
         Initialize a SentenceAnalysis object.
 
-        :param int sentence_id: The unique identifier of a sentence of the input content. The first sentence has ID 0, and the ID of each subsequent sentence is incremented by one.
+        :param int sentence_id: The unique identifier of a sentence of the input content.
+        The first sentence has ID 0, and the ID of each subsequent sentence is incremented
+        by one.
         :param str text: The text of the input sentence.
-        :param list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore` objects that provides the results of the analysis for each qualifying tone of the sentence. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. **`2016-05-19`:** Not returned.
-        :param list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the results of the tone analysis for the sentence. The service returns results only for the tones specified with the `tones` parameter of the request.
-        :param int input_from: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The offset of the first character of the sentence in the overall input content.
-        :param int input_to: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:** The offset of the last character of the sentence in the overall input content.
+        :param list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore`
+        objects that provides the results of the analysis for each qualifying tone of the
+        sentence. The array includes results for any tone whose score is at least 0.5. The
+        array is empty if no tone has a score that meets this threshold. **`2016-05-19`:**
+        Not returned.
+        :param list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
+        returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the
+        results of the tone analysis for the sentence. The service returns results only
+        for the tones specified with the `tones` parameter of the request.
+        :param int input_from: (optional) **`2017-09-21`:** Not returned.
+        **`2016-05-19`:** The offset of the first character of the sentence in the overall
+        input content.
+        :param int input_to: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:**
+        The offset of the last character of the sentence in the overall input content.
         """
         self.sentence_id = sentence_id
         self.text = text
@@ -401,16 +476,26 @@ class ToneAnalysis(object):
     """
     ToneAnalysis.
 
-    :attr DocumentAnalysis document_tone: An object of type `DocumentAnalysis` that provides the results of the analysis for the full input document.
-    :attr list[SentenceAnalysis] sentences_tone: (optional) An array of `SentenceAnalysis` objects that provides the results of the analysis for the individual sentences of the input content. The service returns results only for the first 100 sentences of the input. The field is omitted if the `sentences` parameter of the request is set to `false`.
+    :attr DocumentAnalysis document_tone: An object of type `DocumentAnalysis` that
+    provides the results of the analysis for the full input document.
+    :attr list[SentenceAnalysis] sentences_tone: (optional) An array of `SentenceAnalysis`
+    objects that provides the results of the analysis for the individual sentences of the
+    input content. The service returns results only for the first 100 sentences of the
+    input. The field is omitted if the `sentences` parameter of the request is set to
+    `false`.
     """
 
     def __init__(self, document_tone, sentences_tone=None):
         """
         Initialize a ToneAnalysis object.
 
-        :param DocumentAnalysis document_tone: An object of type `DocumentAnalysis` that provides the results of the analysis for the full input document.
-        :param list[SentenceAnalysis] sentences_tone: (optional) An array of `SentenceAnalysis` objects that provides the results of the analysis for the individual sentences of the input content. The service returns results only for the first 100 sentences of the input. The field is omitted if the `sentences` parameter of the request is set to `false`.
+        :param DocumentAnalysis document_tone: An object of type `DocumentAnalysis` that
+        provides the results of the analysis for the full input document.
+        :param list[SentenceAnalysis] sentences_tone: (optional) An array of
+        `SentenceAnalysis` objects that provides the results of the analysis for the
+        individual sentences of the input content. The service returns results only for
+        the first 100 sentences of the input. The field is omitted if the `sentences`
+        parameter of the request is set to `false`.
         """
         self.document_tone = document_tone
         self.sentences_tone = sentences_tone
@@ -463,8 +548,11 @@ class ToneCategory(object):
     """
     ToneCategory.
 
-    :attr list[ToneScore] tones: An array of `ToneScore` objects that provides the results for the tones of the category.
-    :attr str category_id: The unique, non-localized identifier of the category for the results. The service can return results for the following category IDs: `emotion_tone`, `language_tone`, and `social_tone`.
+    :attr list[ToneScore] tones: An array of `ToneScore` objects that provides the results
+    for the tones of the category.
+    :attr str category_id: The unique, non-localized identifier of the category for the
+    results. The service can return results for the following category IDs:
+    `emotion_tone`, `language_tone`, and `social_tone`.
     :attr str category_name: The user-visible, localized name of the category.
     """
 
@@ -472,8 +560,11 @@ class ToneCategory(object):
         """
         Initialize a ToneCategory object.
 
-        :param list[ToneScore] tones: An array of `ToneScore` objects that provides the results for the tones of the category.
-        :param str category_id: The unique, non-localized identifier of the category for the results. The service can return results for the following category IDs: `emotion_tone`, `language_tone`, and `social_tone`.
+        :param list[ToneScore] tones: An array of `ToneScore` objects that provides the
+        results for the tones of the category.
+        :param str category_id: The unique, non-localized identifier of the category for
+        the results. The service can return results for the following category IDs:
+        `emotion_tone`, `language_tone`, and `social_tone`.
         :param str category_name: The user-visible, localized name of the category.
         """
         self.tones = tones
@@ -535,8 +626,12 @@ class ToneChatScore(object):
     """
     ToneChatScore.
 
-    :attr float score: The score for the tone in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the utterance.
-    :attr str tone_id: The unique, non-localized identifier of the tone for the results. The service can return results for the following tone IDs: `sad`, `frustrated`, `satisfied`, `excited`, `polite`, `impolite`, and `sympathetic`. The service returns results only for tones whose scores meet a minimum threshold of 0.5.
+    :attr float score: The score for the tone in the range of 0.5 to 1. A score greater
+    than 0.75 indicates a high likelihood that the tone is perceived in the utterance.
+    :attr str tone_id: The unique, non-localized identifier of the tone for the results.
+    The service can return results for the following tone IDs: `sad`, `frustrated`,
+    `satisfied`, `excited`, `polite`, `impolite`, and `sympathetic`. The service returns
+    results only for tones whose scores meet a minimum threshold of 0.5.
     :attr str tone_name: The user-visible, localized name of the tone.
     """
 
@@ -544,8 +639,14 @@ class ToneChatScore(object):
         """
         Initialize a ToneChatScore object.
 
-        :param float score: The score for the tone in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the utterance.
-        :param str tone_id: The unique, non-localized identifier of the tone for the results. The service can return results for the following tone IDs: `sad`, `frustrated`, `satisfied`, `excited`, `polite`, `impolite`, and `sympathetic`. The service returns results only for tones whose scores meet a minimum threshold of 0.5.
+        :param float score: The score for the tone in the range of 0.5 to 1. A score
+        greater than 0.75 indicates a high likelihood that the tone is perceived in the
+        utterance.
+        :param str tone_id: The unique, non-localized identifier of the tone for the
+        results. The service can return results for the following tone IDs: `sad`,
+        `frustrated`, `satisfied`, `excited`, `polite`, `impolite`, and `sympathetic`. The
+        service returns results only for tones whose scores meet a minimum threshold of
+        0.5.
         :param str tone_name: The user-visible, localized name of the tone.
         """
         self.score = score
@@ -654,8 +755,24 @@ class ToneScore(object):
     """
     ToneScore.
 
-    :attr float score: The score for the tone. * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the content. * **`2016-05-19`:** The score that is returned lies in the range of 0 to 1. A score less than 0.5 indicates that the tone is unlikely to be perceived in the content; a score greater than 0.75 indicates a high likelihood that the tone is perceived.
-    :attr str tone_id: The unique, non-localized identifier of the tone. * **`2017-09-21`:** The service can return results for the following tone IDs: `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`, `confident`, and `tentative` (language tones). The service returns results only for tones whose scores meet a minimum threshold of 0.5. * **`2016-05-19`:** The service can return results for the following tone IDs of the different categories: for the `emotion` category: `anger`, `disgust`, `fear`, `joy`, and `sadness`; for the `language` category: `analytical`, `confident`, and `tentative`; for the `social` category: `openness_big5`, `conscientiousness_big5`, `extraversion_big5`, `agreeableness_big5`, and `emotional_range_big5`. The service returns scores for all tones of a category, regardless of their values.
+    :attr float score: The score for the tone.
+    * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to 1. A score
+    greater than 0.75 indicates a high likelihood that the tone is perceived in the
+    content.
+    * **`2016-05-19`:** The score that is returned lies in the range of 0 to 1. A score
+    less than 0.5 indicates that the tone is unlikely to be perceived in the content; a
+    score greater than 0.75 indicates a high likelihood that the tone is perceived.
+    :attr str tone_id: The unique, non-localized identifier of the tone.
+    * **`2017-09-21`:** The service can return results for the following tone IDs:
+    `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`, `confident`,
+    and `tentative` (language tones). The service returns results only for tones whose
+    scores meet a minimum threshold of 0.5.
+    * **`2016-05-19`:** The service can return results for the following tone IDs of the
+    different categories: for the `emotion` category: `anger`, `disgust`, `fear`, `joy`,
+    and `sadness`; for the `language` category: `analytical`, `confident`, and
+    `tentative`; for the `social` category: `openness_big5`, `conscientiousness_big5`,
+    `extraversion_big5`, `agreeableness_big5`, and `emotional_range_big5`. The service
+    returns scores for all tones of a category, regardless of their values.
     :attr str tone_name: The user-visible, localized name of the tone.
     """
 
@@ -663,8 +780,25 @@ class ToneScore(object):
         """
         Initialize a ToneScore object.
 
-        :param float score: The score for the tone. * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the content. * **`2016-05-19`:** The score that is returned lies in the range of 0 to 1. A score less than 0.5 indicates that the tone is unlikely to be perceived in the content; a score greater than 0.75 indicates a high likelihood that the tone is perceived.
-        :param str tone_id: The unique, non-localized identifier of the tone. * **`2017-09-21`:** The service can return results for the following tone IDs: `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`, `confident`, and `tentative` (language tones). The service returns results only for tones whose scores meet a minimum threshold of 0.5. * **`2016-05-19`:** The service can return results for the following tone IDs of the different categories: for the `emotion` category: `anger`, `disgust`, `fear`, `joy`, and `sadness`; for the `language` category: `analytical`, `confident`, and `tentative`; for the `social` category: `openness_big5`, `conscientiousness_big5`, `extraversion_big5`, `agreeableness_big5`, and `emotional_range_big5`. The service returns scores for all tones of a category, regardless of their values.
+        :param float score: The score for the tone.
+        * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to 1. A
+        score greater than 0.75 indicates a high likelihood that the tone is perceived in
+        the content.
+        * **`2016-05-19`:** The score that is returned lies in the range of 0 to 1. A
+        score less than 0.5 indicates that the tone is unlikely to be perceived in the
+        content; a score greater than 0.75 indicates a high likelihood that the tone is
+        perceived.
+        :param str tone_id: The unique, non-localized identifier of the tone.
+        * **`2017-09-21`:** The service can return results for the following tone IDs:
+        `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`,
+        `confident`, and `tentative` (language tones). The service returns results only
+        for tones whose scores meet a minimum threshold of 0.5.
+        * **`2016-05-19`:** The service can return results for the following tone IDs of
+        the different categories: for the `emotion` category: `anger`, `disgust`, `fear`,
+        `joy`, and `sadness`; for the `language` category: `analytical`, `confident`, and
+        `tentative`; for the `social` category: `openness_big5`, `conscientiousness_big5`,
+        `extraversion_big5`, `agreeableness_big5`, and `emotional_range_big5`. The service
+        returns scores for all tones of a category, regardless of their values.
         :param str tone_name: The user-visible, localized name of the tone.
         """
         self.score = score
@@ -723,16 +857,20 @@ class Utterance(object):
     """
     Utterance.
 
-    :attr str text: An utterance contributed by a user in the conversation that is to be analyzed. The utterance can contain multiple sentences.
-    :attr str user: (optional) A string that identifies the user who contributed the utterance specified by the `text` parameter.
+    :attr str text: An utterance contributed by a user in the conversation that is to be
+    analyzed. The utterance can contain multiple sentences.
+    :attr str user: (optional) A string that identifies the user who contributed the
+    utterance specified by the `text` parameter.
     """
 
     def __init__(self, text, user=None):
         """
         Initialize a Utterance object.
 
-        :param str text: An utterance contributed by a user in the conversation that is to be analyzed. The utterance can contain multiple sentences.
-        :param str user: (optional) A string that identifies the user who contributed the utterance specified by the `text` parameter.
+        :param str text: An utterance contributed by a user in the conversation that is to
+        be analyzed. The utterance can contain multiple sentences.
+        :param str user: (optional) A string that identifies the user who contributed the
+        utterance specified by the `text` parameter.
         """
         self.text = text
         self.user = user
@@ -778,16 +916,22 @@ class UtteranceAnalyses(object):
     """
     UtteranceAnalyses.
 
-    :attr list[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis` objects that provides the results for each utterance of the input.
-    :attr str warning: (optional) **`2017-09-21`:** A warning message if the content contains more than 50 utterances. The service analyzes only the first 50 utterances. **`2016-05-19`:** Not returned.
+    :attr list[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis` objects
+    that provides the results for each utterance of the input.
+    :attr str warning: (optional) **`2017-09-21`:** A warning message if the content
+    contains more than 50 utterances. The service analyzes only the first 50 utterances.
+    **`2016-05-19`:** Not returned.
     """
 
     def __init__(self, utterances_tone, warning=None):
         """
         Initialize a UtteranceAnalyses object.
 
-        :param list[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis` objects that provides the results for each utterance of the input.
-        :param str warning: (optional) **`2017-09-21`:** A warning message if the content contains more than 50 utterances. The service analyzes only the first 50 utterances. **`2016-05-19`:** Not returned.
+        :param list[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis`
+        objects that provides the results for each utterance of the input.
+        :param str warning: (optional) **`2017-09-21`:** A warning message if the content
+        contains more than 50 utterances. The service analyzes only the first 50
+        utterances. **`2016-05-19`:** Not returned.
         """
         self.utterances_tone = utterances_tone
         self.warning = warning
@@ -840,20 +984,32 @@ class UtteranceAnalysis(object):
     """
     UtteranceAnalysis.
 
-    :attr int utterance_id: The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
+    :attr int utterance_id: The unique identifier of the utterance. The first utterance
+    has ID 0, and the ID of each subsequent utterance is incremented by one.
     :attr str utterance_text: The text of the utterance.
-    :attr list[ToneChatScore] tones: An array of `ToneChatScore` objects that provides results for the most prevalent tones of the utterance. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
-    :attr str error: (optional) **`2017-09-21`:** An error message if the utterance contains more than 500 characters. The service does not analyze the utterance. **`2016-05-19`:** Not returned.
+    :attr list[ToneChatScore] tones: An array of `ToneChatScore` objects that provides
+    results for the most prevalent tones of the utterance. The array includes results for
+    any tone whose score is at least 0.5. The array is empty if no tone has a score that
+    meets this threshold.
+    :attr str error: (optional) **`2017-09-21`:** An error message if the utterance
+    contains more than 500 characters. The service does not analyze the utterance.
+    **`2016-05-19`:** Not returned.
     """
 
     def __init__(self, utterance_id, utterance_text, tones, error=None):
         """
         Initialize a UtteranceAnalysis object.
 
-        :param int utterance_id: The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
+        :param int utterance_id: The unique identifier of the utterance. The first
+        utterance has ID 0, and the ID of each subsequent utterance is incremented by one.
         :param str utterance_text: The text of the utterance.
-        :param list[ToneChatScore] tones: An array of `ToneChatScore` objects that provides results for the most prevalent tones of the utterance. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.
-        :param str error: (optional) **`2017-09-21`:** An error message if the utterance contains more than 500 characters. The service does not analyze the utterance. **`2016-05-19`:** Not returned.
+        :param list[ToneChatScore] tones: An array of `ToneChatScore` objects that
+        provides results for the most prevalent tones of the utterance. The array includes
+        results for any tone whose score is at least 0.5. The array is empty if no tone
+        has a score that meets this threshold.
+        :param str error: (optional) **`2017-09-21`:** An error message if the utterance
+        contains more than 500 characters. The service does not analyze the utterance.
+        **`2016-05-19`:** Not returned.
         """
         self.utterance_id = utterance_id
         self.utterance_text = utterance_text

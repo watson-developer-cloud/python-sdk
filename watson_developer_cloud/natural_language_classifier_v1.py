@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-IBM Watson Natural Language Classifier uses machine learning algorithms to return the top
-matching predefined classes for short text input. You create and train a classifier to
-connect predefined classes to example texts so that the service can apply those classes to
-new inputs.
+IBM Watson&trade; Natural Language Classifier uses machine learning algorithms to return
+the top matching predefined classes for short text input. You create and train a
+classifier to connect predefined classes to example texts so that the service can apply
+those classes to new inputs.
 """
 
 from __future__ import absolute_import
@@ -126,8 +126,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         Classify multiple phrases.
 
         Returns label information for multiple phrases. The status must be `Available`
-        before you can use the classifier to classify text.  Note that classifying
-        Japanese texts is a beta feature.
+        before you can use the classifier to classify text.
+        Note that classifying Japanese texts is a beta feature.
 
         :param str classifier_id: Classifier ID to use.
         :param list[ClassifyInput] collection: The submitted phrases.
@@ -172,8 +172,16 @@ class NaturalLanguageClassifierV1(WatsonService):
         Sends data to create and train a classifier and returns information about the new
         classifier.
 
-        :param file metadata: Metadata in JSON format. The metadata identifies the language of the data, and an optional name to identify the classifier. Specify the language with the 2-letter primary language code as assigned in ISO standard 639.  Supported languages are English (`en`), Arabic (`ar`), French (`fr`), German, (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian Portuguese (`pt`), and Spanish (`es`).
-        :param file training_data: Training data in CSV format. Each text value must have at least one class. The data can include up to 20,000 records. For details, see [Data preparation](https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html).
+        :param file metadata: Metadata in JSON format. The metadata identifies the
+        language of the data, and an optional name to identify the classifier. Specify the
+        language with the 2-letter primary language code as assigned in ISO standard 639.
+        Supported languages are English (`en`), Arabic (`ar`), French (`fr`), German,
+        (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian Portuguese
+        (`pt`), and Spanish (`es`).
+        :param file training_data: Training data in CSV format. Each text value must have
+        at least one class. The data can include up to 20,000 records. For details, see
+        [Data
+        preparation](https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html).
         :param str metadata_filename: The filename for training_metadata.
         :param str training_data_filename: The filename for training_data.
         :param dict headers: A `dict` containing the request headers
@@ -281,7 +289,8 @@ class Classification(object):
     :attr str url: (optional) Link to the classifier.
     :attr str text: (optional) The submitted phrase.
     :attr str top_class: (optional) The class with the highest confidence.
-    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence
+    pairs sorted in descending order of confidence.
     """
 
     def __init__(self,
@@ -297,7 +306,8 @@ class Classification(object):
         :param str url: (optional) Link to the classifier.
         :param str text: (optional) The submitted phrase.
         :param str top_class: (optional) The class with the highest confidence.
-        :param list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+        :param list[ClassifiedClass] classes: (optional) An array of up to ten
+        class-confidence pairs sorted in descending order of confidence.
         """
         self.classifier_id = classifier_id
         self.url = url
@@ -359,7 +369,8 @@ class ClassificationCollection(object):
 
     :attr str classifier_id: (optional) Unique identifier for this classifier.
     :attr str url: (optional) Link to the classifier.
-    :attr list[CollectionItem] collection: (optional) An array of classifier responses for each submitted phrase.
+    :attr list[CollectionItem] collection: (optional) An array of classifier responses for
+    each submitted phrase.
     """
 
     def __init__(self, classifier_id=None, url=None, collection=None):
@@ -368,7 +379,8 @@ class ClassificationCollection(object):
 
         :param str classifier_id: (optional) Unique identifier for this classifier.
         :param str url: (optional) Link to the classifier.
-        :param list[CollectionItem] collection: (optional) An array of classifier responses for each submitted phrase.
+        :param list[CollectionItem] collection: (optional) An array of classifier
+        responses for each submitted phrase.
         """
         self.classifier_id = classifier_id
         self.url = url
@@ -418,7 +430,8 @@ class ClassifiedClass(object):
     """
     Class and confidence.
 
-    :attr float confidence: (optional) A decimal percentage that represents the confidence that Watson has in this class. Higher values represent higher confidences.
+    :attr float confidence: (optional) A decimal percentage that represents the confidence
+    that Watson has in this class. Higher values represent higher confidences.
     :attr str class_name: (optional) Class label.
     """
 
@@ -426,7 +439,9 @@ class ClassifiedClass(object):
         """
         Initialize a ClassifiedClass object.
 
-        :param float confidence: (optional) A decimal percentage that represents the confidence that Watson has in this class. Higher values represent higher confidences.
+        :param float confidence: (optional) A decimal percentage that represents the
+        confidence that Watson has in this class. Higher values represent higher
+        confidences.
         :param str class_name: (optional) Class label.
         """
         self.confidence = confidence
@@ -494,7 +509,8 @@ class Classifier(object):
         :param str classifier_id: Unique identifier for this classifier.
         :param str name: (optional) User-supplied name for the classifier.
         :param str status: (optional) The state of the classifier.
-        :param datetime created: (optional) Date and time (UTC) the classifier was created.
+        :param datetime created: (optional) Date and time (UTC) the classifier was
+        created.
         :param str status_description: (optional) Additional detail about the status.
         :param str language: (optional) The language used for the classifier.
         """
@@ -573,14 +589,16 @@ class ClassifierList(object):
     """
     List of available classifiers.
 
-    :attr list[Classifier] classifiers: The classifiers available to the user. Returns an empty array if no classifiers are available.
+    :attr list[Classifier] classifiers: The classifiers available to the user. Returns an
+    empty array if no classifiers are available.
     """
 
     def __init__(self, classifiers):
         """
         Initialize a ClassifierList object.
 
-        :param list[Classifier] classifiers: The classifiers available to the user. Returns an empty array if no classifiers are available.
+        :param list[Classifier] classifiers: The classifiers available to the user.
+        Returns an empty array if no classifiers are available.
         """
         self.classifiers = classifiers
 
@@ -674,7 +692,8 @@ class CollectionItem(object):
 
     :attr str text: (optional) The submitted phrase.
     :attr str top_class: (optional) The class with the highest confidence.
-    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence
+    pairs sorted in descending order of confidence.
     """
 
     def __init__(self, text=None, top_class=None, classes=None):
@@ -683,7 +702,8 @@ class CollectionItem(object):
 
         :param str text: (optional) The submitted phrase.
         :param str top_class: (optional) The class with the highest confidence.
-        :param list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence pairs sorted in descending order of confidence.
+        :param list[ClassifiedClass] classes: (optional) An array of up to ten
+        class-confidence pairs sorted in descending order of confidence.
         """
         self.text = text
         self.top_class = top_class

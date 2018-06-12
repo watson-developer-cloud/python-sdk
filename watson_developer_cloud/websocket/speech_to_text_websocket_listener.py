@@ -138,8 +138,9 @@ class RecognizeListener(object):
 
                     if b_final:
                         self.callback.on_hypothesis(hypothesis)
-                    else:
-                        self.callback.on_transcription(transcripts)
+
+                    self.callback.on_transcription(transcripts)
+                    self.callback.on_data(json_object)
 
         def onClose(self, wasClean, code, reason):
             self.factory.endReactor()

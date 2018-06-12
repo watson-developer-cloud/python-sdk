@@ -80,6 +80,8 @@ class WatsonApiException(WatsonException):
 
     def __str__(self):
         msg = 'Error: ' + str(self.message) + ', Code: ' + str(self.code)
+        if self.info is not None:
+            msg += ' , Information: ' + str(self.info)
         if self.transactionId is not None:
             msg += ' , X-dp-watson-tran-id: ' + str(self.transactionId)
         if self.globalTransactionId is not None:
