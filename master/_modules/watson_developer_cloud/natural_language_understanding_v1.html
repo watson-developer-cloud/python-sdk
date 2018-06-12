@@ -157,29 +157,41 @@
 <span class="sd">        Analyze text, HTML, or a public webpage.</span>
 
 <span class="sd">        Analyzes text, HTML, or a public webpage with one or more text analysis features.</span>
-<span class="sd">        ### Concepts Identify general concepts that are referenced or alluded to in your</span>
-<span class="sd">        content. Concepts that are detected typically have an associated link to a DBpedia</span>
-<span class="sd">        resource.  ### Emotion Detect anger, disgust, fear, joy, or sadness that is</span>
-<span class="sd">        conveyed by your content. Emotion information can be returned for detected</span>
-<span class="sd">        entities, keywords, or user-specified target phrases found in the text.  ###</span>
-<span class="sd">        Entities Detect important people, places, geopolitical entities and other types of</span>
-<span class="sd">        entities in your content. Entity detection recognizes consecutive coreferences of</span>
-<span class="sd">        each entity. For example, analysis of the following text would count \&quot;Barack</span>
-<span class="sd">        Obama\&quot; and \&quot;He\&quot; as the same entity:  \&quot;Barack Obama was the 44th President of</span>
-<span class="sd">        the United States. He took office in January 2009.\&quot;  ### Keywords Determine the</span>
-<span class="sd">        most important keywords in your content. Keyword phrases are organized by</span>
-<span class="sd">        relevance in the results.  ### Metadata Get author information, publication date,</span>
-<span class="sd">        and the title of your text/HTML content.  ### Relations Recognize when two</span>
-<span class="sd">        entities are related, and identify the type of relation.  For example, you can</span>
-<span class="sd">        identify an \&quot;awardedTo\&quot; relation between an award and its recipient.  ###</span>
-<span class="sd">        Semantic Roles Parse sentences into subject-action-object form, and identify</span>
-<span class="sd">        entities and keywords that are subjects or objects of an action.  ### Sentiment</span>
+<span class="sd">        ### Concepts</span>
+<span class="sd">        Identify general concepts that are referenced or alluded to in your content.</span>
+<span class="sd">        Concepts that are detected typically have an associated link to a DBpedia</span>
+<span class="sd">        resource.</span>
+<span class="sd">        ### Emotion</span>
+<span class="sd">        Detect anger, disgust, fear, joy, or sadness that is conveyed by your content.</span>
+<span class="sd">        Emotion information can be returned for detected entities, keywords, or</span>
+<span class="sd">        user-specified target phrases found in the text.</span>
+<span class="sd">        ### Entities</span>
+<span class="sd">        Detect important people, places, geopolitical entities and other types of entities</span>
+<span class="sd">        in your content. Entity detection recognizes consecutive coreferences of each</span>
+<span class="sd">        entity. For example, analysis of the following text would count \&quot;Barack Obama\&quot;</span>
+<span class="sd">        and \&quot;He\&quot; as the same entity:</span>
+<span class="sd">        \&quot;Barack Obama was the 44th President of the United States. He took office in</span>
+<span class="sd">        January 2009.\&quot;</span>
+<span class="sd">        ### Keywords</span>
+<span class="sd">        Determine the most important keywords in your content. Keyword phrases are</span>
+<span class="sd">        organized by relevance in the results.</span>
+<span class="sd">        ### Metadata</span>
+<span class="sd">        Get author information, publication date, and the title of your text/HTML content.</span>
+<span class="sd">        ### Relations</span>
+<span class="sd">        Recognize when two entities are related, and identify the type of relation.  For</span>
+<span class="sd">        example, you can identify an \&quot;awardedTo\&quot; relation between an award and its</span>
+<span class="sd">        recipient.</span>
+<span class="sd">        ### Semantic Roles</span>
+<span class="sd">        Parse sentences into subject-action-object form, and identify entities and</span>
+<span class="sd">        keywords that are subjects or objects of an action.</span>
+<span class="sd">        ### Sentiment</span>
 <span class="sd">        Determine whether your content conveys postive or negative sentiment. Sentiment</span>
 <span class="sd">        information can be returned for detected entities, keywords, or user-specified</span>
-<span class="sd">        target phrases found in the text.   ### Categories Categorize your content into a</span>
-<span class="sd">        hierarchical 5-level taxonomy. For example, \&quot;Leonardo DiCaprio won an Oscar\&quot;</span>
-<span class="sd">        returns \&quot;/art and entertainment/movies and tv/movies\&quot; as the most confident</span>
-<span class="sd">        classification.</span>
+<span class="sd">        target phrases found in the text.</span>
+<span class="sd">        ### Categories</span>
+<span class="sd">        Categorize your content into a hierarchical 5-level taxonomy. For example,</span>
+<span class="sd">        \&quot;Leonardo DiCaprio won an Oscar\&quot; returns \&quot;/art and entertainment/movies and</span>
+<span class="sd">        tv/movies\&quot; as the most confident classification.</span>
 
 <span class="sd">        :param Features features: Specific features to analyze the document for.</span>
 <span class="sd">        :param str text: The plain text to analyze.</span>
@@ -187,10 +199,13 @@
 <span class="sd">        :param str url: The web page to analyze.</span>
 <span class="sd">        :param bool clean: Remove website elements, such as links, ads, etc.</span>
 <span class="sd">        :param str xpath: XPath query for targeting nodes in HTML.</span>
-<span class="sd">        :param bool fallback_to_raw: Whether to use raw HTML content if text cleaning fails.</span>
+<span class="sd">        :param bool fallback_to_raw: Whether to use raw HTML content if text cleaning</span>
+<span class="sd">        fails.</span>
 <span class="sd">        :param bool return_analyzed_text: Whether or not to return the analyzed text.</span>
-<span class="sd">        :param str language: ISO 639-1 code indicating the language to use in the analysis.</span>
-<span class="sd">        :param int limit_text_characters: Sets the maximum number of characters that are processed by the service.</span>
+<span class="sd">        :param str language: ISO 639-1 code indicating the language to use in the</span>
+<span class="sd">        analysis.</span>
+<span class="sd">        :param int limit_text_characters: Sets the maximum number of characters that are</span>
+<span class="sd">        processed by the service.</span>
 <span class="sd">        :param dict headers: A `dict` containing the request headers</span>
 <span class="sd">        :return: A `dict` containing the `AnalysisResults` response.</span>
 <span class="sd">        :rtype: dict</span>
@@ -293,14 +308,22 @@
 <span class="sd">    :attr str analyzed_text: (optional) Text that was used in the analysis.</span>
 <span class="sd">    :attr str retrieved_url: (optional) URL that was used to retrieve HTML content.</span>
 <span class="sd">    :attr Usage usage: (optional) API usage information for the request.</span>
-<span class="sd">    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.</span>
-<span class="sd">    :attr list[EntitiesResult] entities: (optional) The important entities in the specified content.</span>
-<span class="sd">    :attr list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.</span>
-<span class="sd">    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.</span>
-<span class="sd">    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</span>
-<span class="sd">    :attr MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.</span>
-<span class="sd">    :attr list[RelationsResult] relations: (optional) The relationships between entities in the content.</span>
-<span class="sd">    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.</span>
+<span class="sd">    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or</span>
+<span class="sd">    alluded to in the specified content.</span>
+<span class="sd">    :attr list[EntitiesResult] entities: (optional) The important entities in the</span>
+<span class="sd">    specified content.</span>
+<span class="sd">    :attr list[KeywordsResult] keywords: (optional) The important keywords in content</span>
+<span class="sd">    organized by relevance.</span>
+<span class="sd">    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy</span>
+<span class="sd">    the content is categorized into.</span>
+<span class="sd">    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness</span>
+<span class="sd">    conveyed by the content.</span>
+<span class="sd">    :attr MetadataResult metadata: (optional) The metadata holds author information,</span>
+<span class="sd">    publication date and the title of the text/HTML content.</span>
+<span class="sd">    :attr list[RelationsResult] relations: (optional) The relationships between entities</span>
+<span class="sd">    in the content.</span>
+<span class="sd">    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and</span>
+<span class="sd">    the objects the actions act upon.</span>
 <span class="sd">    :attr SentimentResult sentiment: (optional) The sentiment of the content.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -325,14 +348,22 @@
 <span class="sd">        :param str analyzed_text: (optional) Text that was used in the analysis.</span>
 <span class="sd">        :param str retrieved_url: (optional) URL that was used to retrieve HTML content.</span>
 <span class="sd">        :param Usage usage: (optional) API usage information for the request.</span>
-<span class="sd">        :param list[ConceptsResult] concepts: (optional) The general concepts referenced or alluded to in the specified content.</span>
-<span class="sd">        :param list[EntitiesResult] entities: (optional) The important entities in the specified content.</span>
-<span class="sd">        :param list[KeywordsResult] keywords: (optional) The important keywords in content organized by relevance.</span>
-<span class="sd">        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy the content is categorized into.</span>
-<span class="sd">        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</span>
-<span class="sd">        :param MetadataResult metadata: (optional) The metadata holds author information, publication date and the title of the text/HTML content.</span>
-<span class="sd">        :param list[RelationsResult] relations: (optional) The relationships between entities in the content.</span>
-<span class="sd">        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and the objects the actions act upon.</span>
+<span class="sd">        :param list[ConceptsResult] concepts: (optional) The general concepts referenced</span>
+<span class="sd">        or alluded to in the specified content.</span>
+<span class="sd">        :param list[EntitiesResult] entities: (optional) The important entities in the</span>
+<span class="sd">        specified content.</span>
+<span class="sd">        :param list[KeywordsResult] keywords: (optional) The important keywords in content</span>
+<span class="sd">        organized by relevance.</span>
+<span class="sd">        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level</span>
+<span class="sd">        taxonomy the content is categorized into.</span>
+<span class="sd">        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness</span>
+<span class="sd">        conveyed by the content.</span>
+<span class="sd">        :param MetadataResult metadata: (optional) The metadata holds author information,</span>
+<span class="sd">        publication date and the title of the text/HTML content.</span>
+<span class="sd">        :param list[RelationsResult] relations: (optional) The relationships between</span>
+<span class="sd">        entities in the content.</span>
+<span class="sd">        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of</span>
+<span class="sd">        actions and the objects the actions act upon.</span>
 <span class="sd">        :param SentimentResult sentiment: (optional) The sentiment of the content.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
@@ -551,15 +582,18 @@
 <span class="sd">    The hierarchical 5-level taxonomy the content is categorized into.</span>
 
 <span class="sd">    :attr str label: (optional) The path to the category through the taxonomy hierarchy.</span>
-<span class="sd">    :attr float score: (optional) Confidence score for the category classification. Higher values indicate greater confidence.</span>
+<span class="sd">    :attr float score: (optional) Confidence score for the category classification. Higher</span>
+<span class="sd">    values indicate greater confidence.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a CategoriesResult object.</span>
 
-<span class="sd">        :param str label: (optional) The path to the category through the taxonomy hierarchy.</span>
-<span class="sd">        :param float score: (optional) Confidence score for the category classification. Higher values indicate greater confidence.</span>
+<span class="sd">        :param str label: (optional) The path to the category through the taxonomy</span>
+<span class="sd">        hierarchy.</span>
+<span class="sd">        :param float score: (optional) Confidence score for the category classification.</span>
+<span class="sd">        Higher values indicate greater confidence.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
@@ -649,7 +683,8 @@
 <span class="sd">    The general concepts referenced or alluded to in the specified content.</span>
 
 <span class="sd">    :attr str text: (optional) Name of the concept.</span>
-<span class="sd">    :attr float relevance: (optional) Relevance score between 0 and 1. Higher scores indicate greater relevance.</span>
+<span class="sd">    :attr float relevance: (optional) Relevance score between 0 and 1. Higher scores</span>
+<span class="sd">    indicate greater relevance.</span>
 <span class="sd">    :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -658,8 +693,10 @@
 <span class="sd">        Initialize a ConceptsResult object.</span>
 
 <span class="sd">        :param str text: (optional) Name of the concept.</span>
-<span class="sd">        :param float relevance: (optional) Relevance score between 0 and 1. Higher scores indicate greater relevance.</span>
-<span class="sd">        :param str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.</span>
+<span class="sd">        :param float relevance: (optional) Relevance score between 0 and 1. Higher scores</span>
+<span class="sd">        indicate greater relevance.</span>
+<span class="sd">        :param str dbpedia_resource: (optional) Link to the corresponding DBpedia</span>
+<span class="sd">        resource.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">relevance</span> <span class="o">=</span> <span class="n">relevance</span>
@@ -718,7 +755,8 @@
 <span class="sd">        Initialize a DisambiguationResult object.</span>
 
 <span class="sd">        :param str name: (optional) Common entity name.</span>
-<span class="sd">        :param str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.</span>
+<span class="sd">        :param str dbpedia_resource: (optional) Link to the corresponding DBpedia</span>
+<span class="sd">        resource.</span>
 <span class="sd">        :param list[str] subtype: (optional) Entity subtype information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
@@ -768,14 +806,16 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An object containing the emotion results of a document.</span>
 
-<span class="sd">    :attr EmotionScores emotion: (optional) An object containing the emotion results for the document.</span>
+<span class="sd">    :attr EmotionScores emotion: (optional) An object containing the emotion results for</span>
+<span class="sd">    the document.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a DocumentEmotionResults object.</span>
 
-<span class="sd">        :param EmotionScores emotion: (optional) An object containing the emotion results for the document.</span>
+<span class="sd">        :param EmotionScores emotion: (optional) An object containing the emotion results</span>
+<span class="sd">        for the document.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
 
@@ -813,7 +853,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    DocumentSentimentResults.</span>
 
-<span class="sd">    :attr str label: (optional) Indicates whether the sentiment is positive, neutral, or negative.</span>
+<span class="sd">    :attr str label: (optional) Indicates whether the sentiment is positive, neutral, or</span>
+<span class="sd">    negative.</span>
 <span class="sd">    :attr float score: (optional) Sentiment score from -1 (negative) to 1 (positive).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -821,7 +862,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a DocumentSentimentResults object.</span>
 
-<span class="sd">        :param str label: (optional) Indicates whether the sentiment is positive, neutral, or negative.</span>
+<span class="sd">        :param str label: (optional) Indicates whether the sentiment is positive, neutral,</span>
+<span class="sd">        or negative.</span>
 <span class="sd">        :param float score: (optional) Sentiment score from -1 (negative) to 1 (positive).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
@@ -865,16 +907,20 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Whether or not to return emotion analysis of the content.</span>
 
-<span class="sd">    :attr bool document: (optional) Set this to false to hide document-level emotion results.</span>
-<span class="sd">    :attr list[str] targets: (optional) Emotion results will be returned for each target string that is found in the document.</span>
+<span class="sd">    :attr bool document: (optional) Set this to false to hide document-level emotion</span>
+<span class="sd">    results.</span>
+<span class="sd">    :attr list[str] targets: (optional) Emotion results will be returned for each target</span>
+<span class="sd">    string that is found in the document.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a EmotionOptions object.</span>
 
-<span class="sd">        :param bool document: (optional) Set this to false to hide document-level emotion results.</span>
-<span class="sd">        :param list[str] targets: (optional) Emotion results will be returned for each target string that is found in the document.</span>
+<span class="sd">        :param bool document: (optional) Set this to false to hide document-level emotion</span>
+<span class="sd">        results.</span>
+<span class="sd">        :param list[str] targets: (optional) Emotion results will be returned for each</span>
+<span class="sd">        target string that is found in the document.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">document</span> <span class="o">=</span> <span class="n">document</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span>
@@ -919,16 +965,20 @@
 <span class="sd">    Emotion information can be returned for detected entities, keywords, or user-specified</span>
 <span class="sd">    target phrases found in the text.</span>
 
-<span class="sd">    :attr DocumentEmotionResults document: (optional) The returned emotion results across the document.</span>
-<span class="sd">    :attr list[TargetedEmotionResults] targets: (optional) The returned emotion results per specified target.</span>
+<span class="sd">    :attr DocumentEmotionResults document: (optional) The returned emotion results across</span>
+<span class="sd">    the document.</span>
+<span class="sd">    :attr list[TargetedEmotionResults] targets: (optional) The returned emotion results</span>
+<span class="sd">    per specified target.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a EmotionResult object.</span>
 
-<span class="sd">        :param DocumentEmotionResults document: (optional) The returned emotion results across the document.</span>
-<span class="sd">        :param list[TargetedEmotionResults] targets: (optional) The returned emotion results per specified target.</span>
+<span class="sd">        :param DocumentEmotionResults document: (optional) The returned emotion results</span>
+<span class="sd">        across the document.</span>
+<span class="sd">        :param list[TargetedEmotionResults] targets: (optional) The returned emotion</span>
+<span class="sd">        results per specified target.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">document</span> <span class="o">=</span> <span class="n">document</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span>
@@ -975,11 +1025,16 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    EmotionScores.</span>
 
-<span class="sd">    :attr float anger: (optional) Anger score from 0 to 1. A higher score means that the text is more likely to convey anger.</span>
-<span class="sd">    :attr float disgust: (optional) Disgust score from 0 to 1. A higher score means that the text is more likely to convey disgust.</span>
-<span class="sd">    :attr float fear: (optional) Fear score from 0 to 1. A higher score means that the text is more likely to convey fear.</span>
-<span class="sd">    :attr float joy: (optional) Joy score from 0 to 1. A higher score means that the text is more likely to convey joy.</span>
-<span class="sd">    :attr float sadness: (optional) Sadness score from 0 to 1. A higher score means that the text is more likely to convey sadness.</span>
+<span class="sd">    :attr float anger: (optional) Anger score from 0 to 1. A higher score means that the</span>
+<span class="sd">    text is more likely to convey anger.</span>
+<span class="sd">    :attr float disgust: (optional) Disgust score from 0 to 1. A higher score means that</span>
+<span class="sd">    the text is more likely to convey disgust.</span>
+<span class="sd">    :attr float fear: (optional) Fear score from 0 to 1. A higher score means that the</span>
+<span class="sd">    text is more likely to convey fear.</span>
+<span class="sd">    :attr float joy: (optional) Joy score from 0 to 1. A higher score means that the text</span>
+<span class="sd">    is more likely to convey joy.</span>
+<span class="sd">    :attr float sadness: (optional) Sadness score from 0 to 1. A higher score means that</span>
+<span class="sd">    the text is more likely to convey sadness.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -991,11 +1046,16 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a EmotionScores object.</span>
 
-<span class="sd">        :param float anger: (optional) Anger score from 0 to 1. A higher score means that the text is more likely to convey anger.</span>
-<span class="sd">        :param float disgust: (optional) Disgust score from 0 to 1. A higher score means that the text is more likely to convey disgust.</span>
-<span class="sd">        :param float fear: (optional) Fear score from 0 to 1. A higher score means that the text is more likely to convey fear.</span>
-<span class="sd">        :param float joy: (optional) Joy score from 0 to 1. A higher score means that the text is more likely to convey joy.</span>
-<span class="sd">        :param float sadness: (optional) Sadness score from 0 to 1. A higher score means that the text is more likely to convey sadness.</span>
+<span class="sd">        :param float anger: (optional) Anger score from 0 to 1. A higher score means that</span>
+<span class="sd">        the text is more likely to convey anger.</span>
+<span class="sd">        :param float disgust: (optional) Disgust score from 0 to 1. A higher score means</span>
+<span class="sd">        that the text is more likely to convey disgust.</span>
+<span class="sd">        :param float fear: (optional) Fear score from 0 to 1. A higher score means that</span>
+<span class="sd">        the text is more likely to convey fear.</span>
+<span class="sd">        :param float joy: (optional) Joy score from 0 to 1. A higher score means that the</span>
+<span class="sd">        text is more likely to convey joy.</span>
+<span class="sd">        :param float sadness: (optional) Sadness score from 0 to 1. A higher score means</span>
+<span class="sd">        that the text is more likely to convey sadness.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">anger</span> <span class="o">=</span> <span class="n">anger</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disgust</span> <span class="o">=</span> <span class="n">disgust</span>
@@ -1055,10 +1115,14 @@
 <span class="sd">    detected in the analyzed content.</span>
 
 <span class="sd">    :attr int limit: (optional) Maximum number of entities to return.</span>
-<span class="sd">    :attr bool mentions: (optional) Set this to true to return locations of entity mentions.</span>
-<span class="sd">    :attr str model: (optional) Enter a custom model ID to override the standard entity detection model.</span>
-<span class="sd">    :attr bool sentiment: (optional) Set this to true to return sentiment information for detected entities.</span>
-<span class="sd">    :attr bool emotion: (optional) Set this to true to analyze emotion for detected keywords.</span>
+<span class="sd">    :attr bool mentions: (optional) Set this to true to return locations of entity</span>
+<span class="sd">    mentions.</span>
+<span class="sd">    :attr str model: (optional) Enter a custom model ID to override the standard entity</span>
+<span class="sd">    detection model.</span>
+<span class="sd">    :attr bool sentiment: (optional) Set this to true to return sentiment information for</span>
+<span class="sd">    detected entities.</span>
+<span class="sd">    :attr bool emotion: (optional) Set this to true to analyze emotion for detected</span>
+<span class="sd">    keywords.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -1071,10 +1135,14 @@
 <span class="sd">        Initialize a EntitiesOptions object.</span>
 
 <span class="sd">        :param int limit: (optional) Maximum number of entities to return.</span>
-<span class="sd">        :param bool mentions: (optional) Set this to true to return locations of entity mentions.</span>
-<span class="sd">        :param str model: (optional) Enter a custom model ID to override the standard entity detection model.</span>
-<span class="sd">        :param bool sentiment: (optional) Set this to true to return sentiment information for detected entities.</span>
-<span class="sd">        :param bool emotion: (optional) Set this to true to analyze emotion for detected keywords.</span>
+<span class="sd">        :param bool mentions: (optional) Set this to true to return locations of entity</span>
+<span class="sd">        mentions.</span>
+<span class="sd">        :param str model: (optional) Enter a custom model ID to override the standard</span>
+<span class="sd">        entity detection model.</span>
+<span class="sd">        :param bool sentiment: (optional) Set this to true to return sentiment information</span>
+<span class="sd">        for detected entities.</span>
+<span class="sd">        :param bool emotion: (optional) Set this to true to analyze emotion for detected</span>
+<span class="sd">        keywords.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mentions</span> <span class="o">=</span> <span class="n">mentions</span>
@@ -1135,12 +1203,16 @@
 
 <span class="sd">    :attr str type: (optional) Entity type.</span>
 <span class="sd">    :attr str text: (optional) The name of the entity.</span>
-<span class="sd">    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</span>
+<span class="sd">    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate</span>
+<span class="sd">    greater relevance.</span>
 <span class="sd">    :attr list[EntityMention] mentions: (optional) Entity mentions and locations.</span>
 <span class="sd">    :attr int count: (optional) How many times the entity was mentioned in the text.</span>
-<span class="sd">    :attr EmotionScores emotion: (optional) Emotion analysis results for the entity, enabled with the &quot;emotion&quot; option.</span>
-<span class="sd">    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the entity, enabled with the &quot;sentiment&quot; option.</span>
-<span class="sd">    :attr DisambiguationResult disambiguation: (optional) Disambiguation information for the entity.</span>
+<span class="sd">    :attr EmotionScores emotion: (optional) Emotion analysis results for the entity,</span>
+<span class="sd">    enabled with the &quot;emotion&quot; option.</span>
+<span class="sd">    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the</span>
+<span class="sd">    entity, enabled with the &quot;sentiment&quot; option.</span>
+<span class="sd">    :attr DisambiguationResult disambiguation: (optional) Disambiguation information for</span>
+<span class="sd">    the entity.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -1157,12 +1229,16 @@
 
 <span class="sd">        :param str type: (optional) Entity type.</span>
 <span class="sd">        :param str text: (optional) The name of the entity.</span>
-<span class="sd">        :param float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</span>
+<span class="sd">        :param float relevance: (optional) Relevance score from 0 to 1. Higher values</span>
+<span class="sd">        indicate greater relevance.</span>
 <span class="sd">        :param list[EntityMention] mentions: (optional) Entity mentions and locations.</span>
 <span class="sd">        :param int count: (optional) How many times the entity was mentioned in the text.</span>
-<span class="sd">        :param EmotionScores emotion: (optional) Emotion analysis results for the entity, enabled with the &quot;emotion&quot; option.</span>
-<span class="sd">        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the entity, enabled with the &quot;sentiment&quot; option.</span>
-<span class="sd">        :param DisambiguationResult disambiguation: (optional) Disambiguation information for the entity.</span>
+<span class="sd">        :param EmotionScores emotion: (optional) Emotion analysis results for the entity,</span>
+<span class="sd">        enabled with the &quot;emotion&quot; option.</span>
+<span class="sd">        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results</span>
+<span class="sd">        for the entity, enabled with the &quot;sentiment&quot; option.</span>
+<span class="sd">        :param DisambiguationResult disambiguation: (optional) Disambiguation information</span>
+<span class="sd">        for the entity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
@@ -1240,7 +1316,8 @@
 <span class="sd">    EntityMention.</span>
 
 <span class="sd">    :attr str text: (optional) Entity mention text.</span>
-<span class="sd">    :attr list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</span>
+<span class="sd">    :attr list[int] location: (optional) Character offsets indicating the beginning and</span>
+<span class="sd">    end of the mention in the analyzed text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1248,7 +1325,8 @@
 <span class="sd">        Initialize a EntityMention object.</span>
 
 <span class="sd">        :param str text: (optional) Entity mention text.</span>
-<span class="sd">        :param list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</span>
+<span class="sd">        :param list[int] location: (optional) Character offsets indicating the beginning</span>
+<span class="sd">        and end of the mention in the analyzed text.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
@@ -1336,15 +1414,25 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Analysis features and options.</span>
 
-<span class="sd">    :attr ConceptsOptions concepts: (optional) Whether or not to return the concepts that are mentioned in the analyzed text.</span>
-<span class="sd">    :attr EmotionOptions emotion: (optional) Whether or not to extract the emotions implied in the analyzed text.</span>
-<span class="sd">    :attr EntitiesOptions entities: (optional) Whether or not to extract detected entity objects from the analyzed text.</span>
-<span class="sd">    :attr KeywordsOptions keywords: (optional) Whether or not to return the keywords in the analyzed text.</span>
-<span class="sd">    :attr MetadataOptions metadata: (optional) Whether or not the author, publication date, and title of the analyzed text should be returned. This parameter is only available for URL and HTML input.</span>
-<span class="sd">    :attr RelationsOptions relations: (optional) Whether or not to return the relationships between detected entities in the analyzed text.</span>
-<span class="sd">    :attr SemanticRolesOptions semantic_roles: (optional) Whether or not to return the subject-action-object relations from the analyzed text.</span>
-<span class="sd">    :attr SentimentOptions sentiment: (optional) Whether or not to return the overall sentiment of the analyzed text.</span>
-<span class="sd">    :attr CategoriesOptions categories: (optional) Whether or not to return the high level category the content is categorized as (i.e. news, art).</span>
+<span class="sd">    :attr ConceptsOptions concepts: (optional) Whether or not to return the concepts that</span>
+<span class="sd">    are mentioned in the analyzed text.</span>
+<span class="sd">    :attr EmotionOptions emotion: (optional) Whether or not to extract the emotions</span>
+<span class="sd">    implied in the analyzed text.</span>
+<span class="sd">    :attr EntitiesOptions entities: (optional) Whether or not to extract detected entity</span>
+<span class="sd">    objects from the analyzed text.</span>
+<span class="sd">    :attr KeywordsOptions keywords: (optional) Whether or not to return the keywords in</span>
+<span class="sd">    the analyzed text.</span>
+<span class="sd">    :attr MetadataOptions metadata: (optional) Whether or not the author, publication</span>
+<span class="sd">    date, and title of the analyzed text should be returned. This parameter is only</span>
+<span class="sd">    available for URL and HTML input.</span>
+<span class="sd">    :attr RelationsOptions relations: (optional) Whether or not to return the</span>
+<span class="sd">    relationships between detected entities in the analyzed text.</span>
+<span class="sd">    :attr SemanticRolesOptions semantic_roles: (optional) Whether or not to return the</span>
+<span class="sd">    subject-action-object relations from the analyzed text.</span>
+<span class="sd">    :attr SentimentOptions sentiment: (optional) Whether or not to return the overall</span>
+<span class="sd">    sentiment of the analyzed text.</span>
+<span class="sd">    :attr CategoriesOptions categories: (optional) Whether or not to return the high level</span>
+<span class="sd">    category the content is categorized as (i.e. news, art).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -1360,15 +1448,25 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a Features object.</span>
 
-<span class="sd">        :param ConceptsOptions concepts: (optional) Whether or not to return the concepts that are mentioned in the analyzed text.</span>
-<span class="sd">        :param EmotionOptions emotion: (optional) Whether or not to extract the emotions implied in the analyzed text.</span>
-<span class="sd">        :param EntitiesOptions entities: (optional) Whether or not to extract detected entity objects from the analyzed text.</span>
-<span class="sd">        :param KeywordsOptions keywords: (optional) Whether or not to return the keywords in the analyzed text.</span>
-<span class="sd">        :param MetadataOptions metadata: (optional) Whether or not the author, publication date, and title of the analyzed text should be returned. This parameter is only available for URL and HTML input.</span>
-<span class="sd">        :param RelationsOptions relations: (optional) Whether or not to return the relationships between detected entities in the analyzed text.</span>
-<span class="sd">        :param SemanticRolesOptions semantic_roles: (optional) Whether or not to return the subject-action-object relations from the analyzed text.</span>
-<span class="sd">        :param SentimentOptions sentiment: (optional) Whether or not to return the overall sentiment of the analyzed text.</span>
-<span class="sd">        :param CategoriesOptions categories: (optional) Whether or not to return the high level category the content is categorized as (i.e. news, art).</span>
+<span class="sd">        :param ConceptsOptions concepts: (optional) Whether or not to return the concepts</span>
+<span class="sd">        that are mentioned in the analyzed text.</span>
+<span class="sd">        :param EmotionOptions emotion: (optional) Whether or not to extract the emotions</span>
+<span class="sd">        implied in the analyzed text.</span>
+<span class="sd">        :param EntitiesOptions entities: (optional) Whether or not to extract detected</span>
+<span class="sd">        entity objects from the analyzed text.</span>
+<span class="sd">        :param KeywordsOptions keywords: (optional) Whether or not to return the keywords</span>
+<span class="sd">        in the analyzed text.</span>
+<span class="sd">        :param MetadataOptions metadata: (optional) Whether or not the author, publication</span>
+<span class="sd">        date, and title of the analyzed text should be returned. This parameter is only</span>
+<span class="sd">        available for URL and HTML input.</span>
+<span class="sd">        :param RelationsOptions relations: (optional) Whether or not to return the</span>
+<span class="sd">        relationships between detected entities in the analyzed text.</span>
+<span class="sd">        :param SemanticRolesOptions semantic_roles: (optional) Whether or not to return</span>
+<span class="sd">        the subject-action-object relations from the analyzed text.</span>
+<span class="sd">        :param SentimentOptions sentiment: (optional) Whether or not to return the overall</span>
+<span class="sd">        sentiment of the analyzed text.</span>
+<span class="sd">        :param CategoriesOptions categories: (optional) Whether or not to return the high</span>
+<span class="sd">        level category the content is categorized as (i.e. news, art).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">concepts</span> <span class="o">=</span> <span class="n">concepts</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
@@ -1495,14 +1593,61 @@
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
 
 
+<div class="viewcode-block" id="InlineResponse200"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.InlineResponse200">[docs]</a><span class="k">class</span> <span class="nc">InlineResponse200</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    InlineResponse200.</span>
+
+<span class="sd">    :attr str deleted: (optional) model_id of the deleted model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deleted</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a InlineResponse200 object.</span>
+
+<span class="sd">        :param str deleted: (optional) model_id of the deleted model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deleted</span> <span class="o">=</span> <span class="n">deleted</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a InlineResponse200 object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;deleted&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;deleted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;deleted&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;deleted&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">deleted</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;deleted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deleted</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this InlineResponse200 object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
 <div class="viewcode-block" id="KeywordsOptions"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_understanding_v1.html#watson_developer_cloud.natural_language_understanding_v1.KeywordsOptions">[docs]</a><span class="k">class</span> <span class="nc">KeywordsOptions</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An option indicating whether or not important keywords from the analyzed content</span>
 <span class="sd">    should be returned.</span>
 
 <span class="sd">    :attr int limit: (optional) Maximum number of keywords to return.</span>
-<span class="sd">    :attr bool sentiment: (optional) Set this to true to return sentiment information for detected keywords.</span>
-<span class="sd">    :attr bool emotion: (optional) Set this to true to analyze emotion for detected keywords.</span>
+<span class="sd">    :attr bool sentiment: (optional) Set this to true to return sentiment information for</span>
+<span class="sd">    detected keywords.</span>
+<span class="sd">    :attr bool emotion: (optional) Set this to true to analyze emotion for detected</span>
+<span class="sd">    keywords.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sentiment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1510,8 +1655,10 @@
 <span class="sd">        Initialize a KeywordsOptions object.</span>
 
 <span class="sd">        :param int limit: (optional) Maximum number of keywords to return.</span>
-<span class="sd">        :param bool sentiment: (optional) Set this to true to return sentiment information for detected keywords.</span>
-<span class="sd">        :param bool emotion: (optional) Set this to true to analyze emotion for detected keywords.</span>
+<span class="sd">        :param bool sentiment: (optional) Set this to true to return sentiment information</span>
+<span class="sd">        for detected keywords.</span>
+<span class="sd">        :param bool emotion: (optional) Set this to true to analyze emotion for detected</span>
+<span class="sd">        keywords.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sentiment</span> <span class="o">=</span> <span class="n">sentiment</span>
@@ -1559,10 +1706,13 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The most important keywords in the content, organized by relevance.</span>
 
-<span class="sd">    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</span>
+<span class="sd">    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate</span>
+<span class="sd">    greater relevance.</span>
 <span class="sd">    :attr str text: (optional) The keyword text.</span>
-<span class="sd">    :attr EmotionScores emotion: (optional) Emotion analysis results for the keyword, enabled with the &quot;emotion&quot; option.</span>
-<span class="sd">    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the keyword, enabled with the &quot;sentiment&quot; option.</span>
+<span class="sd">    :attr EmotionScores emotion: (optional) Emotion analysis results for the keyword,</span>
+<span class="sd">    enabled with the &quot;emotion&quot; option.</span>
+<span class="sd">    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the</span>
+<span class="sd">    keyword, enabled with the &quot;sentiment&quot; option.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relevance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1570,10 +1720,13 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a KeywordsResult object.</span>
 
-<span class="sd">        :param float relevance: (optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</span>
+<span class="sd">        :param float relevance: (optional) Relevance score from 0 to 1. Higher values</span>
+<span class="sd">        indicate greater relevance.</span>
 <span class="sd">        :param str text: (optional) The keyword text.</span>
-<span class="sd">        :param EmotionScores emotion: (optional) Emotion analysis results for the keyword, enabled with the &quot;emotion&quot; option.</span>
-<span class="sd">        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the keyword, enabled with the &quot;sentiment&quot; option.</span>
+<span class="sd">        :param EmotionScores emotion: (optional) Emotion analysis results for the keyword,</span>
+<span class="sd">        enabled with the &quot;emotion&quot; option.</span>
+<span class="sd">        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results</span>
+<span class="sd">        for the keyword, enabled with the &quot;sentiment&quot; option.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">relevance</span> <span class="o">=</span> <span class="n">relevance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
@@ -1750,7 +1903,8 @@
 <span class="sd">        Initialize a MetadataResult object.</span>
 
 <span class="sd">        :param list[Author] authors: (optional) The authors of the document.</span>
-<span class="sd">        :param str publication_date: (optional) The publication date in the format ISO 8601.</span>
+<span class="sd">        :param str publication_date: (optional) The publication date in the format ISO</span>
+<span class="sd">        8601.</span>
 <span class="sd">        :param str title: (optional) The title of the document.</span>
 <span class="sd">        :param str image: (optional) URL of a prominent image on the webpage.</span>
 <span class="sd">        :param list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.</span>
@@ -1830,7 +1984,8 @@
 
 <span class="sd">        :param str status: (optional) Shows as available if the model is ready for use.</span>
 <span class="sd">        :param str model_id: (optional) Unique model ID.</span>
-<span class="sd">        :param str language: (optional) ISO 639-1 code indicating the language of the model.</span>
+<span class="sd">        :param str language: (optional) ISO 639-1 code indicating the language of the</span>
+<span class="sd">        model.</span>
 <span class="sd">        :param str description: (optional) Model description.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
@@ -1885,7 +2040,8 @@
 <span class="sd">    RelationArgument.</span>
 
 <span class="sd">    :attr list[RelationEntity] entities: (optional)</span>
-<span class="sd">    :attr list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</span>
+<span class="sd">    :attr list[int] location: (optional) Character offsets indicating the beginning and</span>
+<span class="sd">    end of the mention in the analyzed text.</span>
 <span class="sd">    :attr str text: (optional) Text that corresponds to the argument.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1894,7 +2050,8 @@
 <span class="sd">        Initialize a RelationArgument object.</span>
 
 <span class="sd">        :param list[RelationEntity] entities: (optional)</span>
-<span class="sd">        :param list[int] location: (optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</span>
+<span class="sd">        :param list[int] location: (optional) Character offsets indicating the beginning</span>
+<span class="sd">        and end of the mention in the analyzed text.</span>
 <span class="sd">        :param str text: (optional) Text that corresponds to the argument.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">entities</span> <span class="o">=</span> <span class="n">entities</span>
@@ -2005,7 +2162,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a RelationsOptions object.</span>
 
-<span class="sd">        :param str model: (optional) Enter a custom model ID to override the default model.</span>
+<span class="sd">        :param str model: (optional) Enter a custom model ID to override the default</span>
+<span class="sd">        model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
 
@@ -2043,20 +2201,24 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The relations between entities found in the content.</span>
 
-<span class="sd">    :attr float score: (optional) Confidence score for the relation. Higher values indicate greater confidence.</span>
+<span class="sd">    :attr float score: (optional) Confidence score for the relation. Higher values</span>
+<span class="sd">    indicate greater confidence.</span>
 <span class="sd">    :attr str sentence: (optional) The sentence that contains the relation.</span>
 <span class="sd">    :attr str type: (optional) The type of the relation.</span>
-<span class="sd">    :attr list[RelationArgument] arguments: (optional) The extracted relation objects from the text.</span>
+<span class="sd">    :attr list[RelationArgument] arguments: (optional) The extracted relation objects from</span>
+<span class="sd">    the text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sentence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a RelationsResult object.</span>
 
-<span class="sd">        :param float score: (optional) Confidence score for the relation. Higher values indicate greater confidence.</span>
+<span class="sd">        :param float score: (optional) Confidence score for the relation. Higher values</span>
+<span class="sd">        indicate greater confidence.</span>
 <span class="sd">        :param str sentence: (optional) The sentence that contains the relation.</span>
 <span class="sd">        :param str type: (optional) The type of the relation.</span>
-<span class="sd">        :param list[RelationArgument] arguments: (optional) The extracted relation objects from the text.</span>
+<span class="sd">        :param list[RelationArgument] arguments: (optional) The extracted relation objects</span>
+<span class="sd">        from the text.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sentence</span> <span class="o">=</span> <span class="n">sentence</span>
@@ -2325,8 +2487,10 @@
 <span class="sd">    the analyzed content.</span>
 
 <span class="sd">    :attr int limit: (optional) Maximum number of semantic_roles results to return.</span>
-<span class="sd">    :attr bool keywords: (optional) Set this to true to return keyword information for subjects and objects.</span>
-<span class="sd">    :attr bool entities: (optional) Set this to true to return entity information for subjects and objects.</span>
+<span class="sd">    :attr bool keywords: (optional) Set this to true to return keyword information for</span>
+<span class="sd">    subjects and objects.</span>
+<span class="sd">    :attr bool entities: (optional) Set this to true to return entity information for</span>
+<span class="sd">    subjects and objects.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keywords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">entities</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -2334,8 +2498,10 @@
 <span class="sd">        Initialize a SemanticRolesOptions object.</span>
 
 <span class="sd">        :param int limit: (optional) Maximum number of semantic_roles results to return.</span>
-<span class="sd">        :param bool keywords: (optional) Set this to true to return keyword information for subjects and objects.</span>
-<span class="sd">        :param bool entities: (optional) Set this to true to return entity information for subjects and objects.</span>
+<span class="sd">        :param bool keywords: (optional) Set this to true to return keyword information</span>
+<span class="sd">        for subjects and objects.</span>
+<span class="sd">        :param bool entities: (optional) Set this to true to return entity information for</span>
+<span class="sd">        subjects and objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="n">keywords</span>
@@ -2383,8 +2549,10 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The object containing the actions and the objects the actions act upon.</span>
 
-<span class="sd">    :attr str sentence: (optional) Sentence from the source that contains the subject, action, and object.</span>
-<span class="sd">    :attr SemanticRolesSubject subject: (optional) The extracted subject from the sentence.</span>
+<span class="sd">    :attr str sentence: (optional) Sentence from the source that contains the subject,</span>
+<span class="sd">    action, and object.</span>
+<span class="sd">    :attr SemanticRolesSubject subject: (optional) The extracted subject from the</span>
+<span class="sd">    sentence.</span>
 <span class="sd">    :attr SemanticRolesAction action: (optional) The extracted action from the sentence.</span>
 <span class="sd">    :attr SemanticRolesObject object: (optional) The extracted object from the sentence.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2393,10 +2561,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a SemanticRolesResult object.</span>
 
-<span class="sd">        :param str sentence: (optional) Sentence from the source that contains the subject, action, and object.</span>
-<span class="sd">        :param SemanticRolesSubject subject: (optional) The extracted subject from the sentence.</span>
-<span class="sd">        :param SemanticRolesAction action: (optional) The extracted action from the sentence.</span>
-<span class="sd">        :param SemanticRolesObject object: (optional) The extracted object from the sentence.</span>
+<span class="sd">        :param str sentence: (optional) Sentence from the source that contains the</span>
+<span class="sd">        subject, action, and object.</span>
+<span class="sd">        :param SemanticRolesSubject subject: (optional) The extracted subject from the</span>
+<span class="sd">        sentence.</span>
+<span class="sd">        :param SemanticRolesAction action: (optional) The extracted action from the</span>
+<span class="sd">        sentence.</span>
+<span class="sd">        :param SemanticRolesObject object: (optional) The extracted object from the</span>
+<span class="sd">        sentence.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sentence</span> <span class="o">=</span> <span class="n">sentence</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subject</span> <span class="o">=</span> <span class="n">subject</span>
@@ -2570,16 +2742,20 @@
 <span class="sd">    An option specifying if sentiment of detected entities, keywords, or phrases should be</span>
 <span class="sd">    returned.</span>
 
-<span class="sd">    :attr bool document: (optional) Set this to false to hide document-level sentiment results.</span>
-<span class="sd">    :attr list[str] targets: (optional) Sentiment results will be returned for each target string that is found in the document.</span>
+<span class="sd">    :attr bool document: (optional) Set this to false to hide document-level sentiment</span>
+<span class="sd">    results.</span>
+<span class="sd">    :attr list[str] targets: (optional) Sentiment results will be returned for each target</span>
+<span class="sd">    string that is found in the document.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize a SentimentOptions object.</span>
 
-<span class="sd">        :param bool document: (optional) Set this to false to hide document-level sentiment results.</span>
-<span class="sd">        :param list[str] targets: (optional) Sentiment results will be returned for each target string that is found in the document.</span>
+<span class="sd">        :param bool document: (optional) Set this to false to hide document-level</span>
+<span class="sd">        sentiment results.</span>
+<span class="sd">        :param list[str] targets: (optional) Sentiment results will be returned for each</span>
+<span class="sd">        target string that is found in the document.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">document</span> <span class="o">=</span> <span class="n">document</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span>
@@ -2623,7 +2799,8 @@
 <span class="sd">    The sentiment of the content.</span>
 
 <span class="sd">    :attr DocumentSentimentResults document: (optional) The document level sentiment.</span>
-<span class="sd">    :attr list[TargetedSentimentResults] targets: (optional) The targeted sentiment to analyze.</span>
+<span class="sd">    :attr list[TargetedSentimentResults] targets: (optional) The targeted sentiment to</span>
+<span class="sd">    analyze.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -2631,7 +2808,8 @@
 <span class="sd">        Initialize a SentimentResult object.</span>
 
 <span class="sd">        :param DocumentSentimentResults document: (optional) The document level sentiment.</span>
-<span class="sd">        :param list[TargetedSentimentResults] targets: (optional) The targeted sentiment to analyze.</span>
+<span class="sd">        :param list[TargetedSentimentResults] targets: (optional) The targeted sentiment</span>
+<span class="sd">        to analyze.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">document</span> <span class="o">=</span> <span class="n">document</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span>
@@ -2679,7 +2857,8 @@
 <span class="sd">    An object containing the emotion results for the target.</span>
 
 <span class="sd">    :attr str text: (optional) Targeted text.</span>
-<span class="sd">    :attr EmotionScores emotion: (optional) An object containing the emotion results for the target.</span>
+<span class="sd">    :attr EmotionScores emotion: (optional) An object containing the emotion results for</span>
+<span class="sd">    the target.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">emotion</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -2687,7 +2866,8 @@
 <span class="sd">        Initialize a TargetedEmotionResults object.</span>
 
 <span class="sd">        :param str text: (optional) Targeted text.</span>
-<span class="sd">        :param EmotionScores emotion: (optional) An object containing the emotion results for the target.</span>
+<span class="sd">        :param EmotionScores emotion: (optional) An object containing the emotion results</span>
+<span class="sd">        for the target.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>

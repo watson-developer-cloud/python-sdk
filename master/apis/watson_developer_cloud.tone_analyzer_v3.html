@@ -34,8 +34,8 @@
             
   <div class="section" id="module-watson_developer_cloud.tone_analyzer_v3">
 <span id="watson-developer-cloud-tone-analyzer-v3-module"></span><h1>watson_developer_cloud.tone_analyzer_v3 module<a class="headerlink" href="#module-watson_developer_cloud.tone_analyzer_v3" title="Permalink to this headline">¶</a></h1>
-<p>The IBM Watson Tone Analyzer service uses linguistic analysis to detect emotional and
-language tones in written text. The service can analyze tone at both the document and
+<p>The IBM Watson&amp;trade; Tone Analyzer service uses linguistic analysis to detect emotional
+and language tones in written text. The service can analyze tone at both the document and
 sentence levels. You can use the service to understand how your written communications are
 perceived and then to improve the tone of your communications. Businesses can use the
 service to learn the tone of their customers’ communications and to respond to each
@@ -60,40 +60,54 @@ logs nor retains data from requests and responses, regardless of whether the
 <p>Use the general purpose endpoint to analyze the tone of your input content. The
 service analyzes the content for emotional and language tones. The method always
 analyzes the tone of the full document; by default, it also analyzes the tone of
-each individual sentence of the content.   You can submit no more than 128 KB of
-total input content and no more than 1000 individual sentences in JSON, plain
-text, or HTML format. The service analyzes the first 1000 sentences for
-document-level analysis and only the first 100 sentences for sentence-level
-analysis.   Per the JSON specification, the default character encoding for JSON
-content is effectively always UTF-8; per the HTTP specification, the default
-encoding for plain text and HTML is ISO-8859-1 (effectively, the ASCII character
-set). When specifying a content type of plain text or HTML, include the <cite>charset</cite>
-parameter to indicate the character encoding of the input text; for example:
-<cite>Content-Type: text/plain;charset=utf-8</cite>. For <cite>text/html</cite>, the service removes
-HTML tags and analyzes only the textual content.</p>
+each individual sentence of the content.
+You can submit no more than 128 KB of total input content and no more than 1000
+individual sentences in JSON, plain text, or HTML format. The service analyzes the
+first 1000 sentences for document-level analysis and only the first 100 sentences
+for sentence-level analysis.
+Per the JSON specification, the default character encoding for JSON content is
+effectively always UTF-8; per the HTTP specification, the default encoding for
+plain text and HTML is ISO-8859-1 (effectively, the ASCII character set). When
+specifying a content type of plain text or HTML, include the <cite>charset</cite> parameter
+to indicate the character encoding of the input text; for example: <cite>Content-Type:
+text/plain;charset=utf-8</cite>. For <cite>text/html</cite>, the service removes HTML tags and
+analyzes only the textual content.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>tone_input</strong> (<a class="reference internal" href="#watson_developer_cloud.tone_analyzer_v3.ToneInput" title="watson_developer_cloud.tone_analyzer_v3.ToneInput"><em>ToneInput</em></a>) – JSON, plain text, or HTML input that contains the content to be analyzed. For JSON input, provide an object of type <cite>ToneInput</cite>.</li>
-<li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of the input: application/json, text/plain, or text/html. A character encoding can be specified by including a <cite>charset</cite> parameter. For example, ‘text/plain;charset=utf-8’.</li>
-<li><strong>sentences</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether the service is to return an analysis of each individual sentence in addition to its analysis of the full document. If <cite>true</cite> (the default), the service returns results for each sentence.</li>
-<li><strong>tones</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – <strong>`2017-09-21`:</strong> Deprecated. The service continues to accept the parameter for backward-compatibility, but the parameter no longer affects the response.   <strong>`2016-05-19`:</strong> A comma-separated list of tones for which the service is to return its analysis of the input; the indicated tones apply both to the full document and to individual sentences of the document. You can specify one or more of the valid values. Omit the parameter to request results for all three tones.</li>
-<li><strong>content_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input content must match the specified language. Do not submit content that contains both languages. You can use different languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>. * <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>. * <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</li>
-<li><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can use different languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>ToneAnalysis</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tone_input</strong> (<a class="reference internal" href="#watson_developer_cloud.tone_analyzer_v3.ToneInput" title="watson_developer_cloud.tone_analyzer_v3.ToneInput"><em>ToneInput</em></a>) – JSON, plain text, or HTML input that contains the</td>
 </tr>
 </tbody>
 </table>
+<p>content to be analyzed. For JSON input, provide an object of type <cite>ToneInput</cite>.
+:param str content_type: The type of the input: application/json, text/plain, or
+text/html. A character encoding can be specified by including a <cite>charset</cite>
+parameter. For example, ‘text/plain;charset=utf-8’.
+:param bool sentences: Indicates whether the service is to return an analysis of
+each individual sentence in addition to its analysis of the full document. If
+<cite>true</cite> (the default), the service returns results for each sentence.
+:param list[str] tones: <strong>`2017-09-21`:</strong> Deprecated. The service continues to
+accept the parameter for backward-compatibility, but the parameter no longer
+affects the response.
+<strong>`2016-05-19`:</strong> A comma-separated list of tones for which the service is to
+return its analysis of the input; the indicated tones apply both to the full
+document and to individual sentences of the document. You can specify one or more
+of the valid values. Omit the parameter to request results for all three tones.
+:param str content_language: The language of the input text for the request:
+English or French. Regional variants are treated as their parent language; for
+example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input content must match the
+specified language. Do not submit content that contains both languages. You can
+use different languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+* <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>.
+* <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.
+:param str accept_language: The desired language of the response. For
+two-character arguments, regional variants are treated as their parent language;
+for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can use different languages for
+<strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>ToneAnalysis</cite> response.
+:rtype: dict</p>
 </dd></dl>
 
 <dl class="method">
@@ -103,33 +117,37 @@ HTML tags and analyzes only the textual content.</p>
 <p>Use the customer engagement endpoint to analyze the tone of customer service and
 customer support conversations. For each utterance of a conversation, the method
 reports the most prevalent subset of the following seven tones: sad, frustrated,
-satisfied, excited, polite, impolite, and sympathetic.   If you submit more than
-50 utterances, the service returns a warning for the overall content and analyzes
-only the first 50 utterances. If you submit a single utterance that contains more
-than 500 characters, the service returns an error for that utterance and does not
-analyze the utterance. The request fails if all utterances have more than 500
-characters.   Per the JSON specification, the default character encoding for JSON
-content is effectively always UTF-8.</p>
+satisfied, excited, polite, impolite, and sympathetic.
+If you submit more than 50 utterances, the service returns a warning for the
+overall content and analyzes only the first 50 utterances. If you submit a single
+utterance that contains more than 500 characters, the service returns an error for
+that utterance and does not analyze the utterance. The request fails if all
+utterances have more than 500 characters.
+Per the JSON specification, the default character encoding for JSON content is
+effectively always UTF-8.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>utterances</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.tone_analyzer_v3.Utterance" title="watson_developer_cloud.tone_analyzer_v3.Utterance"><em>Utterance</em></a><em>]</em>) – An array of <cite>Utterance</cite> objects that provides the input content that the service is to analyze.</li>
-<li><strong>content_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language of the input text for the request: English or French. Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input content must match the specified language. Do not submit content that contains both languages. You can use different languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>. * <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>. * <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</li>
-<li><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can use different languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>UtteranceAnalyses</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>utterances</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.tone_analyzer_v3.Utterance" title="watson_developer_cloud.tone_analyzer_v3.Utterance"><em>Utterance</em></a><em>]</em>) – An array of <cite>Utterance</cite> objects that provides</td>
 </tr>
 </tbody>
 </table>
+<p>the input content that the service is to analyze.
+:param str content_language: The language of the input text for the request:
+English or French. Regional variants are treated as their parent language; for
+example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input content must match the
+specified language. Do not submit content that contains both languages. You can
+use different languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+* <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>.
+* <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.
+:param str accept_language: The desired language of the response. For
+two-character arguments, regional variants are treated as their parent language;
+for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can use different languages for
+<strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>UtteranceAnalyses</cite> response.
+:rtype: dict</p>
 </dd></dl>
 
 </dd></dl>
@@ -144,16 +162,22 @@ content is effectively always UTF-8.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ToneScore] tones:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> An array of <cite>ToneScore</cite> objects that provides the results of the analysis for each qualifying tone of the document. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. <strong>`2016-05-19`:</strong> Not returned.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[ToneCategory] tone_categories:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> Not returned. <strong>`2016-05-19`:</strong> An array of <cite>ToneCategory</cite> objects that provides the results of the tone analysis for the full document of the input content. The service returns results only for the tones specified with the <cite>tones</cite> parameter of the request.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str warning:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> A warning message if the overall content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only the first 1000 sentences for document-level analysis and the first 100 sentences for sentence-level analysis. <strong>`2016-05-19`:</strong> Not returned.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> An array of <cite>ToneScore</cite></td>
 </tr>
 </tbody>
 </table>
+<p>objects that provides the results of the analysis for each qualifying tone of the
+document. The array includes results for any tone whose score is at least 0.5. The
+array is empty if no tone has a score that meets this threshold. <strong>`2016-05-19`:</strong> Not
+returned.
+:attr list[ToneCategory] tone_categories: (optional) <strong>`2017-09-21`:</strong> Not returned.
+<strong>`2016-05-19`:</strong> An array of <cite>ToneCategory</cite> objects that provides the results of the
+tone analysis for the full document of the input content. The service returns results
+only for the tones specified with the <cite>tones</cite> parameter of the request.
+:attr str warning: (optional) <strong>`2017-09-21`:</strong> A warning message if the overall
+content exceeds 128 KB or contains more than 1000 sentences. The service analyzes only
+the first 1000 sentences for document-level analysis and the first 100 sentences for
+sentence-level analysis. <strong>`2016-05-19`:</strong> Not returned.</p>
 </dd></dl>
 
 <dl class="class">
@@ -166,24 +190,25 @@ content is effectively always UTF-8.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int sentence_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique identifier of a sentence of the input content. The first sentence has ID 0, and the ID of each subsequent sentence is incremented by one.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str text:</th><td class="field-body">The text of the input sentence.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ToneScore] tones:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> An array of <cite>ToneScore</cite> objects that provides the results of the analysis for each qualifying tone of the sentence. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold. <strong>`2016-05-19`:</strong> Not returned.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[ToneCategory] tone_categories:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> Not returned. <strong>`2016-05-19`:</strong> An array of <cite>ToneCategory</cite> objects that provides the results of the tone analysis for the sentence. The service returns results only for the tones specified with the <cite>tones</cite> parameter of the request.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr int input_from:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> Not returned. <strong>`2016-05-19`:</strong> The offset of the first character of the sentence in the overall input content.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr int input_to:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> Not returned. <strong>`2016-05-19`:</strong> The offset of the last character of the sentence in the overall input content.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique identifier of a sentence of the input content. The</td>
 </tr>
 </tbody>
 </table>
+<p>first sentence has ID 0, and the ID of each subsequent sentence is incremented by one.
+:attr str text: The text of the input sentence.
+:attr list[ToneScore] tones: (optional) <strong>`2017-09-21`:</strong> An array of <cite>ToneScore</cite>
+objects that provides the results of the analysis for each qualifying tone of the
+sentence. The array includes results for any tone whose score is at least 0.5. The
+array is empty if no tone has a score that meets this threshold. <strong>`2016-05-19`:</strong> Not
+returned.
+:attr list[ToneCategory] tone_categories: (optional) <strong>`2017-09-21`:</strong> Not returned.
+<strong>`2016-05-19`:</strong> An array of <cite>ToneCategory</cite> objects that provides the results of the
+tone analysis for the sentence. The service returns results only for the tones
+specified with the <cite>tones</cite> parameter of the request.
+:attr int input_from: (optional) <strong>`2017-09-21`:</strong> Not returned. <strong>`2016-05-19`:</strong> The
+offset of the first character of the sentence in the overall input content.
+:attr int input_to: (optional) <strong>`2017-09-21`:</strong> Not returned. <strong>`2016-05-19`:</strong> The
+offset of the last character of the sentence in the overall input content.</p>
 </dd></dl>
 
 <dl class="class">
@@ -196,13 +221,16 @@ content is effectively always UTF-8.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr DocumentAnalysis document_tone:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An object of type <cite>DocumentAnalysis</cite> that provides the results of the analysis for the full input document.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[SentenceAnalysis] sentences_tone:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of <cite>SentenceAnalysis</cite> objects that provides the results of the analysis for the individual sentences of the input content. The service returns results only for the first 100 sentences of the input. The field is omitted if the <cite>sentences</cite> parameter of the request is set to <cite>false</cite>.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An object of type <cite>DocumentAnalysis</cite> that</td>
 </tr>
 </tbody>
 </table>
+<p>provides the results of the analysis for the full input document.
+:attr list[SentenceAnalysis] sentences_tone: (optional) An array of <cite>SentenceAnalysis</cite>
+objects that provides the results of the analysis for the individual sentences of the
+input content. The service returns results only for the first 100 sentences of the
+input. The field is omitted if the <cite>sentences</cite> parameter of the request is set to
+<cite>false</cite>.</p>
 </dd></dl>
 
 <dl class="class">
@@ -215,16 +243,15 @@ content is effectively always UTF-8.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ToneScore] tones:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <cite>ToneScore</cite> objects that provides the results for the tones of the category.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str category_id:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the category for the results. The service can return results for the following category IDs: <cite>emotion_tone</cite>, <cite>language_tone</cite>, and <cite>social_tone</cite>.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str category_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The user-visible, localized name of the category.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <cite>ToneScore</cite> objects that provides the results</td>
 </tr>
 </tbody>
 </table>
+<p>for the tones of the category.
+:attr str category_id: The unique, non-localized identifier of the category for the
+results. The service can return results for the following category IDs:
+<cite>emotion_tone</cite>, <cite>language_tone</cite>, and <cite>social_tone</cite>.
+:attr str category_name: The user-visible, localized name of the category.</p>
 </dd></dl>
 
 <dl class="class">
@@ -237,16 +264,16 @@ content is effectively always UTF-8.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The score for the tone in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the utterance.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str tone_id:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the tone for the results. The service can return results for the following tone IDs: <cite>sad</cite>, <cite>frustrated</cite>, <cite>satisfied</cite>, <cite>excited</cite>, <cite>polite</cite>, <cite>impolite</cite>, and <cite>sympathetic</cite>. The service returns results only for tones whose scores meet a minimum threshold of 0.5.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str tone_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The user-visible, localized name of the tone.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The score for the tone in the range of 0.5 to 1. A score greater</td>
 </tr>
 </tbody>
 </table>
+<p>than 0.75 indicates a high likelihood that the tone is perceived in the utterance.
+:attr str tone_id: The unique, non-localized identifier of the tone for the results.
+The service can return results for the following tone IDs: <cite>sad</cite>, <cite>frustrated</cite>,
+<cite>satisfied</cite>, <cite>excited</cite>, <cite>polite</cite>, <cite>impolite</cite>, and <cite>sympathetic</cite>. The service returns
+results only for tones whose scores meet a minimum threshold of 0.5.
+:attr str tone_name: The user-visible, localized name of the tone.</p>
 </dd></dl>
 
 <dl class="class">
@@ -274,16 +301,30 @@ content is effectively always UTF-8.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The score for the tone. * <strong>`2017-09-21`:</strong> The score that is returned lies in the range of 0.5 to 1. A score greater than 0.75 indicates a high likelihood that the tone is perceived in the content. * <strong>`2016-05-19`:</strong> The score that is returned lies in the range of 0 to 1. A score less than 0.5 indicates that the tone is unlikely to be perceived in the content; a score greater than 0.75 indicates a high likelihood that the tone is perceived.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str tone_id:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the tone. * <strong>`2017-09-21`:</strong> The service can return results for the following tone IDs: <cite>anger</cite>, <cite>fear</cite>, <cite>joy</cite>, and <cite>sadness</cite> (emotional tones); <cite>analytical</cite>, <cite>confident</cite>, and <cite>tentative</cite> (language tones). The service returns results only for tones whose scores meet a minimum threshold of 0.5. * <strong>`2016-05-19`:</strong> The service can return results for the following tone IDs of the different categories: for the <cite>emotion</cite> category: <cite>anger</cite>, <cite>disgust</cite>, <cite>fear</cite>, <cite>joy</cite>, and <cite>sadness</cite>; for the <cite>language</cite> category: <cite>analytical</cite>, <cite>confident</cite>, and <cite>tentative</cite>; for the <cite>social</cite> category: <cite>openness_big5</cite>, <cite>conscientiousness_big5</cite>, <cite>extraversion_big5</cite>, <cite>agreeableness_big5</cite>, and <cite>emotional_range_big5</cite>. The service returns scores for all tones of a category, regardless of their values.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str tone_name:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The user-visible, localized name of the tone.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The score for the tone.</td>
 </tr>
 </tbody>
 </table>
+<ul class="simple">
+<li><strong>`2017-09-21`:</strong> The score that is returned lies in the range of 0.5 to 1. A score</li>
+</ul>
+<p>greater than 0.75 indicates a high likelihood that the tone is perceived in the
+content.
+* <strong>`2016-05-19`:</strong> The score that is returned lies in the range of 0 to 1. A score
+less than 0.5 indicates that the tone is unlikely to be perceived in the content; a
+score greater than 0.75 indicates a high likelihood that the tone is perceived.
+:attr str tone_id: The unique, non-localized identifier of the tone.
+* <strong>`2017-09-21`:</strong> The service can return results for the following tone IDs:
+<cite>anger</cite>, <cite>fear</cite>, <cite>joy</cite>, and <cite>sadness</cite> (emotional tones); <cite>analytical</cite>, <cite>confident</cite>,
+and <cite>tentative</cite> (language tones). The service returns results only for tones whose
+scores meet a minimum threshold of 0.5.
+* <strong>`2016-05-19`:</strong> The service can return results for the following tone IDs of the
+different categories: for the <cite>emotion</cite> category: <cite>anger</cite>, <cite>disgust</cite>, <cite>fear</cite>, <cite>joy</cite>,
+and <cite>sadness</cite>; for the <cite>language</cite> category: <cite>analytical</cite>, <cite>confident</cite>, and
+<cite>tentative</cite>; for the <cite>social</cite> category: <cite>openness_big5</cite>, <cite>conscientiousness_big5</cite>,
+<cite>extraversion_big5</cite>, <cite>agreeableness_big5</cite>, and <cite>emotional_range_big5</cite>. The service
+returns scores for all tones of a category, regardless of their values.
+:attr str tone_name: The user-visible, localized name of the tone.</p>
 </dd></dl>
 
 <dl class="class">
@@ -295,12 +336,13 @@ content is effectively always UTF-8.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">An utterance contributed by a user in the conversation that is to be analyzed. The utterance can contain multiple sentences.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str user:</th><td class="field-body">(optional) A string that identifies the user who contributed the utterance specified by the <cite>text</cite> parameter.</td>
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">An utterance contributed by a user in the conversation that is to be</td>
 </tr>
 </tbody>
 </table>
+<p>analyzed. The utterance can contain multiple sentences.
+:attr str user: (optional) A string that identifies the user who contributed the
+utterance specified by the <cite>text</cite> parameter.</p>
 </dd></dl>
 
 <dl class="class">
@@ -313,13 +355,14 @@ content is effectively always UTF-8.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[UtteranceAnalysis] utterances_tone:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <cite>UtteranceAnalysis</cite> objects that provides the results for each utterance of the input.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str warning:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-09-21`:</strong> A warning message if the content contains more than 50 utterances. The service analyzes only the first 50 utterances. <strong>`2016-05-19`:</strong> Not returned.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <cite>UtteranceAnalysis</cite> objects</td>
 </tr>
 </tbody>
 </table>
+<p>that provides the results for each utterance of the input.
+:attr str warning: (optional) <strong>`2017-09-21`:</strong> A warning message if the content
+contains more than 50 utterances. The service analyzes only the first 50 utterances.
+<strong>`2016-05-19`:</strong> Not returned.</p>
 </dd></dl>
 
 <dl class="class">
@@ -332,18 +375,19 @@ content is effectively always UTF-8.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int utterance_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique identifier of the utterance. The first utterance has ID 0, and the ID of each subsequent utterance is incremented by one.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str utterance_text:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The text of the utterance.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ToneChatScore] tones:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <cite>ToneChatScore</cite> objects that provides results for the most prevalent tones of the utterance. The array includes results for any tone whose score is at least 0.5. The array is empty if no tone has a score that meets this threshold.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str error:</th><td class="field-body">(optional) <strong>`2017-09-21`:</strong> An error message if the utterance contains more than 500 characters. The service does not analyze the utterance. <strong>`2016-05-19`:</strong> Not returned.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique identifier of the utterance. The first utterance</td>
 </tr>
 </tbody>
 </table>
+<p>has ID 0, and the ID of each subsequent utterance is incremented by one.
+:attr str utterance_text: The text of the utterance.
+:attr list[ToneChatScore] tones: An array of <cite>ToneChatScore</cite> objects that provides
+results for the most prevalent tones of the utterance. The array includes results for
+any tone whose score is at least 0.5. The array is empty if no tone has a score that
+meets this threshold.
+:attr str error: (optional) <strong>`2017-09-21`:</strong> An error message if the utterance
+contains more than 500 characters. The service does not analyze the utterance.
+<strong>`2016-05-19`:</strong> Not returned.</p>
 </dd></dl>
 
 </div>

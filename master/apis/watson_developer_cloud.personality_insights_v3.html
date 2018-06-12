@@ -34,8 +34,8 @@
             
   <div class="section" id="module-watson_developer_cloud.personality_insights_v3">
 <span id="watson-developer-cloud-personality-insights-v3-module"></span><h1>watson_developer_cloud.personality_insights_v3 module<a class="headerlink" href="#module-watson_developer_cloud.personality_insights_v3" title="Permalink to this headline">¶</a></h1>
-<p>The IBM Watson Personality Insights service enables applications to derive insights from
-social media, enterprise data, or other digital communications. The service uses
+<p>The IBM Watson&amp;trade; Personality Insights service enables applications to derive insights
+from social media, enterprise data, or other digital communications. The service uses
 linguistic analytics to infer individuals’ intrinsic personality characteristics,
 including Big Five, Needs, and Values, from digital communications such as email, text
 messages, tweets, and forum posts.
@@ -64,39 +64,73 @@ neither logs nor retains data from requests and responses, regardless of whether
 <dl class="method">
 <dt id="watson_developer_cloud.personality_insights_v3.PersonalityInsightsV3.profile">
 <code class="descname">profile</code><span class="sig-paren">(</span><em>content</em>, <em>content_type='application/json'</em>, <em>content_language=None</em>, <em>accept='application/json'</em>, <em>accept_language=None</em>, <em>raw_scores=None</em>, <em>csv_headers=None</em>, <em>consumption_preferences=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/personality_insights_v3.html#PersonalityInsightsV3.profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.personality_insights_v3.PersonalityInsightsV3.profile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a personality profile based on input text.</p>
-<p>Derives personality insights for up to 20 MB of input content written by an
-author, though the service requires much less text to produce an accurate profile;
-for more information, see [Providing sufficient
+<dd><p>Get profile.</p>
+<p>Generates a personality profile for the author of the input text. The service
+accepts a maximum of 20 MB of input content, but it requires much less text to
+produce an accurate profile; for more information, see [Providing sufficient
 input](<a class="reference external" href="https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient">https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient</a>).
-Accepts input in Arabic, English, Japanese, Korean, or Spanish and produces output
-in one of eleven languages. Provide plain text, HTML, or JSON content, and receive
-results in JSON or CSV format.</p>
+The service analyzes text in Arabic, English, Japanese, Korean, or Spanish and
+returns its results in a variety of languages. You can provide plain text, HTML,
+or JSON input by specifying the <strong>Content-Type</strong> parameter; the default is
+<cite>text/plain</cite>. Request a JSON or comma-separated values (CSV) response by
+specifying the <strong>Accept</strong> parameter; CSV output includes a fixed number of columns
+and optional headers.
+Per the JSON specification, the default character encoding for JSON content is
+effectively always UTF-8; per the HTTP specification, the default encoding for
+plain text and HTML is ISO-8859-1 (effectively, the ASCII character set). When
+specifying a content type of plain text or HTML, include the <cite>charset</cite> parameter
+to indicate the character encoding of the input text; for example: <cite>Content-Type:
+text/plain;charset=utf-8</cite>.
+For detailed information about calling the service and the responses it can
+generate, see [Requesting a
+profile](<a class="reference external" href="https://console.bluemix.net/docs/services/personality-insights/input.html">https://console.bluemix.net/docs/services/personality-insights/input.html</a>),
+[Understanding a JSON
+profile](<a class="reference external" href="https://console.bluemix.net/docs/services/personality-insights/output.html">https://console.bluemix.net/docs/services/personality-insights/output.html</a>),
+and [Understanding a CSV
+profile](<a class="reference external" href="https://console.bluemix.net/docs/services/personality-insights/output-csv.html">https://console.bluemix.net/docs/services/personality-insights/output-csv.html</a>).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>content</strong> (<a class="reference internal" href="#watson_developer_cloud.personality_insights_v3.Content" title="watson_developer_cloud.personality_insights_v3.Content"><em>Content</em></a>) – A maximum of 20 MB of content to analyze, though the service requires much less text; for more information, see [Providing sufficient input](<a class="reference external" href="https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient">https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient</a>). For JSON input, provide an object of type <cite>Content</cite></li>
-<li><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The type of the input: application/json, text/html, or text/plain. A character encoding can be specified by including a <cite>charset</cite> parameter. For example, ‘text/html;charset=utf-8’.</li>
-<li><strong>content_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The language of the input text for the request: Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The effect of the <cite>content_language</cite> header depends on the <cite>Content-Type</cite> header. When <cite>Content-Type</cite> is <cite>text/plain</cite> or <cite>text/html</cite>, <cite>content_language</cite> is the only way to specify the language. When <cite>Content-Type</cite> is <cite>application/json</cite>, <cite>content_language</cite> overrides a language specified with the <cite>language</cite> parameter of a <cite>ContentItem</cite> object, and content items that specify a different language are ignored; omit this header to base the language on the specification of the content items. You can specify any combination of languages for <cite>content_language</cite> and <cite>Accept-Language</cite>.</li>
-<li><strong>accept</strong> – Type of the response: ‘application/json’ (default) or ‘text/csv’</li>
-<li><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The desired language of the response. For two-character arguments, regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can specify any combination of languages for the input and response content.</li>
-<li><strong>raw_scores</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether a raw score in addition to a normalized percentile is returned for each characteristic; raw scores are not compared with a sample population. By default, only normalized percentiles are returned.</li>
-<li><strong>csv_headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether column labels are returned with a CSV response. By default, no column labels are returned. Applies only when the <strong>Accept</strong> parameter is set to <cite>text/csv</cite>.</li>
-<li><strong>consumption_preferences</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Indicates whether consumption preferences are returned with the results. By default, no consumption preferences are returned.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Profile</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>content</strong> (<a class="reference internal" href="#watson_developer_cloud.personality_insights_v3.Content" title="watson_developer_cloud.personality_insights_v3.Content"><em>Content</em></a>) – A maximum of 20 MB of content to analyze, though the</td>
 </tr>
 </tbody>
 </table>
+<p>service requires much less text; for more information, see [Providing sufficient
+input](<a class="reference external" href="https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient">https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient</a>).
+For JSON input, provide an object of type <cite>Content</cite>.
+:param str content_type: The type of the input: application/json, text/html, or
+text/plain. A character encoding can be specified by including a <cite>charset</cite>
+parameter. For example, ‘text/html;charset=utf-8’.
+:param str content_language: The language of the input text for the request:
+Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as
+their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>.
+The effect of the <strong>Content-Language</strong> parameter depends on the <strong>Content-Type</strong>
+parameter. When <strong>Content-Type</strong> is <cite>text/plain</cite> or <cite>text/html</cite>,
+<strong>Content-Language</strong> is the only way to specify the language. When
+<strong>Content-Type</strong> is <cite>application/json</cite>, <strong>Content-Language</strong> overrides a language
+specified with the <cite>language</cite> parameter of a <cite>ContentItem</cite> object, and content
+items that specify a different language are ignored; omit this parameter to base
+the language on the specification of the content items. You can specify any
+combination of languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+:param str accept: The type of the response: application/json or text/csv. A
+character encoding can be specified by including a <cite>charset</cite> parameter. For
+example, ‘text/csv;charset=utf-8’.
+:param str accept_language: The desired language of the response. For
+two-character arguments, regional variants are treated as their parent language;
+for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can specify any combination of
+languages for the input and response content.
+:param bool raw_scores: Indicates whether a raw score in addition to a normalized
+percentile is returned for each characteristic; raw scores are not compared with a
+sample population. By default, only normalized percentiles are returned.
+:param bool csv_headers: Indicates whether column labels are returned with a CSV
+response. By default, no column labels are returned. Applies only when the
+<strong>Accept</strong> parameter is set to <cite>text/csv</cite>.
+:param bool consumption_preferences: Indicates whether consumption preferences are
+returned with the results. By default, no consumption preferences are returned.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>Profile</cite> response.
+:rtype: dict</p>
 </dd></dl>
 
 </dd></dl>
@@ -111,18 +145,16 @@ results in JSON or CSV format.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str trait_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the characteristic to which the results pertain. IDs have the form <cite>behavior_{value}</cite>.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str name:</th><td class="field-body">The user-visible, localized name of the characteristic.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str category:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The category of the characteristic: <cite>behavior</cite> for temporal data.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr float percentage:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">For JSON content that is timestamped, the percentage of timestamped input data that occurred during that day of the week or hour of the day. The range is 0 to 1.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the characteristic to</td>
 </tr>
 </tbody>
 </table>
+<p>which the results pertain. IDs have the form <cite>behavior_{value}</cite>.
+:attr str name: The user-visible, localized name of the characteristic.
+:attr str category: The category of the characteristic: <cite>behavior</cite> for temporal data.
+:attr float percentage: For JSON content that is timestamped, the percentage of
+timestamped input data that occurred during that day of the week or hour of the day.
+The range is 0 to 1.</p>
 </dd></dl>
 
 <dl class="class">
@@ -135,15 +167,20 @@ results in JSON or CSV format.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str consumption_preference_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the consumption preference to which the results pertain. IDs have the form <cite>consumption_preferences_{preference}</cite>.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str name:</th><td class="field-body">The user-visible, localized name of the consumption preference.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The score for the consumption preference: * <cite>0.0</cite>: Unlikely * <cite>0.5</cite>: Neutral * <cite>1.0</cite>: Likely   The scores for some preferences are binary and do not allow a neutral value. The score is an indication of preference based on the results inferred from the input text, not a normalized percentile.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the</td>
 </tr>
 </tbody>
 </table>
+<p>consumption preference to which the results pertain. IDs have the form
+<cite>consumption_preferences_{preference}</cite>.
+:attr str name: The user-visible, localized name of the consumption preference.
+:attr float score: The score for the consumption preference:
+* <cite>0.0</cite>: Unlikely
+* <cite>0.5</cite>: Neutral
+* <cite>1.0</cite>: Likely
+The scores for some preferences are binary and do not allow a neutral value. The score
+is an indication of preference based on the results inferred from the input text, not
+a normalized percentile.</p>
 </dd></dl>
 
 <dl class="class">
@@ -156,15 +193,15 @@ results in JSON or CSV format.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str consumption_preference_category_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the consumption preferences category to which the results pertain. IDs have the form <cite>consumption_preferences_{category}</cite>.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str name:</th><td class="field-body">The user-visible name of the consumption preferences category.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ConsumptionPreferences] consumption_preferences:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">Detailed results inferred from the input text for the individual preferences of the category.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of</td>
 </tr>
 </tbody>
 </table>
+<p>the consumption preferences category to which the results pertain. IDs have the form
+<cite>consumption_preferences_{category}</cite>.
+:attr str name: The user-visible name of the consumption preferences category.
+:attr list[ConsumptionPreferences] consumption_preferences: Detailed results inferred
+from the input text for the individual preferences of the category.</p>
 </dd></dl>
 
 <dl class="class">
@@ -177,10 +214,11 @@ results in JSON or CSV format.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ContentItem] content_items:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <cite>ContentItem</cite> objects that provides the text that is to be analyzed.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of <cite>ContentItem</cite> objects that provides</td>
 </tr>
 </tbody>
 </table>
+<p>the text that is to be analyzed.</p>
 </dd></dl>
 
 <dl class="class">
@@ -193,33 +231,37 @@ results in JSON or CSV format.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str content:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The content that is to be analyzed. The service supports up to 20 MB of content for all <cite>ContentItem</cite> objects combined.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str id:</th><td class="field-body">(optional) A unique identifier for this content item.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr int created:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A timestamp that identifies when this content was created. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at 0:00 UTC). Required only for results that include temporal behavior data.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr int updated:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A timestamp that identifies when this content was last updated. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at 0:00 UTC). Required only for results that include temporal behavior data.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str contenttype:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The MIME type of the content. The default is plain text. The tags are stripped from HTML content before it is analyzed; plain text is processed as submitted.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str language:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The language identifier (two-letter ISO 639-1 identifier) for the language of the content item. The default is <cite>en</cite> (English). Regional variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. A language specified with the <strong>Content-Type</strong> parameter overrides the value of this parameter; any content items that specify a different language are ignored. Omit the <strong>Content-Type</strong> parameter to base the language on the most prevalent specification among the content items; again, content items that specify a different language are ignored. You can specify any combination of languages for the input and response content.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str parentid:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The unique ID of the parent content item for this item. Used to identify hierarchical relationships between posts/replies, messages/replies, and so on.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr bool reply:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Indicates whether this content item is a reply to another content item.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool forward:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Indicates whether this content item is a forwarded/copied version of another content item.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The content that is to be analyzed. The service supports up to 20</td>
 </tr>
 </tbody>
 </table>
+<p>MB of content for all <cite>ContentItem</cite> objects combined.
+:attr str id: (optional) A unique identifier for this content item.
+:attr int created: (optional) A timestamp that identifies when this content was
+created. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at
+0:00 UTC). Required only for results that include temporal behavior data.
+:attr int updated: (optional) A timestamp that identifies when this content was last
+updated. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at
+0:00 UTC). Required only for results that include temporal behavior data.
+:attr str contenttype: (optional) The MIME type of the content. The default is plain
+text. The tags are stripped from HTML content before it is analyzed; plain text is
+processed as submitted.
+:attr str language: (optional) The language identifier (two-letter ISO 639-1
+identifier) for the language of the content item. The default is <cite>en</cite> (English).
+Regional variants are treated as their parent language; for example, <cite>en-US</cite> is
+interpreted as <cite>en</cite>. A language specified with the <strong>Content-Type</strong> parameter
+overrides the value of this parameter; any content items that specify a different
+language are ignored. Omit the <strong>Content-Type</strong> parameter to base the language on the
+most prevalent specification among the content items; again, content items that
+specify a different language are ignored. You can specify any combination of languages
+for the input and response content.
+:attr str parentid: (optional) The unique ID of the parent content item for this item.
+Used to identify hierarchical relationships between posts/replies, messages/replies,
+and so on.
+:attr bool reply: (optional) Indicates whether this content item is a reply to another
+content item.
+:attr bool forward: (optional) Indicates whether this content item is a
+forwarded/copied version of another content item.</p>
 </dd></dl>
 
 <dl class="class">
@@ -235,31 +277,31 @@ results in JSON or CSV format.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The language model that was used to process the input.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr int word_count:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The number of words from the input that were used to produce the profile.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str word_count_message:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When guidance is appropriate, a string that provides a message that indicates the number of words found and where that value falls in the range of required or suggested number of words.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[Trait] personality:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">A recursive array of <cite>Trait</cite> objects that provides detailed results for the Big Five personality characteristics (dimensions and facets) inferred from the input text.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Trait] needs:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">Detailed results for the Needs characteristics inferred from the input text.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[Trait] values:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">Detailed results for the Values characteristics inferred from the input text.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Behavior] behavior:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) For JSON content that is timestamped, detailed results about the social behavior disclosed by the input in terms of temporal characteristics. The results include information about the distribution of the content over the days of the week and the hours of the day.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[ConsumptionPreferencesCategory] consumption_preferences:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) If the <strong>consumption_preferences</strong> parameter is <cite>true</cite>, detailed results for each category of consumption preferences. Each element of the array provides information inferred from the input text for the individual preferences of that category.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Warning] warnings:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">Warning messages associated with the input text submitted with the request. The array is empty if the input generated no warnings.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The number of words from the input that were used to produce the</td>
 </tr>
 </tbody>
 </table>
+<p>profile.
+:attr str word_count_message: (optional) When guidance is appropriate, a string that
+provides a message that indicates the number of words found and where that value falls
+in the range of required or suggested number of words.
+:attr list[Trait] personality: A recursive array of <cite>Trait</cite> objects that provides
+detailed results for the Big Five personality characteristics (dimensions and facets)
+inferred from the input text.
+:attr list[Trait] needs: Detailed results for the Needs characteristics inferred from
+the input text.
+:attr list[Trait] values: Detailed results for the Values characteristics inferred
+from the input text.
+:attr list[Behavior] behavior: (optional) For JSON content that is timestamped,
+detailed results about the social behavior disclosed by the input in terms of temporal
+characteristics. The results include information about the distribution of the content
+over the days of the week and the hours of the day.
+:attr list[ConsumptionPreferencesCategory] consumption_preferences: (optional) If the
+<strong>consumption_preferences</strong> parameter is <cite>true</cite>, detailed results for each category of
+consumption preferences. Each element of the array provides information inferred from
+the input text for the individual preferences of that category.
+:attr list[Warning] warnings: Warning messages associated with the input text
+submitted with the request. The array is empty if the input generated no warnings.</p>
 </dd></dl>
 
 <dl class="class">
@@ -272,27 +314,48 @@ results in JSON or CSV format.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str trait_id:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the characteristic to which the results pertain. IDs have the form * <cite>big5_{characteristic}</cite> for Big Five personality dimensions * <cite>facet_{characteristic}</cite> for Big Five personality facets * <cite>need_{characteristic}</cite> for Needs  <a href="#id1"><span class="problematic" id="id2">*</span></a><cite>value_{characteristic}</cite> for Values.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str name:</th><td class="field-body">The user-visible, localized name of the characteristic.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str category:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">The category of the characteristic: <cite>personality</cite> for Big Five personality characteristics, <cite>needs</cite> for Needs, and <cite>values</cite> for Values.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr float percentile:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The normalized percentile score for the characteristic. The range is 0 to 1. For example, if the percentage for Openness is 0.60, the author scored in the 60th percentile; the author is more open than 59 percent of the population and less open than 39 percent of the population.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr float raw_score:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The raw score for the characteristic. The range is 0 to 1. A higher score generally indicates a greater likelihood that the author has that characteristic, but raw scores must be considered in aggregate: The range of values in practice might be much smaller than 0 to 1, so an individual score must be considered in the context of the overall scores and their range.   The raw score is computed based on the input and the service model; it is not normalized or compared with a sample population. The raw score enables comparison of the results against a different sampling population and with a custom normalization approach.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr bool significant:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) <strong>`2017-10-13`</strong>: Indicates whether the characteristic is meaningful for the input language. The field is always <cite>true</cite> for all characteristics of English, Spanish, and Japanese input. The field is <cite>false</cite> for the subset of characteristics of Arabic and Korean input for which the service’s models are unable to generate meaningful results. <strong>`2016-10-19`</strong>: Not returned.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Trait] children:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) For <cite>personality</cite> (Big Five) dimensions, more detailed results for the facets of each dimension as inferred from the input text.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The unique, non-localized identifier of the characteristic to</td>
 </tr>
 </tbody>
 </table>
+<p>which the results pertain. IDs have the form
+* <cite>big5_{characteristic}</cite> for Big Five personality dimensions
+* <cite>facet_{characteristic}</cite> for Big Five personality facets
+* <cite>need_{characteristic}</cite> for Needs</p>
+<blockquote>
+<div><a href="#id1"><span class="problematic" id="id2">*</span></a><cite>value_{characteristic}</cite> for Values.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">The user-visible, localized name of the characteristic.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str category:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The category of the characteristic: <cite>personality</cite> for Big Five</td>
+</tr>
+</tbody>
+</table>
+<p>personality characteristics, <cite>needs</cite> for Needs, and <cite>values</cite> for Values.
+:attr float percentile: The normalized percentile score for the characteristic. The
+range is 0 to 1. For example, if the percentage for Openness is 0.60, the author
+scored in the 60th percentile; the author is more open than 59 percent of the
+population and less open than 39 percent of the population.
+:attr float raw_score: (optional) The raw score for the characteristic. The range is 0
+to 1. A higher score generally indicates a greater likelihood that the author has that
+characteristic, but raw scores must be considered in aggregate: The range of values in
+practice might be much smaller than 0 to 1, so an individual score must be considered
+in the context of the overall scores and their range.
+The raw score is computed based on the input and the service model; it is not
+normalized or compared with a sample population. The raw score enables comparison of
+the results against a different sampling population and with a custom normalization
+approach.
+:attr bool significant: (optional) <strong>`2017-10-13`</strong>: Indicates whether the
+characteristic is meaningful for the input language. The field is always <cite>true</cite> for
+all characteristics of English, Spanish, and Japanese input. The field is <cite>false</cite> for
+the subset of characteristics of Arabic and Korean input for which the service’s
+models are unable to generate meaningful results. <strong>`2016-10-19`</strong>: Not returned.
+:attr list[Trait] children: (optional) For <cite>personality</cite> (Big Five) dimensions, more
+detailed results for the facets of each dimension as inferred from the input text.</p>
 </dd></dl>
 
 <dl class="class">
@@ -308,10 +371,23 @@ results in JSON or CSV format.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">The identifier of the warning message.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr str message:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">The message associated with the <cite>warning_id</cite>: * <cite>WORD_COUNT_MESSAGE</cite>: “There were {number} words in the input. We need a minimum of 600, preferably 1,200 or more, to compute statistically significant estimates.” * <cite>JSON_AS_TEXT</cite>: “Request input was processed as text/plain as indicated, however detected a JSON input. Did you mean application/json?” * <cite>CONTENT_TRUNCATED</cite>: “For maximum accuracy while also optimizing processing time, only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels off at approximately 3,000 words so this did not affect the accuracy of the profile.” * <cite>PARTIAL_TEXT_USED</cite>, “The text provided to compute the profile was trimmed for performance reasons. This action does not affect the accuracy of the output, as not all of the input text was required.” Applies only when Arabic input text exceeds a threshold at which additional words do not contribute to the accuracy of the profile.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The message associated with the <cite>warning_id</cite>:</td>
 </tr>
 </tbody>
 </table>
+<ul class="simple">
+<li><cite>WORD_COUNT_MESSAGE</cite>: “There were {number} words in the input. We need a minimum of</li>
+</ul>
+<p>600, preferably 1,200 or more, to compute statistically significant estimates.”
+* <cite>JSON_AS_TEXT</cite>: “Request input was processed as text/plain as indicated, however
+detected a JSON input. Did you mean application/json?”
+* <cite>CONTENT_TRUNCATED</cite>: “For maximum accuracy while also optimizing processing time,
+only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels
+off at approximately 3,000 words so this did not affect the accuracy of the profile.”
+* <cite>PARTIAL_TEXT_USED</cite>, “The text provided to compute the profile was trimmed for
+performance reasons. This action does not affect the accuracy of the output, as not
+all of the input text was required.” Applies only when Arabic input text exceeds a
+threshold at which additional words do not contribute to the accuracy of the profile.</p>
 </dd></dl>
 
 </div>

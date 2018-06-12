@@ -57,56 +57,67 @@ relations in Natural Language Understanding.</p>
 <code class="descname">analyze</code><span class="sig-paren">(</span><em>features</em>, <em>text=None</em>, <em>html=None</em>, <em>url=None</em>, <em>clean=None</em>, <em>xpath=None</em>, <em>fallback_to_raw=None</em>, <em>return_analyzed_text=None</em>, <em>language=None</em>, <em>limit_text_characters=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#NaturalLanguageUnderstandingV1.analyze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.analyze" title="Permalink to this definition">¶</a></dt>
 <dd><p>Analyze text, HTML, or a public webpage.</p>
 <p>Analyzes text, HTML, or a public webpage with one or more text analysis features.
-### Concepts Identify general concepts that are referenced or alluded to in your
-content. Concepts that are detected typically have an associated link to a DBpedia
-resource.  ### Emotion Detect anger, disgust, fear, joy, or sadness that is
-conveyed by your content. Emotion information can be returned for detected
-entities, keywords, or user-specified target phrases found in the text.  ###
-Entities Detect important people, places, geopolitical entities and other types of
-entities in your content. Entity detection recognizes consecutive coreferences of
-each entity. For example, analysis of the following text would count “Barack
-Obama” and “He” as the same entity:  “Barack Obama was the 44th President of
-the United States. He took office in January 2009.”  ### Keywords Determine the
-most important keywords in your content. Keyword phrases are organized by
-relevance in the results.  ### Metadata Get author information, publication date,
-and the title of your text/HTML content.  ### Relations Recognize when two
-entities are related, and identify the type of relation.  For example, you can
-identify an “awardedTo” relation between an award and its recipient.  ###
-Semantic Roles Parse sentences into subject-action-object form, and identify
-entities and keywords that are subjects or objects of an action.  ### Sentiment
+### Concepts
+Identify general concepts that are referenced or alluded to in your content.
+Concepts that are detected typically have an associated link to a DBpedia
+resource.
+### Emotion
+Detect anger, disgust, fear, joy, or sadness that is conveyed by your content.
+Emotion information can be returned for detected entities, keywords, or
+user-specified target phrases found in the text.
+### Entities
+Detect important people, places, geopolitical entities and other types of entities
+in your content. Entity detection recognizes consecutive coreferences of each
+entity. For example, analysis of the following text would count “Barack Obama”
+and “He” as the same entity:
+“Barack Obama was the 44th President of the United States. He took office in
+January 2009.”
+### Keywords
+Determine the most important keywords in your content. Keyword phrases are
+organized by relevance in the results.
+### Metadata
+Get author information, publication date, and the title of your text/HTML content.
+### Relations
+Recognize when two entities are related, and identify the type of relation.  For
+example, you can identify an “awardedTo” relation between an award and its
+recipient.
+### Semantic Roles
+Parse sentences into subject-action-object form, and identify entities and
+keywords that are subjects or objects of an action.
+### Sentiment
 Determine whether your content conveys postive or negative sentiment. Sentiment
 information can be returned for detected entities, keywords, or user-specified
-target phrases found in the text.   ### Categories Categorize your content into a
-hierarchical 5-level taxonomy. For example, “Leonardo DiCaprio won an Oscar”
-returns “/art and entertainment/movies and tv/movies” as the most confident
-classification.</p>
+target phrases found in the text.
+### Categories
+Categorize your content into a hierarchical 5-level taxonomy. For example,
+“Leonardo DiCaprio won an Oscar” returns “/art and entertainment/movies and
+tv/movies” as the most confident classification.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>features</strong> (<a class="reference internal" href="#watson_developer_cloud.natural_language_understanding_v1.Features" title="watson_developer_cloud.natural_language_understanding_v1.Features"><em>Features</em></a>) – Specific features to analyze the document for.</li>
 <li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The plain text to analyze.</li>
 <li><strong>html</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The HTML file to analyze.</li>
 <li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The web page to analyze.</li>
 <li><strong>clean</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Remove website elements, such as links, ads, etc.</li>
 <li><strong>xpath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – XPath query for targeting nodes in HTML.</li>
-<li><strong>fallback_to_raw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to use raw HTML content if text cleaning fails.</li>
-<li><strong>return_analyzed_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether or not to return the analyzed text.</li>
-<li><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – ISO 639-1 code indicating the language to use in the analysis.</li>
-<li><strong>limit_text_characters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Sets the maximum number of characters that are processed by the service.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+<li><strong>fallback_to_raw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Whether to use raw HTML content if text cleaning</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>AnalysisResults</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
 </td>
 </tr>
 </tbody>
 </table>
+<p>fails.
+:param bool return_analyzed_text: Whether or not to return the analyzed text.
+:param str language: ISO 639-1 code indicating the language to use in the
+analysis.
+:param int limit_text_characters: Sets the maximum number of characters that are
+processed by the service.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>AnalysisResults</cite> response.
+:rtype: dict</p>
 </dd></dl>
 
 <dl class="method">
@@ -179,34 +190,26 @@ Language Understanding service.</p>
 <tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) API usage information for the request.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ConceptsResult] concepts:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The general concepts referenced or alluded to in the specified content.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[EntitiesResult] entities:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The important entities in the specified content.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[KeywordsResult] keywords:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The important keywords in content organized by relevance.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[CategoriesResult] categories:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The hierarchical 5-level taxonomy the content is categorized into.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr EmotionResult emotion:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The anger, disgust, fear, joy, or sadness conveyed by the content.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr MetadataResult metadata:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The metadata holds author information, publication date and the title of the text/HTML content.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[RelationsResult] relations:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The relationships between entities in the content.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[SemanticRolesResult] semantic_roles:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The subjects of actions and the objects the actions act upon.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr SentimentResult sentiment:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The sentiment of the content.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The general concepts referenced or</td>
 </tr>
 </tbody>
 </table>
+<p>alluded to in the specified content.
+:attr list[EntitiesResult] entities: (optional) The important entities in the
+specified content.
+:attr list[KeywordsResult] keywords: (optional) The important keywords in content
+organized by relevance.
+:attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy
+the content is categorized into.
+:attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
+conveyed by the content.
+:attr MetadataResult metadata: (optional) The metadata holds author information,
+publication date and the title of the text/HTML content.
+:attr list[RelationsResult] relations: (optional) The relationships between entities
+in the content.
+:attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and
+the objects the actions act upon.
+:attr SentimentResult sentiment: (optional) The sentiment of the content.</p>
 </dd></dl>
 
 <dl class="class">
@@ -243,10 +246,11 @@ Language Understanding service.</p>
 <tr class="field-odd field"><th class="field-name">Attr str label:</th><td class="field-body">(optional) The path to the category through the taxonomy hierarchy.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the category classification. Higher values indicate greater confidence.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the category classification. Higher</td>
 </tr>
 </tbody>
 </table>
+<p>values indicate greater confidence.</p>
 </dd></dl>
 
 <dl class="class">
@@ -277,13 +281,12 @@ to.</p>
 <tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) Name of the concept.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr float relevance:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Relevance score between 0 and 1. Higher scores indicate greater relevance.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr str dbpedia_resource:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Link to the corresponding DBpedia resource.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Relevance score between 0 and 1. Higher scores</td>
 </tr>
 </tbody>
 </table>
+<p>indicate greater relevance.
+:attr str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.</p>
 </dd></dl>
 
 <dl class="class">
@@ -317,10 +320,11 @@ to.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr EmotionScores emotion:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An object containing the emotion results for the document.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An object containing the emotion results for</td>
 </tr>
 </tbody>
 </table>
+<p>the document.</p>
 </dd></dl>
 
 <dl class="class">
@@ -332,13 +336,12 @@ to.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Attr str label:</th><td class="field-body">(optional) Indicates whether the sentiment is positive, neutral, or negative.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Sentiment score from -1 (negative) to 1 (positive).</td>
+<tr class="field-odd field"><th class="field-name">Attr str label:</th><td class="field-body">(optional) Indicates whether the sentiment is positive, neutral, or</td>
 </tr>
 </tbody>
 </table>
+<p>negative.
+:attr float score: (optional) Sentiment score from -1 (negative) to 1 (positive).</p>
 </dd></dl>
 
 <dl class="class">
@@ -351,13 +354,13 @@ to.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr bool document:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Set this to false to hide document-level emotion results.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] targets:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Emotion results will be returned for each target string that is found in the document.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Set this to false to hide document-level emotion</td>
 </tr>
 </tbody>
 </table>
+<p>results.
+:attr list[str] targets: (optional) Emotion results will be returned for each target
+string that is found in the document.</p>
 </dd></dl>
 
 <dl class="class">
@@ -372,13 +375,13 @@ target phrases found in the text.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr DocumentEmotionResults document:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The returned emotion results across the document.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[TargetedEmotionResults] targets:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The returned emotion results per specified target.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The returned emotion results across</td>
 </tr>
 </tbody>
 </table>
+<p>the document.
+:attr list[TargetedEmotionResults] targets: (optional) The returned emotion results
+per specified target.</p>
 </dd></dl>
 
 <dl class="class">
@@ -391,21 +394,19 @@ target phrases found in the text.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float anger:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Anger score from 0 to 1. A higher score means that the text is more likely to convey anger.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr float disgust:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Disgust score from 0 to 1. A higher score means that the text is more likely to convey disgust.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr float fear:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Fear score from 0 to 1. A higher score means that the text is more likely to convey fear.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr float joy:</th><td class="field-body">(optional) Joy score from 0 to 1. A higher score means that the text is more likely to convey joy.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr float sadness:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Sadness score from 0 to 1. A higher score means that the text is more likely to convey sadness.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Anger score from 0 to 1. A higher score means that the</td>
 </tr>
 </tbody>
 </table>
+<p>text is more likely to convey anger.
+:attr float disgust: (optional) Disgust score from 0 to 1. A higher score means that
+the text is more likely to convey disgust.
+:attr float fear: (optional) Fear score from 0 to 1. A higher score means that the
+text is more likely to convey fear.
+:attr float joy: (optional) Joy score from 0 to 1. A higher score means that the text
+is more likely to convey joy.
+:attr float sadness: (optional) Sadness score from 0 to 1. A higher score means that
+the text is more likely to convey sadness.</p>
 </dd></dl>
 
 <dl class="class">
@@ -421,18 +422,17 @@ detected in the analyzed content.</p>
 <tr class="field-odd field"><th class="field-name">Attr int limit:</th><td class="field-body">(optional) Maximum number of entities to return.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr bool mentions:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Set this to true to return locations of entity mentions.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Attr str model:</th><td class="field-body">(optional) Enter a custom model ID to override the standard entity detection model.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr bool sentiment:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Set this to true to return sentiment information for detected entities.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool emotion:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Set this to true to analyze emotion for detected keywords.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Set this to true to return locations of entity</td>
 </tr>
 </tbody>
 </table>
+<p>mentions.
+:attr str model: (optional) Enter a custom model ID to override the standard entity
+detection model.
+:attr bool sentiment: (optional) Set this to true to return sentiment information for
+detected entities.
+:attr bool emotion: (optional) Set this to true to analyze emotion for detected
+keywords.</p>
 </dd></dl>
 
 <dl class="class">
@@ -450,24 +450,19 @@ your content.</p>
 <tr class="field-even field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The name of the entity.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float relevance:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[EntityMention] mentions:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Entity mentions and locations.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Attr int count:</th><td class="field-body">(optional) How many times the entity was mentioned in the text.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr EmotionScores emotion:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Emotion analysis results for the entity, enabled with the “emotion” option.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr FeatureSentimentResults sentiment:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Sentiment analysis results for the entity, enabled with the “sentiment” option.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr DisambiguationResult disambiguation:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Disambiguation information for the entity.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Relevance score from 0 to 1. Higher values indicate</td>
 </tr>
 </tbody>
 </table>
+<p>greater relevance.
+:attr list[EntityMention] mentions: (optional) Entity mentions and locations.
+:attr int count: (optional) How many times the entity was mentioned in the text.
+:attr EmotionScores emotion: (optional) Emotion analysis results for the entity,
+enabled with the “emotion” option.
+:attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the
+entity, enabled with the “sentiment” option.
+:attr DisambiguationResult disambiguation: (optional) Disambiguation information for
+the entity.</p>
 </dd></dl>
 
 <dl class="class">
@@ -482,10 +477,11 @@ your content.</p>
 <tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) Entity mention text.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[int] location:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Character offsets indicating the beginning and</td>
 </tr>
 </tbody>
 </table>
+<p>end of the mention in the analyzed text.</p>
 </dd></dl>
 
 <dl class="class">
@@ -514,34 +510,28 @@ your content.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr ConceptsOptions concepts:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Whether or not to return the concepts that are mentioned in the analyzed text.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr EmotionOptions emotion:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether or not to extract the emotions implied in the analyzed text.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr EntitiesOptions entities:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Whether or not to extract detected entity objects from the analyzed text.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr KeywordsOptions keywords:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether or not to return the keywords in the analyzed text.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr MetadataOptions metadata:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Whether or not the author, publication date, and title of the analyzed text should be returned. This parameter is only available for URL and HTML input.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr RelationsOptions relations:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether or not to return the relationships between detected entities in the analyzed text.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr SemanticRolesOptions semantic_roles:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Whether or not to return the subject-action-object relations from the analyzed text.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr SentimentOptions sentiment:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether or not to return the overall sentiment of the analyzed text.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr CategoriesOptions categories:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Whether or not to return the high level category the content is categorized as (i.e. news, art).</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Whether or not to return the concepts that</td>
 </tr>
 </tbody>
 </table>
+<p>are mentioned in the analyzed text.
+:attr EmotionOptions emotion: (optional) Whether or not to extract the emotions
+implied in the analyzed text.
+:attr EntitiesOptions entities: (optional) Whether or not to extract detected entity
+objects from the analyzed text.
+:attr KeywordsOptions keywords: (optional) Whether or not to return the keywords in
+the analyzed text.
+:attr MetadataOptions metadata: (optional) Whether or not the author, publication
+date, and title of the analyzed text should be returned. This parameter is only
+available for URL and HTML input.
+:attr RelationsOptions relations: (optional) Whether or not to return the
+relationships between detected entities in the analyzed text.
+:attr SemanticRolesOptions semantic_roles: (optional) Whether or not to return the
+subject-action-object relations from the analyzed text.
+:attr SentimentOptions sentiment: (optional) Whether or not to return the overall
+sentiment of the analyzed text.
+:attr CategoriesOptions categories: (optional) Whether or not to return the high level
+category the content is categorized as (i.e. news, art).</p>
 </dd></dl>
 
 <dl class="class">
@@ -560,6 +550,22 @@ your content.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="watson_developer_cloud.natural_language_understanding_v1.InlineResponse200">
+<em class="property">class </em><code class="descname">InlineResponse200</code><span class="sig-paren">(</span><em>deleted=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#InlineResponse200"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.InlineResponse200" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>InlineResponse200.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str deleted:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) model_id of the deleted model.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
 <dt id="watson_developer_cloud.natural_language_understanding_v1.KeywordsOptions">
 <em class="property">class </em><code class="descname">KeywordsOptions</code><span class="sig-paren">(</span><em>limit=None</em>, <em>sentiment=None</em>, <em>emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/natural_language_understanding_v1.html#KeywordsOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.natural_language_understanding_v1.KeywordsOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
@@ -572,13 +578,13 @@ should be returned.</p>
 <tr class="field-odd field"><th class="field-name">Attr int limit:</th><td class="field-body">(optional) Maximum number of keywords to return.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr bool sentiment:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Set this to true to return sentiment information for detected keywords.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool emotion:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Set this to true to analyze emotion for detected keywords.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Set this to true to return sentiment information for</td>
 </tr>
 </tbody>
 </table>
+<p>detected keywords.
+:attr bool emotion: (optional) Set this to true to analyze emotion for detected
+keywords.</p>
 </dd></dl>
 
 <dl class="class">
@@ -591,18 +597,16 @@ should be returned.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float relevance:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Relevance score from 0 to 1. Higher values indicate greater relevance.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The keyword text.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr EmotionScores emotion:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Emotion analysis results for the keyword, enabled with the “emotion” option.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr FeatureSentimentResults sentiment:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Sentiment analysis results for the keyword, enabled with the “sentiment” option.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Relevance score from 0 to 1. Higher values indicate</td>
 </tr>
 </tbody>
 </table>
+<p>greater relevance.
+:attr str text: (optional) The keyword text.
+:attr EmotionScores emotion: (optional) Emotion analysis results for the keyword,
+enabled with the “emotion” option.
+:attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the
+keyword, enabled with the “sentiment” option.</p>
 </dd></dl>
 
 <dl class="class">
@@ -694,12 +698,12 @@ types.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[int] location:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Character offsets indicating the beginning and end of the mention in the analyzed text.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) Text that corresponds to the argument.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Character offsets indicating the beginning and</td>
 </tr>
 </tbody>
 </table>
+<p>end of the mention in the analyzed text.
+:attr str text: (optional) Text that corresponds to the argument.</p>
 </dd></dl>
 
 <dl class="class">
@@ -745,18 +749,15 @@ content should be returned.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the relation. Higher values indicate greater confidence.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr str sentence:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The sentence that contains the relation.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The type of the relation.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[RelationArgument] arguments:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The extracted relation objects from the text.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Confidence score for the relation. Higher values</td>
 </tr>
 </tbody>
 </table>
+<p>indicate greater confidence.
+:attr str sentence: (optional) The sentence that contains the relation.
+:attr str type: (optional) The type of the relation.
+:attr list[RelationArgument] arguments: (optional) The extracted relation objects from
+the text.</p>
 </dd></dl>
 
 <dl class="class">
@@ -843,13 +844,13 @@ the analyzed content.</p>
 <tr class="field-odd field"><th class="field-name">Attr int limit:</th><td class="field-body">(optional) Maximum number of semantic_roles results to return.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr bool keywords:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Set this to true to return keyword information for subjects and objects.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool entities:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Set this to true to return entity information for subjects and objects.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Set this to true to return keyword information for</td>
 </tr>
 </tbody>
 </table>
+<p>subjects and objects.
+:attr bool entities: (optional) Set this to true to return entity information for
+subjects and objects.</p>
 </dd></dl>
 
 <dl class="class">
@@ -862,19 +863,15 @@ the analyzed content.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr str sentence:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Sentence from the source that contains the subject, action, and object.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr SemanticRolesSubject subject:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The extracted subject from the sentence.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Attr SemanticRolesAction action:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The extracted action from the sentence.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr SemanticRolesObject object:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The extracted object from the sentence.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Sentence from the source that contains the subject,</td>
 </tr>
 </tbody>
 </table>
+<p>action, and object.
+:attr SemanticRolesSubject subject: (optional) The extracted subject from the
+sentence.
+:attr SemanticRolesAction action: (optional) The extracted action from the sentence.
+:attr SemanticRolesObject object: (optional) The extracted object from the sentence.</p>
 </dd></dl>
 
 <dl class="class">
@@ -926,13 +923,13 @@ returned.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr bool document:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Set this to false to hide document-level sentiment results.</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] targets:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Sentiment results will be returned for each target string that is found in the document.</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Set this to false to hide document-level sentiment</td>
 </tr>
 </tbody>
 </table>
+<p>results.
+:attr list[str] targets: (optional) Sentiment results will be returned for each target
+string that is found in the document.</p>
 </dd></dl>
 
 <dl class="class">
@@ -948,10 +945,11 @@ returned.</p>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The document level sentiment.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr list[TargetedSentimentResults] targets:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The targeted sentiment to analyze.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The targeted sentiment to</td>
 </tr>
 </tbody>
 </table>
+<p>analyze.</p>
 </dd></dl>
 
 <dl class="class">
@@ -966,10 +964,11 @@ returned.</p>
 <tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) Targeted text.</td>
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Attr EmotionScores emotion:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An object containing the emotion results for the target.</td>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An object containing the emotion results for</td>
 </tr>
 </tbody>
 </table>
+<p>the target.</p>
 </dd></dl>
 
 <dl class="class">

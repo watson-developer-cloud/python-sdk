@@ -171,8 +171,9 @@
 
                     <span class="k">if</span> <span class="n">b_final</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_hypothesis</span><span class="p">(</span><span class="n">hypothesis</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_transcription</span><span class="p">(</span><span class="n">transcripts</span><span class="p">)</span></div>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_transcription</span><span class="p">(</span><span class="n">transcripts</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_data</span><span class="p">(</span><span class="n">json_object</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RecognizeListener.WebSocketClient.onClose"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.speech_to_text_websocket_listener.html#watson_developer_cloud.websocket.speech_to_text_websocket_listener.RecognizeListener.WebSocketClient.onClose">[docs]</a>        <span class="k">def</span> <span class="nf">onClose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wasClean</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">reason</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">endReactor</span><span class="p">()</span></div></div>
