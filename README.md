@@ -12,6 +12,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
 
   * [Installation](#installation)
   * [Examples](#examples)
+  * [Running in IBM Cloud](#running-in-ibm-cloud)
   * [Authentication](#authentication)
     * [Getting credentials](#getting-credentials)
     * [IAM](#iam)
@@ -63,7 +64,11 @@ For more details see [#405](https://github.com/watson-developer-cloud/python-sdk
 
 ## Examples
 
-The [examples][examples] folder has basic and advanced examples.
+The [examples][examples] folder has basic and advanced examples. The examples within each service assume that you already have [service credentials]((#getting-credentials). 
+
+## Running in IBM Cloud
+
+If you run your app in IBM Cloud, the SDK gets credentials from the [`VCAP_SERVICES`][vcap_services] environment variable. 
 
 ## Authentication
 
@@ -245,3 +250,4 @@ This library is licensed under the [Apache 2.0 license][license].
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
 [CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
 [license]: http://www.apache.org/licenses/LICENSE-2.0
+[vcap_services]: https://console.bluemix.net/docs/services/watson/getting-started-variables.html
