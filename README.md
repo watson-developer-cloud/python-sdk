@@ -73,10 +73,8 @@ Watson services are migrating to token-based Identity and Access Management (IAM
 - In other instances, you authenticate by providing the **[username and password](#username-and-password)** for the service instance.
 - Visual Recognition uses a form of [API key](#api-key) only with instances created before May 23, 2018. Newer instances of Visual Recognition use IAM.
 
-**Tip**: To find out which authentication to use, view the service credentials by clicking the service instance on the IBM Cloud [Dashboard][watson-dashboard].
-
 ### Getting credentials
-You find the service credentials for authentication the same way for all Watson services:
+To find out which authentication to use, view the service credentials. You find the service credentials for authentication the same way for all Watson services:
 
 1.  Go to the IBM Cloud **[Dashboard][watson-dashboard]** page.
 1.  Either click an existing Watson service instance or click **Create**.
