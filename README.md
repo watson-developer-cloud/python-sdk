@@ -73,12 +73,12 @@ Watson services are migrating to token-based Identity and Access Management (IAM
 - In other instances, you authenticate by providing the **[username and password](#username-and-password)** for the service instance.
 - Visual Recognition uses a form of [API key](#api-key) only with instances created before May 23, 2018. Newer instances of Visual Recognition use IAM.
 
-**Tip**: To find out which authentication to use, view the service credentials by clicking the service instance on the IBM Cloud [Dashboard](https://console.bluemix.net/dashboard/apps?watson).
+**Tip**: To find out which authentication to use, view the service credentials by clicking the service instance on the IBM Cloud [Dashboard][watson-dashboard].
 
 ### Getting credentials
 You find the service credentials for authentication the same way for all Watson services:
 
-1.  Go to the IBM Cloud **[Dashboard](https://console.bluemix.net/dashboard/apps?watson)** page.
+1.  Go to the IBM Cloud **[Dashboard][watson-dashboard]** page.
 1.  Either click an existing Watson service instance or click **Create**.
 1.  Click **Show** to view your service credentials.
 1.  Copy the `url` and either `apikey` or `username` and `password`.
@@ -241,6 +241,7 @@ This library is licensed under the [Apache 2.0 license][license].
 
 [wdc]: http://www.ibm.com/watson/developercloud/
 [ibm_cloud]: https://console.bluemix.net
+[watson-dashboard]: https://console.bluemix.net/dashboard/apps?category=watson
 [responses]: https://github.com/getsentry/responses
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
