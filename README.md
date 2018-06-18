@@ -7,6 +7,29 @@
 
 Python client library to quickly get started with the various [Watson APIs][wdc] services.
 
+<details>
+  <summary>Table of Contents</summary>
+
+  * [Installation](#installation)
+  * [Examples](#examples)
+  * [Running in IBM Cloud](#running-in-ibm-cloud)
+  * [Authentication](#authentication)
+    * [Getting credentials](#getting-credentials)
+    * [IAM](#iam)
+    * [Username and password](#username-and-password)
+    * [API key](#api-key)
+  * [Python version](#python-version)
+  * [Changes for v1.0](#changes-for-v10)
+  * [Migration](#migration)
+  * [Configuring the http client](#configuring-the-http-client-supported-from-v110)
+  * [Sending request headers](#sending-request-headers)
+  * [Parsing HTTP response info](#parsing-http-response-info)
+  * [Dependencies](#dependencies)
+  * [License](#license)
+  * [Contributing](#contributing)
+
+</details>
+
 ## Installation
 
 To install, use `pip` or `easy_install`:
@@ -41,70 +64,38 @@ For more details see [#405](https://github.com/watson-developer-cloud/python-sdk
 
 ## Examples
 
-The [examples][examples] folder has basic and advanced examples.
+The [examples][examples] folder has basic and advanced examples. The examples within each service assume that you already have [service credentials]((#getting-credentials). 
 
-## Getting the Service Credentials
+## Running in IBM Cloud
 
-Service credentials are required to access the APIs.
-
-If you run your app in IBM Cloud, you don't need to specify the username and password or IAM API key (`apikey`). In that case, the SDK uses the `VCAP_SERVICES` environment variable to load the credentials.
-To run locally or outside of IBM Cloud you need the `username` and `password` credentials or IAM API key (`apikey`) for each service. (Service credentials are different from your IBM Cloud account email and password.)
-
-To create an instance of the service:
-
-1. Log in to [IBM Cloud][ibm_cloud].
-1. Create an instance of the service:
-   1. Click on **Create Resource**.
-   1. In the IBM Cloud **Catalog**, select the Watson service you want to use. For example, select the Conversation service.
-   1. Type a unique name for the service instance in the **Service name** field. For example, type `my-service-name`. Leave the default values for the other options.
-   1. Click **Create**.
+If you run your app in IBM Cloud, the SDK gets credentials from the [`VCAP_SERVICES`][vcap_services] environment variable. 
 
 ## Authentication
-To get your service credentials:
 
-Copy your credentials from the **Manage** page. To find the Service details page for an existing service, navigate to your [IBM Cloud][ibm_cloud] dashboard and click the service name.
+Watson services are migrating to token-based Identity and Access Management (IAM) authentication.
 
-1. On the **Manage** page, you will see a **Credentials** pane
-1. Depending on the service you will see use either:
-* 2.a: `username`, `password`, and `url`(optional) or `apikey`(for Visual Recognition).
-* 2.b: `apikey` which is the value for parameter `iam_api_key` when initializing the constructor.
+- With some service instances, you authenticate to the API by using **[IAM](#iam)**.
+- In other instances, you authenticate by providing the **[username and password](#username-and-password)** for the service instance.
+- Visual Recognition uses a form of [API key](#api-key) only with instances created before May 23, 2018. Newer instances of Visual Recognition use IAM.
 
-### Username and Password
-```python
-from watson_developer_cloud import DiscoveryV1
-# In the constructor
-discovery = DiscoveryV1(version='2017-10-16', username='<username>', password='<password>')
-```
+### Getting credentials
+To find out which authentication to use, view the service credentials. You find the service credentials for authentication the same way for all Watson services:
 
-```python
-# After instantiation
-discovery = DiscoveryV1(version='2017-10-16')
-discovery.set_username_and_password('<username>', '<password>')
-```
+1.  Go to the IBM Cloud **[Dashboard][watson-dashboard]** page.
+1.  Either click an existing Watson service instance or click **Create**.
+1.  Click **Show** to view your service credentials.
+1.  Copy the `url` and either `apikey` or `username` and `password`.
 
-### API Key
-*Important: Instantiation with API key works only with Visual Recognition service instances created before May 23, 2018. Visual Recognition instances created after May 22 use IAM.*
+### IAM
 
-```python
-from watson_developer_cloud import VisualRecognitionV3
-# In the constructor
-visual_recognition = VisualRecognitionV3(version='2018-05-22', api_key='<api_key>')
-```
+IBM Cloud is migrating to token-based Identity and Access Management (IAM) authentication. IAM authentication uses a service API key to get an access token that is passed with the call. Access tokens are valid for approximately one hour and must be regenerated.
 
-```python
-# After instantiation
-visual_recognition = VisualRecognitionV3(version='2018-05-22')
-visual_recognition.set_api_key('<api_key>')
-```
+You supply either an IAM service **API key** or an **access token**:
 
-### Using IAM
+- Use the API key to have the SDK manage the lifecycle of the access token. The SDK requests an access token, ensures that the access token is valid, and refreshes it if necessary.
+- Use the access token if you want to manage the lifecycle yourself. Access tokens are valid. For details, see [Authenticating with IAM tokens](https://console.bluemix.net/docs/services/watson/getting-started-iam.html).
 
-When authenticating with IAM, you have the option of passing in:
-
-* the IAM API key and, optionally, the IAM service URL
-* an IAM access token
-
-**Be aware that passing in an access token means that you're assuming responsibility for maintaining that token's lifecycle.** If you instead pass in an IAM API key, the SDK will manage it for you.
+#### Supplying the IAM API key
 
 ```python
 # In the constructor, letting the SDK manage the IAM token
@@ -119,6 +110,7 @@ discovery = DiscoveryV1(version='2017-10-16')
 discovery.set_iam_api_key('<iam_api_key>')
 ```
 
+#### Supplying the access token
 ```python
 # in the constructor, assuming control of managing IAM token
 discovery = DiscoveryV1(version='2017-10-16',
@@ -131,9 +123,36 @@ discovery = DiscoveryV1(version='2017-10-16')
 discovery.set_iam_access_token('<access_token>')
 ```
 
-If at any time you would like to let the SDK take over managing your IAM token, simply override your stored IAM credentials with an IAM API key by calling the `set_token_manager()` method again.
+### Username and password
+```python
+from watson_developer_cloud import DiscoveryV1
+# In the constructor
+discovery = DiscoveryV1(version='2017-10-16', username='<username>', password='<password>')
+```
 
-## Python Version
+```python
+# After instantiation
+discovery = DiscoveryV1(version='2017-10-16')
+discovery.set_username_and_password('<username>', '<password>')
+```
+
+### API key
+
+**Important**: This type of authentication works only with Visual Recognition instances created before May 23, 2018. Newer instances of Visual Recognition use [IAM](#iam).
+
+```python
+from watson_developer_cloud import VisualRecognitionV3
+# In the constructor
+visual_recognition = VisualRecognitionV3(version='2018-05-22', api_key='<api_key>')
+```
+
+```python
+# After instantiation
+visual_recognition = VisualRecognitionV3(version='2018-05-22')
+visual_recognition.set_api_key('<api_key>')
+```
+
+## Python version
 
 Tested on Python 2.7, 3.4, 3.5, and 3.6.
 
@@ -160,7 +179,7 @@ response = assistant.message(workspace_id=workspace_id, input={
 print(json.dumps(response, indent=2))
 ```
 
-## Sending Request Headers
+## Sending request headers
 Custom headers can be passed in any request in the form of a `dict` as:
 ```python
 headers = {
@@ -180,7 +199,7 @@ assistant = AssistantV1(
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'})
 ```
 
-## Parsing HTTP Response Info
+## Parsing HTTP response info
 If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`
 ```python
 from watson_developer_cloud import AssistantV1
@@ -225,8 +244,10 @@ This library is licensed under the [Apache 2.0 license][license].
 
 [wdc]: http://www.ibm.com/watson/developercloud/
 [ibm_cloud]: https://console.bluemix.net
+[watson-dashboard]: https://console.bluemix.net/dashboard/apps?category=watson
 [responses]: https://github.com/getsentry/responses
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
 [CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
 [license]: http://www.apache.org/licenses/LICENSE-2.0
+[vcap_services]: https://console.bluemix.net/docs/services/watson/getting-started-variables.html
