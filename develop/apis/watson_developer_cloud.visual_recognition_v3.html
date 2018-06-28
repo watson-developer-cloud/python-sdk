@@ -60,22 +60,22 @@ a custom classifier to identify subjects that suit your needs.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>images_file</strong> (<em>file</em>) – An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters. You can also include images with the <cite>url</cite> property in the <strong>parameters</strong> object.</li>
-<li><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – (Deprecated) A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - <strong>url</strong>: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the <strong>images_file</strong> parameter. - <strong>threshold</strong>: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is <cite>0.5</cite>. Set the threshold to <cite>0.0</cite> to ignore the classification score and return all values. - <strong>owners</strong>: An array of the categories of classifiers to apply. Use <cite>IBM</cite> to classify against the <cite>default</cite> general classifier, and use <cite>me</cite> to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both <cite>IBM</cite> and <cite>me</cite>. The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.      The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that <strong>classifier_ids</strong> is empty. - <strong>classifier_ids</strong>: Specifies which classifiers to apply and overrides the <strong>owners</strong> parameter. You can specify both custom and built-in classifiers. The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.  The following built-in classifier IDs require no training: - <cite>default</cite>: Returns classes from thousands of general tags. - <cite>food</cite>: (Beta) Enhances specificity and accuracy for images of food items. - <cite>explicit</cite>: (Beta) Evaluates whether the image might be pornographic.  Example: <cite>{“classifier_ids”:[“CarsvsTrucks_1479118188”,”explicit”],”threshold”:0.6}</cite>.</li>
-<li><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Specifies the language of the output class names.  Can be <cite>en</cite> (English), <cite>ar</cite> (Arabic), <cite>de</cite> (German), <cite>es</cite> (Spanish), <cite>it</cite> (Italian), <cite>ja</cite> (Japanese), or <cite>ko</cite> (Korean).  Classes for which no translation is available are omitted.  The response might not be in the specified language under these conditions: - English is returned when the requested language is not supported. - Classes are not returned when there is no translation for them. - Custom classifiers returned with this method return tags in the language of the custom classifier.</li>
-<li><strong>images_file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The content type of images_file.</li>
-<li><strong>images_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for images_file.</li>
-<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the <strong>images_file</strong> parameter.</li>
-<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is <cite>0.5</cite>. Set the threshold to <cite>0.0</cite> to ignore the classification score and return all values.</li>
-<li><strong>owners</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – An array of the categories of classifiers to apply. Use <cite>IBM</cite> to classify against the <cite>default</cite> general classifier, and use <cite>me</cite> to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both <cite>IBM</cite> and <cite>me</cite>.   The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.  The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that <strong>classifier_ids</strong> is empty.</li>
-<li><strong>classifier_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>]</em>) – The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that <strong>classifier_ids</strong> is empty. - <strong>classifier_ids</strong>: Specifies which classifiers to apply and overrides the <strong>owners</strong> parameter. You can specify both custom and built-in classifiers. The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.  The following built-in classifier IDs require no training: - <cite>default</cite>: Returns classes from thousands of general tags. - <cite>food</cite>: (Beta) Enhances specificity and accuracy for images of food items. - <cite>explicit</cite>: (Beta) Evaluates whether the image might be pornographic.  Example: <cite>“classifier_ids=”CarsvsTrucks_1479118188”,”explicit”</cite>.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+<li><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (Deprecated) A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - <strong>url</strong>: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the <strong>images_file</strong> parameter. - <strong>threshold</strong>: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is <cite>0.5</cite>. Set the threshold to <cite>0.0</cite> to ignore the classification score and return all values. - <strong>owners</strong>: An array of the categories of classifiers to apply. Use <cite>IBM</cite> to classify against the <cite>default</cite> general classifier, and use <cite>me</cite> to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both <cite>IBM</cite> and <cite>me</cite>. The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.      The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that <strong>classifier_ids</strong> is empty. - <strong>classifier_ids</strong>: Specifies which classifiers to apply and overrides the <strong>owners</strong> parameter. You can specify both custom and built-in classifiers. The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.  The following built-in classifier IDs require no training: - <cite>default</cite>: Returns classes from thousands of general tags. - <cite>food</cite>: (Beta) Enhances specificity and accuracy for images of food items. - <cite>explicit</cite>: (Beta) Evaluates whether the image might be pornographic.  Example: <cite>{“classifier_ids”:[“CarsvsTrucks_1479118188”,”explicit”],”threshold”:0.6}</cite>.</li>
+<li><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Specifies the language of the output class names.  Can be <cite>en</cite> (English), <cite>ar</cite> (Arabic), <cite>de</cite> (German), <cite>es</cite> (Spanish), <cite>it</cite> (Italian), <cite>ja</cite> (Japanese), or <cite>ko</cite> (Korean).  Classes for which no translation is available are omitted.  The response might not be in the specified language under these conditions: - English is returned when the requested language is not supported. - Classes are not returned when there is no translation for them. - Custom classifiers returned with this method return tags in the language of the custom classifier.</li>
+<li><strong>images_file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The content type of images_file.</li>
+<li><strong>images_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The filename for images_file.</li>
+<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the <strong>images_file</strong> parameter.</li>
+<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is <cite>0.5</cite>. Set the threshold to <cite>0.0</cite> to ignore the classification score and return all values.</li>
+<li><strong>owners</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – An array of the categories of classifiers to apply. Use <cite>IBM</cite> to classify against the <cite>default</cite> general classifier, and use <cite>me</cite> to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both <cite>IBM</cite> and <cite>me</cite>.   The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.  The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that <strong>classifier_ids</strong> is empty.</li>
+<li><strong>classifier_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that <strong>classifier_ids</strong> is empty. - <strong>classifier_ids</strong>: Specifies which classifiers to apply and overrides the <strong>owners</strong> parameter. You can specify both custom and built-in classifiers. The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.  The following built-in classifier IDs require no training: - <cite>default</cite>: Returns classes from thousands of general tags. - <cite>food</cite>: (Beta) Enhances specificity and accuracy for images of food items. - <cite>explicit</cite>: (Beta) Evaluates whether the image might be pornographic.  Example: <cite>“classifier_ids=”CarsvsTrucks_1479118188”,”explicit”</cite>.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>ClassifiedImages</cite> response.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </td>
 </tr>
 </tbody>
@@ -96,18 +96,18 @@ does not support general biometric facial recognition.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>images_file</strong> (<em>file</em>) – An image file (.jpg, .png) or .zip file with images. Include no more than 15 images. You can also include images with the <cite>url</cite> property in the <strong>parameters</strong> object.  All faces are detected, but if there are more than 10 faces in an image, age and gender confidence scores might return scores of 0.</li>
-<li><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: <cite>{“url”:”http://www.example.com/images/myimage.jpg”}</cite>.</li>
-<li><strong>images_file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The content type of images_file.</li>
-<li><strong>images_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The filename for images_file.</li>
-<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the <strong>images_file</strong> parameter.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+<li><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: <cite>{“url”:”http://www.example.com/images/myimage.jpg”}</cite>.</li>
+<li><strong>images_file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The content type of images_file.</li>
+<li><strong>images_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The filename for images_file.</li>
+<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the <strong>images_file</strong> parameter.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>DetectedFaces</cite> response.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </td>
 </tr>
 </tbody>
@@ -135,8 +135,8 @@ does not support general biometric facial recognition.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the classifier.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -157,15 +157,15 @@ does not support general biometric facial recognition.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the classifier.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Classifier</cite> response.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </td>
 </tr>
 </tbody>
@@ -180,7 +180,7 @@ does not support general biometric facial recognition.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – Specify <cite>true</cite> to return details about the classifiers. Omit</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Specify <cite>true</cite> to return details about the classifiers. Omit</td>
 </tr>
 </tbody>
 </table>
@@ -213,8 +213,8 @@ does not support general biometric facial recognition.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The ID of the classifier.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+<li><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the classifier.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -243,8 +243,8 @@ security](<a class="reference external" href="https://console.bluemix.net/docs/s
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The customer ID for which all data is to be deleted.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+<li><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customer ID for which all data is to be deleted.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
 </ul>
 </td>
 </tr>
@@ -260,7 +260,7 @@ security](<a class="reference external" href="https://console.bluemix.net/docs/s
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.Class">
 <em class="property">class </em><code class="descname">Class</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Class" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A category within a classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -276,7 +276,7 @@ security](<a class="reference external" href="https://console.bluemix.net/docs/s
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.ClassResult">
 <em class="property">class </em><code class="descname">ClassResult</code><span class="sig-paren">(</span><em>class_name</em>, <em>score=None</em>, <em>type_hierarchy=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Result of a class within a classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -299,7 +299,7 @@ image. The default threshold for returning scores from a classifier is 0.5.
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.ClassifiedImage">
 <em class="property">class </em><code class="descname">ClassifiedImage</code><span class="sig-paren">(</span><em>classifiers</em>, <em>source_url=None</em>, <em>resolved_url=None</em>, <em>image=None</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassifiedImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassifiedImage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Results for one image.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -323,7 +323,7 @@ such as an image that is too large. Not returned when there is no error.
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.ClassifiedImages">
 <em class="property">class </em><code class="descname">ClassifiedImages</code><span class="sig-paren">(</span><em>images</em>, <em>custom_classes=None</em>, <em>images_processed=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassifiedImages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassifiedImages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Results for all images.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -346,7 +346,7 @@ returned when there is no warning.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.Classifier">
 <em class="property">class </em><code class="descname">Classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>name</em>, <em>core_ml_enabled</em>, <em>owner=None</em>, <em>status=None</em>, <em>explanation=None</em>, <em>created=None</em>, <em>classes=None</em>, <em>retrained=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Classifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Information about a classifier.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -381,7 +381,7 @@ that the classifier was most recently updated. The field matches either <cite>re
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.ClassifierResult">
 <em class="property">class </em><code class="descname">ClassifierResult</code><span class="sig-paren">(</span><em>name</em>, <em>classifier_id</em>, <em>classes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassifierResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassifierResult" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Classifier and score combination.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -402,7 +402,7 @@ that the classifier was most recently updated. The field matches either <cite>re
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.Classifiers">
 <em class="property">class </em><code class="descname">Classifiers</code><span class="sig-paren">(</span><em>classifiers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Classifiers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A container for the list of classifiers.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -418,7 +418,7 @@ that the classifier was most recently updated. The field matches either <cite>re
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.DetectedFaces">
 <em class="property">class </em><code class="descname">DetectedFaces</code><span class="sig-paren">(</span><em>images</em>, <em>images_processed=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#DetectedFaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.DetectedFaces" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Results for all faces.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -443,7 +443,7 @@ returned when there is no warning.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.ErrorInfo">
 <em class="property">class </em><code class="descname">ErrorInfo</code><span class="sig-paren">(</span><em>code</em>, <em>description</em>, <em>error_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ErrorInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ErrorInfo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Information about what might have caused a failure, such as an image that is too
 large. Not returned when there is no error.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -464,7 +464,7 @@ large. Not returned when there is no error.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.Face">
 <em class="property">class </em><code class="descname">Face</code><span class="sig-paren">(</span><em>age=None</em>, <em>gender=None</em>, <em>face_location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Face"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Face" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Information about the face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -487,7 +487,7 @@ large. Not returned when there is no error.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.FaceAge">
 <em class="property">class </em><code class="descname">FaceAge</code><span class="sig-paren">(</span><em>min=None</em>, <em>max=None</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceAge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceAge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Age information about a face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -508,7 +508,7 @@ large. Not returned when there is no error.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.FaceGender">
 <em class="property">class </em><code class="descname">FaceGender</code><span class="sig-paren">(</span><em>gender</em>, <em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceGender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceGender" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Information about the gender of the face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -528,7 +528,7 @@ large. Not returned when there is no error.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.FaceLocation">
 <em class="property">class </em><code class="descname">FaceLocation</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>left</em>, <em>top</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceLocation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The location of the bounding box around the face.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -552,7 +552,7 @@ large. Not returned when there is no error.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.ImageWithFaces">
 <em class="property">class </em><code class="descname">ImageWithFaces</code><span class="sig-paren">(</span><em>faces</em>, <em>image=None</em>, <em>source_url=None</em>, <em>resolved_url=None</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ImageWithFaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ImageWithFaces" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Information about faces in the image.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -577,7 +577,7 @@ such as an image that is too large. Not returned when there is no error.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.visual_recognition_v3.WarningInfo">
 <em class="property">class </em><code class="descname">WarningInfo</code><span class="sig-paren">(</span><em>warning_id</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#WarningInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.WarningInfo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Information about something that went wrong.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
