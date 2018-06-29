@@ -30,6 +30,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-watson_developer_cloud.tone_analyzer_v3">
@@ -129,7 +131,7 @@ effectively always UTF-8.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>utterances</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.tone_analyzer_v3.Utterance" title="watson_developer_cloud.tone_analyzer_v3.Utterance"><em>Utterance</em></a><em>]</em>) – An array of <cite>Utterance</cite> objects that provides</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>utterances</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.tone_analyzer_v3.Utterance" title="watson_developer_cloud.tone_analyzer_v3.Utterance"><em>Utterance</em></a><em>]</em>) – An array of <cite>Utterance</cite> objects that provides</td>
 </tr>
 </tbody>
 </table>
@@ -155,7 +157,7 @@ for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can use d
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.DocumentAnalysis">
 <em class="property">class </em><code class="descname">DocumentAnalysis</code><span class="sig-paren">(</span><em>tones=None</em>, <em>tone_categories=None</em>, <em>warning=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#DocumentAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.DocumentAnalysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>DocumentAnalysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -183,7 +185,7 @@ sentence-level analysis. <strong>`2016-05-19`:</strong> Not returned.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.SentenceAnalysis">
 <em class="property">class </em><code class="descname">SentenceAnalysis</code><span class="sig-paren">(</span><em>sentence_id</em>, <em>text</em>, <em>tones=None</em>, <em>tone_categories=None</em>, <em>input_from=None</em>, <em>input_to=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#SentenceAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.SentenceAnalysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>SentenceAnalysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -214,7 +216,7 @@ offset of the last character of the sentence in the overall input content.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneAnalysis">
 <em class="property">class </em><code class="descname">ToneAnalysis</code><span class="sig-paren">(</span><em>document_tone</em>, <em>sentences_tone=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneAnalysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>ToneAnalysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -236,7 +238,7 @@ input. The field is omitted if the <cite>sentences</cite> parameter of the reque
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneCategory">
 <em class="property">class </em><code class="descname">ToneCategory</code><span class="sig-paren">(</span><em>tones</em>, <em>category_id</em>, <em>category_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneCategory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>ToneCategory.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -257,7 +259,7 @@ results. The service can return results for the following category IDs:
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneChatScore">
 <em class="property">class </em><code class="descname">ToneChatScore</code><span class="sig-paren">(</span><em>score</em>, <em>tone_id</em>, <em>tone_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneChatScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneChatScore" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>ToneChatScore.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -279,7 +281,7 @@ results only for tones whose scores meet a minimum threshold of 0.5.
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneInput">
 <em class="property">class </em><code class="descname">ToneInput</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneInput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>ToneInput.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -294,7 +296,7 @@ results only for tones whose scores meet a minimum threshold of 0.5.
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.ToneScore">
 <em class="property">class </em><code class="descname">ToneScore</code><span class="sig-paren">(</span><em>score</em>, <em>tone_id</em>, <em>tone_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#ToneScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.ToneScore" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>ToneScore.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -330,7 +332,7 @@ returns scores for all tones of a category, regardless of their values.
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.Utterance">
 <em class="property">class </em><code class="descname">Utterance</code><span class="sig-paren">(</span><em>text</em>, <em>user=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#Utterance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.Utterance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Utterance.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -348,7 +350,7 @@ utterance specified by the <cite>text</cite> parameter.</p>
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.UtteranceAnalyses">
 <em class="property">class </em><code class="descname">UtteranceAnalyses</code><span class="sig-paren">(</span><em>utterances_tone</em>, <em>warning=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#UtteranceAnalyses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.UtteranceAnalyses" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>UtteranceAnalyses.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -368,7 +370,7 @@ contains more than 50 utterances. The service analyzes only the first 50 utteran
 <dl class="class">
 <dt id="watson_developer_cloud.tone_analyzer_v3.UtteranceAnalysis">
 <em class="property">class </em><code class="descname">UtteranceAnalysis</code><span class="sig-paren">(</span><em>utterance_id</em>, <em>utterance_text</em>, <em>tones</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/tone_analyzer_v3.html#UtteranceAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.tone_analyzer_v3.UtteranceAnalysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>UtteranceAnalysis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -394,6 +396,7 @@ contains more than 500 characters. The service does not analyze the utterance.
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
