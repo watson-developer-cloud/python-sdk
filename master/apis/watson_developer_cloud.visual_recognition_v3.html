@@ -119,8 +119,8 @@ does not support general biometric facial recognition.</p>
 <code class="descname">create_classifier</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.create_classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a classifier.
 :param str name: The name of the new classifier. Encode special characters in UTF-8.
-:param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Must contain a minimum of 10 images. The swagger limits you to training only one class. To train more classes, use the API functionality.
-:param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+:param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file. Encode special characters in the file name in UTF-8.
+:param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images. Encode special characters in the file name in UTF-8.
 :param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>Classifier</cite> response.
 :rtype: dict</p>
@@ -195,8 +195,8 @@ does not support general biometric facial recognition.</p>
 <code class="descname">update_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#VisualRecognitionV3.update_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3.update_classifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update a classifier.
 :param str classifier_id: The ID of the classifier.
-:param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the classifier. Must contain a minimum of 10 images.
-:param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images.
+:param file &lt;NAME&gt;_positive_examples: A .zip file of images that depict the visual subject of a class in the classifier. The positive examples create or update classes in the classifier. You can include more than one positive example file in a call. Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file. Encode special characters in the file name in UTF-8.
+:param file negative_examples: A .zip file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images. Encode special characters in the file name in UTF-8.
 :param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>Classifier</cite> response.
 :rtype: dict</p>
