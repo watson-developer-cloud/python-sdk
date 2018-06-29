@@ -53,190 +53,38 @@ more.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.translate">
-<code class="descname">translate</code><span class="sig-paren">(</span><em>text</em>, <em>model_id=None</em>, <em>source=None</em>, <em>target=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.translate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Translate.</p>
-<p>Translates the input text from the source language to the target language.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – Input text in UTF-8 encoding. Multiple entries will result</td>
-</tr>
-</tbody>
-</table>
-<p>in multiple translations in the response.
-:param str model_id: Model ID of the translation model to use. If this is
-specified, the <strong>source</strong> and <strong>target</strong> parameters will be ignored. The method
-requires either a model ID or both the <strong>source</strong> and <strong>target</strong> parameters.
-:param str source: Language code of the source text language. Use with <cite>target</cite> as
-an alternative way to select a translation model. When <cite>source</cite> and <cite>target</cite> are
-set, and a model ID is not set, the system chooses a default model for the
-language pair (usually the model based on the news domain).
-:param str target: Language code of the translation target language. Use with
-source as an alternative way to select a translation model.
-:param dict headers: A <cite>dict</cite> containing the request headers
-:return: A <cite>dict</cite> containing the <cite>TranslationResult</cite> response.
-:rtype: dict</p>
-</dd></dl>
+<code class="descname">translate</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.translate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.identify">
-<code class="descname">identify</code><span class="sig-paren">(</span><em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.identify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.identify" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identify language.</p>
-<p>Identifies the language of the input text.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Input text in UTF-8 format.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>IdentifiedLanguages</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<code class="descname">identify</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.identify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_identifiable_languages">
-<code class="descname">list_identifiable_languages</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.list_identifiable_languages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_identifiable_languages" title="Permalink to this definition">¶</a></dt>
-<dd><p>List identifiable languages.</p>
-<p>Lists the languages that the service can identify. Returns the language code (for
-example, <cite>en</cite> for English or <cite>es</cite> for Spanish) and name of each language.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>dict</cite> containing the <cite>IdentifiableLanguages</cite> response.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<code class="descname">list_identifiable_languages</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_identifiable_languages" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.create_model">
-<code class="descname">create_model</code><span class="sig-paren">(</span><em>base_model_id</em>, <em>name=None</em>, <em>forced_glossary=None</em>, <em>parallel_corpus=None</em>, <em>monolingual_corpus=None</em>, <em>forced_glossary_filename=None</em>, <em>parallel_corpus_filename=None</em>, <em>monolingual_corpus_filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.create_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.create_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create model.</p>
-<p>Uploads a TMX glossary file on top of a domain to customize a translation model.
-Depending on the size of the file, training can range from minutes for a glossary
-to several hours for a large parallel corpus. Glossary files must be less than 10
-MB. The cumulative file size of all uploaded glossary and corpus files is limited
-to 250 MB.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>base_model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The model ID of the model to use as the base for</td>
-</tr>
-</tbody>
-</table>
-<p>customization. To see available models, use the <cite>List models</cite> method.
-:param str name: An optional model name that you can use to identify the model.
-Valid characters are letters, numbers, dashes, underscores, spaces and
-apostrophes. The maximum length is 32 characters.
-:param file forced_glossary: A TMX file with your customizations. The
-customizations in the file completely overwrite the domain translaton data,
-including high frequency or high confidence phrase translations. You can upload
-only one glossary with a file size less than 10 MB per call.
-:param file parallel_corpus: A TMX file that contains entries that are treated as
-a parallel corpus instead of a glossary.
-:param file monolingual_corpus: A UTF-8 encoded plain text file that is used to
-customize the target language model.
-:param str forced_glossary_filename: The filename for forced_glossary.
-:param str parallel_corpus_filename: The filename for parallel_corpus.
-:param str monolingual_corpus_filename: The filename for monolingual_corpus.
-:param dict headers: A <cite>dict</cite> containing the request headers
-:return: A <cite>dict</cite> containing the <cite>TranslationModel</cite> response.
-:rtype: dict</p>
-</dd></dl>
+<code class="descname">create_model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.create_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.delete_model">
-<code class="descname">delete_model</code><span class="sig-paren">(</span><em>model_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.delete_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.delete_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete model.</p>
-<p>Deletes a custom translation model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Model ID of the model to delete.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>DeleteModelResult</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<code class="descname">delete_model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.delete_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model">
-<code class="descname">get_model</code><span class="sig-paren">(</span><em>model_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get model details.</p>
-<p>Gets information about a translation model, including training status for custom
-models.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Model ID of the model to get.</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>TranslationModel</cite> response.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<code class="descname">get_model</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.get_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_models">
-<code class="descname">list_models</code><span class="sig-paren">(</span><em>source=None</em>, <em>target=None</em>, <em>default_models=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/language_translator_v2.html#LanguageTranslatorV2.list_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_models" title="Permalink to this definition">¶</a></dt>
-<dd><p>List models.</p>
-<p>Lists available translation models.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>source</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Specify a language code to filter results by source language.</li>
-<li><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Specify a language code to filter results by target language.</li>
-<li><strong>default_models</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If the default parameter isn’t specified, the service</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<p>will return all models (default and non-default) for each language pair. To return
-only default models, set this to <cite>true</cite>. To return only non-default models, set
-this to <cite>false</cite>.
-:param dict headers: A <cite>dict</cite> containing the request headers
-:return: A <cite>dict</cite> containing the <cite>TranslationModels</cite> response.
-:rtype: dict</p>
-</dd></dl>
+<code class="descname">list_models</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#watson_developer_cloud.language_translator_v2.LanguageTranslatorV2.list_models" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
