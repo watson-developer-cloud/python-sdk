@@ -19,6 +19,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
     * [IAM](#iam)
     * [Username and password](#username-and-password)
     * [API key](#api-key)
+  * [Deprecation notice](#deprecation-notice)
   * [Python version](#python-version)
   * [Changes for v1.0](#changes-for-v10)
   * [Migration](#migration)
@@ -155,6 +156,9 @@ visual_recognition = VisualRecognitionV3(version='2018-05-22', api_key='<api_key
 visual_recognition = VisualRecognitionV3(version='2018-05-22')
 visual_recognition.set_api_key('<api_key>')
 ```
+
+## Deprecation notice
+Language Translator v3 is now available. The v2 Language Translator API will no longer be available after July 31, 2018. To take advantage of the latest service enhancements, migrate to the v3 API. View the [Migrating to Language Translator v3](https://console.bluemix.net/docs/services/language-translator/migrating.html) page for more information.
 
 ## Python version
 
