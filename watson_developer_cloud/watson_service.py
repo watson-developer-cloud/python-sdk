@@ -437,7 +437,7 @@ class WatsonService(object):
 
         if 200 <= response.status_code <= 299:
             if response.status_code == 204:
-                return None
+                return DetailedResponse(None, response.headers) if self.detailed_response else None
             if accept_json:
                 response_json = response.json()
                 if 'status' in response_json and response_json['status'] \
