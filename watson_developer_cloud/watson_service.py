@@ -235,7 +235,10 @@ class WatsonService(object):
         if api_key is not None:
             self.set_api_key(api_key)
         elif username is not None and password is not None:
-            self.set_username_and_password(username, password)
+            if username in ('apikey', 'apiKey'):
+                self.set_token_manager(password, iam_access_token, iam_url)
+            else:
+                self.set_username_and_password(username, password)
         elif iam_access_token is not None or iam_api_key is not None:
             self.set_token_manager(iam_api_key, iam_access_token, iam_url)
 
