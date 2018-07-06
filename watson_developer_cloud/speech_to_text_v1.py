@@ -408,6 +408,7 @@ class SpeechToTextV1(WatsonService):
                                  profanity_filter=None,
                                  smart_formatting=False,
                                  speaker_labels=None,
+                                 host='wss://stream.watsonplatform.net',
                                  **kwargs):
         """
         Sends audio for speech recognition using web sockets.
@@ -498,6 +499,11 @@ class SpeechToTextV1(WatsonService):
         models** method and check that the attribute `speaker_labels` is set to `true`.
         You can also refer to [Speaker
         labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
+        :param str host: The streaming endpoint
+        * `wss://stream.watsonplatform.net` US South/UK (the default)
+        * `wss://stream-fra.watsonplatform.net` for Frankfurt
+        * `wss://gateway-syd.watsonplatform.net` for Sydney
+        * `wss://gateway-wdc.watsonplatform.net` for US East
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
@@ -520,7 +526,6 @@ class SpeechToTextV1(WatsonService):
         base64_authorization = base64.b64encode(authstring.encode('utf-8')).decode('utf-8')
         headers['Authorization'] = 'Basic {0}'.format(base64_authorization)
 
-        url = self.url.replace('https:', 'wss:')
         params = {
             'model': model,
             'customization_id': customization_id,
@@ -529,7 +534,7 @@ class SpeechToTextV1(WatsonService):
             'version': version
         }
         params = _remove_null_values(params)
-        url = url + '/v1/recognize?{0}'.format(urlencode(params))
+        url = host + '/speech-to-text/api/v1/recognize?{0}'.format(urlencode(params))
 
         options = {
             'content_type': content_type,
