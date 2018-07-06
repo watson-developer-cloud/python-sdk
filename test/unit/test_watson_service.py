@@ -131,3 +131,19 @@ def test_iam():
                   content_type='application/json')
     service.any_service_call()
     assert "grant_type=refresh_token" in responses.calls[0].request.body
+
+@responses.activate
+def test_when_apikey_is_username():
+    service1 = AnyServiceV1('2017-07-07', username='apikey', password='xxxxx')
+    assert service1.token_manager is not None
+    assert service1.iam_api_key is 'xxxxx'
+    assert service1.username is None
+    assert service1.password is None
+    assert service1.token_manager.iam_url == 'https://iam.bluemix.net/identity/token'
+
+    service2 = AnyServiceV1('2017-07-07', username='apikey', password='xxxxx', iam_url='https://iam.stage1.bluemix.net/identity/token')
+    assert service2.token_manager is not None
+    assert service2.iam_api_key is 'xxxxx'
+    assert service2.username is None
+    assert service2.password is None
+    assert service2.token_manager.iam_url == 'https://iam.stage1.bluemix.net/identity/token'
