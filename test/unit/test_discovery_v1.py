@@ -214,6 +214,45 @@ def test_collection():
                                      collection_id='collid')
     assert len(responses.calls) == 5
 
+@responses.activate
+def test_federated_query():
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/query')
+
+    responses.add(responses.GET, discovery_url,
+                  body="{\"body\": \"hello\"}", status=200,
+                  content_type='application/json')
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   username='username',
+                                                   password='password')
+    discovery.federated_query('envid', ['collid1', 'collid2'], filter='colls.sha1::9181d244*')
+
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
+
+@responses.activate
+def test_federated_query_notices():
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/notices')
+
+    responses.add(responses.GET, discovery_url,
+                  body="{\"body\": \"hello\"}", status=200,
+                  content_type='application/json')
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   username='username',
+                                                   password='password')
+    discovery.federated_query_notices('envid', ['collid1', 'collid2'], filter='notices.sha1::9181d244*')
+
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
 
 @responses.activate
 def test_query():
@@ -226,7 +265,12 @@ def test_query():
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
                                                    password='password')
-    discovery.query('envid', 'collid', {'count': 10})
+    discovery.query('envid', 'collid',
+                    filter='extracted_metadata.sha1::9181d244*',
+                    count=1,
+                    passages=True,
+                    passages_fields=['x', 'y'],
+                    passages_count=2)
 
     called_url = urlparse(responses.calls[0].request.url)
     test_url = urlparse(discovery_url)
@@ -283,6 +327,29 @@ def test_query_entities():
     assert len(responses.calls) == 1
 
 @responses.activate
+def test_query_notices():
+    discovery_url = urljoin(
+        base_discovery_url,
+        'environments/envid/collections/collid/notices')
+
+    responses.add(
+        responses.GET,
+        discovery_url,
+        body="{\"body\": \"hello\"}",
+        status=200,
+        content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1(
+        '2016-11-07', username='username', password='password')
+
+    discovery.query_notices('envid', 'collid', filter='notices.sha1::*')
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
+
+@responses.activate
 def test_configs():
     discovery_url = urljoin(base_discovery_url,
                             'environments/envid/configurations')
@@ -327,13 +394,20 @@ def test_configs():
 
     discovery.create_configuration(environment_id='envid',
                                    name='my name')
+    discovery.create_configuration(environment_id='envid',
+                                   name='my name',
+                                   source={'type': 'salesforce', 'credential_id': 'xxx'})
     discovery.update_configuration(environment_id='envid',
                                    configuration_id='confid',
                                    name='my new name')
+    discovery.update_configuration(environment_id='envid',
+                                   configuration_id='confid',
+                                   name='my new name',
+                                   source={'type': 'salesforce', 'credential_id': 'xxx'})
     discovery.delete_configuration(environment_id='envid',
                                    configuration_id='confid')
 
-    assert len(responses.calls) == 5
+    assert len(responses.calls) == 7
 
 
 @responses.activate
@@ -815,3 +889,65 @@ def test_delete_user_data():
     response = discovery.delete_user_data('id')
     assert response is None
     assert len(responses.calls) == 1
+
+@responses.activate
+def test_credentials():
+    discovery_credentials_url = urljoin(base_discovery_url, 'environments/envid/credentials')
+
+    results = {'credential_id': 'e68305ce-29f3-48ea-b829-06653ca0fdef',
+               'source_type': 'salesforce',
+               'credential_details': {
+                   'url': 'https://login.salesforce.com',
+                   'credential_type': 'username_password',
+                   'username':'user@email.com'}
+              }
+
+    iam_url = "https://iam.bluemix.net/identity/token"
+    iam_token_response = """{
+        "access_token": "oAeisG8yqPY7sFR_x66Z15",
+        "token_type": "Bearer",
+        "expires_in": 3600,
+        "expiration": 1524167011,
+        "refresh_token": "jy4gl91BQ"
+    }"""
+    responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
+    responses.add(responses.GET, "{0}/{1}?version=2016-11-07".format(discovery_credentials_url, 'credential_id'),
+                  body=json.dumps(results),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.GET, "{0}?version=2016-11-07".format(discovery_credentials_url),
+                  body=json.dumps([results]),
+                  status=200,
+                  content_type='application/json')
+
+    responses.add(responses.POST, "{0}?version=2016-11-07".format(discovery_credentials_url),
+                  body=json.dumps(results),
+                  status=200,
+                  content_type='application/json')
+    results['source_type'] = 'ibm'
+    responses.add(responses.PUT, "{0}/{1}?version=2016-11-07".format(discovery_credentials_url, 'credential_id'),
+                  body=json.dumps(results),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.DELETE, "{0}/{1}?version=2016-11-07".format(discovery_credentials_url, 'credential_id'),
+                  body=json.dumps({'deleted': 'bogus -- ok'}),
+                  status=200,
+                  content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   iam_api_key='iam_api_key')
+    discovery.create_credentials('envid', 'salesforce', {
+        'url': 'https://login.salesforce.com',
+        'credential_type': 'username_password',
+        'username':'user@email.com'
+        })
+
+    discovery.get_credentials('envid', 'credential_id')
+
+    discovery.update_credentials(environment_id='envid',
+                                 credential_id='credential_id',
+                                 source_type='salesforce',
+                                 credential_details=results['credential_details'])
+    discovery.list_credentials('envid')
+    discovery.delete_credentials(environment_id='envid', credential_id='credential_id')
+    assert len(responses.calls) == 10
