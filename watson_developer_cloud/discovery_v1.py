@@ -256,8 +256,8 @@ class DiscoveryV1(WatsonService):
         """
         Update an environment.
 
-        Updates an environment. The environment's `name` and  `description` parameters can
-        be changed. You must specify a `name` for the environment.
+        Updates an environment. The environment's **name** and  **description** parameters
+        can be changed. You must specify a **name** for the environment.
 
         :param str environment_id: The ID of the environment.
         :param str name: Name that identifies the environment.
@@ -295,13 +295,14 @@ class DiscoveryV1(WatsonService):
                              conversions=None,
                              enrichments=None,
                              normalizations=None,
+                             source=None,
                              **kwargs):
         """
         Add configuration.
 
         Creates a new configuration.
-        If the input configuration contains the `configuration_id`, `created`, or
-        `updated` properties, then they are ignored and overridden by the system, and an
+        If the input configuration contains the **configuration_id**, **created**, or
+        **updated** properties, then they are ignored and overridden by the system, and an
         error is not returned so that the overridden fields do not need to be removed when
         copying a configuration.
         The configuration can contain unrecognized JSON fields. Any such fields are
@@ -320,6 +321,7 @@ class DiscoveryV1(WatsonService):
         :param list[NormalizationOperation] normalizations: Defines operations that can be
         used to transform the final output JSON into a normalized form. Operations are
         executed in the order that they appear in the array.
+        :param Source source: Object containing source parameters for the configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Configuration` response.
         :rtype: dict
@@ -339,6 +341,8 @@ class DiscoveryV1(WatsonService):
                 self._convert_model(x, NormalizationOperation)
                 for x in normalizations
             ]
+        if source is not None:
+            source = self._convert_model(source, Source)
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -348,7 +352,8 @@ class DiscoveryV1(WatsonService):
             'description': description,
             'conversions': conversions,
             'enrichments': enrichments,
-            'normalizations': normalizations
+            'normalizations': normalizations,
+            'source': source
         }
         url = '/v1/environments/{0}/configurations'.format(
             *self._encode_path_vars(environment_id))
@@ -460,14 +465,15 @@ class DiscoveryV1(WatsonService):
                              conversions=None,
                              enrichments=None,
                              normalizations=None,
+                             source=None,
                              **kwargs):
         """
         Update a configuration.
 
         Replaces an existing configuration.
           * Completely replaces the original configuration.
-          * The `configuration_id`, `updated`, and `created` fields are accepted in the
-        request, but they are ignored, and an error is not generated. It is also
+          * The **configuration_id**, **updated**, and **created** fields are accepted in
+        the request, but they are ignored, and an error is not generated. It is also
         acceptable for users to submit an updated configuration with none of the three
         properties.
           * Documents are processed with a snapshot of the configuration as it was at the
@@ -485,6 +491,7 @@ class DiscoveryV1(WatsonService):
         :param list[NormalizationOperation] normalizations: Defines operations that can be
         used to transform the final output JSON into a normalized form. Operations are
         executed in the order that they appear in the array.
+        :param Source source: Object containing source parameters for the configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Configuration` response.
         :rtype: dict
@@ -506,6 +513,8 @@ class DiscoveryV1(WatsonService):
                 self._convert_model(x, NormalizationOperation)
                 for x in normalizations
             ]
+        if source is not None:
+            source = self._convert_model(source, Source)
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -515,7 +524,8 @@ class DiscoveryV1(WatsonService):
             'description': description,
             'conversions': conversions,
             'enrichments': enrichments,
-            'normalizations': normalizations
+            'normalizations': normalizations,
+            'source': source
         }
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
@@ -552,17 +562,17 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str configuration: The configuration to use to process the document. If
         this part is provided, then the provided configuration is used to process the
-        document. If the `configuration_id` is also provided (both are present at the same
-        time), then request is rejected. The maximum supported configuration size is 1 MB.
-        Configuration parts larger than 1 MB are rejected.
+        document. If the **configuration_id** is also provided (both are present at the
+        same time), then request is rejected. The maximum supported configuration size is
+        1 MB. Configuration parts larger than 1 MB are rejected.
         See the `GET /configurations/{configuration_id}` operation for an example
         configuration.
         :param str step: Specify to only run the input document through the given step
         instead of running the input document through the entire ingestion workflow. Valid
         values are `convert`, `enrich`, and `normalize`.
         :param str configuration_id: The ID of the configuration to use to process the
-        document. If the `configuration` form part is also provided (both are present at
-        the same time), then request will be rejected.
+        document. If the **configuration** form part is also provided (both are present at
+        the same time), then the request will be rejected.
         :param file file: The content of the document to ingest. The maximum supported
         file size is 50 megabytes. Files larger than 50 megabytes is rejected.
         :param str metadata: If you're using the Data Crawler to upload your documents,
@@ -842,16 +852,18 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param list[Expansion] expansions: An array of query expansion definitions.
-         Each object in the `expansions` array represents a term or set of terms that will
-        be expanded into other terms. Each expansion object can be configured so that all
-        terms are expanded to all other terms in the object - bi-directional, or a set
-        list of terms can be expanded into a second list of terms - uni-directional.
-         To create a bi-directional expansion specify an `expanded_terms` array. When
-        found in a query, all items in the `expanded_terms` array are then expanded to the
-        other items in the same array.
-         To create a uni-directional expansion, specify both an array of `input_terms` and
-        an array of `expanded_terms`. When items in the `input_terms` array are present in
-        a query, they are expanded using the items listed in the `expanded_terms` array.
+         Each object in the **expansions** array represents a term or set of terms that
+        will be expanded into other terms. Each expansion object can be configured as
+        bidirectional or unidirectional. Bidirectional means that all terms are expanded
+        to all other terms in the object. Unidirectional means that a set list of terms
+        can be expanded into a second list of terms.
+         To create a bi-directional expansion specify an **expanded_terms** array. When
+        found in a query, all items in the **expanded_terms** array are then expanded to
+        the other items in the same array.
+         To create a uni-directional expansion, specify both an array of **input_terms**
+        and an array of **expanded_terms**. When items in the **input_terms** array are
+        present in a query, they are expanded using the items listed in the
+        **expanded_terms** array.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Expansions` response.
         :rtype: dict
@@ -956,14 +968,15 @@ class DiscoveryV1(WatsonService):
         Add a document.
 
         Add a document to a collection with optional metadata.
-          * The `version` query parameter is still required.
+          * The **version** query parameter is still required.
           * Returns immediately after the system has accepted the document for processing.
           * The user must provide document content, metadata, or both. If the request is
         missing both document content and metadata, it is rejected.
-          * The user can set the `Content-Type` parameter on the `file` part to indicate
-        the media type of the document. If the `Content-Type` parameter is missing or is
-        one of the generic media types (for example, `application/octet-stream`), then the
-        service attempts to automatically detect the document's media type.
+          * The user can set the **Content-Type** parameter on the **file** part to
+        indicate the media type of the document. If the **Content-Type** parameter is
+        missing or is one of the generic media types (for example,
+        `application/octet-stream`), then the service attempts to automatically detect the
+        document's media type.
           * The following field names are reserved and will be filtered out if present
         after normalization: `id`, `score`, `highlight`, and any field with the prefix of:
         `_`, `+`, or `-`
@@ -1048,8 +1061,8 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id,
-                                    document_id))
+            *self._encode_path_vars(environment_id, collection_id, document_id)
+        )
         response = self.request(
             method='DELETE',
             url=url,
@@ -1086,8 +1099,8 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id,
-                                    document_id))
+            *self._encode_path_vars(environment_id, collection_id, document_id)
+        )
         response = self.request(
             method='GET',
             url=url,
@@ -1151,8 +1164,8 @@ class DiscoveryV1(WatsonService):
         if metadata:
             metadata_tuple = (None, metadata, 'text/plain')
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id,
-                                    document_id))
+            *self._encode_path_vars(environment_id, collection_id, document_id)
+        )
         response = self.request(
             method='POST',
             url=url,
@@ -1184,6 +1197,10 @@ class DiscoveryV1(WatsonService):
                         similar=None,
                         similar_document_ids=None,
                         similar_fields=None,
+                        passages=None,
+                        passages_fields=None,
+                        passages_count=None,
+                        passages_characters=None,
                         **kwargs):
         """
         Query documents in multiple collections.
@@ -1202,10 +1219,10 @@ class DiscoveryV1(WatsonService):
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
         a query search when you want to find the most relevant search results. You cannot
-        use `natural_language_query` and `query` at the same time.
+        use **natural_language_query** and **query** at the same time.
         :param str natural_language_query: A natural language query that returns relevant
         documents by utilizing training data and natural language understanding. You
-        cannot use `natural_language_query` and `query` at the same time.
+        cannot use **natural_language_query** and **query** at the same time.
         :param str aggregation: An aggregation search uses combinations of filters and
         query search to return an exact answer. Aggregations are useful for building
         applications, because you can use them to build lists, tables, and time series.
@@ -1224,26 +1241,35 @@ class DiscoveryV1(WatsonService):
         which contains the fields that match the query with `<em></em>` tags around the
         matching query terms. Defaults to false.
         :param bool deduplicate: When `true` and used with a Watson Discovery News
-        collection, duplicate results (based on the contents of the `title` field) are
-        removed. Duplicate comparison is limited to the current query only, `offset` is
-        not considered. Defaults to `false`. This parameter is currently Beta
-        functionality.
+        collection, duplicate results (based on the contents of the **title** field) are
+        removed. Duplicate comparison is limited to the current query only; **offset** is
+        not considered. This parameter is currently Beta functionality.
         :param str deduplicate_field: When specified, duplicate results based on the field
         specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, `offset` is not considered. This parameter is currently
-        Beta functionality.
+        to the current query only, **offset** is not considered. This parameter is
+        currently Beta functionality.
         :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the `similar.document_ids` parameter. The default
-        is `false`.
+        to the document IDs specified in the **similar.document_ids** parameter.
         :param list[str] similar_document_ids: A comma-separated list of document IDs that
         will be used to find similar documents.
-        **Note:** If the `natural_language_query` parameter is also specified, it will be
-        used to expand the scope of the document similarity search to include the natural
-        language query. Other query parameters, such as `filter` and `query` are
-        subsequently applied and reduce the query scope.
+        **Note:** If the **natural_language_query** parameter is also specified, it will
+        be used to expand the scope of the document similarity search to include the
+        natural language query. Other query parameters, such as **filter** and **query**
+        are subsequently applied and reduce the query scope.
         :param list[str] similar_fields: A comma-separated list of field names that will
         be used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
+        :param bool passages: A passages query that returns the most relevant passages
+        from the results.
+        :param list[str] passages_fields: A comma-separated list of fields that passages
+        are drawn from. If this parameter not specified, then all top-level fields are
+        included.
+        :param int passages_count: The maximum number of passages to return. The search
+        returns fewer passages if the requested total is not found. The default is `10`.
+        The maximum is `100`.
+        :param int passages_characters: The approximate number of characters that any one
+        passage will have. The default is `400`. The minimum is `50`. The maximum is
+        `2000`.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
@@ -1271,7 +1297,11 @@ class DiscoveryV1(WatsonService):
             'deduplicate.field': deduplicate_field,
             'similar': similar,
             'similar.document_ids': self._convert_list(similar_document_ids),
-            'similar.fields': self._convert_list(similar_fields)
+            'similar.fields': self._convert_list(similar_fields),
+            'passages': passages,
+            'passages.fields': self._convert_list(passages_fields),
+            'passages.count': passages_count,
+            'passages.characters': passages_characters
         }
         url = '/v1/environments/{0}/query'.format(
             *self._encode_path_vars(environment_id))
@@ -1319,10 +1349,10 @@ class DiscoveryV1(WatsonService):
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
         a query search when you want to find the most relevant search results. You cannot
-        use `natural_language_query` and `query` at the same time.
+        use **natural_language_query** and **query** at the same time.
         :param str natural_language_query: A natural language query that returns relevant
         documents by utilizing training data and natural language understanding. You
-        cannot use `natural_language_query` and `query` at the same time.
+        cannot use **natural_language_query** and **query** at the same time.
         :param str aggregation: An aggregation search uses combinations of filters and
         query search to return an exact answer. Aggregations are useful for building
         applications, because you can use them to build lists, tables, and time series.
@@ -1342,17 +1372,16 @@ class DiscoveryV1(WatsonService):
         matching query terms. Defaults to false.
         :param str deduplicate_field: When specified, duplicate results based on the field
         specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, `offset` is not considered. This parameter is currently
-        Beta functionality.
+        to the current query only, **offset** is not considered. This parameter is
+        currently Beta functionality.
         :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the `similar.document_ids` parameter. The default
-        is `false`.
+        to the document IDs specified in the **similar.document_ids** parameter.
         :param list[str] similar_document_ids: A comma-separated list of document IDs that
         will be used to find similar documents.
-        **Note:** If the `natural_language_query` parameter is also specified, it will be
-        used to expand the scope of the document similarity search to include the natural
-        language query. Other query parameters, such as `filter` and `query` are
-        subsequently applied and reduce the query scope.
+        **Note:** If the **natural_language_query** parameter is also specified, it will
+        be used to expand the scope of the document similarity search to include the
+        natural language query. Other query parameters, such as **filter** and **query**
+        are subsequently applied and reduce the query scope.
         :param list[str] similar_fields: A comma-separated list of field names that will
         be used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
@@ -1432,10 +1461,10 @@ class DiscoveryV1(WatsonService):
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
         a query search when you want to find the most relevant search results. You cannot
-        use `natural_language_query` and `query` at the same time.
+        use **natural_language_query** and **query** at the same time.
         :param str natural_language_query: A natural language query that returns relevant
         documents by utilizing training data and natural language understanding. You
-        cannot use `natural_language_query` and `query` at the same time.
+        cannot use **natural_language_query** and **query** at the same time.
         :param bool passages: A passages query that returns the most relevant passages
         from the results.
         :param str aggregation: An aggregation search uses combinations of filters and
@@ -1465,23 +1494,21 @@ class DiscoveryV1(WatsonService):
         passage will have. The default is `400`. The minimum is `50`. The maximum is
         `2000`.
         :param bool deduplicate: When `true` and used with a Watson Discovery News
-        collection, duplicate results (based on the contents of the `title` field) are
-        removed. Duplicate comparison is limited to the current query only, `offset` is
-        not considered. Defaults to `false`. This parameter is currently Beta
-        functionality.
+        collection, duplicate results (based on the contents of the **title** field) are
+        removed. Duplicate comparison is limited to the current query only; **offset** is
+        not considered. This parameter is currently Beta functionality.
         :param str deduplicate_field: When specified, duplicate results based on the field
         specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, `offset` is not considered. This parameter is currently
-        Beta functionality.
+        to the current query only, **offset** is not considered. This parameter is
+        currently Beta functionality.
         :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the `similar.document_ids` parameter. The default
-        is `false`.
+        to the document IDs specified in the **similar.document_ids** parameter.
         :param list[str] similar_document_ids: A comma-separated list of document IDs that
         will be used to find similar documents.
-        **Note:** If the `natural_language_query` parameter is also specified, it will be
-        used to expand the scope of the document similarity search to include the natural
-        language query. Other query parameters, such as `filter` and `query` are
-        subsequently applied and reduce the query scope.
+        **Note:** If the **natural_language_query** parameter is also specified, it will
+        be used to expand the scope of the document similarity search to include the
+        natural language query. Other query parameters, such as **filter** and **query**
+        are subsequently applied and reduce the query scope.
         :param list[str] similar_fields: A comma-separated list of field names that will
         be used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
@@ -1630,10 +1657,10 @@ class DiscoveryV1(WatsonService):
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
         a query search when you want to find the most relevant search results. You cannot
-        use `natural_language_query` and `query` at the same time.
+        use **natural_language_query** and **query** at the same time.
         :param str natural_language_query: A natural language query that returns relevant
         documents by utilizing training data and natural language understanding. You
-        cannot use `natural_language_query` and `query` at the same time.
+        cannot use **natural_language_query** and **query** at the same time.
         :param bool passages: A passages query that returns the most relevant passages
         from the results.
         :param str aggregation: An aggregation search uses combinations of filters and
@@ -1664,17 +1691,16 @@ class DiscoveryV1(WatsonService):
         `2000`.
         :param str deduplicate_field: When specified, duplicate results based on the field
         specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, `offset` is not considered. This parameter is currently
-        Beta functionality.
+        to the current query only, **offset** is not considered. This parameter is
+        currently Beta functionality.
         :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the `similar.document_ids` parameter. The default
-        is `false`.
+        to the document IDs specified in the **similar.document_ids** parameter.
         :param list[str] similar_document_ids: A comma-separated list of document IDs that
         will be used to find similar documents.
-        **Note:** If the `natural_language_query` parameter is also specified, it will be
-        used to expand the scope of the document similarity search to include the natural
-        language query. Other query parameters, such as `filter` and `query` are
-        subsequently applied and reduce the query scope.
+        **Note:** If the **natural_language_query** parameter is also specified, it will
+        be used to expand the scope of the document similarity search to include the
+        natural language query. Other query parameters, such as **filter** and **query**
+        are subsequently applied and reduce the query scope.
         :param list[str] similar_fields: A comma-separated list of field names that will
         be used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
@@ -2214,6 +2240,206 @@ class DiscoveryV1(WatsonService):
             accept_json=True)
         return None
 
+    #########################
+    # Credentials
+    #########################
+
+    def create_credentials(self,
+                           environment_id,
+                           source_type=None,
+                           credential_details=None,
+                           **kwargs):
+        """
+        Create credentials.
+
+        Creates a set of credentials to connect to a remote source. Created credentials
+        are used in a configuration to associate a collection with the remote source.
+        **Note:** All credentials are sent over an encrypted connection and encrypted at
+        rest.
+
+        :param str environment_id: The ID of the environment.
+        :param str source_type: The source that this credentials object connects to.
+        -  `box` indicates the credentials are used to connect an instance of Enterprise
+        Box.
+        -  `salesforce` indicates the credentials are used to connect to Salesforce.
+        -  `sharepoint` indicates the credentials are used to connect to Microsoft
+        SharePoint Online.
+        :param CredentialDetails credential_details: Object containing details of the
+        stored credentials.
+        Obtain credentials for your source from the administrator of the source.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Credentials` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if credential_details is not None:
+            credential_details = self._convert_model(credential_details,
+                                                     CredentialDetails)
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        data = {
+            'source_type': source_type,
+            'credential_details': credential_details
+        }
+        url = '/v1/environments/{0}/credentials'.format(
+            *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    def delete_credentials(self, environment_id, credential_id, **kwargs):
+        """
+        Delete credentials.
+
+        Deletes a set of stored credentials from your Discovery instance.
+
+        :param str environment_id: The ID of the environment.
+        :param str credential_id: The unique identifier for a set of source credentials.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `DeleteCredentials` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if credential_id is None:
+            raise ValueError('credential_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        url = '/v1/environments/{0}/credentials/{1}'.format(
+            *self._encode_path_vars(environment_id, credential_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def get_credentials(self, environment_id, credential_id, **kwargs):
+        """
+        View Credentials.
+
+        Returns details about the specified credentials.
+         **Note:** Secure credential information such as a password or SSH key is never
+        returned and must be obtained from the source system.
+
+        :param str environment_id: The ID of the environment.
+        :param str credential_id: The unique identifier for a set of source credentials.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Credentials` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if credential_id is None:
+            raise ValueError('credential_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        url = '/v1/environments/{0}/credentials/{1}'.format(
+            *self._encode_path_vars(environment_id, credential_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_credentials(self, environment_id, **kwargs):
+        """
+        List credentials.
+
+        List all the source credentials that have been created for this service instance.
+         **Note:**  All credentials are sent over an encrypted connection and encrypted at
+        rest.
+
+        :param str environment_id: The ID of the environment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `CredentialsList` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        url = '/v1/environments/{0}/credentials'.format(
+            *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def update_credentials(self,
+                           environment_id,
+                           credential_id,
+                           source_type=None,
+                           credential_details=None,
+                           **kwargs):
+        """
+        Update credentials.
+
+        Updates an existing set of source credentials.
+        **Note:** All credentials are sent over an encrypted connection and encrypted at
+        rest.
+
+        :param str environment_id: The ID of the environment.
+        :param str credential_id: The unique identifier for a set of source credentials.
+        :param str source_type: The source that this credentials object connects to.
+        -  `box` indicates the credentials are used to connect an instance of Enterprise
+        Box.
+        -  `salesforce` indicates the credentials are used to connect to Salesforce.
+        -  `sharepoint` indicates the credentials are used to connect to Microsoft
+        SharePoint Online.
+        :param CredentialDetails credential_details: Object containing details of the
+        stored credentials.
+        Obtain credentials for your source from the administrator of the source.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `Credentials` response.
+        :rtype: dict
+        """
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if credential_id is None:
+            raise ValueError('credential_id must be provided')
+        if credential_details is not None:
+            credential_details = self._convert_model(credential_details,
+                                                     CredentialDetails)
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        data = {
+            'source_type': source_type,
+            'credential_details': credential_details
+        }
+        url = '/v1/environments/{0}/credentials/{1}'.format(
+            *self._encode_path_vars(environment_id, credential_id))
+        response = self.request(
+            method='PUT',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
 
 ##############################################################################
 # Models
@@ -2309,6 +2535,8 @@ class Collection(object):
     collection.
     :attr TrainingStatus training_status: (optional) Provides information about the status
     of relevance training for collection.
+    :attr SourceStatus source_crawl: (optional) Object containing source crawl status
+    information.
     """
 
     def __init__(self,
@@ -2322,7 +2550,8 @@ class Collection(object):
                  language=None,
                  document_counts=None,
                  disk_usage=None,
-                 training_status=None):
+                 training_status=None,
+                 source_crawl=None):
         """
         Initialize a Collection object.
 
@@ -2347,6 +2576,8 @@ class Collection(object):
         collection.
         :param TrainingStatus training_status: (optional) Provides information about the
         status of relevance training for collection.
+        :param SourceStatus source_crawl: (optional) Object containing source crawl status
+        information.
         """
         self.collection_id = collection_id
         self.name = name
@@ -2359,6 +2590,7 @@ class Collection(object):
         self.document_counts = document_counts
         self.disk_usage = disk_usage
         self.training_status = training_status
+        self.source_crawl = source_crawl
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -2389,6 +2621,9 @@ class Collection(object):
         if 'training_status' in _dict:
             args['training_status'] = TrainingStatus._from_dict(
                 _dict.get('training_status'))
+        if 'source_crawl' in _dict:
+            args['source_crawl'] = SourceStatus._from_dict(
+                _dict.get('source_crawl'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2419,6 +2654,8 @@ class Collection(object):
         if hasattr(self,
                    'training_status') and self.training_status is not None:
             _dict['training_status'] = self.training_status._to_dict()
+        if hasattr(self, 'source_crawl') and self.source_crawl is not None:
+            _dict['source_crawl'] = self.source_crawl._to_dict()
         return _dict
 
     def __str__(self):
@@ -2554,6 +2791,8 @@ class Configuration(object):
     :attr list[NormalizationOperation] normalizations: (optional) Defines operations that
     can be used to transform the final output JSON into a normalized form. Operations are
     executed in the order that they appear in the array.
+    :attr Source source: (optional) Object containing source parameters for the
+    configuration.
     """
 
     def __init__(self,
@@ -2564,7 +2803,8 @@ class Configuration(object):
                  description=None,
                  conversions=None,
                  enrichments=None,
-                 normalizations=None):
+                 normalizations=None,
+                 source=None):
         """
         Initialize a Configuration object.
 
@@ -2584,6 +2824,8 @@ class Configuration(object):
         :param list[NormalizationOperation] normalizations: (optional) Defines operations
         that can be used to transform the final output JSON into a normalized form.
         Operations are executed in the order that they appear in the array.
+        :param Source source: (optional) Object containing source parameters for the
+        configuration.
         """
         self.configuration_id = configuration_id
         self.name = name
@@ -2593,6 +2835,7 @@ class Configuration(object):
         self.conversions = conversions
         self.enrichments = enrichments
         self.normalizations = normalizations
+        self.source = source
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -2623,6 +2866,8 @@ class Configuration(object):
                 NormalizationOperation._from_dict(x)
                 for x in (_dict.get('normalizations'))
             ]
+        if 'source' in _dict:
+            args['source'] = Source._from_dict(_dict.get('source'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2647,6 +2892,8 @@ class Configuration(object):
             _dict['normalizations'] = [
                 x._to_dict() for x in self.normalizations
             ]
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source._to_dict()
         return _dict
 
     def __str__(self):
@@ -2740,6 +2987,339 @@ class Conversions(object):
 
     def __str__(self):
         """Return a `str` version of this Conversions object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CredentialDetails(object):
+    """
+    Object containing details of the stored credentials.
+    Obtain credentials for your source from the administrator of the source.
+
+    :attr str credential_type: (optional) The authentication method for this credentials
+    definition. The  **credential_type** specified must be supported by the
+    **source_type**. The following combinations are possible:
+    -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
+    -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
+    -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml`.
+    :attr str client_id: (optional) The **client_id** of the source that these credentials
+    connect to. Only valid, and required, with a **credential_type** of `oauth2`.
+    :attr str enterprise_id: (optional) The **enterprise_id** of the Box site that these
+    credentials connect to. Only valid, and required, with a **source_type** of `box`.
+    :attr str url: (optional) The **url** of the source that these credentials connect to.
+    Only valid, and required, with a **credential_type** of `username_password`.
+    :attr str username: (optional) The **username** of the source that these credentials
+    connect to. Only valid, and required, with a **credential_type** of `saml` and
+    `username_password`.
+    :attr str organization_url: (optional) The **organization_url** of the source that
+    these credentials connect to. Only valid, and required, with a **credential_type** of
+    `saml`.
+    :attr str site_collection_path: (optional) The **site_collection.path** of the source
+    that these credentials connect to. Only valid, and required, with a **source_type** of
+    `sharepoint`.
+    :attr str client_secret: (optional) The **client_secret** of the source that these
+    credentials connect to. Only valid, and required, with a **credential_type** of
+    `oauth2`. This value is never returned and is only used when creating or modifying
+    **credentials**.
+    :attr str public_key_id: (optional) The **public_key_id** of the source that these
+    credentials connect to. Only valid, and required, with a **credential_type** of
+    `oauth2`. This value is never returned and is only used when creating or modifying
+    **credentials**.
+    :attr str private_key: (optional) The **private_key** of the source that these
+    credentials connect to. Only valid, and required, with a **credential_type** of
+    `oauth2`. This value is never returned and is only used when creating or modifying
+    **credentials**.
+    :attr str passphrase: (optional) The **passphrase** of the source that these
+    credentials connect to. Only valid, and required, with a **credential_type** of
+    `oauth2`. This value is never returned and is only used when creating or modifying
+    **credentials**.
+    :attr str password: (optional) The **password** of the source that these credentials
+    connect to. Only valid, and required, with **credential_type**s of `saml` and
+    `username_password`.
+    **Note:** When used with a **source_type** of `salesforce`, the password consists of
+    the Salesforce password and a valid Salesforce security token concatenated. This value
+    is never returned and is only used when creating or modifying **credentials**.
+    """
+
+    def __init__(self,
+                 credential_type=None,
+                 client_id=None,
+                 enterprise_id=None,
+                 url=None,
+                 username=None,
+                 organization_url=None,
+                 site_collection_path=None,
+                 client_secret=None,
+                 public_key_id=None,
+                 private_key=None,
+                 passphrase=None,
+                 password=None):
+        """
+        Initialize a CredentialDetails object.
+
+        :param str credential_type: (optional) The authentication method for this
+        credentials definition. The  **credential_type** specified must be supported by
+        the **source_type**. The following combinations are possible:
+        -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
+        -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
+        -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml`.
+        :param str client_id: (optional) The **client_id** of the source that these
+        credentials connect to. Only valid, and required, with a **credential_type** of
+        `oauth2`.
+        :param str enterprise_id: (optional) The **enterprise_id** of the Box site that
+        these credentials connect to. Only valid, and required, with a **source_type** of
+        `box`.
+        :param str url: (optional) The **url** of the source that these credentials
+        connect to. Only valid, and required, with a **credential_type** of
+        `username_password`.
+        :param str username: (optional) The **username** of the source that these
+        credentials connect to. Only valid, and required, with a **credential_type** of
+        `saml` and `username_password`.
+        :param str organization_url: (optional) The **organization_url** of the source
+        that these credentials connect to. Only valid, and required, with a
+        **credential_type** of `saml`.
+        :param str site_collection_path: (optional) The **site_collection.path** of the
+        source that these credentials connect to. Only valid, and required, with a
+        **source_type** of `sharepoint`.
+        :param str client_secret: (optional) The **client_secret** of the source that
+        these credentials connect to. Only valid, and required, with a **credential_type**
+        of `oauth2`. This value is never returned and is only used when creating or
+        modifying **credentials**.
+        :param str public_key_id: (optional) The **public_key_id** of the source that
+        these credentials connect to. Only valid, and required, with a **credential_type**
+        of `oauth2`. This value is never returned and is only used when creating or
+        modifying **credentials**.
+        :param str private_key: (optional) The **private_key** of the source that these
+        credentials connect to. Only valid, and required, with a **credential_type** of
+        `oauth2`. This value is never returned and is only used when creating or modifying
+        **credentials**.
+        :param str passphrase: (optional) The **passphrase** of the source that these
+        credentials connect to. Only valid, and required, with a **credential_type** of
+        `oauth2`. This value is never returned and is only used when creating or modifying
+        **credentials**.
+        :param str password: (optional) The **password** of the source that these
+        credentials connect to. Only valid, and required, with **credential_type**s of
+        `saml` and `username_password`.
+        **Note:** When used with a **source_type** of `salesforce`, the password consists
+        of the Salesforce password and a valid Salesforce security token concatenated.
+        This value is never returned and is only used when creating or modifying
+        **credentials**.
+        """
+        self.credential_type = credential_type
+        self.client_id = client_id
+        self.enterprise_id = enterprise_id
+        self.url = url
+        self.username = username
+        self.organization_url = organization_url
+        self.site_collection_path = site_collection_path
+        self.client_secret = client_secret
+        self.public_key_id = public_key_id
+        self.private_key = private_key
+        self.passphrase = passphrase
+        self.password = password
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CredentialDetails object from a json dictionary."""
+        args = {}
+        if 'credential_type' in _dict:
+            args['credential_type'] = _dict.get('credential_type')
+        if 'client_id' in _dict:
+            args['client_id'] = _dict.get('client_id')
+        if 'enterprise_id' in _dict:
+            args['enterprise_id'] = _dict.get('enterprise_id')
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        if 'username' in _dict:
+            args['username'] = _dict.get('username')
+        if 'organization_url' in _dict:
+            args['organization_url'] = _dict.get('organization_url')
+        if 'site_collection.path' in _dict:
+            args['site_collection_path'] = _dict.get('site_collection.path')
+        if 'client_secret' in _dict:
+            args['client_secret'] = _dict.get('client_secret')
+        if 'public_key_id' in _dict:
+            args['public_key_id'] = _dict.get('public_key_id')
+        if 'private_key' in _dict:
+            args['private_key'] = _dict.get('private_key')
+        if 'passphrase' in _dict:
+            args['passphrase'] = _dict.get('passphrase')
+        if 'password' in _dict:
+            args['password'] = _dict.get('password')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'credential_type') and self.credential_type is not None:
+            _dict['credential_type'] = self.credential_type
+        if hasattr(self, 'client_id') and self.client_id is not None:
+            _dict['client_id'] = self.client_id
+        if hasattr(self, 'enterprise_id') and self.enterprise_id is not None:
+            _dict['enterprise_id'] = self.enterprise_id
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'username') and self.username is not None:
+            _dict['username'] = self.username
+        if hasattr(self,
+                   'organization_url') and self.organization_url is not None:
+            _dict['organization_url'] = self.organization_url
+        if hasattr(self, 'site_collection_path'
+                  ) and self.site_collection_path is not None:
+            _dict['site_collection.path'] = self.site_collection_path
+        if hasattr(self, 'client_secret') and self.client_secret is not None:
+            _dict['client_secret'] = self.client_secret
+        if hasattr(self, 'public_key_id') and self.public_key_id is not None:
+            _dict['public_key_id'] = self.public_key_id
+        if hasattr(self, 'private_key') and self.private_key is not None:
+            _dict['private_key'] = self.private_key
+        if hasattr(self, 'passphrase') and self.passphrase is not None:
+            _dict['passphrase'] = self.passphrase
+        if hasattr(self, 'password') and self.password is not None:
+            _dict['password'] = self.password
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CredentialDetails object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Credentials(object):
+    """
+    Object containing credential information.
+
+    :attr str credential_id: (optional) Unique identifier for this set of credentials.
+    :attr str source_type: (optional) The source that this credentials object connects to.
+    -  `box` indicates the credentials are used to connect an instance of Enterprise Box.
+    -  `salesforce` indicates the credentials are used to connect to Salesforce.
+    -  `sharepoint` indicates the credentials are used to connect to Microsoft SharePoint
+    Online.
+    :attr CredentialDetails credential_details: (optional) Object containing details of
+    the stored credentials.
+    Obtain credentials for your source from the administrator of the source.
+    """
+
+    def __init__(self,
+                 credential_id=None,
+                 source_type=None,
+                 credential_details=None):
+        """
+        Initialize a Credentials object.
+
+        :param str credential_id: (optional) Unique identifier for this set of
+        credentials.
+        :param str source_type: (optional) The source that this credentials object
+        connects to.
+        -  `box` indicates the credentials are used to connect an instance of Enterprise
+        Box.
+        -  `salesforce` indicates the credentials are used to connect to Salesforce.
+        -  `sharepoint` indicates the credentials are used to connect to Microsoft
+        SharePoint Online.
+        :param CredentialDetails credential_details: (optional) Object containing details
+        of the stored credentials.
+        Obtain credentials for your source from the administrator of the source.
+        """
+        self.credential_id = credential_id
+        self.source_type = source_type
+        self.credential_details = credential_details
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Credentials object from a json dictionary."""
+        args = {}
+        if 'credential_id' in _dict:
+            args['credential_id'] = _dict.get('credential_id')
+        if 'source_type' in _dict:
+            args['source_type'] = _dict.get('source_type')
+        if 'credential_details' in _dict:
+            args['credential_details'] = CredentialDetails._from_dict(
+                _dict.get('credential_details'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'credential_id') and self.credential_id is not None:
+            _dict['credential_id'] = self.credential_id
+        if hasattr(self, 'source_type') and self.source_type is not None:
+            _dict['source_type'] = self.source_type
+        if hasattr(
+                self,
+                'credential_details') and self.credential_details is not None:
+            _dict['credential_details'] = self.credential_details._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Credentials object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CredentialsList(object):
+    """
+    CredentialsList.
+
+    :attr list[Credentials] credentials: (optional) An array of credential definitions
+    that were created for this instance.
+    """
+
+    def __init__(self, credentials=None):
+        """
+        Initialize a CredentialsList object.
+
+        :param list[Credentials] credentials: (optional) An array of credential
+        definitions that were created for this instance.
+        """
+        self.credentials = credentials
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CredentialsList object from a json dictionary."""
+        args = {}
+        if 'credentials' in _dict:
+            args['credentials'] = [
+                Credentials._from_dict(x) for x in (_dict.get('credentials'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'credentials') and self.credentials is not None:
+            _dict['credentials'] = [x._to_dict() for x in self.credentials]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CredentialsList object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2889,6 +3469,60 @@ class DeleteConfigurationResponse(object):
         return not self == other
 
 
+class DeleteCredentials(object):
+    """
+    Object returned after credentials are deleted.
+
+    :attr str credential_id: (optional) The unique identifier of the credentials that have
+    been deleted.
+    :attr str status: (optional) The status of the deletion request.
+    """
+
+    def __init__(self, credential_id=None, status=None):
+        """
+        Initialize a DeleteCredentials object.
+
+        :param str credential_id: (optional) The unique identifier of the credentials that
+        have been deleted.
+        :param str status: (optional) The status of the deletion request.
+        """
+        self.credential_id = credential_id
+        self.status = status
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DeleteCredentials object from a json dictionary."""
+        args = {}
+        if 'credential_id' in _dict:
+            args['credential_id'] = _dict.get('credential_id')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'credential_id') and self.credential_id is not None:
+            _dict['credential_id'] = self.credential_id
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DeleteCredentials object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class DeleteDocumentResponse(object):
     """
     DeleteDocumentResponse.
@@ -3007,8 +3641,8 @@ class DiskUsage(object):
     """
     Summary of the disk usage statistics for the environment.
 
-    :attr int used_bytes: (optional) Number of bytes used on the environment's disk
-    capacity.
+    :attr int used_bytes: (optional) Number of bytes within the environment's disk
+    capacity that are currently used to store data.
     :attr int maximum_allowed_bytes: (optional) Total number of bytes available in the
     environment's disk capacity.
     :attr int total_bytes: (optional) **Deprecated**: Total number of bytes available in
@@ -3031,8 +3665,8 @@ class DiskUsage(object):
         """
         Initialize a DiskUsage object.
 
-        :param int used_bytes: (optional) Number of bytes used on the environment's disk
-        capacity.
+        :param int used_bytes: (optional) Number of bytes within the environment's disk
+        capacity that are currently used to store data.
         :param int maximum_allowed_bytes: (optional) Total number of bytes available in
         the environment's disk capacity.
         :param int total_bytes: (optional) **Deprecated**: Total number of bytes available
@@ -3444,9 +4078,9 @@ class Enrichment(object):
     destination_field field if it already exists.
     :attr str enrichment_name: Name of the enrichment service to call. Current options are
     `natural_language_understanding` and `elements`.
-     When using `natual_language_understanding`, the `options` object must contain Natural
-    Language Understanding Options.
-     When using `elements` the `options` object must contain Element Classification
+     When using `natual_language_understanding`, the **options** object must contain
+    Natural Language Understanding options.
+     When using `elements` the **options** object must contain Element Classification
     options. Additionally, when using the `elements` enrichment the configuration
     specified and files ingested must meet all the criteria specified in [the
     documentation](https://console.bluemix.net/docs/services/discovery/element-classification.html)
@@ -3476,9 +4110,9 @@ class Enrichment(object):
         :param str source_field: Field to be enriched.
         :param str enrichment_name: Name of the enrichment service to call. Current
         options are `natural_language_understanding` and `elements`.
-         When using `natual_language_understanding`, the `options` object must contain
-        Natural Language Understanding Options.
-         When using `elements` the `options` object must contain Element Classification
+         When using `natual_language_understanding`, the **options** object must contain
+        Natural Language Understanding options.
+         When using `elements` the **options** object must contain Element Classification
         options. Additionally, when using the `elements` enrichment the configuration
         specified and files ingested must meet all the criteria specified in [the
         documentation](https://console.bluemix.net/docs/services/discovery/element-classification.html)
@@ -3637,12 +4271,12 @@ class Environment(object):
     :attr str name: (optional) Name that identifies the environment.
     :attr str description: (optional) Description of the environment.
     :attr datetime created: (optional) Creation date of the environment, in the format
-    yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
     :attr datetime updated: (optional) Date of most recent environment update, in the
-    format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
     :attr str status: (optional) Status of the environment.
-    :attr bool read_only: (optional) If true, then the environment contains read-only
-    collections which are maintained by IBM.
+    :attr bool read_only: (optional) If `true`, the environment contains read-only
+    collections that are maintained by IBM.
     :attr int size: (optional) **Deprecated**: Size of the environment.
     :attr IndexCapacity index_capacity: (optional) Details about the resource usage and
     capacity of the environment.
@@ -3665,12 +4299,12 @@ class Environment(object):
         :param str name: (optional) Name that identifies the environment.
         :param str description: (optional) Description of the environment.
         :param datetime created: (optional) Creation date of the environment, in the
-        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
         :param datetime updated: (optional) Date of most recent environment update, in the
-        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
         :param str status: (optional) Status of the environment.
-        :param bool read_only: (optional) If true, then the environment contains read-only
-        collections which are maintained by IBM.
+        :param bool read_only: (optional) If `true`, the environment contains read-only
+        collections that are maintained by IBM.
         :param int size: (optional) **Deprecated**: Size of the environment.
         :param IndexCapacity index_capacity: (optional) Details about the resource usage
         and capacity of the environment.
@@ -3812,7 +4446,7 @@ class Expansion(object):
     :attr list[str] input_terms: (optional) A list of terms that will be expanded for this
     expansion. If specified, only the items in this list are expanded.
     :attr list[str] expanded_terms: A list of terms that this expansion will be expanded
-    to. If specified without `input_terms`, it also functions as the input term list.
+    to. If specified without **input_terms**, it also functions as the input term list.
     """
 
     def __init__(self, expanded_terms, input_terms=None):
@@ -3820,7 +4454,7 @@ class Expansion(object):
         Initialize a Expansion object.
 
         :param list[str] expanded_terms: A list of terms that this expansion will be
-        expanded to. If specified without `input_terms`, it also functions as the input
+        expanded to. If specified without **input_terms**, it also functions as the input
         term list.
         :param list[str] input_terms: (optional) A list of terms that will be expanded for
         this expansion. If specified, only the items in this list are expanded.
@@ -3871,16 +4505,17 @@ class Expansions(object):
     The query expansion definitions for the specified collection.
 
     :attr list[Expansion] expansions: An array of query expansion definitions.
-     Each object in the `expansions` array represents a term or set of terms that will be
-    expanded into other terms. Each expansion object can be configured so that all terms
-    are expanded to all other terms in the object - bi-directional, or a set list of terms
-    can be expanded into a second list of terms - uni-directional.
-     To create a bi-directional expansion specify an `expanded_terms` array. When found in
-    a query, all items in the `expanded_terms` array are then expanded to the other items
-    in the same array.
-     To create a uni-directional expansion, specify both an array of `input_terms` and an
-    array of `expanded_terms`. When items in the `input_terms` array are present in a
-    query, they are expanded using the items listed in the `expanded_terms` array.
+     Each object in the **expansions** array represents a term or set of terms that will
+    be expanded into other terms. Each expansion object can be configured as bidirectional
+    or unidirectional. Bidirectional means that all terms are expanded to all other terms
+    in the object. Unidirectional means that a set list of terms can be expanded into a
+    second list of terms.
+     To create a bi-directional expansion specify an **expanded_terms** array. When found
+    in a query, all items in the **expanded_terms** array are then expanded to the other
+    items in the same array.
+     To create a uni-directional expansion, specify both an array of **input_terms** and
+    an array of **expanded_terms**. When items in the **input_terms** array are present in
+    a query, they are expanded using the items listed in the **expanded_terms** array.
     """
 
     def __init__(self, expansions):
@@ -3888,16 +4523,18 @@ class Expansions(object):
         Initialize a Expansions object.
 
         :param list[Expansion] expansions: An array of query expansion definitions.
-         Each object in the `expansions` array represents a term or set of terms that will
-        be expanded into other terms. Each expansion object can be configured so that all
-        terms are expanded to all other terms in the object - bi-directional, or a set
-        list of terms can be expanded into a second list of terms - uni-directional.
-         To create a bi-directional expansion specify an `expanded_terms` array. When
-        found in a query, all items in the `expanded_terms` array are then expanded to the
-        other items in the same array.
-         To create a uni-directional expansion, specify both an array of `input_terms` and
-        an array of `expanded_terms`. When items in the `input_terms` array are present in
-        a query, they are expanded using the items listed in the `expanded_terms` array.
+         Each object in the **expansions** array represents a term or set of terms that
+        will be expanded into other terms. Each expansion object can be configured as
+        bidirectional or unidirectional. Bidirectional means that all terms are expanded
+        to all other terms in the object. Unidirectional means that a set list of terms
+        can be expanded into a second list of terms.
+         To create a bi-directional expansion specify an **expanded_terms** array. When
+        found in a query, all items in the **expanded_terms** array are then expanded to
+        the other items in the same array.
+         To create a uni-directional expansion, specify both an array of **input_terms**
+        and an array of **expanded_terms**. When items in the **input_terms** array are
+        present in a query, they are expanded using the items listed in the
+        **expanded_terms** array.
         """
         self.expansions = expansions
 
@@ -5008,8 +5645,8 @@ class NluEnrichmentSemanticRoles(object):
     """
     An object specifiying the semantic roles enrichment and related parameters.
 
-    :attr bool entities: (optional) When `true` entities are extracted from the identified
-    sentence parts.
+    :attr bool entities: (optional) When `true`, entities are extracted from the
+    identified sentence parts.
     :attr bool keywords: (optional) When `true`, keywords are extracted from the
     identified sentence parts.
     :attr int limit: (optional) The maximum number of semantic roles enrichments to extact
@@ -5020,7 +5657,7 @@ class NluEnrichmentSemanticRoles(object):
         """
         Initialize a NluEnrichmentSemanticRoles object.
 
-        :param bool entities: (optional) When `true` entities are extracted from the
+        :param bool entities: (optional) When `true`, entities are extracted from the
         identified sentence parts.
         :param bool keywords: (optional) When `true`, keywords are extracted from the
         identified sentence parts.
@@ -5130,27 +5767,27 @@ class NormalizationOperation(object):
     NormalizationOperation.
 
     :attr str operation: (optional) Identifies what type of operation to perform.
-    **copy** - Copies the value of the `source_field` to the `destination_field` field. If
-    the `destination_field` already exists, then the value of the `source_field`
-    overwrites the original value of the `destination_field`.
-    **move** - Renames (moves) the `source_field` to the `destination_field`. If the
-    `destination_field` already exists, then the value of the `source_field` overwrites
-    the original value of the `destination_field`. Rename is identical to copy, except
-    that the `source_field` is removed after the value has been copied to the
-    `destination_field` (it is the same as a _copy_ followed by a _remove_).
-    **merge** - Merges the value of the `source_field` with the value of the
-    `destination_field`. The `destination_field` is converted into an array if it is not
-    already an array, and the value of the `source_field` is appended to the array. This
-    operation removes the `source_field` after the merge. If the `source_field` does not
-    exist in the current document, then the `destination_field` is still converted into an
-    array (if it is not an array already). This is ensures the type for
-    `destination_field` is consistent across all documents.
-    **remove** - Deletes the `source_field` field. The `destination_field` is ignored for
-    this operation.
-    **remove_nulls** - Removes all nested null (blank) leif values from the JSON tree.
-    `source_field` and `destination_field` are ignored by this operation because
-    _remove_nulls_ operates on the entire JSON tree. Typically, `remove_nulls` is invoked
-    as the last normalization operation (if it is inoked at all, it can be
+    **copy** - Copies the value of the **source_field** to the **destination_field**
+    field. If the **destination_field** already exists, then the value of the
+    **source_field** overwrites the original value of the **destination_field**.
+    **move** - Renames (moves) the **source_field** to the **destination_field**. If the
+    **destination_field** already exists, then the value of the **source_field**
+    overwrites the original value of the **destination_field**. Rename is identical to
+    copy, except that the **source_field** is removed after the value has been copied to
+    the **destination_field** (it is the same as a _copy_ followed by a _remove_).
+    **merge** - Merges the value of the **source_field** with the value of the
+    **destination_field**. The **destination_field** is converted into an array if it is
+    not already an array, and the value of the **source_field** is appended to the array.
+    This operation removes the **source_field** after the merge. If the **source_field**
+    does not exist in the current document, then the **destination_field** is still
+    converted into an array (if it is not an array already). This conversion ensures the
+    type for **destination_field** is consistent across all documents.
+    **remove** - Deletes the **source_field** field. The **destination_field** is ignored
+    for this operation.
+    **remove_nulls** - Removes all nested null (blank) field values from the JSON tree.
+    **source_field** and **destination_field** are ignored by this operation because
+    _remove_nulls_ operates on the entire JSON tree. Typically, **remove_nulls** is
+    invoked as the last normalization operation (if it is invoked at all, it can be
     time-expensive).
     :attr str source_field: (optional) The source field for the operation.
     :attr str destination_field: (optional) The destination field for the operation.
@@ -5164,29 +5801,29 @@ class NormalizationOperation(object):
         Initialize a NormalizationOperation object.
 
         :param str operation: (optional) Identifies what type of operation to perform.
-        **copy** - Copies the value of the `source_field` to the `destination_field`
-        field. If the `destination_field` already exists, then the value of the
-        `source_field` overwrites the original value of the `destination_field`.
-        **move** - Renames (moves) the `source_field` to the `destination_field`. If the
-        `destination_field` already exists, then the value of the `source_field`
-        overwrites the original value of the `destination_field`. Rename is identical to
-        copy, except that the `source_field` is removed after the value has been copied to
-        the `destination_field` (it is the same as a _copy_ followed by a _remove_).
-        **merge** - Merges the value of the `source_field` with the value of the
-        `destination_field`. The `destination_field` is converted into an array if it is
-        not already an array, and the value of the `source_field` is appended to the
-        array. This operation removes the `source_field` after the merge. If the
-        `source_field` does not exist in the current document, then the
-        `destination_field` is still converted into an array (if it is not an array
-        already). This is ensures the type for `destination_field` is consistent across
-        all documents.
-        **remove** - Deletes the `source_field` field. The `destination_field` is ignored
-        for this operation.
-        **remove_nulls** - Removes all nested null (blank) leif values from the JSON tree.
-        `source_field` and `destination_field` are ignored by this operation because
-        _remove_nulls_ operates on the entire JSON tree. Typically, `remove_nulls` is
-        invoked as the last normalization operation (if it is inoked at all, it can be
-        time-expensive).
+        **copy** - Copies the value of the **source_field** to the **destination_field**
+        field. If the **destination_field** already exists, then the value of the
+        **source_field** overwrites the original value of the **destination_field**.
+        **move** - Renames (moves) the **source_field** to the **destination_field**. If
+        the **destination_field** already exists, then the value of the **source_field**
+        overwrites the original value of the **destination_field**. Rename is identical to
+        copy, except that the **source_field** is removed after the value has been copied
+        to the **destination_field** (it is the same as a _copy_ followed by a _remove_).
+        **merge** - Merges the value of the **source_field** with the value of the
+        **destination_field**. The **destination_field** is converted into an array if it
+        is not already an array, and the value of the **source_field** is appended to the
+        array. This operation removes the **source_field** after the merge. If the
+        **source_field** does not exist in the current document, then the
+        **destination_field** is still converted into an array (if it is not an array
+        already). This conversion ensures the type for **destination_field** is consistent
+        across all documents.
+        **remove** - Deletes the **source_field** field. The **destination_field** is
+        ignored for this operation.
+        **remove_nulls** - Removes all nested null (blank) field values from the JSON
+        tree. **source_field** and **destination_field** are ignored by this operation
+        because _remove_nulls_ operates on the entire JSON tree. Typically,
+        **remove_nulls** is invoked as the last normalization operation (if it is invoked
+        at all, it can be time-expensive).
         :param str source_field: (optional) The source field for the operation.
         :param str destination_field: (optional) The destination field for the operation.
         """
@@ -6042,7 +6679,7 @@ class QueryNoticesResult(object):
 
     :attr str id: (optional) The unique identifier of the document.
     :attr float score: (optional) *Deprecated* This field is now part of the
-    `result_metadata` object.
+    **result_metadata** object.
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the
     document for this result.
@@ -6074,7 +6711,7 @@ class QueryNoticesResult(object):
 
         :param str id: (optional) The unique identifier of the document.
         :param float score: (optional) *Deprecated* This field is now part of the
-        `result_metadata` object.
+        **result_metadata** object.
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
         containing the document for this result.
@@ -6613,6 +7250,8 @@ class QueryResponse(object):
     :attr list[QueryAggregation] aggregations: (optional)
     :attr list[QueryPassages] passages: (optional)
     :attr int duplicates_removed: (optional)
+    :attr str session_token: (optional) The session token for this query. The session
+    token can be used to add events associated with this query to the query and event log.
     """
 
     def __init__(self,
@@ -6620,7 +7259,8 @@ class QueryResponse(object):
                  results=None,
                  aggregations=None,
                  passages=None,
-                 duplicates_removed=None):
+                 duplicates_removed=None,
+                 session_token=None):
         """
         Initialize a QueryResponse object.
 
@@ -6629,12 +7269,16 @@ class QueryResponse(object):
         :param list[QueryAggregation] aggregations: (optional)
         :param list[QueryPassages] passages: (optional)
         :param int duplicates_removed: (optional)
+        :param str session_token: (optional) The session token for this query. The session
+        token can be used to add events associated with this query to the query and event
+        log.
         """
         self.matching_results = matching_results
         self.results = results
         self.aggregations = aggregations
         self.passages = passages
         self.duplicates_removed = duplicates_removed
+        self.session_token = session_token
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -6657,6 +7301,8 @@ class QueryResponse(object):
             ]
         if 'duplicates_removed' in _dict:
             args['duplicates_removed'] = _dict.get('duplicates_removed')
+        if 'session_token' in _dict:
+            args['session_token'] = _dict.get('session_token')
         return cls(**args)
 
     def _to_dict(self):
@@ -6675,6 +7321,8 @@ class QueryResponse(object):
                 self,
                 'duplicates_removed') and self.duplicates_removed is not None:
             _dict['duplicates_removed'] = self.duplicates_removed
+        if hasattr(self, 'session_token') and self.session_token is not None:
+            _dict['session_token'] = self.session_token
         return _dict
 
     def __str__(self):
@@ -6698,7 +7346,7 @@ class QueryResult(object):
 
     :attr str id: (optional) The unique identifier of the document.
     :attr float score: (optional) *Deprecated* This field is now part of the
-    `result_metadata` object.
+    **result_metadata** object.
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the
     document for this result.
@@ -6718,7 +7366,7 @@ class QueryResult(object):
 
         :param str id: (optional) The unique identifier of the document.
         :param float score: (optional) *Deprecated* This field is now part of the
-        `result_metadata` object.
+        **result_metadata** object.
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
         containing the document for this result.
@@ -6809,18 +7457,23 @@ class QueryResultResultMetadata(object):
     """
     Metadata of a query result.
 
-    :attr float score: (optional) The confidence score of the result's analysis. A higher
-    score indicating greater confidence.
+    :attr float score: (optional) The raw score of the result. A higher score indicates a
+    greater match to the query parameters.
+    :attr float confidence: (optional) The confidence score of the result's analysis. A
+    higher score indicates greater confidence.
     """
 
-    def __init__(self, score=None):
+    def __init__(self, score=None, confidence=None):
         """
         Initialize a QueryResultResultMetadata object.
 
-        :param float score: (optional) The confidence score of the result's analysis. A
-        higher score indicating greater confidence.
+        :param float score: (optional) The raw score of the result. A higher score
+        indicates a greater match to the query parameters.
+        :param float confidence: (optional) The confidence score of the result's analysis.
+        A higher score indicates greater confidence.
         """
         self.score = score
+        self.confidence = confidence
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -6828,6 +7481,8 @@ class QueryResultResultMetadata(object):
         args = {}
         if 'score' in _dict:
             args['score'] = _dict.get('score')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
         return cls(**args)
 
     def _to_dict(self):
@@ -6835,6 +7490,8 @@ class QueryResultResultMetadata(object):
         _dict = {}
         if hasattr(self, 'score') and self.score is not None:
             _dict['score'] = self.score
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
         return _dict
 
     def __str__(self):
@@ -6894,6 +7551,514 @@ class SegmentSettings(object):
 
     def __str__(self):
         """Return a `str` version of this SegmentSettings object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Source(object):
+    """
+    Object containing source parameters for the configuration.
+
+    :attr str type: (optional) The type of source to connect to.
+    -  `box` indicates the configuration is to connect an instance of Enterprise Box.
+    -  `salesforce` indicates the configuration is to connect to Salesforce.
+    -  `sharepoint` indicates the configuration is to connect to Microsoft SharePoint
+    Online.
+    :attr str credential_id: (optional) The **credential_id** of the credentials to use to
+    connect to the source. Credentials are defined using the **credentials** method. The
+    **source_type** of the credentials used must match the **type** field specified in
+    this object.
+    :attr SourceSchedule schedule: (optional) Object containing the schedule information
+    for the source.
+    :attr SourceOptions options: (optional) The **options** object defines which items to
+    crawl from the source system.
+    """
+
+    def __init__(self,
+                 type=None,
+                 credential_id=None,
+                 schedule=None,
+                 options=None):
+        """
+        Initialize a Source object.
+
+        :param str type: (optional) The type of source to connect to.
+        -  `box` indicates the configuration is to connect an instance of Enterprise Box.
+        -  `salesforce` indicates the configuration is to connect to Salesforce.
+        -  `sharepoint` indicates the configuration is to connect to Microsoft SharePoint
+        Online.
+        :param str credential_id: (optional) The **credential_id** of the credentials to
+        use to connect to the source. Credentials are defined using the **credentials**
+        method. The **source_type** of the credentials used must match the **type** field
+        specified in this object.
+        :param SourceSchedule schedule: (optional) Object containing the schedule
+        information for the source.
+        :param SourceOptions options: (optional) The **options** object defines which
+        items to crawl from the source system.
+        """
+        self.type = type
+        self.credential_id = credential_id
+        self.schedule = schedule
+        self.options = options
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Source object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'credential_id' in _dict:
+            args['credential_id'] = _dict.get('credential_id')
+        if 'schedule' in _dict:
+            args['schedule'] = SourceSchedule._from_dict(_dict.get('schedule'))
+        if 'options' in _dict:
+            args['options'] = SourceOptions._from_dict(_dict.get('options'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'credential_id') and self.credential_id is not None:
+            _dict['credential_id'] = self.credential_id
+        if hasattr(self, 'schedule') and self.schedule is not None:
+            _dict['schedule'] = self.schedule._to_dict()
+        if hasattr(self, 'options') and self.options is not None:
+            _dict['options'] = self.options._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Source object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SourceOptions(object):
+    """
+    The **options** object defines which items to crawl from the source system.
+
+    :attr list[SourceOptionsFolder] folders: (optional) Array of folders to crawl from the
+    Box source. Only valid, and required, when the **type** field of the **source** object
+    is set to `box`.
+    :attr list[SourceOptionsObject] objects: (optional) Array of Salesforce document
+    object types to crawl from the Salesforce source. Only valid, and required, when the
+    **type** field of the **source** object is set to `salesforce`.
+    :attr list[SourceOptionsSiteColl] site_collections: (optional) Array of Microsoft
+    SharePointoint Online site collections to crawl from the SharePoint source. Only valid
+    and required when the **type** field of the **source** object is set to `sharepoint`.
+    """
+
+    def __init__(self, folders=None, objects=None, site_collections=None):
+        """
+        Initialize a SourceOptions object.
+
+        :param list[SourceOptionsFolder] folders: (optional) Array of folders to crawl
+        from the Box source. Only valid, and required, when the **type** field of the
+        **source** object is set to `box`.
+        :param list[SourceOptionsObject] objects: (optional) Array of Salesforce document
+        object types to crawl from the Salesforce source. Only valid, and required, when
+        the **type** field of the **source** object is set to `salesforce`.
+        :param list[SourceOptionsSiteColl] site_collections: (optional) Array of Microsoft
+        SharePointoint Online site collections to crawl from the SharePoint source. Only
+        valid and required when the **type** field of the **source** object is set to
+        `sharepoint`.
+        """
+        self.folders = folders
+        self.objects = objects
+        self.site_collections = site_collections
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SourceOptions object from a json dictionary."""
+        args = {}
+        if 'folders' in _dict:
+            args['folders'] = [
+                SourceOptionsFolder._from_dict(x)
+                for x in (_dict.get('folders'))
+            ]
+        if 'objects' in _dict:
+            args['objects'] = [
+                SourceOptionsObject._from_dict(x)
+                for x in (_dict.get('objects'))
+            ]
+        if 'site_collections' in _dict:
+            args['site_collections'] = [
+                SourceOptionsSiteColl._from_dict(x)
+                for x in (_dict.get('site_collections'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'folders') and self.folders is not None:
+            _dict['folders'] = [x._to_dict() for x in self.folders]
+        if hasattr(self, 'objects') and self.objects is not None:
+            _dict['objects'] = [x._to_dict() for x in self.objects]
+        if hasattr(self,
+                   'site_collections') and self.site_collections is not None:
+            _dict['site_collections'] = [
+                x._to_dict() for x in self.site_collections
+            ]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SourceOptions object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SourceOptionsFolder(object):
+    """
+    Object that defines a box folder to crawl with this configuration.
+
+    :attr str owner_user_id: The Box user ID of the user who owns the folder to crawl.
+    :attr str folder_id: The Box folder ID of the folder to crawl.
+    :attr int limit: (optional) The maximum number of documents to crawl for this folder.
+    By default, all documents in the folder are crawled.
+    """
+
+    def __init__(self, owner_user_id, folder_id, limit=None):
+        """
+        Initialize a SourceOptionsFolder object.
+
+        :param str owner_user_id: The Box user ID of the user who owns the folder to
+        crawl.
+        :param str folder_id: The Box folder ID of the folder to crawl.
+        :param int limit: (optional) The maximum number of documents to crawl for this
+        folder. By default, all documents in the folder are crawled.
+        """
+        self.owner_user_id = owner_user_id
+        self.folder_id = folder_id
+        self.limit = limit
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SourceOptionsFolder object from a json dictionary."""
+        args = {}
+        if 'owner_user_id' in _dict:
+            args['owner_user_id'] = _dict.get('owner_user_id')
+        else:
+            raise ValueError(
+                'Required property \'owner_user_id\' not present in SourceOptionsFolder JSON'
+            )
+        if 'folder_id' in _dict:
+            args['folder_id'] = _dict.get('folder_id')
+        else:
+            raise ValueError(
+                'Required property \'folder_id\' not present in SourceOptionsFolder JSON'
+            )
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'owner_user_id') and self.owner_user_id is not None:
+            _dict['owner_user_id'] = self.owner_user_id
+        if hasattr(self, 'folder_id') and self.folder_id is not None:
+            _dict['folder_id'] = self.folder_id
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SourceOptionsFolder object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SourceOptionsObject(object):
+    """
+    Object that defines a Salesforce document object type crawl with this configuration.
+
+    :attr str name: The name of the Salesforce document object to crawl. For example,
+    `case`.
+    :attr int limit: (optional) The maximum number of documents to crawl for this document
+    object. By default, all documents in the document object are crawled.
+    """
+
+    def __init__(self, name, limit=None):
+        """
+        Initialize a SourceOptionsObject object.
+
+        :param str name: The name of the Salesforce document object to crawl. For example,
+        `case`.
+        :param int limit: (optional) The maximum number of documents to crawl for this
+        document object. By default, all documents in the document object are crawled.
+        """
+        self.name = name
+        self.limit = limit
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SourceOptionsObject object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in SourceOptionsObject JSON'
+            )
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SourceOptionsObject object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SourceOptionsSiteColl(object):
+    """
+    Object that defines a Microsoft SharePoint site collection to crawl with this
+    configuration.
+
+    :attr str site_collection_path: The Microsoft SharePoint Online site collection path
+    to crawl. The path must be be relative to the **organization_url** that was specified
+    in the credentials associated with this source configuration.
+    :attr int limit: (optional) The maximum number of documents to crawl for this site
+    collection. By default, all documents in the site collection are crawled.
+    """
+
+    def __init__(self, site_collection_path, limit=None):
+        """
+        Initialize a SourceOptionsSiteColl object.
+
+        :param str site_collection_path: The Microsoft SharePoint Online site collection
+        path to crawl. The path must be be relative to the **organization_url** that was
+        specified in the credentials associated with this source configuration.
+        :param int limit: (optional) The maximum number of documents to crawl for this
+        site collection. By default, all documents in the site collection are crawled.
+        """
+        self.site_collection_path = site_collection_path
+        self.limit = limit
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SourceOptionsSiteColl object from a json dictionary."""
+        args = {}
+        if 'site_collection_path' in _dict:
+            args['site_collection_path'] = _dict.get('site_collection_path')
+        else:
+            raise ValueError(
+                'Required property \'site_collection_path\' not present in SourceOptionsSiteColl JSON'
+            )
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'site_collection_path'
+                  ) and self.site_collection_path is not None:
+            _dict['site_collection_path'] = self.site_collection_path
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SourceOptionsSiteColl object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SourceSchedule(object):
+    """
+    Object containing the schedule information for the source.
+
+    :attr bool enabled: (optional) When `true`, the source is re-crawled based on the
+    **frequency** field in this object. When `false` the source is not re-crawled; When
+    `false` and connecting to Salesforce the source is crawled annually.
+    :attr str time_zone: (optional) The time zone to base source crawl times on. Possible
+    values correspond to the IANA (Internet Assigned Numbers Authority) time zones list.
+    :attr str frequency: (optional) The crawl schedule in the specified **time_zone**.
+    -  `daily`: Runs every day between 00:00 and 06:00.
+    -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
+    -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
+    """
+
+    def __init__(self, enabled=None, time_zone=None, frequency=None):
+        """
+        Initialize a SourceSchedule object.
+
+        :param bool enabled: (optional) When `true`, the source is re-crawled based on the
+        **frequency** field in this object. When `false` the source is not re-crawled;
+        When `false` and connecting to Salesforce the source is crawled annually.
+        :param str time_zone: (optional) The time zone to base source crawl times on.
+        Possible values correspond to the IANA (Internet Assigned Numbers Authority) time
+        zones list.
+        :param str frequency: (optional) The crawl schedule in the specified
+        **time_zone**.
+        -  `daily`: Runs every day between 00:00 and 06:00.
+        -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
+        -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
+        """
+        self.enabled = enabled
+        self.time_zone = time_zone
+        self.frequency = frequency
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SourceSchedule object from a json dictionary."""
+        args = {}
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'time_zone' in _dict:
+            args['time_zone'] = _dict.get('time_zone')
+        if 'frequency' in _dict:
+            args['frequency'] = _dict.get('frequency')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'time_zone') and self.time_zone is not None:
+            _dict['time_zone'] = self.time_zone
+        if hasattr(self, 'frequency') and self.frequency is not None:
+            _dict['frequency'] = self.frequency
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SourceSchedule object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SourceStatus(object):
+    """
+    Object containing source crawl status information.
+
+    :attr str status: (optional) The current status of the source crawl for this
+    collection. This field returns `not_configured` if the default configuration for this
+    source does not have a **source** object defined.
+    -  `running` indicates that a crawl to fetch more documents is in progress.
+    -  `complete` indicates that the crawl has completed with no errors.
+    -  `complete_with_notices` indicates that some notices were generated during the
+    crawl. Notices can be checked by using the **notices** query method.
+    -  `stopped` indicates that the crawl has stopped but is not complete.
+    :attr datetime last_updated: (optional) Date in UTC format indicating when the last
+    crawl was attempted. If `null`, no crawl was completed.
+    """
+
+    def __init__(self, status=None, last_updated=None):
+        """
+        Initialize a SourceStatus object.
+
+        :param str status: (optional) The current status of the source crawl for this
+        collection. This field returns `not_configured` if the default configuration for
+        this source does not have a **source** object defined.
+        -  `running` indicates that a crawl to fetch more documents is in progress.
+        -  `complete` indicates that the crawl has completed with no errors.
+        -  `complete_with_notices` indicates that some notices were generated during the
+        crawl. Notices can be checked by using the **notices** query method.
+        -  `stopped` indicates that the crawl has stopped but is not complete.
+        :param datetime last_updated: (optional) Date in UTC format indicating when the
+        last crawl was attempted. If `null`, no crawl was completed.
+        """
+        self.status = status
+        self.last_updated = last_updated
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SourceStatus object from a json dictionary."""
+        args = {}
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'last_updated' in _dict:
+            args['last_updated'] = string_to_datetime(
+                _dict.get('last_updated'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'last_updated') and self.last_updated is not None:
+            _dict['last_updated'] = datetime_to_string(self.last_updated)
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SourceStatus object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
