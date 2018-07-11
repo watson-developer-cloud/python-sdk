@@ -298,7 +298,7 @@ labels](<a class="reference external" href="https://console.bluemix.net/docs/ser
 
 <dl class="method">
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.recognize_with_websocket">
-<code class="descname">recognize_with_websocket</code><span class="sig-paren">(</span><em>audio=None</em>, <em>content_type='audio/l16; rate=44100'</em>, <em>model='en-US_BroadbandModel'</em>, <em>recognize_callback=None</em>, <em>customization_id=None</em>, <em>acoustic_customization_id=None</em>, <em>customization_weight=None</em>, <em>version=None</em>, <em>inactivity_timeout=None</em>, <em>interim_results=True</em>, <em>keywords=None</em>, <em>keywords_threshold=None</em>, <em>max_alternatives=1</em>, <em>word_alternatives_threshold=None</em>, <em>word_confidence=False</em>, <em>timestamps=False</em>, <em>profanity_filter=None</em>, <em>smart_formatting=False</em>, <em>speaker_labels=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.recognize_with_websocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.recognize_with_websocket" title="Permalink to this definition">¶</a></dt>
+<code class="descname">recognize_with_websocket</code><span class="sig-paren">(</span><em>audio=None</em>, <em>content_type='audio/l16; rate=44100'</em>, <em>model='en-US_BroadbandModel'</em>, <em>recognize_callback=None</em>, <em>customization_id=None</em>, <em>acoustic_customization_id=None</em>, <em>customization_weight=None</em>, <em>version=None</em>, <em>inactivity_timeout=None</em>, <em>interim_results=True</em>, <em>keywords=None</em>, <em>keywords_threshold=None</em>, <em>max_alternatives=1</em>, <em>word_alternatives_threshold=None</em>, <em>word_confidence=False</em>, <em>timestamps=False</em>, <em>profanity_filter=None</em>, <em>smart_formatting=False</em>, <em>speaker_labels=None</em>, <em>host='wss://stream.watsonplatform.net'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.recognize_with_websocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.recognize_with_websocket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends audio for speech recognition using web sockets.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -394,6 +394,11 @@ for the parameter.</p>
 <p>models** method and check that the attribute <cite>speaker_labels</cite> is set to <cite>true</cite>.
 You can also refer to [Speaker
 labels](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels">https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels</a>).
+:param str host: The streaming endpoint
+* <cite>wss://stream.watsonplatform.net</cite> US South/UK (the default)
+* <cite>wss://stream-fra.watsonplatform.net</cite> for Frankfurt
+* <cite>wss://gateway-syd.watsonplatform.net</cite> for Sydney
+* <cite>wss://gateway-wdc.watsonplatform.net</cite> for US East
 :param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>SpeechRecognitionResults</cite> response.
 :rtype: dict</p>
