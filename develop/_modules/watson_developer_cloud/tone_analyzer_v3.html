@@ -205,8 +205,6 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;tone_input must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;content_type must be provided&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tone_input</span><span class="p">,</span> <span class="n">ToneInput</span><span class="p">):</span>
-            <span class="n">tone_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">tone_input</span><span class="p">,</span> <span class="n">ToneInput</span><span class="p">)</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">,</span>
             <span class="s1">&#39;Content-Language&#39;</span><span class="p">:</span> <span class="n">content_language</span><span class="p">,</span>
