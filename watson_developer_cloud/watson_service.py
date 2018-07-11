@@ -20,6 +20,7 @@ import sys
 from requests.structures import CaseInsensitiveDict
 import dateutil.parser as date_parser
 from .iam_token_manager import IAMTokenManager
+import warnings
 
 try:
     from http.cookiejar import CookieJar  # Python 3
@@ -28,6 +29,8 @@ except ImportError:
 from .version import __version__
 
 BEARER = 'Bearer'
+X_WATSON_AUTHORIZATION_TOKEN = 'X-Watson-Authorization-Token'
+AUTH_HEADER_DEPRECATION_MESSAGE = 'Authenticating with the X-Watson-Authorization-Token header is deprecated. The token continues to work with Cloud Foundry services, but is not supported for services that use Identity and Access Management (IAM) authentication.'
 
 # Uncomment this to enable http debugging
 # try:
@@ -400,6 +403,9 @@ class WatsonService(object):
         if accept_json:
             headers['accept'] = 'application/json'
         headers.update(input_headers)
+
+        if X_WATSON_AUTHORIZATION_TOKEN in headers:
+            warnings.warn(AUTH_HEADER_DEPRECATION_MESSAGE)
 
         # Remove keys with None values
         params = _remove_null_values(params)
