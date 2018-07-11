@@ -529,7 +529,7 @@ class SpeechToTextV1(WatsonService):
             'version': version
         }
         params = _remove_null_values(params)
-        url = url + '/v1/recognize?{0}'.format(urlencode(params))
+        url += '/v1/recognize?{0}'.format(urlencode(params))
 
         options = {
             'content_type': content_type,
