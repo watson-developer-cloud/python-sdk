@@ -564,7 +564,7 @@
             <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">version</span>
         <span class="p">}</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/v1/recognize?</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="s1">&#39;/v1/recognize?</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
 
         <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;content_type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">,</span>
