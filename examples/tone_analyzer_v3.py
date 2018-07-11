@@ -2,6 +2,7 @@ from __future__ import print_function
 import json
 from os.path import join, dirname
 from watson_developer_cloud import ToneAnalyzerV3
+from watson_developer_cloud.tone_analyzer_v3 import ToneInput
 
 tone_analyzer = ToneAnalyzerV3(
     username='YOUR SERVICE USERNAME',
@@ -55,3 +56,10 @@ with open(join(dirname(__file__),
 print(tone)
 print(tone.get_headers())
 print(tone.get_result())
+tone_analyzer.set_detailed_response(False)
+
+print("\ntone() example 7:\n")
+tone_input = ToneInput('I am very happy. It is a good day.')
+print(tone_analyzer.tone(
+    tone_input=tone_input,
+    content_type="application/json"))
