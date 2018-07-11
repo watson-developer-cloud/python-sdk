@@ -55,6 +55,7 @@
 <span class="kn">from</span> <span class="nn">requests.structures</span> <span class="k">import</span> <span class="n">CaseInsensitiveDict</span>
 <span class="kn">import</span> <span class="nn">dateutil.parser</span> <span class="k">as</span> <span class="nn">date_parser</span>
 <span class="kn">from</span> <span class="nn">.iam_token_manager</span> <span class="k">import</span> <span class="n">IAMTokenManager</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">http.cookiejar</span> <span class="k">import</span> <span class="n">CookieJar</span>  <span class="c1"># Python 3</span>
@@ -63,6 +64,8 @@
 <span class="kn">from</span> <span class="nn">.version</span> <span class="k">import</span> <span class="n">__version__</span>
 
 <span class="n">BEARER</span> <span class="o">=</span> <span class="s1">&#39;Bearer&#39;</span>
+<span class="n">X_WATSON_AUTHORIZATION_TOKEN</span> <span class="o">=</span> <span class="s1">&#39;X-Watson-Authorization-Token&#39;</span>
+<span class="n">AUTH_HEADER_DEPRECATION_MESSAGE</span> <span class="o">=</span> <span class="s1">&#39;Authenticating with the X-Watson-Authorization-Token header is deprecated. The token continues to work with Cloud Foundry services, but is not supported for services that use Identity and Access Management (IAM) authentication.&#39;</span>
 
 <span class="c1"># Uncomment this to enable http debugging</span>
 <span class="c1"># try:</span>
@@ -435,6 +438,9 @@
         <span class="k">if</span> <span class="n">accept_json</span><span class="p">:</span>
             <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;accept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
         <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">input_headers</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">X_WATSON_AUTHORIZATION_TOKEN</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">AUTH_HEADER_DEPRECATION_MESSAGE</span><span class="p">)</span>
 
         <span class="c1"># Remove keys with None values</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
