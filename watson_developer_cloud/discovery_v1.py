@@ -1061,8 +1061,8 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id)
-        )
+            *self._encode_path_vars(environment_id, collection_id,
+                                    document_id))
         response = self.request(
             method='DELETE',
             url=url,
@@ -1099,8 +1099,8 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id)
-        )
+            *self._encode_path_vars(environment_id, collection_id,
+                                    document_id))
         response = self.request(
             method='GET',
             url=url,
@@ -1164,8 +1164,8 @@ class DiscoveryV1(WatsonService):
         if metadata:
             metadata_tuple = (None, metadata, 'text/plain')
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id)
-        )
+            *self._encode_path_vars(environment_id, collection_id,
+                                    document_id))
         response = self.request(
             method='POST',
             url=url,

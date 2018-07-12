@@ -149,9 +149,9 @@ class SpeechToTextV1(WatsonService):
         """
         Get a model.
 
-        Retrieves information about a single specified language model that is available
-        for use with the service. The information includes the name of the model and its
-        minimum sampling rate in Hertz, among other things.
+        Gets information for a single specified language model that is available for use
+        with the service. The information includes the name of the model and its minimum
+        sampling rate in Hertz, among other things.
 
         :param str model_id: The identifier of the model in the form of its name from the
         output of the **Get models** method.
@@ -173,9 +173,9 @@ class SpeechToTextV1(WatsonService):
         """
         List models.
 
-        Retrieves a list of all language models that are available for use with the
-        service. The information includes the name of the model and its minimum sampling
-        rate in Hertz, among other things.
+        Lists all language models that are available for use with the service. The
+        information includes the name of the model and its minimum sampling rate in Hertz,
+        among other things.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechModels` response.
@@ -1100,7 +1100,7 @@ class SpeechToTextV1(WatsonService):
 
         Lists information about all custom language models that are owned by an instance
         of the service. Use the `language` parameter to see all custom language models for
-        the specified language; omit the parameter to see all custom language models for
+        the specified language. Omit the parameter to see all custom language models for
         all languages. You must use credentials for the instance of the service that owns
         a model to list information about it.
 
@@ -1174,9 +1174,9 @@ class SpeechToTextV1(WatsonService):
         complete depending on the amount of data on which the service is being trained and
         the current load on the service. The method returns an HTTP 200 response code to
         indicate that the training process has begun.
-        You can monitor the status of the training by using the **List a custom language
+        You can monitor the status of the training by using the **Get a custom language
         model** method to poll the model's status. Use a loop to check the status every 10
-        seconds. The method returns a `Customization` object that includes `status` and
+        seconds. The method returns a `LanguageModel` object that includes `status` and
         `progress` fields. A status of `available` means that the custom model is trained
         and ready to use. The service cannot accept subsequent training requests, or
         requests to add new corpora or words, until the existing request completes.
@@ -1250,11 +1250,12 @@ class SpeechToTextV1(WatsonService):
         that owns a model to upgrade it.
         The method returns an HTTP 200 response code to indicate that the upgrade process
         has begun successfully. You can monitor the status of the upgrade by using the
-        **List a custom language model** method to poll the model's status. Use a loop to
-        check the status every 10 seconds. While it is being upgraded, the custom model
-        has the status `upgrading`. When the upgrade is complete, the model resumes the
-        status that it had prior to upgrade. The service cannot accept subsequent requests
-        for the model until the upgrade completes.
+        **Get a custom language model** method to poll the model's status. The method
+        returns a `LanguageModel` object that includes `status` and `progress` fields. Use
+        a loop to check the status every 10 seconds. While it is being upgraded, the
+        custom model has the status `upgrading`. When the upgrade is complete, the model
+        resumes the status that it had prior to upgrade. The service cannot accept
+        subsequent requests for the model until the upgrade completes.
         For more information, see [Upgrading custom
         models](https://console.bluemix.net/docs/services/speech-to-text/custom-upgrade.html).
 
@@ -1571,10 +1572,10 @@ class SpeechToTextV1(WatsonService):
         or modify custom words for the model. Adding or modifying custom words does not
         affect the custom model until you train the model for the new data by using the
         **Train a custom language model** method.
-        You add custom words by providing a `Words` object, which is an array of `Word`
-        objects, one per word. You must use the object's word parameter to identify the
-        word that is to be added. You can also provide one or both of the optional
-        `sounds_like` and `display_as` fields for each word.
+        You add custom words by providing a `CustomWords` object, which is an array of
+        `CustomWord` objects, one per word. You must use the object's `word` parameter to
+        identify the word that is to be added. You can also provide one or both of the
+        optional `sounds_like` and `display_as` fields for each word.
         * The `sounds_like` field provides an array of one or more pronunciations for the
         word. Use the parameter to specify how the word can be pronounced by users. Use
         the parameter for words that are difficult to pronounce, foreign words, acronyms,
@@ -1875,7 +1876,7 @@ class SpeechToTextV1(WatsonService):
 
         Lists information about all custom acoustic models that are owned by an instance
         of the service. Use the `language` parameter to see all custom acoustic models for
-        the specified language; omit the parameter to see all custom acoustic models for
+        the specified language. Omit the parameter to see all custom acoustic models for
         all languages. You must use credentials for the instance of the service that owns
         a model to list information about it.
 
@@ -1946,9 +1947,9 @@ class SpeechToTextV1(WatsonService):
         of its audio data. The range of time depends on the model being trained and the
         nature of the audio, such as whether the audio is clean or noisy. The method
         returns an HTTP 200 response code to indicate that the training process has begun.
-        You can monitor the status of the training by using the **List a custom acoustic
+        You can monitor the status of the training by using the **Get a custom acoustic
         model** method to poll the model's status. Use a loop to check the status once a
-        minute. The method returns an `Customization` object that includes `status` and
+        minute. The method returns an `AcousticModel` object that includes `status` and
         `progress` fields. A status of `available` indicates that the custom model is
         trained and ready to use. The service cannot accept subsequent training requests,
         or requests to add new audio resources, until the existing request completes.
@@ -2010,11 +2011,12 @@ class SpeechToTextV1(WatsonService):
         for the instance of the service that owns a model to upgrade it.
         The method returns an HTTP 200 response code to indicate that the upgrade process
         has begun successfully. You can monitor the status of the upgrade by using the
-        **List a custom acoustic model** method to poll the model's status. Use a loop to
-        check the status once a minute. While it is being upgraded, the custom model has
-        the status `upgrading`. When the upgrade is complete, the model resumes the status
-        that it had prior to upgrade. The service cannot accept subsequent requests for
-        the model until the upgrade completes.
+        **Get a custom acoustic model** method to poll the model's status. The method
+        returns an `AcousticModel` object that includes `status` and `progress` fields.
+        Use a loop to check the status once a minute. While it is being upgraded, the
+        custom model has the status `upgrading`. When the upgrade is complete, the model
+        resumes the status that it had prior to upgrade. The service cannot accept
+        subsequent requests for the model until the upgrade completes.
         If the custom acoustic model was trained with a separately created custom language
         model, you must use the `custom_language_model_id` parameter to specify the GUID
         of that custom language model. The custom language model must be upgraded before
@@ -2090,11 +2092,11 @@ class SpeechToTextV1(WatsonService):
         sampling rate, and encoding. You cannot submit requests to add additional audio
         resources to a custom acoustic model, or to train the model, until the service's
         analysis of all audio files for the current request completes.
-        To determine the status of the service's analysis of the audio, use the **List an
+        To determine the status of the service's analysis of the audio, use the **Get an
         audio resource** method to poll the status of the audio. The method accepts the
-        GUID of the custom model and the name of the audio resource, and it returns the
-        status of the resource. Use a loop to check the status of the audio every few
-        seconds until it becomes `ok`.
+        customization ID of the custom model and the name of the audio resource, and it
+        returns the status of the resource. Use a loop to check the status of the audio
+        every few seconds until it becomes `ok`.
         ### Content types for audio-type resources
          You can add an individual audio file in any format that the service supports for
         speech recognition. For an audio-type resource, use the `Content-Type` parameter
@@ -2144,10 +2146,7 @@ class SpeechToTextV1(WatsonService):
         localized name that matches the language of the custom model.
         :param list[str] audio_resource: The audio resource that is to be added to the
         custom acoustic model, an individual audio file or an archive file.
-        :param str content_type: The type of the input: application/zip, application/gzip,
-        audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg,
-        audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm,
-        audio/webm;codecs=opus, or audio/webm;codecs=vorbis.
+        :param str content_type: The type of the input.
         :param str contained_content_type: For an archive-type resource, specifies the
         format of the audio files contained in the archive file. The parameter accepts all
         of the audio formats supported for use with speech recognition, including the
@@ -2227,19 +2226,24 @@ class SpeechToTextV1(WatsonService):
         """
         Get an audio resource.
 
-        gets information about an audio resource from a custom acoustic model. The method
+        Gets information about an audio resource from a custom acoustic model. The method
         returns an `AudioListing` object whose fields depend on the type of audio resource
-        you specify with the method's `audio_name` parameter:
+        that you specify with the method's `audio_name` parameter:
         * **For an audio-type resource,** the object's fields match those of an
         `AudioResource` object: `duration`, `name`, `details`, and `status`.
         * **For an archive-type resource,** the object includes a `container` field whose
         fields match those of an `AudioResource` object. It also includes an `audio`
         field, which contains an array of `AudioResource` objects that provides
         information about the audio files that are contained in the archive.
-        The information includes the status of the specified audio resource, which is
-        important for checking the service's analysis of the resource in response to a
-        request to add it to the custom model. You must use credentials for the instance
-        of the service that owns a model to list its audio resources.
+        The information includes the status of the specified audio resource. The status is
+        important for checking the service's analysis of a resource that you add to the
+        custom model.
+        * For an audio-type resource, the `status` field is located in the `AudioListing`
+        object.
+        * For an archive-type resource, the `status` field is located in the
+        `AudioResource` object that is returned in the `container` field.
+        You must use credentials for the instance of the service that owns a model to list
+        its audio resources.
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model. You must make the request with service credentials created for the instance
@@ -2910,9 +2914,9 @@ class AudioResources(object):
     all of the valid audio resources for the custom acoustic model. You can use this value
     to determine whether the custom model has too little or too much audio to begin
     training.
-    :attr list[AudioResource] audio: An array of `AudioResource` objects that provides
-    information about the audio resources of the custom acoustic model. The array is empty
-    if the custom model has no audio resources.
+    :attr list[AudioResource] audio: An array of objects that provides information about
+    the audio resources of the custom acoustic model. The array is empty if the custom
+    model has no audio resources.
     """
 
     def __init__(self, total_minutes_of_audio, audio):
@@ -2923,9 +2927,9 @@ class AudioResources(object):
         over all of the valid audio resources for the custom acoustic model. You can use
         this value to determine whether the custom model has too little or too much audio
         to begin training.
-        :param list[AudioResource] audio: An array of `AudioResource` objects that
-        provides information about the audio resources of the custom acoustic model. The
-        array is empty if the custom model has no audio resources.
+        :param list[AudioResource] audio: An array of objects that provides information
+        about the audio resources of the custom acoustic model. The array is empty if the
+        custom model has no audio resources.
         """
         self.total_minutes_of_audio = total_minutes_of_audio
         self.audio = audio
