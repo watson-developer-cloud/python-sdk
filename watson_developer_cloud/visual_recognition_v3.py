@@ -734,6 +734,7 @@ class ClassifiedImages(object):
 
 class Classifier(object):
     """
+
     Information about a classifier.
     :attr str classifier_id: ID of a classifier identified in the image.
     :attr str name: Name of the classifier.
@@ -768,6 +769,7 @@ class Classifier(object):
                  updated=None):
         """
         Initialize a Classifier object.
+
         :param str classifier_id: ID of a classifier identified in the image.
         :param str name: Name of the classifier.
         :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML
