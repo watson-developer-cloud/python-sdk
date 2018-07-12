@@ -173,9 +173,9 @@
 
 <span class="sd">        :param ToneInput tone_input: JSON, plain text, or HTML input that contains the</span>
 <span class="sd">        content to be analyzed. For JSON input, provide an object of type `ToneInput`.</span>
-<span class="sd">        :param str content_type: The type of the input: application/json, text/plain, or</span>
-<span class="sd">        text/html. A character encoding can be specified by including a `charset`</span>
-<span class="sd">        parameter. For example, &#39;text/plain;charset=utf-8&#39;.</span>
+<span class="sd">        :param str content_type: The type of the input. A character encoding can be</span>
+<span class="sd">        specified by including a `charset` parameter. For example,</span>
+<span class="sd">        &#39;text/plain;charset=utf-8&#39;.</span>
 <span class="sd">        :param bool sentences: Indicates whether the service is to return an analysis of</span>
 <span class="sd">        each individual sentence in addition to its analysis of the full document. If</span>
 <span class="sd">        `true` (the default), the service returns results for each sentence.</span>
@@ -205,6 +205,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;tone_input must be provided&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;content_type must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tone_input</span><span class="p">,</span> <span class="n">ToneInput</span><span class="p">):</span>
+            <span class="n">tone_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">tone_input</span><span class="p">,</span> <span class="n">ToneInput</span><span class="p">)</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">,</span>
             <span class="s1">&#39;Content-Language&#39;</span><span class="p">:</span> <span class="n">content_language</span><span class="p">,</span>

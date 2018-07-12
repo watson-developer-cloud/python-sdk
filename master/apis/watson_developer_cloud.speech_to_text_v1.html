@@ -101,9 +101,9 @@ security](<a class="reference external" href="https://console.bluemix.net/docs/s
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_model">
 <code class="descname">get_model</code><span class="sig-paren">(</span><em>model_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a model.</p>
-<p>Retrieves information about a single specified language model that is available
-for use with the service. The information includes the name of the model and its
-minimum sampling rate in Hertz, among other things.</p>
+<p>Gets information for a single specified language model that is available for use
+with the service. The information includes the name of the model and its minimum
+sampling rate in Hertz, among other things.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -122,9 +122,9 @@ minimum sampling rate in Hertz, among other things.</p>
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_models">
 <code class="descname">list_models</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.list_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.list_models" title="Permalink to this definition">¶</a></dt>
 <dd><p>List models.</p>
-<p>Retrieves a list of all language models that are available for use with the
-service. The information includes the name of the model and its minimum sampling
-rate in Hertz, among other things.</p>
+<p>Lists all language models that are available for use with the service. The
+information includes the name of the model and its minimum sampling rate in Hertz,
+among other things.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -851,7 +851,7 @@ of the service that owns the custom model.
 <dd><p>List custom language models.</p>
 <p>Lists information about all custom language models that are owned by an instance
 of the service. Use the <cite>language</cite> parameter to see all custom language models for
-the specified language; omit the parameter to see all custom language models for
+the specified language. Omit the parameter to see all custom language models for
 all languages. You must use credentials for the instance of the service that owns
 a model to list information about it.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -913,9 +913,9 @@ The training method is asynchronous. It can take on the order of minutes to
 complete depending on the amount of data on which the service is being trained and
 the current load on the service. The method returns an HTTP 200 response code to
 indicate that the training process has begun.
-You can monitor the status of the training by using the <strong>List a custom language
+You can monitor the status of the training by using the <strong>Get a custom language
 model</strong> method to poll the model’s status. Use a loop to check the status every 10
-seconds. The method returns a <cite>Customization</cite> object that includes <cite>status</cite> and
+seconds. The method returns a <cite>LanguageModel</cite> object that includes <cite>status</cite> and
 <cite>progress</cite> fields. A status of <cite>available</cite> means that the custom model is trained
 and ready to use. The service cannot accept subsequent training requests, or
 requests to add new corpora or words, until the existing request completes.
@@ -974,11 +974,12 @@ state to be upgraded. You must use credentials for the instance of the service
 that owns a model to upgrade it.
 The method returns an HTTP 200 response code to indicate that the upgrade process
 has begun successfully. You can monitor the status of the upgrade by using the
-<strong>List a custom language model</strong> method to poll the model’s status. Use a loop to
-check the status every 10 seconds. While it is being upgraded, the custom model
-has the status <cite>upgrading</cite>. When the upgrade is complete, the model resumes the
-status that it had prior to upgrade. The service cannot accept subsequent requests
-for the model until the upgrade completes.
+<strong>Get a custom language model</strong> method to poll the model’s status. The method
+returns a <cite>LanguageModel</cite> object that includes <cite>status</cite> and <cite>progress</cite> fields. Use
+a loop to check the status every 10 seconds. While it is being upgraded, the
+custom model has the status <cite>upgrading</cite>. When the upgrade is complete, the model
+resumes the status that it had prior to upgrade. The service cannot accept
+subsequent requests for the model until the upgrade completes.
 For more information, see [Upgrading custom
 models](<a class="reference external" href="https://console.bluemix.net/docs/services/speech-to-text/custom-upgrade.html">https://console.bluemix.net/docs/services/speech-to-text/custom-upgrade.html</a>).</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1228,10 +1229,10 @@ You must use credentials for the instance of the service that owns a model to ad
 or modify custom words for the model. Adding or modifying custom words does not
 affect the custom model until you train the model for the new data by using the
 <strong>Train a custom language model</strong> method.
-You add custom words by providing a <cite>Words</cite> object, which is an array of <cite>Word</cite>
-objects, one per word. You must use the object’s word parameter to identify the
-word that is to be added. You can also provide one or both of the optional
-<cite>sounds_like</cite> and <cite>display_as</cite> fields for each word.
+You add custom words by providing a <cite>CustomWords</cite> object, which is an array of
+<cite>CustomWord</cite> objects, one per word. You must use the object’s <cite>word</cite> parameter to
+identify the word that is to be added. You can also provide one or both of the
+optional <cite>sounds_like</cite> and <cite>display_as</cite> fields for each word.
 * The <cite>sounds_like</cite> field provides an array of one or more pronunciations for the
 word. Use the parameter to specify how the word can be pronounced by users. Use
 the parameter for words that are difficult to pronounce, foreign words, acronyms,
@@ -1473,7 +1474,7 @@ of the service that owns the custom model.
 <dd><p>List custom acoustic models.</p>
 <p>Lists information about all custom acoustic models that are owned by an instance
 of the service. Use the <cite>language</cite> parameter to see all custom acoustic models for
-the specified language; omit the parameter to see all custom acoustic models for
+the specified language. Omit the parameter to see all custom acoustic models for
 all languages. You must use credentials for the instance of the service that owns
 a model to list information about it.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1532,9 +1533,9 @@ training a custom acoustic model takes approximately two to four times the lengt
 of its audio data. The range of time depends on the model being trained and the
 nature of the audio, such as whether the audio is clean or noisy. The method
 returns an HTTP 200 response code to indicate that the training process has begun.
-You can monitor the status of the training by using the <strong>List a custom acoustic
+You can monitor the status of the training by using the <strong>Get a custom acoustic
 model</strong> method to poll the model’s status. Use a loop to check the status once a
-minute. The method returns an <cite>Customization</cite> object that includes <cite>status</cite> and
+minute. The method returns an <cite>AcousticModel</cite> object that includes <cite>status</cite> and
 <cite>progress</cite> fields. A status of <cite>available</cite> indicates that the custom model is
 trained and ready to use. The service cannot accept subsequent training requests,
 or requests to add new audio resources, until the existing request completes.
@@ -1584,11 +1585,12 @@ be in the <cite>ready</cite> or <cite>available</cite> state to be upgraded. You
 for the instance of the service that owns a model to upgrade it.
 The method returns an HTTP 200 response code to indicate that the upgrade process
 has begun successfully. You can monitor the status of the upgrade by using the
-<strong>List a custom acoustic model</strong> method to poll the model’s status. Use a loop to
-check the status once a minute. While it is being upgraded, the custom model has
-the status <cite>upgrading</cite>. When the upgrade is complete, the model resumes the status
-that it had prior to upgrade. The service cannot accept subsequent requests for
-the model until the upgrade completes.
+<strong>Get a custom acoustic model</strong> method to poll the model’s status. The method
+returns an <cite>AcousticModel</cite> object that includes <cite>status</cite> and <cite>progress</cite> fields.
+Use a loop to check the status once a minute. While it is being upgraded, the
+custom model has the status <cite>upgrading</cite>. When the upgrade is complete, the model
+resumes the status that it had prior to upgrade. The service cannot accept
+subsequent requests for the model until the upgrade completes.
 If the custom acoustic model was trained with a separately created custom language
 model, you must use the <cite>custom_language_model_id</cite> parameter to specify the GUID
 of that custom language model. The custom language model must be upgraded before
@@ -1644,11 +1646,11 @@ and automatically extracts information about the audio such as its length,
 sampling rate, and encoding. You cannot submit requests to add additional audio
 resources to a custom acoustic model, or to train the model, until the service’s
 analysis of all audio files for the current request completes.
-To determine the status of the service’s analysis of the audio, use the <strong>List an
+To determine the status of the service’s analysis of the audio, use the <strong>Get an
 audio resource</strong> method to poll the status of the audio. The method accepts the
-GUID of the custom model and the name of the audio resource, and it returns the
-status of the resource. Use a loop to check the status of the audio every few
-seconds until it becomes <cite>ok</cite>.
+customization ID of the custom model and the name of the audio resource, and it
+returns the status of the resource. Use a loop to check the status of the audio
+every few seconds until it becomes <cite>ok</cite>.
 ### Content types for audio-type resources</p>
 <blockquote>
 <div>You can add an individual audio file in any format that the service supports for</div></blockquote>
@@ -1706,10 +1708,7 @@ model. When adding an audio resource, do not include spaces in the name; use a
 localized name that matches the language of the custom model.
 :param list[str] audio_resource: The audio resource that is to be added to the
 custom acoustic model, an individual audio file or an archive file.
-:param str content_type: The type of the input: application/zip, application/gzip,
-audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg,
-audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm,
-audio/webm;codecs=opus, or audio/webm;codecs=vorbis.
+:param str content_type: The type of the input.
 :param str contained_content_type: For an archive-type resource, specifies the
 format of the audio files contained in the archive file. The parameter accepts all
 of the audio formats supported for use with speech recognition, including the
@@ -1757,19 +1756,24 @@ localized name that matches the language of the custom model.
 <dt id="watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_audio">
 <code class="descname">get_audio</code><span class="sig-paren">(</span><em>customization_id</em>, <em>audio_name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/speech_to_text_v1.html#SpeechToTextV1.get_audio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.speech_to_text_v1.SpeechToTextV1.get_audio" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get an audio resource.</p>
-<p>gets information about an audio resource from a custom acoustic model. The method
+<p>Gets information about an audio resource from a custom acoustic model. The method
 returns an <cite>AudioListing</cite> object whose fields depend on the type of audio resource
-you specify with the method’s <cite>audio_name</cite> parameter:
+that you specify with the method’s <cite>audio_name</cite> parameter:
 * <strong>For an audio-type resource,</strong> the object’s fields match those of an
 <cite>AudioResource</cite> object: <cite>duration</cite>, <cite>name</cite>, <cite>details</cite>, and <cite>status</cite>.
 * <strong>For an archive-type resource,</strong> the object includes a <cite>container</cite> field whose
 fields match those of an <cite>AudioResource</cite> object. It also includes an <cite>audio</cite>
 field, which contains an array of <cite>AudioResource</cite> objects that provides
 information about the audio files that are contained in the archive.
-The information includes the status of the specified audio resource, which is
-important for checking the service’s analysis of the resource in response to a
-request to add it to the custom model. You must use credentials for the instance
-of the service that owns a model to list its audio resources.</p>
+The information includes the status of the specified audio resource. The status is
+important for checking the service’s analysis of a resource that you add to the
+custom model.
+* For an audio-type resource, the <cite>status</cite> field is located in the <cite>AudioListing</cite>
+object.
+* For an archive-type resource, the <cite>status</cite> field is located in the
+<cite>AudioResource</cite> object that is returned in the <cite>container</cite> field.
+You must use credentials for the instance of the service that owns a model to list
+its audio resources.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2035,9 +2039,9 @@ files are invalid.</p>
 <p>all of the valid audio resources for the custom acoustic model. You can use this value
 to determine whether the custom model has too little or too much audio to begin
 training.
-:attr list[AudioResource] audio: An array of <cite>AudioResource</cite> objects that provides
-information about the audio resources of the custom acoustic model. The array is empty
-if the custom model has no audio resources.</p>
+:attr list[AudioResource] audio: An array of objects that provides information about
+the audio resources of the custom acoustic model. The array is empty if the custom
+model has no audio resources.</p>
 </dd></dl>
 
 <dl class="class">

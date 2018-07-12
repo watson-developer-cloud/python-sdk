@@ -182,8 +182,8 @@ specified collections.</p>
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_environment">
 <code class="descname">update_environment</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name=None</em>, <em>description=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update an environment.</p>
-<p>Updates an environment. The environment’s <cite>name</cite> and  <cite>description</cite> parameters can
-be changed. You must specify a <cite>name</cite> for the environment.</p>
+<p>Updates an environment. The environment’s <strong>name</strong> and  <strong>description</strong> parameters
+can be changed. You must specify a <strong>name</strong> for the environment.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -208,11 +208,11 @@ be changed. You must specify a <cite>name</cite> for the environment.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_configuration">
-<code class="descname">create_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_configuration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>name</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em>, <em>source=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add configuration.</p>
 <p>Creates a new configuration.
-If the input configuration contains the <cite>configuration_id</cite>, <cite>created</cite>, or
-<cite>updated</cite> properties, then they are ignored and overridden by the system, and an
+If the input configuration contains the <strong>configuration_id</strong>, <strong>created</strong>, or
+<strong>updated</strong> properties, then they are ignored and overridden by the system, and an
 error is not returned so that the overridden fields do not need to be removed when
 copying a configuration.
 The configuration can contain unrecognized JSON fields. Any such fields are
@@ -240,6 +240,7 @@ the configuration.
 :param list[NormalizationOperation] normalizations: Defines operations that can be
 used to transform the final output JSON into a normalized form. Operations are
 executed in the order that they appear in the array.
+:param Source source: Object containing source parameters for the configuration.
 :param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>Configuration</cite> response.
 :rtype: dict</p>
@@ -329,17 +330,17 @@ submitted.</p>
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_configuration">
-<code class="descname">update_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em>, <em>name</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_configuration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update_configuration</code><span class="sig-paren">(</span><em>environment_id</em>, <em>configuration_id</em>, <em>name</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em>, <em>source=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update a configuration.</p>
 <dl class="docutils">
 <dt>Replaces an existing configuration.</dt>
 <dd><ul class="first last simple">
 <li>Completely replaces the original configuration.</li>
-<li>The <cite>configuration_id</cite>, <cite>updated</cite>, and <cite>created</cite> fields are accepted in the</li>
+<li>The <strong>configuration_id</strong>, <strong>updated</strong>, and <strong>created</strong> fields are accepted in</li>
 </ul>
 </dd>
 </dl>
-<p>request, but they are ignored, and an error is not generated. It is also
+<p>the request, but they are ignored, and an error is not generated. It is also
 acceptable for users to submit an updated configuration with none of the three
 properties.</p>
 <blockquote>
@@ -370,6 +371,7 @@ the configuration.
 :param list[NormalizationOperation] normalizations: Defines operations that can be
 used to transform the final output JSON into a normalized form. Operations are
 executed in the order that they appear in the array.
+:param Source source: Object containing source parameters for the configuration.
 :param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>Configuration</cite> response.
 :rtype: dict</p>
@@ -395,17 +397,17 @@ processed. The document is not added to the index.</p>
 </tbody>
 </table>
 <p>this part is provided, then the provided configuration is used to process the
-document. If the <cite>configuration_id</cite> is also provided (both are present at the same
-time), then request is rejected. The maximum supported configuration size is 1 MB.
-Configuration parts larger than 1 MB are rejected.
+document. If the <strong>configuration_id</strong> is also provided (both are present at the
+same time), then request is rejected. The maximum supported configuration size is
+1 MB. Configuration parts larger than 1 MB are rejected.
 See the <cite>GET /configurations/{configuration_id}</cite> operation for an example
 configuration.
 :param str step: Specify to only run the input document through the given step
 instead of running the input document through the entire ingestion workflow. Valid
 values are <cite>convert</cite>, <cite>enrich</cite>, and <cite>normalize</cite>.
 :param str configuration_id: The ID of the configuration to use to process the
-document. If the <cite>configuration</cite> form part is also provided (both are present at
-the same time), then request will be rejected.
+document. If the <strong>configuration</strong> form part is also provided (both are present at
+the same time), then the request will be rejected.
 :param file file: The content of the document to ingest. The maximum supported
 file size is 50 megabytes. Files larger than 50 megabytes is rejected.
 :param str metadata: If you’re using the Data Crawler to upload your documents,
@@ -592,23 +594,25 @@ The current expansion list is replaced with the uploaded content.</p>
 <li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the environment.</li>
 <li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the collection.</li>
 <li><strong>expansions</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>[</em><a class="reference internal" href="#watson_developer_cloud.discovery_v1.Expansion" title="watson_developer_cloud.discovery_v1.Expansion"><em>Expansion</em></a><em>]</em>) – An array of query expansion definitions.
-Each object in the <cite>expansions</cite> array represents a term or set of terms that will</li>
+Each object in the <strong>expansions</strong> array represents a term or set of terms that</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
-<p>be expanded into other terms. Each expansion object can be configured so that all
-terms are expanded to all other terms in the object - bi-directional, or a set
-list of terms can be expanded into a second list of terms - uni-directional.</p>
+<p>will be expanded into other terms. Each expansion object can be configured as
+bidirectional or unidirectional. Bidirectional means that all terms are expanded
+to all other terms in the object. Unidirectional means that a set list of terms
+can be expanded into a second list of terms.</p>
 <blockquote>
-<div>To create a bi-directional expansion specify an <cite>expanded_terms</cite> array. When</div></blockquote>
-<p>found in a query, all items in the <cite>expanded_terms</cite> array are then expanded to the
-other items in the same array.</p>
+<div>To create a bi-directional expansion specify an <strong>expanded_terms</strong> array. When</div></blockquote>
+<p>found in a query, all items in the <strong>expanded_terms</strong> array are then expanded to
+the other items in the same array.</p>
 <blockquote>
-<div>To create a uni-directional expansion, specify both an array of <cite>input_terms</cite> and</div></blockquote>
-<p>an array of <cite>expanded_terms</cite>. When items in the <cite>input_terms</cite> array are present in
-a query, they are expanded using the items listed in the <cite>expanded_terms</cite> array.
+<div>To create a uni-directional expansion, specify both an array of <strong>input_terms</strong></div></blockquote>
+<p>and an array of <strong>expanded_terms</strong>. When items in the <strong>input_terms</strong> array are
+present in a query, they are expanded using the items listed in the
+<strong>expanded_terms</strong> array.
 :param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>Expansions</cite> response.
 :rtype: dict</p>
@@ -672,20 +676,21 @@ list is not specified, an object with empty expansion arrays is returned.</p>
 <dl class="docutils">
 <dt>Add a document to a collection with optional metadata.</dt>
 <dd><ul class="first last simple">
-<li>The <cite>version</cite> query parameter is still required.</li>
+<li>The <strong>version</strong> query parameter is still required.</li>
 <li>Returns immediately after the system has accepted the document for processing.</li>
 <li>The user must provide document content, metadata, or both. If the request is</li>
 </ul>
 </dd>
 <dt>missing both document content and metadata, it is rejected.</dt>
 <dd><ul class="first last simple">
-<li>The user can set the <cite>Content-Type</cite> parameter on the <cite>file</cite> part to indicate</li>
+<li>The user can set the <strong>Content-Type</strong> parameter on the <strong>file</strong> part to</li>
 </ul>
 </dd>
 </dl>
-<p>the media type of the document. If the <cite>Content-Type</cite> parameter is missing or is
-one of the generic media types (for example, <cite>application/octet-stream</cite>), then the
-service attempts to automatically detect the document’s media type.</p>
+<p>indicate the media type of the document. If the <strong>Content-Type</strong> parameter is
+missing or is one of the generic media types (for example,
+<cite>application/octet-stream</cite>), then the service attempts to automatically detect the
+document’s media type.</p>
 <blockquote>
 <div><ul class="simple">
 <li>The following field names are reserved and will be filtered out if present</li>
@@ -833,7 +838,7 @@ Example:  <a href="#id9"><span class="problematic" id="id10">``</span></a>` {</p
 
 <dl class="method">
 <dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query">
-<code class="descname">federated_query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.federated_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query" title="Permalink to this definition">¶</a></dt>
+<code class="descname">federated_query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>passages=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.federated_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.federated_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query documents in multiple collections.</p>
 <p>See the [Discovery service
 documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/using.html">https://console.bluemix.net/docs/services/discovery/using.html</a>) for
@@ -858,10 +863,10 @@ data set.
 :param str query: A query search returns all documents in your data set with full
 enrichments and full text, but with the most relevant documents listed first. Use
 a query search when you want to find the most relevant search results. You cannot
-use <cite>natural_language_query</cite> and <cite>query</cite> at the same time.
+use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
 :param str natural_language_query: A natural language query that returns relevant
 documents by utilizing training data and natural language understanding. You
-cannot use <cite>natural_language_query</cite> and <cite>query</cite> at the same time.
+cannot use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
 :param str aggregation: An aggregation search uses combinations of filters and
 query search to return an exact answer. Aggregations are useful for building
 applications, because you can use them to build lists, tables, and time series.
@@ -880,26 +885,35 @@ prefix is specified.
 which contains the fields that match the query with <cite>&lt;em&gt;&lt;/em&gt;</cite> tags around the
 matching query terms. Defaults to false.
 :param bool deduplicate: When <cite>true</cite> and used with a Watson Discovery News
-collection, duplicate results (based on the contents of the <cite>title</cite> field) are
-removed. Duplicate comparison is limited to the current query only, <cite>offset</cite> is
-not considered. Defaults to <cite>false</cite>. This parameter is currently Beta
-functionality.
+collection, duplicate results (based on the contents of the <strong>title</strong> field) are
+removed. Duplicate comparison is limited to the current query only; <strong>offset</strong> is
+not considered. This parameter is currently Beta functionality.
 :param str deduplicate_field: When specified, duplicate results based on the field
 specified are removed from the returned results. Duplicate comparison is limited
-to the current query only, <cite>offset</cite> is not considered. This parameter is currently
-Beta functionality.
+to the current query only, <strong>offset</strong> is not considered. This parameter is
+currently Beta functionality.
 :param bool similar: When <cite>true</cite>, results are returned based on their similarity
-to the document IDs specified in the <cite>similar.document_ids</cite> parameter. The default
-is <cite>false</cite>.
+to the document IDs specified in the <strong>similar.document_ids</strong> parameter.
 :param list[str] similar_document_ids: A comma-separated list of document IDs that
 will be used to find similar documents.
-<strong>Note:</strong> If the <cite>natural_language_query</cite> parameter is also specified, it will be
-used to expand the scope of the document similarity search to include the natural
-language query. Other query parameters, such as <cite>filter</cite> and <cite>query</cite> are
-subsequently applied and reduce the query scope.
+<strong>Note:</strong> If the <strong>natural_language_query</strong> parameter is also specified, it will
+be used to expand the scope of the document similarity search to include the
+natural language query. Other query parameters, such as <strong>filter</strong> and <strong>query</strong>
+are subsequently applied and reduce the query scope.
 :param list[str] similar_fields: A comma-separated list of field names that will
 be used as a basis for comparison to identify similar documents. If not specified,
 the entire document is used for comparison.
+:param bool passages: A passages query that returns the most relevant passages
+from the results.
+:param list[str] passages_fields: A comma-separated list of fields that passages
+are drawn from. If this parameter not specified, then all top-level fields are
+included.
+:param int passages_count: The maximum number of passages to return. The search
+returns fewer passages if the requested total is not found. The default is <cite>10</cite>.
+The maximum is <cite>100</cite>.
+:param int passages_characters: The approximate number of characters that any one
+passage will have. The default is <cite>400</cite>. The minimum is <cite>50</cite>. The maximum is
+<cite>2000</cite>.
 :param dict headers: A <cite>dict</cite> containing the request headers
 :return: A <cite>dict</cite> containing the <cite>QueryResponse</cite> response.
 :rtype: dict</p>
@@ -934,10 +948,10 @@ data set.
 :param str query: A query search returns all documents in your data set with full
 enrichments and full text, but with the most relevant documents listed first. Use
 a query search when you want to find the most relevant search results. You cannot
-use <cite>natural_language_query</cite> and <cite>query</cite> at the same time.
+use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
 :param str natural_language_query: A natural language query that returns relevant
 documents by utilizing training data and natural language understanding. You
-cannot use <cite>natural_language_query</cite> and <cite>query</cite> at the same time.
+cannot use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
 :param str aggregation: An aggregation search uses combinations of filters and
 query search to return an exact answer. Aggregations are useful for building
 applications, because you can use them to build lists, tables, and time series.
@@ -957,17 +971,16 @@ which contains the fields that match the query with <cite>&lt;em&gt;&lt;/em&gt;<
 matching query terms. Defaults to false.
 :param str deduplicate_field: When specified, duplicate results based on the field
 specified are removed from the returned results. Duplicate comparison is limited
-to the current query only, <cite>offset</cite> is not considered. This parameter is currently
-Beta functionality.
+to the current query only, <strong>offset</strong> is not considered. This parameter is
+currently Beta functionality.
 :param bool similar: When <cite>true</cite>, results are returned based on their similarity
-to the document IDs specified in the <cite>similar.document_ids</cite> parameter. The default
-is <cite>false</cite>.
+to the document IDs specified in the <strong>similar.document_ids</strong> parameter.
 :param list[str] similar_document_ids: A comma-separated list of document IDs that
 will be used to find similar documents.
-<strong>Note:</strong> If the <cite>natural_language_query</cite> parameter is also specified, it will be
-used to expand the scope of the document similarity search to include the natural
-language query. Other query parameters, such as <cite>filter</cite> and <cite>query</cite> are
-subsequently applied and reduce the query scope.
+<strong>Note:</strong> If the <strong>natural_language_query</strong> parameter is also specified, it will
+be used to expand the scope of the document similarity search to include the
+natural language query. Other query parameters, such as <strong>filter</strong> and <strong>query</strong>
+are subsequently applied and reduce the query scope.
 :param list[str] similar_fields: A comma-separated list of field names that will
 be used as a basis for comparison to identify similar documents. If not specified,
 the entire document is used for comparison.
@@ -1002,10 +1015,10 @@ data set.
 :param str query: A query search returns all documents in your data set with full
 enrichments and full text, but with the most relevant documents listed first. Use
 a query search when you want to find the most relevant search results. You cannot
-use <cite>natural_language_query</cite> and <cite>query</cite> at the same time.
+use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
 :param str natural_language_query: A natural language query that returns relevant
 documents by utilizing training data and natural language understanding. You
-cannot use <cite>natural_language_query</cite> and <cite>query</cite> at the same time.
+cannot use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
 :param bool passages: A passages query that returns the most relevant passages
 from the results.
 :param str aggregation: An aggregation search uses combinations of filters and
@@ -1035,23 +1048,21 @@ The maximum is <cite>100</cite>.
 passage will have. The default is <cite>400</cite>. The minimum is <cite>50</cite>. The maximum is
 <cite>2000</cite>.
 :param bool deduplicate: When <cite>true</cite> and used with a Watson Discovery News
-collection, duplicate results (based on the contents of the <cite>title</cite> field) are
-removed. Duplicate comparison is limited to the current query only, <cite>offset</cite> is
-not considered. Defaults to <cite>false</cite>. This parameter is currently Beta
-functionality.
+collection, duplicate results (based on the contents of the <strong>title</strong> field) are
+removed. Duplicate comparison is limited to the current query only; <strong>offset</strong> is
+not considered. This parameter is currently Beta functionality.
 :param str deduplicate_field: When specified, duplicate results based on the field
 specified are removed from the returned results. Duplicate comparison is limited
-to the current query only, <cite>offset</cite> is not considered. This parameter is currently
-Beta functionality.
+to the current query only, <strong>offset</strong> is not considered. This parameter is
+currently Beta functionality.
 :param bool similar: When <cite>true</cite>, results are returned based on their similarity
-to the document IDs specified in the <cite>similar.document_ids</cite> parameter. The default
-is <cite>false</cite>.
+to the document IDs specified in the <strong>similar.document_ids</strong> parameter.
 :param list[str] similar_document_ids: A comma-separated list of document IDs that
 will be used to find similar documents.
-<strong>Note:</strong> If the <cite>natural_language_query</cite> parameter is also specified, it will be
-used to expand the scope of the document similarity search to include the natural
-language query. Other query parameters, such as <cite>filter</cite> and <cite>query</cite> are
-subsequently applied and reduce the query scope.
+<strong>Note:</strong> If the <strong>natural_language_query</strong> parameter is also specified, it will
+be used to expand the scope of the document similarity search to include the
+natural language query. Other query parameters, such as <strong>filter</strong> and <strong>query</strong>
+are subsequently applied and reduce the query scope.
 :param list[str] similar_fields: A comma-separated list of field names that will
 be used as a basis for comparison to identify similar documents. If not specified,
 the entire document is used for comparison.
@@ -1124,10 +1135,10 @@ data set.
 :param str query: A query search returns all documents in your data set with full
 enrichments and full text, but with the most relevant documents listed first. Use
 a query search when you want to find the most relevant search results. You cannot
-use <cite>natural_language_query</cite> and <cite>query</cite> at the same time.
+use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
 :param str natural_language_query: A natural language query that returns relevant
 documents by utilizing training data and natural language understanding. You
-cannot use <cite>natural_language_query</cite> and <cite>query</cite> at the same time.
+cannot use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
 :param bool passages: A passages query that returns the most relevant passages
 from the results.
 :param str aggregation: An aggregation search uses combinations of filters and
@@ -1158,17 +1169,16 @@ passage will have. The default is <cite>400</cite>. The minimum is <cite>50</cit
 <cite>2000</cite>.
 :param str deduplicate_field: When specified, duplicate results based on the field
 specified are removed from the returned results. Duplicate comparison is limited
-to the current query only, <cite>offset</cite> is not considered. This parameter is currently
-Beta functionality.
+to the current query only, <strong>offset</strong> is not considered. This parameter is
+currently Beta functionality.
 :param bool similar: When <cite>true</cite>, results are returned based on their similarity
-to the document IDs specified in the <cite>similar.document_ids</cite> parameter. The default
-is <cite>false</cite>.
+to the document IDs specified in the <strong>similar.document_ids</strong> parameter.
 :param list[str] similar_document_ids: A comma-separated list of document IDs that
 will be used to find similar documents.
-<strong>Note:</strong> If the <cite>natural_language_query</cite> parameter is also specified, it will be
-used to expand the scope of the document similarity search to include the natural
-language query. Other query parameters, such as <cite>filter</cite> and <cite>query</cite> are
-subsequently applied and reduce the query scope.
+<strong>Note:</strong> If the <strong>natural_language_query</strong> parameter is also specified, it will
+be used to expand the scope of the document similarity search to include the
+natural language query. Other query parameters, such as <strong>filter</strong> and <strong>query</strong>
+are subsequently applied and reduce the query scope.
 :param list[str] similar_fields: A comma-separated list of field names that will
 be used as a basis for comparison to identify similar documents. If not specified,
 the entire document is used for comparison.
@@ -1514,6 +1524,161 @@ security](<a class="reference external" href="https://console.bluemix.net/docs/s
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.create_credentials">
+<code class="descname">create_credentials</code><span class="sig-paren">(</span><em>environment_id</em>, <em>source_type=None</em>, <em>credential_details=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.create_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.create_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create credentials.</p>
+<p>Creates a set of credentials to connect to a remote source. Created credentials
+are used in a configuration to associate a collection with the remote source.
+<strong>Note:</strong> All credentials are sent over an encrypted connection and encrypted at
+rest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>source_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The source that this credentials object connects to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><cite>box</cite> indicates the credentials are used to connect an instance of Enterprise</li>
+</ul>
+<p>Box.
+-  <cite>salesforce</cite> indicates the credentials are used to connect to Salesforce.
+-  <cite>sharepoint</cite> indicates the credentials are used to connect to Microsoft
+SharePoint Online.
+:param CredentialDetails credential_details: Object containing details of the
+stored credentials.
+Obtain credentials for your source from the administrator of the source.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>Credentials</cite> response.
+:rtype: dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.delete_credentials">
+<code class="descname">delete_credentials</code><span class="sig-paren">(</span><em>environment_id</em>, <em>credential_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.delete_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.delete_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete credentials.</p>
+<p>Deletes a set of stored credentials from your Discovery instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>credential_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The unique identifier for a set of source credentials.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>DeleteCredentials</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.get_credentials">
+<code class="descname">get_credentials</code><span class="sig-paren">(</span><em>environment_id</em>, <em>credential_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.get_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.get_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>View Credentials.</p>
+<dl class="docutils">
+<dt>Returns details about the specified credentials.</dt>
+<dd><strong>Note:</strong> Secure credential information such as a password or SSH key is never</dd>
+</dl>
+<p>returned and must be obtained from the source system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>credential_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The unique identifier for a set of source credentials.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>Credentials</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.list_credentials">
+<code class="descname">list_credentials</code><span class="sig-paren">(</span><em>environment_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.list_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.list_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>List credentials.</p>
+<dl class="docutils">
+<dt>List all the source credentials that have been created for this service instance.</dt>
+<dd><strong>Note:</strong>  All credentials are sent over an encrypted connection and encrypted at</dd>
+</dl>
+<p>rest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>dict</cite> containing the <cite>CredentialsList</cite> response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1.DiscoveryV1.update_credentials">
+<code class="descname">update_credentials</code><span class="sig-paren">(</span><em>environment_id</em>, <em>credential_id</em>, <em>source_type=None</em>, <em>credential_details=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DiscoveryV1.update_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DiscoveryV1.update_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update credentials.</p>
+<p>Updates an existing set of source credentials.
+<strong>Note:</strong> All credentials are sent over an encrypted connection and encrypted at
+rest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>credential_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The unique identifier for a set of source credentials.</li>
+<li><strong>source_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The source that this credentials object connects to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><cite>box</cite> indicates the credentials are used to connect an instance of Enterprise</li>
+</ul>
+<p>Box.
+-  <cite>salesforce</cite> indicates the credentials are used to connect to Salesforce.
+-  <cite>sharepoint</cite> indicates the credentials are used to connect to Microsoft
+SharePoint Online.
+:param CredentialDetails credential_details: Object containing details of the
+stored credentials.
+Obtain credentials for your source from the administrator of the source.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>Credentials</cite> response.
+:rtype: dict</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -1540,7 +1705,7 @@ security](<a class="reference external" href="https://console.bluemix.net/docs/s
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.Collection">
-<em class="property">class </em><code class="descname">Collection</code><span class="sig-paren">(</span><em>collection_id=None</em>, <em>name=None</em>, <em>description=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>status=None</em>, <em>configuration_id=None</em>, <em>language=None</em>, <em>document_counts=None</em>, <em>disk_usage=None</em>, <em>training_status=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Collection" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Collection</code><span class="sig-paren">(</span><em>collection_id=None</em>, <em>name=None</em>, <em>description=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>status=None</em>, <em>configuration_id=None</em>, <em>language=None</em>, <em>document_counts=None</em>, <em>disk_usage=None</em>, <em>training_status=None</em>, <em>source_crawl=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Collection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A collection for storing documents.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1575,7 +1740,9 @@ collection.
 about the disk usage of the collection. Present only when retrieving details of a
 collection.
 :attr TrainingStatus training_status: (optional) Provides information about the status
-of relevance training for collection.</p>
+of relevance training for collection.
+:attr SourceStatus source_crawl: (optional) Object containing source crawl status
+information.</p>
 </dd></dl>
 
 <dl class="class">
@@ -1616,7 +1783,7 @@ of relevance training for collection.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.Configuration">
-<em class="property">class </em><code class="descname">Configuration</code><span class="sig-paren">(</span><em>name</em>, <em>configuration_id=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Configuration" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Configuration</code><span class="sig-paren">(</span><em>name</em>, <em>configuration_id=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>conversions=None</em>, <em>enrichments=None</em>, <em>normalizations=None</em>, <em>source=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A custom configuration for the environment.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1643,7 +1810,9 @@ configuration.
 settings for the configuration.
 :attr list[NormalizationOperation] normalizations: (optional) Defines operations that
 can be used to transform the final output JSON into a normalized form. Operations are
-executed in the order that they appear in the array.</p>
+executed in the order that they appear in the array.
+:attr Source source: (optional) Object containing source parameters for the
+configuration.</p>
 </dd></dl>
 
 <dl class="class">
@@ -1674,6 +1843,110 @@ executed in the order that they appear in the array.</p>
 </table>
 <p>that can be used to transform the final output JSON into a normalized form. Operations
 are executed in the order that they appear in the array.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.CredentialDetails">
+<em class="property">class </em><code class="descname">CredentialDetails</code><span class="sig-paren">(</span><em>credential_type=None</em>, <em>client_id=None</em>, <em>enterprise_id=None</em>, <em>url=None</em>, <em>username=None</em>, <em>organization_url=None</em>, <em>site_collection_path=None</em>, <em>client_secret=None</em>, <em>public_key_id=None</em>, <em>private_key=None</em>, <em>passphrase=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#CredentialDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.CredentialDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object containing details of the stored credentials.
+Obtain credentials for your source from the administrator of the source.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str credential_type:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The authentication method for this credentials</td>
+</tr>
+</tbody>
+</table>
+<p>definition. The  <strong>credential_type</strong> specified must be supported by the
+<strong>source_type</strong>. The following combinations are possible:
+-  <cite>“source_type”: “box”</cite> - valid <cite>credential_type`s: `oauth2</cite>
+-  <cite>“source_type”: “salesforce”</cite> - valid <cite>credential_type`s: `username_password</cite>
+-  <cite>“source_type”: “sharepoint”</cite> - valid <cite>credential_type`s: `saml</cite>.
+:attr str client_id: (optional) The <strong>client_id</strong> of the source that these credentials
+connect to. Only valid, and required, with a <strong>credential_type</strong> of <cite>oauth2</cite>.
+:attr str enterprise_id: (optional) The <strong>enterprise_id</strong> of the Box site that these
+credentials connect to. Only valid, and required, with a <strong>source_type</strong> of <cite>box</cite>.
+:attr str url: (optional) The <strong>url</strong> of the source that these credentials connect to.
+Only valid, and required, with a <strong>credential_type</strong> of <cite>username_password</cite>.
+:attr str username: (optional) The <strong>username</strong> of the source that these credentials
+connect to. Only valid, and required, with a <strong>credential_type</strong> of <cite>saml</cite> and
+<cite>username_password</cite>.
+:attr str organization_url: (optional) The <strong>organization_url</strong> of the source that
+these credentials connect to. Only valid, and required, with a <strong>credential_type</strong> of
+<cite>saml</cite>.
+:attr str site_collection_path: (optional) The <strong>site_collection.path</strong> of the source
+that these credentials connect to. Only valid, and required, with a <strong>source_type</strong> of
+<cite>sharepoint</cite>.
+:attr str client_secret: (optional) The <strong>client_secret</strong> of the source that these
+credentials connect to. Only valid, and required, with a <strong>credential_type</strong> of
+<cite>oauth2</cite>. This value is never returned and is only used when creating or modifying
+<strong>credentials</strong>.
+:attr str public_key_id: (optional) The <strong>public_key_id</strong> of the source that these
+credentials connect to. Only valid, and required, with a <strong>credential_type</strong> of
+<cite>oauth2</cite>. This value is never returned and is only used when creating or modifying
+<strong>credentials</strong>.
+:attr str private_key: (optional) The <strong>private_key</strong> of the source that these
+credentials connect to. Only valid, and required, with a <strong>credential_type</strong> of
+<cite>oauth2</cite>. This value is never returned and is only used when creating or modifying
+<strong>credentials</strong>.
+:attr str passphrase: (optional) The <strong>passphrase</strong> of the source that these
+credentials connect to. Only valid, and required, with a <strong>credential_type</strong> of
+<cite>oauth2</cite>. This value is never returned and is only used when creating or modifying
+<strong>credentials</strong>.
+:attr str password: (optional) The <strong>password</strong> of the source that these credentials
+connect to. Only valid, and required, with <strong>credential_type**s of `saml` and
+`username_password`.
+**Note:</strong> When used with a <strong>source_type</strong> of <cite>salesforce</cite>, the password consists of
+the Salesforce password and a valid Salesforce security token concatenated. This value
+is never returned and is only used when creating or modifying <strong>credentials</strong>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Credentials">
+<em class="property">class </em><code class="descname">Credentials</code><span class="sig-paren">(</span><em>credential_id=None</em>, <em>source_type=None</em>, <em>credential_details=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object containing credential information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str credential_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Unique identifier for this set of credentials.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str source_type:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The source that this credentials object connects to.</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><cite>box</cite> indicates the credentials are used to connect an instance of Enterprise Box.</li>
+<li><cite>salesforce</cite> indicates the credentials are used to connect to Salesforce.</li>
+<li><cite>sharepoint</cite> indicates the credentials are used to connect to Microsoft SharePoint</li>
+</ul>
+<p>Online.
+:attr CredentialDetails credential_details: (optional) Object containing details of
+the stored credentials.
+Obtain credentials for your source from the administrator of the source.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.CredentialsList">
+<em class="property">class </em><code class="descname">CredentialsList</code><span class="sig-paren">(</span><em>credentials=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#CredentialsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.CredentialsList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CredentialsList.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Credentials] credentials:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of credential definitions</td>
+</tr>
+</tbody>
+</table>
+<p>that were created for this instance.</p>
 </dd></dl>
 
 <dl class="class">
@@ -1714,6 +1987,24 @@ operation is <cite>deleted</cite>.</p>
 </table>
 <p>deleted.
 :attr list[Notice] notices: (optional) An array of notice messages, if any.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.DeleteCredentials">
+<em class="property">class </em><code class="descname">DeleteCredentials</code><span class="sig-paren">(</span><em>credential_id=None</em>, <em>status=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#DeleteCredentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.DeleteCredentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object returned after credentials are deleted.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str credential_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The unique identifier of the credentials that have</td>
+</tr>
+</tbody>
+</table>
+<p>been deleted.
+:attr str status: (optional) The status of the deletion request.</p>
 </dd></dl>
 
 <dl class="class">
@@ -1765,11 +2056,11 @@ operation is <cite>deleted</cite>.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int used_bytes:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of bytes used on the environment’s disk</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of bytes within the environment’s disk</td>
 </tr>
 </tbody>
 </table>
-<p>capacity.
+<p>capacity that are currently used to store data.
 :attr int maximum_allowed_bytes: (optional) Total number of bytes available in the
 environment’s disk capacity.
 :attr int total_bytes: (optional) <strong>Deprecated</strong>: Total number of bytes available in
@@ -1903,10 +2194,10 @@ destination_field field if it already exists.
 :attr str enrichment_name: Name of the enrichment service to call. Current options are
 <cite>natural_language_understanding</cite> and <cite>elements</cite>.</p>
 <blockquote>
-<div>When using <cite>natual_language_understanding</cite>, the <cite>options</cite> object must contain Natural</div></blockquote>
+<div>When using <cite>natual_language_understanding</cite>, the <strong>options</strong> object must contain</div></blockquote>
 <dl class="docutils">
-<dt>Language Understanding Options.</dt>
-<dd>When using <cite>elements</cite> the <cite>options</cite> object must contain Element Classification</dd>
+<dt>Natural Language Understanding options.</dt>
+<dd>When using <cite>elements</cite> the <strong>options</strong> object must contain Element Classification</dd>
 </dl>
 <p>options. Additionally, when using the <cite>elements</cite> enrichment the configuration
 specified and files ingested must meet all the criteria specified in [the
@@ -1969,12 +2260,12 @@ extraction model to use. Models available are: <cite>contract</cite>.</p>
 </tr>
 </tbody>
 </table>
-<p>yyyy-MM-dd’T’HH:mm:ss.SSS’Z’.
+<p><cite>yyyy-MM-dd’T’HH:mm:ss.SSS’Z’</cite>.
 :attr datetime updated: (optional) Date of most recent environment update, in the
-format yyyy-MM-dd’T’HH:mm:ss.SSS’Z’.
+format <cite>yyyy-MM-dd’T’HH:mm:ss.SSS’Z’</cite>.
 :attr str status: (optional) Status of the environment.
-:attr bool read_only: (optional) If true, then the environment contains read-only
-collections which are maintained by IBM.
+:attr bool read_only: (optional) If <cite>true</cite>, the environment contains read-only
+collections that are maintained by IBM.
 :attr int size: (optional) <strong>Deprecated</strong>: Size of the environment.
 :attr IndexCapacity index_capacity: (optional) Details about the resource usage and
 capacity of the environment.</p>
@@ -2018,7 +2309,7 @@ for the word <cite>cold</cite> in another.</p>
 </table>
 <p>expansion. If specified, only the items in this list are expanded.
 :attr list[str] expanded_terms: A list of terms that this expansion will be expanded
-to. If specified without <cite>input_terms</cite>, it also functions as the input term list.</p>
+to. If specified without <strong>input_terms</strong>, it also functions as the input term list.</p>
 </dd></dl>
 
 <dl class="class">
@@ -2032,21 +2323,22 @@ to. If specified without <cite>input_terms</cite>, it also functions as the inpu
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Expansion] expansions:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of query expansion definitions.
-Each object in the <cite>expansions</cite> array represents a term or set of terms that will be</td>
+Each object in the <strong>expansions</strong> array represents a term or set of terms that will</td>
 </tr>
 </tbody>
 </table>
-<p>expanded into other terms. Each expansion object can be configured so that all terms
-are expanded to all other terms in the object - bi-directional, or a set list of terms
-can be expanded into a second list of terms - uni-directional.</p>
+<p>be expanded into other terms. Each expansion object can be configured as bidirectional
+or unidirectional. Bidirectional means that all terms are expanded to all other terms
+in the object. Unidirectional means that a set list of terms can be expanded into a
+second list of terms.</p>
 <blockquote>
-<div>To create a bi-directional expansion specify an <cite>expanded_terms</cite> array. When found in</div></blockquote>
-<p>a query, all items in the <cite>expanded_terms</cite> array are then expanded to the other items
-in the same array.</p>
+<div>To create a bi-directional expansion specify an <strong>expanded_terms</strong> array. When found</div></blockquote>
+<p>in a query, all items in the <strong>expanded_terms</strong> array are then expanded to the other
+items in the same array.</p>
 <blockquote>
-<div>To create a uni-directional expansion, specify both an array of <cite>input_terms</cite> and an</div></blockquote>
-<p>array of <cite>expanded_terms</cite>. When items in the <cite>input_terms</cite> array are present in a
-query, they are expanded using the items listed in the <cite>expanded_terms</cite> array.</p>
+<div>To create a uni-directional expansion, specify both an array of <strong>input_terms</strong> and</div></blockquote>
+<p>an array of <strong>expanded_terms</strong>. When items in the <strong>input_terms</strong> array are present in
+a query, they are expanded using the items listed in the <strong>expanded_terms</strong> array.</p>
 </dd></dl>
 
 <dl class="class">
@@ -2394,11 +2686,11 @@ Graph <cite>en-news</cite>, the default is`en-news`.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr bool entities:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite> entities are extracted from the identified</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, entities are extracted from the</td>
 </tr>
 </tbody>
 </table>
-<p>sentence parts.
+<p>identified sentence parts.
 :attr bool keywords: (optional) When <cite>true</cite>, keywords are extracted from the
 identified sentence parts.
 :attr int limit: (optional) The maximum number of semantic roles enrichments to extact
@@ -2438,27 +2730,27 @@ have any associated sentiment analyzed.</p>
 </tr>
 </tbody>
 </table>
-<p><strong>copy</strong> - Copies the value of the <cite>source_field</cite> to the <cite>destination_field</cite> field. If
-the <cite>destination_field</cite> already exists, then the value of the <cite>source_field</cite>
-overwrites the original value of the <cite>destination_field</cite>.
-<strong>move</strong> - Renames (moves) the <cite>source_field</cite> to the <cite>destination_field</cite>. If the
-<cite>destination_field</cite> already exists, then the value of the <cite>source_field</cite> overwrites
-the original value of the <cite>destination_field</cite>. Rename is identical to copy, except
-that the <cite>source_field</cite> is removed after the value has been copied to the
-<cite>destination_field</cite> (it is the same as a _copy_ followed by a _remove_).
-<strong>merge</strong> - Merges the value of the <cite>source_field</cite> with the value of the
-<cite>destination_field</cite>. The <cite>destination_field</cite> is converted into an array if it is not
-already an array, and the value of the <cite>source_field</cite> is appended to the array. This
-operation removes the <cite>source_field</cite> after the merge. If the <cite>source_field</cite> does not
-exist in the current document, then the <cite>destination_field</cite> is still converted into an
-array (if it is not an array already). This is ensures the type for
-<cite>destination_field</cite> is consistent across all documents.
-<strong>remove</strong> - Deletes the <cite>source_field</cite> field. The <cite>destination_field</cite> is ignored for
-this operation.
-<strong>remove_nulls</strong> - Removes all nested null (blank) leif values from the JSON tree.
-<cite>source_field</cite> and <cite>destination_field</cite> are ignored by this operation because
-_remove_nulls_ operates on the entire JSON tree. Typically, <cite>remove_nulls</cite> is invoked
-as the last normalization operation (if it is inoked at all, it can be
+<p><strong>copy</strong> - Copies the value of the <strong>source_field</strong> to the <strong>destination_field</strong>
+field. If the <strong>destination_field</strong> already exists, then the value of the
+<strong>source_field</strong> overwrites the original value of the <strong>destination_field</strong>.
+<strong>move</strong> - Renames (moves) the <strong>source_field</strong> to the <strong>destination_field</strong>. If the
+<strong>destination_field</strong> already exists, then the value of the <strong>source_field</strong>
+overwrites the original value of the <strong>destination_field</strong>. Rename is identical to
+copy, except that the <strong>source_field</strong> is removed after the value has been copied to
+the <strong>destination_field</strong> (it is the same as a _copy_ followed by a _remove_).
+<strong>merge</strong> - Merges the value of the <strong>source_field</strong> with the value of the
+<strong>destination_field</strong>. The <strong>destination_field</strong> is converted into an array if it is
+not already an array, and the value of the <strong>source_field</strong> is appended to the array.
+This operation removes the <strong>source_field</strong> after the merge. If the <strong>source_field</strong>
+does not exist in the current document, then the <strong>destination_field</strong> is still
+converted into an array (if it is not an array already). This conversion ensures the
+type for <strong>destination_field</strong> is consistent across all documents.
+<strong>remove</strong> - Deletes the <strong>source_field</strong> field. The <strong>destination_field</strong> is ignored
+for this operation.
+<strong>remove_nulls</strong> - Removes all nested null (blank) field values from the JSON tree.
+<strong>source_field</strong> and <strong>destination_field</strong> are ignored by this operation because
+_remove_nulls_ operates on the entire JSON tree. Typically, <strong>remove_nulls</strong> is
+invoked as the last normalization operation (if it is invoked at all, it can be
 time-expensive).
 :attr str source_field: (optional) The source field for the operation.
 :attr str destination_field: (optional) The destination field for the operation.</p>
@@ -2726,7 +3018,7 @@ field. This value is exclusive.</p>
 </tr>
 </tbody>
 </table>
-<p><cite>result_metadata</cite> object.
+<p><strong>result_metadata</strong> object.
 :attr object metadata: (optional) Metadata of the document.
 :attr str collection_id: (optional) The collection ID of the collection containing the
 document for this result.
@@ -2867,7 +3159,7 @@ support the result.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.QueryResponse">
-<em class="property">class </em><code class="descname">QueryResponse</code><span class="sig-paren">(</span><em>matching_results=None</em>, <em>results=None</em>, <em>aggregations=None</em>, <em>passages=None</em>, <em>duplicates_removed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryResponse" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">QueryResponse</code><span class="sig-paren">(</span><em>matching_results=None</em>, <em>results=None</em>, <em>aggregations=None</em>, <em>passages=None</em>, <em>duplicates_removed=None</em>, <em>session_token=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A response containing the documents and aggregations for the query.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2889,8 +3181,12 @@ support the result.</p>
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr int duplicates_removed:</th></tr>
 <tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional)</td>
 </tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str session_token:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The session token for this query. The session</td>
+</tr>
 </tbody>
 </table>
+<p>token can be used to add events associated with this query to the query and event log.</p>
 </dd></dl>
 
 <dl class="class">
@@ -2909,7 +3205,7 @@ support the result.</p>
 </tr>
 </tbody>
 </table>
-<p><cite>result_metadata</cite> object.
+<p><strong>result_metadata</strong> object.
 :attr object metadata: (optional) Metadata of the document.
 :attr str collection_id: (optional) The collection ID of the collection containing the
 document for this result.
@@ -2919,7 +3215,7 @@ result.</p>
 
 <dl class="class">
 <dt id="watson_developer_cloud.discovery_v1.QueryResultResultMetadata">
-<em class="property">class </em><code class="descname">QueryResultResultMetadata</code><span class="sig-paren">(</span><em>score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryResultResultMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryResultResultMetadata" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">QueryResultResultMetadata</code><span class="sig-paren">(</span><em>score=None</em>, <em>confidence=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#QueryResultResultMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.QueryResultResultMetadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Metadata of a query result.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2927,11 +3223,13 @@ result.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Attr float score:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The confidence score of the result’s analysis. A higher</td>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The raw score of the result. A higher score indicates a</td>
 </tr>
 </tbody>
 </table>
-<p>score indicating greater confidence.</p>
+<p>greater match to the query parameters.
+:attr float confidence: (optional) The confidence score of the result’s analysis. A
+higher score indicates greater confidence.</p>
 </dd></dl>
 
 <dl class="class">
@@ -2952,6 +3250,169 @@ result.</p>
 </tbody>
 </table>
 <p>document segments. Valid values are h1, h2, h3, h4, h5, h6.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.Source">
+<em class="property">class </em><code class="descname">Source</code><span class="sig-paren">(</span><em>type=None</em>, <em>credential_id=None</em>, <em>schedule=None</em>, <em>options=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#Source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.Source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object containing source parameters for the configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The type of source to connect to.</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><cite>box</cite> indicates the configuration is to connect an instance of Enterprise Box.</li>
+<li><cite>salesforce</cite> indicates the configuration is to connect to Salesforce.</li>
+<li><cite>sharepoint</cite> indicates the configuration is to connect to Microsoft SharePoint</li>
+</ul>
+<p>Online.
+:attr str credential_id: (optional) The <strong>credential_id</strong> of the credentials to use to
+connect to the source. Credentials are defined using the <strong>credentials</strong> method. The
+<strong>source_type</strong> of the credentials used must match the <strong>type</strong> field specified in
+this object.
+:attr SourceSchedule schedule: (optional) Object containing the schedule information
+for the source.
+:attr SourceOptions options: (optional) The <strong>options</strong> object defines which items to
+crawl from the source system.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.SourceOptions">
+<em class="property">class </em><code class="descname">SourceOptions</code><span class="sig-paren">(</span><em>folders=None</em>, <em>objects=None</em>, <em>site_collections=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#SourceOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.SourceOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The <strong>options</strong> object defines which items to crawl from the source system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[SourceOptionsFolder] folders:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Array of folders to crawl from the</td>
+</tr>
+</tbody>
+</table>
+<p>Box source. Only valid, and required, when the <strong>type</strong> field of the <strong>source</strong> object
+is set to <cite>box</cite>.
+:attr list[SourceOptionsObject] objects: (optional) Array of Salesforce document
+object types to crawl from the Salesforce source. Only valid, and required, when the
+<strong>type</strong> field of the <strong>source</strong> object is set to <cite>salesforce</cite>.
+:attr list[SourceOptionsSiteColl] site_collections: (optional) Array of Microsoft
+SharePointoint Online site collections to crawl from the SharePoint source. Only valid
+and required when the <strong>type</strong> field of the <strong>source</strong> object is set to <cite>sharepoint</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.SourceOptionsFolder">
+<em class="property">class </em><code class="descname">SourceOptionsFolder</code><span class="sig-paren">(</span><em>owner_user_id</em>, <em>folder_id</em>, <em>limit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#SourceOptionsFolder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.SourceOptionsFolder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that defines a box folder to crawl with this configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str owner_user_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The Box user ID of the user who owns the folder to crawl.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str folder_id:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The Box folder ID of the folder to crawl.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr int limit:</th><td class="field-body">(optional) The maximum number of documents to crawl for this folder.</td>
+</tr>
+</tbody>
+</table>
+<p>By default, all documents in the folder are crawled.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.SourceOptionsObject">
+<em class="property">class </em><code class="descname">SourceOptionsObject</code><span class="sig-paren">(</span><em>name</em>, <em>limit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#SourceOptionsObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.SourceOptionsObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that defines a Salesforce document object type crawl with this configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">The name of the Salesforce document object to crawl. For example,</td>
+</tr>
+</tbody>
+</table>
+<p><cite>case</cite>.
+:attr int limit: (optional) The maximum number of documents to crawl for this document
+object. By default, all documents in the document object are crawled.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.SourceOptionsSiteColl">
+<em class="property">class </em><code class="descname">SourceOptionsSiteColl</code><span class="sig-paren">(</span><em>site_collection_path</em>, <em>limit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#SourceOptionsSiteColl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.SourceOptionsSiteColl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object that defines a Microsoft SharePoint site collection to crawl with this
+configuration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str site_collection_path:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The Microsoft SharePoint Online site collection path</td>
+</tr>
+</tbody>
+</table>
+<p>to crawl. The path must be be relative to the <strong>organization_url</strong> that was specified
+in the credentials associated with this source configuration.
+:attr int limit: (optional) The maximum number of documents to crawl for this site
+collection. By default, all documents in the site collection are crawled.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.SourceSchedule">
+<em class="property">class </em><code class="descname">SourceSchedule</code><span class="sig-paren">(</span><em>enabled=None</em>, <em>time_zone=None</em>, <em>frequency=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#SourceSchedule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.SourceSchedule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object containing the schedule information for the source.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool enabled:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) When <cite>true</cite>, the source is re-crawled based on the</td>
+</tr>
+</tbody>
+</table>
+<p><strong>frequency</strong> field in this object. When <cite>false</cite> the source is not re-crawled; When
+<cite>false</cite> and connecting to Salesforce the source is crawled annually.
+:attr str time_zone: (optional) The time zone to base source crawl times on. Possible
+values correspond to the IANA (Internet Assigned Numbers Authority) time zones list.
+:attr str frequency: (optional) The crawl schedule in the specified <strong>time_zone</strong>.
+-  <cite>daily</cite>: Runs every day between 00:00 and 06:00.
+-  <cite>weekly</cite>: Runs every week on Sunday between 00:00 and 06:00.
+-  <cite>monthly</cite>: Runs the on the first Sunday of every month between 00:00 and 06:00.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1.SourceStatus">
+<em class="property">class </em><code class="descname">SourceStatus</code><span class="sig-paren">(</span><em>status=None</em>, <em>last_updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1.html#SourceStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1.SourceStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Object containing source crawl status information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The current status of the source crawl for this</td>
+</tr>
+</tbody>
+</table>
+<p>collection. This field returns <cite>not_configured</cite> if the default configuration for this
+source does not have a <strong>source</strong> object defined.
+-  <cite>running</cite> indicates that a crawl to fetch more documents is in progress.
+-  <cite>complete</cite> indicates that the crawl has completed with no errors.
+-  <cite>complete_with_notices</cite> indicates that some notices were generated during the
+crawl. Notices can be checked by using the <strong>notices</strong> query method.
+-  <cite>stopped</cite> indicates that the crawl has stopped but is not complete.
+:attr datetime last_updated: (optional) Date in UTC format indicating when the last
+crawl was attempted. If <cite>null</cite>, no crawl was completed.</p>
 </dd></dl>
 
 <dl class="class">
