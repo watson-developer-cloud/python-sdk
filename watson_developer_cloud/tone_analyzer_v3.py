@@ -170,6 +170,8 @@ class ToneAnalyzerV3(WatsonService):
             raise ValueError('tone_input must be provided')
         if content_type is None:
             raise ValueError('content_type must be provided')
+        if isinstance(tone_input, ToneInput):
+            tone_input = self._convert_model(tone_input, ToneInput)
         headers = {
             'Content-Type': content_type,
             'Content-Language': content_language,

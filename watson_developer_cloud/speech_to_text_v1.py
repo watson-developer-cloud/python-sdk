@@ -78,6 +78,7 @@ try:
 except ImportError:
     from urllib import urlencode
 
+BEARER = 'Bearer'
 ##############################################################################
 # Service
 ##############################################################################
@@ -516,9 +517,13 @@ class SpeechToTextV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
-        authstring = "{0}:{1}".format(self.username, self.password)
-        base64_authorization = base64.b64encode(authstring.encode('utf-8')).decode('utf-8')
-        headers['Authorization'] = 'Basic {0}'.format(base64_authorization)
+        if self.token_manager:
+            access_token = self.token_manager.get_token()
+            headers['Authorization'] = '{0} {1}'.format(BEARER, access_token)
+        else:
+            authstring = "{0}:{1}".format(self.username, self.password)
+            base64_authorization = base64.b64encode(authstring.encode('utf-8')).decode('utf-8')
+            headers['Authorization'] = 'Basic {0}'.format(base64_authorization)
 
         url = self.url.replace('https:', 'wss:')
         params = {
