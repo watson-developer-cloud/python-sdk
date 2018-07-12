@@ -36,13 +36,15 @@ class NaturalLanguageClassifierV1(WatsonService):
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
 
-    def __init__(self,
-                 url=default_url,
-                 username=None,
-                 password=None,
-                 iam_api_key=None,
-                 iam_access_token=None,
-                 iam_url=None):
+    def __init__(
+            self,
+            url=default_url,
+            username=None,
+            password=None,
+            iam_api_key=None,
+            iam_access_token=None,
+            iam_url=None,
+    ):
         """
         Construct a new client for the Natural Language Classifier service.
 

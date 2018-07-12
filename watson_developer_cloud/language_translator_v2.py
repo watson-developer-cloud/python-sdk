@@ -14,6 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
+
+---
+Language Translator v3 is
+[available](https://www.ibm.com/watson/developercloud/language-translator/api/v3/). See
+the [migration
+guide](https://console.bluemix.net/docs/services/language-translator/migrating.html).
+---
 IBM Watson&trade; Language Translator translates text from one language to another. The
 service offers multiple domain-specific models that you can customize based on your unique
 terminology and language. Use Language Translator to take news from across the globe and

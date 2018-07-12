@@ -50,7 +50,3 @@ print(json.dumps(translation, indent=2, ensure_ascii=False))
 ## Get model details
 # model = language_translator.get_model(model_id='fdadfc3b-0b96-4276-a6e5-f5c4a29711fc')
 # print(json.dumps(model, indent=2))
-
-
-
-

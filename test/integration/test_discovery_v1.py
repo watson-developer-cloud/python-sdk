@@ -116,3 +116,37 @@ class Discoveryv1(TestCase):
             filter='extracted_metadata.sha1::9181d244*',
             return_fields='extracted_metadata.sha1')
         assert query_results is not None
+
+    def test_credentials(self):
+        credential_details = {
+            'credential_type': 'username_password',
+            'url': 'https://login.salesforce.com',
+            'username': 'user@email.com',
+            'password': 'xxx'
+        }
+        credentials = self.discovery.create_credentials(self.environment_id,
+                                                        'salesforce',
+                                                        credential_details)
+        assert credentials['credential_id'] is not None
+        credential_id = credentials['credential_id']
+
+        get_credentials = self.discovery.get_credentials(self.environment_id, credential_id)
+        assert get_credentials['credential_id'] == credential_id
+
+        list_credentials = self.discovery.list_credentials(self.environment_id)
+        assert list_credentials is not None
+
+        new_credential_details = {
+            'credential_type': 'username_password',
+            'url': 'https://logo.salesforce.com',
+            'username': 'user@email.com',
+            'password': 'xxx'
+        }
+        updated_credentials = self.discovery.update_credentials(self.environment_id, credential_id, 'salesforce', new_credential_details)
+        assert updated_credentials is not None
+
+        get_credentials = self.discovery.get_credentials(self.environment_id, credentials['credential_id'])
+        assert get_credentials['credential_details']['url'] == new_credential_details['url']
+
+        delete_credentials = self.discovery.delete_credentials(self.environment_id, credential_id)
+        assert delete_credentials['credential_id'] is not None

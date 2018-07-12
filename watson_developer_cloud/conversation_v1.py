@@ -1469,7 +1469,7 @@ class ConversationV1(WatsonService):
         - It must be no longer than 64 characters.
         :param list[str] patterns: An array of patterns for the entity value. You can
         provide either synonyms or patterns (as indicated by **type**), but not both. A
-        pattern is a regular expression no longer than 128 characters. For more
+        pattern is a regular expression no longer than 512 characters. For more
         information about how to specify a pattern, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
         :param str value_type: Specifies the type of value.
@@ -1688,7 +1688,7 @@ class ConversationV1(WatsonService):
         - It must be no longer than 64 characters.
         :param list[str] new_patterns: An array of patterns for the entity value. You can
         provide either synonyms or patterns (as indicated by **type**), but not both. A
-        pattern is a regular expression no longer than 128 characters. For more
+        pattern is a regular expression no longer than 512 characters. For more
         information about how to specify a pattern, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
         :param dict headers: A `dict` containing the request headers
@@ -3257,7 +3257,7 @@ class CreateValue(object):
     - It must be no longer than 64 characters.
     :attr list[str] patterns: (optional) An array of patterns for the entity value. You
     can provide either synonyms or patterns (as indicated by **type**), but not both. A
-    pattern is a regular expression no longer than 128 characters. For more information
+    pattern is a regular expression no longer than 512 characters. For more information
     about how to specify a pattern, see the
     [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
     :attr str value_type: (optional) Specifies the type of value.
@@ -3286,7 +3286,7 @@ class CreateValue(object):
         - It must be no longer than 64 characters.
         :param list[str] patterns: (optional) An array of patterns for the entity value.
         You can provide either synonyms or patterns (as indicated by **type**), but not
-        both. A pattern is a regular expression no longer than 128 characters. For more
+        both. A pattern is a regular expression no longer than 512 characters. For more
         information about how to specify a pattern, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
         :param str value_type: (optional) Specifies the type of value.

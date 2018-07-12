@@ -20,6 +20,7 @@ import sys
 from requests.structures import CaseInsensitiveDict
 import dateutil.parser as date_parser
 from .iam_token_manager import IAMTokenManager
+import warnings
 
 try:
     from http.cookiejar import CookieJar  # Python 3
@@ -28,6 +29,8 @@ except ImportError:
 from .version import __version__
 
 BEARER = 'Bearer'
+X_WATSON_AUTHORIZATION_TOKEN = 'X-Watson-Authorization-Token'
+AUTH_HEADER_DEPRECATION_MESSAGE = 'Authenticating with the X-Watson-Authorization-Token header is deprecated. The token continues to work with Cloud Foundry services, but is not supported for services that use Identity and Access Management (IAM) authentication.'
 
 # Uncomment this to enable http debugging
 # try:
@@ -235,7 +238,10 @@ class WatsonService(object):
         if api_key is not None:
             self.set_api_key(api_key)
         elif username is not None and password is not None:
-            self.set_username_and_password(username, password)
+            if username in ('apikey', 'apiKey'):
+                self.set_token_manager(password, iam_access_token, iam_url)
+            else:
+                self.set_username_and_password(username, password)
         elif iam_access_token is not None or iam_api_key is not None:
             self.set_token_manager(iam_api_key, iam_access_token, iam_url)
 
@@ -398,6 +404,9 @@ class WatsonService(object):
             headers['accept'] = 'application/json'
         headers.update(input_headers)
 
+        if X_WATSON_AUTHORIZATION_TOKEN in headers:
+            warnings.warn(AUTH_HEADER_DEPRECATION_MESSAGE)
+
         # Remove keys with None values
         params = _remove_null_values(params)
         params = _cleanup_param_values(params)
@@ -437,7 +446,7 @@ class WatsonService(object):
 
         if 200 <= response.status_code <= 299:
             if response.status_code == 204:
-                return None
+                return DetailedResponse(None, response.headers) if self.detailed_response else None
             if accept_json:
                 response_json = response.json()
                 if 'status' in response_json and response_json['status'] \
