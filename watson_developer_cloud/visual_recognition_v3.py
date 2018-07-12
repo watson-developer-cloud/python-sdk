@@ -734,8 +734,8 @@ class ClassifiedImages(object):
 
 class Classifier(object):
     """
-
     Information about a classifier.
+
     :attr str classifier_id: ID of a classifier identified in the image.
     :attr str name: Name of the classifier.
     :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned
