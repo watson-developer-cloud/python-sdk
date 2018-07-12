@@ -735,14 +735,13 @@ class ClassifiedImages(object):
 class Classifier(object):
     """
     Information about a classifier.
-
     :attr str classifier_id: ID of a classifier identified in the image.
     :attr str name: Name of the classifier.
     :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned
     when verbose=`true`. Might not be returned by some requests.
     :attr str status: (optional) Training status of classifier.
-    :attr bool core_ml_enabled: (optional) Whether the classifier can be downloaded as a
-    Core ML model after the training status is `ready`.
+    :attr bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML
+    model after the training status is `ready`.
     :attr str explanation: (optional) If classifier training has failed, this field may
     explain why.
     :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC)
@@ -759,9 +758,9 @@ class Classifier(object):
     def __init__(self,
                  classifier_id,
                  name,
+                 core_ml_enabled,
                  owner=None,
                  status=None,
-                 core_ml_enabled=None,
                  explanation=None,
                  created=None,
                  classes=None,
@@ -769,14 +768,13 @@ class Classifier(object):
                  updated=None):
         """
         Initialize a Classifier object.
-
         :param str classifier_id: ID of a classifier identified in the image.
         :param str name: Name of the classifier.
+        :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML
+        model after the training status is `ready`.
         :param str owner: (optional) Unique ID of the account who owns the classifier.
         Returned when verbose=`true`. Might not be returned by some requests.
         :param str status: (optional) Training status of classifier.
-        :param bool core_ml_enabled: (optional) Whether the classifier can be downloaded
-        as a Core ML model after the training status is `ready`.
         :param str explanation: (optional) If classifier training has failed, this field
         may explain why.
         :param datetime created: (optional) Date and time in Coordinated Universal Time
@@ -823,6 +821,10 @@ class Classifier(object):
             args['status'] = _dict.get('status')
         if 'core_ml_enabled' in _dict:
             args['core_ml_enabled'] = _dict.get('core_ml_enabled')
+        else:
+            raise ValueError(
+                'Required property \'core_ml_enabled\' not present in Classifier JSON'
+            )
         if 'explanation' in _dict:
             args['explanation'] = _dict.get('explanation')
         if 'created' in _dict:
