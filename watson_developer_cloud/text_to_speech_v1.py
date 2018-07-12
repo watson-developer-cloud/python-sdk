@@ -66,6 +66,7 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
@@ -187,6 +188,10 @@ class TextToSpeechV1(WatsonService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
+    @deprecated('Use list_voices() instead')
+    def voices(self):
+        return self.list_voices()
+
     #########################
     # Synthesis
     #########################
@@ -306,6 +311,10 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return response
 
+    @deprecated('Use get_pronunciation() instead')
+    def pronunciation(self, text, voice=None, pronunciation_format='ipa'):
+        return self.get_pronunciation(text, voice, pronunciation_format)
+
     #########################
     # Custom models
     #########################
@@ -348,6 +357,10 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return response
 
+    @deprecated('Use create_voice_model() instead.')
+    def create_customization(self, name, language=None, description=None):
+        return self.create_voice_model(name, language, description)
+
     def delete_voice_model(self, customization_id, **kwargs):
         """
         Delete a custom model.
@@ -372,6 +385,10 @@ class TextToSpeechV1(WatsonService):
         self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
         return None
+
+    @deprecated('Use delete_voice_model() instead.')
+    def delete_customization(self, customization_id):
+        return self.delete_voice_model(customization_id)
 
     def get_voice_model(self, customization_id, **kwargs):
         """
@@ -400,6 +417,10 @@ class TextToSpeechV1(WatsonService):
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
         return response
+
+    @deprecated('Use get_voice_model instead.')
+    def get_customization(self, customization_id):
+        return self.get_voice_model(customization_id)
 
     def list_voice_models(self, language=None, **kwargs):
         """
@@ -432,6 +453,10 @@ class TextToSpeechV1(WatsonService):
             params=params,
             accept_json=True)
         return response
+
+    @deprecated('Use list_voice_models() instead.')
+    def customizations(self, language=None):
+        return self.list_voice_models(language)
 
     def update_voice_model(self,
                            customization_id,
@@ -478,6 +503,11 @@ class TextToSpeechV1(WatsonService):
             json=data,
             accept_json=True)
         return None
+
+    @deprecated('Use update_voice_model() instead')
+    def update_customization(self, customization_id, name=None,
+                             description=None, words=None):
+        return self.update_voice_model(customization_id, name, description, words)
 
     #########################
     # Custom words
@@ -537,6 +567,10 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return None
 
+    @deprecated('Use add_word() instead.')
+    def set_customization_word(self, customization_id, word, translation):
+        return self.add_word(customization_id, word, translation)
+
     def add_words(self, customization_id, words, **kwargs):
         """
         Add custom words.
@@ -580,6 +614,10 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return None
 
+    @deprecated('Use add_words() instead.')
+    def add_customization_words(self, customization_id, words):
+        return self.add_words(customization_id, words)
+
     def delete_word(self, customization_id, word, **kwargs):
         """
         Delete a custom word.
@@ -607,6 +645,10 @@ class TextToSpeechV1(WatsonService):
         self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
         return None
+
+    @deprecated('Use delete_word() instead.')
+    def delete_customization_word(self, customization_id, word):
+        return self.delete_word(customization_id, word)
 
     def get_word(self, customization_id, word, **kwargs):
         """
@@ -638,6 +680,10 @@ class TextToSpeechV1(WatsonService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
+    @deprecated('Use get_word() instead.')
+    def get_customization_word(self, customization_id, word):
+        return self.get_word(customization_id, word)
+
     def list_words(self, customization_id, **kwargs):
         """
         List custom words.
@@ -665,6 +711,10 @@ class TextToSpeechV1(WatsonService):
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
         return response
+
+    @deprecated('Use list_words() instead.')
+    def get_customization_words(self, customization_id):
+        return self.list_words(customization_id)
 
     #########################
     # User data
@@ -808,10 +858,10 @@ class SupportedFeatures(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'custom_pronunciation'
-                   ) and self.custom_pronunciation is not None:
+                  ) and self.custom_pronunciation is not None:
             _dict['custom_pronunciation'] = self.custom_pronunciation
         if hasattr(self, 'voice_transformation'
-                   ) and self.voice_transformation is not None:
+                  ) and self.voice_transformation is not None:
             _dict['voice_transformation'] = self.voice_transformation
         return _dict
 
@@ -1136,7 +1186,7 @@ class VoiceModel(object):
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
+            args['words'] = [Word._from_dict(x) for x in _dict.get('words')]
         return cls(**args)
 
     def _to_dict(self):
@@ -1399,7 +1449,7 @@ class Words(object):
         """Initialize a Words object from a json dictionary."""
         args = {}
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
+            args['words'] = [Word._from_dict(x) for x in _dict.get('words')]
         else:
             raise ValueError(
                 'Required property \'words\' not present in Words JSON')
