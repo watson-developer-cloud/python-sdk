@@ -184,9 +184,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a model.</span>
 
-<span class="sd">        Retrieves information about a single specified language model that is available</span>
-<span class="sd">        for use with the service. The information includes the name of the model and its</span>
-<span class="sd">        minimum sampling rate in Hertz, among other things.</span>
+<span class="sd">        Gets information for a single specified language model that is available for use</span>
+<span class="sd">        with the service. The information includes the name of the model and its minimum</span>
+<span class="sd">        sampling rate in Hertz, among other things.</span>
 
 <span class="sd">        :param str model_id: The identifier of the model in the form of its name from the</span>
 <span class="sd">        output of the **Get models** method.</span>
@@ -208,9 +208,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        List models.</span>
 
-<span class="sd">        Retrieves a list of all language models that are available for use with the</span>
-<span class="sd">        service. The information includes the name of the model and its minimum sampling</span>
-<span class="sd">        rate in Hertz, among other things.</span>
+<span class="sd">        Lists all language models that are available for use with the service. The</span>
+<span class="sd">        information includes the name of the model and its minimum sampling rate in Hertz,</span>
+<span class="sd">        among other things.</span>
 
 <span class="sd">        :param dict headers: A `dict` containing the request headers</span>
 <span class="sd">        :return: A `dict` containing the `SpeechModels` response.</span>
@@ -1135,7 +1135,7 @@
 
 <span class="sd">        Lists information about all custom language models that are owned by an instance</span>
 <span class="sd">        of the service. Use the `language` parameter to see all custom language models for</span>
-<span class="sd">        the specified language; omit the parameter to see all custom language models for</span>
+<span class="sd">        the specified language. Omit the parameter to see all custom language models for</span>
 <span class="sd">        all languages. You must use credentials for the instance of the service that owns</span>
 <span class="sd">        a model to list information about it.</span>
 
@@ -1209,9 +1209,9 @@
 <span class="sd">        complete depending on the amount of data on which the service is being trained and</span>
 <span class="sd">        the current load on the service. The method returns an HTTP 200 response code to</span>
 <span class="sd">        indicate that the training process has begun.</span>
-<span class="sd">        You can monitor the status of the training by using the **List a custom language</span>
+<span class="sd">        You can monitor the status of the training by using the **Get a custom language</span>
 <span class="sd">        model** method to poll the model&#39;s status. Use a loop to check the status every 10</span>
-<span class="sd">        seconds. The method returns a `Customization` object that includes `status` and</span>
+<span class="sd">        seconds. The method returns a `LanguageModel` object that includes `status` and</span>
 <span class="sd">        `progress` fields. A status of `available` means that the custom model is trained</span>
 <span class="sd">        and ready to use. The service cannot accept subsequent training requests, or</span>
 <span class="sd">        requests to add new corpora or words, until the existing request completes.</span>
@@ -1285,11 +1285,12 @@
 <span class="sd">        that owns a model to upgrade it.</span>
 <span class="sd">        The method returns an HTTP 200 response code to indicate that the upgrade process</span>
 <span class="sd">        has begun successfully. You can monitor the status of the upgrade by using the</span>
-<span class="sd">        **List a custom language model** method to poll the model&#39;s status. Use a loop to</span>
-<span class="sd">        check the status every 10 seconds. While it is being upgraded, the custom model</span>
-<span class="sd">        has the status `upgrading`. When the upgrade is complete, the model resumes the</span>
-<span class="sd">        status that it had prior to upgrade. The service cannot accept subsequent requests</span>
-<span class="sd">        for the model until the upgrade completes.</span>
+<span class="sd">        **Get a custom language model** method to poll the model&#39;s status. The method</span>
+<span class="sd">        returns a `LanguageModel` object that includes `status` and `progress` fields. Use</span>
+<span class="sd">        a loop to check the status every 10 seconds. While it is being upgraded, the</span>
+<span class="sd">        custom model has the status `upgrading`. When the upgrade is complete, the model</span>
+<span class="sd">        resumes the status that it had prior to upgrade. The service cannot accept</span>
+<span class="sd">        subsequent requests for the model until the upgrade completes.</span>
 <span class="sd">        For more information, see [Upgrading custom</span>
 <span class="sd">        models](https://console.bluemix.net/docs/services/speech-to-text/custom-upgrade.html).</span>
 
@@ -1606,10 +1607,10 @@
 <span class="sd">        or modify custom words for the model. Adding or modifying custom words does not</span>
 <span class="sd">        affect the custom model until you train the model for the new data by using the</span>
 <span class="sd">        **Train a custom language model** method.</span>
-<span class="sd">        You add custom words by providing a `Words` object, which is an array of `Word`</span>
-<span class="sd">        objects, one per word. You must use the object&#39;s word parameter to identify the</span>
-<span class="sd">        word that is to be added. You can also provide one or both of the optional</span>
-<span class="sd">        `sounds_like` and `display_as` fields for each word.</span>
+<span class="sd">        You add custom words by providing a `CustomWords` object, which is an array of</span>
+<span class="sd">        `CustomWord` objects, one per word. You must use the object&#39;s `word` parameter to</span>
+<span class="sd">        identify the word that is to be added. You can also provide one or both of the</span>
+<span class="sd">        optional `sounds_like` and `display_as` fields for each word.</span>
 <span class="sd">        * The `sounds_like` field provides an array of one or more pronunciations for the</span>
 <span class="sd">        word. Use the parameter to specify how the word can be pronounced by users. Use</span>
 <span class="sd">        the parameter for words that are difficult to pronounce, foreign words, acronyms,</span>
@@ -1910,7 +1911,7 @@
 
 <span class="sd">        Lists information about all custom acoustic models that are owned by an instance</span>
 <span class="sd">        of the service. Use the `language` parameter to see all custom acoustic models for</span>
-<span class="sd">        the specified language; omit the parameter to see all custom acoustic models for</span>
+<span class="sd">        the specified language. Omit the parameter to see all custom acoustic models for</span>
 <span class="sd">        all languages. You must use credentials for the instance of the service that owns</span>
 <span class="sd">        a model to list information about it.</span>
 
@@ -1981,9 +1982,9 @@
 <span class="sd">        of its audio data. The range of time depends on the model being trained and the</span>
 <span class="sd">        nature of the audio, such as whether the audio is clean or noisy. The method</span>
 <span class="sd">        returns an HTTP 200 response code to indicate that the training process has begun.</span>
-<span class="sd">        You can monitor the status of the training by using the **List a custom acoustic</span>
+<span class="sd">        You can monitor the status of the training by using the **Get a custom acoustic</span>
 <span class="sd">        model** method to poll the model&#39;s status. Use a loop to check the status once a</span>
-<span class="sd">        minute. The method returns an `Customization` object that includes `status` and</span>
+<span class="sd">        minute. The method returns an `AcousticModel` object that includes `status` and</span>
 <span class="sd">        `progress` fields. A status of `available` indicates that the custom model is</span>
 <span class="sd">        trained and ready to use. The service cannot accept subsequent training requests,</span>
 <span class="sd">        or requests to add new audio resources, until the existing request completes.</span>
@@ -2045,11 +2046,12 @@
 <span class="sd">        for the instance of the service that owns a model to upgrade it.</span>
 <span class="sd">        The method returns an HTTP 200 response code to indicate that the upgrade process</span>
 <span class="sd">        has begun successfully. You can monitor the status of the upgrade by using the</span>
-<span class="sd">        **List a custom acoustic model** method to poll the model&#39;s status. Use a loop to</span>
-<span class="sd">        check the status once a minute. While it is being upgraded, the custom model has</span>
-<span class="sd">        the status `upgrading`. When the upgrade is complete, the model resumes the status</span>
-<span class="sd">        that it had prior to upgrade. The service cannot accept subsequent requests for</span>
-<span class="sd">        the model until the upgrade completes.</span>
+<span class="sd">        **Get a custom acoustic model** method to poll the model&#39;s status. The method</span>
+<span class="sd">        returns an `AcousticModel` object that includes `status` and `progress` fields.</span>
+<span class="sd">        Use a loop to check the status once a minute. While it is being upgraded, the</span>
+<span class="sd">        custom model has the status `upgrading`. When the upgrade is complete, the model</span>
+<span class="sd">        resumes the status that it had prior to upgrade. The service cannot accept</span>
+<span class="sd">        subsequent requests for the model until the upgrade completes.</span>
 <span class="sd">        If the custom acoustic model was trained with a separately created custom language</span>
 <span class="sd">        model, you must use the `custom_language_model_id` parameter to specify the GUID</span>
 <span class="sd">        of that custom language model. The custom language model must be upgraded before</span>
@@ -2125,11 +2127,11 @@
 <span class="sd">        sampling rate, and encoding. You cannot submit requests to add additional audio</span>
 <span class="sd">        resources to a custom acoustic model, or to train the model, until the service&#39;s</span>
 <span class="sd">        analysis of all audio files for the current request completes.</span>
-<span class="sd">        To determine the status of the service&#39;s analysis of the audio, use the **List an</span>
+<span class="sd">        To determine the status of the service&#39;s analysis of the audio, use the **Get an</span>
 <span class="sd">        audio resource** method to poll the status of the audio. The method accepts the</span>
-<span class="sd">        GUID of the custom model and the name of the audio resource, and it returns the</span>
-<span class="sd">        status of the resource. Use a loop to check the status of the audio every few</span>
-<span class="sd">        seconds until it becomes `ok`.</span>
+<span class="sd">        customization ID of the custom model and the name of the audio resource, and it</span>
+<span class="sd">        returns the status of the resource. Use a loop to check the status of the audio</span>
+<span class="sd">        every few seconds until it becomes `ok`.</span>
 <span class="sd">        ### Content types for audio-type resources</span>
 <span class="sd">         You can add an individual audio file in any format that the service supports for</span>
 <span class="sd">        speech recognition. For an audio-type resource, use the `Content-Type` parameter</span>
@@ -2179,10 +2181,7 @@
 <span class="sd">        localized name that matches the language of the custom model.</span>
 <span class="sd">        :param list[str] audio_resource: The audio resource that is to be added to the</span>
 <span class="sd">        custom acoustic model, an individual audio file or an archive file.</span>
-<span class="sd">        :param str content_type: The type of the input: application/zip, application/gzip,</span>
-<span class="sd">        audio/basic, audio/flac, audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg,</span>
-<span class="sd">        audio/ogg;codecs=opus, audio/ogg;codecs=vorbis, audio/wav, audio/webm,</span>
-<span class="sd">        audio/webm;codecs=opus, or audio/webm;codecs=vorbis.</span>
+<span class="sd">        :param str content_type: The type of the input.</span>
 <span class="sd">        :param str contained_content_type: For an archive-type resource, specifies the</span>
 <span class="sd">        format of the audio files contained in the archive file. The parameter accepts all</span>
 <span class="sd">        of the audio formats supported for use with speech recognition, including the</span>
@@ -2262,19 +2261,24 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get an audio resource.</span>
 
-<span class="sd">        gets information about an audio resource from a custom acoustic model. The method</span>
+<span class="sd">        Gets information about an audio resource from a custom acoustic model. The method</span>
 <span class="sd">        returns an `AudioListing` object whose fields depend on the type of audio resource</span>
-<span class="sd">        you specify with the method&#39;s `audio_name` parameter:</span>
+<span class="sd">        that you specify with the method&#39;s `audio_name` parameter:</span>
 <span class="sd">        * **For an audio-type resource,** the object&#39;s fields match those of an</span>
 <span class="sd">        `AudioResource` object: `duration`, `name`, `details`, and `status`.</span>
 <span class="sd">        * **For an archive-type resource,** the object includes a `container` field whose</span>
 <span class="sd">        fields match those of an `AudioResource` object. It also includes an `audio`</span>
 <span class="sd">        field, which contains an array of `AudioResource` objects that provides</span>
 <span class="sd">        information about the audio files that are contained in the archive.</span>
-<span class="sd">        The information includes the status of the specified audio resource, which is</span>
-<span class="sd">        important for checking the service&#39;s analysis of the resource in response to a</span>
-<span class="sd">        request to add it to the custom model. You must use credentials for the instance</span>
-<span class="sd">        of the service that owns a model to list its audio resources.</span>
+<span class="sd">        The information includes the status of the specified audio resource. The status is</span>
+<span class="sd">        important for checking the service&#39;s analysis of a resource that you add to the</span>
+<span class="sd">        custom model.</span>
+<span class="sd">        * For an audio-type resource, the `status` field is located in the `AudioListing`</span>
+<span class="sd">        object.</span>
+<span class="sd">        * For an archive-type resource, the `status` field is located in the</span>
+<span class="sd">        `AudioResource` object that is returned in the `container` field.</span>
+<span class="sd">        You must use credentials for the instance of the service that owns a model to list</span>
+<span class="sd">        its audio resources.</span>
 
 <span class="sd">        :param str customization_id: The customization ID (GUID) of the custom acoustic</span>
 <span class="sd">        model. You must make the request with service credentials created for the instance</span>
@@ -2945,9 +2949,9 @@
 <span class="sd">    all of the valid audio resources for the custom acoustic model. You can use this value</span>
 <span class="sd">    to determine whether the custom model has too little or too much audio to begin</span>
 <span class="sd">    training.</span>
-<span class="sd">    :attr list[AudioResource] audio: An array of `AudioResource` objects that provides</span>
-<span class="sd">    information about the audio resources of the custom acoustic model. The array is empty</span>
-<span class="sd">    if the custom model has no audio resources.</span>
+<span class="sd">    :attr list[AudioResource] audio: An array of objects that provides information about</span>
+<span class="sd">    the audio resources of the custom acoustic model. The array is empty if the custom</span>
+<span class="sd">    model has no audio resources.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">total_minutes_of_audio</span><span class="p">,</span> <span class="n">audio</span><span class="p">):</span>
@@ -2958,9 +2962,9 @@
 <span class="sd">        over all of the valid audio resources for the custom acoustic model. You can use</span>
 <span class="sd">        this value to determine whether the custom model has too little or too much audio</span>
 <span class="sd">        to begin training.</span>
-<span class="sd">        :param list[AudioResource] audio: An array of `AudioResource` objects that</span>
-<span class="sd">        provides information about the audio resources of the custom acoustic model. The</span>
-<span class="sd">        array is empty if the custom model has no audio resources.</span>
+<span class="sd">        :param list[AudioResource] audio: An array of objects that provides information</span>
+<span class="sd">        about the audio resources of the custom acoustic model. The array is empty if the</span>
+<span class="sd">        custom model has no audio resources.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">total_minutes_of_audio</span> <span class="o">=</span> <span class="n">total_minutes_of_audio</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">audio</span> <span class="o">=</span> <span class="n">audio</span>
