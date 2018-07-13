@@ -12,7 +12,7 @@ before_install:
 - npm install npm@latest -g
 install:
 - pip install tox-travis
-- pip install --user bumpversion
+- pip install bumpversion
 - npm install @semantic-release/exec
 script:
 - pip install -U python-dotenv
