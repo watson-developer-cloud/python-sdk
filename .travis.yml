@@ -1,5 +1,5 @@
 language: python
-sudo: required
+sudo: false
 python:
 - '2.7'
 - '3.4'
@@ -9,8 +9,6 @@ cache: pip
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
   -iv $encrypted_cebf25e6c525_iv -in .env.enc -out .env -d || true'
-- sudo apt-get update
-- sudo apt-get install python
 - npm install npm@latest -g
 install:
 - pip install tox-travis
