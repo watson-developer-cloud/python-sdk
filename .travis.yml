@@ -9,7 +9,11 @@ cache: pip
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
   -iv $encrypted_cebf25e6c525_iv -in .env.enc -out .env -d || true'
-install: pip install tox-travis
+- npm install npm@latest -g
+install:
+- pip install tox-travis
+- pip install bumpversion
+- npm install @semantic-release/exec
 script:
 - pip install -U python-dotenv
 - tox
@@ -18,9 +22,17 @@ before_deploy:
 - pip install -r requirements-dev.txt
 - pip install --editable .
 deploy:
-  provider: script
-  script: docs/publish.sh
-  skip_cleanup: true
-  on:
-    python: '2.7'
-    all_branches: true
+  - provider: script
+    script: docs/publish.
+    skip_cleanup: true
+  - provider: script
+    script: npx semantic-release
+    skip_cleanup: true
+  - provider: pypi
+    user: ehdsouza
+    password:
+      secure: eMssjS1Airz5MrmcEDAnKYnTlMLuzinX8JFsh4TB0A4t7GCes2a/mlvcoazAv2QZMQUKQMC++bAXYGGgXtsSQsfOYnRtojW4pRphxOZrlXlWFgCLGz/eHioamNZVbH+/P/OYjbLy5ZKSzp3M3bZxYqHcmGTq0sBeo5A2Ilkzu5P+D865Jqtn52brwh/xYq4XWeJeQN/BSLwdtPEtZYQXhQupAteNDAo2ON0FVyt0amINrjA0Qw+0k35g36wti+CsKn5fhbaHf6jjN0oRj8J8wPZieXLAUMdxscfBjUXJ8AK8E4H/wPI30IsaMus+1r85ekiDKZC5iukO6uqMARFywjX/eTIDbWxwKImQUgvVa2+gncre7GvZrHIFxhIDDkssH1IfC1fcw3mNY4vCO9df/vHStp3Kvi27GvsYJnfsbXXj6fAhokHtsrnrbpXFET6LghGQx3HgOKrlCQ1EI0Fk92Qw7+g15jwMGlkwUE1qMS+PVOe7dQ4ikxJgw4CVrqU6/zaLFHV8LXFfjv166ZSWcOJHJXGgJ2TPuGiooL60+pWp/UYY00hZVlYX0Vlks6zN0h9zJd16kR3EwDrW0muqFnLC2xTuv5WsCjsOATtsTQzmBNEdCbGdOskgF4+0yPe7ps3kEs3UpAooKtYVh1OOJAUkl4vSMyu4Jg1ASyQWt00=
+    repository: https://upload.pypi.org/legacy
+    skip_cleanup: true
+    on:
+      python: '2.7'
