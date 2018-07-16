@@ -27,9 +27,9 @@ from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
 from .natural_language_understanding_v1 import NaturalLanguageUnderstandingV1
 from .personality_insights_v2 import PersonalityInsightsV2
 from .personality_insights_v3 import PersonalityInsightsV3
-from .speech_to_text_v1_adapter import SpeechToTextV1Adapter as SpeechToTextV1
 from .text_to_speech_v1 import TextToSpeechV1
 from .tone_analyzer_v3 import ToneAnalyzerV3
-from .visual_recognition_v3_adapter import VisualRecognitionV3Adapter as VisualRecognitionV3
 from .discovery_v1 import DiscoveryV1
 from .version import __version__
+from .speech_to_text_v1_adapter import SpeechToTextV1Adapter as SpeechToTextV1
+from .visual_recognition_v3_adapter import VisualRecognitionV3Adapter as VisualRecognitionV3
