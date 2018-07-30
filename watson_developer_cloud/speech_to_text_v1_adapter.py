@@ -11,7 +11,7 @@ except ImportError:
 BEARER = 'Bearer'
 
 class SpeechToTextV1Adapter(SpeechToTextV1):
-    @deprecated('Use recognize_using_webSocket() instead')
+    @deprecated('Use recognize_using_websocket() instead')
     def recognize_with_websocket(self,
                                  audio=None,
                                  content_type='audio/l16; rate=44100',
