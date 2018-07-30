@@ -56,5 +56,5 @@ class MyRecognizeCallback(RecognizeCallback):
 mycallback = MyRecognizeCallback()
 with open(join(dirname(__file__), '../resources/speech.wav'),
           'rb') as audio_file:
-    speech_to_text.recognize_with_websocket(
-        audio=audio_file, recognize_callback=mycallback)
+    speech_to_text.recognize_using_websocket(audio=audio_file, content_type="audio/l16; rate=44100",
+                                             recognize_callback=mycallback)
