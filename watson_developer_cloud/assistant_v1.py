@@ -1461,6 +1461,58 @@ class AssistantV1(WatsonService):
         return response
 
     #########################
+    # Mentions
+    #########################
+
+    def list_mentions(self,
+                      workspace_id,
+                      entity,
+                      export=None,
+                      include_audit=None,
+                      **kwargs):
+        """
+        List entity mentions.
+
+        List mentions for a contextual entity. An entity mention is an occurrence of a
+        contextual entity in the context of an intent user input example.
+        This operation is limited to 200 requests per 30 minutes. For more information,
+        see **Rate limiting**.
+
+        :param str workspace_id: Unique identifier of the workspace.
+        :param str entity: The name of the entity.
+        :param bool export: Whether to include all element content in the returned data.
+        If **export**=`false`, the returned data includes only information about the
+        element itself. If **export**=`true`, all content, including subelements, is
+        included.
+        :param bool include_audit: Whether to include the audit properties (`created` and
+        `updated` timestamps) in the response.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `EntityMentionCollection` response.
+        :rtype: dict
+        """
+        if workspace_id is None:
+            raise ValueError('workspace_id must be provided')
+        if entity is None:
+            raise ValueError('entity must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'export': export,
+            'include_audit': include_audit
+        }
+        url = '/v1/workspaces/{0}/entities/{1}/mentions'.format(
+            *self._encode_path_vars(workspace_id, entity))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    #########################
     # Values
     #########################
 
