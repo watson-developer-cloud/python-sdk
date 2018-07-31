@@ -1444,6 +1444,7 @@ class DiscoveryV1(WatsonService):
               similar=None,
               similar_document_ids=None,
               similar_fields=None,
+              logging_opt_out=None,
               **kwargs):
         """
         Query your collection.
@@ -1512,6 +1513,8 @@ class DiscoveryV1(WatsonService):
         :param list[str] similar_fields: A comma-separated list of field names that will
         be used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
+        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
+        **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
@@ -1520,7 +1523,7 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-        headers = {}
+        headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {
