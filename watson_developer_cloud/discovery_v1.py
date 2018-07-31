@@ -7271,6 +7271,7 @@ class QueryResponse(object):
     :attr int duplicates_removed: (optional)
     :attr str session_token: (optional) The session token for this query. The session
     token can be used to add events associated with this query to the query and event log.
+    **Important:** Session tokens are case sensitive.
     """
 
     def __init__(self,
@@ -7291,6 +7292,7 @@ class QueryResponse(object):
         :param str session_token: (optional) The session token for this query. The session
         token can be used to add events associated with this query to the query and event
         log.
+        **Important:** Session tokens are case sensitive.
         """
         self.matching_results = matching_results
         self.results = results
@@ -7476,20 +7478,26 @@ class QueryResultResultMetadata(object):
     """
     Metadata of a query result.
 
-    :attr float score: (optional) The raw score of the result. A higher score indicates a
+    :attr float score: (optional) An unbounded measure of the relevance of a particular
+    result, dependent on the query and matching document. A higher score indicates a
     greater match to the query parameters.
-    :attr float confidence: (optional) The confidence score of the result's analysis. A
-    higher score indicates greater confidence.
+    :attr float confidence: (optional) The confidence score for the given result.
+    Calculated based on how relevant the result is estimated to be, compared to a trained
+    relevancy model. confidence can range from `0.0` to `1.0`. The higher the number, the
+    more relevant the document.
     """
 
     def __init__(self, score=None, confidence=None):
         """
         Initialize a QueryResultResultMetadata object.
 
-        :param float score: (optional) The raw score of the result. A higher score
+        :param float score: (optional) An unbounded measure of the relevance of a
+        particular result, dependent on the query and matching document. A higher score
         indicates a greater match to the query parameters.
-        :param float confidence: (optional) The confidence score of the result's analysis.
-        A higher score indicates greater confidence.
+        :param float confidence: (optional) The confidence score for the given result.
+        Calculated based on how relevant the result is estimated to be, compared to a
+        trained relevancy model. confidence can range from `0.0` to `1.0`. The higher the
+        number, the more relevant the document.
         """
         self.score = score
         self.confidence = confidence
@@ -9130,7 +9138,7 @@ class Timeslice(object):
     :attr str interval: (optional) Interval of the aggregation. Valid date interval values
     are second/seconds minute/minutes, hour/hours, day/days, week/weeks, month/months, and
     year/years.
-    :attr bool anomaly: (optional) Used to inducate that anomaly detection should be
+    :attr bool anomaly: (optional) Used to indicate that anomaly detection should be
     performed. Anomaly detection is used to locate unusual datapoints within a time
     series.
     """
@@ -9157,7 +9165,7 @@ class Timeslice(object):
         :param str interval: (optional) Interval of the aggregation. Valid date interval
         values are second/seconds minute/minutes, hour/hours, day/days, week/weeks,
         month/months, and year/years.
-        :param bool anomaly: (optional) Used to inducate that anomaly detection should be
+        :param bool anomaly: (optional) Used to indicate that anomaly detection should be
         performed. Anomaly detection is used to locate unusual datapoints within a time
         series.
         """
