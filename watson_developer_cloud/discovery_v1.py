@@ -4215,20 +4215,32 @@ class EnrichmentOptions(object):
 
     :attr NluEnrichmentFeatures features: (optional) An object representing the enrichment
     features that will be applied to the specified field.
+    :attr str language: (optional) ISO 639-1 code indicating the language to use for the
+    analysis. This code overrides the automatic language detection performed by the
+    service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de` (German),
+    `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and `sv` (Swedish).
+    **Note:** Not all features support all languages, automatic detection is recommended.
     :attr str model: (optional) *For use with `elements` enrichments only.* The element
     extraction model to use. Models available are: `contract`.
     """
 
-    def __init__(self, features=None, model=None):
+    def __init__(self, features=None, language=None, model=None):
         """
         Initialize a EnrichmentOptions object.
 
         :param NluEnrichmentFeatures features: (optional) An object representing the
         enrichment features that will be applied to the specified field.
+        :param str language: (optional) ISO 639-1 code indicating the language to use for
+        the analysis. This code overrides the automatic language detection performed by
+        the service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de`
+        (German), `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and
+        `sv` (Swedish). **Note:** Not all features support all languages, automatic
+        detection is recommended.
         :param str model: (optional) *For use with `elements` enrichments only.* The
         element extraction model to use. Models available are: `contract`.
         """
         self.features = features
+        self.language = language
         self.model = model
 
     @classmethod
@@ -4238,6 +4250,8 @@ class EnrichmentOptions(object):
         if 'features' in _dict:
             args['features'] = NluEnrichmentFeatures._from_dict(
                 _dict.get('features'))
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -4247,6 +4261,8 @@ class EnrichmentOptions(object):
         _dict = {}
         if hasattr(self, 'features') and self.features is not None:
             _dict['features'] = self.features._to_dict()
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
         if hasattr(self, 'model') and self.model is not None:
             _dict['model'] = self.model
         return _dict
