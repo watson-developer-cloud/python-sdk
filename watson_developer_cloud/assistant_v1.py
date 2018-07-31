@@ -2890,8 +2890,8 @@ class CreateDialogNode(object):
     longer than 2048 characters.
     :attr str parent: (optional) The ID of the parent dialog node.
     :attr str previous_sibling: (optional) The ID of the previous dialog node.
-    :attr object output: (optional) The output of the dialog node. For more information
-    about how to specify dialog node output, see the
+    :attr DialogNodeOutput output: (optional) The output of the dialog node. For more
+    information about how to specify dialog node output, see the
     [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
     :attr object context: (optional) The context for the dialog node.
     :attr object metadata: (optional) The metadata for the dialog node.
@@ -2914,6 +2914,8 @@ class CreateDialogNode(object):
     digression.
     :attr str digress_out_slots: (optional) Whether the user can digress to top-level
     nodes while filling out slots.
+    :attr str user_label: (optional) A label that can be displayed externally to describe
+    the purpose of the node to users.
     """
 
     def __init__(self,
@@ -2933,7 +2935,8 @@ class CreateDialogNode(object):
                  variable=None,
                  digress_in=None,
                  digress_out=None,
-                 digress_out_slots=None):
+                 digress_out_slots=None,
+                 user_label=None):
         """
         Initialize a CreateDialogNode object.
 
@@ -2950,7 +2953,7 @@ class CreateDialogNode(object):
         must be no longer than 2048 characters.
         :param str parent: (optional) The ID of the parent dialog node.
         :param str previous_sibling: (optional) The ID of the previous dialog node.
-        :param object output: (optional) The output of the dialog node. For more
+        :param DialogNodeOutput output: (optional) The output of the dialog node. For more
         information about how to specify dialog node output, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: (optional) The context for the dialog node.
@@ -2974,6 +2977,8 @@ class CreateDialogNode(object):
         after a digression.
         :param str digress_out_slots: (optional) Whether the user can digress to top-level
         nodes while filling out slots.
+        :param str user_label: (optional) A label that can be displayed externally to
+        describe the purpose of the node to users.
         """
         self.dialog_node = dialog_node
         self.description = description
@@ -2992,6 +2997,7 @@ class CreateDialogNode(object):
         self.digress_in = digress_in
         self.digress_out = digress_out
         self.digress_out_slots = digress_out_slots
+        self.user_label = user_label
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -3012,7 +3018,7 @@ class CreateDialogNode(object):
         if 'previous_sibling' in _dict:
             args['previous_sibling'] = _dict.get('previous_sibling')
         if 'output' in _dict:
-            args['output'] = _dict.get('output')
+            args['output'] = DialogNodeOutput._from_dict(_dict.get('output'))
         if 'context' in _dict:
             args['context'] = _dict.get('context')
         if 'metadata' in _dict:
@@ -3038,6 +3044,8 @@ class CreateDialogNode(object):
             args['digress_out'] = _dict.get('digress_out')
         if 'digress_out_slots' in _dict:
             args['digress_out_slots'] = _dict.get('digress_out_slots')
+        if 'user_label' in _dict:
+            args['user_label'] = _dict.get('user_label')
         return cls(**args)
 
     def _to_dict(self):
@@ -3055,7 +3063,7 @@ class CreateDialogNode(object):
                    'previous_sibling') and self.previous_sibling is not None:
             _dict['previous_sibling'] = self.previous_sibling
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output
+            _dict['output'] = self.output._to_dict()
         if hasattr(self, 'context') and self.context is not None:
             _dict['context'] = self.context
         if hasattr(self, 'metadata') and self.metadata is not None:
@@ -3079,6 +3087,8 @@ class CreateDialogNode(object):
         if hasattr(self,
                    'digress_out_slots') and self.digress_out_slots is not None:
             _dict['digress_out_slots'] = self.digress_out_slots
+        if hasattr(self, 'user_label') and self.user_label is not None:
+            _dict['user_label'] = self.user_label
         return _dict
 
     def __str__(self):
@@ -3203,9 +3213,10 @@ class CreateExample(object):
     - It cannot contain carriage return, newline, or tab characters.
     - It cannot consist of only whitespace characters.
     - It must be no longer than 1024 characters.
+    :attr list[Mentions] mentions: (optional) An array of contextual entity mentions.
     """
 
-    def __init__(self, text):
+    def __init__(self, text, mentions=None):
         """
         Initialize a CreateExample object.
 
@@ -3214,8 +3225,10 @@ class CreateExample(object):
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 1024 characters.
+        :param list[Mentions] mentions: (optional) An array of contextual entity mentions.
         """
         self.text = text
+        self.mentions = mentions
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -3226,6 +3239,10 @@ class CreateExample(object):
         else:
             raise ValueError(
                 'Required property \'text\' not present in CreateExample JSON')
+        if 'mentions' in _dict:
+            args['mentions'] = [
+                Mentions._from_dict(x) for x in (_dict.get('mentions'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -3233,6 +3250,8 @@ class CreateExample(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self, 'mentions') and self.mentions is not None:
+            _dict['mentions'] = [x._to_dict() for x in self.mentions]
         return _dict
 
     def __str__(self):
@@ -3448,7 +3467,9 @@ class DialogNode(object):
     returned if the dialog node has no parent.
     :attr str previous_sibling: (optional) The ID of the previous sibling dialog node.
     This property is not returned if the dialog node has no previous sibling.
-    :attr object output: (optional) The output of the dialog node.
+    :attr DialogNodeOutput output: (optional) The output of the dialog node. For more
+    information about how to specify dialog node output, see the
+    [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
     :attr object context: (optional) The context (if defined) for the dialog node.
     :attr object metadata: (optional) Any metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute following this
@@ -3468,6 +3489,8 @@ class DialogNode(object):
     digression.
     :attr str digress_out_slots: (optional) Whether the user can digress to top-level
     nodes while filling out slots.
+    :attr str user_label: (optional) A label that can be displayed externally to describe
+    the purpose of the node to users.
     """
 
     def __init__(self,
@@ -3489,7 +3512,8 @@ class DialogNode(object):
                  variable=None,
                  digress_in=None,
                  digress_out=None,
-                 digress_out_slots=None):
+                 digress_out_slots=None,
+                 user_label=None):
         """
         Initialize a DialogNode object.
 
@@ -3500,7 +3524,9 @@ class DialogNode(object):
         not returned if the dialog node has no parent.
         :param str previous_sibling: (optional) The ID of the previous sibling dialog
         node. This property is not returned if the dialog node has no previous sibling.
-        :param object output: (optional) The output of the dialog node.
+        :param DialogNodeOutput output: (optional) The output of the dialog node. For more
+        information about how to specify dialog node output, see the
+        [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: (optional) The context (if defined) for the dialog node.
         :param object metadata: (optional) Any metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute following
@@ -3520,6 +3546,8 @@ class DialogNode(object):
         after a digression.
         :param str digress_out_slots: (optional) Whether the user can digress to top-level
         nodes while filling out slots.
+        :param str user_label: (optional) A label that can be displayed externally to
+        describe the purpose of the node to users.
         """
         self.dialog_node_id = dialog_node_id
         self.description = description
@@ -3540,6 +3568,7 @@ class DialogNode(object):
         self.digress_in = digress_in
         self.digress_out = digress_out
         self.digress_out_slots = digress_out_slots
+        self.user_label = user_label
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -3561,7 +3590,7 @@ class DialogNode(object):
         if 'previous_sibling' in _dict:
             args['previous_sibling'] = _dict.get('previous_sibling')
         if 'output' in _dict:
-            args['output'] = _dict.get('output')
+            args['output'] = DialogNodeOutput._from_dict(_dict.get('output'))
         if 'context' in _dict:
             args['context'] = _dict.get('context')
         if 'metadata' in _dict:
@@ -3591,6 +3620,8 @@ class DialogNode(object):
             args['digress_out'] = _dict.get('digress_out')
         if 'digress_out_slots' in _dict:
             args['digress_out_slots'] = _dict.get('digress_out_slots')
+        if 'user_label' in _dict:
+            args['user_label'] = _dict.get('user_label')
         return cls(**args)
 
     def _to_dict(self):
@@ -3608,7 +3639,7 @@ class DialogNode(object):
                    'previous_sibling') and self.previous_sibling is not None:
             _dict['previous_sibling'] = self.previous_sibling
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output
+            _dict['output'] = self.output._to_dict()
         if hasattr(self, 'context') and self.context is not None:
             _dict['context'] = self.context
         if hasattr(self, 'metadata') and self.metadata is not None:
@@ -3636,6 +3667,8 @@ class DialogNode(object):
         if hasattr(self,
                    'digress_out_slots') and self.digress_out_slots is not None:
             _dict['digress_out_slots'] = self.digress_out_slots
+        if hasattr(self, 'user_label') and self.user_label is not None:
+            _dict['user_label'] = self.user_label
         return _dict
 
     def __str__(self):
@@ -3915,6 +3948,476 @@ class DialogNodeNextStep(object):
         return not self == other
 
 
+class DialogNodeOutput(object):
+    """
+    The output of the dialog node. For more information about how to specify dialog node
+    output, see the
+    [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+
+    :attr list[DialogNodeOutputGeneric] generic: (optional) An array of objects describing
+    the output defined for the dialog node.
+    :attr DialogNodeOutputModifiers modifiers: (optional) Options that modify how
+    specified output is handled.
+    """
+
+    def __init__(self, generic=None, modifiers=None, **kwargs):
+        """
+        Initialize a DialogNodeOutput object.
+
+        :param list[DialogNodeOutputGeneric] generic: (optional) An array of objects
+        describing the output defined for the dialog node.
+        :param DialogNodeOutputModifiers modifiers: (optional) Options that modify how
+        specified output is handled.
+        :param **kwargs: (optional) Any additional properties.
+        """
+        self.generic = generic
+        self.modifiers = modifiers
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutput object from a json dictionary."""
+        args = {}
+        xtra = _dict.copy()
+        if 'generic' in _dict:
+            args['generic'] = [
+                DialogNodeOutputGeneric._from_dict(x)
+                for x in (_dict.get('generic'))
+            ]
+            del xtra['generic']
+        if 'modifiers' in _dict:
+            args['modifiers'] = DialogNodeOutputModifiers._from_dict(
+                _dict.get('modifiers'))
+            del xtra['modifiers']
+        args.update(xtra)
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'generic') and self.generic is not None:
+            _dict['generic'] = [x._to_dict() for x in self.generic]
+        if hasattr(self, 'modifiers') and self.modifiers is not None:
+            _dict['modifiers'] = self.modifiers._to_dict()
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
+        return _dict
+
+    def __setattr__(self, name, value):
+        properties = {'generic', 'modifiers'}
+        if not hasattr(self, '_additionalProperties'):
+            super(DialogNodeOutput, self).__setattr__('_additionalProperties',
+                                                      set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(DialogNodeOutput, self).__setattr__(name, value)
+
+    def __str__(self):
+        """Return a `str` version of this DialogNodeOutput object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogNodeOutputGeneric(object):
+    """
+    DialogNodeOutputGeneric.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+    specified response type must be supported by the client application or channel.
+    :attr list[DialogNodeOutputTextValuesElement] values: (optional) A list of one or more
+    objects defining text responses. Required when **response_type**=`text`.
+    :attr str selection_policy: (optional) How a response is selected from the list, if
+    more than one response is specified. Valid only when **response_type**=`text`.
+    :attr str delimiter: (optional) The delimiter to use as a separator between responses
+    when `selection_policy`=`multiline`.
+    :attr int time: (optional) How long to pause, in milliseconds. The valid values are
+    from 0 to 10000. Valid only when **response_type**=`pause`.
+    :attr bool typing: (optional) Whether to send a "user is typing" event during the
+    pause. Ignored if the channel does not support this event. Valid only when
+    **response_type**=`pause`.
+    :attr str source: (optional) The URL of the image. Required when
+    **response_type**=`image`.
+    :attr str title: (optional) An optional title to show before the response. Valid only
+    when **response_type**=`image` or `option`.
+    :attr str description: (optional) An optional description to show with the response.
+    Valid only when **response_type**=`image` or `option`.
+    :attr str preference: (optional) The preferred type of control to display, if
+    supported by the channel. Valid only when **response_type**=`option`.
+    :attr list[DialogNodeOutputOptionsElement] options: (optional) An array of objects
+    describing the options from which the user can choose. Required when
+    **response_type**=`option`.
+    :attr str message_to_human_agent: (optional) An optional message to be sent to the
+    human agent who will be taking over the conversation. Valid only when
+    **reponse_type**=`connect_to_agent`.
+    """
+
+    def __init__(self,
+                 response_type,
+                 values=None,
+                 selection_policy=None,
+                 delimiter=None,
+                 time=None,
+                 typing=None,
+                 source=None,
+                 title=None,
+                 description=None,
+                 preference=None,
+                 options=None,
+                 message_to_human_agent=None):
+        """
+        Initialize a DialogNodeOutputGeneric object.
+
+        :param str response_type: The type of response returned by the dialog node. The
+        specified response type must be supported by the client application or channel.
+        :param list[DialogNodeOutputTextValuesElement] values: (optional) A list of one or
+        more objects defining text responses. Required when **response_type**=`text`.
+        :param str selection_policy: (optional) How a response is selected from the list,
+        if more than one response is specified. Valid only when **response_type**=`text`.
+        :param str delimiter: (optional) The delimiter to use as a separator between
+        responses when `selection_policy`=`multiline`.
+        :param int time: (optional) How long to pause, in milliseconds. The valid values
+        are from 0 to 10000. Valid only when **response_type**=`pause`.
+        :param bool typing: (optional) Whether to send a "user is typing" event during the
+        pause. Ignored if the channel does not support this event. Valid only when
+        **response_type**=`pause`.
+        :param str source: (optional) The URL of the image. Required when
+        **response_type**=`image`.
+        :param str title: (optional) An optional title to show before the response. Valid
+        only when **response_type**=`image` or `option`.
+        :param str description: (optional) An optional description to show with the
+        response. Valid only when **response_type**=`image` or `option`.
+        :param str preference: (optional) The preferred type of control to display, if
+        supported by the channel. Valid only when **response_type**=`option`.
+        :param list[DialogNodeOutputOptionsElement] options: (optional) An array of
+        objects describing the options from which the user can choose. Required when
+        **response_type**=`option`.
+        :param str message_to_human_agent: (optional) An optional message to be sent to
+        the human agent who will be taking over the conversation. Valid only when
+        **reponse_type**=`connect_to_agent`.
+        """
+        self.response_type = response_type
+        self.values = values
+        self.selection_policy = selection_policy
+        self.delimiter = delimiter
+        self.time = time
+        self.typing = typing
+        self.source = source
+        self.title = title
+        self.description = description
+        self.preference = preference
+        self.options = options
+        self.message_to_human_agent = message_to_human_agent
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputGeneric object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in DialogNodeOutputGeneric JSON'
+            )
+        if 'values' in _dict:
+            args['values'] = [
+                DialogNodeOutputTextValuesElement._from_dict(x)
+                for x in (_dict.get('values'))
+            ]
+        if 'selection_policy' in _dict:
+            args['selection_policy'] = _dict.get('selection_policy')
+        if 'delimiter' in _dict:
+            args['delimiter'] = _dict.get('delimiter')
+        if 'time' in _dict:
+            args['time'] = _dict.get('time')
+        if 'typing' in _dict:
+            args['typing'] = _dict.get('typing')
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'preference' in _dict:
+            args['preference'] = _dict.get('preference')
+        if 'options' in _dict:
+            args['options'] = [
+                DialogNodeOutputOptionsElement._from_dict(x)
+                for x in (_dict.get('options'))
+            ]
+        if 'message_to_human_agent' in _dict:
+            args['message_to_human_agent'] = _dict.get(
+                'message_to_human_agent')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'values') and self.values is not None:
+            _dict['values'] = [x._to_dict() for x in self.values]
+        if hasattr(self,
+                   'selection_policy') and self.selection_policy is not None:
+            _dict['selection_policy'] = self.selection_policy
+        if hasattr(self, 'delimiter') and self.delimiter is not None:
+            _dict['delimiter'] = self.delimiter
+        if hasattr(self, 'time') and self.time is not None:
+            _dict['time'] = self.time
+        if hasattr(self, 'typing') and self.typing is not None:
+            _dict['typing'] = self.typing
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'preference') and self.preference is not None:
+            _dict['preference'] = self.preference
+        if hasattr(self, 'options') and self.options is not None:
+            _dict['options'] = [x._to_dict() for x in self.options]
+        if hasattr(self, 'message_to_human_agent'
+                   ) and self.message_to_human_agent is not None:
+            _dict['message_to_human_agent'] = self.message_to_human_agent
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogNodeOutputGeneric object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogNodeOutputModifiers(object):
+    """
+    Options that modify how specified output is handled.
+
+    :attr bool overwrite: (optional) Whether values in the output will overwrite output
+    values in an array specified by previously executed dialog nodes. If this option is
+    set to **false**, new values will be appended to previously specified values.
+    """
+
+    def __init__(self, overwrite=None):
+        """
+        Initialize a DialogNodeOutputModifiers object.
+
+        :param bool overwrite: (optional) Whether values in the output will overwrite
+        output values in an array specified by previously executed dialog nodes. If this
+        option is set to **false**, new values will be appended to previously specified
+        values.
+        """
+        self.overwrite = overwrite
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputModifiers object from a json dictionary."""
+        args = {}
+        if 'overwrite' in _dict:
+            args['overwrite'] = _dict.get('overwrite')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'overwrite') and self.overwrite is not None:
+            _dict['overwrite'] = self.overwrite
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogNodeOutputModifiers object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogNodeOutputOptionsElement(object):
+    """
+    DialogNodeOutputOptionsElement.
+
+    :attr str label: The user-facing label for the option.
+    :attr DialogNodeOutputOptionsElementValue value: An object defining the message input
+    to be sent to the Watson Assistant service if the user selects the corresponding
+    option.
+    """
+
+    def __init__(self, label, value):
+        """
+        Initialize a DialogNodeOutputOptionsElement object.
+
+        :param str label: The user-facing label for the option.
+        :param DialogNodeOutputOptionsElementValue value: An object defining the message
+        input to be sent to the Watson Assistant service if the user selects the
+        corresponding option.
+        """
+        self.label = label
+        self.value = value
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputOptionsElement object from a json dictionary."""
+        args = {}
+        if 'label' in _dict:
+            args['label'] = _dict.get('label')
+        else:
+            raise ValueError(
+                'Required property \'label\' not present in DialogNodeOutputOptionsElement JSON'
+            )
+        if 'value' in _dict:
+            args['value'] = DialogNodeOutputOptionsElementValue._from_dict(
+                _dict.get('value'))
+        else:
+            raise ValueError(
+                'Required property \'value\' not present in DialogNodeOutputOptionsElement JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'label') and self.label is not None:
+            _dict['label'] = self.label
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogNodeOutputOptionsElement object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogNodeOutputOptionsElementValue(object):
+    """
+    An object defining the message input to be sent to the Watson Assistant service if the
+    user selects the corresponding option.
+
+    :attr InputData input: (optional) The user input.
+    """
+
+    def __init__(self, input=None):
+        """
+        Initialize a DialogNodeOutputOptionsElementValue object.
+
+        :param InputData input: (optional) The user input.
+        """
+        self.input = input
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
+        args = {}
+        if 'input' in _dict:
+            args['input'] = InputData._from_dict(_dict.get('input'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input') and self.input is not None:
+            _dict['input'] = self.input._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogNodeOutputOptionsElementValue object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogNodeOutputTextValuesElement(object):
+    """
+    DialogNodeOutputTextValuesElement.
+
+    :attr str text: (optional) The text of a response. This can include newline characters
+    (`
+    `), Markdown tagging, or other special characters, if supported by the channel.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a DialogNodeOutputTextValuesElement object.
+
+        :param str text: (optional) The text of a response. This can include newline
+        characters (`
+        `), Markdown tagging, or other special characters, if supported by the channel.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputTextValuesElement object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogNodeOutputTextValuesElement object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class DialogNodeVisitedDetails(object):
     """
     DialogNodeVisitedDetails.
@@ -3963,6 +4466,316 @@ class DialogNodeVisitedDetails(object):
 
     def __str__(self):
         """Return a `str` version of this DialogNodeVisitedDetails object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogRuntimeResponseGeneric(object):
+    """
+    DialogRuntimeResponseGeneric.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+    specified response type must be supported by the client application or channel.
+    **Note:** The **suggestion** response type is part of the disambiguation feature,
+    which is only available for Premium users.
+    :attr str text: (optional) The text of the response.
+    :attr int time: (optional) How long to pause, in milliseconds.
+    :attr bool typing: (optional) Whether to send a "user is typing" event during the
+    pause.
+    :attr str source: (optional) The URL of the image.
+    :attr str title: (optional) The title to show before the response.
+    :attr str description: (optional) The description to show with the the response.
+    :attr str preference: (optional) The preferred type of control to display.
+    :attr list[DialogNodeOutputOptionsElement] options: (optional) An array of objects
+    describing the options from which the user can choose.
+    :attr str message_to_human_agent: (optional) A message to be sent to the human agent
+    who will be taking over the conversation.
+    :attr str topic: (optional) A label identifying the topic of the conversation, derived
+    from the **user_label** property of the relevant node.
+    :attr list[DialogSuggestion] suggestions: (optional) An array of objects describing
+    the possible matching dialog nodes from which the user can choose.
+    **Note:** The **suggestions** property is part of the disambiguation feature, which is
+    only available for Premium users.
+    """
+
+    def __init__(self,
+                 response_type,
+                 text=None,
+                 time=None,
+                 typing=None,
+                 source=None,
+                 title=None,
+                 description=None,
+                 preference=None,
+                 options=None,
+                 message_to_human_agent=None,
+                 topic=None,
+                 suggestions=None):
+        """
+        Initialize a DialogRuntimeResponseGeneric object.
+
+        :param str response_type: The type of response returned by the dialog node. The
+        specified response type must be supported by the client application or channel.
+        **Note:** The **suggestion** response type is part of the disambiguation feature,
+        which is only available for Premium users.
+        :param str text: (optional) The text of the response.
+        :param int time: (optional) How long to pause, in milliseconds.
+        :param bool typing: (optional) Whether to send a "user is typing" event during the
+        pause.
+        :param str source: (optional) The URL of the image.
+        :param str title: (optional) The title to show before the response.
+        :param str description: (optional) The description to show with the the response.
+        :param str preference: (optional) The preferred type of control to display.
+        :param list[DialogNodeOutputOptionsElement] options: (optional) An array of
+        objects describing the options from which the user can choose.
+        :param str message_to_human_agent: (optional) A message to be sent to the human
+        agent who will be taking over the conversation.
+        :param str topic: (optional) A label identifying the topic of the conversation,
+        derived from the **user_label** property of the relevant node.
+        :param list[DialogSuggestion] suggestions: (optional) An array of objects
+        describing the possible matching dialog nodes from which the user can choose.
+        **Note:** The **suggestions** property is part of the disambiguation feature,
+        which is only available for Premium users.
+        """
+        self.response_type = response_type
+        self.text = text
+        self.time = time
+        self.typing = typing
+        self.source = source
+        self.title = title
+        self.description = description
+        self.preference = preference
+        self.options = options
+        self.message_to_human_agent = message_to_human_agent
+        self.topic = topic
+        self.suggestions = suggestions
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogRuntimeResponseGeneric object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in DialogRuntimeResponseGeneric JSON'
+            )
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'time' in _dict:
+            args['time'] = _dict.get('time')
+        if 'typing' in _dict:
+            args['typing'] = _dict.get('typing')
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'preference' in _dict:
+            args['preference'] = _dict.get('preference')
+        if 'options' in _dict:
+            args['options'] = [
+                DialogNodeOutputOptionsElement._from_dict(x)
+                for x in (_dict.get('options'))
+            ]
+        if 'message_to_human_agent' in _dict:
+            args['message_to_human_agent'] = _dict.get(
+                'message_to_human_agent')
+        if 'topic' in _dict:
+            args['topic'] = _dict.get('topic')
+        if 'suggestions' in _dict:
+            args['suggestions'] = [
+                DialogSuggestion._from_dict(x)
+                for x in (_dict.get('suggestions'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'time') and self.time is not None:
+            _dict['time'] = self.time
+        if hasattr(self, 'typing') and self.typing is not None:
+            _dict['typing'] = self.typing
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'preference') and self.preference is not None:
+            _dict['preference'] = self.preference
+        if hasattr(self, 'options') and self.options is not None:
+            _dict['options'] = [x._to_dict() for x in self.options]
+        if hasattr(self, 'message_to_human_agent'
+                   ) and self.message_to_human_agent is not None:
+            _dict['message_to_human_agent'] = self.message_to_human_agent
+        if hasattr(self, 'topic') and self.topic is not None:
+            _dict['topic'] = self.topic
+        if hasattr(self, 'suggestions') and self.suggestions is not None:
+            _dict['suggestions'] = [x._to_dict() for x in self.suggestions]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogRuntimeResponseGeneric object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogSuggestion(object):
+    """
+    DialogSuggestion.
+
+    :attr str label: The user-facing label for the disambiguation option. This label is
+    taken from the **user_label** property of the corresponding dialog node.
+    :attr DialogSuggestionValue value: An object defining the message input, intents, and
+    entities to be sent to the Watson Assistant service if the user selects the
+    corresponding disambiguation option.
+    :attr object output: (optional) The dialog output that will be returned from the
+    Watson Assistant service if the user selects the corresponding option.
+    """
+
+    def __init__(self, label, value, output=None):
+        """
+        Initialize a DialogSuggestion object.
+
+        :param str label: The user-facing label for the disambiguation option. This label
+        is taken from the **user_label** property of the corresponding dialog node.
+        :param DialogSuggestionValue value: An object defining the message input, intents,
+        and entities to be sent to the Watson Assistant service if the user selects the
+        corresponding disambiguation option.
+        :param object output: (optional) The dialog output that will be returned from the
+        Watson Assistant service if the user selects the corresponding option.
+        """
+        self.label = label
+        self.value = value
+        self.output = output
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogSuggestion object from a json dictionary."""
+        args = {}
+        if 'label' in _dict:
+            args['label'] = _dict.get('label')
+        else:
+            raise ValueError(
+                'Required property \'label\' not present in DialogSuggestion JSON'
+            )
+        if 'value' in _dict:
+            args['value'] = DialogSuggestionValue._from_dict(
+                _dict.get('value'))
+        else:
+            raise ValueError(
+                'Required property \'value\' not present in DialogSuggestion JSON'
+            )
+        if 'output' in _dict:
+            args['output'] = _dict.get('output')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'label') and self.label is not None:
+            _dict['label'] = self.label
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value._to_dict()
+        if hasattr(self, 'output') and self.output is not None:
+            _dict['output'] = self.output
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogSuggestion object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DialogSuggestionValue(object):
+    """
+    An object defining the message input, intents, and entities to be sent to the Watson
+    Assistant service if the user selects the corresponding disambiguation option.
+
+    :attr InputData input: (optional) The user input.
+    :attr list[RuntimeIntent] intents: (optional) An array of intents to be sent along
+    with the user input.
+    :attr list[RuntimeEntity] entities: (optional) An array of entities to be sent along
+    with the user input.
+    """
+
+    def __init__(self, input=None, intents=None, entities=None):
+        """
+        Initialize a DialogSuggestionValue object.
+
+        :param InputData input: (optional) The user input.
+        :param list[RuntimeIntent] intents: (optional) An array of intents to be sent
+        along with the user input.
+        :param list[RuntimeEntity] entities: (optional) An array of entities to be sent
+        along with the user input.
+        """
+        self.input = input
+        self.intents = intents
+        self.entities = entities
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogSuggestionValue object from a json dictionary."""
+        args = {}
+        if 'input' in _dict:
+            args['input'] = InputData._from_dict(_dict.get('input'))
+        if 'intents' in _dict:
+            args['intents'] = [
+                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+            ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input') and self.input is not None:
+            _dict['input'] = self.input._to_dict()
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DialogSuggestionValue object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4235,6 +5048,144 @@ class EntityExport(object):
         return not self == other
 
 
+class EntityMention(object):
+    """
+    An object describing a contextual entity mention.
+
+    :attr str example_text: The text of the user input example.
+    :attr str intent_name: The name of the intent.
+    :attr list[int] location: An array of zero-based character offsets that indicate where
+    the entity mentions begin and end in the input text.
+    """
+
+    def __init__(self, example_text, intent_name, location):
+        """
+        Initialize a EntityMention object.
+
+        :param str example_text: The text of the user input example.
+        :param str intent_name: The name of the intent.
+        :param list[int] location: An array of zero-based character offsets that indicate
+        where the entity mentions begin and end in the input text.
+        """
+        self.example_text = example_text
+        self.intent_name = intent_name
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EntityMention object from a json dictionary."""
+        args = {}
+        if 'text' in _dict or 'example_text' in _dict:
+            args['example_text'] = _dict.get('text') or _dict.get(
+                'example_text')
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in EntityMention JSON')
+        if 'intent' in _dict or 'intent_name' in _dict:
+            args['intent_name'] = _dict.get('intent') or _dict.get(
+                'intent_name')
+        else:
+            raise ValueError(
+                'Required property \'intent\' not present in EntityMention JSON'
+            )
+        if 'location' in _dict:
+            args['location'] = _dict.get('location')
+        else:
+            raise ValueError(
+                'Required property \'location\' not present in EntityMention JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'example_text') and self.example_text is not None:
+            _dict['text'] = self.example_text
+        if hasattr(self, 'intent_name') and self.intent_name is not None:
+            _dict['intent'] = self.intent_name
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this EntityMention object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class EntityMentionCollection(object):
+    """
+    EntityMentionCollection.
+
+    :attr list[EntityMention] examples: An array of objects describing the entity mentions
+    defined for an entity.
+    :attr Pagination pagination: The pagination data for the returned objects.
+    """
+
+    def __init__(self, examples, pagination):
+        """
+        Initialize a EntityMentionCollection object.
+
+        :param list[EntityMention] examples: An array of objects describing the entity
+        mentions defined for an entity.
+        :param Pagination pagination: The pagination data for the returned objects.
+        """
+        self.examples = examples
+        self.pagination = pagination
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EntityMentionCollection object from a json dictionary."""
+        args = {}
+        if 'examples' in _dict:
+            args['examples'] = [
+                EntityMention._from_dict(x) for x in (_dict.get('examples'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'examples\' not present in EntityMentionCollection JSON'
+            )
+        if 'pagination' in _dict:
+            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+        else:
+            raise ValueError(
+                'Required property \'pagination\' not present in EntityMentionCollection JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'examples') and self.examples is not None:
+            _dict['examples'] = [x._to_dict() for x in self.examples]
+        if hasattr(self, 'pagination') and self.pagination is not None:
+            _dict['pagination'] = self.pagination._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this EntityMentionCollection object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Example(object):
     """
     Example.
@@ -4242,9 +5193,11 @@ class Example(object):
     :attr str example_text: The text of the user input example.
     :attr datetime created: (optional) The timestamp for creation of the example.
     :attr datetime updated: (optional) The timestamp for the last update to the example.
+    :attr list[Mentions] mentions: (optional) An array of contextual entity mentions.
     """
 
-    def __init__(self, example_text, created=None, updated=None):
+    def __init__(self, example_text, created=None, updated=None,
+                 mentions=None):
         """
         Initialize a Example object.
 
@@ -4252,10 +5205,12 @@ class Example(object):
         :param datetime created: (optional) The timestamp for creation of the example.
         :param datetime updated: (optional) The timestamp for the last update to the
         example.
+        :param list[Mentions] mentions: (optional) An array of contextual entity mentions.
         """
         self.example_text = example_text
         self.created = created
         self.updated = updated
+        self.mentions = mentions
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -4271,6 +5226,10 @@ class Example(object):
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict.get('updated'))
+        if 'mentions' in _dict:
+            args['mentions'] = [
+                Mentions._from_dict(x) for x in (_dict.get('mentions'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -4282,6 +5241,8 @@ class Example(object):
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
             _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'mentions') and self.mentions is not None:
+            _dict['mentions'] = [x._to_dict() for x in self.mentions]
         return _dict
 
     def __str__(self):
@@ -4965,6 +5926,66 @@ class LogPagination(object):
         return not self == other
 
 
+class Mentions(object):
+    """
+    A mention of a contextual entity.
+
+    :attr str entity: The name of the entity.
+    :attr list[int] location: An array of zero-based character offsets that indicate where
+    the entity mentions begin and end in the input text.
+    """
+
+    def __init__(self, entity, location):
+        """
+        Initialize a Mentions object.
+
+        :param str entity: The name of the entity.
+        :param list[int] location: An array of zero-based character offsets that indicate
+        where the entity mentions begin and end in the input text.
+        """
+        self.entity = entity
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Mentions object from a json dictionary."""
+        args = {}
+        if 'entity' in _dict:
+            args['entity'] = _dict.get('entity')
+        else:
+            raise ValueError(
+                'Required property \'entity\' not present in Mentions JSON')
+        if 'location' in _dict:
+            args['location'] = _dict.get('location')
+        else:
+            raise ValueError(
+                'Required property \'location\' not present in Mentions JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'entity') and self.entity is not None:
+            _dict['entity'] = self.entity
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Mentions object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class MessageInput(object):
     """
     The text of the user input.
@@ -5012,7 +6033,7 @@ class MessageInput(object):
 
 class MessageRequest(object):
     """
-    A request formatted for the Watson Assistant service.
+    A message request formatted for the Watson Assistant service.
 
     :attr InputData input: (optional) An input object that includes the input text.
     :attr bool alternate_intents: (optional) Whether to return more than one intent. Set
@@ -5261,12 +6282,15 @@ class MessageResponse(object):
 
 class OutputData(object):
     """
-    An output object that includes the response to the user, the nodes that were hit, and
-    messages from the log.
+    An output object that includes the response to the user, the dialog nodes that were
+    triggered, and messages from the log.
 
     :attr list[LogMessage] log_messages: An array of up to 50 messages logged with the
     request.
     :attr list[str] text: An array of responses to the user.
+    :attr list[DialogRuntimeResponseGeneric] generic: (optional) Output intended for any
+    channel. It is the responsibility of the client application to implement the supported
+    response types.
     :attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to
     create the response, in the order in which they were visited. This information is
     useful for debugging and for tracing the path taken through the node tree.
@@ -5279,6 +6303,7 @@ class OutputData(object):
     def __init__(self,
                  log_messages,
                  text,
+                 generic=None,
                  nodes_visited=None,
                  nodes_visited_details=None,
                  **kwargs):
@@ -5288,6 +6313,9 @@ class OutputData(object):
         :param list[LogMessage] log_messages: An array of up to 50 messages logged with
         the request.
         :param list[str] text: An array of responses to the user.
+        :param list[DialogRuntimeResponseGeneric] generic: (optional) Output intended for
+        any channel. It is the responsibility of the client application to implement the
+        supported response types.
         :param list[str] nodes_visited: (optional) An array of the nodes that were
         triggered to create the response, in the order in which they were visited. This
         information is useful for debugging and for tracing the path taken through the
@@ -5300,6 +6328,7 @@ class OutputData(object):
         """
         self.log_messages = log_messages
         self.text = text
+        self.generic = generic
         self.nodes_visited = nodes_visited
         self.nodes_visited_details = nodes_visited_details
         for _key, _value in kwargs.items():
@@ -5325,6 +6354,12 @@ class OutputData(object):
         else:
             raise ValueError(
                 'Required property \'text\' not present in OutputData JSON')
+        if 'generic' in _dict:
+            args['generic'] = [
+                DialogRuntimeResponseGeneric._from_dict(x)
+                for x in (_dict.get('generic'))
+            ]
+            del xtra['generic']
         if 'nodes_visited' in _dict:
             args['nodes_visited'] = _dict.get('nodes_visited')
             del xtra['nodes_visited']
@@ -5344,10 +6379,12 @@ class OutputData(object):
             _dict['log_messages'] = [x._to_dict() for x in self.log_messages]
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self, 'generic') and self.generic is not None:
+            _dict['generic'] = [x._to_dict() for x in self.generic]
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
             _dict['nodes_visited'] = self.nodes_visited
         if hasattr(self, 'nodes_visited_details'
-                  ) and self.nodes_visited_details is not None:
+                   ) and self.nodes_visited_details is not None:
             _dict['nodes_visited_details'] = [
                 x._to_dict() for x in self.nodes_visited_details
             ]
@@ -5360,7 +6397,8 @@ class OutputData(object):
 
     def __setattr__(self, name, value):
         properties = {
-            'log_messages', 'text', 'nodes_visited', 'nodes_visited_details'
+            'log_messages', 'text', 'generic', 'nodes_visited',
+            'nodes_visited_details'
         }
         if not hasattr(self, '_additionalProperties'):
             super(OutputData, self).__setattr__('_additionalProperties', set())
@@ -6168,6 +7206,8 @@ class Workspace(object):
     :attr bool learning_opt_out: (optional) Whether training data from the workspace
     (including artifacts such as intents and entities) can be used by IBM for general
     service improvements. `true` indicates that workspace training data is not to be used.
+    :attr WorkspaceSystemSettings system_settings: (optional) Global settings for the
+    workspace.
     """
 
     def __init__(self,
@@ -6178,7 +7218,8 @@ class Workspace(object):
                  updated=None,
                  description=None,
                  metadata=None,
-                 learning_opt_out=None):
+                 learning_opt_out=None,
+                 system_settings=None):
         """
         Initialize a Workspace object.
 
@@ -6194,6 +7235,8 @@ class Workspace(object):
         (including artifacts such as intents and entities) can be used by IBM for general
         service improvements. `true` indicates that workspace training data is not to be
         used.
+        :param WorkspaceSystemSettings system_settings: (optional) Global settings for the
+        workspace.
         """
         self.name = name
         self.language = language
@@ -6203,6 +7246,7 @@ class Workspace(object):
         self.description = description
         self.metadata = metadata
         self.learning_opt_out = learning_opt_out
+        self.system_settings = system_settings
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -6234,6 +7278,9 @@ class Workspace(object):
             args['metadata'] = _dict.get('metadata')
         if 'learning_opt_out' in _dict:
             args['learning_opt_out'] = _dict.get('learning_opt_out')
+        if 'system_settings' in _dict:
+            args['system_settings'] = WorkspaceSystemSettings._from_dict(
+                _dict.get('system_settings'))
         return cls(**args)
 
     def _to_dict(self):
@@ -6256,6 +7303,9 @@ class Workspace(object):
         if hasattr(self,
                    'learning_opt_out') and self.learning_opt_out is not None:
             _dict['learning_opt_out'] = self.learning_opt_out
+        if hasattr(self,
+                   'system_settings') and self.system_settings is not None:
+            _dict['system_settings'] = self.system_settings._to_dict()
         return _dict
 
     def __str__(self):
@@ -6354,6 +7404,8 @@ class WorkspaceExport(object):
     :attr bool learning_opt_out: Whether training data from the workspace can be used by
     IBM for general service improvements. `true` indicates that workspace training data is
     not to be used.
+    :attr WorkspaceSystemSettings system_settings: (optional) Global settings for the
+    workspace.
     :attr list[IntentExport] intents: (optional) An array of intents.
     :attr list[EntityExport] entities: (optional) An array of entities.
     :attr list[Counterexample] counterexamples: (optional) An array of counterexamples.
@@ -6371,6 +7423,7 @@ class WorkspaceExport(object):
                  learning_opt_out,
                  created=None,
                  updated=None,
+                 system_settings=None,
                  intents=None,
                  entities=None,
                  counterexamples=None,
@@ -6390,6 +7443,8 @@ class WorkspaceExport(object):
         :param datetime created: (optional) The timestamp for creation of the workspace.
         :param datetime updated: (optional) The timestamp for the last update to the
         workspace.
+        :param WorkspaceSystemSettings system_settings: (optional) Global settings for the
+        workspace.
         :param list[IntentExport] intents: (optional) An array of intents.
         :param list[EntityExport] entities: (optional) An array of entities.
         :param list[Counterexample] counterexamples: (optional) An array of
@@ -6406,6 +7461,7 @@ class WorkspaceExport(object):
         self.workspace_id = workspace_id
         self.status = status
         self.learning_opt_out = learning_opt_out
+        self.system_settings = system_settings
         self.intents = intents
         self.entities = entities
         self.counterexamples = counterexamples
@@ -6461,6 +7517,9 @@ class WorkspaceExport(object):
             raise ValueError(
                 'Required property \'learning_opt_out\' not present in WorkspaceExport JSON'
             )
+        if 'system_settings' in _dict:
+            args['system_settings'] = WorkspaceSystemSettings._from_dict(
+                _dict.get('system_settings'))
         if 'intents' in _dict:
             args['intents'] = [
                 IntentExport._from_dict(x) for x in (_dict.get('intents'))
@@ -6502,6 +7561,9 @@ class WorkspaceExport(object):
         if hasattr(self,
                    'learning_opt_out') and self.learning_opt_out is not None:
             _dict['learning_opt_out'] = self.learning_opt_out
+        if hasattr(self,
+                   'system_settings') and self.system_settings is not None:
+            _dict['system_settings'] = self.system_settings._to_dict()
         if hasattr(self, 'intents') and self.intents is not None:
             _dict['intents'] = [x._to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
@@ -6517,6 +7579,213 @@ class WorkspaceExport(object):
 
     def __str__(self):
         """Return a `str` version of this WorkspaceExport object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WorkspaceSystemSettings(object):
+    """
+    WorkspaceSystemSettings.
+
+    :attr WorkspaceSystemSettingsTooling tooling: (optional) Workspace settings related to
+    the Watson Assistant tool.
+    :attr WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
+    settings related to the disambiguation feature.
+    **Note:** This feature is available only to Premium users.
+    :attr object human_agent_assist: (optional) For internal use only.
+    """
+
+    def __init__(self,
+                 tooling=None,
+                 disambiguation=None,
+                 human_agent_assist=None):
+        """
+        Initialize a WorkspaceSystemSettings object.
+
+        :param WorkspaceSystemSettingsTooling tooling: (optional) Workspace settings
+        related to the Watson Assistant tool.
+        :param WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
+        settings related to the disambiguation feature.
+        **Note:** This feature is available only to Premium users.
+        :param object human_agent_assist: (optional) For internal use only.
+        """
+        self.tooling = tooling
+        self.disambiguation = disambiguation
+        self.human_agent_assist = human_agent_assist
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceSystemSettings object from a json dictionary."""
+        args = {}
+        if 'tooling' in _dict:
+            args['tooling'] = WorkspaceSystemSettingsTooling._from_dict(
+                _dict.get('tooling'))
+        if 'disambiguation' in _dict:
+            args[
+                'disambiguation'] = WorkspaceSystemSettingsDisambiguation._from_dict(
+                    _dict.get('disambiguation'))
+        if 'human_agent_assist' in _dict:
+            args['human_agent_assist'] = _dict.get('human_agent_assist')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'tooling') and self.tooling is not None:
+            _dict['tooling'] = self.tooling._to_dict()
+        if hasattr(self, 'disambiguation') and self.disambiguation is not None:
+            _dict['disambiguation'] = self.disambiguation._to_dict()
+        if hasattr(
+                self,
+                'human_agent_assist') and self.human_agent_assist is not None:
+            _dict['human_agent_assist'] = self.human_agent_assist
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WorkspaceSystemSettings object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WorkspaceSystemSettingsDisambiguation(object):
+    """
+    WorkspaceSystemSettingsDisambiguation.
+
+    :attr str prompt: (optional) The text of the introductory prompt that accompanies
+    disambiguation options presented to the user.
+    :attr str none_of_the_above_prompt: (optional) The user-facing label for the option
+    users can select if none of the suggested options is correct. If no value is specified
+    for this property, this option does not appear.
+    :attr bool enabled: (optional) Whether the disambiguation feature is enabled for the
+    workspace.
+    :attr str sensitivity: (optional) The sensitivity of the disambiguation feature to
+    intent detection conflicts. Set to **high** if you want the disambiguation feature to
+    be triggered more often. This can be useful for testing or demonstration purposes.
+    """
+
+    def __init__(self,
+                 prompt=None,
+                 none_of_the_above_prompt=None,
+                 enabled=None,
+                 sensitivity=None):
+        """
+        Initialize a WorkspaceSystemSettingsDisambiguation object.
+
+        :param str prompt: (optional) The text of the introductory prompt that accompanies
+        disambiguation options presented to the user.
+        :param str none_of_the_above_prompt: (optional) The user-facing label for the
+        option users can select if none of the suggested options is correct. If no value
+        is specified for this property, this option does not appear.
+        :param bool enabled: (optional) Whether the disambiguation feature is enabled for
+        the workspace.
+        :param str sensitivity: (optional) The sensitivity of the disambiguation feature
+        to intent detection conflicts. Set to **high** if you want the disambiguation
+        feature to be triggered more often. This can be useful for testing or
+        demonstration purposes.
+        """
+        self.prompt = prompt
+        self.none_of_the_above_prompt = none_of_the_above_prompt
+        self.enabled = enabled
+        self.sensitivity = sensitivity
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceSystemSettingsDisambiguation object from a json dictionary."""
+        args = {}
+        if 'prompt' in _dict:
+            args['prompt'] = _dict.get('prompt')
+        if 'none_of_the_above_prompt' in _dict:
+            args['none_of_the_above_prompt'] = _dict.get(
+                'none_of_the_above_prompt')
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'sensitivity' in _dict:
+            args['sensitivity'] = _dict.get('sensitivity')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'prompt') and self.prompt is not None:
+            _dict['prompt'] = self.prompt
+        if hasattr(self, 'none_of_the_above_prompt'
+                   ) and self.none_of_the_above_prompt is not None:
+            _dict['none_of_the_above_prompt'] = self.none_of_the_above_prompt
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'sensitivity') and self.sensitivity is not None:
+            _dict['sensitivity'] = self.sensitivity
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WorkspaceSystemSettingsDisambiguation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WorkspaceSystemSettingsTooling(object):
+    """
+    WorkspaceSystemSettingsTooling.
+
+    :attr bool store_generic_responses: (optional) Whether the dialog JSON editor displays
+    text responses within the `output.generic` object.
+    """
+
+    def __init__(self, store_generic_responses=None):
+        """
+        Initialize a WorkspaceSystemSettingsTooling object.
+
+        :param bool store_generic_responses: (optional) Whether the dialog JSON editor
+        displays text responses within the `output.generic` object.
+        """
+        self.store_generic_responses = store_generic_responses
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceSystemSettingsTooling object from a json dictionary."""
+        args = {}
+        if 'store_generic_responses' in _dict:
+            args['store_generic_responses'] = _dict.get(
+                'store_generic_responses')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'store_generic_responses'
+                   ) and self.store_generic_responses is not None:
+            _dict['store_generic_responses'] = self.store_generic_responses
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WorkspaceSystemSettingsTooling object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
