@@ -202,7 +202,6 @@ class DetailedResponse(object):
 class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
-                 x_watson_learning_opt_out=False,
                  iam_api_key=None, iam_access_token=None, iam_url=None):
         """
         Loads credentials from the VCAP_SERVICES environment variable if
@@ -231,9 +230,6 @@ class WatsonService(object):
         user_agent_string += ' ' + platform.release() # OS version
         user_agent_string += ' ' + platform.python_version() # Python version
         self.user_agent_header = {'user-agent': user_agent_string}
-
-        if x_watson_learning_opt_out:
-            self.default_headers = {'x-watson-learning-opt-out': 'true'}
 
         if api_key is not None:
             self.set_api_key(api_key)
