@@ -750,7 +750,12 @@ class AssistantV1(WatsonService):
     # Examples
     #########################
 
-    def create_example(self, workspace_id, intent, text, **kwargs):
+    def create_example(self,
+                       workspace_id,
+                       intent,
+                       text,
+                       mentions=None,
+                       **kwargs):
         """
         Create user input example.
 
@@ -765,6 +770,7 @@ class AssistantV1(WatsonService):
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 1024 characters.
+        :param list[Mentions] mentions: An array of contextual entity mentions.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Example` response.
         :rtype: dict
@@ -775,11 +781,13 @@ class AssistantV1(WatsonService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
+        if mentions is not None:
+            mentions = [self._convert_model(x, Mentions) for x in mentions]
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        data = {'text': text}
+        data = {'text': text, 'mentions': mentions}
         url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
             *self._encode_path_vars(workspace_id, intent))
         response = self.request(
