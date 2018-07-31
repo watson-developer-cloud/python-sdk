@@ -2306,6 +2306,7 @@ class AssistantV1(WatsonService):
                            new_digress_in=None,
                            new_digress_out=None,
                            new_digress_out_slots=None,
+                           new_user_label=None,
                            **kwargs):
         """
         Update dialog node.
@@ -2329,8 +2330,8 @@ class AssistantV1(WatsonService):
         no longer than 2048 characters.
         :param str new_parent: The ID of the parent dialog node.
         :param str new_previous_sibling: The ID of the previous sibling dialog node.
-        :param object new_output: The output of the dialog node. For more information
-        about how to specify dialog node output, see the
+        :param DialogNodeOutput new_output: The output of the dialog node. For more
+        information about how to specify dialog node output, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object new_context: The context for the dialog node.
         :param object new_metadata: The metadata for the dialog node.
@@ -2353,6 +2354,8 @@ class AssistantV1(WatsonService):
         digression.
         :param str new_digress_out_slots: Whether the user can digress to top-level nodes
         while filling out slots.
+        :param str new_user_label: A label that can be displayed externally to describe
+        the purpose of the node to users.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `DialogNode` response.
         :rtype: dict
@@ -2361,6 +2364,8 @@ class AssistantV1(WatsonService):
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
+        if new_output is not None:
+            new_output = self._convert_model(new_output, DialogNodeOutput)
         if new_next_step is not None:
             new_next_step = self._convert_model(new_next_step,
                                                 DialogNodeNextStep)
@@ -2389,7 +2394,8 @@ class AssistantV1(WatsonService):
             'actions': new_actions,
             'digress_in': new_digress_in,
             'digress_out': new_digress_out,
-            'digress_out_slots': new_digress_out_slots
+            'digress_out_slots': new_digress_out_slots,
+            'user_label': new_user_label
         }
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
