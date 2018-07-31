@@ -195,6 +195,7 @@ class AssistantV1(WatsonService):
                          counterexamples=None,
                          metadata=None,
                          learning_opt_out=None,
+                         system_settings=None,
                          **kwargs):
         """
         Create workspace.
@@ -222,6 +223,7 @@ class AssistantV1(WatsonService):
         :param bool learning_opt_out: Whether training data from the workspace can be used
         by IBM for general service improvements. `true` indicates that workspace training
         data is not to be used.
+        :param WorkspaceSystemSettings system_settings: Global settings for the workspace.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Workspace` response.
         :rtype: dict
@@ -239,6 +241,9 @@ class AssistantV1(WatsonService):
                 self._convert_model(x, CreateCounterexample)
                 for x in counterexamples
             ]
+        if system_settings is not None:
+            system_settings = self._convert_model(system_settings,
+                                                  WorkspaceSystemSettings)
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -252,7 +257,8 @@ class AssistantV1(WatsonService):
             'dialog_nodes': dialog_nodes,
             'counterexamples': counterexamples,
             'metadata': metadata,
-            'learning_opt_out': learning_opt_out
+            'learning_opt_out': learning_opt_out,
+            'system_settings': system_settings
         }
         url = '/v1/workspaces'
         response = self.request(
@@ -394,6 +400,7 @@ class AssistantV1(WatsonService):
                          counterexamples=None,
                          metadata=None,
                          learning_opt_out=None,
+                         system_settings=None,
                          append=None,
                          **kwargs):
         """
@@ -423,6 +430,7 @@ class AssistantV1(WatsonService):
         :param bool learning_opt_out: Whether training data from the workspace can be used
         by IBM for general service improvements. `true` indicates that workspace training
         data is not to be used.
+        :param WorkspaceSystemSettings system_settings: Global settings for the workspace.
         :param bool append: Whether the new data is to be appended to the existing data in
         the workspace. If **append**=`false`, elements included in the new data completely
         replace the corresponding existing elements, including all subelements. For
@@ -451,6 +459,9 @@ class AssistantV1(WatsonService):
                 self._convert_model(x, CreateCounterexample)
                 for x in counterexamples
             ]
+        if system_settings is not None:
+            system_settings = self._convert_model(system_settings,
+                                                  WorkspaceSystemSettings)
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -464,7 +475,8 @@ class AssistantV1(WatsonService):
             'dialog_nodes': dialog_nodes,
             'counterexamples': counterexamples,
             'metadata': metadata,
-            'learning_opt_out': learning_opt_out
+            'learning_opt_out': learning_opt_out,
+            'system_settings': system_settings
         }
         url = '/v1/workspaces/{0}'.format(
             *self._encode_path_vars(workspace_id))
