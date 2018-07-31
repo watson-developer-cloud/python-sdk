@@ -887,7 +887,8 @@ class AssistantV1(WatsonService):
         """
         List user input examples.
 
-        List the user input examples for an intent.
+        List the user input examples for an intent, optionally including contextual entity
+        mentions.
         This operation is limited to 2500 requests per 30 minutes. For more information,
         see **Rate limiting**.
 
@@ -936,6 +937,7 @@ class AssistantV1(WatsonService):
                        intent,
                        text,
                        new_text=None,
+                       new_mentions=None,
                        **kwargs):
         """
         Update user input example.
@@ -952,6 +954,7 @@ class AssistantV1(WatsonService):
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 1024 characters.
+        :param list[Mentions] new_mentions: An array of contextual entity mentions.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Example` response.
         :rtype: dict
@@ -962,11 +965,15 @@ class AssistantV1(WatsonService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
+        if new_mentions is not None:
+            new_mentions = [
+                self._convert_model(x, Mentions) for x in new_mentions
+            ]
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        data = {'text': new_text}
+        data = {'text': new_text, 'mentions': new_mentions}
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
