@@ -1,6 +1,7 @@
 from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener
 from .speech_to_text_v1 import SpeechToTextV1
 from .watson_service import _remove_null_values
+from .utils import deprecated
 import base64
 try:
     from urllib.parse import urlencode
@@ -10,6 +11,7 @@ except ImportError:
 BEARER = 'Bearer'
 
 class SpeechToTextV1Adapter(SpeechToTextV1):
+    @deprecated('Use recognize_using_websocket() instead')
     def recognize_with_websocket(self,
                                  audio=None,
                                  content_type='audio/l16; rate=44100',
@@ -31,6 +33,48 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                  smart_formatting=False,
                                  speaker_labels=None,
                                  **kwargs):
+        return self.recognize_using_websocket(audio,
+                                              content_type,
+                                              recognize_callback,
+                                              model,
+                                              customization_id,
+                                              acoustic_customization_id,
+                                              customization_weight,
+                                              version,
+                                              inactivity_timeout,
+                                              interim_results,
+                                              keywords,
+                                              keywords_threshold,
+                                              max_alternatives,
+                                              word_alternatives_threshold,
+                                              word_confidence,
+                                              timestamps,
+                                              profanity_filter,
+                                              smart_formatting,
+                                              speaker_labels,
+                                              **kwargs)
+
+    def recognize_using_websocket(self,
+                                  audio,
+                                  content_type,
+                                  recognize_callback,
+                                  model=None,
+                                  customization_id=None,
+                                  acoustic_customization_id=None,
+                                  customization_weight=None,
+                                  version=None,
+                                  inactivity_timeout=None,
+                                  interim_results=True,
+                                  keywords=None,
+                                  keywords_threshold=None,
+                                  max_alternatives=1,
+                                  word_alternatives_threshold=None,
+                                  word_confidence=False,
+                                  timestamps=False,
+                                  profanity_filter=None,
+                                  smart_formatting=False,
+                                  speaker_labels=None,
+                                  **kwargs):
         """
         Sends audio for speech recognition using web sockets.
 
@@ -125,9 +169,11 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         :rtype: dict
         """
         if audio is None:
-            raise ValueError('Audio must be provided')
+            raise ValueError('audio must be provided')
+        if content_type is None:
+            raise ValueError('content_type must be provided')
         if recognize_callback is None:
-            raise ValueError('Recognize callback must be provided')
+            raise ValueError('recognize_callback must be provided')
         if not isinstance(recognize_callback, RecognizeCallback):
             raise Exception(
                 'Callback is not a derived class of RecognizeCallback')
