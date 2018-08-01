@@ -386,7 +386,8 @@ def test_create_example():
     example = service.create_example(
         workspace_id='boguswid',
         intent='pizza_order',
-        text='Gimme a pizza with pepperoni')
+        text='Gimme a pizza with pepperoni',
+        mentions=[{'entity': 'xxx', 'location': [0, 1]}])
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
@@ -507,7 +508,8 @@ def test_update_example():
         workspace_id='boguswid',
         intent='pizza_order',
         text='Gimme a pizza with pepperoni',
-        new_text='Gimme a pizza with pepperoni')
+        new_text='Gimme a pizza with pepperoni',
+        new_mentions=[{'entity': 'xxx', 'location': [0, 1]}])
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
@@ -1307,7 +1309,8 @@ def test_create_workspace():
     service = watson_developer_cloud.AssistantV1(
         username='username', password='password', version='2017-02-03')
     workspace = service.create_workspace(
-        name='Pizza app', description='Pizza app', language='en', metadata={})
+        name='Pizza app', description='Pizza app', language='en', metadata={},
+        system_settings={'tooling': {'store_generic_responses' : True, 'disambiguation': {'prompt': 'Hello world', 'enabled': True}}})
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1427,7 +1430,8 @@ def test_update_workspace():
         name='Pizza app',
         description='Pizza app',
         language='en',
-        metadata={})
+        metadata={},
+        system_settings={'tooling': {'store_generic_responses' : True, 'disambiguation': {'prompt': 'Hello world', 'enabled': True}}})
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1467,7 +1471,7 @@ def test_dialog_nodes():
 
     assistant = watson_developer_cloud.AssistantV1('2017-05-26', username="username", password="password")
 
-    assistant.create_dialog_node('id', 'location-done')
+    assistant.create_dialog_node('id', 'location-done', user_label='xxx')
     assert responses.calls[0].response.json()['application/json']['dialog_node'] == 'location-done'
 
     assistant.delete_dialog_node('id', 'location-done')
@@ -1495,4 +1499,20 @@ def test_delete_user_data():
 
     response = assistant.delete_user_data('id')
     assert response is None
+    assert len(responses.calls) == 1
+
+@responses.activate
+def test_list_mentions():
+    url = 'https://gateway.watsonplatform.net/assistant/api/v1/workspaces/workspace_id/entities/entity1/mentions'
+    responses.add(
+        responses.GET,
+        url,
+        body='[{"entity": "xxx"}]',
+        status=200,
+        content_type='application_json')
+
+    assistant = watson_developer_cloud.AssistantV1('2017-05-26', username="username", password="password")
+
+    response = assistant.list_mentions('workspace_id', 'entity1')
+    assert response == [{"entity": "xxx"}]
     assert len(responses.calls) == 1
