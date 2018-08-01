@@ -5,7 +5,16 @@ from watson_developer_cloud import AssistantV1
 assistant = AssistantV1(
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    # url='https://gateway.watsonplatform.net/assistant/api',
     version='2017-04-21')
+
+## If service instance provides API key authentication
+# assistant = AssistantV1(
+#     version='2017-04-21',
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     url='https://gateway.watsonplatform.net/assistant/api',
+#     iam_api_key='your_api_key')
 
 #########################
 # Workspaces

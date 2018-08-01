@@ -5,8 +5,17 @@ from watson_developer_cloud import DiscoveryV1
 
 discovery = DiscoveryV1(
     version='2017-10-16',
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    # url='https://gateway.watsonplatform.net/discovery/api',
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
+
+## If service instance provides API key authentication
+# discovery = DiscoveryV1(
+#     version='2017-10-16',
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     url='https://gateway.watsonplatform.net/discovery/api',
+#     iam_api_key='your_api_key')
 
 environments = discovery.list_environments()
 print(json.dumps(environments, indent=2))

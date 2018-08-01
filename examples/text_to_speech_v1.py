@@ -5,8 +5,16 @@ from os.path import join, dirname
 from watson_developer_cloud import TextToSpeechV1
 
 text_to_speech = TextToSpeechV1(
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    # url='https://stream.watsonplatform.net/text-to-speech/api,
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
+
+## If service instance provides API key authentication
+# text_to_speech = TextToSpeechV1(
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     url='https://stream.watsonplatform.net/text-to-speech/api',
+#     iam_api_key='your_api_key')
 
 print(json.dumps(text_to_speech.list_voices(), indent=2))
 
