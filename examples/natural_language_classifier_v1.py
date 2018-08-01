@@ -6,8 +6,16 @@ import os
 from watson_developer_cloud import NaturalLanguageClassifierV1
 
 natural_language_classifier = NaturalLanguageClassifierV1(
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    # url='https://gateway.watsonplatform.net/natural-language-classifier/api',
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD')
+
+## If service instance provides API key authentication
+# natural_language_classifier = NaturalLanguageClassifierV1(
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     url='https://gateway.watsonplatform.net/natural-language-classifier/api',
+#     iam_api_key='your_api_key')
 
 classifiers = natural_language_classifier.list_classifiers()
 print(json.dumps(classifiers, indent=2))

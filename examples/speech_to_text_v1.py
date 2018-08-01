@@ -9,6 +9,12 @@ speech_to_text = SpeechToTextV1(
     password='YOUR SERVICE PASSWORD',
     url='https://stream.watsonplatform.net/speech-to-text/api')
 
+## If service instance provides API key authentication
+# speech_to_text = SpeechToTextV1(
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     url='https://stream.watsonplatform.net/speech-to-text/api',
+#     iam_api_key='your_api_key')
+
 print(json.dumps(speech_to_text.list_models(), indent=2))
 
 print(json.dumps(speech_to_text.get_model('en-US_BroadbandModel'), indent=2))
