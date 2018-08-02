@@ -212,7 +212,7 @@ class VisualRecognitionV3(WatsonService):
             parameters_tuple = (None, parameters, 'text/plain')
         url_tuple = None
         if url:
-            url_tuple = (None, url, 'text/plain')
+            url_tuple = (None, url)
         url = '/v3/detect_faces'
         response = self.request(
             method='POST',

@@ -60,6 +60,9 @@ print(json.dumps(url_result, indent=2))
 faces_result = visual_recognition.detect_faces(parameters=json.dumps({'url': test_url}))
 print(json.dumps(faces_result, indent=2))
 
+faces_result = visual_recognition.detect_faces(url=test_url)
+print(json.dumps(faces_result, indent=2))
+
 # print(json.dumps(visual_recognition.delete_classifier(classifier_id='YOUR
 # CLASSIFIER ID'), indent=2))
 
