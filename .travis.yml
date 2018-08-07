@@ -23,11 +23,17 @@ before_deploy:
 - pip install --editable .
 deploy:
   - provider: script
-    script: docs/publish.
+    script: docs/publish.sh
     skip_cleanup: true
+    on:
+      python: '2.7'
+      branch: master
   - provider: script
     script: npx semantic-release
     skip_cleanup: true
+    on:
+      python: '2.7'
+      branch: master
   - provider: pypi
     user: ehdsouza
     password:
@@ -36,3 +42,4 @@ deploy:
     skip_cleanup: true
     on:
       python: '2.7'
+      branch: master
