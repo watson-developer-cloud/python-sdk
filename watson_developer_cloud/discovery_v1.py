@@ -1444,6 +1444,7 @@ class DiscoveryV1(WatsonService):
               similar=None,
               similar_document_ids=None,
               similar_fields=None,
+              logging_opt_out=None,
               **kwargs):
         """
         Query your collection.
@@ -1512,6 +1513,8 @@ class DiscoveryV1(WatsonService):
         :param list[str] similar_fields: A comma-separated list of field names that will
         be used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
+        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
+        **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `QueryResponse` response.
         :rtype: dict
@@ -1520,7 +1523,7 @@ class DiscoveryV1(WatsonService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-        headers = {}
+        headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {
@@ -4212,20 +4215,32 @@ class EnrichmentOptions(object):
 
     :attr NluEnrichmentFeatures features: (optional) An object representing the enrichment
     features that will be applied to the specified field.
+    :attr str language: (optional) ISO 639-1 code indicating the language to use for the
+    analysis. This code overrides the automatic language detection performed by the
+    service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de` (German),
+    `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and `sv` (Swedish).
+    **Note:** Not all features support all languages, automatic detection is recommended.
     :attr str model: (optional) *For use with `elements` enrichments only.* The element
     extraction model to use. Models available are: `contract`.
     """
 
-    def __init__(self, features=None, model=None):
+    def __init__(self, features=None, language=None, model=None):
         """
         Initialize a EnrichmentOptions object.
 
         :param NluEnrichmentFeatures features: (optional) An object representing the
         enrichment features that will be applied to the specified field.
+        :param str language: (optional) ISO 639-1 code indicating the language to use for
+        the analysis. This code overrides the automatic language detection performed by
+        the service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de`
+        (German), `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and
+        `sv` (Swedish). **Note:** Not all features support all languages, automatic
+        detection is recommended.
         :param str model: (optional) *For use with `elements` enrichments only.* The
         element extraction model to use. Models available are: `contract`.
         """
         self.features = features
+        self.language = language
         self.model = model
 
     @classmethod
@@ -4235,6 +4250,8 @@ class EnrichmentOptions(object):
         if 'features' in _dict:
             args['features'] = NluEnrichmentFeatures._from_dict(
                 _dict.get('features'))
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -4244,6 +4261,8 @@ class EnrichmentOptions(object):
         _dict = {}
         if hasattr(self, 'features') and self.features is not None:
             _dict['features'] = self.features._to_dict()
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
         if hasattr(self, 'model') and self.model is not None:
             _dict['model'] = self.model
         return _dict
@@ -7252,6 +7271,7 @@ class QueryResponse(object):
     :attr int duplicates_removed: (optional)
     :attr str session_token: (optional) The session token for this query. The session
     token can be used to add events associated with this query to the query and event log.
+    **Important:** Session tokens are case sensitive.
     """
 
     def __init__(self,
@@ -7272,6 +7292,7 @@ class QueryResponse(object):
         :param str session_token: (optional) The session token for this query. The session
         token can be used to add events associated with this query to the query and event
         log.
+        **Important:** Session tokens are case sensitive.
         """
         self.matching_results = matching_results
         self.results = results
@@ -7457,20 +7478,26 @@ class QueryResultResultMetadata(object):
     """
     Metadata of a query result.
 
-    :attr float score: (optional) The raw score of the result. A higher score indicates a
+    :attr float score: (optional) An unbounded measure of the relevance of a particular
+    result, dependent on the query and matching document. A higher score indicates a
     greater match to the query parameters.
-    :attr float confidence: (optional) The confidence score of the result's analysis. A
-    higher score indicates greater confidence.
+    :attr float confidence: (optional) The confidence score for the given result.
+    Calculated based on how relevant the result is estimated to be, compared to a trained
+    relevancy model. confidence can range from `0.0` to `1.0`. The higher the number, the
+    more relevant the document.
     """
 
     def __init__(self, score=None, confidence=None):
         """
         Initialize a QueryResultResultMetadata object.
 
-        :param float score: (optional) The raw score of the result. A higher score
+        :param float score: (optional) An unbounded measure of the relevance of a
+        particular result, dependent on the query and matching document. A higher score
         indicates a greater match to the query parameters.
-        :param float confidence: (optional) The confidence score of the result's analysis.
-        A higher score indicates greater confidence.
+        :param float confidence: (optional) The confidence score for the given result.
+        Calculated based on how relevant the result is estimated to be, compared to a
+        trained relevancy model. confidence can range from `0.0` to `1.0`. The higher the
+        number, the more relevant the document.
         """
         self.score = score
         self.confidence = confidence
@@ -9111,7 +9138,7 @@ class Timeslice(object):
     :attr str interval: (optional) Interval of the aggregation. Valid date interval values
     are second/seconds minute/minutes, hour/hours, day/days, week/weeks, month/months, and
     year/years.
-    :attr bool anomaly: (optional) Used to inducate that anomaly detection should be
+    :attr bool anomaly: (optional) Used to indicate that anomaly detection should be
     performed. Anomaly detection is used to locate unusual datapoints within a time
     series.
     """
@@ -9138,7 +9165,7 @@ class Timeslice(object):
         :param str interval: (optional) Interval of the aggregation. Valid date interval
         values are second/seconds minute/minutes, hour/hours, day/days, week/weeks,
         month/months, and year/years.
-        :param bool anomaly: (optional) Used to inducate that anomaly detection should be
+        :param bool anomaly: (optional) Used to indicate that anomaly detection should be
         performed. Anomaly detection is used to locate unusual datapoints within a time
         series.
         """

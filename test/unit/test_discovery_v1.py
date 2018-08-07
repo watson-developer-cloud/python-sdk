@@ -270,6 +270,7 @@ def test_query():
                     count=1,
                     passages=True,
                     passages_fields=['x', 'y'],
+                    logging_opt_out='True',
                     passages_count=2)
 
     called_url = urlparse(responses.calls[0].request.url)
