@@ -105,7 +105,6 @@ def test_delete_counterexample():
         workspace_id='boguswid', text='I want financial advice today')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert counterexample is None
 
 
 @responses.activate
@@ -241,7 +240,7 @@ def test_create_entity():
 def test_delete_entity():
     endpoint = '/v1/workspaces/{0}/entities/{1}'.format('boguswid', 'pizza_toppings')
     url = '{0}{1}'.format(base_url, endpoint)
-    response = ""
+    response = {}
     responses.add(
         responses.DELETE,
         url,
@@ -253,7 +252,6 @@ def test_delete_entity():
     entity = service.delete_entity(workspace_id='boguswid', entity='pizza_toppings')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert entity is None
 
 
 @responses.activate
@@ -415,7 +413,6 @@ def test_delete_example():
         text='Gimme a pizza with pepperoni')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert example is None
 
 
 @responses.activate
@@ -569,7 +566,6 @@ def test_delete_intent():
         workspace_id='boguswid', intent='pizza_order')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert intent is None
 
 
 @responses.activate
@@ -1000,7 +996,7 @@ def test_delete_synonym():
     endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
         'boguswid', 'aeiou', 'vowel', 'a')
     url = '{0}{1}'.format(base_url, endpoint)
-    response = ""
+    response = {}
     responses.add(
         responses.DELETE,
         url,
@@ -1013,7 +1009,6 @@ def test_delete_synonym():
         workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert synonym is None
 
 
 @responses.activate
@@ -1155,7 +1150,7 @@ def test_delete_value():
     endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
         'boguswid', 'grilling', 'bbq')
     url = '{0}{1}'.format(base_url, endpoint)
-    response = ""
+    response = {}
     responses.add(
         responses.DELETE,
         url,
@@ -1168,7 +1163,6 @@ def test_delete_value():
         workspace_id='boguswid', entity='grilling', value='bbq')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert value is None
 
 
 @responses.activate
@@ -1333,7 +1327,6 @@ def test_delete_workspace():
     workspace = service.delete_workspace(workspace_id='boguswid')
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert workspace is None
 
 
 @responses.activate

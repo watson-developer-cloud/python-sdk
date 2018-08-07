@@ -901,7 +901,7 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -913,13 +913,13 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def list_expansions(self, environment_id, collection_id, **kwargs):
         """
@@ -1933,7 +1933,7 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1945,13 +1945,13 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def delete_training_data(self, environment_id, collection_id, query_id,
                              **kwargs):
@@ -1965,7 +1965,7 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1979,13 +1979,13 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def delete_training_example(self, environment_id, collection_id, query_id,
                                 example_id, **kwargs):
@@ -1999,7 +1999,7 @@ class DiscoveryV1(WatsonService):
         :param str query_id: The ID of the query used for training.
         :param str example_id: The ID of the document as it is indexed.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2016,13 +2016,13 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_training_data(self, environment_id, collection_id, query_id,
                           **kwargs):

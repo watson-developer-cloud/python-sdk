@@ -235,7 +235,7 @@ class VisualRecognitionV3(WatsonService):
 
         :param str classifier_id: The ID of the classifier.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
@@ -245,13 +245,13 @@ class VisualRecognitionV3(WatsonService):
         params = {'version': self.version}
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_classifier(self, classifier_id, **kwargs):
         """

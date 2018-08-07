@@ -224,7 +224,7 @@ class NaturalLanguageClassifierV1(WatsonService):
 
         :param str classifier_id: Classifier ID to delete.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :rtype: dict
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
@@ -233,9 +233,9 @@ class NaturalLanguageClassifierV1(WatsonService):
             headers.update(kwargs.get('headers'))
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        self.request(
+        response = self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
-        return None
+        return response
 
     def get_classifier(self, classifier_id, **kwargs):
         """
