@@ -20,8 +20,9 @@ script:
 before_deploy:
 - pip install -r requirements.txt
 - pip install -r requirements-dev.txt
-- pip install --editable .
 - pip install pypandoc
+- apt-get install pandoc
+- pip install --editable .
 deploy:
   - provider: script
     script: docs/publish.sh
