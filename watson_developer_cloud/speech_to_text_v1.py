@@ -210,7 +210,7 @@ class SpeechToTextV1(WatsonService):
                   speaker_labels=None,
                   **kwargs):
         """
-        Recognize audio (sessionless).
+        Recognize audio.
 
         Sends audio and returns transcription results for a sessionless recognition
         request. Returns only the final results; to enable interim results, use
@@ -489,10 +489,16 @@ class SpeechToTextV1(WatsonService):
         receiving them via callback notification over HTTP because it provides
         confidentiality in addition to authentication and data integrity.
         The method supports the same basic parameters as other HTTP and WebSocket
-        recognition requests. The service imposes a data size limit of 100 MB. It
-        automatically detects the endianness of the incoming audio and, for audio that
-        includes multiple channels, downmixes the audio to one-channel mono during
-        transcoding. (For the `audio/l16` format, you can specify the endianness.)
+        recognition requests. It also supports the following parameters specific to the
+        asynchronous interface:
+        * `callback_url`
+        * `events`
+        * `user_token`
+        * `results_ttl`
+        The service imposes a data size limit of 100 MB. It automatically detects the
+        endianness of the incoming audio and, for audio that includes multiple channels,
+        downmixes the audio to one-channel mono during transcoding. (For the `audio/l16`
+        format, you can specify the endianness.)
         ### Audio formats (content types)
          Use the `Content-Type` parameter to specify the audio format (MIME type) of the
         audio:
@@ -1971,8 +1977,8 @@ class SpeechToTextV1(WatsonService):
         :param str audio_name: The name of the audio resource for the custom acoustic
         model. When adding an audio resource, do not include spaces in the name; use a
         localized name that matches the language of the custom model.
-        :param list[str] audio_resource: The audio resource that is to be added to the
-        custom acoustic model, an individual audio file or an archive file.
+        :param str audio_resource: The audio resource that is to be added to the custom
+        acoustic model, an individual audio file or an archive file.
         :param str content_type: The type of the input.
         :param str contained_content_type: For an archive-type resource, specifies the
         format of the audio files contained in the archive file. The parameter accepts all
@@ -1981,10 +1987,10 @@ class SpeechToTextV1(WatsonService):
         For a complete list of supported audio formats, see [Audio
         formats](/docs/services/speech-to-text/input.html#formats).
         :param bool allow_overwrite: If `true`, the specified corpus or audio resource
-        overwrites an existing corpus or audio resource with the same name. If `false`
-        (the default), the request fails if a corpus or audio resource with the same name
-        already exists. The parameter has no effect if a corpus or audio resource with the
-        same name does not already exist.
+        overwrites an existing corpus or audio resource with the same name. If `false`,
+        the request fails if a corpus or audio resource with the same name already exists.
+        The parameter has no effect if a corpus or audio resource with the same name does
+        not already exist.
         :param dict headers: A `dict` containing the request headers
         :rtype: None
         """
@@ -3073,8 +3079,8 @@ class KeywordResult(object):
     matched in the audio input.
     :attr float start_time: The start time in seconds of the keyword match.
     :attr float end_time: The end time in seconds of the keyword match.
-    :attr float confidence: A confidence score for the keyword match in the range of 0 to
-    1.
+    :attr float confidence: A confidence score for the keyword match in the range of 0.0
+    to 1.0.
     """
 
     def __init__(self, normalized_text, start_time, end_time, confidence):
@@ -3086,7 +3092,7 @@ class KeywordResult(object):
         :param float start_time: The start time in seconds of the keyword match.
         :param float end_time: The end time in seconds of the keyword match.
         :param float confidence: A confidence score for the keyword match in the range of
-        0 to 1.
+        0.0 to 1.0.
         """
         self.normalized_text = normalized_text
         self.start_time = start_time
@@ -3973,15 +3979,15 @@ class SpeechRecognitionAlternative(object):
 
     :attr str transcript: A transcription of the audio.
     :attr float confidence: (optional) A score that indicates the service's confidence in
-    the transcript in the range of 0 to 1. Returned only for the best alternative and only
-    with results marked as final.
+    the transcript in the range of 0.0 to 1.0. Returned only for the best alternative and
+    only with results marked as final.
     :attr list[str] timestamps: (optional) Time alignments for each word from the
     transcript as a list of lists. Each inner list consists of three elements: the word
-    followed by its start and end time in seconds. Example:
+    followed by its start and end time in seconds, for example:
     `[["hello",0.0,1.2],["world",1.2,2.5]]`. Returned only for the best alternative.
     :attr list[str] word_confidence: (optional) A confidence score for each word of the
     transcript as a list of lists. Each inner list consists of two elements: the word and
-    its confidence score in the range of 0 to 1. Example:
+    its confidence score in the range of 0.0 to 1.0, for example:
     `[["hello",0.95],["world",0.866]]`. Returned only for the best alternative and only
     with results marked as final.
     """
@@ -3996,15 +4002,15 @@ class SpeechRecognitionAlternative(object):
 
         :param str transcript: A transcription of the audio.
         :param float confidence: (optional) A score that indicates the service's
-        confidence in the transcript in the range of 0 to 1. Returned only for the best
-        alternative and only with results marked as final.
+        confidence in the transcript in the range of 0.0 to 1.0. Returned only for the
+        best alternative and only with results marked as final.
         :param list[str] timestamps: (optional) Time alignments for each word from the
         transcript as a list of lists. Each inner list consists of three elements: the
-        word followed by its start and end time in seconds. Example:
+        word followed by its start and end time in seconds, for example:
         `[["hello",0.0,1.2],["world",1.2,2.5]]`. Returned only for the best alternative.
         :param list[str] word_confidence: (optional) A confidence score for each word of
         the transcript as a list of lists. Each inner list consists of two elements: the
-        word and its confidence score in the range of 0 to 1. Example:
+        word and its confidence score in the range of 0.0 to 1.0, for example:
         `[["hello",0.95],["world",0.866]]`. Returned only for the best alternative and
         only with results marked as final.
         """
@@ -4496,7 +4502,7 @@ class WordAlternativeResult(object):
     WordAlternativeResult.
 
     :attr float confidence: A confidence score for the word alternative hypothesis in the
-    range of 0 to 1.
+    range of 0.0 to 1.0.
     :attr str word: An alternative hypothesis for a word from the input audio.
     """
 
@@ -4505,7 +4511,7 @@ class WordAlternativeResult(object):
         Initialize a WordAlternativeResult object.
 
         :param float confidence: A confidence score for the word alternative hypothesis in
-        the range of 0 to 1.
+        the range of 0.0 to 1.0.
         :param str word: An alternative hypothesis for a word from the input audio.
         """
         self.confidence = confidence
