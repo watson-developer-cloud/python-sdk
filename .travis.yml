@@ -18,6 +18,7 @@ script:
 - pip install -U python-dotenv
 - tox
 before_deploy:
+- sudo apt-get update
 - pip install -r requirements.txt
 - pip install -r requirements-dev.txt
 - pip install pypandoc
