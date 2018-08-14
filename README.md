@@ -107,7 +107,7 @@ You supply either an IAM service **API key** or an **access token**:
 # In the constructor, letting the SDK manage the IAM token
 discovery = DiscoveryV1(version='2017-10-16',
                         iam_api_key='<iam_api_key>',
-                        iam_url='<iam_url>') # optional - the default value is https://iam.ng.bluemix.net/identity/token
+                        iam_url='<iam_url>') # optional - the default value is https://iam.bluemix.net/identity/token
 ```
 
 ```python
