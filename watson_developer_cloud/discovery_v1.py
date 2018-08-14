@@ -87,7 +87,7 @@ class DiscoveryV1(WatsonService):
                made with an expired token will fail.
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.ng.bluemix.net/identity/token'.
+               'https://iam.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -117,7 +117,7 @@ class DiscoveryV1(WatsonService):
 
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
-        :param int size: **Deprecated**: Size of the environment.
+        :param str size: Size of the environment.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Environment` response.
         :rtype: dict
@@ -1227,7 +1227,7 @@ class DiscoveryV1(WatsonService):
         query search to return an exact answer. Aggregations are useful for building
         applications, because you can use them to build lists, tables, and time series.
         For a full list of possible aggregrations, see the Query reference.
-        :param int count: Number of documents to return.
+        :param int count: Number of results to return.
         :param list[str] return_fields: A comma separated list of the portion of the
         document hierarchy to return.
         :param int offset: The number of query results to skip at the beginning. For
@@ -1357,7 +1357,7 @@ class DiscoveryV1(WatsonService):
         query search to return an exact answer. Aggregations are useful for building
         applications, because you can use them to build lists, tables, and time series.
         For a full list of possible aggregrations, see the Query reference.
-        :param int count: Number of documents to return.
+        :param int count: Number of results to return.
         :param list[str] return_fields: A comma separated list of the portion of the
         document hierarchy to return.
         :param int offset: The number of query results to skip at the beginning. For
@@ -1472,7 +1472,7 @@ class DiscoveryV1(WatsonService):
         query search to return an exact answer. Aggregations are useful for building
         applications, because you can use them to build lists, tables, and time series.
         For a full list of possible aggregrations, see the Query reference.
-        :param int count: Number of documents to return.
+        :param int count: Number of results to return.
         :param list[str] return_fields: A comma separated list of the portion of the
         document hierarchy to return.
         :param int offset: The number of query results to skip at the beginning. For
@@ -1670,7 +1670,7 @@ class DiscoveryV1(WatsonService):
         query search to return an exact answer. Aggregations are useful for building
         applications, because you can use them to build lists, tables, and time series.
         For a full list of possible aggregrations, see the Query reference.
-        :param int count: Number of documents to return.
+        :param int count: Number of results to return.
         :param list[str] return_fields: A comma separated list of the portion of the
         document hierarchy to return.
         :param int offset: The number of query results to skip at the beginning. For
@@ -2242,6 +2242,284 @@ class DiscoveryV1(WatsonService):
             params=params,
             accept_json=True)
         return None
+
+    #########################
+    # Events and feedback
+    #########################
+
+    def create_event(self, type, data, **kwargs):
+        """
+        Create event.
+
+        The **Events** API can be used to create log entries that are associated with
+        specific queries. For example, you can record which documents in the results set
+        were \"clicked\" by a user and when that click occured.
+
+        :param str type: The event type to be created.
+        :param EventData data: Data object used to create a query event.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `CreateEventResponse` response.
+        :rtype: dict
+        """
+        if type is None:
+            raise ValueError('type must be provided')
+        if data is None:
+            raise ValueError('data must be provided')
+        data = self._convert_model(data, EventData)
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        data = {'type': type, 'data': data}
+        url = '/v1/events'
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    def get_metrics_event_rate(self,
+                               start_time=None,
+                               end_time=None,
+                               result_type=None,
+                               **kwargs):
+        """
+        Percentage of queries with an associated event.
+
+        The percentage of queries using the **natural_language_query** parameter that have
+        a corresponding \"click\" event over a specified time window.  This metric
+        requires having integrated event tracking in your application using the **Events**
+        API.
+
+        :param datetime start_time: Metric is computed from data recorded after this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: Metric is computed from data recorded before this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: The type of result to consider when calculating the
+        metric.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `MetricResponse` response.
+        :rtype: dict
+        """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'start_time': start_time,
+            'end_time': end_time,
+            'result_type': result_type
+        }
+        url = '/v1/metrics/event_rate'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def get_metrics_query(self,
+                          start_time=None,
+                          end_time=None,
+                          result_type=None,
+                          **kwargs):
+        """
+        Number of queries over time.
+
+        Total number of queries using the **natural_language_query** parameter over a
+        specific time window.
+
+        :param datetime start_time: Metric is computed from data recorded after this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: Metric is computed from data recorded before this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: The type of result to consider when calculating the
+        metric.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `MetricResponse` response.
+        :rtype: dict
+        """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'start_time': start_time,
+            'end_time': end_time,
+            'result_type': result_type
+        }
+        url = '/v1/metrics/number_of_queries'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def get_metrics_query_event(self,
+                                start_time=None,
+                                end_time=None,
+                                result_type=None,
+                                **kwargs):
+        """
+        Number of queries with an event over time.
+
+        Total number of queries using the **natural_language_query** parameter that have a
+        corresponding \"click\" event over a specified time window. This metric requires
+        having integrated event tracking in your application using the **Events** API.
+
+        :param datetime start_time: Metric is computed from data recorded after this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: Metric is computed from data recorded before this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: The type of result to consider when calculating the
+        metric.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `MetricResponse` response.
+        :rtype: dict
+        """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'start_time': start_time,
+            'end_time': end_time,
+            'result_type': result_type
+        }
+        url = '/v1/metrics/number_of_queries_with_event'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def get_metrics_query_no_results(self,
+                                     start_time=None,
+                                     end_time=None,
+                                     result_type=None,
+                                     **kwargs):
+        """
+        Number of queries with no search results over time.
+
+        Total number of queries using the **natural_language_query** parameter that have
+        no results returned over a specified time window.
+
+        :param datetime start_time: Metric is computed from data recorded after this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: Metric is computed from data recorded before this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: The type of result to consider when calculating the
+        metric.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `MetricResponse` response.
+        :rtype: dict
+        """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'start_time': start_time,
+            'end_time': end_time,
+            'result_type': result_type
+        }
+        url = '/v1/metrics/number_of_queries_with_no_search_results'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def get_metrics_query_token_event(self, count=None, **kwargs):
+        """
+        Most frequent query tokens with an event.
+
+        The most frequent query tokens parsed from the **natural_language_query**
+        parameter and their corresponding \"click\" event rate within the recording period
+        (queries and events are stored for 30 days). A query token is an individual word
+        or unigram within the query string.
+
+        :param int count: Number of results to return.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `MetricTokenResponse` response.
+        :rtype: dict
+        """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version, 'count': count}
+        url = '/v1/metrics/top_query_tokens_with_event_rate'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def query_log(self,
+                  filter=None,
+                  query=None,
+                  count=None,
+                  offset=None,
+                  sort=None,
+                  **kwargs):
+        """
+        Search the query and event log.
+
+        Searches the query and event log to find query sessions that match the specified
+        criteria. Searching the **logs** endpoint uses the standard Discovery query syntax
+        for the parameters that are supported.
+
+        :param str filter: A cacheable query that limits the documents returned to exclude
+        any documents that don't mention the query content. Filter searches are better for
+        metadata type searches and when you are trying to get a sense of concepts in the
+        data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first. Use
+        a query search when you want to find the most relevant search results. You cannot
+        use **natural_language_query** and **query** at the same time.
+        :param int count: Number of results to return.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10, and the offset is
+        8, it returns the last two results.
+        :param list[str] sort: A comma separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `dict` containing the `LogQueryResponse` response.
+        :rtype: dict
+        """
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {
+            'version': self.version,
+            'filter': filter,
+            'query': query,
+            'count': count,
+            'offset': offset,
+            'sort': self._convert_list(sort)
+        }
+        url = '/v1/logs'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
 
     #########################
     # Credentials
@@ -2990,6 +3268,58 @@ class Conversions(object):
 
     def __str__(self):
         """Return a `str` version of this Conversions object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CreateEventResponse(object):
+    """
+    An object defining the event being created.
+
+    :attr str type: (optional) The event type that was created.
+    :attr EventData data: (optional) Query event data object.
+    """
+
+    def __init__(self, type=None, data=None):
+        """
+        Initialize a CreateEventResponse object.
+
+        :param str type: (optional) The event type that was created.
+        :param EventData data: (optional) Query event data object.
+        """
+        self.type = type
+        self.data = data
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CreateEventResponse object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'data' in _dict:
+            args['data'] = EventData._from_dict(_dict.get('data'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'data') and self.data is not None:
+            _dict['data'] = self.data._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CreateEventResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4296,7 +4626,7 @@ class Environment(object):
     :attr str status: (optional) Status of the environment.
     :attr bool read_only: (optional) If `true`, the environment contains read-only
     collections that are maintained by IBM.
-    :attr int size: (optional) **Deprecated**: Size of the environment.
+    :attr str size: (optional) Size of the environment.
     :attr IndexCapacity index_capacity: (optional) Details about the resource usage and
     capacity of the environment.
     """
@@ -4324,7 +4654,7 @@ class Environment(object):
         :param str status: (optional) Status of the environment.
         :param bool read_only: (optional) If `true`, the environment contains read-only
         collections that are maintained by IBM.
-        :param int size: (optional) **Deprecated**: Size of the environment.
+        :param str size: (optional) Size of the environment.
         :param IndexCapacity index_capacity: (optional) Details about the resource usage
         and capacity of the environment.
         """
@@ -4443,6 +4773,134 @@ class EnvironmentDocuments(object):
 
     def __str__(self):
         """Return a `str` version of this EnvironmentDocuments object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class EventData(object):
+    """
+    Query event data object.
+
+    :attr str environment_id: The **environment_id** associated with the query that the
+    event is associated with.
+    :attr str session_token: The session token that was returned as part of the query
+    results that this event is associated with.
+    :attr datetime client_timestamp: (optional) The optional timestamp for the event that
+    was created. If not provided, the time that the event was created in the log was used.
+    :attr int display_rank: (optional) The rank of the result item which the event is
+    associated with.
+    :attr str collection_id: The **collection_id** of the document that this event is
+    associated with.
+    :attr str document_id: The **document_id** of the document that this event is
+    associated with.
+    :attr str query_id: (optional) The query identifier stored in the log. The query and
+    any events associated with that query are stored with the same **query_id**.
+    """
+
+    def __init__(self,
+                 environment_id,
+                 session_token,
+                 collection_id,
+                 document_id,
+                 client_timestamp=None,
+                 display_rank=None,
+                 query_id=None):
+        """
+        Initialize a EventData object.
+
+        :param str environment_id: The **environment_id** associated with the query that
+        the event is associated with.
+        :param str session_token: The session token that was returned as part of the query
+        results that this event is associated with.
+        :param str collection_id: The **collection_id** of the document that this event is
+        associated with.
+        :param str document_id: The **document_id** of the document that this event is
+        associated with.
+        :param datetime client_timestamp: (optional) The optional timestamp for the event
+        that was created. If not provided, the time that the event was created in the log
+        was used.
+        :param int display_rank: (optional) The rank of the result item which the event is
+        associated with.
+        :param str query_id: (optional) The query identifier stored in the log. The query
+        and any events associated with that query are stored with the same **query_id**.
+        """
+        self.environment_id = environment_id
+        self.session_token = session_token
+        self.client_timestamp = client_timestamp
+        self.display_rank = display_rank
+        self.collection_id = collection_id
+        self.document_id = document_id
+        self.query_id = query_id
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EventData object from a json dictionary."""
+        args = {}
+        if 'environment_id' in _dict:
+            args['environment_id'] = _dict.get('environment_id')
+        else:
+            raise ValueError(
+                'Required property \'environment_id\' not present in EventData JSON'
+            )
+        if 'session_token' in _dict:
+            args['session_token'] = _dict.get('session_token')
+        else:
+            raise ValueError(
+                'Required property \'session_token\' not present in EventData JSON'
+            )
+        if 'client_timestamp' in _dict:
+            args['client_timestamp'] = string_to_datetime(
+                _dict.get('client_timestamp'))
+        if 'display_rank' in _dict:
+            args['display_rank'] = _dict.get('display_rank')
+        if 'collection_id' in _dict:
+            args['collection_id'] = _dict.get('collection_id')
+        else:
+            raise ValueError(
+                'Required property \'collection_id\' not present in EventData JSON'
+            )
+        if 'document_id' in _dict:
+            args['document_id'] = _dict.get('document_id')
+        else:
+            raise ValueError(
+                'Required property \'document_id\' not present in EventData JSON'
+            )
+        if 'query_id' in _dict:
+            args['query_id'] = _dict.get('query_id')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'environment_id') and self.environment_id is not None:
+            _dict['environment_id'] = self.environment_id
+        if hasattr(self, 'session_token') and self.session_token is not None:
+            _dict['session_token'] = self.session_token
+        if hasattr(self,
+                   'client_timestamp') and self.client_timestamp is not None:
+            _dict['client_timestamp'] = datetime_to_string(
+                self.client_timestamp)
+        if hasattr(self, 'display_rank') and self.display_rank is not None:
+            _dict['display_rank'] = self.display_rank
+        if hasattr(self, 'collection_id') and self.collection_id is not None:
+            _dict['collection_id'] = self.collection_id
+        if hasattr(self, 'document_id') and self.document_id is not None:
+            _dict['document_id'] = self.document_id
+        if hasattr(self, 'query_id') and self.query_id is not None:
+            _dict['query_id'] = self.query_id
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this EventData object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -5115,6 +5573,439 @@ class ListEnvironmentsResponse(object):
         return not self == other
 
 
+class LogQueryResponse(object):
+    """
+    Object containing results that match the requested **logs** query.
+
+    :attr int matching_results: (optional) Number of matching results.
+    :attr list[LogQueryResponseResult] results: (optional)
+    """
+
+    def __init__(self, matching_results=None, results=None):
+        """
+        Initialize a LogQueryResponse object.
+
+        :param int matching_results: (optional) Number of matching results.
+        :param list[LogQueryResponseResult] results: (optional)
+        """
+        self.matching_results = matching_results
+        self.results = results
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogQueryResponse object from a json dictionary."""
+        args = {}
+        if 'matching_results' in _dict:
+            args['matching_results'] = _dict.get('matching_results')
+        if 'results' in _dict:
+            args['results'] = [
+                LogQueryResponseResult._from_dict(x)
+                for x in (_dict.get('results'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'matching_results') and self.matching_results is not None:
+            _dict['matching_results'] = self.matching_results
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this LogQueryResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogQueryResponseResult(object):
+    """
+    Individual result object for a **logs** query. Each object represents either a query
+    to a Discovery collection or an event that is associated with a query.
+
+    :attr str environment_id: (optional) The environment ID that is associated with this
+    log entry.
+    :attr str customer_id: (optional) The **customer_id** label that was specified in the
+    header of the query or event API call that corresponds to this log entry.
+    :attr str document_type: (optional) The type of log entry returned.
+     **query** indicates that the log represents the results of a call to the single
+    collection **query** method.
+     **event** indicates that the log represents  a call to the **events** API.
+    :attr str natural_language_query: (optional) The value of the
+    **natural_language_query** query parameter that was used to create these results. Only
+    returned with logs of type **query**.
+    **Note:** Other query parameters (such as **filter** or **deduplicate**) might  have
+    been used with this query, but are not recorded.
+    :attr LogQueryResponseResultDocuments document_results: (optional) Object containing
+    result information that was returned by the query used to create this log entry. Only
+    returned with logs of type `query`.
+    :attr datetime created_timestamp: (optional) Date that the log result was created.
+    Returned in `YYYY-MM-DDThh:mm:ssZ` format.
+    :attr datetime client_timestamp: (optional) Date specified by the user when recording
+    an event. Returned in `YYYY-MM-DDThh:mm:ssZ` format. Only returned with logs of type
+    **event**.
+    :attr str query_id: (optional) Identifier that corresponds to the
+    **natural_language_query** string used in the original or associated query. All
+    **event** and **query** log entries that have the same original
+    **natural_language_query** string also have them same **query_id**. This field can be
+    used to recall all **event** and **query** log results that have the same original
+    query (**event** logs do not contain the original **natural_language_query** field).
+    :attr str session_token: (optional) Unique identifier (within a 24-hour period) that
+    identifies a single `query` log and any `event` logs that were created for it.
+    **Note:** If the exact same query is run at the exact same time on different days, the
+    **session_token** for those queries might be identical. However, the
+    **created_timestamp** differs.
+    **Note:** Session tokens are case sensitive. To avoid matching on session tokens that
+    are identical except for case, use the exact match operator (`::`) when you query for
+    a specific session token.
+    :attr str collection_id: (optional) The collection ID of the document associated with
+    this event. Only returned with logs of type `event`.
+    :attr int display_rank: (optional) The original display rank of the document
+    associated with this event. Only returned with logs of type `event`.
+    :attr str document_id: (optional) The document ID of the document associated with this
+    event. Only returned with logs of type `event`.
+    :attr str event_type: (optional) The type of event that this object respresents.
+    Possible values are
+     -  `query` the log of a query to a collection
+     -  `click` the result of a call to the **events** endpoint.
+    :attr str result_type: (optional) The type of result that this **event** is associated
+    with. Only returned with logs of type `event`.
+    """
+
+    def __init__(self,
+                 environment_id=None,
+                 customer_id=None,
+                 document_type=None,
+                 natural_language_query=None,
+                 document_results=None,
+                 created_timestamp=None,
+                 client_timestamp=None,
+                 query_id=None,
+                 session_token=None,
+                 collection_id=None,
+                 display_rank=None,
+                 document_id=None,
+                 event_type=None,
+                 result_type=None):
+        """
+        Initialize a LogQueryResponseResult object.
+
+        :param str environment_id: (optional) The environment ID that is associated with
+        this log entry.
+        :param str customer_id: (optional) The **customer_id** label that was specified in
+        the header of the query or event API call that corresponds to this log entry.
+        :param str document_type: (optional) The type of log entry returned.
+         **query** indicates that the log represents the results of a call to the single
+        collection **query** method.
+         **event** indicates that the log represents  a call to the **events** API.
+        :param str natural_language_query: (optional) The value of the
+        **natural_language_query** query parameter that was used to create these results.
+        Only returned with logs of type **query**.
+        **Note:** Other query parameters (such as **filter** or **deduplicate**) might
+        have been used with this query, but are not recorded.
+        :param LogQueryResponseResultDocuments document_results: (optional) Object
+        containing result information that was returned by the query used to create this
+        log entry. Only returned with logs of type `query`.
+        :param datetime created_timestamp: (optional) Date that the log result was
+        created. Returned in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime client_timestamp: (optional) Date specified by the user when
+        recording an event. Returned in `YYYY-MM-DDThh:mm:ssZ` format. Only returned with
+        logs of type **event**.
+        :param str query_id: (optional) Identifier that corresponds to the
+        **natural_language_query** string used in the original or associated query. All
+        **event** and **query** log entries that have the same original
+        **natural_language_query** string also have them same **query_id**. This field can
+        be used to recall all **event** and **query** log results that have the same
+        original query (**event** logs do not contain the original
+        **natural_language_query** field).
+        :param str session_token: (optional) Unique identifier (within a 24-hour period)
+        that identifies a single `query` log and any `event` logs that were created for
+        it.
+        **Note:** If the exact same query is run at the exact same time on different days,
+        the **session_token** for those queries might be identical. However, the
+        **created_timestamp** differs.
+        **Note:** Session tokens are case sensitive. To avoid matching on session tokens
+        that are identical except for case, use the exact match operator (`::`) when you
+        query for a specific session token.
+        :param str collection_id: (optional) The collection ID of the document associated
+        with this event. Only returned with logs of type `event`.
+        :param int display_rank: (optional) The original display rank of the document
+        associated with this event. Only returned with logs of type `event`.
+        :param str document_id: (optional) The document ID of the document associated with
+        this event. Only returned with logs of type `event`.
+        :param str event_type: (optional) The type of event that this object respresents.
+        Possible values are
+         -  `query` the log of a query to a collection
+         -  `click` the result of a call to the **events** endpoint.
+        :param str result_type: (optional) The type of result that this **event** is
+        associated with. Only returned with logs of type `event`.
+        """
+        self.environment_id = environment_id
+        self.customer_id = customer_id
+        self.document_type = document_type
+        self.natural_language_query = natural_language_query
+        self.document_results = document_results
+        self.created_timestamp = created_timestamp
+        self.client_timestamp = client_timestamp
+        self.query_id = query_id
+        self.session_token = session_token
+        self.collection_id = collection_id
+        self.display_rank = display_rank
+        self.document_id = document_id
+        self.event_type = event_type
+        self.result_type = result_type
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogQueryResponseResult object from a json dictionary."""
+        args = {}
+        if 'environment_id' in _dict:
+            args['environment_id'] = _dict.get('environment_id')
+        if 'customer_id' in _dict:
+            args['customer_id'] = _dict.get('customer_id')
+        if 'document_type' in _dict:
+            args['document_type'] = _dict.get('document_type')
+        if 'natural_language_query' in _dict:
+            args['natural_language_query'] = _dict.get(
+                'natural_language_query')
+        if 'document_results' in _dict:
+            args[
+                'document_results'] = LogQueryResponseResultDocuments._from_dict(
+                    _dict.get('document_results'))
+        if 'created_timestamp' in _dict:
+            args['created_timestamp'] = string_to_datetime(
+                _dict.get('created_timestamp'))
+        if 'client_timestamp' in _dict:
+            args['client_timestamp'] = string_to_datetime(
+                _dict.get('client_timestamp'))
+        if 'query_id' in _dict:
+            args['query_id'] = _dict.get('query_id')
+        if 'session_token' in _dict:
+            args['session_token'] = _dict.get('session_token')
+        if 'collection_id' in _dict:
+            args['collection_id'] = _dict.get('collection_id')
+        if 'display_rank' in _dict:
+            args['display_rank'] = _dict.get('display_rank')
+        if 'document_id' in _dict:
+            args['document_id'] = _dict.get('document_id')
+        if 'event_type' in _dict:
+            args['event_type'] = _dict.get('event_type')
+        if 'result_type' in _dict:
+            args['result_type'] = _dict.get('result_type')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'environment_id') and self.environment_id is not None:
+            _dict['environment_id'] = self.environment_id
+        if hasattr(self, 'customer_id') and self.customer_id is not None:
+            _dict['customer_id'] = self.customer_id
+        if hasattr(self, 'document_type') and self.document_type is not None:
+            _dict['document_type'] = self.document_type
+        if hasattr(self, 'natural_language_query'
+                  ) and self.natural_language_query is not None:
+            _dict['natural_language_query'] = self.natural_language_query
+        if hasattr(self,
+                   'document_results') and self.document_results is not None:
+            _dict['document_results'] = self.document_results._to_dict()
+        if hasattr(self,
+                   'created_timestamp') and self.created_timestamp is not None:
+            _dict['created_timestamp'] = datetime_to_string(
+                self.created_timestamp)
+        if hasattr(self,
+                   'client_timestamp') and self.client_timestamp is not None:
+            _dict['client_timestamp'] = datetime_to_string(
+                self.client_timestamp)
+        if hasattr(self, 'query_id') and self.query_id is not None:
+            _dict['query_id'] = self.query_id
+        if hasattr(self, 'session_token') and self.session_token is not None:
+            _dict['session_token'] = self.session_token
+        if hasattr(self, 'collection_id') and self.collection_id is not None:
+            _dict['collection_id'] = self.collection_id
+        if hasattr(self, 'display_rank') and self.display_rank is not None:
+            _dict['display_rank'] = self.display_rank
+        if hasattr(self, 'document_id') and self.document_id is not None:
+            _dict['document_id'] = self.document_id
+        if hasattr(self, 'event_type') and self.event_type is not None:
+            _dict['event_type'] = self.event_type
+        if hasattr(self, 'result_type') and self.result_type is not None:
+            _dict['result_type'] = self.result_type
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this LogQueryResponseResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogQueryResponseResultDocuments(object):
+    """
+    Object containing result information that was returned by the query used to create
+    this log entry. Only returned with logs of type `query`.
+
+    :attr list[LogQueryResponseResultDocumentsResult] results: (optional)
+    :attr int count: (optional) The number of results returned in the query associate with
+    this log.
+    """
+
+    def __init__(self, results=None, count=None):
+        """
+        Initialize a LogQueryResponseResultDocuments object.
+
+        :param list[LogQueryResponseResultDocumentsResult] results: (optional)
+        :param int count: (optional) The number of results returned in the query associate
+        with this log.
+        """
+        self.results = results
+        self.count = count
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogQueryResponseResultDocuments object from a json dictionary."""
+        args = {}
+        if 'results' in _dict:
+            args['results'] = [
+                LogQueryResponseResultDocumentsResult._from_dict(x)
+                for x in (_dict.get('results'))
+            ]
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this LogQueryResponseResultDocuments object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogQueryResponseResultDocumentsResult(object):
+    """
+    Each object in the **results** array corresponds to an individual document returned by
+    the original query.
+
+    :attr int position: (optional) The result rank of this document. A position of `1`
+    indicates that it was the first returned result.
+    :attr str document_id: (optional) The **document_id** of the document that this result
+    represents.
+    :attr float score: (optional) The raw score of this result. A higher score indicates a
+    greater match to the query parameters.
+    :attr float confidence: (optional) The confidence score of the result's analysis. A
+    higher score indicating greater confidence.
+    :attr str collection_id: (optional) The **collection_id** of the document represented
+    by this result.
+    """
+
+    def __init__(self,
+                 position=None,
+                 document_id=None,
+                 score=None,
+                 confidence=None,
+                 collection_id=None):
+        """
+        Initialize a LogQueryResponseResultDocumentsResult object.
+
+        :param int position: (optional) The result rank of this document. A position of
+        `1` indicates that it was the first returned result.
+        :param str document_id: (optional) The **document_id** of the document that this
+        result represents.
+        :param float score: (optional) The raw score of this result. A higher score
+        indicates a greater match to the query parameters.
+        :param float confidence: (optional) The confidence score of the result's analysis.
+        A higher score indicating greater confidence.
+        :param str collection_id: (optional) The **collection_id** of the document
+        represented by this result.
+        """
+        self.position = position
+        self.document_id = document_id
+        self.score = score
+        self.confidence = confidence
+        self.collection_id = collection_id
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogQueryResponseResultDocumentsResult object from a json dictionary."""
+        args = {}
+        if 'position' in _dict:
+            args['position'] = _dict.get('position')
+        if 'document_id' in _dict:
+            args['document_id'] = _dict.get('document_id')
+        if 'score' in _dict:
+            args['score'] = _dict.get('score')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        if 'collection_id' in _dict:
+            args['collection_id'] = _dict.get('collection_id')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'position') and self.position is not None:
+            _dict['position'] = self.position
+        if hasattr(self, 'document_id') and self.document_id is not None:
+            _dict['document_id'] = self.document_id
+        if hasattr(self, 'score') and self.score is not None:
+            _dict['score'] = self.score
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        if hasattr(self, 'collection_id') and self.collection_id is not None:
+            _dict['collection_id'] = self.collection_id
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this LogQueryResponseResultDocumentsResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class MemoryUsage(object):
     """
     **Deprecated**: Summary of the memory usage statistics for this environment.
@@ -5190,6 +6081,371 @@ class MemoryUsage(object):
 
     def __str__(self):
         """Return a `str` version of this MemoryUsage object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MetricAggregation(object):
+    """
+    An aggregation analyzing log information for queries and events.
+
+    :attr str interval: (optional) The measurement interval for this metric. Metric
+    intervals are always 1 day (`1d`).
+    :attr str event_type: (optional) The event type associated with this metric result.
+    This field, when present, will always be `click`.
+    :attr list[MetricAggregationResult] results: (optional)
+    """
+
+    def __init__(self, interval=None, event_type=None, results=None):
+        """
+        Initialize a MetricAggregation object.
+
+        :param str interval: (optional) The measurement interval for this metric. Metric
+        intervals are always 1 day (`1d`).
+        :param str event_type: (optional) The event type associated with this metric
+        result. This field, when present, will always be `click`.
+        :param list[MetricAggregationResult] results: (optional)
+        """
+        self.interval = interval
+        self.event_type = event_type
+        self.results = results
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetricAggregation object from a json dictionary."""
+        args = {}
+        if 'interval' in _dict:
+            args['interval'] = _dict.get('interval')
+        if 'event_type' in _dict:
+            args['event_type'] = _dict.get('event_type')
+        if 'results' in _dict:
+            args['results'] = [
+                MetricAggregationResult._from_dict(x)
+                for x in (_dict.get('results'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'interval') and self.interval is not None:
+            _dict['interval'] = self.interval
+        if hasattr(self, 'event_type') and self.event_type is not None:
+            _dict['event_type'] = self.event_type
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MetricAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MetricAggregationResult(object):
+    """
+    Aggregation result data for the requested metric.
+
+    :attr datetime key_as_string: (optional) Date in string form representing the start of
+    this interval.
+    :attr int key: (optional) Unix epoch time equivalent of the **key_as_string**, that
+    represents the start of this interval.
+    :attr int matching_results: (optional) Number of matching results.
+    :attr float event_rate: (optional) The number of queries with associated events
+    divided by the total number of queries for the interval. Only returned with
+    **event_rate** metrics.
+    """
+
+    def __init__(self,
+                 key_as_string=None,
+                 key=None,
+                 matching_results=None,
+                 event_rate=None):
+        """
+        Initialize a MetricAggregationResult object.
+
+        :param datetime key_as_string: (optional) Date in string form representing the
+        start of this interval.
+        :param int key: (optional) Unix epoch time equivalent of the **key_as_string**,
+        that represents the start of this interval.
+        :param int matching_results: (optional) Number of matching results.
+        :param float event_rate: (optional) The number of queries with associated events
+        divided by the total number of queries for the interval. Only returned with
+        **event_rate** metrics.
+        """
+        self.key_as_string = key_as_string
+        self.key = key
+        self.matching_results = matching_results
+        self.event_rate = event_rate
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetricAggregationResult object from a json dictionary."""
+        args = {}
+        if 'key_as_string' in _dict:
+            args['key_as_string'] = string_to_datetime(
+                _dict.get('key_as_string'))
+        if 'key' in _dict:
+            args['key'] = _dict.get('key')
+        if 'matching_results' in _dict:
+            args['matching_results'] = _dict.get('matching_results')
+        if 'event_rate' in _dict:
+            args['event_rate'] = _dict.get('event_rate')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'key_as_string') and self.key_as_string is not None:
+            _dict['key_as_string'] = datetime_to_string(self.key_as_string)
+        if hasattr(self, 'key') and self.key is not None:
+            _dict['key'] = self.key
+        if hasattr(self,
+                   'matching_results') and self.matching_results is not None:
+            _dict['matching_results'] = self.matching_results
+        if hasattr(self, 'event_rate') and self.event_rate is not None:
+            _dict['event_rate'] = self.event_rate
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MetricAggregationResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MetricResponse(object):
+    """
+    The response generated from a call to a **metrics** method.
+
+    :attr list[MetricAggregation] aggregations: (optional)
+    """
+
+    def __init__(self, aggregations=None):
+        """
+        Initialize a MetricResponse object.
+
+        :param list[MetricAggregation] aggregations: (optional)
+        """
+        self.aggregations = aggregations
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetricResponse object from a json dictionary."""
+        args = {}
+        if 'aggregations' in _dict:
+            args['aggregations'] = [
+                MetricAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'aggregations') and self.aggregations is not None:
+            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MetricResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MetricTokenAggregation(object):
+    """
+    An aggregation analyzing log information for queries and events.
+
+    :attr str event_type: (optional) The event type associated with this metric result.
+    This field, when present, will always be `click`.
+    :attr list[MetricTokenAggregationResult] results: (optional)
+    """
+
+    def __init__(self, event_type=None, results=None):
+        """
+        Initialize a MetricTokenAggregation object.
+
+        :param str event_type: (optional) The event type associated with this metric
+        result. This field, when present, will always be `click`.
+        :param list[MetricTokenAggregationResult] results: (optional)
+        """
+        self.event_type = event_type
+        self.results = results
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetricTokenAggregation object from a json dictionary."""
+        args = {}
+        if 'event_type' in _dict:
+            args['event_type'] = _dict.get('event_type')
+        if 'results' in _dict:
+            args['results'] = [
+                MetricTokenAggregationResult._from_dict(x)
+                for x in (_dict.get('results'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'event_type') and self.event_type is not None:
+            _dict['event_type'] = self.event_type
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MetricTokenAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MetricTokenAggregationResult(object):
+    """
+    Aggregation result data for the requested metric.
+
+    :attr str key: (optional) The content of the **natural_language_query** parameter used
+    in the query that this result represents.
+    :attr int matching_results: (optional) Number of matching results.
+    :attr float event_rate: (optional) The number of queries with associated events
+    divided by the total number of queries currently stored (queries and events are stored
+    in the log for 30 days).
+    """
+
+    def __init__(self, key=None, matching_results=None, event_rate=None):
+        """
+        Initialize a MetricTokenAggregationResult object.
+
+        :param str key: (optional) The content of the **natural_language_query** parameter
+        used in the query that this result represents.
+        :param int matching_results: (optional) Number of matching results.
+        :param float event_rate: (optional) The number of queries with associated events
+        divided by the total number of queries currently stored (queries and events are
+        stored in the log for 30 days).
+        """
+        self.key = key
+        self.matching_results = matching_results
+        self.event_rate = event_rate
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetricTokenAggregationResult object from a json dictionary."""
+        args = {}
+        if 'key' in _dict:
+            args['key'] = _dict.get('key')
+        if 'matching_results' in _dict:
+            args['matching_results'] = _dict.get('matching_results')
+        if 'event_rate' in _dict:
+            args['event_rate'] = _dict.get('event_rate')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'key') and self.key is not None:
+            _dict['key'] = self.key
+        if hasattr(self,
+                   'matching_results') and self.matching_results is not None:
+            _dict['matching_results'] = self.matching_results
+        if hasattr(self, 'event_rate') and self.event_rate is not None:
+            _dict['event_rate'] = self.event_rate
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MetricTokenAggregationResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MetricTokenResponse(object):
+    """
+    The response generated from a call to a **metrics** method that evaluates tokens.
+
+    :attr list[MetricTokenAggregation] aggregations: (optional)
+    """
+
+    def __init__(self, aggregations=None):
+        """
+        Initialize a MetricTokenResponse object.
+
+        :param list[MetricTokenAggregation] aggregations: (optional)
+        """
+        self.aggregations = aggregations
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetricTokenResponse object from a json dictionary."""
+        args = {}
+        if 'aggregations' in _dict:
+            args['aggregations'] = [
+                MetricTokenAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'aggregations') and self.aggregations is not None:
+            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MetricTokenResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

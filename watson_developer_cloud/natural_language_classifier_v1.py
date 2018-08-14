@@ -74,7 +74,7 @@ class NaturalLanguageClassifierV1(WatsonService):
                made with an expired token will fail.
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.ng.bluemix.net/identity/token'.
+               'https://iam.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
@@ -100,7 +100,7 @@ class NaturalLanguageClassifierV1(WatsonService):
         can use the classifier to classify text.
 
         :param str classifier_id: Classifier ID to use.
-        :param str text: The submitted phrase.
+        :param str text: The submitted phrase. The maximum length is 2048 characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Classification` response.
         :rtype: dict
@@ -644,14 +644,14 @@ class ClassifyInput(object):
     """
     Request payload to classify.
 
-    :attr str text: The submitted phrase.
+    :attr str text: The submitted phrase. The maximum length is 2048 characters.
     """
 
     def __init__(self, text):
         """
         Initialize a ClassifyInput object.
 
-        :param str text: The submitted phrase.
+        :param str text: The submitted phrase. The maximum length is 2048 characters.
         """
         self.text = text
 
@@ -692,7 +692,8 @@ class CollectionItem(object):
     """
     Response from the classifier for a phrase in a collection.
 
-    :attr str text: (optional) The submitted phrase.
+    :attr str text: (optional) The submitted phrase. The maximum length is 2048
+    characters.
     :attr str top_class: (optional) The class with the highest confidence.
     :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence
     pairs sorted in descending order of confidence.
@@ -702,7 +703,8 @@ class CollectionItem(object):
         """
         Initialize a CollectionItem object.
 
-        :param str text: (optional) The submitted phrase.
+        :param str text: (optional) The submitted phrase. The maximum length is 2048
+        characters.
         :param str top_class: (optional) The class with the highest confidence.
         :param list[ClassifiedClass] classes: (optional) An array of up to ten
         class-confidence pairs sorted in descending order of confidence.

@@ -952,3 +952,173 @@ def test_credentials():
     discovery.list_credentials('envid')
     discovery.delete_credentials(environment_id='envid', credential_id='credential_id')
     assert len(responses.calls) == 10
+
+@responses.activate
+def test_events_and_feedback():
+    discovery_event_url = urljoin(base_discovery_url, 'events')
+    discovery_metrics_event_rate_url = urljoin(base_discovery_url, 'metrics/event_rate')
+    discovery_metrics_query_url = urljoin(base_discovery_url, 'metrics/number_of_queries')
+    discovery_metrics_query_event_url = urljoin(base_discovery_url, 'metrics/number_of_queries_with_event')
+    discovery_metrics_query_no_results_url = urljoin(base_discovery_url, 'metrics/number_of_queries_with_no_search_results')
+    discovery_metrics_query_token_event_url = urljoin(base_discovery_url, 'metrics/top_query_tokens_with_event_rate')
+    discovery_query_log_url = urljoin(base_discovery_url, 'logs')
+
+    event_data = {
+        "environment_id": "xxx",
+        "session_token": "yyy",
+        "client_timestamp": "2018-08-14T14:39:59.268Z",
+        "display_rank": 0,
+        "collection_id": "abc",
+        "document_id": "xyz",
+        "query_id": "cde"
+    }
+
+    create_event_response = {
+        "type": "click",
+        "data": event_data
+    }
+
+    metric_response = {
+        "aggregations": [
+            {
+                "interval": "1d",
+                "event_type": "click",
+                "results": [
+                    {
+                        "key_as_string": "2018-08-14T14:39:59.309Z",
+                        "key": 1533513600000,
+                        "matching_results": 2,
+                        "event_rate": 0.0
+                    }
+                ]
+            }
+        ]
+    }
+
+    metric_token_response = {
+        "aggregations": [
+            {
+                "event_type": "click",
+                "results": [
+                    {
+                        "key": "content",
+                        "matching_results": 5,
+                        "event_rate": 0.6
+                    },
+                    {
+                        "key": "first",
+                        "matching_results": 5,
+                        "event_rate": 0.6
+                    },
+                    {
+                        "key": "of",
+                        "matching_results": 5,
+                        "event_rate": 0.6
+                    }
+                ]
+            }
+        ]
+    }
+
+    log_query_response = {
+        "matching_results": 20,
+        "results": [
+            {
+                "customer_id": "",
+                "environment_id": "xxx",
+                "natural_language_query": "The content of the first chapter",
+                "query_id": "1ICUdh3Pab",
+                "document_results": {
+                    "count": 1,
+                    "results": [
+                        {
+                            "collection_id": "b67a82f3-6507-4c25-9757-3485ff4f2a32",
+                            "score": 0.025773458,
+                            "position": 10,
+                            "document_id": "af0be20e-e130-4712-9a2e-37d9c8b9c52f"
+                        }
+                    ]
+                },
+                "event_type": "query",
+                "session_token": "1_nbEfQtKVcg9qx3t41ICUdh3Pab",
+                "created_timestamp": "2018-08-14T18:20:30.460Z"
+            }
+        ]
+    }
+
+    iam_url = "https://iam.bluemix.net/identity/token"
+    iam_token_response = """{
+        "access_token": "oAeisG8yqPY7sFR_x66Z15",
+        "token_type": "Bearer",
+        "expires_in": 3600,
+        "expiration": 1524167011,
+        "refresh_token": "jy4gl91BQ"
+    }"""
+    responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
+
+    responses.add(responses.POST, "{0}?version=2016-11-07".format(discovery_event_url),
+                  body=json.dumps(create_event_response),
+                  status=200,
+                  content_type='application/json')
+
+    responses.add(responses.GET, "{0}?version=2016-11-07".format(discovery_metrics_event_rate_url),
+                  body=json.dumps(metric_response),
+                  status=200,
+                  content_type='application/json')
+
+    responses.add(responses.GET, "{0}?version=2016-11-07".format(discovery_metrics_query_url),
+                  body=json.dumps(metric_response),
+                  status=200,
+                  content_type='application/json')
+
+    responses.add(responses.GET, "{0}?version=2016-11-07".format(discovery_metrics_query_event_url),
+                  body=json.dumps(metric_response),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.GET, "{0}?version=2016-11-07".format(discovery_metrics_query_no_results_url),
+                  body=json.dumps(metric_response),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.GET, "{0}?version=2016-11-07".format(discovery_metrics_query_token_event_url),
+                  body=json.dumps(metric_token_response),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.GET, "{0}?version=2016-11-07".format(discovery_query_log_url),
+                  body=json.dumps(log_query_response),
+                  status=200,
+                  content_type='application/json')
+
+
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   iam_api_key='iam_api_key')
+
+    discovery.create_event('click', event_data)
+    assert responses.calls[1].response.json()["data"] == event_data
+
+    discovery.get_metrics_event_rate('2018-08-13T14:39:59.309Z',
+                                     '2018-08-14T14:39:59.309Z',
+                                     'document')
+    assert responses.calls[3].response.json() == metric_response
+
+    discovery.get_metrics_query('2018-08-13T14:39:59.309Z',
+                                '2018-08-14T14:39:59.309Z',
+                                'document')
+    assert responses.calls[5].response.json() == metric_response
+
+    discovery.get_metrics_query_event('2018-08-13T14:39:59.309Z',
+                                      '2018-08-14T14:39:59.309Z',
+                                      'document')
+    assert responses.calls[7].response.json() == metric_response
+
+    discovery.get_metrics_query_no_results('2018-08-13T14:39:59.309Z',
+                                           '2018-08-14T14:39:59.309Z',
+                                           'document')
+    assert responses.calls[9].response.json() == metric_response
+
+    discovery.get_metrics_query_token_event(2)
+    assert responses.calls[11].response.json() == metric_token_response
+
+    discovery.query_log()
+    assert responses.calls[13].response.json() == log_query_response
+
+    assert len(responses.calls) == 14

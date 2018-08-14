@@ -85,7 +85,7 @@ class ConversationV1(WatsonService):
                made with an expired token will fail.
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.ng.bluemix.net/identity/token'.
+               'https://iam.bluemix.net/identity/token'.
         """
 
         WatsonService.__init__(
