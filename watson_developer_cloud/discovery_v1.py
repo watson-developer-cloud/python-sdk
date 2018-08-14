@@ -117,7 +117,7 @@ class DiscoveryV1(WatsonService):
 
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
-        :param int size: **Deprecated**: Size of the environment.
+        :param str size: Size of the environment.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `Environment` response.
         :rtype: dict
