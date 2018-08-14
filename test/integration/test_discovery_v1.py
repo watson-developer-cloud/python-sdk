@@ -150,3 +150,61 @@ class Discoveryv1(TestCase):
 
         delete_credentials = self.discovery.delete_credentials(self.environment_id, credential_id)
         assert delete_credentials['credential_id'] is not None
+
+    def test_create_event(self):
+        # create test document
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/simple.html'), 'r') as fileinfo:
+            add_doc = self.discovery.add_document(
+                environment_id=self.environment_id,
+                collection_id=self.collection_id,
+                file=fileinfo)
+        assert add_doc['document_id'] is not None
+        document_id = add_doc['document_id']
+
+        # make query to get session token
+        query = self.discovery.query(self.environment_id,
+                                     self.collection_id,
+                                     natural_language_query='The content of the first chapter')
+        assert query['session_token'] is not None
+
+        # create_event
+        event_data = {
+            "environment_id": self.environment_id,
+            "session_token": query['session_token'],
+            "collection_id": self.collection_id,
+            "document_id": document_id,
+        }
+        create_event_response = self.discovery.create_event('click', event_data)
+        assert create_event_response['type'] == 'click'
+
+        #delete the documment
+        self.discovery.delete_document(self.environment_id,
+                                       self.collection_id,
+                                       document_id)
+
+    def test_feedback(self):
+        response = self.discovery.get_metrics_event_rate('2018-08-13T14:39:59.309Z',
+                                                         '2018-08-14T14:39:59.309Z',
+                                                         'document')
+        assert response['aggregations'] is not None
+
+        response = self.discovery.get_metrics_query('2018-08-13T14:39:59.309Z',
+                                                    '2018-08-14T14:39:59.309Z',
+                                                    'document')
+        assert response['aggregations'] is not None
+
+        response = self.discovery.get_metrics_query_event('2018-08-13T14:39:59.309Z',
+                                                          '2018-08-14T14:39:59.309Z',
+                                                          'document')
+        assert response['aggregations'] is not None
+
+        response = self.discovery.get_metrics_query_no_results('2018-07-13T14:39:59.309Z',
+                                                               '2018-08-14T14:39:59.309Z',
+                                                               'document')
+        assert response['aggregations'] is not None
+
+        response = self.discovery.get_metrics_query_token_event(10)
+        assert response['aggregations'] is not None
+
+        response = self.discovery.query_log(count=2)
+        assert response is not None
