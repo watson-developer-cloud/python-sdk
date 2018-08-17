@@ -16,3 +16,4 @@
 
 from .recognize_abstract_callback import RecognizeCallback
 from .recognize_listener import RecognizeListener
+from .audio_source import AudioSource

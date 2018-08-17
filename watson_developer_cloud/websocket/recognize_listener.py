@@ -1,3 +1,19 @@
+# coding: utf-8
+
+# Copyright 2018 IBM All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import websocket
 import json
 import time
@@ -15,8 +31,8 @@ START = "start"
 CLOSE = "close"
 
 class RecognizeListener(object):
-    def __init__(self, audio, options, callback, url, headers, http_proxy_host=None, http_proxy_port=None):
-        self.audio = audio # TBD: this should be a audio file or microphone
+    def __init__(self, audio_source, options, callback, url, headers, http_proxy_host=None, http_proxy_port=None):
+        self.audio_source = audio_source
         self.options = options
         self.callback = callback
         self.url = url
@@ -24,6 +40,8 @@ class RecognizeListener(object):
         self.http_proxy_host = http_proxy_host
         self.http_proxy_port = http_proxy_port
         self.isListening = False
+
+        # websocket.enableTrace(True)
 
         self.ws_client = websocket.WebSocketApp(
             self.url,
@@ -33,7 +51,6 @@ class RecognizeListener(object):
             on_error=self.on_error,
             on_close=self.on_close,
         )
-
         self.ws_client.run_forever(http_proxy_host=self.http_proxy_host, http_proxy_port=self.http_proxy_port)
 
     def build_start_message(self, options):
@@ -53,6 +70,57 @@ class RecognizeListener(object):
             transcripts.append(transcript)
         return transcripts
 
+    def send(self, data, opcode=websocket.ABNF.OPCODE_TEXT):
+        """
+        Send message to server.
+
+        data: message to send. If you set opcode to OPCODE_TEXT,
+              data must be utf-8 string or unicode.
+        opcode: operation code of data. default is OPCODE_TEXT.
+        """
+        self.ws_client.send(data, opcode)
+
+    def send_audio(self, ws):
+        """
+        Stream audio to server
+
+        :param ws: Websocket client
+        """
+        def run(*args):
+            """Background process to stream the data"""
+            if not self.audio_source.is_buffer:
+                while True:
+                    chunk = self.audio_source.input.read(ONE_KB)
+                    if not chunk:
+                        break
+                    self.ws_client.send(chunk, websocket.ABNF.OPCODE_BINARY)
+                    time.sleep(TEN_MILLISECONDS)
+
+                self.audio_source.input.close()
+            else:
+                while True:
+                    try:
+                        if not self.audio_source.input.empty():
+                            chunk = self.audio_source.input.get()
+                            self.ws_client.send(chunk, websocket.ABNF.OPCODE_BINARY)
+                            time.sleep(TEN_MILLISECONDS)
+                        if self.audio_source.input.empty():
+                            if self.audio_source.is_recording:
+                                time.sleep(TEN_MILLISECONDS)
+                            else:
+                                break
+                    except Exception:
+                        if self.audio_source.is_recording:
+                            time.sleep(TEN_MILLISECONDS)
+                        else:
+                            break
+
+            time.sleep(TEN_MILLISECONDS)
+            self.ws_client.send(self.build_closing_message(), websocket.ABNF.OPCODE_TEXT)
+            ws.close()
+
+        thread.start_new_thread(run, ())
+
     def on_open(self, ws):
         """
         Callback executed when a connection is opened to the server.
@@ -66,23 +134,6 @@ class RecognizeListener(object):
         init_data = self.build_start_message(self.options)
         self.ws_client.send(json.dumps(init_data).encode('utf8'), websocket.ABNF.OPCODE_TEXT)
 
-        # Stream audio to server
-        def run(*args):
-            """Background process to stream the data"""
-            while True:
-                chunk = self.audio.read(ONE_KB)
-                if not chunk:
-                    break
-                self.ws_client.send(chunk, websocket.ABNF.OPCODE_BINARY)
-                time.sleep(TEN_MILLISECONDS)
-
-            self.audio.close()
-            time.sleep(TEN_MILLISECONDS)
-            self.ws_client.send(self.build_closing_message(), websocket.ABNF.OPCODE_TEXT)
-            ws.close()
-
-        thread.start_new_thread(run, ())
-
     def on_data(self, ws, message, message_type, fin):
         """
         Callback executed when message is received from the server.
@@ -92,7 +143,7 @@ class RecognizeListener(object):
         :param message_type: Message type which is either ABNF.OPCODE_TEXT or ABNF.OPCODE_BINARY
         :param fin: continue flag. If 0, the data continues.
         """
-        json_object = json.loads(message.decode('utf8'))
+        json_object = json.loads(message)
 
         if 'error' in json_object:
             # Only call on_error() if a real error occurred. The STT service sends
@@ -108,6 +159,7 @@ class RecognizeListener(object):
         elif 'state' in json_object:
             if not self.isListening:
                 self.isListening = True
+                self.send_audio(ws)
             else:
                 # close the connection
                 self.ws_client.send(self.build_closing_message(), websocket.ABNF.OPCODE_TEXT)
