@@ -66,3 +66,9 @@ class RecognizeCallback(object):
     Called when the service returns results. The data is returned unparsed.
     """
         pass
+
+    def on_close(self):
+        """
+    Called when the Websocket connection is closed
+    """
+        pass
