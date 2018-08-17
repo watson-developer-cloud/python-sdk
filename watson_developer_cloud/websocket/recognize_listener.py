@@ -1,11 +1,13 @@
 import websocket
 import json
 import time
-import thread
+try:
+    import thread
+except ImportError:
+    import _thread as thread
 
 ONE_KB = 1024
 TIMEOUT_PREFIX = "No speech detected for"
-CLOSE_SIGNAL = 1000
 TEN_MILLISECONDS = 0.01
 STATE = "state"
 ACTION = "action"
