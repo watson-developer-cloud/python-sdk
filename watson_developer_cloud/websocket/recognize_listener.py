@@ -143,7 +143,11 @@ class RecognizeListener(object):
         :param message_type: Message type which is either ABNF.OPCODE_TEXT or ABNF.OPCODE_BINARY
         :param fin: continue flag. If 0, the data continues.
         """
-        json_object = json.loads(message)
+
+        try:
+            json_object = json.loads(message)
+        except Exception:
+            self.on_error(ws, 'Unable to parse received message.')
 
         if 'error' in json_object:
             # Only call on_error() if a real error occurred. The STT service sends
