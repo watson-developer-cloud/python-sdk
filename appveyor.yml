@@ -19,7 +19,8 @@ install:
 
   - "python -m pip install --upgrade pip"
 
-  # Install the build dependencies of the project.
+  - "pip install --editable ."
+
   - "pip install -r requirements-dev.txt"
 
 build: off
