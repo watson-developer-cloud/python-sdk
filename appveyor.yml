@@ -31,4 +31,4 @@ test_script:
 deploy: off
 
 matrix:
-  fast_finitsh: true
+  fast_finish: true
