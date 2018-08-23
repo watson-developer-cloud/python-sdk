@@ -20,7 +20,7 @@ install:
   - "python -m pip install --upgrade pip"
 
   # Install the build dependencies of the project.
-  - "pip install -r dev-requirements.txt"
+  - "pip install -r requirements-dev.txt"
 
 build: off
 
