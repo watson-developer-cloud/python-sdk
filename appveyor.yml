@@ -26,7 +26,7 @@ build: off
 
 test_script:
 
-  - py.test --reruns 3 --cov=watson_developer_cloud
+  - ps: py.test --reruns 3 --cov=watson_developer_cloud
 
 deploy: off
 
