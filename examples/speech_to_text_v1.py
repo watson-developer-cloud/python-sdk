@@ -2,7 +2,7 @@ from __future__ import print_function
 import json
 from os.path import join, dirname
 from watson_developer_cloud import SpeechToTextV1
-from watson_developer_cloud.websocket import RecognizeCallback
+from watson_developer_cloud.websocket import RecognizeCallback, AudioSource
 
 speech_to_text = SpeechToTextV1(
     username='YOUR SERVICE USERNAME',
@@ -59,5 +59,6 @@ class MyRecognizeCallback(RecognizeCallback):
 mycallback = MyRecognizeCallback()
 with open(join(dirname(__file__), '../resources/speech.wav'),
           'rb') as audio_file:
-    speech_to_text.recognize_using_websocket(audio=audio_file, content_type="audio/l16; rate=44100",
+    audio_source = AudioSource(audio_file)
+    speech_to_text.recognize_using_websocket(audio=audio_source, content_type="audio/l16; rate=44100",
                                              recognize_callback=mycallback)
