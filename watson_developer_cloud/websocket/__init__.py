@@ -15,5 +15,4 @@
 # limitations under the License.
 
 from .recognize_abstract_callback import RecognizeCallback
-from .recognize_listener import RecognizeListener
-from .audio_source import AudioSource
+from .speech_to_text_websocket_listener import RecognizeListener
