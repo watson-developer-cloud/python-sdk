@@ -1,9 +1,9 @@
+# coding: utf-8
 from unittest import TestCase
 import os
-from watson_developer_cloud.websocket import RecognizeCallback, AudioSource
 import watson_developer_cloud
 import pytest
-import threading
+
 
 @pytest.mark.skipif(
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
@@ -83,26 +83,3 @@ class TestSpeechToTextV1(TestCase):
 
         self.speech_to_text.delete_acoustic_model(
             get_acoustic_model['customization_id'])
-
-    def test_recognize_using_websocket(self):
-        class MyRecognizeCallback(RecognizeCallback):
-            def __init__(self):
-                RecognizeCallback.__init__(self)
-                self.error = None
-                self.transcript = None
-
-            def on_error(self, error):
-                self.error = error
-
-            def on_transcription(self, transcript):
-                self.transcript = transcript
-
-        testCallback = MyRecognizeCallback()
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
-            audio_source = AudioSource(audio_file, False)
-            t = threading.Thread(target=self.speech_to_text.recognize_using_websocket, args=(audio_source, "audio/l16; rate=44100", testCallback))
-            t.start()
-            t.join()
-        assert testCallback.error is None
-        assert testCallback.transcript is not None
-        assert testCallback.transcript[0]['transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
