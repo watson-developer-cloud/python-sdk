@@ -50,9 +50,6 @@ class MyRecognizeCallback(RecognizeCallback):
     def on_listening(self):
         print('Service is listening')
 
-    def on_transcription_complete(self):
-        print('Transcription completed')
-
     def on_hypothesis(self, hypothesis):
         print(hypothesis)
 
