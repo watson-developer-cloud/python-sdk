@@ -3,6 +3,7 @@ import json
 from os.path import join, dirname
 from watson_developer_cloud import SpeechToTextV1
 from watson_developer_cloud.websocket import RecognizeCallback, AudioSource
+import threading
 
 speech_to_text = SpeechToTextV1(
     username='YOUR SERVICE USERNAME',
@@ -56,9 +57,9 @@ class MyRecognizeCallback(RecognizeCallback):
     def on_data(self, data):
         print(data)
 
+# Example using threads in a non-blocking way
 mycallback = MyRecognizeCallback()
-with open(join(dirname(__file__), '../resources/speech.wav'),
-          'rb') as audio_file:
-    audio_source = AudioSource(audio_file)
-    speech_to_text.recognize_using_websocket(audio=audio_source, content_type="audio/l16; rate=44100",
-                                             recognize_callback=mycallback)
+audio_file = open(join(dirname(__file__), '../resources/speech.wav'), 'rb')
+audio_source = AudioSource(audio_file)
+recognize_thread = threading.Thread(target=speech_to_text.recognize_using_websocket, args=(audio_source, "audio/l16; rate=44100", mycallback))
+recognize_thread.start()
