@@ -21,19 +21,19 @@ class RecognizeCallback(object):
 
     def on_transcription(self, transcript):
         """
-    Called when an interim result is received
+    Called after the service returns the final result for the transcription.
     """
         pass
 
     def on_connected(self):
         """
-    Called when a WebSocket connection was made
+    Called when a Websocket connection was made
     """
         pass
 
     def on_error(self, error):
         """
-    Called when there is an error in the Web Socket connection.
+    Called when there is an error in the Websocket connection.
     """
         pass
 
@@ -49,20 +49,20 @@ class RecognizeCallback(object):
     """
         pass
 
-    def on_transcription_complete(self):
-        """
-    Called after the service returns the final result for the transcription.
-    """
-        pass
-
     def on_hypothesis(self, hypothesis):
         """
-    Called when the service returns the final hypothesis
+    Called when an interim result is received.
     """
         pass
 
     def on_data(self, data):
         """
     Called when the service returns results. The data is returned unparsed.
+    """
+        pass
+
+    def on_close(self):
+        """
+    Called when the Websocket connection is closed
     """
         pass
