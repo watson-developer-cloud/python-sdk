@@ -65,6 +65,7 @@ with open(join(dirname(__file__),
 print(tone)
 print(tone.get_headers())
 print(tone.get_result())
+print(tone.get_status_code())
 tone_analyzer.set_detailed_response(False)
 
 print("\ntone() example 7:\n")

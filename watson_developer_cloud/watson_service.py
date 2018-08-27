@@ -177,10 +177,12 @@ class DetailedResponse(object):
 
     :param Response response: Either json response or http Response as requested.
     :param dict headers: A dict of response headers
+    :param str status_code: HTTP response code
     """
-    def __init__(self, response=None, headers=None):
+    def __init__(self, response=None, headers=None, status_code=None):
         self.result = response
         self.headers = headers
+        self.status_code = status_code
 
     def get_result(self):
         return self.result
@@ -188,12 +190,17 @@ class DetailedResponse(object):
     def get_headers(self):
         return self.headers
 
+    def get_status_code(self):
+        return self.status_code
+
     def _to_dict(self):
         _dict = {}
         if hasattr(self, 'result') and self.result is not None:
             _dict['result'] = self.result if isinstance(self.result, dict) else 'HTTP response'
         if hasattr(self, 'headers') and self.headers is not None:
             _dict['headers'] = self.headers
+        if hasattr(self, 'status_code') and self.status_code is not None:
+            _dict['status_code'] = self.status_code
         return _dict
 
     def __str__(self):
@@ -442,7 +449,7 @@ class WatsonService(object):
 
         if 200 <= response.status_code <= 299:
             if response.status_code == 204:
-                return DetailedResponse(None, response.headers) if self.detailed_response else None
+                return DetailedResponse(None, response.headers, response.status_code) if self.detailed_response else None
             if accept_json:
                 response_json = response.json()
                 if 'status' in response_json and response_json['status'] \
@@ -455,8 +462,8 @@ class WatsonService(object):
                     if error_message == 'invalid-api-key':
                         status_code = 401
                     raise WatsonApiException(status_code, error_message, httpResponse=response)
-                return DetailedResponse(response_json, response.headers) if self.detailed_response else response_json
-            return DetailedResponse(response, response.headers) if self.detailed_response else response
+                return DetailedResponse(response_json, response.headers, response.status_code) if self.detailed_response else response_json
+            return DetailedResponse(response, response.headers, response.status_code) if self.detailed_response else response
         else:
             if response.status_code == 401:
                 error_message = 'Unauthorized: Access is denied due to ' \
