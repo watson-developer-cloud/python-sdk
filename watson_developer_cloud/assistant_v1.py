@@ -44,6 +44,7 @@ class AssistantV1(WatsonService):
             iam_api_key=None,
             iam_access_token=None,
             iam_url=None,
+            iam_apikey=None,
     ):
         """
         Construct a new client for the Assistant service.
@@ -75,7 +76,7 @@ class AssistantV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key: An API key that can be used to request IAM tokens. If
+        :param str iam_api_key(deprecated): Use iam_apikey. An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -87,7 +88,6 @@ class AssistantV1(WatsonService):
         :param str iam_url: An optional URL for the IAM service API. Defaults to
                'https://iam.bluemix.net/identity/token'.
         """
-
         WatsonService.__init__(
             self,
             vcap_services_name='conversation',
@@ -95,6 +95,7 @@ class AssistantV1(WatsonService):
             username=username,
             password=password,
             iam_api_key=iam_api_key,
+            iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
             use_vcap_services=True)

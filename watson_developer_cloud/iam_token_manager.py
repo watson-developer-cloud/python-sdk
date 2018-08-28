@@ -1,5 +1,6 @@
 import requests
 import time
+from .utils import deprecated
 
 DEFAULT_IAM_URL = 'https://iam.bluemix.net/identity/token'
 CONTENT_TYPE = 'application/x-www-form-urlencoded'
@@ -10,8 +11,8 @@ REQUEST_TOKEN_RESPONSE_TYPE = 'cloud_iam'
 REFRESH_TOKEN_GRANT_TYPE = 'refresh_token'
 
 class IAMTokenManager(object):
-    def __init__(self, iam_api_key=None, iam_access_token=None, iam_url=None):
-        self.iam_api_key = iam_api_key
+    def __init__(self, iam_apikey=None, iam_access_token=None, iam_url=None):
+        self.iam_apikey = iam_apikey
         self.user_access_token = iam_access_token
         self.iam_url = iam_url if iam_url else DEFAULT_IAM_URL
         self.token_info = {
@@ -68,7 +69,7 @@ class IAMTokenManager(object):
         }
         data = {
             'grant_type': REQUEST_TOKEN_GRANT_TYPE,
-            'apikey': self.iam_api_key,
+            'apikey': self.iam_apikey,
             'response_type': REQUEST_TOKEN_RESPONSE_TYPE
         }
         response = self.request(
@@ -105,11 +106,19 @@ class IAMTokenManager(object):
         """
         self.user_access_token = iam_access_token
 
+    @deprecated('Use set_iam_apikey() instead')
     def set_iam_api_key(self, iam_api_key):
         """
         Set the IAM api key
         """
-        self.iam_api_key = iam_api_key
+        self.iam_apikey = iam_api_key
+
+
+    def set_iam_apikey(self, iam_apikey):
+        """
+        Set the IAM api key
+        """
+        self.iam_apikey = iam_apikey
 
     def _is_token_expired(self):
         """
