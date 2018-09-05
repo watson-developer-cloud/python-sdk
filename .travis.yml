@@ -1,5 +1,6 @@
 language: python
 sudo: required
+dist: trusty
 python:
 - '2.7'
 - '3.4'
@@ -14,7 +15,14 @@ install:
 - pip install tox-travis
 - pip install bumpversion
 - npm install @semantic-release/exec
+# - 'if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then cd appscan; make asoc-tool; cd ../; fi'
+- cd appscan; make asoc-tool; cd ../;
+before_script:
+# - 'if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then chmod a+x ./appscan/ASOC.sh; fi'
+- chmod a+x ./appscan/ASOC.sh
 script:
+# - 'if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then ./appscan/ASOC.sh; fi'
+- ./appscan/ASOC.sh
 - pip install -U python-dotenv
 - tox
 before_deploy:

@@ -1,5 +1,5 @@
 {
-    "Id": "1cbcdce1-a87a-4f28-a9d1-98e4b482b848",
+    "Id": "769fd34f-7a4a-484a-a069-9b27d052cd9b",
     "AssetGroupName": "IBM Watson and Cloud Platform",
     "DateCreated": null,
     "LastUpdated": null,
@@ -20,7 +20,7 @@
     "ComplianceStatuses": [],
     "CanBeDeleted": true,
     "LockedToSubscription": false,
-    "Name": "Watson Node SDK",
+    "Name": "Watson Python SDK",
     "AssetGroupId": null,
     "BusinessImpact": "Unspecified",
     "Url": null,

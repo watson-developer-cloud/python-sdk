@@ -10,9 +10,9 @@ APPSCAN_CLIENT_URL ?= https://appscan.ibmcloud.com/api/SCX/StaticAnalyzer/SAClie
 OS ?= linux
 APPSCAN_TOOL := $(APPSCAN_CLIENT_URL)$(OS)
 
-GIT_REPO ?= git@github.com:watson-developer-cloud/node-sdk.git
+GIT_REPO ?= git@github.com:watson-developer-cloud/python-sdk.git
 
-PROJECT_NAME ?= node-sdk
+PROJECT_NAME ?= python-sdk
 
 # Headers added to curl command
 CONTENT_HEADER_JSON := --header 'Content-Type: application/json'
