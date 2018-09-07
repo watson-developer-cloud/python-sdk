@@ -46,7 +46,7 @@ class ToneAnalyzerV3(WatsonService):
             url=default_url,
             username=None,
             password=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
     ):
@@ -80,7 +80,7 @@ class ToneAnalyzerV3(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key: An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -99,7 +99,7 @@ class ToneAnalyzerV3(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
+            iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
             use_vcap_services=True)
@@ -163,8 +163,8 @@ class ToneAnalyzerV3(WatsonService):
         for example, `en-US` is interpreted as `en`. You can use different languages for
         **Content-Language** and **Accept-Language**.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ToneAnalysis` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if tone_input is None:
             raise ValueError('tone_input must be provided')
@@ -232,8 +232,8 @@ class ToneAnalyzerV3(WatsonService):
         for example, `en-US` is interpreted as `en`. You can use different languages for
         **Content-Language** and **Accept-Language**.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `UtteranceAnalyses` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if utterances is None:
             raise ValueError('utterances must be provided')
@@ -663,8 +663,7 @@ class ToneChatScore(object):
             args['score'] = _dict.get('score')
         else:
             raise ValueError(
-                'Required property \'score\' not present in ToneChatScore JSON'
-            )
+                'Required property \'score\' not present in ToneChatScore JSON')
         if 'tone_id' in _dict:
             args['tone_id'] = _dict.get('tone_id')
         else:
@@ -825,8 +824,7 @@ class ToneScore(object):
             args['tone_name'] = _dict.get('tone_name')
         else:
             raise ValueError(
-                'Required property \'tone_name\' not present in ToneScore JSON'
-            )
+                'Required property \'tone_name\' not present in ToneScore JSON')
         return cls(**args)
 
     def _to_dict(self):

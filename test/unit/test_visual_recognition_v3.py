@@ -241,10 +241,10 @@ def test_delete_user_data():
         responses.DELETE,
         url,
         body='{"description": "success" }',
-        status=200,
+        status=204,
         content_type='application_json')
 
     vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
-    response = vr_service.delete_user_data('id')
+    response = vr_service.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1

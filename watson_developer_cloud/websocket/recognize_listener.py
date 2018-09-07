@@ -163,6 +163,7 @@ class RecognizeListener(object):
         elif 'state' in json_object:
             if not self.isListening:
                 self.isListening = True
+                self.callback.on_listening()
                 self.send_audio(ws)
             else:
                 # close the connection

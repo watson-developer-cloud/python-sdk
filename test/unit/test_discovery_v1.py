@@ -550,7 +550,7 @@ def test_delete_all_training_data():
                                                  username='username',
                                                  password='password')
     response = service.delete_all_training_data(environment_id=environment_id,
-                                                collection_id=collection_id)
+                                                collection_id=collection_id).get_result()
 
     assert response is None
 
@@ -588,7 +588,7 @@ def test_list_training_data():
                                                  username='username',
                                                  password='password')
     response = service.list_training_data(environment_id=environment_id,
-                                          collection_id=collection_id)
+                                          collection_id=collection_id).get_result()
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingDataSet
@@ -639,7 +639,7 @@ def test_add_training_data():
         collection_id=collection_id,
         natural_language_query=natural_language_query,
         filter=filter,
-        examples=examples)
+        examples=examples).get_result()
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingQuery
@@ -660,7 +660,7 @@ def test_delete_training_data():
                                                  password='password')
     response = service.delete_training_data(environment_id=environment_id,
                                             collection_id=collection_id,
-                                            query_id=query_id)
+                                            query_id=query_id).get_result()
 
     assert response is None
 
@@ -695,7 +695,7 @@ def test_get_training_data():
                                                  password='password')
     response = service.get_training_data(environment_id=environment_id,
                                          collection_id=collection_id,
-                                         query_id=query_id)
+                                         query_id=query_id).get_result()
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingQuery
@@ -733,7 +733,7 @@ def test_create_training_example():
         query_id=query_id,
         document_id=document_id,
         relevance=relevance,
-        cross_reference=cross_reference)
+        cross_reference=cross_reference).get_result()
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingExample
@@ -760,7 +760,7 @@ def test_delete_training_example():
         environment_id=environment_id,
         collection_id=collection_id,
         query_id=query_id,
-        example_id=example_id)
+        example_id=example_id).get_result()
 
     assert response is None
 
@@ -794,7 +794,7 @@ def test_get_training_example():
         environment_id=environment_id,
         collection_id=collection_id,
         query_id=query_id,
-        example_id=example_id)
+        example_id=example_id).get_result()
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingExample
@@ -834,7 +834,7 @@ def test_update_training_example():
         query_id=query_id,
         example_id=example_id,
         relevance=relevance,
-        cross_reference=cross_reference)
+        cross_reference=cross_reference).get_result()
 
     assert response == mock_response
     # Verify that response can be converted to a TrainingExample
@@ -882,12 +882,12 @@ def test_delete_user_data():
         responses.DELETE,
         url,
         body='{"description": "success" }',
-        status=200,
+        status=204,
         content_type='application_json')
 
     discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
 
-    response = discovery.delete_user_data('id')
+    response = discovery.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1
 
@@ -936,7 +936,7 @@ def test_credentials():
                   content_type='application/json')
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   iam_api_key='iam_api_key')
+                                                   iam_apikey='iam_api_key')
     discovery.create_credentials('envid', 'salesforce', {
         'url': 'https://login.salesforce.com',
         'credential_type': 'username_password',
@@ -1090,7 +1090,7 @@ def test_events_and_feedback():
 
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   iam_api_key='iam_api_key')
+                                                   iam_apikey='iam_api_key')
 
     discovery.create_event('click', event_data)
     assert responses.calls[1].response.json()["data"] == event_data

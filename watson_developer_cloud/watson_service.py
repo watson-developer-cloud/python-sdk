@@ -204,12 +204,12 @@ class DetailedResponse(object):
         return _dict
 
     def __str__(self):
-        return json_import.dumps(self._to_dict(), indent=2, default=lambda o: o.__dict__)
+        return json_import.dumps(self._to_dict(), indent=4, default=lambda o: o.__dict__)
 
 class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
-                 iam_api_key=None, iam_access_token=None, iam_url=None):
+                 iam_apikey=None, iam_access_token=None, iam_url=None):
         """
         Loads credentials from the VCAP_SERVICES environment variable if
         available, preferring credentials explicitly
@@ -226,8 +226,8 @@ class WatsonService(object):
         self.password = None
         self.default_headers = None
         self.http_config = {}
-        self.detailed_response = False
-        self.iam_api_key = None
+        self.detailed_response = True
+        self.iam_apikey = None
         self.iam_access_token = None
         self.iam_url = None
         self.token_manager = None
@@ -245,8 +245,8 @@ class WatsonService(object):
                 self.set_token_manager(password, iam_access_token, iam_url)
             else:
                 self.set_username_and_password(username, password)
-        elif iam_access_token is not None or iam_api_key is not None:
-            self.set_token_manager(iam_api_key, iam_access_token, iam_url)
+        elif iam_access_token is not None or iam_apikey is not None:
+            self.set_token_manager(iam_apikey, iam_access_token, iam_url)
 
         if use_vcap_services and not self.username and not self.api_key:
             self.vcap_service_credentials = load_from_vcap_services(
@@ -262,8 +262,8 @@ class WatsonService(object):
                     self.api_key = self.vcap_service_credentials['apikey']
                 if 'api_key' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['api_key']
-                if ('iam_api_key' or 'apikey')  in self.vcap_service_credentials:
-                    self.iam_api_key = self.vcap_service_credentials.get('iam_api_key') or self.vcap_service_credentials.get('apikey')
+                if ('iam_apikey' or 'apikey')  in self.vcap_service_credentials:
+                    self.iam_apikey = self.vcap_service_credentials.get('iam_apikey') or self.vcap_service_credentials.get('apikey')
                 if 'iam_access_token' in self.vcap_service_credentials:
                     self.iam_access_token = self.vcap_service_credentials['iam_access_token']
                 if 'iam_url' in self.vcap_service_credentials:
@@ -296,14 +296,14 @@ class WatsonService(object):
             self.set_url('https://gateway-a.watsonplatform.net/visual-recognition/api')
         self.jar = CookieJar()
 
-    def set_token_manager(self, iam_api_key=None, iam_access_token=None, iam_url=None):
-        if iam_api_key == 'YOUR IAM API KEY':
-            iam_api_key = None
+    def set_token_manager(self, iam_apikey=None, iam_access_token=None, iam_url=None):
+        if iam_apikey == 'YOUR IAM API KEY':
+            iam_apikey = None
 
-        self.iam_api_key = iam_api_key
+        self.iam_apikey = iam_apikey
         self.iam_access_token = iam_access_token
         self.iam_url = iam_url
-        self.token_manager = IAMTokenManager(iam_api_key, iam_access_token, iam_url)
+        self.token_manager = IAMTokenManager(iam_apikey, iam_access_token, iam_url)
         self.jar = CookieJar()
 
     def set_iam_access_token(self, iam_access_token):
@@ -314,12 +314,12 @@ class WatsonService(object):
         self.iam_access_token = iam_access_token
         self.jar = CookieJar()
 
-    def set_iam_api_key(self, iam_api_key):
+    def set_iam_apikey(self, iam_apikey):
         if self.token_manager:
-            self.token_manager.set_iam_api_key(iam_api_key)
+            self.token_manager.set_iam_apikey(iam_apikey)
         else:
-            self.token_manager = IAMTokenManager(iam_api_key=iam_api_key)
-        self.iam_api_key = iam_api_key
+            self.token_manager = IAMTokenManager(iam_apikey=iam_apikey)
+        self.iam_apikey = iam_apikey
         self.jar = CookieJar()
 
     def set_url(self, url):

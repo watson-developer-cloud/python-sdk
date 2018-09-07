@@ -7,24 +7,24 @@ import json
 from os.path import join, dirname
 from watson_developer_cloud import PersonalityInsightsV3
 
+# If service instance provides API key authentication
 personality_insights = PersonalityInsightsV3(
     version='2016-10-20',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    # url='https://gateway.watsonplatform.net/personality-insights/api',
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+    url='https://gateway.watsonplatform.net/personality-insights/api',
+    iam_apikey='your_apikey')
 
-## If service instance provides API key authentication
 # personality_insights = PersonalityInsightsV3(
 #     version='2016-10-20',
 #     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/personality-insights/api',
-#     iam_api_key='your_api_key')
+#     # url='https://gateway.watsonplatform.net/personality-insights/api',
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD')
 
 with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
         profile_json:
     profile = personality_insights.profile(
         profile_json.read(), content_type='application/json',
-        raw_scores=True, consumption_preferences=True)
+        raw_scores=True, consumption_preferences=True).get_result()
 
     print(json.dumps(profile, indent=2))

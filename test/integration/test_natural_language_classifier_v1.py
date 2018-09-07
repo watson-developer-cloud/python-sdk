@@ -25,21 +25,21 @@ class TestNaturalLanguageClassifierV1(TestCase):
             classifier = self.natural_language_classifier.create_classifier(
                 metadata=metadata,
                 training_data=training_data
-            )
+            ).get_result()
             self.classifier_id = classifier['classifier_id']
 
     def tearDown(self):
         self.natural_language_classifier.delete_classifier(self.classifier_id)
 
     def test_list_classifier(self):
-        list_classifiers = self.natural_language_classifier.list_classifiers()
+        list_classifiers = self.natural_language_classifier.list_classifiers().get_result()
         assert list_classifiers is not None
 
     @pytest.mark.skip(reason="The classifier takes more than a minute")
     def test_classify_text(self):
         iterations = 0
         while iterations < 15:
-            status = self.natural_language_classifier.get_classifier(self.classifier_id)
+            status = self.natural_language_classifier.get_classifier(self.classifier_id).get_result()
             iterations += 1
             if status['status'] != 'Available':
                 time.sleep(FIVE_SECONDS)
@@ -47,10 +47,10 @@ class TestNaturalLanguageClassifierV1(TestCase):
         if status['status'] != 'Available':
             assert False, 'Classifier is not available'
 
-        classes = self.natural_language_classifier.classify(self.classifier_id, 'How hot will it be tomorrow?')
+        classes = self.natural_language_classifier.classify(self.classifier_id, 'How hot will it be tomorrow?').get_result()
         assert classes is not None
 
         collection = ['{"text":"How hot will it be today?"}', '{"text":"Is it hot outside?"}']
         classes = self.natural_language_classifier.classify_collection(
-            self.classifier_id, collection)
+            self.classifier_id, collection).get_result()
         assert classes is not None

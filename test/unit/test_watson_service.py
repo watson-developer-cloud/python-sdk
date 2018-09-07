@@ -15,7 +15,7 @@ class AnyServiceV1(WatsonService):
 
     def __init__(self, version, url=default_url, username=None, password=None,
                  api_key=None,
-                 iam_api_key=None,
+                 iam_apikey=None,
                  iam_access_token=None,
                  iam_url=None):
         WatsonService.__init__(
@@ -26,7 +26,7 @@ class AnyServiceV1(WatsonService):
             username=username,
             password=password,
             use_vcap_services=True,
-            iam_api_key=iam_api_key,
+            iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url)
         self.version = version
@@ -101,13 +101,13 @@ def test_fail_http_config():
 @responses.activate
 def test_iam():
     iam_url = "https://iam.bluemix.net/identity/token"
-    service = AnyServiceV1('2017-07-07', iam_api_key="iam_api_key")
+    service = AnyServiceV1('2017-07-07', iam_apikey="iam_apikey")
     assert service.token_manager is not None
 
     iam_url = "https://iam.bluemix.net/identity/token"
     service = AnyServiceV1('2017-07-07', username='xxx', password='yyy')
     assert service.token_manager is None
-    service.set_iam_api_key('yyy')
+    service.set_iam_apikey('yyy')
     assert service.token_manager is not None
 
     service.token_manager.token_info = {
@@ -136,14 +136,14 @@ def test_iam():
 def test_when_apikey_is_username():
     service1 = AnyServiceV1('2017-07-07', username='apikey', password='xxxxx')
     assert service1.token_manager is not None
-    assert service1.iam_api_key is 'xxxxx'
+    assert service1.iam_apikey is 'xxxxx'
     assert service1.username is None
     assert service1.password is None
     assert service1.token_manager.iam_url == 'https://iam.bluemix.net/identity/token'
 
     service2 = AnyServiceV1('2017-07-07', username='apikey', password='xxxxx', iam_url='https://iam.stage1.bluemix.net/identity/token')
     assert service2.token_manager is not None
-    assert service2.iam_api_key is 'xxxxx'
+    assert service2.iam_apikey is 'xxxxx'
     assert service2.username is None
     assert service2.password is None
     assert service2.token_manager.iam_url == 'https://iam.stage1.bluemix.net/identity/token'

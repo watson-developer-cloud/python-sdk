@@ -45,7 +45,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
             url=default_url,
             username=None,
             password=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
     ):
@@ -79,7 +79,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key: An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -98,7 +98,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
+            iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
             use_vcap_services=True)
@@ -161,21 +161,30 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         tv/movies\" as the most confident classification.
 
         :param Features features: Specific features to analyze the document for.
-        :param str text: The plain text to analyze.
-        :param str html: The HTML file to analyze.
-        :param str url: The web page to analyze.
+        :param str text: The plain text to analyze. One of the `text`, `html`, or `url`
+        parameters is required.
+        :param str html: The HTML file to analyze. One of the `text`, `html`, or `url`
+        parameters is required.
+        :param str url: The web page to analyze. One of the `text`, `html`, or `url`
+        parameters is required.
         :param bool clean: Remove website elements, such as links, ads, etc.
-        :param str xpath: XPath query for targeting nodes in HTML.
+        :param str xpath: An [XPath query](https://www.w3.org/TR/xpath/) to perform on
+        `html` or `url` input. Results of the query will be appended to the cleaned
+        webpage text before it is analyzed. To analyze only the results of the XPath
+        query, set the `clean` parameter to `false`.
         :param bool fallback_to_raw: Whether to use raw HTML content if text cleaning
         fails.
         :param bool return_analyzed_text: Whether or not to return the analyzed text.
-        :param str language: ISO 639-1 code indicating the language to use in the
-        analysis.
+        :param str language: ISO 639-1 code that specifies the language of your text. This
+        overrides automatic language detection. Language support differs depending on the
+        features you include in your analysis. See [Language
+        support](https://www.bluemix.net/docs/services/natural-language-understanding/language-support.html)
+        for more information.
         :param int limit_text_characters: Sets the maximum number of characters that are
         processed by the service.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `AnalysisResults` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if features is None:
             raise ValueError('features must be provided')
@@ -218,8 +227,8 @@ class NaturalLanguageUnderstandingV1(WatsonService):
 
         :param str model_id: model_id of the model to delete.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `InlineResponse200` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
@@ -245,8 +254,8 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         Language Understanding service.
 
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ListModelsResults` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -708,6 +717,51 @@ class ConceptsResult(object):
         return not self == other
 
 
+class InlineResponse200(object):
+    """
+    Delete model results.
+
+    :attr str deleted: (optional) model_id of the deleted model.
+    """
+
+    def __init__(self, deleted=None):
+        """
+        Initialize a InlineResponse200 object.
+
+        :param str deleted: (optional) model_id of the deleted model.
+        """
+        self.deleted = deleted
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a InlineResponse200 object from a json dictionary."""
+        args = {}
+        if 'deleted' in _dict:
+            args['deleted'] = _dict.get('deleted')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'deleted') and self.deleted is not None:
+            _dict['deleted'] = self.deleted
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this InlineResponse200 object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class DisambiguationResult(object):
     """
     Disambiguation information for the entity.
@@ -874,7 +928,7 @@ class EmotionOptions(object):
     """
     Whether or not to return emotion analysis of the content.
 
-    :attr bool document: (optional) Set this to false to hide document-level emotion
+    :attr bool document: (optional) Set this to `false` to hide document-level emotion
     results.
     :attr list[str] targets: (optional) Emotion results will be returned for each target
     string that is found in the document.
@@ -884,8 +938,8 @@ class EmotionOptions(object):
         """
         Initialize a EmotionOptions object.
 
-        :param bool document: (optional) Set this to false to hide document-level emotion
-        results.
+        :param bool document: (optional) Set this to `false` to hide document-level
+        emotion results.
         :param list[str] targets: (optional) Emotion results will be returned for each
         target string that is found in the document.
         """
@@ -1082,13 +1136,14 @@ class EntitiesOptions(object):
     detected in the analyzed content.
 
     :attr int limit: (optional) Maximum number of entities to return.
-    :attr bool mentions: (optional) Set this to true to return locations of entity
+    :attr bool mentions: (optional) Set this to `true` to return locations of entity
     mentions.
-    :attr str model: (optional) Enter a custom model ID to override the standard entity
-    detection model.
-    :attr bool sentiment: (optional) Set this to true to return sentiment information for
-    detected entities.
-    :attr bool emotion: (optional) Set this to true to analyze emotion for detected
+    :attr str model: (optional) Enter a [custom
+    model](https://www.bluemix.net/docs/services/natural-language-understanding/customizing.html)
+    ID to override the standard entity detection model.
+    :attr bool sentiment: (optional) Set this to `true` to return sentiment information
+    for detected entities.
+    :attr bool emotion: (optional) Set this to `true` to analyze emotion for detected
     keywords.
     """
 
@@ -1102,13 +1157,14 @@ class EntitiesOptions(object):
         Initialize a EntitiesOptions object.
 
         :param int limit: (optional) Maximum number of entities to return.
-        :param bool mentions: (optional) Set this to true to return locations of entity
+        :param bool mentions: (optional) Set this to `true` to return locations of entity
         mentions.
-        :param str model: (optional) Enter a custom model ID to override the standard
-        entity detection model.
-        :param bool sentiment: (optional) Set this to true to return sentiment information
-        for detected entities.
-        :param bool emotion: (optional) Set this to true to analyze emotion for detected
+        :param str model: (optional) Enter a [custom
+        model](https://www.bluemix.net/docs/services/natural-language-understanding/customizing.html)
+        ID to override the standard entity detection model.
+        :param bool sentiment: (optional) Set this to `true` to return sentiment
+        information for detected entities.
+        :param bool emotion: (optional) Set this to `true` to analyze emotion for detected
         keywords.
         """
         self.limit = limit
@@ -1450,19 +1506,15 @@ class Features(object):
         """Initialize a Features object from a json dictionary."""
         args = {}
         if 'concepts' in _dict:
-            args['concepts'] = ConceptsOptions._from_dict(
-                _dict.get('concepts'))
+            args['concepts'] = ConceptsOptions._from_dict(_dict.get('concepts'))
         if 'emotion' in _dict:
             args['emotion'] = EmotionOptions._from_dict(_dict.get('emotion'))
         if 'entities' in _dict:
-            args['entities'] = EntitiesOptions._from_dict(
-                _dict.get('entities'))
+            args['entities'] = EntitiesOptions._from_dict(_dict.get('entities'))
         if 'keywords' in _dict:
-            args['keywords'] = KeywordsOptions._from_dict(
-                _dict.get('keywords'))
+            args['keywords'] = KeywordsOptions._from_dict(_dict.get('keywords'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataOptions._from_dict(
-                _dict.get('metadata'))
+            args['metadata'] = MetadataOptions._from_dict(_dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = RelationsOptions._from_dict(
                 _dict.get('relations'))
@@ -1560,60 +1612,15 @@ class Feed(object):
         return not self == other
 
 
-class InlineResponse200(object):
-    """
-    InlineResponse200.
-
-    :attr str deleted: (optional) model_id of the deleted model.
-    """
-
-    def __init__(self, deleted=None):
-        """
-        Initialize a InlineResponse200 object.
-
-        :param str deleted: (optional) model_id of the deleted model.
-        """
-        self.deleted = deleted
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a InlineResponse200 object from a json dictionary."""
-        args = {}
-        if 'deleted' in _dict:
-            args['deleted'] = _dict.get('deleted')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'deleted') and self.deleted is not None:
-            _dict['deleted'] = self.deleted
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this InlineResponse200 object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class KeywordsOptions(object):
     """
     An option indicating whether or not important keywords from the analyzed content
     should be returned.
 
     :attr int limit: (optional) Maximum number of keywords to return.
-    :attr bool sentiment: (optional) Set this to true to return sentiment information for
-    detected keywords.
-    :attr bool emotion: (optional) Set this to true to analyze emotion for detected
+    :attr bool sentiment: (optional) Set this to `true` to return sentiment information
+    for detected keywords.
+    :attr bool emotion: (optional) Set this to `true` to analyze emotion for detected
     keywords.
     """
 
@@ -1622,9 +1629,9 @@ class KeywordsOptions(object):
         Initialize a KeywordsOptions object.
 
         :param int limit: (optional) Maximum number of keywords to return.
-        :param bool sentiment: (optional) Set this to true to return sentiment information
-        for detected keywords.
-        :param bool emotion: (optional) Set this to true to analyze emotion for detected
+        :param bool sentiment: (optional) Set this to `true` to return sentiment
+        information for detected keywords.
+        :param bool emotion: (optional) Set this to `true` to analyze emotion for detected
         keywords.
         """
         self.limit = limit
@@ -1682,8 +1689,7 @@ class KeywordsResult(object):
     keyword, enabled with the "sentiment" option.
     """
 
-    def __init__(self, relevance=None, text=None, emotion=None,
-                 sentiment=None):
+    def __init__(self, relevance=None, text=None, emotion=None, sentiment=None):
         """
         Initialize a KeywordsResult object.
 
@@ -1897,7 +1903,7 @@ class MetadataResult(object):
         if 'image' in _dict:
             args['image'] = _dict.get('image')
         if 'feeds' in _dict:
-            args['feeds'] = [Feed._from_dict(x) for x in _dict.get('feeds')]
+            args['feeds'] = [Feed._from_dict(x) for x in (_dict.get('feeds'))]
         return cls(**args)
 
     def _to_dict(self):
@@ -2122,15 +2128,18 @@ class RelationsOptions(object):
     An option specifying if the relationships found between entities in the analyzed
     content should be returned.
 
-    :attr str model: (optional) Enter a custom model ID to override the default model.
+    :attr str model: (optional) Enter a [custom
+    model](https://www.bluemix.net/docs/services/natural-language-understanding/customizing.html)
+    ID to override the default model.
     """
 
     def __init__(self, model=None):
         """
         Initialize a RelationsOptions object.
 
-        :param str model: (optional) Enter a custom model ID to override the default
-        model.
+        :param str model: (optional) Enter a [custom
+        model](https://www.bluemix.net/docs/services/natural-language-understanding/customizing.html)
+        ID to override the default model.
         """
         self.model = model
 
@@ -2204,8 +2213,7 @@ class RelationsResult(object):
             args['type'] = _dict.get('type')
         if 'arguments' in _dict:
             args['arguments'] = [
-                RelationArgument._from_dict(x)
-                for x in (_dict.get('arguments'))
+                RelationArgument._from_dict(x) for x in (_dict.get('arguments'))
             ]
         return cls(**args)
 
@@ -2454,9 +2462,9 @@ class SemanticRolesOptions(object):
     the analyzed content.
 
     :attr int limit: (optional) Maximum number of semantic_roles results to return.
-    :attr bool keywords: (optional) Set this to true to return keyword information for
+    :attr bool keywords: (optional) Set this to `true` to return keyword information for
     subjects and objects.
-    :attr bool entities: (optional) Set this to true to return entity information for
+    :attr bool entities: (optional) Set this to `true` to return entity information for
     subjects and objects.
     """
 
@@ -2465,10 +2473,10 @@ class SemanticRolesOptions(object):
         Initialize a SemanticRolesOptions object.
 
         :param int limit: (optional) Maximum number of semantic_roles results to return.
-        :param bool keywords: (optional) Set this to true to return keyword information
+        :param bool keywords: (optional) Set this to `true` to return keyword information
         for subjects and objects.
-        :param bool entities: (optional) Set this to true to return entity information for
-        subjects and objects.
+        :param bool entities: (optional) Set this to `true` to return entity information
+        for subjects and objects.
         """
         self.limit = limit
         self.keywords = keywords
@@ -2552,11 +2560,9 @@ class SemanticRolesResult(object):
             args['subject'] = SemanticRolesSubject._from_dict(
                 _dict.get('subject'))
         if 'action' in _dict:
-            args['action'] = SemanticRolesAction._from_dict(
-                _dict.get('action'))
+            args['action'] = SemanticRolesAction._from_dict(_dict.get('action'))
         if 'object' in _dict:
-            args['object'] = SemanticRolesObject._from_dict(
-                _dict.get('object'))
+            args['object'] = SemanticRolesObject._from_dict(_dict.get('object'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2709,7 +2715,7 @@ class SentimentOptions(object):
     An option specifying if sentiment of detected entities, keywords, or phrases should be
     returned.
 
-    :attr bool document: (optional) Set this to false to hide document-level sentiment
+    :attr bool document: (optional) Set this to `false` to hide document-level sentiment
     results.
     :attr list[str] targets: (optional) Sentiment results will be returned for each target
     string that is found in the document.
@@ -2719,7 +2725,7 @@ class SentimentOptions(object):
         """
         Initialize a SentimentOptions object.
 
-        :param bool document: (optional) Set this to false to hide document-level
+        :param bool document: (optional) Set this to `false` to hide document-level
         sentiment results.
         :param list[str] targets: (optional) Sentiment results will be returned for each
         target string that is found in the document.

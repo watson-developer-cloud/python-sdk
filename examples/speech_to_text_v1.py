@@ -5,20 +5,20 @@ from watson_developer_cloud import SpeechToTextV1
 from watson_developer_cloud.websocket import RecognizeCallback, AudioSource
 import threading
 
+# If service instance provides API key authentication
 speech_to_text = SpeechToTextV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
-    url='https://stream.watsonplatform.net/speech-to-text/api')
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    url='https://stream.watsonplatform.net/speech-to-text/api',
+    iam_apikey='your_apikey')
 
-## If service instance provides API key authentication
 # speech_to_text = SpeechToTextV1(
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://stream.watsonplatform.net/speech-to-text/api',
-#     iam_api_key='your_api_key')
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD',
+#     url='https://stream.watsonplatform.net/speech-to-text/api')
 
-print(json.dumps(speech_to_text.list_models(), indent=2))
+print(json.dumps(speech_to_text.list_models().get_result(), indent=2))
 
-print(json.dumps(speech_to_text.get_model('en-US_BroadbandModel'), indent=2))
+print(json.dumps(speech_to_text.get_model('en-US_BroadbandModel').get_result(), indent=2))
 
 with open(join(dirname(__file__), '../resources/speech.wav'),
           'rb') as audio_file:
@@ -28,7 +28,7 @@ with open(join(dirname(__file__), '../resources/speech.wav'),
                 audio=audio_file,
                 content_type='audio/wav',
                 timestamps=True,
-                word_confidence=True),
+                word_confidence=True).get_result(),
             indent=2))
 
 # Example using websockets

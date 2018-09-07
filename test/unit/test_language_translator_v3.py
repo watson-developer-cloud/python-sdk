@@ -27,7 +27,7 @@ iam_token_response = """{
 def test_translate_source_target():
     service = watson_developer_cloud.LanguageTranslatorV3(
         version='2018-05-01',
-        iam_api_key='iam_api_key')
+        iam_apikey='iam_apikey')
     endpoint = '/v3/translate'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
@@ -43,7 +43,7 @@ def test_translate_source_target():
         content_type='application/json')
     responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
 
-    response = service.translate('Hola, cómo estás? €', source='es', target='en')
+    response = service.translate('Hola, cómo estás? €', source='es', target='en').get_result()
     assert len(responses.calls) == 2
     assert responses.calls[1].request.url.startswith(url)
     assert response == expected
@@ -53,7 +53,7 @@ def test_translate_source_target():
 def test_translate_model_id():
     service = watson_developer_cloud.LanguageTranslatorV3(
         version='2018-05-01',
-        iam_api_key='iam_api_key')
+        iam_apikey='iam_apikey')
     endpoint = '/v3/translate'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
@@ -73,7 +73,7 @@ def test_translate_model_id():
         content_type='application/json')
     responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
     response = service.translate('Messi is the best ever',
-                                 model_id='en-es-conversational')
+                                 model_id='en-es-conversational').get_result()
 
     assert len(responses.calls) == 2
     assert responses.calls[1].request.url.startswith(url)
@@ -84,7 +84,7 @@ def test_translate_model_id():
 def test_identify():
     service = watson_developer_cloud.LanguageTranslatorV3(
         version='2018-05-01',
-        iam_api_key='iam_api_key')
+        iam_apikey='iam_apikey')
     endpoint = '/v3/identify'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
@@ -110,7 +110,7 @@ def test_identify():
         status=200,
         content_type='application/json')
     responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
-    response = service.identify('祝你有美好的一天')
+    response = service.identify('祝你有美好的一天').get_result()
     assert len(responses.calls) == 2
     assert responses.calls[1].request.url.startswith(url)
     assert response == expected
@@ -120,7 +120,7 @@ def test_identify():
 def test_list_identifiable_languages():
     service = watson_developer_cloud.LanguageTranslatorV3(
         version='2018-05-01',
-        iam_api_key='iam_api_key')
+        iam_apikey='iam_apikey')
     endpoint = '/v3/identifiable_languages'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
@@ -158,7 +158,7 @@ def test_list_identifiable_languages():
         status=200,
         content_type='application/json')
     responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
-    response = service.list_identifiable_languages()
+    response = service.list_identifiable_languages().get_result()
     assert len(responses.calls) == 2
     assert responses.calls[1].request.url.startswith(url)
     assert response == expected
@@ -194,7 +194,7 @@ def test_create_model():
     with open(os.path.join(os.path.dirname(__file__), '../../resources/language_translator_model.tmx'), 'rb') as custom_model:
         response = service.create_model('en-fr',
                                         name='test_glossary',
-                                        forced_glossary=custom_model)
+                                        forced_glossary=custom_model).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert response == expected
@@ -204,7 +204,7 @@ def test_create_model():
 def test_delete_model():
     service = watson_developer_cloud.LanguageTranslatorV3(
         version='2018-05-01',
-        iam_api_key='iam_api_key')
+        iam_apikey='iam_apikey')
     model_id = 'en-es-conversational'
     endpoint = '/v3/models/' + model_id
     url = '{0}{1}'.format(base_url, endpoint)
@@ -218,7 +218,7 @@ def test_delete_model():
         status=200,
         content_type='application/json')
     responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
-    response = service.delete_model(model_id)
+    response = service.delete_model(model_id).get_result()
     assert len(responses.calls) == 2
     assert responses.calls[1].request.url.startswith(url)
     assert response == expected
@@ -228,7 +228,7 @@ def test_delete_model():
 def test_get_model():
     service = watson_developer_cloud.LanguageTranslatorV3(
         version='2018-05-01',
-        iam_api_key='iam_api_key')
+        iam_apikey='iam_apikey')
     model_id = 'en-es-conversational'
     endpoint = '/v3/models/' + model_id
     url = '{0}{1}'.format(base_url, endpoint)
@@ -251,7 +251,7 @@ def test_get_model():
         status=200,
         content_type='application/json')
     responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
-    response = service.get_model(model_id)
+    response = service.get_model(model_id).get_result()
     assert len(responses.calls) == 2
     assert responses.calls[1].request.url.startswith(url)
     assert response == expected
@@ -261,7 +261,7 @@ def test_get_model():
 def test_list_models():
     service = watson_developer_cloud.LanguageTranslatorV3(
         version='2018-05-01',
-        iam_api_key='iam_api_key')
+        iam_apikey='iam_apikey')
     endpoint = '/v3/models'
     url = '{0}{1}'.format(base_url, endpoint)
     expected = {
@@ -299,7 +299,7 @@ def test_list_models():
         status=200,
         content_type='application/json')
     responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
-    response = service.list_models()
+    response = service.list_models().get_result()
     assert len(responses.calls) == 2
     assert responses.calls[1].request.url.startswith(url)
     assert response == expected

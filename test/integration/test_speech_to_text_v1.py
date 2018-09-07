@@ -24,10 +24,10 @@ class TestSpeechToTextV1(TestCase):
             'X-Watson-Test':
             '1'
         })
-        cls.custom_models = cls.speech_to_text.list_language_models()
+        cls.custom_models = cls.speech_to_text.list_language_models().get_result()
         cls.create_custom_model = cls.speech_to_text.create_language_model(
             name="integration_test_model",
-            base_model_name="en-US_BroadbandModel")
+            base_model_name="en-US_BroadbandModel").get_result()
         cls.customization_id = cls.create_custom_model['customization_id']
 
     @classmethod
@@ -36,9 +36,9 @@ class TestSpeechToTextV1(TestCase):
             customization_id=cls.create_custom_model['customization_id'])
 
     def test_models(self):
-        output = self.speech_to_text.list_models()
+        output = self.speech_to_text.list_models().get_result()
         assert output is not None
-        model = self.speech_to_text.get_model('ko-KR_BroadbandModel')
+        model = self.speech_to_text.get_model('ko-KR_BroadbandModel').get_result()
         assert model is not None
         try:
             self.speech_to_text.get_model('bogus')
@@ -46,43 +46,43 @@ class TestSpeechToTextV1(TestCase):
             assert 'X-global-transaction-id:' in str(e)
 
     def test_create_custom_model(self):
-        current_custom_models = self.speech_to_text.list_language_models()
+        current_custom_models = self.speech_to_text.list_language_models().get_result()
         assert len(current_custom_models['customizations']) - len(
             self.custom_models['customizations']) >= 1
 
     def test_recognize(self):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
             output = self.speech_to_text.recognize(
-                audio=audio_file, content_type='audio/l16; rate=44100')
+                audio=audio_file, content_type='audio/l16; rate=44100').get_result()
         assert output['results'][0]['alternatives'][0][
             'transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
 
     def test_recognitions(self):
-        output = self.speech_to_text.check_jobs()
+        output = self.speech_to_text.check_jobs().get_result()
         assert output is not None
 
     def test_custom_corpora(self):
-        output = self.speech_to_text.list_corpora(self.customization_id)
+        output = self.speech_to_text.list_corpora(self.customization_id).get_result()
         assert len(output['corpora']) == 0 # pylint: disable=len-as-condition
 
     def test_acoustic_model(self):
-        list_models = self.speech_to_text.list_acoustic_models()
+        list_models = self.speech_to_text.list_acoustic_models().get_result()
         assert list_models is not None
 
         create_acoustic_model = self.speech_to_text.create_acoustic_model(
             name="integration_test_model_python",
-            base_model_name="en-US_BroadbandModel")
+            base_model_name="en-US_BroadbandModel").get_result()
         assert create_acoustic_model is not None
 
         get_acoustic_model = self.speech_to_text.get_acoustic_model(
-            create_acoustic_model['customization_id'])
+            create_acoustic_model['customization_id']).get_result()
         assert get_acoustic_model is not None
 
         self.speech_to_text.reset_acoustic_model(
-            get_acoustic_model['customization_id'])
+            get_acoustic_model['customization_id']).get_result()
 
         self.speech_to_text.delete_acoustic_model(
-            get_acoustic_model['customization_id'])
+            get_acoustic_model['customization_id']).get_result()
 
     def test_recognize_using_websocket(self):
         class MyRecognizeCallback(RecognizeCallback):
