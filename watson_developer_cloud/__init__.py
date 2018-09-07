@@ -21,12 +21,9 @@ from .authorization_v1 import AuthorizationV1
 from .iam_token_manager import IAMTokenManager
 from .conversation_v1 import ConversationV1
 from .assistant_v1 import AssistantV1
-from .language_translation_v2 import LanguageTranslationV2
-from .language_translator_v2 import LanguageTranslatorV2
 from .language_translator_v3 import LanguageTranslatorV3
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
 from .natural_language_understanding_v1 import NaturalLanguageUnderstandingV1
-from .personality_insights_v2 import PersonalityInsightsV2
 from .personality_insights_v3 import PersonalityInsightsV3
 from .text_to_speech_v1 import TextToSpeechV1
 from .tone_analyzer_v3 import ToneAnalyzerV3
