@@ -1,7 +1,6 @@
-from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener
+from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener, AudioSource
 from .speech_to_text_v1 import SpeechToTextV1
 from .watson_service import _remove_null_values
-from .utils import deprecated
 import base64
 try:
     from urllib.parse import urlencode
@@ -11,49 +10,6 @@ except ImportError:
 BEARER = 'Bearer'
 
 class SpeechToTextV1Adapter(SpeechToTextV1):
-    @deprecated('Use recognize_using_websocket() instead')
-    def recognize_with_websocket(self,
-                                 audio=None,
-                                 content_type='audio/l16; rate=44100',
-                                 model='en-US_BroadbandModel',
-                                 recognize_callback=None,
-                                 customization_id=None,
-                                 acoustic_customization_id=None,
-                                 customization_weight=None,
-                                 version=None,
-                                 inactivity_timeout=None,
-                                 interim_results=True,
-                                 keywords=None,
-                                 keywords_threshold=None,
-                                 max_alternatives=1,
-                                 word_alternatives_threshold=None,
-                                 word_confidence=False,
-                                 timestamps=False,
-                                 profanity_filter=None,
-                                 smart_formatting=False,
-                                 speaker_labels=None,
-                                 **kwargs):
-        return self.recognize_using_websocket(audio,
-                                              content_type,
-                                              recognize_callback,
-                                              model,
-                                              customization_id,
-                                              acoustic_customization_id,
-                                              customization_weight,
-                                              version,
-                                              inactivity_timeout,
-                                              interim_results,
-                                              keywords,
-                                              keywords_threshold,
-                                              max_alternatives,
-                                              word_alternatives_threshold,
-                                              word_confidence,
-                                              timestamps,
-                                              profanity_filter,
-                                              smart_formatting,
-                                              speaker_labels,
-                                              **kwargs)
-
     def recognize_using_websocket(self,
                                   audio,
                                   content_type,
@@ -61,23 +17,32 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   model=None,
                                   customization_id=None,
                                   acoustic_customization_id=None,
+                                  base_model_version=None,
                                   customization_weight=None,
-                                  version=None,
                                   inactivity_timeout=None,
                                   interim_results=True,
                                   keywords=None,
                                   keywords_threshold=None,
-                                  max_alternatives=1,
+                                  max_alternatives=None,
                                   word_alternatives_threshold=None,
-                                  word_confidence=False,
-                                  timestamps=False,
+                                  word_confidence=None,
+                                  timestamps=None,
                                   profanity_filter=None,
-                                  smart_formatting=False,
+                                  smart_formatting=None,
                                   speaker_labels=None,
+                                  http_proxy_host=None,
+                                  http_proxy_port=None,
                                   **kwargs):
         """
         Sends audio for speech recognition using web sockets.
 
+        :param AudioSource audio: The audio to transcribe in the format specified by the
+        `Content-Type` header.
+        :param str content_type: The type of the input: audio/basic, audio/flac,
+        audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus,
+        audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or
+        audio/webm;codecs=vorbis.
+        :param RecognizeCallback recognize_callback: The callback method for the websocket.
         :param str model: The identifier of the model that is to be used for the
         recognition request or, for the **Create a session** method, with the new session.
         :param str customization_id: The customization ID (GUID) of a custom language
@@ -92,6 +57,14 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         custom acoustic model must match the model specified with the `model` parameter.
         You must make the request with service credentials created for the instance of the
         service that owns the custom model. By default, no custom acoustic model is used.
+        :param str base_model_version: The version of the specified base model that is to
+        be used with recognition request or, for the **Create a session** method, with the
+        new session. Multiple versions of a base model can exist when a model is updated
+        for internal improvements. The parameter is intended primarily for use with custom
+        models that have been upgraded for a new base model. The default value depends on
+        whether the parameter is used with or without a custom model. For more
+        information, see [Base model
+        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
         :param float customization_weight: If you specify the customization ID (GUID) of a
         custom language model with the recognition request or, for sessions, with the
         **Create a session** method, the customization weight tells the service how much
@@ -106,20 +79,6 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         setting the weight: a higher value can improve the accuracy of phrases from the
         custom model's domain, but it can negatively affect performance on non-domain
         phrases.
-        :param str version: The version of the specified base model that is to
-        be used with recognition request or, for the **Create a session** method, with the
-        new session. Multiple versions of a base model can exist when a model is updated
-        for internal improvements. The parameter is intended primarily for use with custom
-        models that have been upgraded for a new base model. The default value depends on
-        whether the parameter is used with or without a custom model. For more
-        information, see [Base model
-        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
-        :param str audio: The audio to transcribe in the format specified by the
-        `Content-Type` header.
-        :param str content_type: The type of the input: audio/basic, audio/flac,
-        audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus,
-        audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or
-        audio/webm;codecs=vorbis.
         :param int inactivity_timeout: The time in seconds after which, if only silence
         (no speech) is detected in submitted audio, the connection is closed with a 400
         error. Useful for stopping audio submission from a live microphone when a user
@@ -160,16 +119,21 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
         the `timestamps` parameter to be `true`, regardless of whether you specify `false`
         for the parameter.
-         To determine whether a language model supports speaker labels, use the **Get
+        To determine whether a language model supports speaker labels, use the **Get
         models** method and check that the attribute `speaker_labels` is set to `true`.
         You can also refer to [Speaker
         labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
+        :param str http_proxy_host: http proxy host name.
+        :param str http_proxy_port: http proxy port. If not set, set to 80.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
         """
         if audio is None:
             raise ValueError('audio must be provided')
+        if not isinstance(audio, AudioSource):
+            raise Exception(
+                'audio is not of type AudioSource. Import the class from watson_developer_cloud.websocket')
         if content_type is None:
             raise ValueError('content_type must be provided')
         if recognize_callback is None:
@@ -198,7 +162,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'customization_id': customization_id,
             'acoustic_customization_id': acoustic_customization_id,
             'customization_weight': customization_weight,
-            'version': version
+            'version': base_model_version
         }
         params = _remove_null_values(params)
         url += '/v1/recognize?{0}'.format(urlencode(params))
@@ -219,4 +183,4 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         }
         options = _remove_null_values(options)
 
-        RecognizeListener(audio, options, recognize_callback, url, headers)
+        RecognizeListener(audio, options, recognize_callback, url, headers, http_proxy_host, http_proxy_port)
