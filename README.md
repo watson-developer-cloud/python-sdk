@@ -19,9 +19,9 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
     * [IAM](#iam)
     * [Username and password](#username-and-password)
     * [API key](#api-key)
-  * [Deprecation notice](#deprecation-notice)
   * [Python version](#python-version)
   * [Changes for v1.0](#changes-for-v10)
+  * [Changes for v2.0](#changes-for-v20)
   * [Migration](#migration)
   * [Configuring the http client](#configuring-the-http-client-supported-from-v110)
   * [Sending request headers](#sending-request-headers)
@@ -106,14 +106,14 @@ You supply either an IAM service **API key** or an **access token**:
 ```python
 # In the constructor, letting the SDK manage the IAM token
 discovery = DiscoveryV1(version='2017-10-16',
-                        iam_api_key='<iam_api_key>',
+                        iam_apikey='<iam_apikey>',
                         iam_url='<iam_url>') # optional - the default value is https://iam.bluemix.net/identity/token
 ```
 
 ```python
 # after instantiation, letting the SDK manage the IAM token
 discovery = DiscoveryV1(version='2017-10-16')
-discovery.set_iam_api_key('<iam_api_key>')
+discovery.set_iam_apikey('<iam_apikey>')
 ```
 
 #### Supplying the access token
@@ -158,15 +158,29 @@ visual_recognition = VisualRecognitionV3(version='2018-05-22')
 visual_recognition.set_api_key('<api_key>')
 ```
 
-## Deprecation notice
-Language Translator v3 is now available. The v2 Language Translator API will no longer be available after July 31, 2018. To take advantage of the latest service enhancements, migrate to the v3 API. View the [Migrating to Language Translator v3](https://console.bluemix.net/docs/services/language-translator/migrating.html) page for more information.
-
 ## Python version
 
 Tested on Python 2.7, 3.4, 3.5, and 3.6.
 
 ## Changes for v1.0
 Version 1.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
+
+## Changes for v2.0
+`DetailedResponse` which contains the result, headers and HTTP status code is now the default response for all methods.
+```python
+from watson_developer_cloud import AssistantV1
+
+assistant = AssistantV1(
+    username='xxx',
+    password='yyy',
+    version='2017-04-21')
+
+response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'})
+print(response.get_result())
+print(response.get_headers())
+print(response.get_status_code())
+```
+See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
 ## Migration
 This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
@@ -184,7 +198,7 @@ assistant = AssistantV1(
 
 assistant.set_http_config({'timeout': 100})
 response = assistant.message(workspace_id=workspace_id, input={
-    'text': 'What\'s the weather like?'})
+    'text': 'What\'s the weather like?'}).get_result()
 print(json.dumps(response, indent=2))
 ```
 
@@ -205,11 +219,11 @@ assistant = AssistantV1(
     password='yyy',
     version='2017-04-21')
 
-response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'})
+response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
 ```
 
 ## Parsing HTTP response info
-If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`
+If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`. Since python `v2.0`, it is set to `True`
 ```python
 from watson_developer_cloud import AssistantV1
 
@@ -219,7 +233,7 @@ assistant = AssistantV1(
     version='2017-04-21')
 
 assistant.set_detailed_response(True)
-response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'})
+response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
 print(response)
 ```
 
@@ -227,10 +241,11 @@ This would give an output of `DetailedResponse` having the structure:
 ```python
 {
     'result': <response returned by service>,
-    'headers': { <http response headers> }
+    'headers': { <http response headers> },
+    'status_code': <http status code>
 }
 ```
-You can use the `get_result()` and `get_headers()` to return the result and headers respectively.
+You can use the `get_result()`, `get_headers()` and get_status_code() to return the result, headers and status code respectively.
 
 ## Dependencies
 
@@ -238,10 +253,7 @@ You can use the `get_result()` and `get_headers()` to return the result and head
 * `python_dateutil` >= 2.5.3
 * [responses] for testing
 * Following for web sockets support in speech to text
-   * `autobahn` >= 0.10.9
-   * `Twisted` >= 13.2.0
-   * `pyOpenSSL` >= 16.2.0
-   * `service-identity` >= 17.0.0
+   * `websocket-client` 0.47.0
 
 ## Contributing
 

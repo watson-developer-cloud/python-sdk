@@ -14,7 +14,7 @@ def test_request_token():
     }"""
     responses.add(responses.POST, url=iam_url, body=response, status=200)
 
-    token_manager = IAMTokenManager("iam_api_key", "iam_access_token", iam_url)
+    token_manager = IAMTokenManager("iam_apikey", "iam_access_token", iam_url)
     token_manager._request_token()
 
     assert responses.calls[0].request.url == iam_url
@@ -33,7 +33,7 @@ def test_refresh_token():
     }"""
     responses.add(responses.POST, url=iam_url, body=response, status=200)
 
-    token_manager = IAMTokenManager("iam_api_key", "iam_access_token", iam_url)
+    token_manager = IAMTokenManager("iam_apikey", "iam_access_token", iam_url)
     token_manager._refresh_token()
 
     assert responses.calls[0].request.url == iam_url
@@ -42,7 +42,7 @@ def test_refresh_token():
 
 @responses.activate
 def test_is_token_expired():
-    token_manager = IAMTokenManager("iam_api_key", "iam_access_token", "iam_url")
+    token_manager = IAMTokenManager("iam_apikey", "iam_access_token", "iam_url")
     token_manager.token_info = {
         "access_token": "oAeisG8yqPY7sFR_x66Z15",
         "token_type": "Bearer",
@@ -56,7 +56,7 @@ def test_is_token_expired():
 
 @responses.activate
 def test_is_refresh_token_expired():
-    token_manager = IAMTokenManager("iam_api_key", "iam_access_token", "iam_url")
+    token_manager = IAMTokenManager("iam_apikey", "iam_access_token", "iam_url")
     token_manager.token_info = {
         "access_token": "oAeisG8yqPY7sFR_x66Z15",
         "token_type": "Bearer",
@@ -71,7 +71,7 @@ def test_is_refresh_token_expired():
 @responses.activate
 def test_get_token():
     iam_url = "https://iam.bluemix.net/identity/token"
-    token_manager = IAMTokenManager("iam_api_key", iam_url=iam_url)
+    token_manager = IAMTokenManager("iam_apikey", iam_url=iam_url)
     token_manager.user_access_token = 'user_access_token'
 
     # Case 1:

@@ -936,7 +936,7 @@ def test_credentials():
                   content_type='application/json')
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   iam_apikey='iam_api_key')
+                                                   iam_apikey='iam_apikey')
     discovery.create_credentials('envid', 'salesforce', {
         'url': 'https://login.salesforce.com',
         'credential_type': 'username_password',
@@ -1090,7 +1090,7 @@ def test_events_and_feedback():
 
 
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   iam_apikey='iam_api_key')
+                                                   iam_apikey='iam_apikey')
 
     discovery.create_event('click', event_data)
     assert responses.calls[1].response.json()["data"] == event_data
