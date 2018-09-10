@@ -184,3 +184,91 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         options = _remove_null_values(options)
 
         RecognizeListener(audio, options, recognize_callback, url, headers, http_proxy_host, http_proxy_port)
+
+    def add_corpus(self,
+                   customization_id,
+                   corpus_name,
+                   corpus_file,
+                   allow_overwrite=None,
+                   **kwargs):
+        """
+        Add a corpus.
+
+        Adds a single corpus text file of new training data to a custom language model.
+        Use multiple requests to submit multiple corpus text files. You must use
+        credentials for the instance of the service that owns a model to add a corpus to
+        it. Adding a corpus does not affect the custom language model until you train the
+        model for the new data by using the **Train a custom language model** method.
+        Submit a plain text file that contains sample sentences from the domain of
+        interest to enable the service to extract words in context. The more sentences you
+        add that represent the context in which speakers use words from the domain, the
+        better the service's recognition accuracy. For guidelines about adding a corpus
+        text file and for information about how the service parses a corpus file, see
+        [Preparing a corpus text
+        file](https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#prepareCorpus).
+        The call returns an HTTP 201 response code if the corpus is valid. The service
+        then asynchronously processes the contents of the corpus and automatically
+        extracts new words that it finds. This can take on the order of a minute or two to
+        complete depending on the total number of words and the number of new words in the
+        corpus, as well as the current load on the service. You cannot submit requests to
+        add additional corpora or words to the custom model, or to train the model, until
+        the service's analysis of the corpus for the current request completes. Use the
+        **List a corpus** method to check the status of the analysis.
+        The service auto-populates the model's words resource with any word that is not
+        found in its base vocabulary; these are referred to as out-of-vocabulary (OOV)
+        words. You can use the **List custom words** method to examine the words resource,
+        using other words method to eliminate typos and modify how words are pronounced as
+        needed.
+        To add a corpus file that has the same name as an existing corpus, set the
+        `allow_overwrite` parameter to `true`; otherwise, the request fails. Overwriting
+        an existing corpus causes the service to process the corpus text file and extract
+        OOV words anew. Before doing so, it removes any OOV words associated with the
+        existing corpus from the model's words resource unless they were also added by
+        another corpus or they have been modified in some way with the **Add custom
+        words** or **Add a custom word** method.
+        The service limits the overall amount of data that you can add to a custom model
+        to a maximum of 10 million total words from all corpora combined. Also, you can
+        add no more than 30 thousand custom (OOV) words to a model; this includes words
+        that the service extracts from corpora and words that you add directly.
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model. You must make the request with service credentials created for the instance
+        of the service that owns the custom model.
+        :param str corpus_name: The name of the corpus for the custom language model. When
+        adding a corpus, do not include spaces in the name; use a localized name that
+        matches the language of the custom model; and do not use the name `user`, which is
+        reserved by the service to denote custom words added or modified by the user.
+        :param file corpus_file: A plain text file that contains the training data for the
+        corpus. Encode the file in UTF-8 if it contains non-ASCII characters; the service
+        assumes UTF-8 encoding if it encounters non-ASCII characters. With cURL, use the
+        `--data-binary` option to upload the file for the request.
+        :param bool allow_overwrite: If `true`, the specified corpus or audio resource
+        overwrites an existing corpus or audio resource with the same name. If `false`,
+        the request fails if a corpus or audio resource with the same name already exists.
+        The parameter has no effect if a corpus or audio resource with the same name does
+        not already exist.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+        if corpus_name is None:
+            raise ValueError('corpus_name must be provided')
+        if corpus_file is None:
+            raise ValueError('corpus_file must be provided')
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'allow_overwrite': allow_overwrite}
+        data = corpus_file
+        url = '/v1/customizations/{0}/corpora/{1}'.format(
+            *self._encode_path_vars(customization_id, corpus_name))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+            accept_json=True)
+        return response
