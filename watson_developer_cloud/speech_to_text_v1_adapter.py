@@ -17,10 +17,10 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   model=None,
                                   customization_id=None,
                                   acoustic_customization_id=None,
-                                  base_model_version=None,
                                   customization_weight=None,
+                                  base_model_version=None,
                                   inactivity_timeout=None,
-                                  interim_results=True,
+                                  interim_results=None,
                                   keywords=None,
                                   keywords_threshold=None,
                                   max_alternatives=None,
@@ -57,14 +57,6 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         custom acoustic model must match the model specified with the `model` parameter.
         You must make the request with service credentials created for the instance of the
         service that owns the custom model. By default, no custom acoustic model is used.
-        :param str base_model_version: The version of the specified base model that is to
-        be used with recognition request or, for the **Create a session** method, with the
-        new session. Multiple versions of a base model can exist when a model is updated
-        for internal improvements. The parameter is intended primarily for use with custom
-        models that have been upgraded for a new base model. The default value depends on
-        whether the parameter is used with or without a custom model. For more
-        information, see [Base model
-        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
         :param float customization_weight: If you specify the customization ID (GUID) of a
         custom language model with the recognition request or, for sessions, with the
         **Create a session** method, the customization weight tells the service how much
@@ -79,6 +71,14 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         setting the weight: a higher value can improve the accuracy of phrases from the
         custom model's domain, but it can negatively affect performance on non-domain
         phrases.
+        :param str base_model_version: The version of the specified base model that is to
+        be used with recognition request or, for the **Create a session** method, with the
+        new session. Multiple versions of a base model can exist when a model is updated
+        for internal improvements. The parameter is intended primarily for use with custom
+        models that have been upgraded for a new base model. The default value depends on
+        whether the parameter is used with or without a custom model. For more
+        information, see [Base model
+        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
         :param int inactivity_timeout: The time in seconds after which, if only silence
         (no speech) is detected in submitted audio, the connection is closed with a 400
         error. Useful for stopping audio submission from a live microphone when a user
@@ -162,7 +162,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'customization_id': customization_id,
             'acoustic_customization_id': acoustic_customization_id,
             'customization_weight': customization_weight,
-            'version': base_model_version
+            'base_model_version': base_model_version
         }
         params = _remove_null_values(params)
         url += '/v1/recognize?{0}'.format(urlencode(params))

@@ -28,7 +28,7 @@ TEN_MILLISECONDS = 0.01
 STATE = "state"
 ACTION = "action"
 START = "start"
-CLOSE = "close"
+STOP = "stop"
 
 class RecognizeListener(object):
     def __init__(self, audio_source, options, callback, url, headers, http_proxy_host=None, http_proxy_port=None):
@@ -58,7 +58,7 @@ class RecognizeListener(object):
         return options
 
     def build_closing_message(self):
-        return json.dumps({ACTION: CLOSE}).encode('utf8')
+        return json.dumps({ACTION: STOP}).encode('utf8')
 
     def extract_transcripts(self, alternatives):
         transcripts = []
@@ -117,7 +117,6 @@ class RecognizeListener(object):
 
             time.sleep(TEN_MILLISECONDS)
             self.ws_client.send(self.build_closing_message(), websocket.ABNF.OPCODE_TEXT)
-            ws.close()
 
         thread.start_new_thread(run, ())
 
@@ -167,8 +166,8 @@ class RecognizeListener(object):
                 self.send_audio(ws)
             else:
                 # close the connection
-                self.ws_client.send(self.build_closing_message(), websocket.ABNF.OPCODE_TEXT)
-                self.ws.close()
+                self.callback.on_close()
+                ws.close()
 
         # if in streaming
         elif 'results' in json_object or 'speaker_labels' in json_object:
