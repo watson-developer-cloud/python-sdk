@@ -171,7 +171,7 @@ class LanguageTranslatorV3(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = text
-        headers = {'content-type': 'text/plain'}
+        headers['content-type'] = 'text/plain'
         url = '/v3/identify'
         response = self.request(
             method='POST',

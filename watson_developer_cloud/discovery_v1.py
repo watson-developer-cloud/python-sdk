@@ -7954,8 +7954,7 @@ class QueryNoticesResult(object):
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the
     document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query
-    result.
+    :attr QueryResultMetadata result_metadata: (optional) Metadata of the query result.
     :attr int code: (optional) The internal status code returned by the ingestion
     subsystem indicating the overall result of ingesting the source document.
     :attr str filename: (optional) Name of the original source file (if available).
@@ -7986,7 +7985,7 @@ class QueryNoticesResult(object):
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
         containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query
+        :param QueryResultMetadata result_metadata: (optional) Metadata of the query
         result.
         :param int code: (optional) The internal status code returned by the ingestion
         subsystem indicating the overall result of ingesting the source document.
@@ -8028,7 +8027,7 @@ class QueryNoticesResult(object):
             args['collection_id'] = _dict.get('collection_id')
             del xtra['collection_id']
         if 'result_metadata' in _dict:
-            args['result_metadata'] = QueryResultResultMetadata._from_dict(
+            args['result_metadata'] = QueryResultMetadata._from_dict(
                 _dict.get('result_metadata'))
             del xtra['result_metadata']
         if 'code' in _dict:
@@ -8620,8 +8619,7 @@ class QueryResult(object):
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the
     document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query
-    result.
+    :attr QueryResultMetadata result_metadata: (optional) Metadata of the query result.
     """
 
     def __init__(self,
@@ -8640,7 +8638,7 @@ class QueryResult(object):
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
         containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query
+        :param QueryResultMetadata result_metadata: (optional) Metadata of the query
         result.
         :param **kwargs: (optional) Any additional properties.
         """
@@ -8670,7 +8668,7 @@ class QueryResult(object):
             args['collection_id'] = _dict.get('collection_id')
             del xtra['collection_id']
         if 'result_metadata' in _dict:
-            args['result_metadata'] = QueryResultResultMetadata._from_dict(
+            args['result_metadata'] = QueryResultMetadata._from_dict(
                 _dict.get('result_metadata'))
             del xtra['result_metadata']
         args.update(xtra)
@@ -8722,7 +8720,7 @@ class QueryResult(object):
         return not self == other
 
 
-class QueryResultResultMetadata(object):
+class QueryResultMetadata(object):
     """
     Metadata of a query result.
 
@@ -8737,7 +8735,7 @@ class QueryResultResultMetadata(object):
 
     def __init__(self, score=None, confidence=None):
         """
-        Initialize a QueryResultResultMetadata object.
+        Initialize a QueryResultMetadata object.
 
         :param float score: (optional) An unbounded measure of the relevance of a
         particular result, dependent on the query and matching document. A higher score
@@ -8752,7 +8750,7 @@ class QueryResultResultMetadata(object):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryResultResultMetadata object from a json dictionary."""
+        """Initialize a QueryResultMetadata object from a json dictionary."""
         args = {}
         if 'score' in _dict:
             args['score'] = _dict.get('score')
@@ -8770,7 +8768,7 @@ class QueryResultResultMetadata(object):
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this QueryResultResultMetadata object."""
+        """Return a `str` version of this QueryResultMetadata object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

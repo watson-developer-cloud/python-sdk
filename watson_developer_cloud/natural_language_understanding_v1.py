@@ -717,7 +717,7 @@ class ConceptsResult(object):
         return not self == other
 
 
-class InlineResponse200(object):
+class DeleteModelResults(object):
     """
     Delete model results.
 
@@ -726,7 +726,7 @@ class InlineResponse200(object):
 
     def __init__(self, deleted=None):
         """
-        Initialize a InlineResponse200 object.
+        Initialize a DeleteModelResults object.
 
         :param str deleted: (optional) model_id of the deleted model.
         """
@@ -734,7 +734,7 @@ class InlineResponse200(object):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a InlineResponse200 object from a json dictionary."""
+        """Initialize a DeleteModelResults object from a json dictionary."""
         args = {}
         if 'deleted' in _dict:
             args['deleted'] = _dict.get('deleted')
@@ -748,7 +748,7 @@ class InlineResponse200(object):
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this InlineResponse200 object."""
+        """Return a `str` version of this DeleteModelResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
