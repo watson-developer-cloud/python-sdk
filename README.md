@@ -223,7 +223,7 @@ response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).
 ```
 
 ## Parsing HTTP response info
-If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`. Since python `v2.0`, it is set to `True`
+If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`. Since Python SDK `v2.0`, it is set to `True`
 ```python
 from watson_developer_cloud import AssistantV1
 

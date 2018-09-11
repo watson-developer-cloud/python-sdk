@@ -2,19 +2,19 @@ from __future__ import print_function
 import json
 from watson_developer_cloud import AssistantV1
 
-## If service instance provides API key authentication
-assistant = AssistantV1(
-    version='2017-04-21',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/assistant/api',
-    iam_apikey='iam_apikey')
-
+# If service instance provides API key authentication
 # assistant = AssistantV1(
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD',
+#     version='2017-04-21',
 #     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     # url='https://gateway.watsonplatform.net/assistant/api',
-#     version='2017-04-21')
+#     url='https://gateway.watsonplatform.net/assistant/api',
+#     iam_apikey='iam_apikey')
+
+assistant = AssistantV1(
+    username='YOUR SERVICE USERNAME',
+    password='YOUR SERVICE PASSWORD',
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    # url='https://gateway.watsonplatform.net/assistant/api',
+    version='2017-04-21')
 
 #########################
 # Workspaces
@@ -60,7 +60,8 @@ print(json.dumps(response, indent=2))
 workspace_id = response['workspace_id']
 print('Workspace id {0}'.format(workspace_id))
 
-response = assistant.get_workspace(workspace_id=workspace_id, export=True).get_result()
+response = assistant.get_workspace(
+    workspace_id=workspace_id, export=True).get_result()
 print(json.dumps(response, indent=2))
 
 #  message
@@ -80,7 +81,8 @@ response = assistant.list_workspaces().get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.update_workspace(
-    workspace_id=workspace_id, description='Updated test workspace.').get_result()
+    workspace_id=workspace_id,
+    description='Updated test workspace.').get_result()
 print(json.dumps(response, indent=2))
 
 # see cleanup section below for delete_workspace example
@@ -101,7 +103,8 @@ response = assistant.get_intent(
     workspace_id=workspace_id, intent='test_intent', export=True).get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.list_intents(workspace_id=workspace_id, export=True).get_result()
+response = assistant.list_intents(
+    workspace_id=workspace_id, export=True).get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.update_intent(
@@ -151,14 +154,17 @@ print(json.dumps(response, indent=2))
 #########################
 
 response = assistant.create_counterexample(
-    workspace_id=workspace_id, text='I want financial advice today.').get_result()
+    workspace_id=workspace_id,
+    text='I want financial advice today.').get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.get_counterexample(
-    workspace_id=workspace_id, text='I want financial advice today.').get_result()
+    workspace_id=workspace_id,
+    text='I want financial advice today.').get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.list_counterexamples(workspace_id=workspace_id).get_result()
+response = assistant.list_counterexamples(
+    workspace_id=workspace_id).get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.update_counterexample(
@@ -168,7 +174,8 @@ response = assistant.update_counterexample(
 print(json.dumps(response, indent=2))
 
 response = assistant.delete_counterexample(
-    workspace_id=workspace_id, text='I want financial advice today.').get_result()
+    workspace_id=workspace_id,
+    text='I want financial advice today.').get_result()
 print(json.dumps(response, indent=2))
 
 #########################
@@ -217,11 +224,13 @@ entities = [{
     }]
 }]
 response = assistant.create_entity(
-    workspace_id, entity=entities[0]['entity'], values=entities[0]['values']).get_result()
+    workspace_id, entity=entities[0]['entity'],
+    values=entities[0]['values']).get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.get_entity(
-    workspace_id=workspace_id, entity=entities[0]['entity'], export=True).get_result()
+    workspace_id=workspace_id, entity=entities[0]['entity'],
+    export=True).get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.list_entities(workspace_id=workspace_id).get_result()
@@ -244,19 +253,24 @@ print(json.dumps(response, indent=2))
 values = [{"value": "orange juice"}]
 assistant.create_entity(workspace_id, 'beverage', values=values).get_result()
 
-response = assistant.create_synonym(workspace_id, 'beverage', 'orange juice', 'oj').get_result()
+response = assistant.create_synonym(workspace_id, 'beverage', 'orange juice',
+                                    'oj').get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.get_synonym(workspace_id, 'beverage', 'orange juice', 'oj').get_result()
+response = assistant.get_synonym(workspace_id, 'beverage', 'orange juice',
+                                 'oj').get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.list_synonyms(workspace_id, 'beverage', 'orange juice').get_result()
+response = assistant.list_synonyms(workspace_id, 'beverage',
+                                   'orange juice').get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.update_synonym(workspace_id, 'beverage', 'orange juice', 'oj', 'OJ').get_result()
+response = assistant.update_synonym(workspace_id, 'beverage', 'orange juice',
+                                    'oj', 'OJ').get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.delete_synonym(workspace_id, 'beverage', 'orange juice', 'OJ').get_result()
+response = assistant.delete_synonym(workspace_id, 'beverage', 'orange juice',
+                                    'OJ').get_result()
 print(json.dumps(response, indent=2))
 
 assistant.delete_entity(workspace_id, 'beverage').get_result()
@@ -267,7 +281,8 @@ assistant.delete_entity(workspace_id, 'beverage').get_result()
 
 assistant.create_entity(workspace_id, 'test_entity').get_result()
 
-response = assistant.create_value(workspace_id, 'test_entity', 'test').get_result()
+response = assistant.create_value(workspace_id, 'test_entity',
+                                  'test').get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.get_value(workspace_id, 'test_entity', 'test').get_result()
@@ -276,10 +291,12 @@ print(json.dumps(response, indent=2))
 response = assistant.list_values(workspace_id, 'test_entity').get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.update_value(workspace_id, 'test_entity', 'test', 'example').get_result()
+response = assistant.update_value(workspace_id, 'test_entity', 'test',
+                                  'example').get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.delete_value(workspace_id, 'test_entity', 'example').get_result()
+response = assistant.delete_value(workspace_id, 'test_entity',
+                                  'example').get_result()
 print(json.dumps(response, indent=2))
 
 assistant.delete_entity(workspace_id, 'test_entity').get_result()
@@ -307,7 +324,8 @@ response = assistant.create_dialog_node(
     actions=create_dialog_node['actions']).get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.get_dialog_node(workspace_id, create_dialog_node['dialog_node']).get_result()
+response = assistant.get_dialog_node(
+    workspace_id, create_dialog_node['dialog_node']).get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.list_dialog_nodes(workspace_id).get_result()
@@ -319,7 +337,8 @@ response = assistant.update_dialog_node(
     new_dialog_node='updated_node').get_result()
 print(json.dumps(response, indent=2))
 
-response = assistant.delete_dialog_node(workspace_id, 'updated_node').get_result()
+response = assistant.delete_dialog_node(workspace_id,
+                                        'updated_node').get_result()
 print(json.dumps(response, indent=2))
 
 #########################
