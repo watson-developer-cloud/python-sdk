@@ -2,7 +2,7 @@
 import pytest
 import watson_developer_cloud
 import os
-from os.path import join, dirname
+from os.path import abspath
 from unittest import TestCase
 
 @pytest.mark.skipif(
@@ -24,7 +24,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         cls.classifier_id = 'doxnotxdeletexintegrationxtest_397877192'
 
     def test_classify(self):
-        dog_path = join(dirname(__file__), '../../resources/dog.jpg')
+        dog_path = abspath('resources/dog.jpg')
         with open(dog_path, 'rb') as image_file:
             dog_results = self.visual_recognition.classify(
                 images_file=image_file,
@@ -39,8 +39,8 @@ class IntegrationTestVisualRecognitionV3(TestCase):
 
     # @pytest.mark.skip(reason="Time consuming")
     def test_custom_classifier(self):
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
-            open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
+        with open(abspath('resources/cars.zip'), 'rb') as cars, \
+            open(abspath('resources/trucks.zip'), 'rb') as trucks:
             classifier = self.visual_recognition.create_classifier(
                 'CarsVsTrucks',
                 cars_positive_examples=cars,

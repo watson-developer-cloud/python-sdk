@@ -1,6 +1,6 @@
 from __future__ import print_function
 import json
-from os.path import join, dirname
+from os.path import abspath
 from watson_developer_cloud import VisualRecognitionV3, WatsonApiException
 
 test_url = 'https://www.ibm.com/ibm/ginni/images' \
@@ -18,14 +18,14 @@ service = VisualRecognitionV3('2016-05-20',
                               #  url='https://gateway.watsonplatform.net/visual-recognition/api',
                               api_key='YOUR API KEY')
 
-# with open(join(dirname(__file__), '../resources/cars.zip'), 'rb') as cars, \
-#      open(join(dirname(__file__), '../resources/trucks.zip'), 'rb') as trucks:
+# with open(abspath('resources/cars.zip'), 'rb') as cars, \
+#      open(abspath('resources/trucks.zip'), 'rb') as trucks:
 #     classifier = service.create_classifier('Cars vs Trucks',
-#                                                       cars_positive_examples=cars,
-#                                                       negative_examples=trucks).get_result()
+#                                            cars_positive_examples=cars,
+#                                            negative_examples=trucks).get_result()
 # print(json.dumps(classifier, indent=2))
 
-car_path = join(dirname(__file__), '../resources/cars.zip')
+car_path = abspath("resources/cars.zip")
 try:
     with open(car_path, 'rb') as images_file:
         car_results = service.classify(
@@ -39,13 +39,13 @@ except WatsonApiException as ex:
 # classifier = service.get_classifier('YOUR CLASSIFIER ID').get_result()
 # print(json.dumps(classifier, indent=2))
 
-# with open(join(dirname(__file__), '../resources/car.jpg'), 'rb') as image_file:
+# with open(abspath('resources/car.jpg'), 'rb') as image_file:
 #     classifier = service.update_classifier('CarsvsTrucks_1479118188',
 #                                            cars_positive_examples=image_file).get_result()
 #     print(json.dumps(classifier, indent=2))
 
-faces_result = service.detect_faces(url=test_url).get_result()
-print(json.dumps(faces_result, indent=2))
+# faces_result = service.detect_faces(url=test_url).get_result()
+# print(json.dumps(faces_result, indent=2))
 
 # response = service.delete_classifier(classifier_id='YOUR CLASSIFIER ID').get_result()
 # print(json.dumps(response, indent=2))
@@ -53,7 +53,7 @@ print(json.dumps(faces_result, indent=2))
 classifiers = service.list_classifiers().get_result()
 print(json.dumps(classifiers, indent=2))
 
-face_path = join(dirname(__file__), '../resources/face.jpg')
+face_path = abspath('resources/face.jpg')
 with open(face_path, 'rb') as image_file:
     face_result = service.detect_faces(images_file=image_file).get_result()
     print(json.dumps(face_result, indent=2))
