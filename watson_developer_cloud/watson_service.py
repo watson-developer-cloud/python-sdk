@@ -31,6 +31,8 @@ from .version import __version__
 BEARER = 'Bearer'
 X_WATSON_AUTHORIZATION_TOKEN = 'X-Watson-Authorization-Token'
 AUTH_HEADER_DEPRECATION_MESSAGE = 'Authenticating with the X-Watson-Authorization-Token header is deprecated. The token continues to work with Cloud Foundry services, but is not supported for services that use Identity and Access Management (IAM) authentication.'
+ICP_PREFIX = 'icp-'
+USERNAME_FOR_ICP = 'apikey'
 
 # Uncomment this to enable http debugging
 # try:
@@ -239,7 +241,10 @@ class WatsonService(object):
         self.user_agent_header = {'user-agent': user_agent_string}
 
         if api_key is not None:
-            self.set_api_key(api_key)
+            if api_key.startswith(ICP_PREFIX):
+                self.set_username_and_password(USERNAME_FOR_ICP, api_key)
+            else:
+                self.set_api_key(api_key)
         elif username is not None and password is not None:
             if username in ('apikey', 'apiKey'):
                 self.set_token_manager(password, iam_access_token, iam_url)
@@ -259,7 +264,11 @@ class WatsonService(object):
                 if 'password' in self.vcap_service_credentials:
                     self.password = self.vcap_service_credentials['password']
                 if 'apikey' in self.vcap_service_credentials:
-                    self.api_key = self.vcap_service_credentials['apikey']
+                    if self.vcap_service_credentials['apikey'].startswith(ICP_PREFIX):
+                        self.username = USERNAME_FOR_ICP
+                        self.password = self.vcap_service_credentials['apikey']
+                    else:
+                        self.api_key = self.vcap_service_credentials['apikey']
                 if 'api_key' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['api_key']
                 if ('iam_apikey' or 'apikey')  in self.vcap_service_credentials:
@@ -288,6 +297,8 @@ class WatsonService(object):
     def set_api_key(self, api_key):
         if api_key == 'YOUR API KEY':
             api_key = None
+        if api_key.startswith(ICP_PREFIX):
+            self.set_username_and_password(USERNAME_FOR_ICP, api_key)
 
         self.api_key = api_key
 
@@ -397,7 +408,6 @@ class WatsonService(object):
     def request(self, method, url, accept_json=False, headers=None,
                 params=None, json=None, data=None, files=None, **kwargs):
         full_url = self.url + url
-
         input_headers = _remove_null_values(headers) if headers else {}
 
         headers = CaseInsensitiveDict(self.user_agent_header)

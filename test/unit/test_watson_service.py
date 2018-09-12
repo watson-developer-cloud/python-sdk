@@ -147,3 +147,11 @@ def test_when_apikey_is_username():
     assert service2.username is None
     assert service2.password is None
     assert service2.token_manager.iam_url == 'https://iam.stage1.bluemix.net/identity/token'
+
+@responses.activate
+def test_for_icp():
+    service1 = AnyServiceV1('2017-07-07', api_key='icp-xxxx')
+    assert service1.token_manager is None
+    assert service1.iam_apikey is None
+    assert service1.username is not None
+    assert service1.password is not None
