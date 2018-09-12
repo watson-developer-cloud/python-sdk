@@ -43,10 +43,9 @@ class DiscoveryV1(WatsonService):
             url=default_url,
             username=None,
             password=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
-            iam_apikey=None,
     ):
         """
         Construct a new client for the Discovery service.
@@ -78,7 +77,7 @@ class DiscoveryV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key(deprecated): Use iam_apikey. An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -97,7 +96,6 @@ class DiscoveryV1(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
@@ -121,8 +119,8 @@ class DiscoveryV1(WatsonService):
         :param str description: Description of the environment.
         :param str size: Size of the environment.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Environment` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if name is None:
             raise ValueError('name must be provided')
@@ -147,8 +145,8 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DeleteEnvironmentResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -172,8 +170,8 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Environment` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -199,8 +197,8 @@ class DiscoveryV1(WatsonService):
 
         :param str name: Show only the environment with the given name.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ListEnvironmentsResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -226,8 +224,8 @@ class DiscoveryV1(WatsonService):
         :param list[str] collection_ids: A comma-separated list of collection IDs to be
         queried against.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ListCollectionFieldsResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -265,8 +263,8 @@ class DiscoveryV1(WatsonService):
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Environment` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -325,8 +323,8 @@ class DiscoveryV1(WatsonService):
         executed in the order that they appear in the array.
         :param Source source: Object containing source parameters for the configuration.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Configuration` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -382,8 +380,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str configuration_id: The ID of the configuration.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DeleteConfigurationResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -410,8 +408,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str configuration_id: The ID of the configuration.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Configuration` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -440,8 +438,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str name: Find configurations with the given name.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ListConfigurationsResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -495,8 +493,8 @@ class DiscoveryV1(WatsonService):
         executed in the order that they appear in the array.
         :param Source source: Object containing source parameters for the configuration.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Configuration` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -588,8 +586,8 @@ class DiscoveryV1(WatsonService):
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TestDocument` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -652,8 +650,8 @@ class DiscoveryV1(WatsonService):
         :param str language: The language of the documents stored in the collection, in
         the form of an ISO 639-1 language code.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Collection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -687,8 +685,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DeleteCollectionResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -715,8 +713,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Collection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -745,8 +743,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ListCollectionFieldsResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -775,8 +773,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str name: Find collections with the given name.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ListCollectionsResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -811,8 +809,8 @@ class DiscoveryV1(WatsonService):
         :param str configuration_id: The ID of the configuration in which the collection
         is to be updated.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Collection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -867,8 +865,8 @@ class DiscoveryV1(WatsonService):
         present in a query, they are expanded using the items listed in the
         **expanded_terms** array.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Expansions` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -903,7 +901,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -915,13 +914,13 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def list_expansions(self, environment_id, collection_id, **kwargs):
         """
@@ -933,8 +932,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Expansions` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1002,8 +1001,8 @@ class DiscoveryV1(WatsonService):
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DocumentAccepted` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1049,8 +1048,8 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DeleteDocumentResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1063,8 +1062,7 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id,
-                                    document_id))
+            *self._encode_path_vars(environment_id, collection_id, document_id))
         response = self.request(
             method='DELETE',
             url=url,
@@ -1087,8 +1085,8 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DocumentStatus` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1101,8 +1099,7 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id,
-                                    document_id))
+            *self._encode_path_vars(environment_id, collection_id, document_id))
         response = self.request(
             method='GET',
             url=url,
@@ -1141,8 +1138,8 @@ class DiscoveryV1(WatsonService):
         :param str file_content_type: The content type of file.
         :param str filename: The filename for file.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DocumentAccepted` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1166,8 +1163,7 @@ class DiscoveryV1(WatsonService):
         if metadata:
             metadata_tuple = (None, metadata, 'text/plain')
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id,
-                                    document_id))
+            *self._encode_path_vars(environment_id, collection_id, document_id))
         response = self.request(
             method='POST',
             url=url,
@@ -1273,8 +1269,8 @@ class DiscoveryV1(WatsonService):
         passage will have. The default is `400`. The minimum is `50`. The maximum is
         `2000`.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `QueryResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1291,7 +1287,7 @@ class DiscoveryV1(WatsonService):
             'natural_language_query': natural_language_query,
             'aggregation': aggregation,
             'count': count,
-            'return_fields': self._convert_list(return_fields),
+            'return': self._convert_list(return_fields),
             'offset': offset,
             'sort': self._convert_list(sort),
             'highlight': highlight,
@@ -1388,8 +1384,8 @@ class DiscoveryV1(WatsonService):
         be used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `QueryNoticesResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1406,7 +1402,7 @@ class DiscoveryV1(WatsonService):
             'natural_language_query': natural_language_query,
             'aggregation': aggregation,
             'count': count,
-            'return_fields': self._convert_list(return_fields),
+            'return': self._convert_list(return_fields),
             'offset': offset,
             'sort': self._convert_list(sort),
             'highlight': highlight,
@@ -1518,8 +1514,8 @@ class DiscoveryV1(WatsonService):
         :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
         **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `QueryResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1590,8 +1586,8 @@ class DiscoveryV1(WatsonService):
         :param int evidence_count: The number of evidence items to return for each result.
         The default is `0`. The maximum number of evidence items per query is 10,000.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `QueryEntitiesResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1710,8 +1706,8 @@ class DiscoveryV1(WatsonService):
         be used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `QueryNoticesResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1728,7 +1724,7 @@ class DiscoveryV1(WatsonService):
             'passages': passages,
             'aggregation': aggregation,
             'count': count,
-            'return_fields': self._convert_list(return_fields),
+            'return': self._convert_list(return_fields),
             'offset': offset,
             'sort': self._convert_list(sort),
             'highlight': highlight,
@@ -1784,8 +1780,8 @@ class DiscoveryV1(WatsonService):
         :param int evidence_count: The number of evidence items to return for each result.
         The default is `0`. The maximum number of evidence items per query is 10,000.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `QueryRelationsResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1845,8 +1841,8 @@ class DiscoveryV1(WatsonService):
         :param str filter:
         :param list[TrainingExample] examples:
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TrainingQuery` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1896,8 +1892,8 @@ class DiscoveryV1(WatsonService):
         :param str cross_reference:
         :param int relevance:
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TrainingExample` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1925,8 +1921,7 @@ class DiscoveryV1(WatsonService):
             accept_json=True)
         return response
 
-    def delete_all_training_data(self, environment_id, collection_id,
-                                 **kwargs):
+    def delete_all_training_data(self, environment_id, collection_id, **kwargs):
         """
         Delete all training data.
 
@@ -1935,7 +1930,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1947,13 +1943,13 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def delete_training_data(self, environment_id, collection_id, query_id,
                              **kwargs):
@@ -1967,7 +1963,8 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -1981,13 +1978,13 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def delete_training_example(self, environment_id, collection_id, query_id,
                                 example_id, **kwargs):
@@ -2001,7 +1998,8 @@ class DiscoveryV1(WatsonService):
         :param str query_id: The ID of the query used for training.
         :param str example_id: The ID of the document as it is indexed.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2018,13 +2016,13 @@ class DiscoveryV1(WatsonService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_training_data(self, environment_id, collection_id, query_id,
                           **kwargs):
@@ -2038,8 +2036,8 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TrainingQuery` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2073,8 +2071,8 @@ class DiscoveryV1(WatsonService):
         :param str query_id: The ID of the query used for training.
         :param str example_id: The ID of the document as it is indexed.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TrainingExample` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2108,8 +2106,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TrainingDataSet` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2140,8 +2138,8 @@ class DiscoveryV1(WatsonService):
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TrainingExampleList` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2183,8 +2181,8 @@ class DiscoveryV1(WatsonService):
         :param str cross_reference:
         :param int relevance:
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TrainingExample` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2228,7 +2226,8 @@ class DiscoveryV1(WatsonService):
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customer_id is None:
             raise ValueError('customer_id must be provided')
@@ -2237,13 +2236,13 @@ class DiscoveryV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'customer_id': customer_id}
         url = '/v1/user_data'
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     #########################
     # Events and feedback
@@ -2260,8 +2259,8 @@ class DiscoveryV1(WatsonService):
         :param str type: The event type to be created.
         :param EventData data: Data object used to create a query event.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `CreateEventResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if type is None:
             raise ValueError('type must be provided')
@@ -2303,8 +2302,8 @@ class DiscoveryV1(WatsonService):
         :param str result_type: The type of result to consider when calculating the
         metric.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `MetricResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -2342,8 +2341,8 @@ class DiscoveryV1(WatsonService):
         :param str result_type: The type of result to consider when calculating the
         metric.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `MetricResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -2382,8 +2381,8 @@ class DiscoveryV1(WatsonService):
         :param str result_type: The type of result to consider when calculating the
         metric.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `MetricResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -2421,8 +2420,8 @@ class DiscoveryV1(WatsonService):
         :param str result_type: The type of result to consider when calculating the
         metric.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `MetricResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -2453,8 +2452,8 @@ class DiscoveryV1(WatsonService):
 
         :param int count: Number of results to return.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `MetricTokenResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -2500,8 +2499,8 @@ class DiscoveryV1(WatsonService):
         for descending or `+` for ascending. Ascending is the default sort direction if no
         prefix is specified.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `LogQueryResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -2551,8 +2550,8 @@ class DiscoveryV1(WatsonService):
         stored credentials.
         Obtain credentials for your source from the administrator of the source.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Credentials` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2587,8 +2586,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str credential_id: The unique identifier for a set of source credentials.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DeleteCredentials` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2619,8 +2618,8 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str credential_id: The unique identifier for a set of source credentials.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Credentials` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2650,8 +2649,8 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `CredentialsList` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -2694,8 +2693,8 @@ class DiscoveryV1(WatsonService):
         stored credentials.
         Obtain credentials for your source from the administrator of the source.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Credentials` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if environment_id is None:
             raise ValueError('environment_id must be provided')
@@ -3261,8 +3260,9 @@ class Conversions(object):
             _dict['html'] = self.html._to_dict()
         if hasattr(self, 'segment') and self.segment is not None:
             _dict['segment'] = self.segment._to_dict()
-        if hasattr(self, 'json_normalizations'
-                  ) and self.json_normalizations is not None:
+        if hasattr(
+                self,
+                'json_normalizations') and self.json_normalizations is not None:
             _dict['json_normalizations'] = [
                 x._to_dict() for x in self.json_normalizations
             ]
@@ -4500,8 +4500,7 @@ class Enrichment(object):
             args['ignore_downstream_errors'] = _dict.get(
                 'ignore_downstream_errors')
         if 'options' in _dict:
-            args['options'] = EnrichmentOptions._from_dict(
-                _dict.get('options'))
+            args['options'] = EnrichmentOptions._from_dict(_dict.get('options'))
         return cls(**args)
 
     def _to_dict(self):
@@ -5246,8 +5245,7 @@ class HtmlSettings(object):
         if 'keep_tag_attributes' in _dict:
             args['keep_tag_attributes'] = _dict.get('keep_tag_attributes')
         if 'exclude_tag_attributes' in _dict:
-            args['exclude_tag_attributes'] = _dict.get(
-                'exclude_tag_attributes')
+            args['exclude_tag_attributes'] = _dict.get('exclude_tag_attributes')
         return cls(**args)
 
     def _to_dict(self):
@@ -5264,8 +5262,9 @@ class HtmlSettings(object):
         if hasattr(self,
                    'exclude_content') and self.exclude_content is not None:
             _dict['exclude_content'] = self.exclude_content._to_dict()
-        if hasattr(self, 'keep_tag_attributes'
-                  ) and self.keep_tag_attributes is not None:
+        if hasattr(
+                self,
+                'keep_tag_attributes') and self.keep_tag_attributes is not None:
             _dict['keep_tag_attributes'] = self.keep_tag_attributes
         if hasattr(self, 'exclude_tag_attributes'
                   ) and self.exclude_tag_attributes is not None:
@@ -5779,8 +5778,7 @@ class LogQueryResponseResult(object):
         if 'document_type' in _dict:
             args['document_type'] = _dict.get('document_type')
         if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict.get(
-                'natural_language_query')
+            args['natural_language_query'] = _dict.get('natural_language_query')
         if 'document_results' in _dict:
             args[
                 'document_results'] = LogQueryResponseResultDocuments._from_dict(
@@ -7743,10 +7741,7 @@ class QueryEvidenceEntity(object):
     field. This value is exclusive.
     """
 
-    def __init__(self,
-                 type=None,
-                 text=None,
-                 start_offset=None,
+    def __init__(self, type=None, text=None, start_offset=None,
                  end_offset=None):
         """
         Initialize a QueryEvidenceEntity object.
@@ -7901,8 +7896,7 @@ class QueryNoticesResponse(object):
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
             args['results'] = [
-                QueryNoticesResult._from_dict(x)
-                for x in (_dict.get('results'))
+                QueryNoticesResult._from_dict(x) for x in (_dict.get('results'))
             ]
         if 'aggregations' in _dict:
             args['aggregations'] = [
@@ -7960,8 +7954,7 @@ class QueryNoticesResult(object):
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the
     document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query
-    result.
+    :attr QueryResultMetadata result_metadata: (optional) Metadata of the query result.
     :attr int code: (optional) The internal status code returned by the ingestion
     subsystem indicating the overall result of ingesting the source document.
     :attr str filename: (optional) Name of the original source file (if available).
@@ -7992,7 +7985,7 @@ class QueryNoticesResult(object):
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
         containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query
+        :param QueryResultMetadata result_metadata: (optional) Metadata of the query
         result.
         :param int code: (optional) The internal status code returned by the ingestion
         subsystem indicating the overall result of ingesting the source document.
@@ -8034,7 +8027,7 @@ class QueryNoticesResult(object):
             args['collection_id'] = _dict.get('collection_id')
             del xtra['collection_id']
         if 'result_metadata' in _dict:
-            args['result_metadata'] = QueryResultResultMetadata._from_dict(
+            args['result_metadata'] = QueryResultMetadata._from_dict(
                 _dict.get('result_metadata'))
             del xtra['result_metadata']
         if 'code' in _dict:
@@ -8094,8 +8087,8 @@ class QueryNoticesResult(object):
             'code', 'filename', 'file_type', 'sha1', 'notices'
         }
         if not hasattr(self, '_additionalProperties'):
-            super(QueryNoticesResult, self).__setattr__(
-                '_additionalProperties', set())
+            super(QueryNoticesResult, self).__setattr__('_additionalProperties',
+                                                        set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(QueryNoticesResult, self).__setattr__(name, value)
@@ -8402,10 +8395,7 @@ class QueryRelationsRelationship(object):
     support the result.
     """
 
-    def __init__(self,
-                 type=None,
-                 frequency=None,
-                 arguments=None,
+    def __init__(self, type=None, frequency=None, arguments=None,
                  evidence=None):
         """
         Initialize a QueryRelationsRelationship object.
@@ -8629,8 +8619,7 @@ class QueryResult(object):
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the
     document for this result.
-    :attr QueryResultResultMetadata result_metadata: (optional) Metadata of the query
-    result.
+    :attr QueryResultMetadata result_metadata: (optional) Metadata of the query result.
     """
 
     def __init__(self,
@@ -8649,7 +8638,7 @@ class QueryResult(object):
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
         containing the document for this result.
-        :param QueryResultResultMetadata result_metadata: (optional) Metadata of the query
+        :param QueryResultMetadata result_metadata: (optional) Metadata of the query
         result.
         :param **kwargs: (optional) Any additional properties.
         """
@@ -8679,7 +8668,7 @@ class QueryResult(object):
             args['collection_id'] = _dict.get('collection_id')
             del xtra['collection_id']
         if 'result_metadata' in _dict:
-            args['result_metadata'] = QueryResultResultMetadata._from_dict(
+            args['result_metadata'] = QueryResultMetadata._from_dict(
                 _dict.get('result_metadata'))
             del xtra['result_metadata']
         args.update(xtra)
@@ -8711,8 +8700,7 @@ class QueryResult(object):
             'id', 'score', 'metadata', 'collection_id', 'result_metadata'
         }
         if not hasattr(self, '_additionalProperties'):
-            super(QueryResult, self).__setattr__('_additionalProperties',
-                                                 set())
+            super(QueryResult, self).__setattr__('_additionalProperties', set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(QueryResult, self).__setattr__(name, value)
@@ -8732,7 +8720,7 @@ class QueryResult(object):
         return not self == other
 
 
-class QueryResultResultMetadata(object):
+class QueryResultMetadata(object):
     """
     Metadata of a query result.
 
@@ -8747,7 +8735,7 @@ class QueryResultResultMetadata(object):
 
     def __init__(self, score=None, confidence=None):
         """
-        Initialize a QueryResultResultMetadata object.
+        Initialize a QueryResultMetadata object.
 
         :param float score: (optional) An unbounded measure of the relevance of a
         particular result, dependent on the query and matching document. A higher score
@@ -8762,7 +8750,7 @@ class QueryResultResultMetadata(object):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a QueryResultResultMetadata object from a json dictionary."""
+        """Initialize a QueryResultMetadata object from a json dictionary."""
         args = {}
         if 'score' in _dict:
             args['score'] = _dict.get('score')
@@ -8780,7 +8768,7 @@ class QueryResultResultMetadata(object):
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this QueryResultResultMetadata object."""
+        """Return a `str` version of this QueryResultMetadata object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -9329,8 +9317,7 @@ class SourceStatus(object):
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'last_updated' in _dict:
-            args['last_updated'] = string_to_datetime(
-                _dict.get('last_updated'))
+            args['last_updated'] = string_to_datetime(_dict.get('last_updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -9415,8 +9402,7 @@ class TestDocument(object):
             args['original_media_type'] = _dict.get('original_media_type')
         if 'snapshots' in _dict:
             args['snapshots'] = [
-                DocumentSnapshot._from_dict(x)
-                for x in (_dict.get('snapshots'))
+                DocumentSnapshot._from_dict(x) for x in (_dict.get('snapshots'))
             ]
         if 'notices' in _dict:
             args['notices'] = [
@@ -9435,8 +9421,9 @@ class TestDocument(object):
         if hasattr(self, 'enriched_field_units'
                   ) and self.enriched_field_units is not None:
             _dict['enriched_field_units'] = self.enriched_field_units
-        if hasattr(self, 'original_media_type'
-                  ) and self.original_media_type is not None:
+        if hasattr(
+                self,
+                'original_media_type') and self.original_media_type is not None:
             _dict['original_media_type'] = self.original_media_type
         if hasattr(self, 'snapshots') and self.snapshots is not None:
             _dict['snapshots'] = [x._to_dict() for x in self.snapshots]
@@ -9717,8 +9704,7 @@ class TrainingQuery(object):
         if 'query_id' in _dict:
             args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
-            args['natural_language_query'] = _dict.get(
-                'natural_language_query')
+            args['natural_language_query'] = _dict.get('natural_language_query')
         if 'filter' in _dict:
             args['filter'] = _dict.get('filter')
         if 'examples' in _dict:
@@ -9817,8 +9803,7 @@ class TrainingStatus(object):
         if 'minimum_queries_added' in _dict:
             args['minimum_queries_added'] = _dict.get('minimum_queries_added')
         if 'minimum_examples_added' in _dict:
-            args['minimum_examples_added'] = _dict.get(
-                'minimum_examples_added')
+            args['minimum_examples_added'] = _dict.get('minimum_examples_added')
         if 'sufficient_label_diversity' in _dict:
             args['sufficient_label_diversity'] = _dict.get(
                 'sufficient_label_diversity')
@@ -9828,8 +9813,7 @@ class TrainingStatus(object):
             args['successfully_trained'] = string_to_datetime(
                 _dict.get('successfully_trained'))
         if 'data_updated' in _dict:
-            args['data_updated'] = string_to_datetime(
-                _dict.get('data_updated'))
+            args['data_updated'] = string_to_datetime(_dict.get('data_updated'))
         return cls(**args)
 
     def _to_dict(self):

@@ -21,7 +21,6 @@ from requests.structures import CaseInsensitiveDict
 import dateutil.parser as date_parser
 from .iam_token_manager import IAMTokenManager
 import warnings
-from .utils import deprecated
 
 try:
     from http.cookiejar import CookieJar  # Python 3
@@ -32,6 +31,8 @@ from .version import __version__
 BEARER = 'Bearer'
 X_WATSON_AUTHORIZATION_TOKEN = 'X-Watson-Authorization-Token'
 AUTH_HEADER_DEPRECATION_MESSAGE = 'Authenticating with the X-Watson-Authorization-Token header is deprecated. The token continues to work with Cloud Foundry services, but is not supported for services that use Identity and Access Management (IAM) authentication.'
+ICP_PREFIX = 'icp-'
+APIKEY = 'apikey'
 
 # Uncomment this to enable http debugging
 # try:
@@ -205,12 +206,12 @@ class DetailedResponse(object):
         return _dict
 
     def __str__(self):
-        return json_import.dumps(self._to_dict(), indent=2, default=lambda o: o.__dict__)
+        return json_import.dumps(self._to_dict(), indent=4, default=lambda o: o.__dict__)
 
 class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
-                 iam_api_key=None, iam_apikey=None, iam_access_token=None, iam_url=None):
+                 iam_apikey=None, iam_access_token=None, iam_url=None):
         """
         Loads credentials from the VCAP_SERVICES environment variable if
         available, preferring credentials explicitly
@@ -219,6 +220,7 @@ class WatsonService(object):
         username and password credentials must
         be specified.
         """
+
         self.url = url
         self.jar = None
         self.api_key = None
@@ -226,15 +228,11 @@ class WatsonService(object):
         self.password = None
         self.default_headers = None
         self.http_config = {}
-        self.detailed_response = False
+        self.detailed_response = True
         self.iam_apikey = None
         self.iam_access_token = None
         self.iam_url = None
         self.token_manager = None
-
-        # Adapter till the major release
-        if iam_apikey is None and iam_api_key is not None:
-            iam_apikey = iam_api_key
 
         user_agent_string = 'watson-apis-python-sdk-' + __version__ # SDK version
         user_agent_string += ' ' + platform.system() # OS
@@ -245,7 +243,7 @@ class WatsonService(object):
         if api_key is not None:
             self.set_api_key(api_key)
         elif username is not None and password is not None:
-            if username in ('apikey', 'apiKey'):
+            if username is APIKEY and not password.startswith(ICP_PREFIX):
                 self.set_token_manager(password, iam_access_token, iam_url)
             else:
                 self.set_username_and_password(username, password)
@@ -266,8 +264,8 @@ class WatsonService(object):
                     self.api_key = self.vcap_service_credentials['apikey']
                 if 'api_key' in self.vcap_service_credentials:
                     self.api_key = self.vcap_service_credentials['api_key']
-                if ('iam_api_key' or 'iam_apikey' or 'apikey')  in self.vcap_service_credentials:
-                    self.iam_apikey = self.vcap_service_credentials.get('iam_api_key') or self.vcap_service_credentials.get('iam_apikey') or self.vcap_service_credentials.get('apikey')
+                if ('iam_apikey' or 'apikey')  in self.vcap_service_credentials:
+                    self.iam_apikey = self.vcap_service_credentials.get('iam_apikey') or self.vcap_service_credentials.get('apikey')
                 if 'iam_access_token' in self.vcap_service_credentials:
                     self.iam_access_token = self.vcap_service_credentials['iam_access_token']
                 if 'iam_url' in self.vcap_service_credentials:
@@ -292,6 +290,9 @@ class WatsonService(object):
     def set_api_key(self, api_key):
         if api_key == 'YOUR API KEY':
             api_key = None
+        if api_key is not None and api_key.startswith(ICP_PREFIX):
+            self.set_username_and_password(APIKEY, api_key)
+            return
 
         self.api_key = api_key
 
@@ -316,15 +317,6 @@ class WatsonService(object):
         else:
             self.token_manager = IAMTokenManager(iam_access_token=iam_access_token)
         self.iam_access_token = iam_access_token
-        self.jar = CookieJar()
-
-    @deprecated('Use set_iam_apikey() instead')
-    def set_iam_api_key(self, iam_api_key):
-        if self.token_manager:
-            self.token_manager.set_iam_apikey(iam_api_key)
-        else:
-            self.token_manager = IAMTokenManager(iam_apikey=iam_api_key)
-        self.iam_apikey = iam_api_key
         self.jar = CookieJar()
 
     def set_iam_apikey(self, iam_apikey):
@@ -410,7 +402,6 @@ class WatsonService(object):
     def request(self, method, url, accept_json=False, headers=None,
                 params=None, json=None, data=None, files=None, **kwargs):
         full_url = self.url + url
-
         input_headers = _remove_null_values(headers) if headers else {}
 
         headers = CaseInsensitiveDict(self.user_agent_header)

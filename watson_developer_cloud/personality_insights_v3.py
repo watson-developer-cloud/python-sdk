@@ -54,10 +54,9 @@ class PersonalityInsightsV3(WatsonService):
             url=default_url,
             username=None,
             password=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
-            iam_apikey=None,
     ):
         """
         Construct a new client for the Personality Insights service.
@@ -89,7 +88,7 @@ class PersonalityInsightsV3(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key(deprecated): Use iam_apikey. An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -108,7 +107,6 @@ class PersonalityInsightsV3(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
@@ -121,9 +119,9 @@ class PersonalityInsightsV3(WatsonService):
 
     def profile(self,
                 content,
-                content_type='application/json',
+                content_type,
+                accept=None,
                 content_language=None,
-                accept='application/json',
                 accept_language=None,
                 raw_scores=None,
                 csv_headers=None,
@@ -160,9 +158,12 @@ class PersonalityInsightsV3(WatsonService):
         service requires much less text; for more information, see [Providing sufficient
         input](https://console.bluemix.net/docs/services/personality-insights/input.html#sufficient).
         For JSON input, provide an object of type `Content`.
-        :param str content_type: The type of the input: application/json, text/html, or
-        text/plain. A character encoding can be specified by including a `charset`
-        parameter. For example, 'text/html;charset=utf-8'.
+        :param str content_type: The type of the input. A character encoding can be
+        specified by including a `charset` parameter. For example,
+        'text/html;charset=utf-8'.
+        :param str accept: The type of the response: application/json or text/csv. A
+        character encoding can be specified by including a `charset` parameter. For
+        example, 'text/csv;charset=utf-8'.
         :param str content_language: The language of the input text for the request:
         Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as
         their parent language; for example, `en-US` is interpreted as `en`.
@@ -174,9 +175,6 @@ class PersonalityInsightsV3(WatsonService):
         items that specify a different language are ignored; omit this parameter to base
         the language on the specification of the content items. You can specify any
         combination of languages for **Content-Language** and **Accept-Language**.
-        :param str accept: The type of the response: application/json or text/csv. A
-        character encoding can be specified by including a `charset` parameter. For
-        example, 'text/csv;charset=utf-8'.
         :param str accept_language: The desired language of the response. For
         two-character arguments, regional variants are treated as their parent language;
         for example, `en-US` is interpreted as `en`. You can specify any combination of
@@ -190,18 +188,20 @@ class PersonalityInsightsV3(WatsonService):
         :param bool consumption_preferences: Indicates whether consumption preferences are
         returned with the results. By default, no consumption preferences are returned.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Profile` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if content is None:
             raise ValueError('content must be provided')
         if content_type is None:
             raise ValueError('content_type must be provided')
+        if isinstance(content, Content):
+            content = self._convert_model(content, Content)
         headers = {
             'Content-Type': content_type,
+            'Accept': accept,
             'Content-Language': content_language,
-            'Accept-Language': accept_language,
-            'Accept': accept
+            'Accept-Language': accept_language
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -285,8 +285,7 @@ class Behavior(object):
             args['percentage'] = _dict.get('percentage')
         else:
             raise ValueError(
-                'Required property \'percentage\' not present in Behavior JSON'
-            )
+                'Required property \'percentage\' not present in Behavior JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -640,8 +639,7 @@ class ContentItem(object):
             args['content'] = _dict.get('content')
         else:
             raise ValueError(
-                'Required property \'content\' not present in ContentItem JSON'
-            )
+                'Required property \'content\' not present in ContentItem JSON')
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         if 'created' in _dict:
@@ -799,10 +797,9 @@ class Profile(object):
             ]
         else:
             raise ValueError(
-                'Required property \'personality\' not present in Profile JSON'
-            )
+                'Required property \'personality\' not present in Profile JSON')
         if 'needs' in _dict:
-            args['needs'] = [Trait._from_dict(x) for x in _dict.get('needs')]
+            args['needs'] = [Trait._from_dict(x) for x in (_dict.get('needs'))]
         else:
             raise ValueError(
                 'Required property \'needs\' not present in Profile JSON')

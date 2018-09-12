@@ -42,10 +42,9 @@ class LanguageTranslatorV3(WatsonService):
             url=default_url,
             username=None,
             password=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
-            iam_apikey=None,
     ):
         """
         Construct a new client for the Language Translator service.
@@ -77,7 +76,7 @@ class LanguageTranslatorV3(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key(deprecated): Use iam_apikey. An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -96,7 +95,6 @@ class LanguageTranslatorV3(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
@@ -107,11 +105,7 @@ class LanguageTranslatorV3(WatsonService):
     # Translation
     #########################
 
-    def translate(self,
-                  text,
-                  model_id=None,
-                  source=None,
-                  target=None,
+    def translate(self, text, model_id=None, source=None, target=None,
                   **kwargs):
         """
         Translate.
@@ -130,8 +124,8 @@ class LanguageTranslatorV3(WatsonService):
         :param str target: Language code of the translation target language. Use with
         source as an alternative way to select a translation model.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TranslationResult` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if text is None:
             raise ValueError('text must be provided')
@@ -167,8 +161,8 @@ class LanguageTranslatorV3(WatsonService):
 
         :param str text: Input text in UTF-8 format.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `IdentifiedLanguages` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if text is None:
             raise ValueError('text must be provided')
@@ -177,7 +171,7 @@ class LanguageTranslatorV3(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
         data = text
-        headers = {'content-type': 'text/plain'}
+        headers['content-type'] = 'text/plain'
         url = '/v3/identify'
         response = self.request(
             method='POST',
@@ -196,8 +190,8 @@ class LanguageTranslatorV3(WatsonService):
         example, `en` for English or `es` for Spanish) and name of each language.
 
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `IdentifiableLanguages` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -261,8 +255,8 @@ class LanguageTranslatorV3(WatsonService):
         :param str forced_glossary_filename: The filename for forced_glossary.
         :param str parallel_corpus_filename: The filename for parallel_corpus.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TranslationModel` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if base_model_id is None:
             raise ValueError('base_model_id must be provided')
@@ -276,16 +270,16 @@ class LanguageTranslatorV3(WatsonService):
         }
         forced_glossary_tuple = None
         if forced_glossary:
-            if not forced_glossary_filename and hasattr(
-                    forced_glossary, 'name'):
+            if not forced_glossary_filename and hasattr(forced_glossary,
+                                                        'name'):
                 forced_glossary_filename = forced_glossary.name
             mime_type = 'application/octet-stream'
             forced_glossary_tuple = (forced_glossary_filename, forced_glossary,
                                      mime_type)
         parallel_corpus_tuple = None
         if parallel_corpus:
-            if not parallel_corpus_filename and hasattr(
-                    parallel_corpus, 'name'):
+            if not parallel_corpus_filename and hasattr(parallel_corpus,
+                                                        'name'):
                 parallel_corpus_filename = parallel_corpus.name
             mime_type = 'application/octet-stream'
             parallel_corpus_tuple = (parallel_corpus_filename, parallel_corpus,
@@ -311,8 +305,8 @@ class LanguageTranslatorV3(WatsonService):
 
         :param str model_id: Model ID of the model to delete.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DeleteModelResult` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
@@ -339,8 +333,8 @@ class LanguageTranslatorV3(WatsonService):
 
         :param str model_id: Model ID of the model to get.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TranslationModel` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if model_id is None:
             raise ValueError('model_id must be provided')
@@ -375,8 +369,8 @@ class LanguageTranslatorV3(WatsonService):
         this to `false`. There is exactly one default model per language pair, the IBM
         provided base model.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `TranslationModels` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:

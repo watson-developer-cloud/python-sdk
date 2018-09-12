@@ -15,7 +15,7 @@ class AnyServiceV1(WatsonService):
 
     def __init__(self, version, url=default_url, username=None, password=None,
                  api_key=None,
-                 iam_api_key=None,
+                 iam_apikey=None,
                  iam_access_token=None,
                  iam_url=None):
         WatsonService.__init__(
@@ -26,7 +26,7 @@ class AnyServiceV1(WatsonService):
             username=username,
             password=password,
             use_vcap_services=True,
-            iam_apikey=iam_api_key,
+            iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url)
         self.version = version
@@ -101,7 +101,7 @@ def test_fail_http_config():
 @responses.activate
 def test_iam():
     iam_url = "https://iam.bluemix.net/identity/token"
-    service = AnyServiceV1('2017-07-07', iam_api_key="iam_api_key")
+    service = AnyServiceV1('2017-07-07', iam_apikey="iam_apikey")
     assert service.token_manager is not None
 
     iam_url = "https://iam.bluemix.net/identity/token"
@@ -147,3 +147,19 @@ def test_when_apikey_is_username():
     assert service2.username is None
     assert service2.password is None
     assert service2.token_manager.iam_url == 'https://iam.stage1.bluemix.net/identity/token'
+
+@responses.activate
+def test_for_icp():
+    service1 = AnyServiceV1('2017-07-07', api_key='icp-xxxx', url='service_url')
+    assert service1.token_manager is None
+    assert service1.iam_apikey is None
+    assert service1.username is not None
+    assert service1.password is not None
+    assert service1.url is 'service_url'
+
+    service2 = AnyServiceV1('2017-07-07', username='apikey', password='icp-xxx', url='service_url')
+    assert service2.token_manager is None
+    assert service2.iam_apikey is None
+    assert service2.username is not None
+    assert service2.password is not None
+    assert service2.url is 'service_url'

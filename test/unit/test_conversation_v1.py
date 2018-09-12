@@ -38,7 +38,7 @@ def test_create_counterexample():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.create_counterexample(
-        workspace_id='boguswid', text='I want financial advice today.')
+        workspace_id='boguswid', text='I want financial advice today.').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
@@ -61,7 +61,7 @@ def test_rate_limit_exceeded():
         username='username', password='password', version='2017-02-03')
     try:
         service.create_counterexample(
-            workspace_id='boguswid', text='I want financial advice today.')
+            workspace_id='boguswid', text='I want financial advice today.').get_result()
     except WatsonException as ex:
         assert len(responses.calls) == 1
         assert isinstance(ex, WatsonApiException)
@@ -82,7 +82,7 @@ def test_unknown_error():
         username='username', password='password', version='2017-02-03')
     try:
         service.create_counterexample(
-            workspace_id='boguswid', text='I want financial advice today.')
+            workspace_id='boguswid', text='I want financial advice today.').get_result()
     except WatsonException as ex:
         assert len(responses.calls) == 1
         assert error_msg in str(ex)
@@ -97,12 +97,12 @@ def test_delete_counterexample():
         responses.DELETE,
         url,
         body=json.dumps(response),
-        status=200,
+        status=204,
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.delete_counterexample(
-        workspace_id='boguswid', text='I want financial advice today')
+        workspace_id='boguswid', text='I want financial advice today').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample is None
@@ -127,7 +127,7 @@ def test_get_counterexample():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.get_counterexample(
-        workspace_id='boguswid', text='What are you wearing?')
+        workspace_id='boguswid', text='What are you wearing?').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
@@ -163,7 +163,7 @@ def test_list_counterexamples():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    counterexamples = service.list_counterexamples(workspace_id='boguswid')
+    counterexamples = service.list_counterexamples(workspace_id='boguswid').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexamples == response
@@ -191,7 +191,7 @@ def test_update_counterexample():
     counterexample = service.update_counterexample(
         workspace_id='boguswid',
         text='What are you wearing?',
-        new_text='What are you wearing?')
+        new_text='What are you wearing?').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert counterexample == response
@@ -230,7 +230,7 @@ def test_create_entity():
         description='Tasty pizza toppings',
         metadata={"property": "value"},
         values=None,
-        fuzzy_match=None)
+        fuzzy_match=None).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entity == response
@@ -241,16 +241,16 @@ def test_create_entity():
 def test_delete_entity():
     endpoint = '/v1/workspaces/{0}/entities/{1}'.format('boguswid', 'pizza_toppings')
     url = '{0}{1}'.format(base_url, endpoint)
-    response = ""
+    response = None
     responses.add(
         responses.DELETE,
         url,
         body=json.dumps(response),
-        status=200,
+        status=204,
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
-    entity = service.delete_entity(workspace_id='boguswid', entity='pizza_toppings')
+    entity = service.delete_entity(workspace_id='boguswid', entity='pizza_toppings').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entity is None
@@ -277,7 +277,7 @@ def test_get_entity():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
-    entity = service.get_entity(workspace_id='boguswid', entity='pizza_toppings', export=True)
+    entity = service.get_entity(workspace_id='boguswid', entity='pizza_toppings', export=True).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entity == response
@@ -320,7 +320,7 @@ def test_list_entities():
         username='username', password='password', version='2017-04-21')
     entities = service.list_entities(
         workspace_id='boguswid',
-        export=True)
+        export=True).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entities == response
@@ -352,7 +352,7 @@ def test_update_entity():
     entity = service.update_entity(
         workspace_id='boguswid',
         entity='pizza_toppings',
-        new_entity='pizza_toppings')
+        new_entity='pizza_toppings').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert entity == response
@@ -387,7 +387,7 @@ def test_create_example():
         workspace_id='boguswid',
         intent='pizza_order',
         text='Gimme a pizza with pepperoni',
-        mentions=[{'entity': 'xxx', 'location': [0, 1]}])
+        mentions=[{'entity': 'xxx', 'location': [0, 1]}]).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
@@ -400,19 +400,19 @@ def test_delete_example():
     endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
         'boguswid', 'pizza_order', 'Gimme%20a%20pizza%20with%20pepperoni')
     url = '{0}{1}'.format(base_url, endpoint)
-    response = {}
+    response = None
     responses.add(
         responses.DELETE,
         url,
         body=json.dumps(response),
-        status=200,
+        status=204,
         content_type='')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     example = service.delete_example(
         workspace_id='boguswid',
         intent='pizza_order',
-        text='Gimme a pizza with pepperoni')
+        text='Gimme a pizza with pepperoni').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example is None
@@ -439,7 +439,7 @@ def test_get_example():
     example = service.get_example(
         workspace_id='boguswid',
         intent='pizza_order',
-        text='Gimme a pizza with pepperoni')
+        text='Gimme a pizza with pepperoni').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
@@ -478,7 +478,7 @@ def test_list_examples():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     examples = service.list_examples(
-        workspace_id='boguswid', intent='pizza_order')
+        workspace_id='boguswid', intent='pizza_order').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert examples == response
@@ -509,7 +509,7 @@ def test_update_example():
         intent='pizza_order',
         text='Gimme a pizza with pepperoni',
         new_text='Gimme a pizza with pepperoni',
-        new_mentions=[{'entity': 'xxx', 'location': [0, 1]}])
+        new_mentions=[{'entity': 'xxx', 'location': [0, 1]}]).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert example == response
@@ -543,7 +543,7 @@ def test_create_intent():
     intent = service.create_intent(
         workspace_id='boguswid',
         intent='pizza_order',
-        description='User wants to start a new pizza order')
+        description='User wants to start a new pizza order').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intent == response
@@ -566,10 +566,10 @@ def test_delete_intent():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     intent = service.delete_intent(
-        workspace_id='boguswid', intent='pizza_order')
+        workspace_id='boguswid', intent='pizza_order').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
-    assert intent is None
+    assert intent == {}
 
 
 @responses.activate
@@ -592,7 +592,7 @@ def test_get_intent():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
     intent = service.get_intent(
-        workspace_id='boguswid', intent='pizza_order', export=False)
+        workspace_id='boguswid', intent='pizza_order', export=False).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intent == response
@@ -625,7 +625,7 @@ def test_list_intents():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    intents = service.list_intents(workspace_id='boguswid', export=False)
+    intents = service.list_intents(workspace_id='boguswid', export=False).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intents == response
@@ -655,7 +655,7 @@ def test_update_intent():
         workspace_id='boguswid',
         intent='pizza_order',
         new_intent='pizza_order',
-        new_description='User wants to start a new pizza order')
+        new_description='User wants to start a new pizza order').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert intent == response
@@ -738,7 +738,7 @@ def test_list_logs():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
     logs = service.list_logs(
-        workspace_id='boguswid')
+        workspace_id='boguswid').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert logs == response
@@ -809,7 +809,7 @@ def test_list_all_logs():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
     logs = service.list_all_logs(
-        'language::en,request.context.metadata.deployment::deployment_1')
+        'language::en,request.context.metadata.deployment::deployment_1').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert logs == response
@@ -859,7 +859,7 @@ def test_message():
     message = conversation.message(
         workspace_id=workspace_id,
         input={'text': 'Turn on the lights'},
-        context=None)
+        context=None).get_result()
 
     assert message is not None
     assert responses.calls[0].request.url == message_url1
@@ -888,7 +888,7 @@ def test_message():
     message = conversation.message(
         workspace_id=workspace_id,
         input={'text': 'Turn on the lights'},
-        context=json.dumps(message_ctx['context']))
+        context=json.dumps(message_ctx['context'])).get_result()
 
     assert message is not None
     assert responses.calls[1].request.url == message_url1
@@ -935,7 +935,7 @@ def test_message_with_models():
     message = conversation.message(
         workspace_id=workspace_id,
         input=InputData(text='Turn on the lights'),
-        context=None)
+        context=None).get_result()
 
     assert message is not None
     assert responses.calls[0].request.url == message_url1
@@ -955,7 +955,7 @@ def test_message_with_models():
     message = conversation.message(
         workspace_id=workspace_id,
         input=InputData(text='Turn on the lights'),
-        context=message_ctx)
+        context=message_ctx).get_result()
 
     assert message is not None
     assert responses.calls[1].request.url == message_url1
@@ -988,7 +988,7 @@ def test_create_synonym():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
     synonym = service.create_synonym(
-        workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a')
+        workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonym == response
@@ -1000,17 +1000,17 @@ def test_delete_synonym():
     endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
         'boguswid', 'aeiou', 'vowel', 'a')
     url = '{0}{1}'.format(base_url, endpoint)
-    response = ""
+    response = None
     responses.add(
         responses.DELETE,
         url,
         body=json.dumps(response),
-        status=200,
+        status=204,
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
     synonym = service.delete_synonym(
-        workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a')
+        workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonym is None
@@ -1035,7 +1035,7 @@ def test_get_synonym():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
     synonym = service.get_synonym(
-        workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue')
+        workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonym == response
@@ -1080,7 +1080,7 @@ def test_list_synonyms():
     synonyms = service.list_synonyms(
         workspace_id='boguswid',
         entity='grilling',
-        value='bbq')
+        value='bbq').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonyms == response
@@ -1107,7 +1107,7 @@ def test_update_synonym():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
     synonym = service.update_synonym(
-        workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue', new_synonym='barbecue')
+        workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue', new_synonym='barbecue').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert synonym == response
@@ -1142,7 +1142,7 @@ def test_create_value():
     value = service.create_value(
         workspace_id='boguswid',
         entity='grilling',
-        value='aeiou')
+        value='aeiou').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert value == response
@@ -1155,17 +1155,17 @@ def test_delete_value():
     endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
         'boguswid', 'grilling', 'bbq')
     url = '{0}{1}'.format(base_url, endpoint)
-    response = ""
+    response = None
     responses.add(
         responses.DELETE,
         url,
         body=json.dumps(response),
-        status=200,
+        status=204,
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
     value = service.delete_value(
-        workspace_id='boguswid', entity='grilling', value='bbq')
+        workspace_id='boguswid', entity='grilling', value='bbq').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert value is None
@@ -1194,7 +1194,7 @@ def test_get_value():
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-04-21')
     value = service.get_value(
-        workspace_id='boguswid', entity='grilling', value='bbq', export=True)
+        workspace_id='boguswid', entity='grilling', value='bbq', export=True).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert value == response
@@ -1238,7 +1238,7 @@ def test_list_values():
     values = service.list_values(
         workspace_id='boguswid',
         entity='grilling',
-        export=True)
+        export=True).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert values == response
@@ -1274,7 +1274,7 @@ def test_update_value():
         value='bbq',
         new_value='BBQ sauce',
         new_metadata={"code": 1422},
-        new_synonyms=None)
+        new_synonyms=None).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert value == response
@@ -1310,7 +1310,7 @@ def test_create_workspace():
         username='username', password='password', version='2017-02-03')
     workspace = service.create_workspace(
         name='Pizza app', description='Pizza app', language='en', metadata={},
-        system_settings={'tooling': {'store_generic_responses' : True, 'disambiguation': {'prompt': 'Hello world', 'enabled': True}}})
+        system_settings={'tooling': {'store_generic_responses' : True, 'disambiguation': {'prompt': 'Hello world', 'enabled': True}}}).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1326,11 +1326,11 @@ def test_delete_workspace():
         responses.DELETE,
         url,
         body=json.dumps(response),
-        status=200,
+        status=204,
         content_type='')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    workspace = service.delete_workspace(workspace_id='boguswid')
+    workspace = service.delete_workspace(workspace_id='boguswid').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace is None
@@ -1359,7 +1359,7 @@ def test_get_workspace():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    workspace = service.get_workspace(workspace_id='boguswid', export=False)
+    workspace = service.get_workspace(workspace_id='boguswid', export=False).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1396,7 +1396,7 @@ def test_list_workspaces():
         content_type='application/json')
     service = watson_developer_cloud.ConversationV1(
         username='username', password='password', version='2017-02-03')
-    workspaces = service.list_workspaces()
+    workspaces = service.list_workspaces().get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspaces == response
@@ -1431,7 +1431,7 @@ def test_update_workspace():
         description='Pizza app',
         language='en',
         metadata={},
-        system_settings={'tooling': {'store_generic_responses' : True, 'disambiguation': {'prompt': 'Hello world', 'enabled': True}}})
+        system_settings={'tooling': {'store_generic_responses' : True, 'disambiguation': {'prompt': 'Hello world', 'enabled': True}}}).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1492,12 +1492,12 @@ def test_delete_user_data():
         responses.DELETE,
         url,
         body='{"description": "success" }',
-        status=200,
+        status=204,
         content_type='application_json')
 
     conversation = watson_developer_cloud.ConversationV1('2017-05-26', username="username", password="password")
 
-    response = conversation.delete_user_data('id')
+    response = conversation.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1
 
@@ -1513,6 +1513,6 @@ def test_list_mentions():
 
     conversation = watson_developer_cloud.ConversationV1('2017-05-26', username="username", password="password")
 
-    response = conversation.list_mentions('workspace_id', 'entity1')
+    response = conversation.list_mentions('workspace_id', 'entity1').get_result()
     assert response == [{"entity": "xxx"}]
     assert len(responses.calls) == 1

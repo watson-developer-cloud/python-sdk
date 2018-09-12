@@ -1,4 +1,5 @@
 from .visual_recognition_v3 import VisualRecognitionV3
+from os.path import basename
 
 class VisualRecognitionV3Adapter(VisualRecognitionV3):
     def create_classifier(self,
@@ -57,5 +58,105 @@ class VisualRecognitionV3Adapter(VisualRecognitionV3):
             headers=headers,
             params=params,
             files=kwargs,
+            accept_json=True)
+        return response
+
+    #########################
+    # General
+    #########################
+
+    def classify(self,
+                 images_file=None,
+                 accept_language=None,
+                 url=None,
+                 threshold=None,
+                 owners=None,
+                 classifier_ids=None,
+                 images_file_content_type=None,
+                 images_filename=None,
+                 **kwargs):
+        """
+        Classify images.
+
+        Classify images with built-in or custom classifiers.
+
+        :param file images_file: An image file (.jpg, .png) or .zip file with images.
+        Maximum image size is 10 MB. Include no more than 20 images and limit the .zip
+        file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain
+        non-ASCII characters. The service assumes UTF-8 encoding if it encounters
+        non-ASCII characters.
+        You can also include an image with the **url** parameter.
+        :param str accept_language: The language of the output class names. The full set
+        of languages is supported for the built-in classifier IDs: `default`, `food`, and
+        `explicit`. The class names of custom classifiers are not translated.
+        The response might not be in the specified language when the requested language is
+        not supported or when there is no translation for the class name.
+        :param str url: The URL of an image to analyze. Must be in .jpg, or .png format.
+        The minimum recommended pixel density is 32X32 pixels per inch, and the maximum
+        image size is 10 MB.
+        You can also include images with the **images_file** parameter.
+        :param float threshold: The minimum score a class must have to be displayed in the
+        response. Set the threshold to `0.0` to ignore the classification score and return
+        all values.
+        :param list[str] owners: The categories of classifiers to apply. Use `IBM` to
+        classify against the `default` general classifier, and use `me` to classify
+        against your custom classifiers. To analyze the image against both classifier
+        categories, set the value to both `IBM` and `me`.
+        The built-in `default` classifier is used if both **classifier_ids** and
+        **owners** parameters are empty.
+        The **classifier_ids** parameter overrides **owners**, so make sure that
+        **classifier_ids** is empty.
+        :param list[str] classifier_ids: Which classifiers to apply. Overrides the
+        **owners** parameter. You can specify both custom and built-in classifier IDs. The
+        built-in `default` classifier is used if both **classifier_ids** and **owners**
+        parameters are empty.
+        The following built-in classifier IDs require no training:
+        - `default`: Returns classes from thousands of general tags.
+        - `food`: Enhances specificity and accuracy for images of food items.
+        - `explicit`: Evaluates whether the image might be pornographic.
+        :param str images_file_content_type: The content type of images_file.
+        :param str images_filename: The filename for images_file.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+        headers = {'Accept-Language': accept_language}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        params = {'version': self.version}
+        images_file_tuple = None
+        if images_file:
+            if not images_filename and hasattr(images_file, 'name'):
+                images_filename = images_file.name
+                images_filename = basename(images_filename)
+            mime_type = images_file_content_type or 'application/octet-stream'
+            images_file_tuple = (images_filename, images_file, mime_type)
+        url_tuple = None
+        if url:
+            url_tuple = (None, url, 'text/plain')
+        threshold_tuple = None
+        if threshold:
+            threshold_tuple = (None, threshold, 'application/json')
+        owners_tuple = None
+        if owners:
+            owners = self._convert_list(owners)
+            owners_tuple = (None, owners, 'application/json')
+        classifier_ids_tuple = None
+        if classifier_ids:
+            classifier_ids = self._convert_list(classifier_ids)
+            classifier_ids_tuple = (None, classifier_ids, 'application/json')
+        url = '/v3/classify'
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files={
+                'images_file': images_file_tuple,
+                'url': url_tuple,
+                'threshold': threshold_tuple,
+                'owners': owners_tuple,
+                'classifier_ids': classifier_ids_tuple
+            },
             accept_json=True)
         return response

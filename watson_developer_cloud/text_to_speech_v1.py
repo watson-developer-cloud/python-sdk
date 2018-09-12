@@ -66,7 +66,6 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import WatsonService
-from .utils import deprecated
 
 ##############################################################################
 # Service
@@ -83,10 +82,9 @@ class TextToSpeechV1(WatsonService):
             url=default_url,
             username=None,
             password=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
-            iam_apikey=None,
     ):
         """
         Construct a new client for the Text to Speech service.
@@ -107,7 +105,7 @@ class TextToSpeechV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key(deprecated): Use iam_apikey. An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -126,7 +124,6 @@ class TextToSpeechV1(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
@@ -152,8 +149,8 @@ class TextToSpeechV1(WatsonService):
         Omit the parameter to see information about the specified voice with no
         customization.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Voice` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if voice is None:
             raise ValueError('voice must be provided')
@@ -179,8 +176,8 @@ class TextToSpeechV1(WatsonService):
         about a specific voice, use the **Get a voice** method.
 
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Voices` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -189,10 +186,6 @@ class TextToSpeechV1(WatsonService):
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
         return response
-
-    @deprecated('Use list_voices() instead')
-    def voices(self):
-        return self.list_voices()
 
     #########################
     # Synthesis
@@ -237,8 +230,8 @@ class TextToSpeechV1(WatsonService):
         the custom model. Omit the parameter to use the specified voice with no
         customization.
         :param dict headers: A `dict` containing the request headers
-        :return: A `Response <Response>` object representing the response.
-        :rtype: requests.models.Response
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if text is None:
             raise ValueError('text must be provided')
@@ -290,8 +283,8 @@ class TextToSpeechV1(WatsonService):
         created for the instance of the service that owns the custom model. Omit the
         parameter to see the translation for the specified voice with no customization.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Pronunciation` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if text is None:
             raise ValueError('text must be provided')
@@ -312,10 +305,6 @@ class TextToSpeechV1(WatsonService):
             params=params,
             accept_json=True)
         return response
-
-    @deprecated('Use get_pronunciation() instead')
-    def pronunciation(self, text, voice=None, pronunciation_format='ipa'):
-        return self.get_pronunciation(text, voice, pronunciation_format)
 
     #########################
     # Custom models
@@ -341,8 +330,8 @@ class TextToSpeechV1(WatsonService):
         :param str description: A description of the new custom voice model. Specifying a
         description is recommended.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `VoiceModel` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if name is None:
             raise ValueError('name must be provided')
@@ -359,10 +348,6 @@ class TextToSpeechV1(WatsonService):
             accept_json=True)
         return response
 
-    @deprecated('Use create_voice_model() instead.')
-    def create_customization(self, name, language=None, description=None):
-        return self.create_voice_model(name, language, description)
-
     def delete_voice_model(self, customization_id, **kwargs):
         """
         Delete a custom model.
@@ -375,7 +360,8 @@ class TextToSpeechV1(WatsonService):
         model. You must make the request with service credentials created for the instance
         of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -384,13 +370,9 @@ class TextToSpeechV1(WatsonService):
             headers.update(kwargs.get('headers'))
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        self.request(
+        response = self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
-        return None
-
-    @deprecated('Use delete_voice_model() instead.')
-    def delete_customization(self, customization_id):
-        return self.delete_voice_model(customization_id)
+        return response
 
     def get_voice_model(self, customization_id, **kwargs):
         """
@@ -406,8 +388,8 @@ class TextToSpeechV1(WatsonService):
         model. You must make the request with service credentials created for the instance
         of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `VoiceModel` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -419,10 +401,6 @@ class TextToSpeechV1(WatsonService):
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
         return response
-
-    @deprecated('Use get_voice_model instead.')
-    def get_customization(self, customization_id):
-        return self.get_voice_model(customization_id)
 
     def list_voice_models(self, language=None, **kwargs):
         """
@@ -440,8 +418,8 @@ class TextToSpeechV1(WatsonService):
         the requesting service credentials are to be returned. Omit the parameter to see
         all custom voice models that are owned by the requester.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `VoiceModels` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -455,10 +433,6 @@ class TextToSpeechV1(WatsonService):
             params=params,
             accept_json=True)
         return response
-
-    @deprecated('Use list_voice_models() instead.')
-    def customizations(self, language=None):
-        return self.list_voice_models(language)
 
     def update_voice_model(self,
                            customization_id,
@@ -486,7 +460,8 @@ class TextToSpeechV1(WatsonService):
         their translations that are to be added or updated for the custom voice model.
         Pass an empty array to make no additions or updates.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -498,18 +473,13 @@ class TextToSpeechV1(WatsonService):
         data = {'name': name, 'description': description, 'words': words}
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        self.request(
+        response = self.request(
             method='POST',
             url=url,
             headers=headers,
             json=data,
             accept_json=True)
-        return None
-
-    @deprecated('Use update_voice_model() instead')
-    def update_customization(self, customization_id, name=None,
-                             description=None, words=None):
-        return self.update_voice_model(customization_id, name, description, words)
+        return response
 
     #########################
     # Custom words
@@ -547,7 +517,8 @@ class TextToSpeechV1(WatsonService):
         word. For more information, see [Working with Japanese
         entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -561,17 +532,9 @@ class TextToSpeechV1(WatsonService):
         data = {'translation': translation, 'part_of_speech': part_of_speech}
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            json=data,
-            accept_json=True)
-        return None
-
-    @deprecated('Use add_word() instead.')
-    def set_customization_word(self, customization_id, word, translation):
-        return self.add_word(customization_id, word, translation)
+        response = self.request(
+            method='PUT', url=url, headers=headers, json=data, accept_json=True)
+        return response
 
     def add_words(self, customization_id, words, **kwargs):
         """
@@ -595,7 +558,8 @@ class TextToSpeechV1(WatsonService):
         in alphabetical order, with uppercase letters listed before lowercase letters. The
         array is empty if the custom model contains no words.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -608,17 +572,13 @@ class TextToSpeechV1(WatsonService):
         data = {'words': words}
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
-        self.request(
+        response = self.request(
             method='POST',
             url=url,
             headers=headers,
             json=data,
             accept_json=True)
-        return None
-
-    @deprecated('Use add_words() instead.')
-    def add_customization_words(self, customization_id, words):
-        return self.add_words(customization_id, words)
+        return response
 
     def delete_word(self, customization_id, word, **kwargs):
         """
@@ -633,7 +593,8 @@ class TextToSpeechV1(WatsonService):
         of the service that owns the custom model.
         :param str word: The word that is to be deleted from the custom voice model.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -644,13 +605,9 @@ class TextToSpeechV1(WatsonService):
             headers.update(kwargs.get('headers'))
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        self.request(
+        response = self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
-        return None
-
-    @deprecated('Use delete_word() instead.')
-    def delete_customization_word(self, customization_id, word):
-        return self.delete_word(customization_id, word)
+        return response
 
     def get_word(self, customization_id, word, **kwargs):
         """
@@ -666,8 +623,8 @@ class TextToSpeechV1(WatsonService):
         of the service that owns the custom model.
         :param str word: The word that is to be queried from the custom voice model.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Translation` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -681,10 +638,6 @@ class TextToSpeechV1(WatsonService):
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
         return response
-
-    @deprecated('Use get_word() instead.')
-    def get_customization_word(self, customization_id, word):
-        return self.get_word(customization_id, word)
 
     def list_words(self, customization_id, **kwargs):
         """
@@ -700,8 +653,8 @@ class TextToSpeechV1(WatsonService):
         model. You must make the request with service credentials created for the instance
         of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Words` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customization_id is None:
             raise ValueError('customization_id must be provided')
@@ -713,10 +666,6 @@ class TextToSpeechV1(WatsonService):
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
         return response
-
-    @deprecated('Use list_words() instead.')
-    def get_customization_words(self, customization_id):
-        return self.list_words(customization_id)
 
     #########################
     # User data
@@ -738,7 +687,8 @@ class TextToSpeechV1(WatsonService):
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customer_id is None:
             raise ValueError('customer_id must be provided')
@@ -747,13 +697,13 @@ class TextToSpeechV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'customer_id': customer_id}
         url = '/v1/user_data'
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
 
 ##############################################################################
@@ -1188,7 +1138,7 @@ class VoiceModel(object):
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in _dict.get('words')]
+            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
         return cls(**args)
 
     def _to_dict(self):
@@ -1451,7 +1401,7 @@ class Words(object):
         """Initialize a Words object from a json dictionary."""
         args = {}
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in _dict.get('words')]
+            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
         else:
             raise ValueError(
                 'Required property \'words\' not present in Words JSON')

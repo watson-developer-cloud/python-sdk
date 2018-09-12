@@ -40,10 +40,9 @@ class VisualRecognitionV3(WatsonService):
             version,
             url=default_url,
             api_key=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
-            iam_apikey=None,
     ):
         """
         Construct a new client for the Visual Recognition service.
@@ -65,7 +64,7 @@ class VisualRecognitionV3(WatsonService):
 
         :param str api_key: The API Key used to authenticate.
 
-        :param str iam_api_key(deprecated): Use iam_apikey. An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -83,7 +82,6 @@ class VisualRecognitionV3(WatsonService):
             vcap_services_name='watson_vision_combined',
             url=url,
             api_key=api_key,
-            iam_api_key=iam_api_key,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
@@ -91,113 +89,46 @@ class VisualRecognitionV3(WatsonService):
         self.version = version
 
     #########################
-    # General
-    #########################
-
-    def classify(self,
-                 images_file=None,
-                 parameters=None,
-                 accept_language=None,
-                 images_file_content_type=None,
-                 images_filename=None,
-                 url=None,
-                 threshold=None,
-                 owners=None,
-                 classifier_ids=None,
-                 **kwargs):
-        """
-        Classify images.
-
-        Classify images with built-in or custom classifiers.
-
-        :param file images_file: An image file (.jpg, .png) or .zip file with images. Maximum image size is 10 MB. Include no more than 20 images and limit the .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain non-ASCII characters. The service assumes UTF-8 encoding if it encounters non-ASCII characters. You can also include images with the `url` property in the **parameters** object.
-        :param str parameters: (Deprecated) A JSON object that specifies additional request options. The parameter can be sent as a string or a file, and can include these inputs:  - **url**: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter. - **threshold**: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values. - **owners**: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.      The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `{\"classifier_ids\":[\"CarsvsTrucks_1479118188\",\"explicit\"],\"threshold\":0.6}`.
-        :param str accept_language: Specifies the language of the output class names.  Can be `en` (English), `ar` (Arabic), `de` (German), `es` (Spanish), `it` (Italian), `ja` (Japanese), or `ko` (Korean).  Classes for which no translation is available are omitted.  The response might not be in the specified language under these conditions: - English is returned when the requested language is not supported. - Classes are not returned when there is no translation for them. - Custom classifiers returned with this method return tags in the language of the custom classifier.
-        :param str images_file_content_type: The content type of images_file.
-        :param str images_filename: The filename for images_file.
-        :param str url: A string with the image URL to analyze. Must be in .jpg, or .png format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. You can also include images in the **images_file** parameter.
-        :param float threshold: A floating point value that specifies the minimum score a class must have to be displayed in the response. The default threshold for returning scores from a classifier is `0.5`. Set the threshold to `0.0` to ignore the classification score and return all values.
-        :param list[str] owners: An array of the categories of classifiers to apply. Use `IBM` to classify against the `default` general classifier, and use `me` to classify against your custom classifiers. To analyze the image against both classifier categories, set the value to both `IBM` and `me`.   The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty.
-        :param list[str] classifier_ids: The **classifier_ids** parameter overrides **owners**, so make sure that **classifier_ids** is empty. - **classifier_ids**: Specifies which classifiers to apply and overrides the **owners** parameter. You can specify both custom and built-in classifiers. The built-in `default` classifier is used if both **classifier_ids** and **owners** parameters are empty.  The following built-in classifier IDs require no training: - `default`: Returns classes from thousands of general tags. - `food`: (Beta) Enhances specificity and accuracy for images of food items. - `explicit`: (Beta) Evaluates whether the image might be pornographic.  Example: `\"classifier_ids=\"CarsvsTrucks_1479118188\",\"explicit\"`.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ClassifiedImages` response.
-        :rtype: dict
-        """
-        headers = {'Accept-Language': accept_language}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        params = {'version': self.version}
-        images_file_tuple = None
-        if images_file:
-            if not images_filename and hasattr(images_file, 'name'):
-                images_filename = images_file.name
-            mime_type = images_file_content_type or 'application/octet-stream'
-            images_file_tuple = (images_filename, images_file, mime_type)
-
-        parameters_tuple = None
-        if parameters is not None:
-            parameters_tuple = (None, parameters, 'text/plain')
-
-        url_tuple = None
-        if url:
-            url_tuple = (None, url, 'text/plain')
-        threshold_tuple = None
-        if threshold:
-            threshold_tuple = (None, threshold, 'application/json')
-        owners_tuple = None
-        if owners:
-            if isinstance(owners, (list,)):
-                owners = ','.join(owners)
-            owners_tuple = (None, owners, 'application/json')
-        classifier_ids_tuple = None
-        if classifier_ids:
-            if isinstance(classifier_ids, (list,)):
-                classifier_ids = ','.join(classifier_ids)
-            classifier_ids_tuple = (None, classifier_ids, 'application/json')
-        url = '/v3/classify'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files={
-                'parameters': parameters_tuple,
-                'images_file': images_file_tuple,
-                'url': url_tuple,
-                'threshold': threshold_tuple,
-                'owners': owners_tuple,
-                'classifier_ids': classifier_ids_tuple
-            },
-            accept_json=True)
-        return response
-
-    #########################
     # Face
     #########################
 
     def detect_faces(self,
                      images_file=None,
-                     parameters=None,
+                     url=None,
                      images_file_content_type=None,
                      images_filename=None,
-                     url=None,
                      **kwargs):
         """
         Detect faces in images.
 
+        **Important:** On April 2, 2018, the identity information in the response to calls
+        to the Face model was removed. The identity information refers to the `name` of
+        the person, `score`, and `type_hierarchy` knowledge graph. For details about the
+        enhanced Face model, see the [Release
+        notes](https://console.bluemix.net/docs/services/visual-recognition/release-notes.html#2april2018).
         Analyze and get data about faces in images. Responses can include estimated age
-        and gender, and the service can identify celebrities. This feature uses a built-in
-        classifier, so you do not train it on custom classifiers. The Detect faces method
-        does not support general biometric facial recognition.
+        and gender. This feature uses a built-in model, so no training is necessary. The
+        Detect faces method does not support general biometric facial recognition.
+        Supported image formats include .gif, .jpg, .png, and .tif. The maximum image size
+        is 10 MB. The minimum recommended pixel density is 32X32 pixels per inch.
 
-        :param file images_file: An image file (.jpg, .png) or .zip file with images. Include no more than 15 images. You can also include images with the `url` property in the **parameters** object.  All faces are detected, but if there are more than 10 faces in an image, age and gender confidence scores might return scores of 0.
-        :param str parameters: (Deprecated) A JSON object that specifies a single image (.jpg, .png) to analyze by URL. The parameter can be sent as a string or a file.  Example: `{\"url\":\"http://www.example.com/images/myimage.jpg\"}`.
+        :param file images_file: An image file (gif, .jpg, .png, .tif.) or .zip file with
+        images. Limit the .zip file to 100 MB. You can include a maximum of 15 images in a
+        request.
+        Encode the image and .zip file names in UTF-8 if they contain non-ASCII
+        characters. The service assumes UTF-8 encoding if it encounters non-ASCII
+        characters.
+        You can also include an image with the **url** parameter.
+        :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or
+        .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and
+        the maximum image size is 10 MB. Redirects are followed, so you can use a
+        shortened URL.
+        You can also include images with the **images_file** parameter.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
-        :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and the maximum image size is 10 MB. Redirects are followed, so you can use a shortened URL.  You can also include images with the **images_file** parameter.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DetectedFaces` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -209,9 +140,6 @@ class VisualRecognitionV3(WatsonService):
                 images_filename = images_file.name
             mime_type = images_file_content_type or 'application/octet-stream'
             images_file_tuple = (images_filename, images_file, mime_type)
-        parameters_tuple = None
-        if parameters is not None:
-            parameters_tuple = (None, parameters, 'text/plain')
         url_tuple = None
         if url:
             url_tuple = (None, url)
@@ -222,7 +150,6 @@ class VisualRecognitionV3(WatsonService):
             headers=headers,
             params=params,
             files={'images_file': images_file_tuple,
-                   'parameters': parameters_tuple,
                    'url': url_tuple},
             accept_json=True)
         return response
@@ -231,13 +158,15 @@ class VisualRecognitionV3(WatsonService):
     # Custom
     #########################
 
+
     def delete_classifier(self, classifier_id, **kwargs):
         """
         Delete a classifier.
 
         :param str classifier_id: The ID of the classifier.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
@@ -247,13 +176,13 @@ class VisualRecognitionV3(WatsonService):
         params = {'version': self.version}
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_classifier(self, classifier_id, **kwargs):
         """
@@ -263,8 +192,8 @@ class VisualRecognitionV3(WatsonService):
 
         :param str classifier_id: The ID of the classifier.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Classifier` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
@@ -289,8 +218,8 @@ class VisualRecognitionV3(WatsonService):
         :param bool verbose: Specify `true` to return details about the classifiers. Omit
         this parameter to return a brief list of classifiers.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Classifiers` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -305,6 +234,7 @@ class VisualRecognitionV3(WatsonService):
             accept_json=True)
         return response
 
+
     #########################
     # Core ML
     #########################
@@ -318,8 +248,8 @@ class VisualRecognitionV3(WatsonService):
 
         :param str classifier_id: The ID of the classifier.
         :param dict headers: A `dict` containing the request headers
-        :return: A `Response <Response>` object representing the response.
-        :rtype: requests.models.Response
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
@@ -354,7 +284,8 @@ class VisualRecognitionV3(WatsonService):
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customer_id is None:
             raise ValueError('customer_id must be provided')
@@ -363,13 +294,13 @@ class VisualRecognitionV3(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'customer_id': customer_id}
         url = '/v3/user_data'
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
 
 ##############################################################################
@@ -684,8 +615,8 @@ class Classifier(object):
     :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned
     when verbose=`true`. Might not be returned by some requests.
     :attr str status: (optional) Training status of classifier.
-    :attr bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML
-    model after the training status is `ready`.
+    :attr bool core_ml_enabled: (optional) Whether the classifier can be downloaded as a
+    Core ML model after the training status is `ready`.
     :attr str explanation: (optional) If classifier training has failed, this field may
     explain why.
     :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC)
@@ -702,9 +633,9 @@ class Classifier(object):
     def __init__(self,
                  classifier_id,
                  name,
-                 core_ml_enabled,
                  owner=None,
                  status=None,
+                 core_ml_enabled=None,
                  explanation=None,
                  created=None,
                  classes=None,
@@ -715,11 +646,11 @@ class Classifier(object):
 
         :param str classifier_id: ID of a classifier identified in the image.
         :param str name: Name of the classifier.
-        :param bool core_ml_enabled: Whether the classifier can be downloaded as a Core ML
-        model after the training status is `ready`.
         :param str owner: (optional) Unique ID of the account who owns the classifier.
         Returned when verbose=`true`. Might not be returned by some requests.
         :param str status: (optional) Training status of classifier.
+        :param bool core_ml_enabled: (optional) Whether the classifier can be downloaded
+        as a Core ML model after the training status is `ready`.
         :param str explanation: (optional) If classifier training has failed, this field
         may explain why.
         :param datetime created: (optional) Date and time in Coordinated Universal Time
@@ -766,10 +697,6 @@ class Classifier(object):
             args['status'] = _dict.get('status')
         if 'core_ml_enabled' in _dict:
             args['core_ml_enabled'] = _dict.get('core_ml_enabled')
-        else:
-            raise ValueError(
-                'Required property \'core_ml_enabled\' not present in Classifier JSON'
-            )
         if 'explanation' in _dict:
             args['explanation'] = _dict.get('explanation')
         if 'created' in _dict:
@@ -1313,8 +1240,7 @@ class FaceLocation(object):
             args['height'] = _dict.get('height')
         else:
             raise ValueError(
-                'Required property \'height\' not present in FaceLocation JSON'
-            )
+                'Required property \'height\' not present in FaceLocation JSON')
         if 'left' in _dict:
             args['left'] = _dict.get('left')
         else:
@@ -1400,7 +1326,7 @@ class ImageWithFaces(object):
         """Initialize a ImageWithFaces object from a json dictionary."""
         args = {}
         if 'faces' in _dict:
-            args['faces'] = [Face._from_dict(x) for x in _dict.get('faces')]
+            args['faces'] = [Face._from_dict(x) for x in (_dict.get('faces'))]
         else:
             raise ValueError(
                 'Required property \'faces\' not present in ImageWithFaces JSON'

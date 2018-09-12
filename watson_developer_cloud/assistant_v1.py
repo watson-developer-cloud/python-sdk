@@ -41,10 +41,9 @@ class AssistantV1(WatsonService):
             url=default_url,
             username=None,
             password=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
-            iam_apikey=None,
     ):
         """
         Construct a new client for the Assistant service.
@@ -76,7 +75,7 @@ class AssistantV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key(deprecated): Use iam_apikey. An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -88,13 +87,13 @@ class AssistantV1(WatsonService):
         :param str iam_url: An optional URL for the IAM service API. Defaults to
                'https://iam.bluemix.net/identity/token'.
         """
+
         WatsonService.__init__(
             self,
             vcap_services_name='conversation',
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
@@ -139,8 +138,8 @@ class AssistantV1(WatsonService):
         information about the dialog nodes that were visited during processing of the
         message.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `MessageResponse` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -149,9 +148,7 @@ class AssistantV1(WatsonService):
         if context is not None:
             context = self._convert_model(context, Context)
         if entities is not None:
-            entities = [
-                self._convert_model(x, RuntimeEntity) for x in entities
-            ]
+            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
         if intents is not None:
             intents = [self._convert_model(x, RuntimeIntent) for x in intents]
         if output is not None:
@@ -226,8 +223,8 @@ class AssistantV1(WatsonService):
         data is not to be used.
         :param WorkspaceSystemSettings system_settings: Global settings for the workspace.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Workspace` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if intents is not None:
             intents = [self._convert_model(x, CreateIntent) for x in intents]
@@ -281,7 +278,8 @@ class AssistantV1(WatsonService):
 
         :param str workspace_id: Unique identifier of the workspace.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -289,15 +287,14 @@ class AssistantV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}'.format(
-            *self._encode_path_vars(workspace_id))
-        self.request(
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_workspace(self,
                       workspace_id,
@@ -320,8 +317,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `WorkspaceExport` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -333,8 +330,7 @@ class AssistantV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}'.format(
-            *self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='GET',
             url=url,
@@ -361,14 +357,13 @@ class AssistantV1(WatsonService):
         :param bool include_count: Whether to include information about the number of
         records returned.
         :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `WorkspaceCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:
@@ -442,8 +437,8 @@ class AssistantV1(WatsonService):
         added. If any elements in the new data collide with existing elements, the update
         request fails.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Workspace` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -479,8 +474,7 @@ class AssistantV1(WatsonService):
             'learning_opt_out': learning_opt_out,
             'system_settings': system_settings
         }
-        url = '/v1/workspaces/{0}'.format(
-            *self._encode_path_vars(workspace_id))
+        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='POST',
             url=url,
@@ -520,17 +514,15 @@ class AssistantV1(WatsonService):
         :param list[CreateExample] examples: An array of user input examples for the
         intent.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Intent` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [
-                self._convert_model(x, CreateExample) for x in examples
-            ]
+            examples = [self._convert_model(x, CreateExample) for x in examples]
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -562,7 +554,8 @@ class AssistantV1(WatsonService):
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -572,15 +565,15 @@ class AssistantV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
-        self.request(
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_intent(self,
                    workspace_id,
@@ -605,8 +598,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `IntentExport` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -620,8 +613,8 @@ class AssistantV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
             method='GET',
             url=url,
@@ -656,14 +649,13 @@ class AssistantV1(WatsonService):
         :param bool include_count: Whether to include information about the number of
         records returned.
         :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `IntentCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -716,8 +708,8 @@ class AssistantV1(WatsonService):
         :param list[CreateExample] new_examples: An array of user input examples for the
         intent.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Intent` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -736,8 +728,8 @@ class AssistantV1(WatsonService):
             'description': new_description,
             'examples': new_examples
         }
-        url = '/v1/workspaces/{0}/intents/{1}'.format(*self._encode_path_vars(
-            workspace_id, intent))
+        url = '/v1/workspaces/{0}/intents/{1}'.format(
+            *self._encode_path_vars(workspace_id, intent))
         response = self.request(
             method='POST',
             url=url,
@@ -773,8 +765,8 @@ class AssistantV1(WatsonService):
         - It must be no longer than 1024 characters.
         :param list[Mentions] mentions: An array of contextual entity mentions.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Example` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -812,7 +804,8 @@ class AssistantV1(WatsonService):
         :param str intent: The intent name.
         :param str text: The text of the user input example.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -826,13 +819,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_example(self,
                     workspace_id,
@@ -853,8 +846,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Example` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -899,14 +892,13 @@ class AssistantV1(WatsonService):
         :param bool include_count: Whether to include information about the number of
         records returned.
         :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ExampleCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -957,8 +949,8 @@ class AssistantV1(WatsonService):
         - It must be no longer than 1024 characters.
         :param list[Mentions] new_mentions: An array of contextual entity mentions.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Example` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1006,8 +998,8 @@ class AssistantV1(WatsonService):
         - It cannot consist of only whitespace characters
         - It must be no longer than 1024 characters.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1042,7 +1034,8 @@ class AssistantV1(WatsonService):
         :param str text: The text of a user input counterexample (for example, `What are
         you wearing?`).
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1054,13 +1047,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_counterexample(self,
                            workspace_id,
@@ -1081,8 +1074,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1123,14 +1116,13 @@ class AssistantV1(WatsonService):
         :param bool include_count: Whether to include information about the number of
         records returned.
         :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `CounterexampleCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1155,10 +1147,7 @@ class AssistantV1(WatsonService):
             accept_json=True)
         return response
 
-    def update_counterexample(self,
-                              workspace_id,
-                              text,
-                              new_text=None,
+    def update_counterexample(self, workspace_id, text, new_text=None,
                               **kwargs):
         """
         Update counterexample.
@@ -1173,8 +1162,8 @@ class AssistantV1(WatsonService):
         you wearing?`).
         :param str new_text: The text of a user input counterexample.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Counterexample` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1228,8 +1217,8 @@ class AssistantV1(WatsonService):
         :param list[CreateValue] values: An array of objects describing the entity values.
         :param bool fuzzy_match: Whether to use fuzzy matching for the entity.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Entity` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1270,7 +1259,8 @@ class AssistantV1(WatsonService):
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1280,15 +1270,15 @@ class AssistantV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
-            workspace_id, entity))
-        self.request(
+        url = '/v1/workspaces/{0}/entities/{1}'.format(
+            *self._encode_path_vars(workspace_id, entity))
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_entity(self,
                    workspace_id,
@@ -1313,8 +1303,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `EntityExport` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1328,8 +1318,8 @@ class AssistantV1(WatsonService):
             'export': export,
             'include_audit': include_audit
         }
-        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
-            workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(
+            *self._encode_path_vars(workspace_id, entity))
         response = self.request(
             method='GET',
             url=url,
@@ -1364,14 +1354,13 @@ class AssistantV1(WatsonService):
         :param bool include_count: Whether to include information about the number of
         records returned.
         :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `EntityCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1428,8 +1417,8 @@ class AssistantV1(WatsonService):
         :param bool new_fuzzy_match: Whether to use fuzzy matching for the entity.
         :param list[CreateValue] new_values: An array of entity values.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Entity` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1450,8 +1439,8 @@ class AssistantV1(WatsonService):
             'fuzzy_match': new_fuzzy_match,
             'values': new_values
         }
-        url = '/v1/workspaces/{0}/entities/{1}'.format(*self._encode_path_vars(
-            workspace_id, entity))
+        url = '/v1/workspaces/{0}/entities/{1}'.format(
+            *self._encode_path_vars(workspace_id, entity))
         response = self.request(
             method='POST',
             url=url,
@@ -1488,8 +1477,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `EntityMentionCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1554,8 +1543,8 @@ class AssistantV1(WatsonService):
         [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
         :param str value_type: Specifies the type of value.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Value` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1597,7 +1586,8 @@ class AssistantV1(WatsonService):
         :param str entity: The name of the entity.
         :param str value: The text of the entity value.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1611,13 +1601,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_value(self,
                   workspace_id,
@@ -1643,8 +1633,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ValueExport` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1697,14 +1687,13 @@ class AssistantV1(WatsonService):
         :param bool include_count: Whether to include information about the number of
         records returned.
         :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ValueCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1772,8 +1761,8 @@ class AssistantV1(WatsonService):
         information about how to specify a pattern, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Value` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1824,8 +1813,8 @@ class AssistantV1(WatsonService):
         - It cannot consist of only whitespace characters.
         - It must be no longer than 64 characters.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Synonym` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1864,7 +1853,8 @@ class AssistantV1(WatsonService):
         :param str value: The text of the entity value.
         :param str synonym: The text of the synonym.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1880,13 +1870,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_synonym(self,
                     workspace_id,
@@ -1909,8 +1899,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Synonym` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -1958,14 +1948,13 @@ class AssistantV1(WatsonService):
         :param bool include_count: Whether to include information about the number of
         records returned.
         :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `SynonymCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -2018,8 +2007,8 @@ class AssistantV1(WatsonService):
         - It cannot consist of only whitespace characters.
         - It must be no longer than 64 characters.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Synonym` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -2114,10 +2103,10 @@ class AssistantV1(WatsonService):
         :param str digress_out_slots: Whether the user can digress to top-level nodes
         while filling out slots.
         :param str user_label: A label that can be displayed externally to describe the
-        purpose of the node to users.
+        purpose of the node to users. This string must be no longer than 512 characters.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DialogNode` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -2177,7 +2166,8 @@ class AssistantV1(WatsonService):
         :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -2189,13 +2179,13 @@ class AssistantV1(WatsonService):
         params = {'version': self.version}
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
     def get_dialog_node(self,
                         workspace_id,
@@ -2214,8 +2204,8 @@ class AssistantV1(WatsonService):
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DialogNode` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -2255,14 +2245,13 @@ class AssistantV1(WatsonService):
         :param bool include_count: Whether to include information about the number of
         records returned.
         :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DialogNodeCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -2356,10 +2345,11 @@ class AssistantV1(WatsonService):
         :param str new_digress_out_slots: Whether the user can digress to top-level nodes
         while filling out slots.
         :param str new_user_label: A label that can be displayed externally to describe
-        the purpose of the node to users.
+        the purpose of the node to users. This string must be no longer than 512
+        characters.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `DialogNode` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -2432,14 +2422,14 @@ class AssistantV1(WatsonService):
         `language`, as well as a value for `workspace_id` or
         `request.context.metadata.deployment`. For more information, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
-        :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        :param str sort: How to sort the returned log events. You can sort by
+        **request_timestamp**. To reverse the sort order, prefix the parameter value with
+        a minus sign (`-`).
         :param int page_limit: The number of records to return in each page of results.
         :param str cursor: A token identifying the page of results to retrieve.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `LogCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if filter is None:
             raise ValueError('filter must be provided')
@@ -2478,17 +2468,17 @@ class AssistantV1(WatsonService):
         more information, see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
-        :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`). Supported values
-        are `name`, `updated`, and `workspace_id`.
+        :param str sort: How to sort the returned log events. You can sort by
+        **request_timestamp**. To reverse the sort order, prefix the parameter value with
+        a minus sign (`-`).
         :param str filter: A cacheable parameter that limits the results to those matching
         the specified filter. For more information, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
         :param int page_limit: The number of records to return in each page of results.
         :param str cursor: A token identifying the page of results to retrieve.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `LogCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
@@ -2529,7 +2519,8 @@ class AssistantV1(WatsonService):
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if customer_id is None:
             raise ValueError('customer_id must be provided')
@@ -2538,13 +2529,13 @@ class AssistantV1(WatsonService):
             headers.update(kwargs.get('headers'))
         params = {'version': self.version, 'customer_id': customer_id}
         url = '/v1/user_data'
-        self.request(
+        response = self.request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
-        return None
+        return response
 
 
 ##############################################################################
@@ -2715,8 +2706,7 @@ class Counterexample(object):
             args['text'] = _dict.get('text')
         else:
             raise ValueError(
-                'Required property \'text\' not present in Counterexample JSON'
-            )
+                'Required property \'text\' not present in Counterexample JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
@@ -2916,7 +2906,7 @@ class CreateDialogNode(object):
     :attr str digress_out_slots: (optional) Whether the user can digress to top-level
     nodes while filling out slots.
     :attr str user_label: (optional) A label that can be displayed externally to describe
-    the purpose of the node to users.
+    the purpose of the node to users. This string must be no longer than 512 characters.
     """
 
     def __init__(self,
@@ -2979,7 +2969,8 @@ class CreateDialogNode(object):
         :param str digress_out_slots: (optional) Whether the user can digress to top-level
         nodes while filling out slots.
         :param str user_label: (optional) A label that can be displayed externally to
-        describe the purpose of the node to users.
+        describe the purpose of the node to users. This string must be no longer than 512
+        characters.
         """
         self.dialog_node = dialog_node
         self.description = description
@@ -3161,8 +3152,7 @@ class CreateEntity(object):
             args['entity'] = _dict.get('entity')
         else:
             raise ValueError(
-                'Required property \'entity\' not present in CreateEntity JSON'
-            )
+                'Required property \'entity\' not present in CreateEntity JSON')
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'metadata' in _dict:
@@ -3314,8 +3304,7 @@ class CreateIntent(object):
             args['intent'] = _dict.get('intent')
         else:
             raise ValueError(
-                'Required property \'intent\' not present in CreateIntent JSON'
-            )
+                'Required property \'intent\' not present in CreateIntent JSON')
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'examples' in _dict:
@@ -3491,7 +3480,7 @@ class DialogNode(object):
     :attr str digress_out_slots: (optional) Whether the user can digress to top-level
     nodes while filling out slots.
     :attr str user_label: (optional) A label that can be displayed externally to describe
-    the purpose of the node to users.
+    the purpose of the node to users. This string must be no longer than 512 characters.
     """
 
     def __init__(self,
@@ -3548,7 +3537,8 @@ class DialogNode(object):
         :param str digress_out_slots: (optional) Whether the user can digress to top-level
         nodes while filling out slots.
         :param str user_label: (optional) A label that can be displayed externally to
-        describe the purpose of the node to users.
+        describe the purpose of the node to users. This string must be no longer than 512
+        characters.
         """
         self.dialog_node_id = dialog_node_id
         self.description = description
@@ -4052,17 +4042,20 @@ class DialogNodeOutputGeneric(object):
     :attr str source: (optional) The URL of the image. Required when
     **response_type**=`image`.
     :attr str title: (optional) An optional title to show before the response. Valid only
-    when **response_type**=`image` or `option`.
+    when **response_type**=`image` or `option`. This string must be no longer than 512
+    characters.
     :attr str description: (optional) An optional description to show with the response.
-    Valid only when **response_type**=`image` or `option`.
+    Valid only when **response_type**=`image` or `option`. This string must be no longer
+    than 256 characters.
     :attr str preference: (optional) The preferred type of control to display, if
     supported by the channel. Valid only when **response_type**=`option`.
     :attr list[DialogNodeOutputOptionsElement] options: (optional) An array of objects
-    describing the options from which the user can choose. Required when
-    **response_type**=`option`.
+    describing the options from which the user can choose. You can include up to 20
+    options. Required when **response_type**=`option`.
     :attr str message_to_human_agent: (optional) An optional message to be sent to the
     human agent who will be taking over the conversation. Valid only when
-    **reponse_type**=`connect_to_agent`.
+    **reponse_type**=`connect_to_agent`. This string must be no longer than 256
+    characters.
     """
 
     def __init__(self,
@@ -4097,17 +4090,20 @@ class DialogNodeOutputGeneric(object):
         :param str source: (optional) The URL of the image. Required when
         **response_type**=`image`.
         :param str title: (optional) An optional title to show before the response. Valid
-        only when **response_type**=`image` or `option`.
+        only when **response_type**=`image` or `option`. This string must be no longer
+        than 512 characters.
         :param str description: (optional) An optional description to show with the
-        response. Valid only when **response_type**=`image` or `option`.
+        response. Valid only when **response_type**=`image` or `option`. This string must
+        be no longer than 256 characters.
         :param str preference: (optional) The preferred type of control to display, if
         supported by the channel. Valid only when **response_type**=`option`.
         :param list[DialogNodeOutputOptionsElement] options: (optional) An array of
-        objects describing the options from which the user can choose. Required when
-        **response_type**=`option`.
+        objects describing the options from which the user can choose. You can include up
+        to 20 options. Required when **response_type**=`option`.
         :param str message_to_human_agent: (optional) An optional message to be sent to
         the human agent who will be taking over the conversation. Valid only when
-        **reponse_type**=`connect_to_agent`.
+        **reponse_type**=`connect_to_agent`. This string must be no longer than 256
+        characters.
         """
         self.response_type = response_type
         self.values = values
@@ -4159,8 +4155,7 @@ class DialogNodeOutputGeneric(object):
                 for x in (_dict.get('options'))
             ]
         if 'message_to_human_agent' in _dict:
-            args['message_to_human_agent'] = _dict.get(
-                'message_to_human_agent')
+            args['message_to_human_agent'] = _dict.get('message_to_human_agent')
         return cls(**args)
 
     def _to_dict(self):
@@ -4190,7 +4185,7 @@ class DialogNodeOutputGeneric(object):
         if hasattr(self, 'options') and self.options is not None:
             _dict['options'] = [x._to_dict() for x in self.options]
         if hasattr(self, 'message_to_human_agent'
-                   ) and self.message_to_human_agent is not None:
+                  ) and self.message_to_human_agent is not None:
             _dict['message_to_human_agent'] = self.message_to_human_agent
         return _dict
 
@@ -4374,18 +4369,20 @@ class DialogNodeOutputTextValuesElement(object):
     """
     DialogNodeOutputTextValuesElement.
 
-    :attr str text: (optional) The text of a response. This can include newline characters
-    (`
-    `), Markdown tagging, or other special characters, if supported by the channel.
+    :attr str text: (optional) The text of a response. This string can include newline
+    characters (`
+    `), Markdown tagging, or other special characters, if supported by the channel. It
+    must be no longer than 4096 characters.
     """
 
     def __init__(self, text=None):
         """
         Initialize a DialogNodeOutputTextValuesElement object.
 
-        :param str text: (optional) The text of a response. This can include newline
-        characters (`
-        `), Markdown tagging, or other special characters, if supported by the channel.
+        :param str text: (optional) The text of a response. This string can include
+        newline characters (`
+        `), Markdown tagging, or other special characters, if supported by the channel. It
+        must be no longer than 4096 characters.
         """
         self.text = text
 
@@ -4493,7 +4490,8 @@ class DialogRuntimeResponseGeneric(object):
     :attr bool typing: (optional) Whether to send a "user is typing" event during the
     pause.
     :attr str source: (optional) The URL of the image.
-    :attr str title: (optional) The title to show before the response.
+    :attr str title: (optional) The title or introductory text to show before the
+    response.
     :attr str description: (optional) The description to show with the the response.
     :attr str preference: (optional) The preferred type of control to display.
     :attr list[DialogNodeOutputOptionsElement] options: (optional) An array of objects
@@ -4533,7 +4531,8 @@ class DialogRuntimeResponseGeneric(object):
         :param bool typing: (optional) Whether to send a "user is typing" event during the
         pause.
         :param str source: (optional) The URL of the image.
-        :param str title: (optional) The title to show before the response.
+        :param str title: (optional) The title or introductory text to show before the
+        response.
         :param str description: (optional) The description to show with the the response.
         :param str preference: (optional) The preferred type of control to display.
         :param list[DialogNodeOutputOptionsElement] options: (optional) An array of
@@ -4590,8 +4589,7 @@ class DialogRuntimeResponseGeneric(object):
                 for x in (_dict.get('options'))
             ]
         if 'message_to_human_agent' in _dict:
-            args['message_to_human_agent'] = _dict.get(
-                'message_to_human_agent')
+            args['message_to_human_agent'] = _dict.get('message_to_human_agent')
         if 'topic' in _dict:
             args['topic'] = _dict.get('topic')
         if 'suggestions' in _dict:
@@ -4623,7 +4621,7 @@ class DialogRuntimeResponseGeneric(object):
         if hasattr(self, 'options') and self.options is not None:
             _dict['options'] = [x._to_dict() for x in self.options]
         if hasattr(self, 'message_to_human_agent'
-                   ) and self.message_to_human_agent is not None:
+                  ) and self.message_to_human_agent is not None:
             _dict['message_to_human_agent'] = self.message_to_human_agent
         if hasattr(self, 'topic') and self.topic is not None:
             _dict['topic'] = self.topic
@@ -4686,8 +4684,7 @@ class DialogSuggestion(object):
                 'Required property \'label\' not present in DialogSuggestion JSON'
             )
         if 'value' in _dict:
-            args['value'] = DialogSuggestionValue._from_dict(
-                _dict.get('value'))
+            args['value'] = DialogSuggestionValue._from_dict(_dict.get('value'))
         else:
             raise ValueError(
                 'Required property \'value\' not present in DialogSuggestion JSON'
@@ -4832,8 +4829,8 @@ class Entity(object):
         """Initialize a Entity object from a json dictionary."""
         args = {}
         if 'entity' in _dict or 'entity_name' in _dict:
-            args['entity_name'] = _dict.get('entity') or _dict.get(
-                'entity_name')
+            args[
+                'entity_name'] = _dict.get('entity') or _dict.get('entity_name')
         else:
             raise ValueError(
                 'Required property \'entity\' not present in Entity JSON')
@@ -4993,12 +4990,11 @@ class EntityExport(object):
         """Initialize a EntityExport object from a json dictionary."""
         args = {}
         if 'entity' in _dict or 'entity_name' in _dict:
-            args['entity_name'] = _dict.get('entity') or _dict.get(
-                'entity_name')
+            args[
+                'entity_name'] = _dict.get('entity') or _dict.get('entity_name')
         else:
             raise ValueError(
-                'Required property \'entity\' not present in EntityExport JSON'
-            )
+                'Required property \'entity\' not present in EntityExport JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
@@ -5077,14 +5073,14 @@ class EntityMention(object):
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
         if 'text' in _dict or 'example_text' in _dict:
-            args['example_text'] = _dict.get('text') or _dict.get(
-                'example_text')
+            args[
+                'example_text'] = _dict.get('text') or _dict.get('example_text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in EntityMention JSON')
         if 'intent' in _dict or 'intent_name' in _dict:
-            args['intent_name'] = _dict.get('intent') or _dict.get(
-                'intent_name')
+            args[
+                'intent_name'] = _dict.get('intent') or _dict.get('intent_name')
         else:
             raise ValueError(
                 'Required property \'intent\' not present in EntityMention JSON'
@@ -5197,8 +5193,7 @@ class Example(object):
     :attr list[Mentions] mentions: (optional) An array of contextual entity mentions.
     """
 
-    def __init__(self, example_text, created=None, updated=None,
-                 mentions=None):
+    def __init__(self, example_text, created=None, updated=None, mentions=None):
         """
         Initialize a Example object.
 
@@ -5218,8 +5213,8 @@ class Example(object):
         """Initialize a Example object from a json dictionary."""
         args = {}
         if 'text' in _dict or 'example_text' in _dict:
-            args['example_text'] = _dict.get('text') or _dict.get(
-                'example_text')
+            args[
+                'example_text'] = _dict.get('text') or _dict.get('example_text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in Example JSON')
@@ -5409,8 +5404,8 @@ class Intent(object):
         """Initialize a Intent object from a json dictionary."""
         args = {}
         if 'intent' in _dict or 'intent_name' in _dict:
-            args['intent_name'] = _dict.get('intent') or _dict.get(
-                'intent_name')
+            args[
+                'intent_name'] = _dict.get('intent') or _dict.get('intent_name')
         else:
             raise ValueError(
                 'Required property \'intent\' not present in Intent JSON')
@@ -5554,12 +5549,11 @@ class IntentExport(object):
         """Initialize a IntentExport object from a json dictionary."""
         args = {}
         if 'intent' in _dict or 'intent_name' in _dict:
-            args['intent_name'] = _dict.get('intent') or _dict.get(
-                'intent_name')
+            args[
+                'intent_name'] = _dict.get('intent') or _dict.get('intent_name')
         else:
             raise ValueError(
-                'Required property \'intent\' not present in IntentExport JSON'
-            )
+                'Required property \'intent\' not present in IntentExport JSON')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
@@ -5716,8 +5710,7 @@ class LogExport(object):
             raise ValueError(
                 'Required property \'request\' not present in LogExport JSON')
         if 'response' in _dict:
-            args['response'] = MessageResponse._from_dict(
-                _dict.get('response'))
+            args['response'] = MessageResponse._from_dict(_dict.get('response'))
         else:
             raise ValueError(
                 'Required property \'response\' not present in LogExport JSON')
@@ -6151,6 +6144,8 @@ class MessageResponse(object):
     :attr Context context: State information for the conversation.
     :attr OutputData output: Output from the dialog, including the response to the user,
     the nodes that were triggered, and log messages.
+    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any
+    actions requested by the dialog node.
     """
 
     def __init__(self,
@@ -6160,6 +6155,7 @@ class MessageResponse(object):
                  output,
                  input=None,
                  alternate_intents=None,
+                 actions=None,
                  **kwargs):
         """
         Initialize a MessageResponse object.
@@ -6174,6 +6170,8 @@ class MessageResponse(object):
         :param MessageInput input: (optional) The user input from the request.
         :param bool alternate_intents: (optional) Whether to return more than one intent.
         A value of `true` indicates that all matching intents are returned.
+        :param list[DialogNodeAction] actions: (optional) An array of objects describing
+        any actions requested by the dialog node.
         :param **kwargs: (optional) Any additional properties.
         """
         self.input = input
@@ -6182,6 +6180,7 @@ class MessageResponse(object):
         self.alternate_intents = alternate_intents
         self.context = context
         self.output = output
+        self.actions = actions
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -6228,6 +6227,11 @@ class MessageResponse(object):
             raise ValueError(
                 'Required property \'output\' not present in MessageResponse JSON'
             )
+        if 'actions' in _dict:
+            args['actions'] = [
+                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+            ]
+            del xtra['actions']
         args.update(xtra)
         return cls(**args)
 
@@ -6247,6 +6251,8 @@ class MessageResponse(object):
             _dict['context'] = self.context._to_dict()
         if hasattr(self, 'output') and self.output is not None:
             _dict['output'] = self.output._to_dict()
+        if hasattr(self, 'actions') and self.actions is not None:
+            _dict['actions'] = [x._to_dict() for x in self.actions]
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -6257,7 +6263,7 @@ class MessageResponse(object):
     def __setattr__(self, name, value):
         properties = {
             'input', 'intents', 'entities', 'alternate_intents', 'context',
-            'output'
+            'output', 'actions'
         }
         if not hasattr(self, '_additionalProperties'):
             super(MessageResponse, self).__setattr__('_additionalProperties',
@@ -6299,6 +6305,8 @@ class OutputData(object):
     objects containing detailed diagnostic information about the nodes that were triggered
     during processing of the input message. Included only if **nodes_visited_details** is
     set to `true` in the message request.
+    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any
+    actions requested by the dialog node.
     """
 
     def __init__(self,
@@ -6307,6 +6315,7 @@ class OutputData(object):
                  generic=None,
                  nodes_visited=None,
                  nodes_visited_details=None,
+                 actions=None,
                  **kwargs):
         """
         Initialize a OutputData object.
@@ -6325,6 +6334,8 @@ class OutputData(object):
         of objects containing detailed diagnostic information about the nodes that were
         triggered during processing of the input message. Included only if
         **nodes_visited_details** is set to `true` in the message request.
+        :param list[DialogNodeAction] actions: (optional) An array of objects describing
+        any actions requested by the dialog node.
         :param **kwargs: (optional) Any additional properties.
         """
         self.log_messages = log_messages
@@ -6332,6 +6343,7 @@ class OutputData(object):
         self.generic = generic
         self.nodes_visited = nodes_visited
         self.nodes_visited_details = nodes_visited_details
+        self.actions = actions
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -6370,6 +6382,11 @@ class OutputData(object):
                 for x in (_dict.get('nodes_visited_details'))
             ]
             del xtra['nodes_visited_details']
+        if 'actions' in _dict:
+            args['actions'] = [
+                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+            ]
+            del xtra['actions']
         args.update(xtra)
         return cls(**args)
 
@@ -6385,10 +6402,12 @@ class OutputData(object):
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
             _dict['nodes_visited'] = self.nodes_visited
         if hasattr(self, 'nodes_visited_details'
-                   ) and self.nodes_visited_details is not None:
+                  ) and self.nodes_visited_details is not None:
             _dict['nodes_visited_details'] = [
                 x._to_dict() for x in self.nodes_visited_details
             ]
+        if hasattr(self, 'actions') and self.actions is not None:
+            _dict['actions'] = [x._to_dict() for x in self.actions]
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -6399,7 +6418,7 @@ class OutputData(object):
     def __setattr__(self, name, value):
         properties = {
             'log_messages', 'text', 'generic', 'nodes_visited',
-            'nodes_visited_details'
+            'nodes_visited_details', 'actions'
         }
         if not hasattr(self, '_additionalProperties'):
             super(OutputData, self).__setattr__('_additionalProperties', set())
@@ -6584,8 +6603,7 @@ class RuntimeEntity(object):
             del xtra['value']
         else:
             raise ValueError(
-                'Required property \'value\' not present in RuntimeEntity JSON'
-            )
+                'Required property \'value\' not present in RuntimeEntity JSON')
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
             del xtra['confidence']
@@ -7728,7 +7746,7 @@ class WorkspaceSystemSettingsDisambiguation(object):
         if hasattr(self, 'prompt') and self.prompt is not None:
             _dict['prompt'] = self.prompt
         if hasattr(self, 'none_of_the_above_prompt'
-                   ) and self.none_of_the_above_prompt is not None:
+                  ) and self.none_of_the_above_prompt is not None:
             _dict['none_of_the_above_prompt'] = self.none_of_the_above_prompt
         if hasattr(self, 'enabled') and self.enabled is not None:
             _dict['enabled'] = self.enabled
@@ -7781,7 +7799,7 @@ class WorkspaceSystemSettingsTooling(object):
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'store_generic_responses'
-                   ) and self.store_generic_responses is not None:
+                  ) and self.store_generic_responses is not None:
             _dict['store_generic_responses'] = self.store_generic_responses
         return _dict
 
