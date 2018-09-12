@@ -290,7 +290,7 @@ class WatsonService(object):
     def set_api_key(self, api_key):
         if api_key == 'YOUR API KEY':
             api_key = None
-        if api_key.startswith(ICP_PREFIX):
+        if api_key is not None and api_key.startswith(ICP_PREFIX):
             self.set_username_and_password(APIKEY, api_key)
             return
 

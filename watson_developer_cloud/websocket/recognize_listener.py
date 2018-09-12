@@ -53,14 +53,17 @@ class RecognizeListener(object):
         )
         self.ws_client.run_forever(http_proxy_host=self.http_proxy_host, http_proxy_port=self.http_proxy_port)
 
-    def build_start_message(self, options):
+    @classmethod
+    def build_start_message(cls, options):
         options[ACTION] = START
         return options
 
-    def build_closing_message(self):
+    @classmethod
+    def build_closing_message(cls):
         return json.dumps({ACTION: STOP}).encode('utf8')
 
-    def extract_transcripts(self, alternatives):
+    @classmethod
+    def extract_transcripts(cls, alternatives):
         transcripts = []
         for alternative in alternatives:
             transcript = {}
