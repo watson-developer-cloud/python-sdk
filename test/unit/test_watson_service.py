@@ -150,8 +150,16 @@ def test_when_apikey_is_username():
 
 @responses.activate
 def test_for_icp():
-    service1 = AnyServiceV1('2017-07-07', api_key='icp-xxxx')
+    service1 = AnyServiceV1('2017-07-07', api_key='icp-xxxx', url='service_url')
     assert service1.token_manager is None
     assert service1.iam_apikey is None
     assert service1.username is not None
     assert service1.password is not None
+    assert service1.url is 'service_url'
+
+    service2 = AnyServiceV1('2017-07-07', username='apikey', password='icp-xxx', url='service_url')
+    assert service2.token_manager is None
+    assert service2.iam_apikey is None
+    assert service2.username is not None
+    assert service2.password is not None
+    assert service2.url is 'service_url'

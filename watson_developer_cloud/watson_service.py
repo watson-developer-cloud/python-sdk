@@ -241,12 +241,9 @@ class WatsonService(object):
         self.user_agent_header = {'user-agent': user_agent_string}
 
         if api_key is not None:
-            if api_key.startswith(ICP_PREFIX):
-                self.set_username_and_password(APIKEY, api_key)
-            else:
-                self.set_api_key(api_key)
+            self.set_api_key(api_key)
         elif username is not None and password is not None:
-            if username is APIKEY:
+            if username is APIKEY and not password.startswith(ICP_PREFIX):
                 self.set_token_manager(password, iam_access_token, iam_url)
             else:
                 self.set_username_and_password(username, password)
@@ -295,6 +292,7 @@ class WatsonService(object):
             api_key = None
         if api_key.startswith(ICP_PREFIX):
             self.set_username_and_password(APIKEY, api_key)
+            return
 
         self.api_key = api_key
 
