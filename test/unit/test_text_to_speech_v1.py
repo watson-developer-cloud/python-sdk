@@ -236,10 +236,10 @@ def test_delete_user_data():
         responses.DELETE,
         url,
         body='{"description": "success" }',
-        status=200,
+        status=204,
         content_type='application_json')
 
     text_to_speech = watson_developer_cloud.TextToSpeechV1(username="username", password="password")
-    response = text_to_speech.delete_user_data('id')
+    response = text_to_speech.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1

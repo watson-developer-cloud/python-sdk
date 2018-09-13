@@ -21,10 +21,10 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
             'X-Watson-Test':
             '1'
         })
-        cls.original_customizations = cls.text_to_speech.list_voice_models()
+        cls.original_customizations = cls.text_to_speech.list_voice_models().get_result()
         cls.created_customization = cls.text_to_speech.create_voice_model(
             name="test_integration_customization",
-            description="customization for tests")
+            description="customization for tests").get_result()
 
     @classmethod
     def teardown_class(cls):
@@ -32,31 +32,31 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
         cls.text_to_speech.delete_voice_model(customization_id=custid)
 
     def test_voices(self):
-        output = self.text_to_speech.list_voices()
+        output = self.text_to_speech.list_voices().get_result()
         assert output['voices'] is not None
-        voice = self.text_to_speech.get_voice(output['voices'][0]['name'])
+        voice = self.text_to_speech.get_voice(output['voices'][0]['name']).get_result()
         assert voice is not None
 
     def test_speak(self):
         output = self.text_to_speech.synthesize(
             text="my voice is my passport",
             accept='audio/wav',
-            voice='en-US_AllisonVoice')
+            voice='en-US_AllisonVoice').get_result()
         assert output.content is not None
 
     def test_pronunciation(self):
-        output = self.text_to_speech.get_pronunciation('hello')
+        output = self.text_to_speech.get_pronunciation('hello').get_result()
         assert output['pronunciation'] is not None
 
     def test_customizations(self):
         old_length = len(self.original_customizations['customizations'])
         new_length = len(
-            self.text_to_speech.list_voice_models()['customizations'])
+            self.text_to_speech.list_voice_models().get_result()['customizations'])
         assert new_length - old_length >= 1
 
     def test_custom_words(self):
         customization_id = self.created_customization['customization_id']
-        words = self.text_to_speech.list_words(customization_id)['words']
+        words = self.text_to_speech.list_words(customization_id).get_result()['words']
         assert len(words) == 0 # pylint: disable=len-as-condition
         self.text_to_speech.add_word(
             customization_id, word="ACLs", translation="ackles")
@@ -65,5 +65,5 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
 
         self.text_to_speech.add_words(customization_id, words)
         self.text_to_speech.delete_word(customization_id, 'ACLs')
-        word = self.text_to_speech.get_word(customization_id, 'MACLs')
+        word = self.text_to_speech.get_word(customization_id, 'MACLs').get_result()
         assert word['translation'] == 'mackles'

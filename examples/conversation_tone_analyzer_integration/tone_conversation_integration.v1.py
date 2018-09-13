@@ -58,12 +58,12 @@ def invokeToneConversation(payload, maintainToneHistoryInContext):
      with application-specific code to process the err or data object
      returned by the Conversation Service.
     """
-    tone = tone_analyzer.tone(tone_input=payload['input']['text'], content_type='application/json')
+    tone = tone_analyzer.tone(tone_input=payload['input']['text'], content_type='application/json').get_result()
     conversation_payload = tone_detection.\
         updateUserTone(payload, tone, maintainToneHistoryInContext)
     response = conversation.message(workspace_id=workspace_id,
                                     input=conversation_payload['input'],
-                                    context=conversation_payload['context'])
+                                    context=conversation_payload['context']).get_result()
     print(json.dumps(response, indent=2))
 
 

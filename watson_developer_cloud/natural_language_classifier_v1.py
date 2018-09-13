@@ -41,10 +41,9 @@ class NaturalLanguageClassifierV1(WatsonService):
             url=default_url,
             username=None,
             password=None,
-            iam_api_key=None,
+            iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
-            iam_apikey=None,
     ):
         """
         Construct a new client for the Natural Language Classifier service.
@@ -65,7 +64,7 @@ class NaturalLanguageClassifierV1(WatsonService):
                Bluemix, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
-        :param str iam_api_key(deprecated): Use iam_apikey. An API key that can be used to request IAM tokens. If
+        :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
 
@@ -84,7 +83,6 @@ class NaturalLanguageClassifierV1(WatsonService):
             url=url,
             username=username,
             password=password,
-            iam_api_key=iam_api_key,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
@@ -104,8 +102,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         :param str classifier_id: Classifier ID to use.
         :param str text: The submitted phrase. The maximum length is 2048 characters.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Classification` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
@@ -136,16 +134,14 @@ class NaturalLanguageClassifierV1(WatsonService):
         :param str classifier_id: Classifier ID to use.
         :param list[ClassifyInput] collection: The submitted phrases.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ClassificationCollection` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         if collection is None:
             raise ValueError('collection must be provided')
-        collection = [
-            self._convert_model(x, ClassifyInput) for x in collection
-        ]
+        collection = [self._convert_model(x, ClassifyInput) for x in collection]
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -189,8 +185,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         :param str metadata_filename: The filename for training_metadata.
         :param str training_data_filename: The filename for training_data.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Classifier` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if metadata is None:
             raise ValueError('metadata must be provided')
@@ -206,8 +202,7 @@ class NaturalLanguageClassifierV1(WatsonService):
         if not training_data_filename and hasattr(training_data, 'name'):
             training_data_filename = training_data.name
         mime_type = 'text/csv'
-        training_data_tuple = (training_data_filename, training_data,
-                               mime_type)
+        training_data_tuple = (training_data_filename, training_data, mime_type)
         url = '/v1/classifiers'
         response = self.request(
             method='POST',
@@ -226,7 +221,8 @@ class NaturalLanguageClassifierV1(WatsonService):
 
         :param str classifier_id: Classifier ID to delete.
         :param dict headers: A `dict` containing the request headers
-        :rtype: None
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
@@ -235,9 +231,9 @@ class NaturalLanguageClassifierV1(WatsonService):
             headers.update(kwargs.get('headers'))
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        self.request(
+        response = self.request(
             method='DELETE', url=url, headers=headers, accept_json=True)
-        return None
+        return response
 
     def get_classifier(self, classifier_id, **kwargs):
         """
@@ -247,8 +243,8 @@ class NaturalLanguageClassifierV1(WatsonService):
 
         :param str classifier_id: Classifier ID to query.
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `Classifier` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
@@ -268,8 +264,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         Returns an empty array if no classifiers are available.
 
         :param dict headers: A `dict` containing the request headers
-        :return: A `dict` containing the `ClassifierList` response.
-        :rtype: dict
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
         """
         headers = {}
         if 'headers' in kwargs:

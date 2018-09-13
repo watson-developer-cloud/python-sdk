@@ -22,7 +22,7 @@ def test_plain_to_json():
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.txt')) as personality_text:
         response = personality_insights.profile(
-            personality_text, content_type='text/plain;charset=utf-8')
+            personality_text, content_type='text/plain;charset=utf-8').get_result()
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response
@@ -46,7 +46,7 @@ def test_json_to_json():
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json')) as personality_text:
         response = personality_insights.profile(
             personality_text, content_type='application/json',
-            raw_scores=True, consumption_preferences=True)
+            raw_scores=True, consumption_preferences=True).get_result()
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
     assert 'raw_scores=true' in responses.calls[0].request.url
@@ -100,7 +100,7 @@ def test_plain_to_json_es():
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-es.txt')) as personality_text:
         response = personality_insights.profile(
             personality_text, content_type='text/plain;charset=utf-8',
-            content_language='es', accept_language='es')
+            content_language='es', accept_language='es').get_result()
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response

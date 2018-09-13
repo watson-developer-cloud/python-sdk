@@ -1,6 +1,5 @@
 import requests
 import time
-from .utils import deprecated
 
 DEFAULT_IAM_URL = 'https://iam.bluemix.net/identity/token'
 CONTENT_TYPE = 'application/x-www-form-urlencoded'
@@ -105,14 +104,6 @@ class IAMTokenManager(object):
         The access token should be valid and not yet expired.
         """
         self.user_access_token = iam_access_token
-
-    @deprecated('Use set_iam_apikey() instead')
-    def set_iam_api_key(self, iam_api_key):
-        """
-        Set the IAM api key
-        """
-        self.iam_apikey = iam_api_key
-
 
     def set_iam_apikey(self, iam_apikey):
         """
