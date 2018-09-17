@@ -75,7 +75,8 @@ from watson_developer_cloud import ConversationV1
 conversation = ConversationV1(
     username='xxx',
     password='yyy',
-    version='2017-04-21')
+    version='2017-04-21', 
+    url='zzz')
 
 conversation.set_http_config({'timeout': 100})
 response = conversation.message(workspace_id=workspace_id, input={
