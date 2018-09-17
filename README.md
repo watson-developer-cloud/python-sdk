@@ -181,7 +181,8 @@ from watson_developer_cloud import AssistantV1
 assistant = AssistantV1(
     username='xxx',
     password='yyy',
-    version='2017-04-21')
+    version='2017-04-21', 
+    url='zzz')
 
 assistant.set_http_config({'timeout': 100})
 response = assistant.message(workspace_id=workspace_id, input={
