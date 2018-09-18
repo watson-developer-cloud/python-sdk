@@ -33,10 +33,10 @@ if sys.argv[-1] == 'publish':
 
 # Convert README.md to README.rst for pypi
 try:
-    from pypandoc import convert
+    from pypandoc import convert_file
 
     def read_md(f):
-        return convert(f, 'rst')
+        return convert_file(f, 'rst')
 
     # read_md = lambda f: convert(f, 'rst')
 except:
