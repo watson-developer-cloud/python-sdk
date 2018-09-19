@@ -21,6 +21,7 @@ from .authorization_v1 import AuthorizationV1
 from .iam_token_manager import IAMTokenManager
 from .conversation_v1 import ConversationV1
 from .assistant_v1 import AssistantV1
+from .assistant_v2 import AssistantV2
 from .language_translator_v3 import LanguageTranslatorV3
 from .natural_language_classifier_v1 import NaturalLanguageClassifierV1
 from .natural_language_understanding_v1 import NaturalLanguageUnderstandingV1
