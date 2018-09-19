@@ -233,6 +233,7 @@ class WatsonService(object):
         self.iam_access_token = None
         self.iam_url = None
         self.token_manager = None
+        self.verify = None # Indicates whether to ignore verifying the SSL certification
 
         user_agent_string = 'watson-apis-python-sdk-' + __version__ # SDK version
         user_agent_string += ' ' + platform.system() # OS
@@ -349,6 +350,9 @@ class WatsonService(object):
         else:
             raise TypeError("http_config parameter must be a dictionary")
 
+    def disable_SSL_verification(self):
+        self.verify = False
+
     def set_detailed_response(self, detailed_response):
         self.detailed_response = detailed_response
 
@@ -445,6 +449,10 @@ class WatsonService(object):
                 params['api_key'] = self.api_key
 
         kwargs = dict(kwargs, **self.http_config)
+
+        if self.verify is not None:
+            kwargs['verify'] = self.verify
+
         response = requests.request(method=method, url=full_url,
                                     cookies=self.jar, auth=auth,
                                     headers=headers,

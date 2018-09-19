@@ -25,6 +25,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Changes for v2.0](#changes-for-v20)
   * [Migration](#migration)
   * [Configuring the http client](#configuring-the-http-client-supported-from-v110)
+  * [Disable SSL certificate verification](#disable-ssl-certificate-verification)
   * [Sending request headers](#sending-request-headers)
   * [Parsing HTTP response info](#parsing-http-response-info)
   * [Dependencies](#dependencies)
@@ -201,6 +202,13 @@ assistant.set_http_config({'timeout': 100})
 response = assistant.message(workspace_id=workspace_id, input={
     'text': 'What\'s the weather like?'}).get_result()
 print(json.dumps(response, indent=2))
+```
+
+## Disable SSL certificate verification
+For ICP(IBM Cloud Private), you can disable the SSL certificate verification by:
+
+```python
+service.disable_SSL_verification()
 ```
 
 ## Sending request headers
