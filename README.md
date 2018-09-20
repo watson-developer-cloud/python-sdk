@@ -107,27 +107,29 @@ You supply either an IAM service **API key** or an **access token**:
 
 ```python
 # In the constructor, letting the SDK manage the IAM token
-discovery = DiscoveryV1(version='2017-10-16',
+discovery = DiscoveryV1(version='2018-08-01',
+                        url='<url_as_per_region>',
                         iam_apikey='<iam_apikey>',
                         iam_url='<iam_url>') # optional - the default value is https://iam.bluemix.net/identity/token
 ```
 
 ```python
 # after instantiation, letting the SDK manage the IAM token
-discovery = DiscoveryV1(version='2017-10-16')
+discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>')
 discovery.set_iam_apikey('<iam_apikey>')
 ```
 
 #### Supplying the access token
 ```python
 # in the constructor, assuming control of managing IAM token
-discovery = DiscoveryV1(version='2017-10-16',
+discovery = DiscoveryV1(version='2018-08-01',
+                        url='<url_as_per_region>',
                         iam_access_token='<iam_access_token>')
 ```
 
 ```python
 # after instantiation, assuming control of managing IAM token
-discovery = DiscoveryV1(version='2017-10-16')
+discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>')
 discovery.set_iam_access_token('<access_token>')
 ```
 
@@ -135,12 +137,12 @@ discovery.set_iam_access_token('<access_token>')
 ```python
 from watson_developer_cloud import DiscoveryV1
 # In the constructor
-discovery = DiscoveryV1(version='2017-10-16', username='<username>', password='<password>')
+discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>', username='<username>', password='<password>')
 ```
 
 ```python
 # After instantiation
-discovery = DiscoveryV1(version='2017-10-16')
+discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>')
 discovery.set_username_and_password('<username>', '<password>')
 ```
 
@@ -151,12 +153,12 @@ discovery.set_username_and_password('<username>', '<password>')
 ```python
 from watson_developer_cloud import VisualRecognitionV3
 # In the constructor
-visual_recognition = VisualRecognitionV3(version='2018-05-22', api_key='<api_key>')
+visual_recognition = VisualRecognitionV3(version='2018-03-19', url='<url_as_per_region>', api_key='<api_key>')
 ```
 
 ```python
 # After instantiation
-visual_recognition = VisualRecognitionV3(version='2018-05-22')
+visual_recognition = VisualRecognitionV3(version='2018-03-19')
 visual_recognition.set_api_key('<api_key>')
 ```
 
@@ -175,7 +177,8 @@ from watson_developer_cloud import AssistantV1
 assistant = AssistantV1(
     username='xxx',
     password='yyy',
-    version='2017-04-21')
+    url='<url_as_per_region>',
+    version='2018-07-10')
 
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'})
 print(response.get_result())
@@ -196,7 +199,8 @@ from watson_developer_cloud import AssistantV1
 assistant = AssistantV1(
     username='xxx',
     password='yyy',
-    version='2017-04-21')
+    url='<url_as_per_region>',
+    version='2018-07-10')
 
 assistant.set_http_config({'timeout': 100})
 response = assistant.message(workspace_id=workspace_id, input={
@@ -226,7 +230,8 @@ from watson_developer_cloud import AssistantV1
 assistant = AssistantV1(
     username='xxx',
     password='yyy',
-    version='2017-04-21')
+    url='<url_as_per_region>',
+    version='2018-07-10')
 
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
 ```
@@ -239,7 +244,8 @@ from watson_developer_cloud import AssistantV1
 assistant = AssistantV1(
     username='xxx',
     password='yyy',
-    version='2017-04-21')
+    url='<url_as_per_region>',
+    version='2018-07-10')
 
 assistant.set_detailed_response(True)
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
