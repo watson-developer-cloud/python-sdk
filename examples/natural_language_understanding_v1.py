@@ -5,13 +5,13 @@ from watson_developer_cloud.natural_language_understanding_v1 import Features, E
 
 # If service instance provides API key authentication
 # service = NaturalLanguageUnderstandingV1(
-#     version='2017-02-27',
+#     version='2018-03-16',
 #     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
 #     url='https://gateway.watsonplatform.net/natural-language-understanding/api',
 #     iam_apikey='your_apikey')
 
 service = NaturalLanguageUnderstandingV1(
-    version='2017-02-27',
+    version='2018-03-16',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     # url='https://gateway.watsonplatform.net/natural-language-understanding/api',
     username='YOUR SERVICE USERNAME',

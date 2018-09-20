@@ -10,7 +10,7 @@ import pytest
 class Discoveryv1(TestCase):
     def setUp(self):
         self.discovery = watson_developer_cloud.DiscoveryV1(
-            version='2017-10-16',
+            version='2018-08-01',
             username="YOUR SERVICE USERNAME",
             password="YOUR SERVICE PASSWORD")
         self.discovery.set_default_headers({
