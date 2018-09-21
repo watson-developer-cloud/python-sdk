@@ -4,7 +4,7 @@ from watson_developer_cloud import ConversationV1
 
 ## If service instance provides API key authentication
 # conversation = ConversationV1(
-#     version='2018-02-16',
+#     version='2018-07-10',
 #     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
 #     url='https://gateway.watsonplatform.net/conversation/api',
 #     iam_apikey='iam_apikey')
@@ -14,7 +14,7 @@ conversation = ConversationV1(
     password='YOUR SERVICE PASSWORD',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     # url='https://gateway.watsonplatform.net/conversation/api',
-    version='2018-02-16')
+    version='2018-07-10')
 
 # When you send multiple requests for the same conversation, include the
 # context object from the previous response.

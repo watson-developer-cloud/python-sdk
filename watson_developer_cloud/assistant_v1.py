@@ -6305,8 +6305,6 @@ class OutputData(object):
     objects containing detailed diagnostic information about the nodes that were triggered
     during processing of the input message. Included only if **nodes_visited_details** is
     set to `true` in the message request.
-    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any
-    actions requested by the dialog node.
     """
 
     def __init__(self,
@@ -6315,7 +6313,6 @@ class OutputData(object):
                  generic=None,
                  nodes_visited=None,
                  nodes_visited_details=None,
-                 actions=None,
                  **kwargs):
         """
         Initialize a OutputData object.
@@ -6334,8 +6331,6 @@ class OutputData(object):
         of objects containing detailed diagnostic information about the nodes that were
         triggered during processing of the input message. Included only if
         **nodes_visited_details** is set to `true` in the message request.
-        :param list[DialogNodeAction] actions: (optional) An array of objects describing
-        any actions requested by the dialog node.
         :param **kwargs: (optional) Any additional properties.
         """
         self.log_messages = log_messages
@@ -6343,7 +6338,6 @@ class OutputData(object):
         self.generic = generic
         self.nodes_visited = nodes_visited
         self.nodes_visited_details = nodes_visited_details
-        self.actions = actions
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -6382,11 +6376,6 @@ class OutputData(object):
                 for x in (_dict.get('nodes_visited_details'))
             ]
             del xtra['nodes_visited_details']
-        if 'actions' in _dict:
-            args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
-            ]
-            del xtra['actions']
         args.update(xtra)
         return cls(**args)
 
@@ -6406,8 +6395,6 @@ class OutputData(object):
             _dict['nodes_visited_details'] = [
                 x._to_dict() for x in self.nodes_visited_details
             ]
-        if hasattr(self, 'actions') and self.actions is not None:
-            _dict['actions'] = [x._to_dict() for x in self.actions]
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -6418,7 +6405,7 @@ class OutputData(object):
     def __setattr__(self, name, value):
         properties = {
             'log_messages', 'text', 'generic', 'nodes_visited',
-            'nodes_visited_details', 'actions'
+            'nodes_visited_details'
         }
         if not hasattr(self, '_additionalProperties'):
             super(OutputData, self).__setattr__('_additionalProperties', set())

@@ -163,3 +163,11 @@ def test_for_icp():
     assert service2.username is not None
     assert service2.password is not None
     assert service2.url is 'service_url'
+
+@responses.activate
+def test_disable_SSL_verification():
+    service1 = AnyServiceV1('2017-07-07', api_key='icp-xxxx', url='service_url')
+    assert service1.verify is None
+
+    service1.disable_SSL_verification()
+    assert service1.verify is False

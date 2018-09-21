@@ -5,13 +5,13 @@ from watson_developer_cloud import DiscoveryV1
 
 # If service instance provides API key authentication
 # discovery = DiscoveryV1(
-#     version='2017-10-16',
+#     version='2018-08-01',
 #     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
 #     url='https://gateway.watsonplatform.net/discovery/api',
 #     iam_apikey='iam_apikey')
 
 discovery = DiscoveryV1(
-    version='2017-10-16',
+    version='2018-08-01',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     # url='https://gateway.watsonplatform.net/discovery/api',
     username='YOUR SERVICE USERNAME',

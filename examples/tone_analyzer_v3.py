@@ -8,7 +8,7 @@ from watson_developer_cloud.tone_analyzer_v3 import ToneInput
 # service = ToneAnalyzerV3(
 #     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
 #     url='https://gateway.watsonplatform.net/tone-analyzer/api',
-#     version='2017-09-26',
+#     version='2017-09-21',
 #     iam_apikey='your_apikey')
 
 service = ToneAnalyzerV3(
@@ -16,7 +16,7 @@ service = ToneAnalyzerV3(
     # url='https://gateway.watsonplatform.net/tone-analyzer/api',
     username='YOUR SERVICE USERNAME',
     password='YOUR SERVICE PASSWORD',
-    version='2017-09-26')
+    version='2017-09-21')
 
 print("\ntone_chat() example 1:\n")
 utterances = [{
