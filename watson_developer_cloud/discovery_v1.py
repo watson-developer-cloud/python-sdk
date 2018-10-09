@@ -117,7 +117,8 @@ class DiscoveryV1(WatsonService):
 
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
-        :param str size: Size of the environment.
+        :param str size: Size of the environment. In the Lite plan the default and only
+        accepted value is `LT`, in all other plans the default is `S`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -252,6 +253,7 @@ class DiscoveryV1(WatsonService):
                            environment_id,
                            name=None,
                            description=None,
+                           size=None,
                            **kwargs):
         """
         Update an environment.
@@ -262,6 +264,9 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str name: Name that identifies the environment.
         :param str description: Description of the environment.
+        :param str size: Size that the environment should be increased to. Environment
+        size cannot be modified when using a Lite plan. Environment size can only
+        increased and not decreased.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -272,7 +277,7 @@ class DiscoveryV1(WatsonService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         params = {'version': self.version}
-        data = {'name': name, 'description': description}
+        data = {'name': name, 'description': description, 'size': size}
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
