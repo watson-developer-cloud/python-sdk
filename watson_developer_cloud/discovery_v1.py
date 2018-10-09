@@ -1183,139 +1183,6 @@ class DiscoveryV1(WatsonService):
     # Queries
     #########################
 
-    def federated_query(self,
-                        environment_id,
-                        collection_ids,
-                        filter=None,
-                        query=None,
-                        natural_language_query=None,
-                        aggregation=None,
-                        count=None,
-                        return_fields=None,
-                        offset=None,
-                        sort=None,
-                        highlight=None,
-                        deduplicate=None,
-                        deduplicate_field=None,
-                        similar=None,
-                        similar_document_ids=None,
-                        similar_fields=None,
-                        passages=None,
-                        passages_fields=None,
-                        passages_count=None,
-                        passages_characters=None,
-                        **kwargs):
-        """
-        Query documents in multiple collections.
-
-        See the [Discovery service
-        documentation](https://console.bluemix.net/docs/services/discovery/using.html) for
-        more details.
-
-        :param str environment_id: The ID of the environment.
-        :param list[str] collection_ids: A comma-separated list of collection IDs to be
-        queried against.
-        :param str filter: A cacheable query that limits the documents returned to exclude
-        any documents that don't mention the query content. Filter searches are better for
-        metadata type searches and when you are trying to get a sense of concepts in the
-        data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results. You cannot
-        use **natural_language_query** and **query** at the same time.
-        :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding. You
-        cannot use **natural_language_query** and **query** at the same time.
-        :param str aggregation: An aggregation search uses combinations of filters and
-        query search to return an exact answer. Aggregations are useful for building
-        applications, because you can use them to build lists, tables, and time series.
-        For a full list of possible aggregrations, see the Query reference.
-        :param int count: Number of results to return.
-        :param list[str] return_fields: A comma separated list of the portion of the
-        document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10, and the offset is
-        8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort
-        on. You can optionally specify a sort direction by prefixing the field with `-`
-        for descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified.
-        :param bool highlight: When true a highlight field is returned for each result
-        which contains the fields that match the query with `<em></em>` tags around the
-        matching query terms. Defaults to false.
-        :param bool deduplicate: When `true` and used with a Watson Discovery News
-        collection, duplicate results (based on the contents of the **title** field) are
-        removed. Duplicate comparison is limited to the current query only; **offset** is
-        not considered. This parameter is currently Beta functionality.
-        :param str deduplicate_field: When specified, duplicate results based on the field
-        specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, **offset** is not considered. This parameter is
-        currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs that
-        will be used to find similar documents.
-        **Note:** If the **natural_language_query** parameter is also specified, it will
-        be used to expand the scope of the document similarity search to include the
-        natural language query. Other query parameters, such as **filter** and **query**
-        are subsequently applied and reduce the query scope.
-        :param list[str] similar_fields: A comma-separated list of field names that will
-        be used as a basis for comparison to identify similar documents. If not specified,
-        the entire document is used for comparison.
-        :param bool passages: A passages query that returns the most relevant passages
-        from the results.
-        :param list[str] passages_fields: A comma-separated list of fields that passages
-        are drawn from. If this parameter not specified, then all top-level fields are
-        included.
-        :param int passages_count: The maximum number of passages to return. The search
-        returns fewer passages if the requested total is not found. The default is `10`.
-        The maximum is `100`.
-        :param int passages_characters: The approximate number of characters that any one
-        passage will have. The default is `400`. The minimum is `50`. The maximum is
-        `2000`.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_ids is None:
-            raise ValueError('collection_ids must be provided')
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        params = {
-            'version': self.version,
-            'collection_ids': self._convert_list(collection_ids),
-            'filter': filter,
-            'query': query,
-            'natural_language_query': natural_language_query,
-            'aggregation': aggregation,
-            'count': count,
-            'return': self._convert_list(return_fields),
-            'offset': offset,
-            'sort': self._convert_list(sort),
-            'highlight': highlight,
-            'deduplicate': deduplicate,
-            'deduplicate.field': deduplicate_field,
-            'similar': similar,
-            'similar.document_ids': self._convert_list(similar_document_ids),
-            'similar.fields': self._convert_list(similar_fields),
-            'passages': passages,
-            'passages.fields': self._convert_list(passages_fields),
-            'passages.count': passages_count,
-            'passages.characters': passages_characters
-        }
-        url = '/v1/environments/{0}/query'.format(
-            *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
     def federated_query_notices(self,
                                 environment_id,
                                 collection_ids,
@@ -1345,10 +1212,9 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param list[str] collection_ids: A comma-separated list of collection IDs to be
         queried against.
-        :param str filter: A cacheable query that limits the documents returned to exclude
-        any documents that don't mention the query content. Filter searches are better for
-        metadata type searches and when you are trying to get a sense of concepts in the
-        data set.
+        :param str filter: A cacheable query that excludes documents that don't mention
+        the query content. Filter searches are better for metadata-type searches and for
+        assessing the concepts in the data set.
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
         a query search when you want to find the most relevant search results. You cannot
@@ -1356,37 +1222,37 @@ class DiscoveryV1(WatsonService):
         :param str natural_language_query: A natural language query that returns relevant
         documents by utilizing training data and natural language understanding. You
         cannot use **natural_language_query** and **query** at the same time.
-        :param str aggregation: An aggregation search uses combinations of filters and
-        query search to return an exact answer. Aggregations are useful for building
-        applications, because you can use them to build lists, tables, and time series.
-        For a full list of possible aggregrations, see the Query reference.
+        :param str aggregation: An aggregation search that returns an exact answer by
+        combining query search with filters. Useful for applications to build lists,
+        tables, and time series. For a full list of possible aggregations, see the Query
+        reference.
         :param int count: Number of results to return.
-        :param list[str] return_fields: A comma separated list of the portion of the
+        :param list[str] return_fields: A comma-separated list of the portion of the
         document hierarchy to return.
         :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10, and the offset is
+        example, if the total number of results that are returned is 10 and the offset is
         8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort
+        :param list[str] sort: A comma-separated list of fields in the document to sort
         on. You can optionally specify a sort direction by prefixing the field with `-`
         for descending or `+` for ascending. Ascending is the default sort direction if no
         prefix is specified.
-        :param bool highlight: When true a highlight field is returned for each result
-        which contains the fields that match the query with `<em></em>` tags around the
-        matching query terms. Defaults to false.
+        :param bool highlight: When true, a highlight field is returned for each result
+        which contains the fields which match the query with `<em></em>` tags around the
+        matching query terms.
         :param str deduplicate_field: When specified, duplicate results based on the field
         specified are removed from the returned results. Duplicate comparison is limited
         to the current query only, **offset** is not considered. This parameter is
         currently Beta functionality.
         :param bool similar: When `true`, results are returned based on their similarity
         to the document IDs specified in the **similar.document_ids** parameter.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs that
-        will be used to find similar documents.
-        **Note:** If the **natural_language_query** parameter is also specified, it will
-        be used to expand the scope of the document similarity search to include the
-        natural language query. Other query parameters, such as **filter** and **query**
-        are subsequently applied and reduce the query scope.
-        :param list[str] similar_fields: A comma-separated list of field names that will
-        be used as a basis for comparison to identify similar documents. If not specified,
+        :param list[str] similar_document_ids: A comma-separated list of document IDs to
+        find similar documents.
+        **Tip:** Include the **natural_language_query** parameter to expand the scope of
+        the document similarity search with the natural language query. Other query
+        parameters, such as **filter** and **query**, are subsequently applied and reduce
+        the scope.
+        :param list[str] similar_fields: A comma-separated list of field names that are
+        used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1418,140 +1284,6 @@ class DiscoveryV1(WatsonService):
         }
         url = '/v1/environments/{0}/notices'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def query(self,
-              environment_id,
-              collection_id,
-              filter=None,
-              query=None,
-              natural_language_query=None,
-              passages=None,
-              aggregation=None,
-              count=None,
-              return_fields=None,
-              offset=None,
-              sort=None,
-              highlight=None,
-              passages_fields=None,
-              passages_count=None,
-              passages_characters=None,
-              deduplicate=None,
-              deduplicate_field=None,
-              similar=None,
-              similar_document_ids=None,
-              similar_fields=None,
-              logging_opt_out=None,
-              **kwargs):
-        """
-        Query your collection.
-
-        After your content is uploaded and enriched by the Discovery service, you can
-        build queries to search your content. For details, see the [Discovery service
-        documentation](https://console.bluemix.net/docs/services/discovery/using.html).
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that limits the documents returned to exclude
-        any documents that don't mention the query content. Filter searches are better for
-        metadata type searches and when you are trying to get a sense of concepts in the
-        data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results. You cannot
-        use **natural_language_query** and **query** at the same time.
-        :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding. You
-        cannot use **natural_language_query** and **query** at the same time.
-        :param bool passages: A passages query that returns the most relevant passages
-        from the results.
-        :param str aggregation: An aggregation search uses combinations of filters and
-        query search to return an exact answer. Aggregations are useful for building
-        applications, because you can use them to build lists, tables, and time series.
-        For a full list of possible aggregrations, see the Query reference.
-        :param int count: Number of results to return.
-        :param list[str] return_fields: A comma separated list of the portion of the
-        document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10, and the offset is
-        8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort
-        on. You can optionally specify a sort direction by prefixing the field with `-`
-        for descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified.
-        :param bool highlight: When true a highlight field is returned for each result
-        which contains the fields that match the query with `<em></em>` tags around the
-        matching query terms. Defaults to false.
-        :param list[str] passages_fields: A comma-separated list of fields that passages
-        are drawn from. If this parameter not specified, then all top-level fields are
-        included.
-        :param int passages_count: The maximum number of passages to return. The search
-        returns fewer passages if the requested total is not found. The default is `10`.
-        The maximum is `100`.
-        :param int passages_characters: The approximate number of characters that any one
-        passage will have. The default is `400`. The minimum is `50`. The maximum is
-        `2000`.
-        :param bool deduplicate: When `true` and used with a Watson Discovery News
-        collection, duplicate results (based on the contents of the **title** field) are
-        removed. Duplicate comparison is limited to the current query only; **offset** is
-        not considered. This parameter is currently Beta functionality.
-        :param str deduplicate_field: When specified, duplicate results based on the field
-        specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, **offset** is not considered. This parameter is
-        currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs that
-        will be used to find similar documents.
-        **Note:** If the **natural_language_query** parameter is also specified, it will
-        be used to expand the scope of the document similarity search to include the
-        natural language query. Other query parameters, such as **filter** and **query**
-        are subsequently applied and reduce the query scope.
-        :param list[str] similar_fields: A comma-separated list of field names that will
-        be used as a basis for comparison to identify similar documents. If not specified,
-        the entire document is used for comparison.
-        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
-        **Logs** endpoint.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        params = {
-            'version': self.version,
-            'filter': filter,
-            'query': query,
-            'natural_language_query': natural_language_query,
-            'passages': passages,
-            'aggregation': aggregation,
-            'count': count,
-            'return': self._convert_list(return_fields),
-            'offset': offset,
-            'sort': self._convert_list(sort),
-            'highlight': highlight,
-            'passages.fields': self._convert_list(passages_fields),
-            'passages.count': passages_count,
-            'passages.characters': passages_characters,
-            'deduplicate': deduplicate,
-            'deduplicate.field': deduplicate_field,
-            'similar': similar,
-            'similar.document_ids': self._convert_list(similar_document_ids),
-            'similar.fields': self._convert_list(similar_fields)
-        }
-        url = '/v1/environments/{0}/collections/{1}/query'.format(
-            *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
             method='GET',
             url=url,
@@ -1656,10 +1388,9 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that limits the documents returned to exclude
-        any documents that don't mention the query content. Filter searches are better for
-        metadata type searches and when you are trying to get a sense of concepts in the
-        data set.
+        :param str filter: A cacheable query that excludes documents that don't mention
+        the query content. Filter searches are better for metadata-type searches and for
+        assessing the concepts in the data set.
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
         a query search when you want to find the most relevant search results. You cannot
@@ -1669,46 +1400,44 @@ class DiscoveryV1(WatsonService):
         cannot use **natural_language_query** and **query** at the same time.
         :param bool passages: A passages query that returns the most relevant passages
         from the results.
-        :param str aggregation: An aggregation search uses combinations of filters and
-        query search to return an exact answer. Aggregations are useful for building
-        applications, because you can use them to build lists, tables, and time series.
-        For a full list of possible aggregrations, see the Query reference.
+        :param str aggregation: An aggregation search that returns an exact answer by
+        combining query search with filters. Useful for applications to build lists,
+        tables, and time series. For a full list of possible aggregations, see the Query
+        reference.
         :param int count: Number of results to return.
-        :param list[str] return_fields: A comma separated list of the portion of the
+        :param list[str] return_fields: A comma-separated list of the portion of the
         document hierarchy to return.
         :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10, and the offset is
+        example, if the total number of results that are returned is 10 and the offset is
         8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort
+        :param list[str] sort: A comma-separated list of fields in the document to sort
         on. You can optionally specify a sort direction by prefixing the field with `-`
         for descending or `+` for ascending. Ascending is the default sort direction if no
         prefix is specified.
-        :param bool highlight: When true a highlight field is returned for each result
-        which contains the fields that match the query with `<em></em>` tags around the
-        matching query terms. Defaults to false.
+        :param bool highlight: When true, a highlight field is returned for each result
+        which contains the fields which match the query with `<em></em>` tags around the
+        matching query terms.
         :param list[str] passages_fields: A comma-separated list of fields that passages
         are drawn from. If this parameter not specified, then all top-level fields are
         included.
         :param int passages_count: The maximum number of passages to return. The search
-        returns fewer passages if the requested total is not found. The default is `10`.
-        The maximum is `100`.
+        returns fewer passages if the requested total is not found.
         :param int passages_characters: The approximate number of characters that any one
-        passage will have. The default is `400`. The minimum is `50`. The maximum is
-        `2000`.
+        passage will have.
         :param str deduplicate_field: When specified, duplicate results based on the field
         specified are removed from the returned results. Duplicate comparison is limited
         to the current query only, **offset** is not considered. This parameter is
         currently Beta functionality.
         :param bool similar: When `true`, results are returned based on their similarity
         to the document IDs specified in the **similar.document_ids** parameter.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs that
-        will be used to find similar documents.
-        **Note:** If the **natural_language_query** parameter is also specified, it will
-        be used to expand the scope of the document similarity search to include the
-        natural language query. Other query parameters, such as **filter** and **query**
-        are subsequently applied and reduce the query scope.
-        :param list[str] similar_fields: A comma-separated list of field names that will
-        be used as a basis for comparison to identify similar documents. If not specified,
+        :param list[str] similar_document_ids: A comma-separated list of document IDs to
+        find similar documents.
+        **Tip:** Include the **natural_language_query** parameter to expand the scope of
+        the document similarity search with the natural language query. Other query
+        parameters, such as **filter** and **query**, are subsequently applied and reduce
+        the scope.
+        :param list[str] similar_fields: A comma-separated list of field names that are
+        used as a basis for comparison to identify similar documents. If not specified,
         the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1778,7 +1507,8 @@ class DiscoveryV1(WatsonService):
         context of `England`.
         :param str sort: The sorting method for the relationships, can be `score` or
         `frequency`. `frequency` is the number of unique times each entity is identified.
-        The default is `score`.
+        The default is `score`. This parameter cannot be used in the same query as the
+        **bias** parameter.
         :param QueryRelationsFilter filter: Filters to apply to the relationship query.
         :param int count: The number of results to return. The default is `10`. The
         maximum is `1000`.
@@ -2487,19 +2217,18 @@ class DiscoveryV1(WatsonService):
         criteria. Searching the **logs** endpoint uses the standard Discovery query syntax
         for the parameters that are supported.
 
-        :param str filter: A cacheable query that limits the documents returned to exclude
-        any documents that don't mention the query content. Filter searches are better for
-        metadata type searches and when you are trying to get a sense of concepts in the
-        data set.
+        :param str filter: A cacheable query that excludes documents that don't mention
+        the query content. Filter searches are better for metadata-type searches and for
+        assessing the concepts in the data set.
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
         a query search when you want to find the most relevant search results. You cannot
         use **natural_language_query** and **query** at the same time.
         :param int count: Number of results to return.
         :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10, and the offset is
+        example, if the total number of results that are returned is 10 and the offset is
         8, it returns the last two results.
-        :param list[str] sort: A comma separated list of fields in the document to sort
+        :param list[str] sort: A comma-separated list of fields in the document to sort
         on. You can optionally specify a sort direction by prefixing the field with `-`
         for descending or `+` for ascending. Ascending is the default sort direction if no
         prefix is specified.
@@ -4629,12 +4358,19 @@ class Environment(object):
     `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
     :attr datetime updated: (optional) Date of most recent environment update, in the
     format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-    :attr str status: (optional) Status of the environment.
+    :attr str status: (optional) Current status of the environment. `resizing` is
+    displayed when a request to increase the environment size has been made, but is still
+    in the process of being completed.
     :attr bool read_only: (optional) If `true`, the environment contains read-only
     collections that are maintained by IBM.
-    :attr str size: (optional) Size of the environment.
+    :attr str size: (optional) Current size of the environment.
+    :attr str requested_size: (optional) The new size requested for this environment. Only
+    returned when the environment *status* is `resizing`.
+    *Note:* Querying and indexing can still be performed during an environment upsize.
     :attr IndexCapacity index_capacity: (optional) Details about the resource usage and
     capacity of the environment.
+    :attr SearchStatus search_status: (optional) Information about Continuous Relevancy
+    Training for this environment.
     """
 
     def __init__(self,
@@ -4646,7 +4382,9 @@ class Environment(object):
                  status=None,
                  read_only=None,
                  size=None,
-                 index_capacity=None):
+                 requested_size=None,
+                 index_capacity=None,
+                 search_status=None):
         """
         Initialize a Environment object.
 
@@ -4657,12 +4395,19 @@ class Environment(object):
         format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
         :param datetime updated: (optional) Date of most recent environment update, in the
         format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-        :param str status: (optional) Status of the environment.
+        :param str status: (optional) Current status of the environment. `resizing` is
+        displayed when a request to increase the environment size has been made, but is
+        still in the process of being completed.
         :param bool read_only: (optional) If `true`, the environment contains read-only
         collections that are maintained by IBM.
-        :param str size: (optional) Size of the environment.
+        :param str size: (optional) Current size of the environment.
+        :param str requested_size: (optional) The new size requested for this environment.
+        Only returned when the environment *status* is `resizing`.
+        *Note:* Querying and indexing can still be performed during an environment upsize.
         :param IndexCapacity index_capacity: (optional) Details about the resource usage
         and capacity of the environment.
+        :param SearchStatus search_status: (optional) Information about Continuous
+        Relevancy Training for this environment.
         """
         self.environment_id = environment_id
         self.name = name
@@ -4672,7 +4417,9 @@ class Environment(object):
         self.status = status
         self.read_only = read_only
         self.size = size
+        self.requested_size = requested_size
         self.index_capacity = index_capacity
+        self.search_status = search_status
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -4694,9 +4441,14 @@ class Environment(object):
             args['read_only'] = _dict.get('read_only')
         if 'size' in _dict:
             args['size'] = _dict.get('size')
+        if 'requested_size' in _dict:
+            args['requested_size'] = _dict.get('requested_size')
         if 'index_capacity' in _dict:
             args['index_capacity'] = IndexCapacity._from_dict(
                 _dict.get('index_capacity'))
+        if 'search_status' in _dict:
+            args['search_status'] = SearchStatus._from_dict(
+                _dict.get('search_status'))
         return cls(**args)
 
     def _to_dict(self):
@@ -4718,8 +4470,12 @@ class Environment(object):
             _dict['read_only'] = self.read_only
         if hasattr(self, 'size') and self.size is not None:
             _dict['size'] = self.size
+        if hasattr(self, 'requested_size') and self.requested_size is not None:
+            _dict['requested_size'] = self.requested_size
         if hasattr(self, 'index_capacity') and self.index_capacity is not None:
             _dict['index_capacity'] = self.index_capacity._to_dict()
+        if hasattr(self, 'search_status') and self.search_status is not None:
+            _dict['search_status'] = self.search_status._to_dict()
         return _dict
 
     def __str__(self):
@@ -8774,6 +8530,86 @@ class QueryResultMetadata(object):
 
     def __str__(self):
         """Return a `str` version of this QueryResultMetadata object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchStatus(object):
+    """
+    Information about the Continuous Relevancy Training for this environment.
+
+    :attr str scope: (optional) Current scope of the training. Always returned as
+    `environment`.
+    :attr str status: (optional) The current status of Continuous Relevancy Training for
+    this environment.
+    :attr str status_description: (optional) Long description of the current Continuous
+    Relevancy Training status.
+    :attr date last_trained: (optional) The date stamp of the most recent completed
+    training for this environment.
+    """
+
+    def __init__(self,
+                 scope=None,
+                 status=None,
+                 status_description=None,
+                 last_trained=None):
+        """
+        Initialize a SearchStatus object.
+
+        :param str scope: (optional) Current scope of the training. Always returned as
+        `environment`.
+        :param str status: (optional) The current status of Continuous Relevancy Training
+        for this environment.
+        :param str status_description: (optional) Long description of the current
+        Continuous Relevancy Training status.
+        :param date last_trained: (optional) The date stamp of the most recent completed
+        training for this environment.
+        """
+        self.scope = scope
+        self.status = status
+        self.status_description = status_description
+        self.last_trained = last_trained
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchStatus object from a json dictionary."""
+        args = {}
+        if 'scope' in _dict:
+            args['scope'] = _dict.get('scope')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'status_description' in _dict:
+            args['status_description'] = _dict.get('status_description')
+        if 'last_trained' in _dict:
+            args['last_trained'] = _dict.get('last_trained')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'scope') and self.scope is not None:
+            _dict['scope'] = self.scope
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(
+                self,
+                'status_description') and self.status_description is not None:
+            _dict['status_description'] = self.status_description
+        if hasattr(self, 'last_trained') and self.last_trained is not None:
+            _dict['last_trained'] = self.last_trained
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SearchStatus object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
