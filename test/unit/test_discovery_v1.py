@@ -219,13 +219,36 @@ def test_federated_query():
     discovery_url = urljoin(base_discovery_url,
                             'environments/envid/query')
 
-    responses.add(responses.GET, discovery_url,
+    responses.add(responses.POST, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
                                                    username='username',
                                                    password='password')
     discovery.federated_query('envid', ['collid1', 'collid2'], filter='colls.sha1::9181d244*')
+
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
+
+@responses.activate
+def test_federated_query_2():
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/query')
+
+    responses.add(responses.POST, discovery_url,
+                  body="{\"body\": \"hello\"}", status=200,
+                  content_type='application/json')
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   username='username',
+                                                   password='password')
+    discovery.federated_query('envid', "'collid1', 'collid2'",
+                              filter='colls.sha1::9181d244*',
+                              bias='1',
+                              logging_opt_out=True)
 
     called_url = urlparse(responses.calls[0].request.url)
     test_url = urlparse(discovery_url)
@@ -259,7 +282,7 @@ def test_query():
     discovery_url = urljoin(base_discovery_url,
                             'environments/envid/collections/collid/query')
 
-    responses.add(responses.GET, discovery_url,
+    responses.add(responses.POST, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
     discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
@@ -272,6 +295,34 @@ def test_query():
                     passages_fields=['x', 'y'],
                     logging_opt_out='True',
                     passages_count=2)
+
+    called_url = urlparse(responses.calls[0].request.url)
+    test_url = urlparse(discovery_url)
+
+    assert called_url.netloc == test_url.netloc
+    assert called_url.path == test_url.path
+    assert len(responses.calls) == 1
+
+@responses.activate
+def test_query_2():
+    discovery_url = urljoin(base_discovery_url,
+                            'environments/envid/collections/collid/query')
+
+    responses.add(responses.POST, discovery_url,
+                  body="{\"body\": \"hello\"}", status=200,
+                  content_type='application/json')
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   username='username',
+                                                   password='password')
+    discovery.query('envid', 'collid',
+                    filter='extracted_metadata.sha1::9181d244*',
+                    count=1,
+                    passages=True,
+                    passages_fields=['x', 'y'],
+                    logging_opt_out='True',
+                    passages_count=2,
+                    bias='1',
+                    collection_ids='1,2')
 
     called_url = urlparse(responses.calls[0].request.url)
     test_url = urlparse(discovery_url)

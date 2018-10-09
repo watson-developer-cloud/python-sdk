@@ -115,16 +115,16 @@ def string_to_datetime(string):
     return date_parser.parse(string)
 
 
-def _cleanup_param_value(value):
+def _cleanup_value(value):
     if isinstance(value, bool):
         return 'true' if value else 'false'
     return value
 
 
-def _cleanup_param_values(dictionary):
+def _cleanup_values(dictionary):
     if isinstance(dictionary, dict):
         return dict(
-            [(k, _cleanup_param_value(v)) for k, v in dictionary.items()])
+            [(k, _cleanup_value(v)) for k, v in dictionary.items()])
     return dictionary
 
 
@@ -407,6 +407,7 @@ class WatsonService(object):
                 params=None, json=None, data=None, files=None, **kwargs):
         full_url = self.url + url
         input_headers = _remove_null_values(headers) if headers else {}
+        input_headers = _cleanup_values(headers)
 
         headers = CaseInsensitiveDict(self.user_agent_header)
         if self.default_headers is not None:
@@ -420,7 +421,7 @@ class WatsonService(object):
 
         # Remove keys with None values
         params = _remove_null_values(params)
-        params = _cleanup_param_values(params)
+        params = _cleanup_values(params)
         json = _remove_null_values(json)
         data = _remove_null_values(data)
         files = _remove_null_values(files)
