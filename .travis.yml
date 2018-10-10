@@ -34,13 +34,13 @@ deploy:
     script: docs/publish.sh
     skip_cleanup: true
     on:
-      python: '2.7'
+      python: '3.5'
       branch: master
   - provider: script
     script: npx semantic-release
     skip_cleanup: true
     on:
-      python: '2.7'
+      python: '3.5'
       branch: master
   - provider: pypi
     user: ehdsouza
@@ -49,5 +49,5 @@ deploy:
     repository: https://upload.pypi.org/legacy
     skip_cleanup: true
     on:
-      python: '2.7'
+      python: '3.5'
       branch: master
