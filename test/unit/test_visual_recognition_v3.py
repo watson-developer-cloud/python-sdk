@@ -6,7 +6,7 @@ import os
 
 from unittest import TestCase
 
-base_url = "https://gateway-a.watsonplatform.net/visual-recognition/api/"
+base_url = "https://gateway.watsonplatform.net/visual-recognition/api/"
 
 class TestVisualRecognitionV3(TestCase):
     @classmethod

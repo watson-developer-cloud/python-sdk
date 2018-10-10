@@ -404,7 +404,7 @@ class WatsonService(object):
                 params=None, json=None, data=None, files=None, **kwargs):
         full_url = self.url + url
         input_headers = _remove_null_values(headers) if headers else {}
-        input_headers = _cleanup_values(headers)
+        input_headers = _cleanup_values(input_headers)
 
         headers = CaseInsensitiveDict(self.user_agent_header)
         if self.default_headers is not None:
