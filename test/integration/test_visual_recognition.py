@@ -14,14 +14,14 @@ class IntegrationTestVisualRecognitionV3(TestCase):
     @classmethod
     def setup_class(cls):
         cls.visual_recognition = watson_developer_cloud.VisualRecognitionV3(
-            '2018-03-19', api_key='YOUR API KEY')
+            '2018-03-19', iam_apikey='YOUR IAM API KEY')
         cls.visual_recognition.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
             'X-Watson-Test':
             '1'
         })
-        cls.classifier_id = 'doxnotxdeletexintegrationxtest_397877192'
+        cls.classifier_id = 'sdkxtestxclassifierxdoxnotxdel_1089651138'
 
     def test_classify(self):
         dog_path = abspath('resources/dog.jpg')
@@ -37,7 +37,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             url='https://www.ibm.com/ibm/ginni/images/ginni_bio_780x981_v4_03162016.jpg').get_result()
         assert output is not None
 
-    # @pytest.mark.skip(reason="Time consuming")
+    @pytest.mark.skip(reason="Time consuming")
     def test_custom_classifier(self):
         with open(abspath('resources/cars.zip'), 'rb') as cars, \
             open(abspath('resources/trucks.zip'), 'rb') as trucks:

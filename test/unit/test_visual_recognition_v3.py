@@ -6,12 +6,24 @@ import os
 
 from unittest import TestCase
 
-base_url = "https://gateway-a.watsonplatform.net/visual-recognition/api/"
+base_url = "https://gateway.watsonplatform.net/visual-recognition/api/"
 
 class TestVisualRecognitionV3(TestCase):
+    @classmethod
+    def setUp(cls):
+        iam_url = "https://iam.bluemix.net/identity/token"
+        iam_token_response = """{
+            "access_token": "oAeisG8yqPY7sFR_x66Z15",
+            "token_type": "Bearer",
+            "expires_in": 3600,
+            "expiration": 1524167011,
+            "refresh_token": "jy4gl91BQ"
+        }"""
+        responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
+
     @responses.activate
     def test_get_classifier(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
+        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
@@ -31,11 +43,11 @@ class TestVisualRecognitionV3(TestCase):
                       content_type='application/json')
         vr_service.get_classifier(classifier_id='bogusnumber')
 
-        assert len(responses.calls) == 1
+        assert len(responses.calls) == 2
 
     @responses.activate
     def test_delete_classifier(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
+        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
@@ -46,11 +58,11 @@ class TestVisualRecognitionV3(TestCase):
                       content_type='application/json')
         vr_service.delete_classifier(classifier_id='bogusnumber')
 
-        assert len(responses.calls) == 1
+        assert len(responses.calls) == 2
 
     @responses.activate
     def test_list_classifiers(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
+        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
@@ -74,11 +86,11 @@ class TestVisualRecognitionV3(TestCase):
                       content_type='application/json')
         vr_service.list_classifiers()
 
-        assert len(responses.calls) == 1
+        assert len(responses.calls) == 2
 
     @responses.activate
     def test_create_classifier(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
+        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
@@ -101,11 +113,11 @@ class TestVisualRecognitionV3(TestCase):
             open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
             vr_service.create_classifier('Cars vs Trucks', cars_positive_examples=cars, negative_examples=trucks)
 
-        assert len(responses.calls) == 1
+        assert len(responses.calls) == 2
 
     @responses.activate
     def test_update_classifier(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
+        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusid')
 
@@ -129,11 +141,11 @@ class TestVisualRecognitionV3(TestCase):
                       content_type='application/json')
 
         vr_service.update_classifier(classifier_id="bogusid")
-        assert len(responses.calls) == 1
+        assert len(responses.calls) == 2
 
     @responses.activate
     def test_classify(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
+        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classify')
 
@@ -175,11 +187,11 @@ class TestVisualRecognitionV3(TestCase):
 
         with open(os.path.join(os.path.dirname(__file__), '../../resources/test.jpg'), 'rb') as image_file:
             vr_service.classify(images_file=image_file)
-        assert len(responses.calls) == 4
+        assert len(responses.calls) == 8
 
     @responses.activate
     def test_detect_faces(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
+        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/detect_faces')
 
@@ -232,19 +244,19 @@ class TestVisualRecognitionV3(TestCase):
         vr_service.detect_faces(parameters='{"url": "http://google.com"}')
         with open(os.path.join(os.path.dirname(__file__), '../../resources/test.jpg'), 'rb') as image_file:
             vr_service.detect_faces(images_file=image_file)
+        assert len(responses.calls) == 4
+
+    @responses.activate
+    def test_delete_user_data(self):
+        url = "{0}{1}".format(base_url, 'v3/user_data')
+        responses.add(
+            responses.DELETE,
+            url,
+            body='{"description": "success" }',
+            status=204,
+            content_type='application_json')
+
+        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        response = vr_service.delete_user_data('id').get_result()
+        assert response is None
         assert len(responses.calls) == 2
-
-@responses.activate
-def test_delete_user_data():
-    url = "{0}{1}".format(base_url, 'v3/user_data')
-    responses.add(
-        responses.DELETE,
-        url,
-        body='{"description": "success" }',
-        status=204,
-        content_type='application_json')
-
-    vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', api_key='bogusapikey')
-    response = vr_service.delete_user_data('id').get_result()
-    assert response is None
-    assert len(responses.calls) == 1

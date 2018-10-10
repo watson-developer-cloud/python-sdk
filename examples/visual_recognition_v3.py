@@ -6,17 +6,12 @@ from watson_developer_cloud import VisualRecognitionV3, WatsonApiException
 test_url = 'https://www.ibm.com/ibm/ginni/images' \
            '/ginni_bio_780x981_v4_03162016.jpg'
 
-# # If service instance provides IAM API key authentication
-# service = VisualRecognitionV3(
-#     '2018-03-19',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/visual-recognition/api',
-#     iam_apikey='iam_apikey')
-
-service = VisualRecognitionV3('2018-03-19',
-                              ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-                              #  url='https://gateway.watsonplatform.net/visual-recognition/api',
-                              api_key='YOUR API KEY')
+# If service instance provides IAM API key authentication
+service = VisualRecognitionV3(
+    '2018-03-19',
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    url='https://gateway.watsonplatform.net/visual-recognition/api',
+    iam_apikey='iam_apikey')
 
 # with open(abspath('resources/cars.zip'), 'rb') as cars, \
 #      open(abspath('resources/trucks.zip'), 'rb') as trucks:
