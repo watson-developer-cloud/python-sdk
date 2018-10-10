@@ -135,6 +135,8 @@ class ToneAnalyzerV3(WatsonService):
         to indicate the character encoding of the input text; for example: `Content-Type:
         text/plain;charset=utf-8`. For `text/html`, the service removes HTML tags and
         analyzes only the textual content.
+        **See also:** [Using the general-purpose
+        endpoint](https://console.bluemix.net/docs/services/tone-analyzer/using-tone.html#using-the-general-purpose-endpoint).
 
         :param ToneInput tone_input: JSON, plain text, or HTML input that contains the
         content to be analyzed. For JSON input, provide an object of type `ToneInput`.
@@ -214,9 +216,10 @@ class ToneAnalyzerV3(WatsonService):
         overall content and analyzes only the first 50 utterances. If you submit a single
         utterance that contains more than 500 characters, the service returns an error for
         that utterance and does not analyze the utterance. The request fails if all
-        utterances have more than 500 characters.
-        Per the JSON specification, the default character encoding for JSON content is
-        effectively always UTF-8.
+        utterances have more than 500 characters. Per the JSON specification, the default
+        character encoding for JSON content is effectively always UTF-8.
+        **See also:** [Using the customer-engagement
+        endpoint](https://console.bluemix.net/docs/services/tone-analyzer/using-tone-chat.html#using-the-customer-engagement-endpoint).
 
         :param list[Utterance] utterances: An array of `Utterance` objects that provides
         the input content that the service is to analyze.
@@ -631,9 +634,8 @@ class ToneChatScore(object):
     :attr float score: The score for the tone in the range of 0.5 to 1. A score greater
     than 0.75 indicates a high likelihood that the tone is perceived in the utterance.
     :attr str tone_id: The unique, non-localized identifier of the tone for the results.
-    The service can return results for the following tone IDs: `sad`, `frustrated`,
-    `satisfied`, `excited`, `polite`, `impolite`, and `sympathetic`. The service returns
-    results only for tones whose scores meet a minimum threshold of 0.5.
+    The service returns results only for tones whose scores meet a minimum threshold of
+    0.5.
     :attr str tone_name: The user-visible, localized name of the tone.
     """
 
@@ -645,10 +647,8 @@ class ToneChatScore(object):
         greater than 0.75 indicates a high likelihood that the tone is perceived in the
         utterance.
         :param str tone_id: The unique, non-localized identifier of the tone for the
-        results. The service can return results for the following tone IDs: `sad`,
-        `frustrated`, `satisfied`, `excited`, `polite`, `impolite`, and `sympathetic`. The
-        service returns results only for tones whose scores meet a minimum threshold of
-        0.5.
+        results. The service returns results only for tones whose scores meet a minimum
+        threshold of 0.5.
         :param str tone_name: The user-visible, localized name of the tone.
         """
         self.score = score

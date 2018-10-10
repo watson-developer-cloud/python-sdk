@@ -19,7 +19,6 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
     * [Getting credentials](#getting-credentials)
     * [IAM](#iam)
     * [Username and password](#username-and-password)
-    * [API key](#api-key)
   * [Python version](#python-version)
   * [Changes for v1.0](#changes-for-v10)
   * [Changes for v2.0](#changes-for-v20)
@@ -71,7 +70,10 @@ For more details see [#405](https://github.com/watson-developer-cloud/python-sdk
 
 ## Examples
 
-The [examples][examples] folder has basic and advanced examples. The examples within each service assume that you already have [service credentials](#getting-credentials). 
+The [examples][examples] folder has basic and advanced examples. The examples within each service assume that you already have [service credentials](#getting-credentials).
+
+Note:
+Conversation V1 is deprecated and will be removed in the next major release of the SDK. Use Assistant V1 or Assistant V2.
 
 ## Running in IBM Cloud
 
@@ -83,7 +85,6 @@ Watson services are migrating to token-based Identity and Access Management (IAM
 
 - With some service instances, you authenticate to the API by using **[IAM](#iam)**.
 - In other instances, you authenticate by providing the **[username and password](#username-and-password)** for the service instance.
-- Visual Recognition uses a form of [API key](#api-key) only with instances created before May 23, 2018. Newer instances of Visual Recognition use IAM.
 
 **Note:** Authenticating with the X-Watson-Authorization-Token header is deprecated. The token continues to work with Cloud Foundry services, but is not supported for services that use Identity and Access Management (IAM) authentication. See [here](#iam) for details.
 
@@ -144,22 +145,6 @@ discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>', usernam
 # After instantiation
 discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>')
 discovery.set_username_and_password('<username>', '<password>')
-```
-
-### API key
-
-**Important**: This type of authentication works only with Visual Recognition instances created before May 23, 2018. Newer instances of Visual Recognition use [IAM](#iam).
-
-```python
-from watson_developer_cloud import VisualRecognitionV3
-# In the constructor
-visual_recognition = VisualRecognitionV3(version='2018-03-19', url='<url_as_per_region>', api_key='<api_key>')
-```
-
-```python
-# After instantiation
-visual_recognition = VisualRecognitionV3(version='2018-03-19')
-visual_recognition.set_api_key('<api_key>')
 ```
 
 ## Python version

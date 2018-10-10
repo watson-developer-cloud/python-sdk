@@ -32,3 +32,4 @@ from .discovery_v1 import DiscoveryV1
 from .version import __version__
 from .speech_to_text_v1_adapter import SpeechToTextV1Adapter as SpeechToTextV1
 from .visual_recognition_v3_adapter import VisualRecognitionV3Adapter as VisualRecognitionV3
+from .discovery_v1_adapter import DiscoveryV1Adapter as DiscoveryV1

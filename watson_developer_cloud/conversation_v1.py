@@ -24,12 +24,13 @@ from __future__ import absolute_import
 import json
 from .watson_service import datetime_to_string, string_to_datetime
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-
+@deprecated("Conversation V1 is deprecated and will be removed in the next major release of the SDK. Use Assistant V1 or Assistant V2.")
 class ConversationV1(WatsonService):
     """The Conversation V1 service."""
 
