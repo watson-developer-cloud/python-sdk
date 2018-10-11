@@ -34,6 +34,7 @@ deploy:
     script: docs/publish.sh
     skip_cleanup: true
     on:
+      python: '3.5'
       tags: true
   - provider: script
     script: npx semantic-release
@@ -48,4 +49,5 @@ deploy:
     repository: https://upload.pypi.org/legacy
     skip_cleanup: true
     on:
+      python: '3.5'
       tags: true
