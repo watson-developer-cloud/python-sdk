@@ -35,7 +35,7 @@ deploy:
     skip_cleanup: true
     on:
       python: '3.5'
-      branch: master
+      tags: true
   - provider: script
     script: npx semantic-release
     skip_cleanup: true
@@ -50,4 +50,4 @@ deploy:
     skip_cleanup: true
     on:
       python: '3.5'
-      branch: master
+      tags: true
