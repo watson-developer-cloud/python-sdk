@@ -1,0 +1,171 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.visual_recognition_v3_adapter module &#8212; Watson Developer Cloud Python SDK 2.2.3 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.watson_service module" href="watson_developer_cloud.watson_service.html" />
+    <link rel="prev" title="watson_developer_cloud.visual_recognition_v3 module" href="watson_developer_cloud.visual_recognition_v3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.visual_recognition_v3_adapter">
+<span id="watson-developer-cloud-visual-recognition-v3-adapter-module"></span><h1>watson_developer_cloud.visual_recognition_v3_adapter module<a class="headerlink" href="#module-watson_developer_cloud.visual_recognition_v3_adapter" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter">
+<em class="property">class </em><code class="descname">VisualRecognitionV3Adapter</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/visual-recognition/api'</em>, <em>api_key=None</em>, <em>iam_apikey=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3_adapter.html#VisualRecognitionV3Adapter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.visual_recognition_v3.html#watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3" title="watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.visual_recognition_v3.VisualRecognitionV3</span></code></a></p>
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.create_classifier">
+<code class="descname">create_classifier</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3_adapter.html#VisualRecognitionV3Adapter.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.create_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a classifier.
+:param str name: The name of the new classifier. Encode special characters in UTF-8.
+:param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file. Encode special characters in the file name in UTF-8.
+:param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images. Encode special characters in the file name in UTF-8.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>Classifier</cite> response.
+:rtype: dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.update_classifier">
+<code class="descname">update_classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3_adapter.html#VisualRecognitionV3Adapter.update_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.update_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a classifier.
+:param str classifier_id: The ID of the classifier.
+:param file &lt;NAME&gt;_positive_examples: A .zip file of images that depict the visual subject of a class in the classifier. The positive examples create or update classes in the classifier. You can include more than one positive example file in a call. Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file. Encode special characters in the file name in UTF-8.
+:param file negative_examples: A .zip file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images. Encode special characters in the file name in UTF-8.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>Classifier</cite> response.
+:rtype: dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.classify">
+<code class="descname">classify</code><span class="sig-paren">(</span><em>images_file=None</em>, <em>accept_language=None</em>, <em>url=None</em>, <em>threshold=None</em>, <em>owners=None</em>, <em>classifier_ids=None</em>, <em>images_file_content_type=None</em>, <em>images_filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3_adapter.html#VisualRecognitionV3Adapter.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify images.</p>
+<p>Classify images with built-in or custom classifiers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>images_file</strong> (<em>file</em>) – An image file (.jpg, .png) or .zip file with images.</td>
+</tr>
+</tbody>
+</table>
+<p>Maximum image size is 10 MB. Include no more than 20 images and limit the .zip
+file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain
+non-ASCII characters. The service assumes UTF-8 encoding if it encounters
+non-ASCII characters.
+You can also include an image with the <strong>url</strong> parameter.
+:param str accept_language: The language of the output class names. The full set
+of languages is supported for the built-in classifier IDs: <cite>default</cite>, <cite>food</cite>, and
+<cite>explicit</cite>. The class names of custom classifiers are not translated.
+The response might not be in the specified language when the requested language is
+not supported or when there is no translation for the class name.
+:param str url: The URL of an image to analyze. Must be in .jpg, or .png format.
+The minimum recommended pixel density is 32X32 pixels per inch, and the maximum
+image size is 10 MB.
+You can also include images with the <strong>images_file</strong> parameter.
+:param float threshold: The minimum score a class must have to be displayed in the
+response. Set the threshold to <cite>0.0</cite> to ignore the classification score and return
+all values.
+:param list[str] owners: The categories of classifiers to apply. Use <cite>IBM</cite> to
+classify against the <cite>default</cite> general classifier, and use <cite>me</cite> to classify
+against your custom classifiers. To analyze the image against both classifier
+categories, set the value to both <cite>IBM</cite> and <cite>me</cite>.
+The built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and
+<strong>owners</strong> parameters are empty.
+The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that
+<strong>classifier_ids</strong> is empty.
+:param list[str] classifier_ids: Which classifiers to apply. Overrides the
+<strong>owners</strong> parameter. You can specify both custom and built-in classifier IDs. The
+built-in <cite>default</cite> classifier is used if both <strong>classifier_ids</strong> and <strong>owners</strong>
+parameters are empty.
+The following built-in classifier IDs require no training:
+- <cite>default</cite>: Returns classes from thousands of general tags.
+- <cite>food</cite>: Enhances specificity and accuracy for images of food items.
+- <cite>explicit</cite>: Evaluates whether the image might be pornographic.
+:param str images_file_content_type: The content type of images_file.
+:param str images_filename: The filename for images_file.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.visual_recognition_v3.html" title="previous chapter">watson_developer_cloud.visual_recognition_v3 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.watson_service.html" title="next chapter">watson_developer_cloud.watson_service module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
