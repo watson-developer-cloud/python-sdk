@@ -14,4 +14,4 @@ def test_request_token():
                                                            password='yyy')
     authorization.get_token(url=watson_developer_cloud.SpeechToTextV1.default_url)
     assert responses.calls[0].request.url == url
-    assert responses.calls[0].response.content == 'mocked token'
+    assert responses.calls[0].response.content.decode('utf-8') == 'mocked token'
