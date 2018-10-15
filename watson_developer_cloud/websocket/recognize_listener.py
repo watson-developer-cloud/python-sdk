@@ -17,6 +17,7 @@
 import websocket
 import json
 import time
+import ssl
 try:
     import thread
 except ImportError:
@@ -31,7 +32,15 @@ START = "start"
 STOP = "stop"
 
 class RecognizeListener(object):
-    def __init__(self, audio_source, options, callback, url, headers, http_proxy_host=None, http_proxy_port=None):
+    def __init__(self,
+                 audio_source,
+                 options,
+                 callback,
+                 url,
+                 headers,
+                 http_proxy_host=None,
+                 http_proxy_port=None,
+                 verify=None):
         self.audio_source = audio_source
         self.options = options
         self.callback = callback
@@ -40,6 +49,7 @@ class RecognizeListener(object):
         self.http_proxy_host = http_proxy_host
         self.http_proxy_port = http_proxy_port
         self.isListening = False
+        self.verify = verify
 
         # websocket.enableTrace(True)
 
@@ -51,7 +61,10 @@ class RecognizeListener(object):
             on_error=self.on_error,
             on_close=self.on_close,
         )
-        self.ws_client.run_forever(http_proxy_host=self.http_proxy_host, http_proxy_port=self.http_proxy_port)
+
+        self.ws_client.run_forever(http_proxy_host=self.http_proxy_host,
+                                   http_proxy_port=self.http_proxy_port,
+                                   sslopt={"cert_reqs": ssl.CERT_NONE} if self.verify is not None else None)
 
     @classmethod
     def build_start_message(cls, options):

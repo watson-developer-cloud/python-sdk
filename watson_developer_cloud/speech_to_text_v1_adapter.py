@@ -199,7 +199,14 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         }
         options = _remove_null_values(options)
 
-        RecognizeListener(audio, options, recognize_callback, url, headers, http_proxy_host, http_proxy_port)
+        RecognizeListener(audio,
+                          options,
+                          recognize_callback,
+                          url,
+                          headers,
+                          http_proxy_host,
+                          http_proxy_port,
+                          self.verify)
 
     def add_corpus(self,
                    customization_id,
