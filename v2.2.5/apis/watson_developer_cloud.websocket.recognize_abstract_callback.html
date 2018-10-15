@@ -1,0 +1,144 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.websocket.recognize_abstract_callback module &#8212; Watson Developer Cloud Python SDK 2.2.5 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.websocket.recognize_listener module" href="watson_developer_cloud.websocket.recognize_listener.html" />
+    <link rel="prev" title="watson_developer_cloud.websocket.audio_source module" href="watson_developer_cloud.websocket.audio_source.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.websocket.recognize_abstract_callback">
+<span id="watson-developer-cloud-websocket-recognize-abstract-callback-module"></span><h1>watson_developer_cloud.websocket.recognize_abstract_callback module<a class="headerlink" href="#module-watson_developer_cloud.websocket.recognize_abstract_callback" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback">
+<em class="property">class </em><code class="descname">RecognizeCallback</code><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_transcription">
+<code class="descname">on_transcription</code><span class="sig-paren">(</span><em>transcript</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback.on_transcription"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_transcription" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after the service returns the final result for the transcription.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_connected">
+<code class="descname">on_connected</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback.on_connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_connected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when a Websocket connection was made</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_error">
+<code class="descname">on_error</code><span class="sig-paren">(</span><em>error</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback.on_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when there is an error in the Websocket connection.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_inactivity_timeout">
+<code class="descname">on_inactivity_timeout</code><span class="sig-paren">(</span><em>error</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback.on_inactivity_timeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_inactivity_timeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when there is an inactivity timeout.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_listening">
+<code class="descname">on_listening</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback.on_listening"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_listening" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the service is listening for audio.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_hypothesis">
+<code class="descname">on_hypothesis</code><span class="sig-paren">(</span><em>hypothesis</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback.on_hypothesis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_hypothesis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when an interim result is received.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_data">
+<code class="descname">on_data</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback.on_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the service returns results. The data is returned unparsed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_close">
+<code class="descname">on_close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/recognize_abstract_callback.html#RecognizeCallback.on_close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.recognize_abstract_callback.RecognizeCallback.on_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the Websocket connection is closed</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="watson_developer_cloud.websocket.html">watson_developer_cloud.websocket package</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.websocket.audio_source.html" title="previous chapter">watson_developer_cloud.websocket.audio_source module</a></li>
+      <li>Next: <a href="watson_developer_cloud.websocket.recognize_listener.html" title="next chapter">watson_developer_cloud.websocket.recognize_listener module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
