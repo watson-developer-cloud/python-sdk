@@ -52,4 +52,4 @@ class AuthorizationV1(WatsonService):
         self.url = urlparse.urlunsplit(parsed_url)
 
         response = self.request(method='GET', url='/v1/token?url=' + url)
-        return response.text
+        return response.result.text
