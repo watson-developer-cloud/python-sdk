@@ -231,7 +231,7 @@ class SpeechToTextV1(WatsonService):
         **See also:** [Making a multipart HTTP
         request](https://console.bluemix.net/docs/services/speech-to-text/http.html#HTTP-multi).
 
-        :param str audio: The audio to transcribe in the format specified by the
+        :param file audio: The audio to transcribe in the format specified by the
         `Content-Type` header.
         :param str content_type: The type of the input.
         :param str model: The identifier of the model that is to be used for the
@@ -520,7 +520,7 @@ class SpeechToTextV1(WatsonService):
         **See also:** [Audio
         formats](https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html).
 
-        :param str audio: The audio to transcribe in the format specified by the
+        :param file audio: The audio to transcribe in the format specified by the
         `Content-Type` header.
         :param str content_type: The type of the input.
         :param str model: The identifier of the model that is to be used for the
@@ -1925,7 +1925,7 @@ class SpeechToTextV1(WatsonService):
         * Do not include spaces, slashes, or backslashes in the name.
         * Do not use the name of an audio resource that has already been added to the
         custom model.
-        :param str audio_resource: The audio resource that is to be added to the custom
+        :param file audio_resource: The audio resource that is to be added to the custom
         acoustic model, an individual audio file or an archive file.
         :param str content_type: The type of the input.
         :param str contained_content_type: For an archive-type resource, specifies the
