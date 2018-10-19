@@ -75,6 +75,8 @@ The [examples][examples] folder has basic and advanced examples. The examples wi
 Note:
 Conversation V1 is deprecated and will be removed in the next major release of the SDK. Use Assistant V1 or Assistant V2.
 
+Watson Assistant V2 API is released in beta. For details, see the ["Introducing Watson Assistant"](https://www.ibm.com/blogs/watson/2018/03/the-future-of-watson-conversation-watson-assistant/) blog post.
+
 ## Running in IBM Cloud
 
 If you run your app in IBM Cloud, the SDK gets credentials from the [`VCAP_SERVICES`][vcap_services] environment variable. 
