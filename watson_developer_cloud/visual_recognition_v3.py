@@ -22,6 +22,7 @@ a custom classifier to identify subjects that suit your needs.
 from __future__ import absolute_import
 
 import json
+import re
 from .watson_service import datetime_to_string, string_to_datetime
 from .watson_service import WatsonService
 
@@ -157,7 +158,79 @@ class VisualRecognitionV3(WatsonService):
     #########################
     # Custom
     #########################
+    def create_classifier(self, name, negative_examples=None, negative_examples_filename=None, **kwargs):
+        """
+        Create a classifier.
 
+        Train a new multi-faceted classifier on the uploaded image data. Create your
+        custom classifier with positive or negative examples. Include at least two sets of
+        examples, either two positive example files or one positive and one negative file.
+        You can upload a maximum of 256 MB per call.
+        Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
+        file names, and classifier and class names). The service assumes UTF-8 encoding if
+        it encounters non-ASCII characters.
+
+        :param str name: The name of the new classifier. Encode special characters in
+        UTF-8.
+        :param file negative_examples: A .zip file of images that do not depict the visual
+        subject of any of the classes of the new classifier. Must contain a minimum of 10
+        images.
+        Encode special characters in the file name in UTF-8.
+        :param str negative_examples_filename: The filename for negative_examples.
+        :param file positive_examples: A .zip file of images that depict the visual
+        subject of a class in the new classifier. You can include more than one positive
+        example file in a call.
+        Specify the parameter name by appending `_positive_examples` to the class name.
+        For example, `goldenretriever_positive_examples` creates the class
+        **goldenretriever**.
+        Include at least 10 images in .jpg or .png format. The minimum recommended image
+        resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100
+        MB per .zip file.
+        Encode special characters in the file name in UTF-8.
+        :param str positive_examples_filename: The filename for positive_examples.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if name is None:
+            raise ValueError('name must be provided')
+        positive_examples_keys = [key for key in kwargs if re.match('^.+_positive_examples$', key)]
+        if not positive_examples_keys:
+            raise ValueError('At least one <classname>_positive_examples parameter must be provided')
+
+        headers = {
+        }
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {
+            'version': self.version
+        }
+
+        form_data = {}
+        form_data['name'] = (None, name, 'text/plain')
+        if negative_examples:
+            if not negative_examples_filename and hasattr(negative_examples, 'name'):
+                negative_examples_filename = negative_examples.name
+            if not negative_examples_filename:
+                raise ValueError('negative_examples_filename must be provided')
+            form_data['negative_examples'] = (negative_examples_filename, negative_examples, 'application/octet-stream')
+        for key in positive_examples_keys:
+            value = kwargs[key]
+            filename = kwargs.get(key + '_filename')
+            if not filename and hasattr(value, 'name'):
+                filename = value.name
+            form_data[key] = (filename, value, 'application/octet-stream')
+
+        url = '/v3/classifiers'
+        response = self.request(method='POST',
+                                url=url,
+                                headers=headers,
+                                params=params,
+                                files=form_data,
+                                accept_json=True)
+        return response
 
     def delete_classifier(self, classifier_id, **kwargs):
         """
@@ -234,6 +307,80 @@ class VisualRecognitionV3(WatsonService):
             accept_json=True)
         return response
 
+    def update_classifier(self, classifier_id, negative_examples=None, negative_examples_filename=None, **kwargs):
+        """
+        Update a classifier.
+
+        Update a custom classifier by adding new positive or negative classes (examples)
+        or by adding new images to existing classes. You must supply at least one set of
+        positive or negative examples. For details, see [Updating custom
+        classifiers](https://console.bluemix.net/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
+        Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
+        file names, and classifier and class names). The service assumes UTF-8 encoding if
+        it encounters non-ASCII characters.
+        **Tip:** Don't make retraining calls on a classifier until the status is ready.
+        When you submit retraining requests in parallel, the last request overwrites the
+        previous requests. The retrained property shows the last time the classifier
+        retraining finished.
+
+        :param str classifier_id: The ID of the classifier.
+        :param file negative_examples: A .zip file of images that do not depict the visual
+        subject of any of the classes of the new classifier. Must contain a minimum of 10
+        images.
+        Encode special characters in the file name in UTF-8.
+        :param str negative_examples_filename: The filename for negative_examples.
+        :param file positive_examples: A .zip file of images that depict the visual
+        subject of a class in the classifier. The positive examples create or update
+        classes in the classifier. You can include more than one positive example file in
+        a call.
+        Specify the parameter name by appending `_positive_examples` to the class name.
+        For example, `goldenretriever_positive_examples` creates the class
+        `goldenretriever`.
+        Include at least 10 images in .jpg or .png format. The minimum recommended image
+        resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100
+        MB per .zip file.
+        Encode special characters in the file name in UTF-8.
+        :param str positive_examples_filename: The filename for positive_examples.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        positive_examples_keys = [key for key in kwargs if re.match('^.+_positive_examples$', key)]
+
+        headers = {
+        }
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {
+            'version': self.version
+        }
+
+        form_data = {}
+        if negative_examples:
+            if not negative_examples_filename and hasattr(negative_examples, 'name'):
+                negative_examples_filename = negative_examples.name
+            if not negative_examples_filename:
+                raise ValueError('negative_examples_filename must be provided')
+            form_data['negative_examples'] = (negative_examples_filename, negative_examples, 'application/octet-stream')
+        for key in positive_examples_keys:
+            value = kwargs[key]
+            filename = kwargs.get(key + '_filename')
+            if not filename and hasattr(value, 'name'):
+                filename = value.name
+            form_data[key] = (filename, value, 'application/octet-stream')
+
+        url = '/v3/classifiers/{0}'.format(*self._encode_path_vars(classifier_id))
+        response = self.request(method='POST',
+                                url=url,
+                                headers=headers,
+                                params=params,
+                                files=form_data,
+                                accept_json=True)
+        return response
 
     #########################
     # Core ML
