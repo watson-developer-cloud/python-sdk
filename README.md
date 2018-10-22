@@ -14,6 +14,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Before you begin](#before-you-begin)
   * [Installation](#installation)
   * [Examples](#examples)
+  * [AssistantV2](#assistantv2)
   * [Running in IBM Cloud](#running-in-ibm-cloud)
   * [Authentication](#authentication)
     * [Getting credentials](#getting-credentials)
@@ -75,6 +76,7 @@ The [examples][examples] folder has basic and advanced examples. The examples wi
 Note:
 Conversation V1 is deprecated and will be removed in the next major release of the SDK. Use Assistant V1 or Assistant V2.
 
+## AssistantV2
 Watson Assistant V2 API is released in beta. For details, see the ["Introducing Watson Assistant"](https://www.ibm.com/blogs/watson/2018/03/the-future-of-watson-conversation-watson-assistant/) blog post.
 
 ## Running in IBM Cloud
