@@ -123,12 +123,16 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if voice is None:
             raise ValueError('voice must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'customization_id': customization_id}
+
         url = '/v1/voices/{0}'.format(*self._encode_path_vars(voice))
         response = self.request(
             method='GET',
@@ -152,9 +156,11 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/voices'
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
@@ -205,13 +211,18 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {'Accept': accept}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'voice': voice, 'customization_id': customization_id}
+
         data = {'text': text}
+
         url = '/v1/synthesize'
         response = self.request(
             method='POST',
@@ -260,17 +271,21 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'text': text,
             'voice': voice,
             'format': format,
             'customization_id': customization_id
         }
+
         url = '/v1/pronunciation'
         response = self.request(
             method='GET',
@@ -309,12 +324,16 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if name is None:
             raise ValueError('name must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         data = {'name': name, 'language': language, 'description': description}
+
         url = '/v1/customizations'
         response = self.request(
             method='POST',
@@ -341,11 +360,14 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customization_id is None:
             raise ValueError('customization_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
         response = self.request(
@@ -371,11 +393,14 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customization_id is None:
             raise ValueError('customization_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
         response = self.request(
@@ -403,10 +428,13 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'language': language}
+
         url = '/v1/customizations'
         response = self.request(
             method='GET',
@@ -462,14 +490,18 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customization_id is None:
             raise ValueError('customization_id must be provided')
         if words is not None:
             words = [self._convert_model(x, Word) for x in words]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         data = {'name': name, 'description': description, 'words': words}
+
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
         response = self.request(
@@ -536,16 +568,20 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customization_id is None:
             raise ValueError('customization_id must be provided')
         if word is None:
             raise ValueError('word must be provided')
         if translation is None:
             raise ValueError('translation must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         data = {'translation': translation, 'part_of_speech': part_of_speech}
+
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
         response = self.request(
@@ -594,15 +630,19 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customization_id is None:
             raise ValueError('customization_id must be provided')
         if words is None:
             raise ValueError('words must be provided')
         words = [self._convert_model(x, Word) for x in words]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         data = {'words': words}
+
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
         response = self.request(
@@ -631,13 +671,16 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customization_id is None:
             raise ValueError('customization_id must be provided')
         if word is None:
             raise ValueError('word must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
         response = self.request(
@@ -663,13 +706,16 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customization_id is None:
             raise ValueError('customization_id must be provided')
         if word is None:
             raise ValueError('word must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
         response = self.request(
@@ -695,11 +741,14 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customization_id is None:
             raise ValueError('customization_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
         response = self.request(
@@ -729,12 +778,16 @@ class TextToSpeechV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customer_id is None:
             raise ValueError('customer_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'customer_id': customer_id}
+
         url = '/v1/user_data'
         response = self.request(
             method='DELETE',
