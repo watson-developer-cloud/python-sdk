@@ -209,8 +209,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         form_data = {}
         if not metadata_filename and hasattr(metadata, 'name'):
             metadata_filename = metadata.name
-        form_data['metadata'] = (metadata_filename, metadata,
-                                 'application/json')
+        form_data['training_metadata'] = (metadata_filename, metadata,
+                                          'application/json')
         if not training_data_filename and hasattr(training_data, 'name'):
             training_data_filename = training_data.name
         form_data['training_data'] = (training_data_filename, training_data,
