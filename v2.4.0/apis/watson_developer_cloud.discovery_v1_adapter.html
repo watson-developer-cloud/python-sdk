@@ -1,0 +1,280 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.discovery_v1_adapter module &#8212; Watson Developer Cloud Python SDK 2.4.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.iam_token_manager module" href="watson_developer_cloud.iam_token_manager.html" />
+    <link rel="prev" title="watson_developer_cloud.discovery_v1 module" href="watson_developer_cloud.discovery_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.discovery_v1_adapter">
+<span id="watson-developer-cloud-discovery-v1-adapter-module"></span><h1>watson_developer_cloud.discovery_v1_adapter module<a class="headerlink" href="#module-watson_developer_cloud.discovery_v1_adapter" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter">
+<em class="property">class </em><code class="descname">DiscoveryV1Adapter</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/discovery/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>iam_apikey=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1_adapter.html#DiscoveryV1Adapter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.discovery_v1.html#watson_developer_cloud.discovery_v1.DiscoveryV1" title="watson_developer_cloud.discovery_v1.DiscoveryV1"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.discovery_v1.DiscoveryV1</span></code></a></p>
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter.federated_query">
+<code class="descname">federated_query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_ids</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>passages=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>bias=None</em>, <em>logging_opt_out=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1_adapter.html#DiscoveryV1Adapter.federated_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter.federated_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Long environment queries.</p>
+<p>Complex queries might be too long for a standard method query. By using this
+method, you can construct longer queries. However, these queries may take longer
+to complete than the standard method. For details, see the [Discovery service
+documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/using.html">https://console.bluemix.net/docs/services/discovery/using.html</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – A comma-separated list of collection IDs to be</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>queried against.
+:param str filter: A cacheable query that limits the documents returned to exclude
+any documents that don’t mention the query content. Filter searches are better for
+metadata type searches and when you are trying to get a sense of concepts in the
+data set.
+:param str query: A query search returns all documents in your data set with full
+enrichments and full text, but with the most relevant documents listed first. Use
+a query search when you want to find the most relevant search results. You cannot
+use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
+:param str natural_language_query: A natural language query that returns relevant
+documents by utilizing training data and natural language understanding. You
+cannot use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
+:param str aggregation: An aggregation search uses combinations of filters and
+query search to return an exact answer. Aggregations are useful for building
+applications, because you can use them to build lists, tables, and time series.
+For a full list of possible aggregrations, see the Query reference.
+:param int count: Number of results to return.
+:param list[str] return_fields: A comma separated list of the portion of the
+document hierarchy to return.
+:param int offset: The number of query results to skip at the beginning. For
+example, if the total number of results that are returned is 10, and the offset is
+8, it returns the last two results.
+:param list[str] sort: A comma separated list of fields in the document to sort
+on. You can optionally specify a sort direction by prefixing the field with <cite>-</cite>
+for descending or <cite>+</cite> for ascending. Ascending is the default sort direction if no
+prefix is specified.
+:param bool highlight: When true a highlight field is returned for each result
+which contains the fields that match the query with <cite>&lt;em&gt;&lt;/em&gt;</cite> tags around the
+matching query terms. Defaults to false.
+:param bool deduplicate: When <cite>true</cite> and used with a Watson Discovery News
+collection, duplicate results (based on the contents of the <strong>title</strong> field) are
+removed. Duplicate comparison is limited to the current query only; <strong>offset</strong> is
+not considered. This parameter is currently Beta functionality.
+:param str deduplicate_field: When specified, duplicate results based on the field
+specified are removed from the returned results. Duplicate comparison is limited
+to the current query only, <strong>offset</strong> is not considered. This parameter is
+currently Beta functionality.
+:param bool similar: When <cite>true</cite>, results are returned based on their similarity
+to the document IDs specified in the <strong>similar.document_ids</strong> parameter.
+:param list[str] similar_document_ids: A comma-separated list of document IDs that
+will be used to find similar documents.
+<strong>Note:</strong> If the <strong>natural_language_query</strong> parameter is also specified, it will
+be used to expand the scope of the document similarity search to include the
+natural language query. Other query parameters, such as <strong>filter</strong> and <strong>query</strong>
+are subsequently applied and reduce the query scope.
+:param list[str] similar_fields: A comma-separated list of field names that will
+be used as a basis for comparison to identify similar documents. If not specified,
+the entire document is used for comparison.
+:param bool passages: A passages query that returns the most relevant passages
+from the results.
+:param list[str] passages_fields: A comma-separated list of fields that passages
+are drawn from. If this parameter not specified, then all top-level fields are
+included.
+:param int passages_count: The maximum number of passages to return. The search
+returns fewer passages if the requested total is not found. The default is <cite>10</cite>.
+The maximum is <cite>100</cite>.
+:param int passages_characters: The approximate number of characters that any one
+passage will have. The default is <cite>400</cite>. The minimum is <cite>50</cite>. The maximum is
+<cite>2000</cite>.
+:param str bias: Field which the returned results will be biased against. The
+specified field must be either a <strong>date</strong> or <strong>number</strong> format. When a <strong>date</strong>
+type field is specified returned results are biased towards field values closer to
+the current date. When a <strong>number</strong> type field is specified, returned results are
+biased towards higher field values. This parameter cannot be used in the same
+query as the <strong>sort</strong> parameter.
+:param bool logging_opt_out: If <cite>true</cite>, queries are not stored in the Discovery
+<strong>Logs</strong> endpoint.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>environment_id</em>, <em>collection_id</em>, <em>filter=None</em>, <em>query=None</em>, <em>natural_language_query=None</em>, <em>passages=None</em>, <em>aggregation=None</em>, <em>count=None</em>, <em>return_fields=None</em>, <em>offset=None</em>, <em>sort=None</em>, <em>highlight=None</em>, <em>passages_fields=None</em>, <em>passages_count=None</em>, <em>passages_characters=None</em>, <em>deduplicate=None</em>, <em>deduplicate_field=None</em>, <em>similar=None</em>, <em>similar_document_ids=None</em>, <em>similar_fields=None</em>, <em>logging_opt_out=None</em>, <em>collection_ids=None</em>, <em>bias=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/discovery_v1_adapter.html#DiscoveryV1Adapter.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Long collection queries.</p>
+<p>Complex queries might be too long for a standard method query. By using this
+method, you can construct longer queries. However, these queries may take longer
+to complete than the standard method. For details, see the [Discovery service
+documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/discovery/using.html">https://console.bluemix.net/docs/services/discovery/using.html</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>environment_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the environment.</li>
+<li><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the collection.</li>
+<li><strong>filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A cacheable query that limits the documents returned to exclude</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>any documents that don’t mention the query content. Filter searches are better for
+metadata type searches and when you are trying to get a sense of concepts in the
+data set.
+:param str query: A query search returns all documents in your data set with full
+enrichments and full text, but with the most relevant documents listed first. Use
+a query search when you want to find the most relevant search results. You cannot
+use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
+:param str natural_language_query: A natural language query that returns relevant
+documents by utilizing training data and natural language understanding. You
+cannot use <strong>natural_language_query</strong> and <strong>query</strong> at the same time.
+:param bool passages: A passages query that returns the most relevant passages
+from the results.
+:param str aggregation: An aggregation search uses combinations of filters and
+query search to return an exact answer. Aggregations are useful for building
+applications, because you can use them to build lists, tables, and time series.
+For a full list of possible aggregrations, see the Query reference.
+:param int count: Number of results to return.
+:param list[str] return_fields: A comma separated list of the portion of the
+document hierarchy to return.
+:param int offset: The number of query results to skip at the beginning. For
+example, if the total number of results that are returned is 10, and the offset is
+8, it returns the last two results.
+:param list[str] sort: A comma separated list of fields in the document to sort
+on. You can optionally specify a sort direction by prefixing the field with <cite>-</cite>
+for descending or <cite>+</cite> for ascending. Ascending is the default sort direction if no
+prefix is specified.
+:param bool highlight: When true a highlight field is returned for each result
+which contains the fields that match the query with <cite>&lt;em&gt;&lt;/em&gt;</cite> tags around the
+matching query terms. Defaults to false.
+:param list[str] passages_fields: A comma-separated list of fields that passages
+are drawn from. If this parameter not specified, then all top-level fields are
+included.
+:param int passages_count: The maximum number of passages to return. The search
+returns fewer passages if the requested total is not found. The default is <cite>10</cite>.
+The maximum is <cite>100</cite>.
+:param int passages_characters: The approximate number of characters that any one
+passage will have. The default is <cite>400</cite>. The minimum is <cite>50</cite>. The maximum is
+<cite>2000</cite>.
+:param bool deduplicate: When <cite>true</cite> and used with a Watson Discovery News
+collection, duplicate results (based on the contents of the <strong>title</strong> field) are
+removed. Duplicate comparison is limited to the current query only; <strong>offset</strong> is
+not considered. This parameter is currently Beta functionality.
+:param str deduplicate_field: When specified, duplicate results based on the field
+specified are removed from the returned results. Duplicate comparison is limited
+to the current query only, <strong>offset</strong> is not considered. This parameter is
+currently Beta functionality.
+:param bool similar: When <cite>true</cite>, results are returned based on their similarity
+to the document IDs specified in the <strong>similar.document_ids</strong> parameter.
+:param list[str] similar_document_ids: A comma-separated list of document IDs that
+will be used to find similar documents.
+<strong>Note:</strong> If the <strong>natural_language_query</strong> parameter is also specified, it will
+be used to expand the scope of the document similarity search to include the
+natural language query. Other query parameters, such as <strong>filter</strong> and <strong>query</strong>
+are subsequently applied and reduce the query scope.
+:param list[str] similar_fields: A comma-separated list of field names that will
+be used as a basis for comparison to identify similar documents. If not specified,
+the entire document is used for comparison.
+:param bool logging_opt_out: If <cite>true</cite>, queries are not stored in the Discovery
+<strong>Logs</strong> endpoint.
+:param str collection_ids: A comma-separated list of collection IDs to be queried
+against. Required when querying multiple collections, invalid when performing a
+single collection query.
+:param str bias: Field which the returned results will be biased against. The
+specified field must be either a <strong>date</strong> or <strong>number</strong> format. When a <strong>date</strong>
+type field is specified returned results are biased towards field values closer to
+the current date. When a <strong>number</strong> type field is specified, returned results are
+biased towards higher field values. This parameter cannot be used in the same
+query as the <strong>sort</strong> parameter.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.discovery_v1.html" title="previous chapter">watson_developer_cloud.discovery_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.iam_token_manager.html" title="next chapter">watson_developer_cloud.iam_token_manager module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

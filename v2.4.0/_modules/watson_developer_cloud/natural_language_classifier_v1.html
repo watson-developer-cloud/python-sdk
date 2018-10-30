@@ -1,0 +1,853 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.natural_language_classifier_v1 &#8212; Watson Developer Cloud Python SDK 2.4.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for watson_developer_cloud.natural_language_classifier_v1</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">IBM Watson&amp;trade; Natural Language Classifier uses machine learning algorithms to return</span>
+<span class="sd">the top matching predefined classes for short text input. You create and train a</span>
+<span class="sd">classifier to connect predefined classes to example texts so that the service can apply</span>
+<span class="sd">those classes to new inputs.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">.watson_service</span> <span class="k">import</span> <span class="n">datetime_to_string</span><span class="p">,</span> <span class="n">string_to_datetime</span>
+<span class="kn">from</span> <span class="nn">.watson_service</span> <span class="k">import</span> <span class="n">WatsonService</span>
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># Service</span>
+<span class="c1">##############################################################################</span>
+
+
+<div class="viewcode-block" id="NaturalLanguageClassifierV1"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1">[docs]</a><span class="k">class</span> <span class="nc">NaturalLanguageClassifierV1</span><span class="p">(</span><span class="n">WatsonService</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Natural Language Classifier V1 service.&quot;&quot;&quot;</span>
+
+    <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/natural-language-classifier/api&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_apikey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct a new client for the Natural Language Classifier service.</span>
+
+<span class="sd">        :param str url: The base url to use when contacting the service (e.g.</span>
+<span class="sd">               &quot;https://gateway.watsonplatform.net/natural-language-classifier/api&quot;).</span>
+<span class="sd">               The base url may differ between Bluemix regions.</span>
+
+<span class="sd">        :param str username: The username used to authenticate with the service.</span>
+<span class="sd">               Username and password credentials are only required to run your</span>
+<span class="sd">               application locally or outside of Bluemix. When running on</span>
+<span class="sd">               Bluemix, the credentials will be automatically loaded from the</span>
+<span class="sd">               `VCAP_SERVICES` environment variable.</span>
+
+<span class="sd">        :param str password: The password used to authenticate with the service.</span>
+<span class="sd">               Username and password credentials are only required to run your</span>
+<span class="sd">               application locally or outside of Bluemix. When running on</span>
+<span class="sd">               Bluemix, the credentials will be automatically loaded from the</span>
+<span class="sd">               `VCAP_SERVICES` environment variable.</span>
+
+<span class="sd">        :param str iam_apikey: An API key that can be used to request IAM tokens. If</span>
+<span class="sd">               this API key is provided, the SDK will manage the token and handle the</span>
+<span class="sd">               refreshing.</span>
+
+<span class="sd">        :param str iam_access_token:  An IAM access token is fully managed by the application.</span>
+<span class="sd">               Responsibility falls on the application to refresh the token, either before</span>
+<span class="sd">               it expires or reactively upon receiving a 401 from the service as any requests</span>
+<span class="sd">               made with an expired token will fail.</span>
+
+<span class="sd">        :param str iam_url: An optional URL for the IAM service API. Defaults to</span>
+<span class="sd">               &#39;https://iam.bluemix.net/identity/token&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">WatsonService</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">vcap_services_name</span><span class="o">=</span><span class="s1">&#39;natural_language_classifier&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+            <span class="n">iam_apikey</span><span class="o">=</span><span class="n">iam_apikey</span><span class="p">,</span>
+            <span class="n">iam_access_token</span><span class="o">=</span><span class="n">iam_access_token</span><span class="p">,</span>
+            <span class="n">iam_url</span><span class="o">=</span><span class="n">iam_url</span><span class="p">,</span>
+            <span class="n">use_vcap_services</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># Classify text</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="NaturalLanguageClassifierV1.classify"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify">[docs]</a>    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Classify a phrase.</span>
+
+<span class="sd">        Returns label information for the input. The status must be `Available` before you</span>
+<span class="sd">        can use the classifier to classify text.</span>
+
+<span class="sd">        :param str classifier_id: Classifier ID to use.</span>
+<span class="sd">        :param str text: The submitted phrase. The maximum length is 2048 characters.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">classifier_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;classifier_id must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">text</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;text must be provided&#39;</span><span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers/</span><span class="si">{0}</span><span class="s1">/classify&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="NaturalLanguageClassifierV1.classify_collection"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify_collection">[docs]</a>    <span class="k">def</span> <span class="nf">classify_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Classify multiple phrases.</span>
+
+<span class="sd">        Returns label information for multiple phrases. The status must be `Available`</span>
+<span class="sd">        before you can use the classifier to classify text.</span>
+<span class="sd">        Note that classifying Japanese texts is a beta feature.</span>
+
+<span class="sd">        :param str classifier_id: Classifier ID to use.</span>
+<span class="sd">        :param list[ClassifyInput] collection: The submitted phrases.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">classifier_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;classifier_id must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">collection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;collection must be provided&#39;</span><span class="p">)</span>
+        <span class="n">collection</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ClassifyInput</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">collection</span><span class="p">]</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="p">}</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers/</span><span class="si">{0}</span><span class="s1">/classify_collection&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># Manage classifiers</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="NaturalLanguageClassifierV1.create_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.create_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">create_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">metadata</span><span class="p">,</span>
+                          <span class="n">training_data</span><span class="p">,</span>
+                          <span class="n">metadata_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">training_data_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create classifier.</span>
+
+<span class="sd">        Sends data to create and train a classifier and returns information about the new</span>
+<span class="sd">        classifier.</span>
+
+<span class="sd">        :param file metadata: Metadata in JSON format. The metadata identifies the</span>
+<span class="sd">        language of the data, and an optional name to identify the classifier. Specify the</span>
+<span class="sd">        language with the 2-letter primary language code as assigned in ISO standard 639.</span>
+<span class="sd">        Supported languages are English (`en`), Arabic (`ar`), French (`fr`), German,</span>
+<span class="sd">        (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian Portuguese</span>
+<span class="sd">        (`pt`), and Spanish (`es`).</span>
+<span class="sd">        :param file training_data: Training data in CSV format. Each text value must have</span>
+<span class="sd">        at least one class. The data can include up to 20,000 records. For details, see</span>
+<span class="sd">        [Data</span>
+<span class="sd">        preparation](https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html).</span>
+<span class="sd">        :param str metadata_filename: The filename for training_metadata.</span>
+<span class="sd">        :param str training_data_filename: The filename for training_data.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;metadata must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">training_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;training_data must be provided&#39;</span><span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+
+        <span class="n">form_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">metadata_filename</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+            <span class="n">metadata_filename</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">form_data</span><span class="p">[</span><span class="s1">&#39;training_metadata&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata_filename</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span>
+                                          <span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">training_data_filename</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+            <span class="n">training_data_filename</span> <span class="o">=</span> <span class="n">training_data</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">form_data</span><span class="p">[</span><span class="s1">&#39;training_data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">training_data_filename</span><span class="p">,</span> <span class="n">training_data</span><span class="p">,</span>
+                                      <span class="s1">&#39;text/csv&#39;</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers&#39;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">files</span><span class="o">=</span><span class="n">form_data</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="NaturalLanguageClassifierV1.delete_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.delete_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">delete_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete classifier.</span>
+
+<span class="sd">        :param str classifier_id: Classifier ID to delete.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">classifier_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;classifier_id must be provided&#39;</span><span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="NaturalLanguageClassifierV1.get_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.get_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">get_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get information about a classifier.</span>
+
+<span class="sd">        Returns status and other information about a classifier.</span>
+
+<span class="sd">        :param str classifier_id: Classifier ID to query.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">classifier_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;classifier_id must be provided&#39;</span><span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="NaturalLanguageClassifierV1.list_classifiers"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.NaturalLanguageClassifierV1.list_classifiers">[docs]</a>    <span class="k">def</span> <span class="nf">list_classifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List classifiers.</span>
+
+<span class="sd">        Returns an empty array if no classifiers are available.</span>
+
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/classifiers&#39;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># Models</span>
+<span class="c1">##############################################################################</span>
+
+
+<div class="viewcode-block" id="Classification"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.Classification">[docs]</a><span class="k">class</span> <span class="nc">Classification</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Response from the classifier for a phrase.</span>
+
+<span class="sd">    :attr str classifier_id: (optional) Unique identifier for this classifier.</span>
+<span class="sd">    :attr str url: (optional) Link to the classifier.</span>
+<span class="sd">    :attr str text: (optional) The submitted phrase.</span>
+<span class="sd">    :attr str top_class: (optional) The class with the highest confidence.</span>
+<span class="sd">    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence</span>
+<span class="sd">    pairs sorted in descending order of confidence.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">classifier_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">top_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Classification object.</span>
+
+<span class="sd">        :param str classifier_id: (optional) Unique identifier for this classifier.</span>
+<span class="sd">        :param str url: (optional) Link to the classifier.</span>
+<span class="sd">        :param str text: (optional) The submitted phrase.</span>
+<span class="sd">        :param str top_class: (optional) The class with the highest confidence.</span>
+<span class="sd">        :param list[ClassifiedClass] classes: (optional) An array of up to ten</span>
+<span class="sd">        class-confidence pairs sorted in descending order of confidence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="o">=</span> <span class="n">classifier_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_class</span> <span class="o">=</span> <span class="n">top_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">classes</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Classification object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;classifier_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;url&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;top_class&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;top_class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;top_class&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;classes&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ClassifiedClass</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classes&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;top_class&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;top_class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_class</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;classes&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Classification object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ClassificationCollection"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.ClassificationCollection">[docs]</a><span class="k">class</span> <span class="nc">ClassificationCollection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Response from the classifier for multiple phrases.</span>
+
+<span class="sd">    :attr str classifier_id: (optional) Unique identifier for this classifier.</span>
+<span class="sd">    :attr str url: (optional) Link to the classifier.</span>
+<span class="sd">    :attr list[CollectionItem] collection: (optional) An array of classifier responses for</span>
+<span class="sd">    each submitted phrase.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifier_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">collection</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ClassificationCollection object.</span>
+
+<span class="sd">        :param str classifier_id: (optional) Unique identifier for this classifier.</span>
+<span class="sd">        :param str url: (optional) Link to the classifier.</span>
+<span class="sd">        :param list[CollectionItem] collection: (optional) An array of classifier</span>
+<span class="sd">        responses for each submitted phrase.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="o">=</span> <span class="n">classifier_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="n">collection</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ClassificationCollection object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;classifier_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;url&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;collection&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">CollectionItem</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;collection&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ClassificationCollection object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ClassifiedClass"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.ClassifiedClass">[docs]</a><span class="k">class</span> <span class="nc">ClassifiedClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class and confidence.</span>
+
+<span class="sd">    :attr float confidence: (optional) A decimal percentage that represents the confidence</span>
+<span class="sd">    that Watson has in this class. Higher values represent higher confidences.</span>
+<span class="sd">    :attr str class_name: (optional) Class label.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">class_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ClassifiedClass object.</span>
+
+<span class="sd">        :param float confidence: (optional) A decimal percentage that represents the</span>
+<span class="sd">        confidence that Watson has in this class. Higher values represent higher</span>
+<span class="sd">        confidences.</span>
+<span class="sd">        :param str class_name: (optional) Class label.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span> <span class="o">=</span> <span class="n">class_name</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ClassifiedClass object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;confidence&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;confidence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;confidence&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;class_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;class_name&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;confidence&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;confidence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">confidence</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;class_name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">class_name</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ClassifiedClass object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="Classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.Classifier">[docs]</a><span class="k">class</span> <span class="nc">Classifier</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A classifier for natural language phrases.</span>
+
+<span class="sd">    :attr str name: (optional) User-supplied name for the classifier.</span>
+<span class="sd">    :attr str url: Link to the classifier.</span>
+<span class="sd">    :attr str status: (optional) The state of the classifier.</span>
+<span class="sd">    :attr str classifier_id: Unique identifier for this classifier.</span>
+<span class="sd">    :attr datetime created: (optional) Date and time (UTC) the classifier was created.</span>
+<span class="sd">    :attr str status_description: (optional) Additional detail about the status.</span>
+<span class="sd">    :attr str language: (optional) The language used for the classifier.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">url</span><span class="p">,</span>
+                 <span class="n">classifier_id</span><span class="p">,</span>
+                 <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">created</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">status_description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Classifier object.</span>
+
+<span class="sd">        :param str url: Link to the classifier.</span>
+<span class="sd">        :param str classifier_id: Unique identifier for this classifier.</span>
+<span class="sd">        :param str name: (optional) User-supplied name for the classifier.</span>
+<span class="sd">        :param str status: (optional) The state of the classifier.</span>
+<span class="sd">        :param datetime created: (optional) Date and time (UTC) the classifier was</span>
+<span class="sd">        created.</span>
+<span class="sd">        :param str status_description: (optional) Additional detail about the status.</span>
+<span class="sd">        :param str language: (optional) The language used for the classifier.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="o">=</span> <span class="n">classifier_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="o">=</span> <span class="n">created</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">status_description</span> <span class="o">=</span> <span class="n">status_description</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Classifier object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;url&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">url</span><span class="se">\&#39;</span><span class="s1"> not present in Classifier JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;status&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;classifier_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">classifier_id</span><span class="se">\&#39;</span><span class="s1"> not present in Classifier JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;created&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">string_to_datetime</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;status_description&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;status_description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status_description&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;language&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;language&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;classifier_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;classifier_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifier_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime_to_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">created</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;status_description&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_description</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;status_description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status_description</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;language&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Classifier object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ClassifierList"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.ClassifierList">[docs]</a><span class="k">class</span> <span class="nc">ClassifierList</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List of available classifiers.</span>
+
+<span class="sd">    :attr list[Classifier] classifiers: The classifiers available to the user. Returns an</span>
+<span class="sd">    empty array if no classifiers are available.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classifiers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ClassifierList object.</span>
+
+<span class="sd">        :param list[Classifier] classifiers: The classifiers available to the user.</span>
+<span class="sd">        Returns an empty array if no classifiers are available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span> <span class="o">=</span> <span class="n">classifiers</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ClassifierList object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;classifiers&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;classifiers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">Classifier</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classifiers&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">classifiers</span><span class="se">\&#39;</span><span class="s1"> not present in ClassifierList JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;classifiers&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;classifiers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">classifiers</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ClassifierList object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ClassifyInput"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.ClassifyInput">[docs]</a><span class="k">class</span> <span class="nc">ClassifyInput</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Request payload to classify.</span>
+
+<span class="sd">    :attr str text: The submitted phrase. The maximum length is 2048 characters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ClassifyInput object.</span>
+
+<span class="sd">        :param str text: The submitted phrase. The maximum length is 2048 characters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ClassifyInput object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">text</span><span class="se">\&#39;</span><span class="s1"> not present in ClassifyInput JSON&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ClassifyInput object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="CollectionItem"><a class="viewcode-back" href="../../apis/watson_developer_cloud.natural_language_classifier_v1.html#watson_developer_cloud.natural_language_classifier_v1.CollectionItem">[docs]</a><span class="k">class</span> <span class="nc">CollectionItem</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Response from the classifier for a phrase in a collection.</span>
+
+<span class="sd">    :attr str text: (optional) The submitted phrase. The maximum length is 2048</span>
+<span class="sd">    characters.</span>
+<span class="sd">    :attr str top_class: (optional) The class with the highest confidence.</span>
+<span class="sd">    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence</span>
+<span class="sd">    pairs sorted in descending order of confidence.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">top_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a CollectionItem object.</span>
+
+<span class="sd">        :param str text: (optional) The submitted phrase. The maximum length is 2048</span>
+<span class="sd">        characters.</span>
+<span class="sd">        :param str top_class: (optional) The class with the highest confidence.</span>
+<span class="sd">        :param list[ClassifiedClass] classes: (optional) An array of up to ten</span>
+<span class="sd">        class-confidence pairs sorted in descending order of confidence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_class</span> <span class="o">=</span> <span class="n">top_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="o">=</span> <span class="n">classes</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a CollectionItem object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;top_class&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;top_class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;top_class&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;classes&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ClassifiedClass</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;classes&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;top_class&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;top_class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_class</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;classes&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;classes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this CollectionItem object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
