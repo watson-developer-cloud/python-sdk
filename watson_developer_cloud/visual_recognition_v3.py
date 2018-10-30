@@ -130,27 +130,30 @@ class VisualRecognitionV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
-        images_file_tuple = None
+
+        form_data = {}
         if images_file:
             if not images_filename and hasattr(images_file, 'name'):
                 images_filename = images_file.name
-            mime_type = images_file_content_type or 'application/octet-stream'
-            images_file_tuple = (images_filename, images_file, mime_type)
-        url_tuple = None
+            form_data['images_file'] = (images_filename, images_file,
+                                        images_file_content_type or
+                                        'application/octet-stream')
         if url:
-            url_tuple = (None, url)
+            form_data['url'] = (None, url)
+
         url = '/v3/detect_faces'
         response = self.request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
-            files={'images_file': images_file_tuple,
-                   'url': url_tuple},
+            files=form_data,
             accept_json=True)
         return response
 
@@ -168,12 +171,16 @@ class VisualRecognitionV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -195,12 +202,16 @@ class VisualRecognitionV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -221,10 +232,13 @@ class VisualRecognitionV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version, 'verbose': verbose}
+
         url = '/v3/classifiers'
         response = self.request(
             method='GET',
@@ -251,12 +265,16 @@ class VisualRecognitionV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v3/classifiers/{0}/core_ml_model'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -287,12 +305,16 @@ class VisualRecognitionV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customer_id is None:
             raise ValueError('customer_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version, 'customer_id': customer_id}
+
         url = '/v3/user_data'
         response = self.request(
             method='DELETE',
@@ -617,7 +639,7 @@ class Classifier(object):
     :attr str status: (optional) Training status of classifier.
     :attr bool core_ml_enabled: (optional) Whether the classifier can be downloaded as a
     Core ML model after the training status is `ready`.
-    :attr str explanation: (optional) If classifier training has failed, this field may
+    :attr str explanation: (optional) If classifier training has failed, this field might
     explain why.
     :attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC)
     that the classifier was created.
@@ -652,7 +674,7 @@ class Classifier(object):
         :param bool core_ml_enabled: (optional) Whether the classifier can be downloaded
         as a Core ML model after the training status is `ready`.
         :param str explanation: (optional) If classifier training has failed, this field
-        may explain why.
+        might explain why.
         :param datetime created: (optional) Date and time in Coordinated Universal Time
         (UTC) that the classifier was created.
         :param list[Class] classes: (optional) Classes that define a classifier.
