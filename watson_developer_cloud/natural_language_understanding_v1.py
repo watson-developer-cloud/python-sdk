@@ -14,14 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Analyze various features of text content at scale. Provide text, raw HTML, or a public
-URL, and IBM Watson Natural Language Understanding will give you results for the features
-you request. The service cleans HTML content before analysis by default, so the results
-can ignore most advertisements and other unwanted content.
-You can create <a target="_blank"
-href="https://www.ibm.com/watson/developercloud/doc/natural-language-understanding/customizing.html">custom
-models</a> with Watson Knowledge Studio that can be used to detect custom entities and
-relations in Natural Language Understanding.
+Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
+and IBM Watson Natural Language Understanding will give you results for the features you
+request. The service cleans HTML content before analysis by default, so the results can
+ignore most advertisements and other unwanted content.
+You can create [custom
+models](/docs/services/natural-language-understanding/customizing.html) with Watson
+Knowledge Studio to detect custom entities and relations in Natural Language
+Understanding.
 """
 
 from __future__ import absolute_import
@@ -123,42 +123,9 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         """
         Analyze text, HTML, or a public webpage.
 
-        Analyzes text, HTML, or a public webpage with one or more text analysis features.
-        ### Concepts
-        Identify general concepts that are referenced or alluded to in your content.
-        Concepts that are detected typically have an associated link to a DBpedia
-        resource.
-        ### Emotion
-        Detect anger, disgust, fear, joy, or sadness that is conveyed by your content.
-        Emotion information can be returned for detected entities, keywords, or
-        user-specified target phrases found in the text.
-        ### Entities
-        Detect important people, places, geopolitical entities and other types of entities
-        in your content. Entity detection recognizes consecutive coreferences of each
-        entity. For example, analysis of the following text would count \"Barack Obama\"
-        and \"He\" as the same entity:
-        \"Barack Obama was the 44th President of the United States. He took office in
-        January 2009.\"
-        ### Keywords
-        Determine the most important keywords in your content. Keyword phrases are
-        organized by relevance in the results.
-        ### Metadata
-        Get author information, publication date, and the title of your text/HTML content.
-        ### Relations
-        Recognize when two entities are related, and identify the type of relation.  For
-        example, you can identify an \"awardedTo\" relation between an award and its
-        recipient.
-        ### Semantic Roles
-        Parse sentences into subject-action-object form, and identify entities and
-        keywords that are subjects or objects of an action.
-        ### Sentiment
-        Determine whether your content conveys postive or negative sentiment. Sentiment
-        information can be returned for detected entities, keywords, or user-specified
-        target phrases found in the text.
-        ### Categories
-        Categorize your content into a hierarchical 5-level taxonomy. For example,
-        \"Leonardo DiCaprio won an Oscar\" returns \"/art and entertainment/movies and
-        tv/movies\" as the most confident classification.
+        Analyzes text, HTML, or a public webpage with one or more text analysis features,
+        including categories, concepts, emotion, entities, keywords, metadata, relations,
+        semantic roles, and sentiment.
 
         :param Features features: Specific features to analyze the document for.
         :param str text: The plain text to analyze. One of the `text`, `html`, or `url`
@@ -186,13 +153,17 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if features is None:
             raise ValueError('features must be provided')
         features = self._convert_model(features, Features)
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'features': features,
             'text': text,
@@ -205,6 +176,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
             'language': language,
             'limit_text_characters': limit_text_characters
         }
+
         url = '/v1/analyze'
         response = self.request(
             method='POST',
@@ -230,12 +202,16 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if model_id is None:
             raise ValueError('model_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/models/{0}'.format(*self._encode_path_vars(model_id))
         response = self.request(
             method='DELETE',
@@ -257,10 +233,13 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/models'
         response = self.request(
             method='GET',
@@ -498,7 +477,9 @@ class Author(object):
 
 class CategoriesOptions(object):
     """
-    The hierarchical 5-level taxonomy the content is categorized into.
+    Returns a five-level taxonomy of the content. The top three categories are returned.
+    Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+    Portuguese, Spanish.
 
     """
 
@@ -610,8 +591,10 @@ class CategoriesResult(object):
 
 class ConceptsOptions(object):
     """
-    Whether or not to analyze content for general concepts that are referenced or alluded
-    to.
+    Returns high-level concepts in the content. For example, a research paper about deep
+    learning might return the concept, "Artificial Intelligence" although the term is not
+    mentioned.
+    Supported languages: English, French, German, Japanese, Korean, Portuguese, Spanish.
 
     :attr int limit: (optional) Maximum number of concepts to return.
     """
@@ -926,7 +909,11 @@ class DocumentSentimentResults(object):
 
 class EmotionOptions(object):
     """
-    Whether or not to return emotion analysis of the content.
+    Detects anger, disgust, fear, joy, or sadness that is conveyed in the content or by
+    the context around target phrases specified in the targets parameter. You can analyze
+    emotion for detected entities with `entities.emotion` and for keywords with
+    `keywords.emotion`.
+    Supported languages: English.
 
     :attr bool document: (optional) Set this to `false` to hide document-level emotion
     results.
@@ -1132,8 +1119,12 @@ class EmotionScores(object):
 
 class EntitiesOptions(object):
     """
-    Whether or not to return important people, places, geopolitical, and other entities
-    detected in the analyzed content.
+    Identifies people, cities, organizations, and other entities in the content. See
+    [Entity types and
+    subtypes](/docs/services/natural-language-understanding/entity-types.html).
+    Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
+    Russian, Spanish, Swedish. Arabic, Chinese, and Dutch custom models are also
+    supported.
 
     :attr int limit: (optional) Maximum number of entities to return.
     :attr bool mentions: (optional) Set this to `true` to return locations of entity
@@ -1437,25 +1428,46 @@ class Features(object):
     """
     Analysis features and options.
 
-    :attr ConceptsOptions concepts: (optional) Whether or not to return the concepts that
-    are mentioned in the analyzed text.
-    :attr EmotionOptions emotion: (optional) Whether or not to extract the emotions
-    implied in the analyzed text.
-    :attr EntitiesOptions entities: (optional) Whether or not to extract detected entity
-    objects from the analyzed text.
-    :attr KeywordsOptions keywords: (optional) Whether or not to return the keywords in
-    the analyzed text.
-    :attr MetadataOptions metadata: (optional) Whether or not the author, publication
-    date, and title of the analyzed text should be returned. This parameter is only
-    available for URL and HTML input.
-    :attr RelationsOptions relations: (optional) Whether or not to return the
-    relationships between detected entities in the analyzed text.
-    :attr SemanticRolesOptions semantic_roles: (optional) Whether or not to return the
-    subject-action-object relations from the analyzed text.
-    :attr SentimentOptions sentiment: (optional) Whether or not to return the overall
-    sentiment of the analyzed text.
-    :attr CategoriesOptions categories: (optional) Whether or not to return the high level
-    category the content is categorized as (i.e. news, art).
+    :attr ConceptsOptions concepts: (optional) Returns high-level concepts in the content.
+    For example, a research paper about deep learning might return the concept,
+    "Artificial Intelligence" although the term is not mentioned.
+    Supported languages: English, French, German, Japanese, Korean, Portuguese, Spanish.
+    :attr EmotionOptions emotion: (optional) Detects anger, disgust, fear, joy, or sadness
+    that is conveyed in the content or by the context around target phrases specified in
+    the targets parameter. You can analyze emotion for detected entities with
+    `entities.emotion` and for keywords with `keywords.emotion`.
+    Supported languages: English
+    :attr EntitiesOptions entities: (optional) Identifies people, cities, organizations,
+    and other entities in the content. See [Entity types and
+    subtypes](/docs/services/natural-language-understanding/entity-types.html).
+    Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
+    Russian, Spanish, Swedish. Arabic, Chinese, and Dutch custom models are also
+    supported.
+    :attr KeywordsOptions keywords: (optional) Returns important keywords in the content.
+    Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
+    Russian, Spanish, Swedish.
+    :attr MetadataOptions metadata: (optional) Returns information from the document,
+    including author name, title, RSS/ATOM feeds, prominent page image, and publication
+    date. Supports URL and HTML input types only.
+    :attr RelationsOptions relations: (optional) Recognizes when two entities are related
+    and identifies the type of relation. For example, an `awardedTo` relation might
+    connect the entities "Nobel Prize" and "Albert Einstein". See [Relation
+    types](/docs/services/natural-language-understanding/relations.html).
+    Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
+    Dutch, French, Italian, and Portuguese custom models are also supported.
+    :attr SemanticRolesOptions semantic_roles: (optional) Parses sentences into subject,
+    action, and object form.
+    Supported languages: English, German, Japanese, Korean, Spanish.
+    :attr SentimentOptions sentiment: (optional) Analyzes the general sentiment of your
+    content or the sentiment toward specific target phrases. You can analyze sentiment for
+    detected entities with `entities.sentiment` and for keywords with
+    `keywords.sentiment`.
+     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+    Portuguese, Russian, Spanish
+    :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of the
+    content. The top three categories are returned.
+    Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+    Portuguese, Spanish.
     """
 
     def __init__(self,
@@ -1471,25 +1483,48 @@ class Features(object):
         """
         Initialize a Features object.
 
-        :param ConceptsOptions concepts: (optional) Whether or not to return the concepts
-        that are mentioned in the analyzed text.
-        :param EmotionOptions emotion: (optional) Whether or not to extract the emotions
-        implied in the analyzed text.
-        :param EntitiesOptions entities: (optional) Whether or not to extract detected
-        entity objects from the analyzed text.
-        :param KeywordsOptions keywords: (optional) Whether or not to return the keywords
-        in the analyzed text.
-        :param MetadataOptions metadata: (optional) Whether or not the author, publication
-        date, and title of the analyzed text should be returned. This parameter is only
-        available for URL and HTML input.
-        :param RelationsOptions relations: (optional) Whether or not to return the
-        relationships between detected entities in the analyzed text.
-        :param SemanticRolesOptions semantic_roles: (optional) Whether or not to return
-        the subject-action-object relations from the analyzed text.
-        :param SentimentOptions sentiment: (optional) Whether or not to return the overall
-        sentiment of the analyzed text.
-        :param CategoriesOptions categories: (optional) Whether or not to return the high
-        level category the content is categorized as (i.e. news, art).
+        :param ConceptsOptions concepts: (optional) Returns high-level concepts in the
+        content. For example, a research paper about deep learning might return the
+        concept, "Artificial Intelligence" although the term is not mentioned.
+        Supported languages: English, French, German, Japanese, Korean, Portuguese,
+        Spanish.
+        :param EmotionOptions emotion: (optional) Detects anger, disgust, fear, joy, or
+        sadness that is conveyed in the content or by the context around target phrases
+        specified in the targets parameter. You can analyze emotion for detected entities
+        with `entities.emotion` and for keywords with `keywords.emotion`.
+        Supported languages: English
+        :param EntitiesOptions entities: (optional) Identifies people, cities,
+        organizations, and other entities in the content. See [Entity types and
+        subtypes](/docs/services/natural-language-understanding/entity-types.html).
+        Supported languages: English, French, German, Italian, Japanese, Korean,
+        Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch custom models
+        are also supported.
+        :param KeywordsOptions keywords: (optional) Returns important keywords in the
+        content.
+        Supported languages: English, French, German, Italian, Japanese, Korean,
+        Portuguese, Russian, Spanish, Swedish.
+        :param MetadataOptions metadata: (optional) Returns information from the document,
+        including author name, title, RSS/ATOM feeds, prominent page image, and
+        publication date. Supports URL and HTML input types only.
+        :param RelationsOptions relations: (optional) Recognizes when two entities are
+        related and identifies the type of relation. For example, an `awardedTo` relation
+        might connect the entities "Nobel Prize" and "Albert Einstein". See [Relation
+        types](/docs/services/natural-language-understanding/relations.html).
+        Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
+        Dutch, French, Italian, and Portuguese custom models are also supported.
+        :param SemanticRolesOptions semantic_roles: (optional) Parses sentences into
+        subject, action, and object form.
+        Supported languages: English, German, Japanese, Korean, Spanish.
+        :param SentimentOptions sentiment: (optional) Analyzes the general sentiment of
+        your content or the sentiment toward specific target phrases. You can analyze
+        sentiment for detected entities with `entities.sentiment` and for keywords with
+        `keywords.sentiment`.
+         Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+        Portuguese, Russian, Spanish
+        :param CategoriesOptions categories: (optional) Returns a five-level taxonomy of
+        the content. The top three categories are returned.
+        Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+        Portuguese, Spanish.
         """
         self.concepts = concepts
         self.emotion = emotion
@@ -1614,8 +1649,9 @@ class Feed(object):
 
 class KeywordsOptions(object):
     """
-    An option indicating whether or not important keywords from the analyzed content
-    should be returned.
+    Returns important keywords in the content.
+    Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
+    Russian, Spanish, Swedish.
 
     :attr int limit: (optional) Maximum number of keywords to return.
     :attr bool sentiment: (optional) Set this to `true` to return sentiment information
@@ -1753,14 +1789,14 @@ class ListModelsResults(object):
     """
     Models available for Relations and Entities features.
 
-    :attr list[Model] models: (optional)
+    :attr list[Model] models: (optional) An array of available models.
     """
 
     def __init__(self, models=None):
         """
         Initialize a ListModelsResults object.
 
-        :param list[Model] models: (optional)
+        :param list[Model] models: (optional) An array of available models.
         """
         self.models = models
 
@@ -1798,8 +1834,8 @@ class ListModelsResults(object):
 
 class MetadataOptions(object):
     """
-    The Authors, Publication Date, and Title of the document. Supports URL and HTML input
-    types.
+    Returns information from the document, including author name, title, RSS/ATOM feeds,
+    prominent page image, and publication date. Supports URL and HTML input types only.
 
     """
 
@@ -2012,7 +2048,7 @@ class RelationArgument(object):
     """
     RelationArgument.
 
-    :attr list[RelationEntity] entities: (optional)
+    :attr list[RelationEntity] entities: (optional) An array of extracted entities.
     :attr list[int] location: (optional) Character offsets indicating the beginning and
     end of the mention in the analyzed text.
     :attr str text: (optional) Text that corresponds to the argument.
@@ -2022,7 +2058,7 @@ class RelationArgument(object):
         """
         Initialize a RelationArgument object.
 
-        :param list[RelationEntity] entities: (optional)
+        :param list[RelationEntity] entities: (optional) An array of extracted entities.
         :param list[int] location: (optional) Character offsets indicating the beginning
         and end of the mention in the analyzed text.
         :param str text: (optional) Text that corresponds to the argument.
@@ -2125,12 +2161,16 @@ class RelationEntity(object):
 
 class RelationsOptions(object):
     """
-    An option specifying if the relationships found between entities in the analyzed
-    content should be returned.
+    Recognizes when two entities are related and identifies the type of relation. For
+    example, an `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
+    Einstein". See [Relation
+    types](/docs/services/natural-language-understanding/relations.html).
+    Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
+    Dutch, French, Italian, and Portuguese custom models are also supported.
 
     :attr str model: (optional) Enter a [custom
-    model](https://www.bluemix.net/docs/services/natural-language-understanding/customizing.html)
-    ID to override the default model.
+    model](/docs/services/natural-language-understanding/customizing.html) ID to override
+    the default model.
     """
 
     def __init__(self, model=None):
@@ -2138,8 +2178,8 @@ class RelationsOptions(object):
         Initialize a RelationsOptions object.
 
         :param str model: (optional) Enter a [custom
-        model](https://www.bluemix.net/docs/services/natural-language-understanding/customizing.html)
-        ID to override the default model.
+        model](/docs/services/natural-language-understanding/customizing.html) ID to
+        override the default model.
         """
         self.model = model
 
@@ -2406,7 +2446,7 @@ class SemanticRolesObject(object):
     SemanticRolesObject.
 
     :attr str text: (optional) Object text.
-    :attr list[SemanticRolesKeyword] keywords: (optional)
+    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted keywords.
     """
 
     def __init__(self, text=None, keywords=None):
@@ -2414,7 +2454,8 @@ class SemanticRolesObject(object):
         Initialize a SemanticRolesObject object.
 
         :param str text: (optional) Object text.
-        :param list[SemanticRolesKeyword] keywords: (optional)
+        :param list[SemanticRolesKeyword] keywords: (optional) An array of extracted
+        keywords.
         """
         self.text = text
         self.keywords = keywords
@@ -2458,8 +2499,8 @@ class SemanticRolesObject(object):
 
 class SemanticRolesOptions(object):
     """
-    An option specifying whether or not to identify the subjects, actions, and verbs in
-    the analyzed content.
+    Parses sentences into subject, action, and object form.
+    Supported languages: English, German, Japanese, Korean, Spanish.
 
     :attr int limit: (optional) Maximum number of semantic_roles results to return.
     :attr bool keywords: (optional) Set this to `true` to return keyword information for
@@ -2598,8 +2639,8 @@ class SemanticRolesSubject(object):
     SemanticRolesSubject.
 
     :attr str text: (optional) Text that corresponds to the subject role.
-    :attr list[SemanticRolesEntity] entities: (optional)
-    :attr list[SemanticRolesKeyword] keywords: (optional)
+    :attr list[SemanticRolesEntity] entities: (optional) An array of extracted entities.
+    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted keywords.
     """
 
     def __init__(self, text=None, entities=None, keywords=None):
@@ -2607,8 +2648,10 @@ class SemanticRolesSubject(object):
         Initialize a SemanticRolesSubject object.
 
         :param str text: (optional) Text that corresponds to the subject role.
-        :param list[SemanticRolesEntity] entities: (optional)
-        :param list[SemanticRolesKeyword] keywords: (optional)
+        :param list[SemanticRolesEntity] entities: (optional) An array of extracted
+        entities.
+        :param list[SemanticRolesKeyword] keywords: (optional) An array of extracted
+        keywords.
         """
         self.text = text
         self.entities = entities
@@ -2712,8 +2755,11 @@ class SemanticRolesVerb(object):
 
 class SentimentOptions(object):
     """
-    An option specifying if sentiment of detected entities, keywords, or phrases should be
-    returned.
+    Analyzes the general sentiment of your content or the sentiment toward specific target
+    phrases. You can analyze sentiment for detected entities with `entities.sentiment` and
+    for keywords with `keywords.sentiment`.
+     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+    Portuguese, Russian, Spanish.
 
     :attr bool document: (optional) Set this to `false` to hide document-level sentiment
     results.

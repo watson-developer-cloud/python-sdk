@@ -119,12 +119,16 @@ class AssistantV2(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if assistant_id is None:
             raise ValueError('assistant_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v2/assistants/{0}/sessions'.format(
             *self._encode_path_vars(assistant_id))
         response = self.request(
@@ -151,14 +155,18 @@ class AssistantV2(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if assistant_id is None:
             raise ValueError('assistant_id must be provided')
         if session_id is None:
             raise ValueError('session_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v2/assistants/{0}/sessions/{1}'.format(
             *self._encode_path_vars(assistant_id, session_id))
         response = self.request(
@@ -197,6 +205,7 @@ class AssistantV2(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if assistant_id is None:
             raise ValueError('assistant_id must be provided')
         if session_id is None:
@@ -205,11 +214,15 @@ class AssistantV2(WatsonService):
             input = self._convert_model(input, MessageInput)
         if context is not None:
             context = self._convert_model(context, MessageContext)
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {'input': input, 'context': context}
+
         url = '/v2/assistants/{0}/sessions/{1}/message'.format(
             *self._encode_path_vars(assistant_id, session_id))
         response = self.request(

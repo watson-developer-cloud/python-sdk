@@ -46,7 +46,12 @@ def test_success():
     assert request_url == recognize_url
     assert responses.calls[1].response.text == recognize_response
 
-    assert len(responses.calls) == 2
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
+        speech_to_text.recognize(
+            audio=audio_file, customization_id='x', content_type='audio/l16; rate=44100')
+    expected_url = "{0}?customization_id=x".format(recognize_url)
+    assert expected_url == responses.calls[2].request.url
+    assert len(responses.calls) == 3
 
 
 @responses.activate

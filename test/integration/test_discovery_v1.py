@@ -21,10 +21,14 @@ class Discoveryv1(TestCase):
         collections = self.discovery.list_collections(self.environment_id).get_result()['collections']
         self.collection_id = collections[0]['collection_id']
 
+        for collection in collections:
+            if collection['name'] == 'DO-NOT-DELETE-JAPANESE-COLLECTION':
+                self.collection_id_JP = collection['collection_id']
+
     def tearDown(self):
         collections = self.discovery.list_collections(self.environment_id).get_result()['collections']
         for collection in collections:
-            if collection['name'] != 'DO-NOT-DELETE':
+            if not collection['name'].startswith('DO-NOT-DELETE'):
                 self.discovery.delete_collection(self.environment_id, collection['collection_id'])
 
     def test_environments(self):
@@ -209,3 +213,11 @@ class Discoveryv1(TestCase):
 
         response = self.discovery.query_log(count=2).get_result()
         assert response is not None
+
+
+    def test_tokenization_dictionary(self):
+        result = self.discovery.get_tokenization_dictionary_status(
+            self.environment_id,
+            self.collection_id_JP
+        ).get_result()
+        assert result['status'] is not None
