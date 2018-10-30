@@ -191,12 +191,14 @@ class PersonalityInsightsV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if content is None:
             raise ValueError('content must be provided')
         if content_type is None:
             raise ValueError('content_type must be provided')
         if isinstance(content, Content):
             content = self._convert_model(content, Content)
+
         headers = {
             'Content-Type': content_type,
             'Accept': accept,
@@ -205,16 +207,19 @@ class PersonalityInsightsV3(WatsonService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'raw_scores': raw_scores,
             'csv_headers': csv_headers,
             'consumption_preferences': consumption_preferences
         }
+
         if content_type == 'application/json' and isinstance(content, dict):
             data = json.dumps(content)
         else:
             data = content
+
         url = '/v3/profile'
         response = self.request(
             method='POST',
