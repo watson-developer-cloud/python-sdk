@@ -168,12 +168,14 @@ class ToneAnalyzerV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if tone_input is None:
             raise ValueError('tone_input must be provided')
         if content_type is None:
             raise ValueError('content_type must be provided')
         if isinstance(tone_input, ToneInput):
             tone_input = self._convert_model(tone_input, ToneInput)
+
         headers = {
             'Content-Type': content_type,
             'Content-Language': content_language,
@@ -181,15 +183,18 @@ class ToneAnalyzerV3(WatsonService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'sentences': sentences,
             'tones': self._convert_list(tones)
         }
+
         if content_type == 'application/json' and isinstance(tone_input, dict):
             data = json.dumps(tone_input)
         else:
             data = tone_input
+
         url = '/v3/tone'
         response = self.request(
             method='POST',
@@ -238,17 +243,22 @@ class ToneAnalyzerV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if utterances is None:
             raise ValueError('utterances must be provided')
         utterances = [self._convert_model(x, Utterance) for x in utterances]
+
         headers = {
             'Content-Language': content_language,
             'Accept-Language': accept_language
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {'utterances': utterances}
+
         url = '/v3/tone_chat'
         response = self.request(
             method='POST',
