@@ -141,6 +141,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if input is not None:
@@ -153,13 +154,16 @@ class AssistantV1(WatsonService):
             intents = [self._convert_model(x, RuntimeIntent) for x in intents]
         if output is not None:
             output = self._convert_model(output, OutputData)
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'nodes_visited_details': nodes_visited_details
         }
+
         data = {
             'input': input,
             'alternate_intents': alternate_intents,
@@ -168,6 +172,7 @@ class AssistantV1(WatsonService):
             'intents': intents,
             'output': output
         }
+
         url = '/v1/workspaces/{0}/message'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -226,6 +231,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if intents is not None:
             intents = [self._convert_model(x, CreateIntent) for x in intents]
         if entities is not None:
@@ -242,10 +248,13 @@ class AssistantV1(WatsonService):
         if system_settings is not None:
             system_settings = self._convert_model(system_settings,
                                                   WorkspaceSystemSettings)
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'name': name,
             'description': description,
@@ -258,6 +267,7 @@ class AssistantV1(WatsonService):
             'learning_opt_out': learning_opt_out,
             'system_settings': system_settings
         }
+
         url = '/v1/workspaces'
         response = self.request(
             method='POST',
@@ -281,12 +291,16 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='DELETE',
@@ -320,16 +334,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'export': export,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='GET',
@@ -365,9 +383,11 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'page_limit': page_limit,
@@ -376,6 +396,7 @@ class AssistantV1(WatsonService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces'
         response = self.request(
             method='GET',
@@ -440,6 +461,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intents is not None:
@@ -458,10 +480,13 @@ class AssistantV1(WatsonService):
         if system_settings is not None:
             system_settings = self._convert_model(system_settings,
                                                   WorkspaceSystemSettings)
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version, 'append': append}
+
         data = {
             'name': name,
             'description': description,
@@ -474,6 +499,7 @@ class AssistantV1(WatsonService):
             'learning_opt_out': learning_opt_out,
             'system_settings': system_settings
         }
+
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
         response = self.request(
             method='POST',
@@ -517,21 +543,26 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
             examples = [self._convert_model(x, CreateExample) for x in examples]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'intent': intent,
             'description': description,
             'examples': examples
         }
+
         url = '/v1/workspaces/{0}/intents'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -557,14 +588,18 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/workspaces/{0}/intents/{1}'.format(
             *self._encode_path_vars(workspace_id, intent))
         response = self.request(
@@ -601,18 +636,22 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'export': export,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/intents/{1}'.format(
             *self._encode_path_vars(workspace_id, intent))
         response = self.request(
@@ -657,11 +696,14 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'export': export,
@@ -671,6 +713,7 @@ class AssistantV1(WatsonService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/intents'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -711,6 +754,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
@@ -719,15 +763,19 @@ class AssistantV1(WatsonService):
             new_examples = [
                 self._convert_model(x, CreateExample) for x in new_examples
             ]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'intent': new_intent,
             'description': new_description,
             'examples': new_examples
         }
+
         url = '/v1/workspaces/{0}/intents/{1}'.format(
             *self._encode_path_vars(workspace_id, intent))
         response = self.request(
@@ -768,6 +816,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
@@ -776,11 +825,15 @@ class AssistantV1(WatsonService):
             raise ValueError('text must be provided')
         if mentions is not None:
             mentions = [self._convert_model(x, Mentions) for x in mentions]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {'text': text, 'mentions': mentions}
+
         url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
             *self._encode_path_vars(workspace_id, intent))
         response = self.request(
@@ -807,16 +860,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
@@ -849,16 +906,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version, 'include_audit': include_audit}
+
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
@@ -900,13 +961,16 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'page_limit': page_limit,
@@ -915,6 +979,7 @@ class AssistantV1(WatsonService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
             *self._encode_path_vars(workspace_id, intent))
         response = self.request(
@@ -952,6 +1017,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
@@ -962,11 +1028,15 @@ class AssistantV1(WatsonService):
             new_mentions = [
                 self._convert_model(x, Mentions) for x in new_mentions
             ]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {'text': new_text, 'mentions': new_mentions}
+
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
         response = self.request(
@@ -1001,15 +1071,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {'text': text}
+
         url = '/v1/workspaces/{0}/counterexamples'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -1037,14 +1112,18 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
         response = self.request(
@@ -1077,14 +1156,18 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version, 'include_audit': include_audit}
+
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
         response = self.request(
@@ -1124,11 +1207,14 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'page_limit': page_limit,
@@ -1137,6 +1223,7 @@ class AssistantV1(WatsonService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/counterexamples'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -1165,15 +1252,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {'text': new_text}
+
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
         response = self.request(
@@ -1220,16 +1312,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
         if values is not None:
             values = [self._convert_model(x, CreateValue) for x in values]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'entity': entity,
             'description': description,
@@ -1237,6 +1333,7 @@ class AssistantV1(WatsonService):
             'values': values,
             'fuzzy_match': fuzzy_match
         }
+
         url = '/v1/workspaces/{0}/entities'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -1262,14 +1359,18 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/workspaces/{0}/entities/{1}'.format(
             *self._encode_path_vars(workspace_id, entity))
         response = self.request(
@@ -1306,18 +1407,22 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'export': export,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/entities/{1}'.format(
             *self._encode_path_vars(workspace_id, entity))
         response = self.request(
@@ -1362,11 +1467,14 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'export': export,
@@ -1376,6 +1484,7 @@ class AssistantV1(WatsonService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/entities'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -1420,6 +1529,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
@@ -1428,10 +1538,13 @@ class AssistantV1(WatsonService):
             new_values = [
                 self._convert_model(x, CreateValue) for x in new_values
             ]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'entity': new_entity,
             'description': new_description,
@@ -1439,6 +1552,7 @@ class AssistantV1(WatsonService):
             'fuzzy_match': new_fuzzy_match,
             'values': new_values
         }
+
         url = '/v1/workspaces/{0}/entities/{1}'.format(
             *self._encode_path_vars(workspace_id, entity))
         response = self.request(
@@ -1480,18 +1594,22 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'export': export,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/entities/{1}/mentions'.format(
             *self._encode_path_vars(workspace_id, entity))
         response = self.request(
@@ -1546,16 +1664,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'value': value,
             'metadata': metadata,
@@ -1563,6 +1685,7 @@ class AssistantV1(WatsonService):
             'patterns': patterns,
             'type': value_type
         }
+
         url = '/v1/workspaces/{0}/entities/{1}/values'.format(
             *self._encode_path_vars(workspace_id, entity))
         response = self.request(
@@ -1589,16 +1712,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
@@ -1636,20 +1763,24 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'export': export,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
@@ -1695,13 +1826,16 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'export': export,
@@ -1711,6 +1845,7 @@ class AssistantV1(WatsonService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/entities/{1}/values'.format(
             *self._encode_path_vars(workspace_id, entity))
         response = self.request(
@@ -1764,16 +1899,20 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'value': new_value,
             'metadata': new_metadata,
@@ -1781,6 +1920,7 @@ class AssistantV1(WatsonService):
             'synonyms': new_synonyms,
             'patterns': new_patterns
         }
+
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
@@ -1816,6 +1956,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
@@ -1824,11 +1965,15 @@ class AssistantV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {'synonym': synonym}
+
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
@@ -1856,6 +2001,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
@@ -1864,10 +2010,13 @@ class AssistantV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
         response = self.request(
@@ -1902,6 +2051,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
@@ -1910,10 +2060,13 @@ class AssistantV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version, 'include_audit': include_audit}
+
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
         response = self.request(
@@ -1956,15 +2109,18 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'page_limit': page_limit,
@@ -1973,6 +2129,7 @@ class AssistantV1(WatsonService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
             *self._encode_path_vars(workspace_id, entity, value))
         response = self.request(
@@ -2010,6 +2167,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
@@ -2018,11 +2176,15 @@ class AssistantV1(WatsonService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {'synonym': new_synonym}
+
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
         response = self.request(
@@ -2108,6 +2270,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
@@ -2120,10 +2283,13 @@ class AssistantV1(WatsonService):
             actions = [
                 self._convert_model(x, DialogNodeAction) for x in actions
             ]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'dialog_node': dialog_node,
             'description': description,
@@ -2144,6 +2310,7 @@ class AssistantV1(WatsonService):
             'digress_out_slots': digress_out_slots,
             'user_label': user_label
         }
+
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -2169,14 +2336,18 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
         response = self.request(
@@ -2207,14 +2378,18 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version, 'include_audit': include_audit}
+
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
         response = self.request(
@@ -2253,11 +2428,14 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'page_limit': page_limit,
@@ -2266,6 +2444,7 @@ class AssistantV1(WatsonService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -2351,6 +2530,7 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
@@ -2364,10 +2544,13 @@ class AssistantV1(WatsonService):
             new_actions = [
                 self._convert_model(x, DialogNodeAction) for x in new_actions
             ]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'dialog_node': new_dialog_node,
             'description': new_description,
@@ -2388,6 +2571,7 @@ class AssistantV1(WatsonService):
             'digress_out_slots': new_digress_out_slots,
             'user_label': new_user_label
         }
+
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
         response = self.request(
@@ -2431,11 +2615,14 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if filter is None:
             raise ValueError('filter must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'filter': filter,
@@ -2443,6 +2630,7 @@ class AssistantV1(WatsonService):
             'page_limit': page_limit,
             'cursor': cursor
         }
+
         url = '/v1/logs'
         response = self.request(
             method='GET',
@@ -2480,11 +2668,14 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'sort': sort,
@@ -2492,6 +2683,7 @@ class AssistantV1(WatsonService):
             'page_limit': page_limit,
             'cursor': cursor
         }
+
         url = '/v1/workspaces/{0}/logs'.format(
             *self._encode_path_vars(workspace_id))
         response = self.request(
@@ -2522,12 +2714,16 @@ class AssistantV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if customer_id is None:
             raise ValueError('customer_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version, 'customer_id': customer_id}
+
         url = '/v1/user_data'
         response = self.request(
             method='DELETE',
