@@ -446,6 +446,9 @@ class WatsonService(object):
             else:
                 params['api_key'] = self.api_key
 
+        # Use a one minute timeout when our caller doesn't give a timeout.
+        # http://docs.python-requests.org/en/master/user/quickstart/#timeouts
+        kwargs = dict({"timeout": 60}, **kwargs)
         kwargs = dict(kwargs, **self.http_config)
 
         if self.verify is not None:
