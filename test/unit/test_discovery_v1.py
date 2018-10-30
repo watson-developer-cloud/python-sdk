@@ -1173,3 +1173,45 @@ def test_events_and_feedback():
     assert responses.calls[13].response.json() == log_query_response
 
     assert len(responses.calls) == 14
+
+@responses.activate
+def test_tokenization_dictionary():
+    url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/word_lists/tokenization_dictionary?version=2017-11-07'
+    responses.add(
+        responses.POST,
+        url,
+        body='{"status": "pending"}',
+        status=200,
+        content_type='application_json')
+    responses.add(
+        responses.DELETE,
+        url,
+        body='{"status": "pending"}',
+        status=200)
+    responses.add(
+        responses.GET,
+        url,
+        body='{"status": "pending", "type":"tokenization_dictionary"}',
+        status=200,
+        content_type='application_json')
+
+    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
+
+    tokenization_rules = [
+        {
+            'text': 'token',
+            'tokens': ['token 1', 'token 2'],
+            'readings': ['reading 1', 'reading 2'],
+            'part_of_speech': 'noun',
+        }
+    ]
+    discovery.create_tokenization_dictionary('envid', 'colid', tokenization_rules)
+    assert responses.calls[0].response.json() == {"status": "pending"}
+
+    discovery.get_tokenization_dictionary_status('envid', 'colid')
+    assert responses.calls[1].response.json() == {"status": "pending", "type":"tokenization_dictionary"}
+
+    discovery.delete_tokenization_dictionary('envid', 'colid')
+    assert responses.calls[2].response.status_code is 200
+
+    assert len(responses.calls) == 3
