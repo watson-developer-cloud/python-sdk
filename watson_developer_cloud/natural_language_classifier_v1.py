@@ -105,14 +105,18 @@ class NaturalLanguageClassifierV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         data = {'text': text}
+
         url = '/v1/classifiers/{0}/classify'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -137,15 +141,19 @@ class NaturalLanguageClassifierV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         if collection is None:
             raise ValueError('collection must be provided')
         collection = [self._convert_model(x, ClassifyInput) for x in collection]
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         data = {'collection': collection}
+
         url = '/v1/classifiers/{0}/classify_collection'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -188,30 +196,32 @@ class NaturalLanguageClassifierV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if metadata is None:
             raise ValueError('metadata must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
+        form_data = {}
         if not metadata_filename and hasattr(metadata, 'name'):
             metadata_filename = metadata.name
-        mime_type = 'application/json'
-        metadata_tuple = (metadata_filename, metadata, mime_type)
+        form_data['metadata'] = (metadata_filename, metadata,
+                                 'application/json')
         if not training_data_filename and hasattr(training_data, 'name'):
             training_data_filename = training_data.name
-        mime_type = 'text/csv'
-        training_data_tuple = (training_data_filename, training_data, mime_type)
+        form_data['training_data'] = (training_data_filename, training_data,
+                                      'text/csv')
+
         url = '/v1/classifiers'
         response = self.request(
             method='POST',
             url=url,
             headers=headers,
-            files={
-                'training_metadata': metadata_tuple,
-                'training_data': training_data_tuple
-            },
+            files=form_data,
             accept_json=True)
         return response
 
@@ -224,11 +234,14 @@ class NaturalLanguageClassifierV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -246,11 +259,14 @@ class NaturalLanguageClassifierV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         response = self.request(
@@ -267,9 +283,11 @@ class NaturalLanguageClassifierV1(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         url = '/v1/classifiers'
         response = self.request(
             method='GET', url=url, headers=headers, accept_json=True)
