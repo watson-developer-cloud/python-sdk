@@ -127,18 +127,23 @@ class LanguageTranslatorV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = {
             'text': text,
             'model_id': model_id,
             'source': source,
             'target': target
         }
+
         url = '/v3/translate'
         response = self.request(
             method='POST',
@@ -164,14 +169,19 @@ class LanguageTranslatorV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if text is None:
             raise ValueError('text must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         data = text
         headers['content-type'] = 'text/plain'
+
         url = '/v3/identify'
         response = self.request(
             method='POST',
@@ -193,10 +203,13 @@ class LanguageTranslatorV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v3/identifiable_languages'
         response = self.request(
             method='GET',
@@ -258,42 +271,43 @@ class LanguageTranslatorV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if base_model_id is None:
             raise ValueError('base_model_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'base_model_id': base_model_id,
             'name': name
         }
-        forced_glossary_tuple = None
+
+        form_data = {}
         if forced_glossary:
             if not forced_glossary_filename and hasattr(forced_glossary,
                                                         'name'):
                 forced_glossary_filename = forced_glossary.name
-            mime_type = 'application/octet-stream'
-            forced_glossary_tuple = (forced_glossary_filename, forced_glossary,
-                                     mime_type)
-        parallel_corpus_tuple = None
+            form_data['forced_glossary'] = (forced_glossary_filename,
+                                            forced_glossary,
+                                            'application/octet-stream')
         if parallel_corpus:
             if not parallel_corpus_filename and hasattr(parallel_corpus,
                                                         'name'):
                 parallel_corpus_filename = parallel_corpus.name
-            mime_type = 'application/octet-stream'
-            parallel_corpus_tuple = (parallel_corpus_filename, parallel_corpus,
-                                     mime_type)
+            form_data['parallel_corpus'] = (parallel_corpus_filename,
+                                            parallel_corpus,
+                                            'application/octet-stream')
+
         url = '/v3/models'
         response = self.request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
-            files={
-                'forced_glossary': forced_glossary_tuple,
-                'parallel_corpus': parallel_corpus_tuple
-            },
+            files=form_data,
             accept_json=True)
         return response
 
@@ -308,12 +322,16 @@ class LanguageTranslatorV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if model_id is None:
             raise ValueError('model_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v3/models/{0}'.format(*self._encode_path_vars(model_id))
         response = self.request(
             method='DELETE',
@@ -336,12 +354,16 @@ class LanguageTranslatorV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         if model_id is None:
             raise ValueError('model_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {'version': self.version}
+
         url = '/v3/models/{0}'.format(*self._encode_path_vars(model_id))
         response = self.request(
             method='GET',
@@ -372,15 +394,18 @@ class LanguageTranslatorV3(WatsonService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+
         params = {
             'version': self.version,
             'source': source,
             'target': target,
             'default': default_models
         }
+
         url = '/v3/models'
         response = self.request(
             method='GET',
