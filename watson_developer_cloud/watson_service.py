@@ -262,6 +262,8 @@ class WatsonService(object):
                     self.username = self.vcap_service_credentials.get('username')
                 if 'password' in self.vcap_service_credentials:
                     self.password = self.vcap_service_credentials.get('password')
+                if 'apikey' in self.vcap_service_credentials:
+                    self.set_iam_apikey(self.vcap_service_credentials.get('apikey'))
                 if 'iam_apikey' in self.vcap_service_credentials:
                     self.set_iam_apikey(self.vcap_service_credentials.get('iam_apikey'))
                 if 'iam_access_token' in self.vcap_service_credentials:
