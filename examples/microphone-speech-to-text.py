@@ -36,9 +36,8 @@ audio_source = AudioSource(q, True, True)
 
 # initialize speech to text service
 speech_to_text = SpeechToTextV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
-    url='https://stream.watsonplatform.net/speech-to-text/api')
+    iam_apikey='{YOUR_IAM_API_KEY}',
+    url='{YOUR_GATEWAY_URL}')
 
 # define callback for the speech to text service
 class MyRecognizeCallback(RecognizeCallback):
