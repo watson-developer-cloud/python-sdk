@@ -6760,6 +6760,53 @@ class NluEnrichmentCategories(object):
         return not self == other
 
 
+class NluEnrichmentConcepts(object):
+    """
+    An object specifiying the concepts enrichment and related parameters.
+
+    :attr int limit: (optional) The maximum number of concepts enrichments to extact from
+    each instance of the specified field.
+    """
+
+    def __init__(self, limit=None):
+        """
+        Initialize a NluEnrichmentConcepts object.
+
+        :param int limit: (optional) The maximum number of concepts enrichments to extact
+        from each instance of the specified field.
+        """
+        self.limit = limit
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a NluEnrichmentConcepts object from a json dictionary."""
+        args = {}
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this NluEnrichmentConcepts object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class NluEnrichmentEmotion(object):
     """
     An object specifying the emotion detection enrichment and related parameters.
@@ -6830,8 +6877,8 @@ class NluEnrichmentEntities(object):
     entity is recorded. The default is `false`.
     :attr bool mention_types: (optional) When `true`, the types of mentions for each
     idetifieid entity is recorded. The default is `false`.
-    :attr bool sentence_location: (optional) When `true`, a list of sentence locations for
-    each instance of each identified entity is recorded. The default is `false`.
+    :attr bool sentence_locations: (optional) When `true`, a list of sentence locations
+    for each instance of each identified entity is recorded. The default is `false`.
     :attr str model: (optional) The enrichement model to use with entity extraction. May
     be a custom model provided by Watson Knowledge Studio, the public model for use with
     Knowledge Graph `en-news`, or the default public model `alchemy`.
@@ -6843,7 +6890,7 @@ class NluEnrichmentEntities(object):
                  limit=None,
                  mentions=None,
                  mention_types=None,
-                 sentence_location=None,
+                 sentence_locations=None,
                  model=None):
         """
         Initialize a NluEnrichmentEntities object.
@@ -6858,7 +6905,7 @@ class NluEnrichmentEntities(object):
         identified entity is recorded. The default is `false`.
         :param bool mention_types: (optional) When `true`, the types of mentions for each
         idetifieid entity is recorded. The default is `false`.
-        :param bool sentence_location: (optional) When `true`, a list of sentence
+        :param bool sentence_locations: (optional) When `true`, a list of sentence
         locations for each instance of each identified entity is recorded. The default is
         `false`.
         :param str model: (optional) The enrichement model to use with entity extraction.
@@ -6870,7 +6917,7 @@ class NluEnrichmentEntities(object):
         self.limit = limit
         self.mentions = mentions
         self.mention_types = mention_types
-        self.sentence_location = sentence_location
+        self.sentence_locations = sentence_locations
         self.model = model
 
     @classmethod
@@ -6887,8 +6934,8 @@ class NluEnrichmentEntities(object):
             args['mentions'] = _dict.get('mentions')
         if 'mention_types' in _dict:
             args['mention_types'] = _dict.get('mention_types')
-        if 'sentence_location' in _dict:
-            args['sentence_location'] = _dict.get('sentence_location')
+        if 'sentence_locations' in _dict:
+            args['sentence_locations'] = _dict.get('sentence_locations')
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -6906,9 +6953,10 @@ class NluEnrichmentEntities(object):
             _dict['mentions'] = self.mentions
         if hasattr(self, 'mention_types') and self.mention_types is not None:
             _dict['mention_types'] = self.mention_types
-        if hasattr(self,
-                   'sentence_location') and self.sentence_location is not None:
-            _dict['sentence_location'] = self.sentence_location
+        if hasattr(
+                self,
+                'sentence_locations') and self.sentence_locations is not None:
+            _dict['sentence_locations'] = self.sentence_locations
         if hasattr(self, 'model') and self.model is not None:
             _dict['model'] = self.model
         return _dict
@@ -6946,6 +6994,8 @@ class NluEnrichmentFeatures(object):
     semantic roles enrichment and related parameters.
     :attr NluEnrichmentRelations relations: (optional) An object specifying the relations
     enrichment and related parameters.
+    :attr NluEnrichmentConcepts concepts: (optional) An object specifiying the concepts
+    enrichment and related parameters.
     """
 
     def __init__(self,
@@ -6955,7 +7005,8 @@ class NluEnrichmentFeatures(object):
                  emotion=None,
                  categories=None,
                  semantic_roles=None,
-                 relations=None):
+                 relations=None,
+                 concepts=None):
         """
         Initialize a NluEnrichmentFeatures object.
 
@@ -6973,6 +7024,8 @@ class NluEnrichmentFeatures(object):
         the semantic roles enrichment and related parameters.
         :param NluEnrichmentRelations relations: (optional) An object specifying the
         relations enrichment and related parameters.
+        :param NluEnrichmentConcepts concepts: (optional) An object specifiying the
+        concepts enrichment and related parameters.
         """
         self.keywords = keywords
         self.entities = entities
@@ -6981,6 +7034,7 @@ class NluEnrichmentFeatures(object):
         self.categories = categories
         self.semantic_roles = semantic_roles
         self.relations = relations
+        self.concepts = concepts
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -7007,6 +7061,9 @@ class NluEnrichmentFeatures(object):
         if 'relations' in _dict:
             args['relations'] = NluEnrichmentRelations._from_dict(
                 _dict.get('relations'))
+        if 'concepts' in _dict:
+            args['concepts'] = NluEnrichmentConcepts._from_dict(
+                _dict.get('concepts'))
         return cls(**args)
 
     def _to_dict(self):
@@ -7026,6 +7083,8 @@ class NluEnrichmentFeatures(object):
             _dict['semantic_roles'] = self.semantic_roles._to_dict()
         if hasattr(self, 'relations') and self.relations is not None:
             _dict['relations'] = self.relations._to_dict()
+        if hasattr(self, 'concepts') and self.concepts is not None:
+            _dict['concepts'] = self.concepts._to_dict()
         return _dict
 
     def __str__(self):
@@ -9773,30 +9832,26 @@ class TokenDictRule(object):
     """
     An object defining a single tokenizaion rule.
 
-    :attr str text: (optional) The string to tokenize.
-    :attr list[str] tokens: (optional) Array of tokens that the `text` field is split into
-    when found.
+    :attr str text: The string to tokenize.
+    :attr list[str] tokens: Array of tokens that the `text` field is split into when
+    found.
     :attr list[str] readings: (optional) Array of tokens that represent the content of the
     `text` field in an alternate character set.
-    :attr str part_of_speech: (optional) The part of speech that the `text` string belongs
-    to. For example `noun`. Custom parts of speech can be specified.
+    :attr str part_of_speech: The part of speech that the `text` string belongs to. For
+    example `noun`. Custom parts of speech can be specified.
     """
 
-    def __init__(self,
-                 text=None,
-                 tokens=None,
-                 readings=None,
-                 part_of_speech=None):
+    def __init__(self, text, tokens, part_of_speech, readings=None):
         """
         Initialize a TokenDictRule object.
 
-        :param str text: (optional) The string to tokenize.
-        :param list[str] tokens: (optional) Array of tokens that the `text` field is split
-        into when found.
+        :param str text: The string to tokenize.
+        :param list[str] tokens: Array of tokens that the `text` field is split into when
+        found.
+        :param str part_of_speech: The part of speech that the `text` string belongs to.
+        For example `noun`. Custom parts of speech can be specified.
         :param list[str] readings: (optional) Array of tokens that represent the content
         of the `text` field in an alternate character set.
-        :param str part_of_speech: (optional) The part of speech that the `text` string
-        belongs to. For example `noun`. Custom parts of speech can be specified.
         """
         self.text = text
         self.tokens = tokens
@@ -9809,12 +9864,23 @@ class TokenDictRule(object):
         args = {}
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in TokenDictRule JSON')
         if 'tokens' in _dict:
             args['tokens'] = _dict.get('tokens')
+        else:
+            raise ValueError(
+                'Required property \'tokens\' not present in TokenDictRule JSON'
+            )
         if 'readings' in _dict:
             args['readings'] = _dict.get('readings')
         if 'part_of_speech' in _dict:
             args['part_of_speech'] = _dict.get('part_of_speech')
+        else:
+            raise ValueError(
+                'Required property \'part_of_speech\' not present in TokenDictRule JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
