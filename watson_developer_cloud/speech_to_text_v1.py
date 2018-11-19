@@ -162,7 +162,7 @@ class SpeechToTextV1(WatsonService):
 
     def recognize(self,
                   audio,
-                  content_type,
+                  content_type=None,
                   model=None,
                   language_customization_id=None,
                   acoustic_customization_id=None,
@@ -351,8 +351,6 @@ class SpeechToTextV1(WatsonService):
 
         if audio is None:
             raise ValueError('audio must be provided')
-        if content_type is None:
-            raise ValueError('content_type must be provided')
 
         headers = {'Content-Type': content_type}
         if 'headers' in kwargs:
@@ -459,7 +457,7 @@ class SpeechToTextV1(WatsonService):
 
     def create_job(self,
                    audio,
-                   content_type,
+                   content_type=None,
                    model=None,
                    callback_url=None,
                    events=None,
@@ -698,8 +696,6 @@ class SpeechToTextV1(WatsonService):
 
         if audio is None:
             raise ValueError('audio must be provided')
-        if content_type is None:
-            raise ValueError('content_type must be provided')
 
         headers = {'Content-Type': content_type}
         if 'headers' in kwargs:
