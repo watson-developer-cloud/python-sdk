@@ -1,0 +1,395 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.discovery_v1_adapter &#8212; Watson Developer Cloud Python SDK 2.4.2 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for watson_developer_cloud.discovery_v1_adapter</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">.discovery_v1</span> <span class="k">import</span> <span class="n">DiscoveryV1</span>
+
+<div class="viewcode-block" id="DiscoveryV1Adapter"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1_adapter.html#watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter">[docs]</a><span class="k">class</span> <span class="nc">DiscoveryV1Adapter</span><span class="p">(</span><span class="n">DiscoveryV1</span><span class="p">):</span>
+<div class="viewcode-block" id="DiscoveryV1Adapter.federated_query"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1_adapter.html#watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter.federated_query">[docs]</a>    <span class="k">def</span> <span class="nf">federated_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">environment_id</span><span class="p">,</span>
+                        <span class="n">collection_ids</span><span class="p">,</span>
+                        <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">natural_language_query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">aggregation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">return_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">highlight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">deduplicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">similar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">similar_document_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">similar_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">passages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">passages_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">passages_count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">passages_characters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">bias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">logging_opt_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Long environment queries.</span>
+
+<span class="sd">        Complex queries might be too long for a standard method query. By using this</span>
+<span class="sd">        method, you can construct longer queries. However, these queries may take longer</span>
+<span class="sd">        to complete than the standard method. For details, see the [Discovery service</span>
+<span class="sd">        documentation](https://console.bluemix.net/docs/services/discovery/using.html).</span>
+
+<span class="sd">        :param str environment_id: The ID of the environment.</span>
+<span class="sd">        :param list[str] collection_ids: A comma-separated list of collection IDs to be</span>
+<span class="sd">        queried against.</span>
+<span class="sd">        :param str filter: A cacheable query that limits the documents returned to exclude</span>
+<span class="sd">        any documents that don&#39;t mention the query content. Filter searches are better for</span>
+<span class="sd">        metadata type searches and when you are trying to get a sense of concepts in the</span>
+<span class="sd">        data set.</span>
+<span class="sd">        :param str query: A query search returns all documents in your data set with full</span>
+<span class="sd">        enrichments and full text, but with the most relevant documents listed first. Use</span>
+<span class="sd">        a query search when you want to find the most relevant search results. You cannot</span>
+<span class="sd">        use **natural_language_query** and **query** at the same time.</span>
+<span class="sd">        :param str natural_language_query: A natural language query that returns relevant</span>
+<span class="sd">        documents by utilizing training data and natural language understanding. You</span>
+<span class="sd">        cannot use **natural_language_query** and **query** at the same time.</span>
+<span class="sd">        :param str aggregation: An aggregation search uses combinations of filters and</span>
+<span class="sd">        query search to return an exact answer. Aggregations are useful for building</span>
+<span class="sd">        applications, because you can use them to build lists, tables, and time series.</span>
+<span class="sd">        For a full list of possible aggregrations, see the Query reference.</span>
+<span class="sd">        :param int count: Number of results to return.</span>
+<span class="sd">        :param list[str] return_fields: A comma separated list of the portion of the</span>
+<span class="sd">        document hierarchy to return.</span>
+<span class="sd">        :param int offset: The number of query results to skip at the beginning. For</span>
+<span class="sd">        example, if the total number of results that are returned is 10, and the offset is</span>
+<span class="sd">        8, it returns the last two results.</span>
+<span class="sd">        :param list[str] sort: A comma separated list of fields in the document to sort</span>
+<span class="sd">        on. You can optionally specify a sort direction by prefixing the field with `-`</span>
+<span class="sd">        for descending or `+` for ascending. Ascending is the default sort direction if no</span>
+<span class="sd">        prefix is specified.</span>
+<span class="sd">        :param bool highlight: When true a highlight field is returned for each result</span>
+<span class="sd">        which contains the fields that match the query with `&lt;em&gt;&lt;/em&gt;` tags around the</span>
+<span class="sd">        matching query terms. Defaults to false.</span>
+<span class="sd">        :param bool deduplicate: When `true` and used with a Watson Discovery News</span>
+<span class="sd">        collection, duplicate results (based on the contents of the **title** field) are</span>
+<span class="sd">        removed. Duplicate comparison is limited to the current query only; **offset** is</span>
+<span class="sd">        not considered. This parameter is currently Beta functionality.</span>
+<span class="sd">        :param str deduplicate_field: When specified, duplicate results based on the field</span>
+<span class="sd">        specified are removed from the returned results. Duplicate comparison is limited</span>
+<span class="sd">        to the current query only, **offset** is not considered. This parameter is</span>
+<span class="sd">        currently Beta functionality.</span>
+<span class="sd">        :param bool similar: When `true`, results are returned based on their similarity</span>
+<span class="sd">        to the document IDs specified in the **similar.document_ids** parameter.</span>
+<span class="sd">        :param list[str] similar_document_ids: A comma-separated list of document IDs that</span>
+<span class="sd">        will be used to find similar documents.</span>
+<span class="sd">        **Note:** If the **natural_language_query** parameter is also specified, it will</span>
+<span class="sd">        be used to expand the scope of the document similarity search to include the</span>
+<span class="sd">        natural language query. Other query parameters, such as **filter** and **query**</span>
+<span class="sd">        are subsequently applied and reduce the query scope.</span>
+<span class="sd">        :param list[str] similar_fields: A comma-separated list of field names that will</span>
+<span class="sd">        be used as a basis for comparison to identify similar documents. If not specified,</span>
+<span class="sd">        the entire document is used for comparison.</span>
+<span class="sd">        :param bool passages: A passages query that returns the most relevant passages</span>
+<span class="sd">        from the results.</span>
+<span class="sd">        :param list[str] passages_fields: A comma-separated list of fields that passages</span>
+<span class="sd">        are drawn from. If this parameter not specified, then all top-level fields are</span>
+<span class="sd">        included.</span>
+<span class="sd">        :param int passages_count: The maximum number of passages to return. The search</span>
+<span class="sd">        returns fewer passages if the requested total is not found. The default is `10`.</span>
+<span class="sd">        The maximum is `100`.</span>
+<span class="sd">        :param int passages_characters: The approximate number of characters that any one</span>
+<span class="sd">        passage will have. The default is `400`. The minimum is `50`. The maximum is</span>
+<span class="sd">        `2000`.</span>
+<span class="sd">        :param str bias: Field which the returned results will be biased against. The</span>
+<span class="sd">        specified field must be either a **date** or **number** format. When a **date**</span>
+<span class="sd">        type field is specified returned results are biased towards field values closer to</span>
+<span class="sd">        the current date. When a **number** type field is specified, returned results are</span>
+<span class="sd">        biased towards higher field values. This parameter cannot be used in the same</span>
+<span class="sd">        query as the **sort** parameter.</span>
+<span class="sd">        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery</span>
+<span class="sd">        **Logs** endpoint.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">environment_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;environment_id must be provided&#39;</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;X-Watson-Logging-Opt-Out&#39;</span><span class="p">:</span> <span class="n">logging_opt_out</span><span class="p">}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;collection_ids&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">collection_ids</span><span class="p">),</span>
+            <span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="nb">filter</span><span class="p">,</span>
+            <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span>
+            <span class="s1">&#39;natural_language_query&#39;</span><span class="p">:</span> <span class="n">natural_language_query</span><span class="p">,</span>
+            <span class="s1">&#39;aggregation&#39;</span><span class="p">:</span> <span class="n">aggregation</span><span class="p">,</span>
+            <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">count</span><span class="p">,</span>
+            <span class="s1">&#39;return&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">return_fields</span><span class="p">),</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;sort&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">sort</span><span class="p">),</span>
+            <span class="s1">&#39;highlight&#39;</span><span class="p">:</span> <span class="n">highlight</span><span class="p">,</span>
+            <span class="s1">&#39;deduplicate&#39;</span><span class="p">:</span> <span class="n">deduplicate</span><span class="p">,</span>
+            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span><span class="p">,</span>
+            <span class="s1">&#39;similar&#39;</span><span class="p">:</span> <span class="n">similar</span><span class="p">,</span>
+            <span class="s1">&#39;similar.document_ids&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_document_ids</span><span class="p">),</span>
+            <span class="s1">&#39;similar.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_fields</span><span class="p">),</span>
+            <span class="s1">&#39;passages&#39;</span><span class="p">:</span> <span class="n">passages</span><span class="p">,</span>
+            <span class="s1">&#39;passages.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">passages_fields</span><span class="p">),</span>
+            <span class="s1">&#39;passages.count&#39;</span><span class="p">:</span> <span class="n">passages_count</span><span class="p">,</span>
+            <span class="s1">&#39;passages.characters&#39;</span><span class="p">:</span> <span class="n">passages_characters</span><span class="p">,</span>
+            <span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="n">bias</span>
+        <span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/query&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">environment_id</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="DiscoveryV1Adapter.query"><a class="viewcode-back" href="../../apis/watson_developer_cloud.discovery_v1_adapter.html#watson_developer_cloud.discovery_v1_adapter.DiscoveryV1Adapter.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+              <span class="n">environment_id</span><span class="p">,</span>
+              <span class="n">collection_id</span><span class="p">,</span>
+              <span class="nb">filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">natural_language_query</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">passages</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">aggregation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">return_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">highlight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">passages_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">passages_count</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">passages_characters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">deduplicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">deduplicate_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">similar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">similar_document_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">similar_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">logging_opt_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">collection_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">bias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Long collection queries.</span>
+
+<span class="sd">        Complex queries might be too long for a standard method query. By using this</span>
+<span class="sd">        method, you can construct longer queries. However, these queries may take longer</span>
+<span class="sd">        to complete than the standard method. For details, see the [Discovery service</span>
+<span class="sd">        documentation](https://console.bluemix.net/docs/services/discovery/using.html).</span>
+
+<span class="sd">        :param str environment_id: The ID of the environment.</span>
+<span class="sd">        :param str collection_id: The ID of the collection.</span>
+<span class="sd">        :param str filter: A cacheable query that limits the documents returned to exclude</span>
+<span class="sd">        any documents that don&#39;t mention the query content. Filter searches are better for</span>
+<span class="sd">        metadata type searches and when you are trying to get a sense of concepts in the</span>
+<span class="sd">        data set.</span>
+<span class="sd">        :param str query: A query search returns all documents in your data set with full</span>
+<span class="sd">        enrichments and full text, but with the most relevant documents listed first. Use</span>
+<span class="sd">        a query search when you want to find the most relevant search results. You cannot</span>
+<span class="sd">        use **natural_language_query** and **query** at the same time.</span>
+<span class="sd">        :param str natural_language_query: A natural language query that returns relevant</span>
+<span class="sd">        documents by utilizing training data and natural language understanding. You</span>
+<span class="sd">        cannot use **natural_language_query** and **query** at the same time.</span>
+<span class="sd">        :param bool passages: A passages query that returns the most relevant passages</span>
+<span class="sd">        from the results.</span>
+<span class="sd">        :param str aggregation: An aggregation search uses combinations of filters and</span>
+<span class="sd">        query search to return an exact answer. Aggregations are useful for building</span>
+<span class="sd">        applications, because you can use them to build lists, tables, and time series.</span>
+<span class="sd">        For a full list of possible aggregrations, see the Query reference.</span>
+<span class="sd">        :param int count: Number of results to return.</span>
+<span class="sd">        :param list[str] return_fields: A comma separated list of the portion of the</span>
+<span class="sd">        document hierarchy to return.</span>
+<span class="sd">        :param int offset: The number of query results to skip at the beginning. For</span>
+<span class="sd">        example, if the total number of results that are returned is 10, and the offset is</span>
+<span class="sd">        8, it returns the last two results.</span>
+<span class="sd">        :param list[str] sort: A comma separated list of fields in the document to sort</span>
+<span class="sd">        on. You can optionally specify a sort direction by prefixing the field with `-`</span>
+<span class="sd">        for descending or `+` for ascending. Ascending is the default sort direction if no</span>
+<span class="sd">        prefix is specified.</span>
+<span class="sd">        :param bool highlight: When true a highlight field is returned for each result</span>
+<span class="sd">        which contains the fields that match the query with `&lt;em&gt;&lt;/em&gt;` tags around the</span>
+<span class="sd">        matching query terms. Defaults to false.</span>
+<span class="sd">        :param list[str] passages_fields: A comma-separated list of fields that passages</span>
+<span class="sd">        are drawn from. If this parameter not specified, then all top-level fields are</span>
+<span class="sd">        included.</span>
+<span class="sd">        :param int passages_count: The maximum number of passages to return. The search</span>
+<span class="sd">        returns fewer passages if the requested total is not found. The default is `10`.</span>
+<span class="sd">        The maximum is `100`.</span>
+<span class="sd">        :param int passages_characters: The approximate number of characters that any one</span>
+<span class="sd">        passage will have. The default is `400`. The minimum is `50`. The maximum is</span>
+<span class="sd">        `2000`.</span>
+<span class="sd">        :param bool deduplicate: When `true` and used with a Watson Discovery News</span>
+<span class="sd">        collection, duplicate results (based on the contents of the **title** field) are</span>
+<span class="sd">        removed. Duplicate comparison is limited to the current query only; **offset** is</span>
+<span class="sd">        not considered. This parameter is currently Beta functionality.</span>
+<span class="sd">        :param str deduplicate_field: When specified, duplicate results based on the field</span>
+<span class="sd">        specified are removed from the returned results. Duplicate comparison is limited</span>
+<span class="sd">        to the current query only, **offset** is not considered. This parameter is</span>
+<span class="sd">        currently Beta functionality.</span>
+<span class="sd">        :param bool similar: When `true`, results are returned based on their similarity</span>
+<span class="sd">        to the document IDs specified in the **similar.document_ids** parameter.</span>
+<span class="sd">        :param list[str] similar_document_ids: A comma-separated list of document IDs that</span>
+<span class="sd">        will be used to find similar documents.</span>
+<span class="sd">        **Note:** If the **natural_language_query** parameter is also specified, it will</span>
+<span class="sd">        be used to expand the scope of the document similarity search to include the</span>
+<span class="sd">        natural language query. Other query parameters, such as **filter** and **query**</span>
+<span class="sd">        are subsequently applied and reduce the query scope.</span>
+<span class="sd">        :param list[str] similar_fields: A comma-separated list of field names that will</span>
+<span class="sd">        be used as a basis for comparison to identify similar documents. If not specified,</span>
+<span class="sd">        the entire document is used for comparison.</span>
+<span class="sd">        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery</span>
+<span class="sd">        **Logs** endpoint.</span>
+<span class="sd">        :param str collection_ids: A comma-separated list of collection IDs to be queried</span>
+<span class="sd">        against. Required when querying multiple collections, invalid when performing a</span>
+<span class="sd">        single collection query.</span>
+<span class="sd">        :param str bias: Field which the returned results will be biased against. The</span>
+<span class="sd">        specified field must be either a **date** or **number** format. When a **date**</span>
+<span class="sd">        type field is specified returned results are biased towards field values closer to</span>
+<span class="sd">        the current date. When a **number** type field is specified, returned results are</span>
+<span class="sd">        biased towards higher field values. This parameter cannot be used in the same</span>
+<span class="sd">        query as the **sort** parameter.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">environment_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;environment_id must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">collection_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;collection_id must be provided&#39;</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;X-Watson-Logging-Opt-Out&#39;</span><span class="p">:</span> <span class="n">logging_opt_out</span><span class="p">}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+            <span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="nb">filter</span><span class="p">,</span>
+            <span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">query</span><span class="p">,</span>
+            <span class="s1">&#39;natural_language_query&#39;</span><span class="p">:</span> <span class="n">natural_language_query</span><span class="p">,</span>
+            <span class="s1">&#39;passages&#39;</span><span class="p">:</span> <span class="n">passages</span><span class="p">,</span>
+            <span class="s1">&#39;aggregation&#39;</span><span class="p">:</span> <span class="n">aggregation</span><span class="p">,</span>
+            <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">count</span><span class="p">,</span>
+            <span class="s1">&#39;return&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">return_fields</span><span class="p">),</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;sort&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">sort</span><span class="p">),</span>
+            <span class="s1">&#39;highlight&#39;</span><span class="p">:</span> <span class="n">highlight</span><span class="p">,</span>
+            <span class="s1">&#39;passages.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">passages_fields</span><span class="p">),</span>
+            <span class="s1">&#39;passages.count&#39;</span><span class="p">:</span> <span class="n">passages_count</span><span class="p">,</span>
+            <span class="s1">&#39;passages.characters&#39;</span><span class="p">:</span> <span class="n">passages_characters</span><span class="p">,</span>
+            <span class="s1">&#39;deduplicate&#39;</span><span class="p">:</span> <span class="n">deduplicate</span><span class="p">,</span>
+            <span class="s1">&#39;deduplicate.field&#39;</span><span class="p">:</span> <span class="n">deduplicate_field</span><span class="p">,</span>
+            <span class="s1">&#39;similar&#39;</span><span class="p">:</span> <span class="n">similar</span><span class="p">,</span>
+            <span class="s1">&#39;similar.document_ids&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_document_ids</span><span class="p">),</span>
+            <span class="s1">&#39;similar.fields&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">similar_fields</span><span class="p">),</span>
+            <span class="s1">&#39;collection_ids&#39;</span><span class="p">:</span> <span class="n">collection_ids</span><span class="p">,</span>
+            <span class="s1">&#39;bias&#39;</span><span class="p">:</span> <span class="n">bias</span>
+        <span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v1/environments/</span><span class="si">{0}</span><span class="s1">/collections/</span><span class="si">{1}</span><span class="s1">/query&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">environment_id</span><span class="p">,</span> <span class="n">collection_id</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
