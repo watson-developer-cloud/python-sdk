@@ -191,3 +191,16 @@ def test_http_head():
     assert len(responses.calls) == 1
     assert response.headers is not None
     assert response.headers == expectedHeaders
+
+@responses.activate
+def test_response_with_no_body():
+    service = AnyServiceV1('2018-11-20', username='username', password='password')
+    responses.add(responses.GET,
+                  service.default_url,
+                  status=200,
+                  body=None)
+
+    response = service.any_service_call()
+    assert response is not None
+    assert len(responses.calls) == 1
+    assert response.get_result() is None
