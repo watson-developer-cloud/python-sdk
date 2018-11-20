@@ -467,7 +467,11 @@ class WatsonService(object):
                 # There is no body content for a HEAD request or a 204 response
                 return DetailedResponse(None, response.headers, response.status_code) if self.detailed_response else None
             if accept_json:
-                response_json = response.json()
+                try:
+                    response_json = response.json()
+                except:
+                    # deserialization fails because there is no text
+                    return DetailedResponse(None, response.headers, response.status_code) if self.detailed_response else None
                 if 'status' in response_json and response_json['status'] \
                         == 'ERROR':
                     status_code = 400
