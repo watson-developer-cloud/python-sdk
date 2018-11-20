@@ -52,6 +52,10 @@ class AnyServiceV1(WatsonService):
         response = self.request(method='GET', url='', accept_json=True)
         return response
 
+    def head_request(self):
+        response = self.request(method='HEAD', url='', accept_json=True)
+        return response
+
 @responses.activate
 def test_url_encoding():
     service = AnyServiceV1('2017-07-07', username='username', password='password')
@@ -171,3 +175,19 @@ def test_disable_SSL_verification():
 
     service1.disable_SSL_verification()
     assert service1.verify is False
+
+@responses.activate
+def test_http_head():
+    service = AnyServiceV1('2018-11-20', username='username', password='password')
+    expectedHeaders = {'Test-Header1': 'value1', 'Test-Header2': 'value2'}
+    responses.add(responses.HEAD,
+                  service.default_url,
+                  status=200,
+                  headers=expectedHeaders,
+                  content_type=None)
+
+    response = service.head_request()
+    assert response is not None
+    assert len(responses.calls) == 1
+    assert response.headers is not None
+    assert response.headers == expectedHeaders
