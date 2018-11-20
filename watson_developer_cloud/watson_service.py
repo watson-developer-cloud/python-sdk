@@ -463,7 +463,8 @@ class WatsonService(object):
                                     **kwargs)
 
         if 200 <= response.status_code <= 299:
-            if response.status_code == 204:
+            if response.status_code == 204 or method == 'HEAD':
+                # There is no body content for a HEAD request or a 204 response
                 return DetailedResponse(None, response.headers, response.status_code) if self.detailed_response else None
             if accept_json:
                 response_json = response.json()
