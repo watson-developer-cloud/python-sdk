@@ -1,6 +1,7 @@
 # coding: utf-8
 import unittest
 import watson_developer_cloud
+from watson_developer_cloud.websocket import SynthesizeCallback
 import pytest
 import os
 
@@ -67,3 +68,34 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
         self.text_to_speech.delete_word(customization_id, 'ACLs')
         word = self.text_to_speech.get_word(customization_id, 'MACLs').get_result()
         assert word['translation'] == 'mackles'
+
+    def test_synthesize_using_websocket(self):
+        file = "tongue_twister.wav"
+        class MySynthesizeCallback(SynthesizeCallback):
+            def __init__(self):
+                SynthesizeCallback.__init__(self)
+                self.fd = None
+                self.error = None
+
+            def on_connected(self):
+                self.fd = open(file, "ab")
+
+            def on_error(self, error):
+                self.error = error
+
+            def on_audio_stream(self, audio_stream):
+                self.fd.write(audio_stream)
+
+            def on_close(self):
+                self.fd.close()
+
+        testCallback = MySynthesizeCallback()
+        self.text_to_speech.synthesize_using_websocket("She sells seashells by the seashore",
+                                                       testCallback,
+                                                       accept='audio/wav',
+                                                       voice="en-GB_KateVoice"
+                                                      )
+        assert testCallback.error is None
+        assert testCallback.fd is not None
+        assert os.stat(file).st_size > 0
+        os.remove(file)
