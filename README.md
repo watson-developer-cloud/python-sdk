@@ -251,7 +251,7 @@ This would give an output of `DetailedResponse` having the structure:
 You can use the `get_result()`, `get_headers()` and get_status_code() to return the result, headers and status code respectively.
 
 ## Using Websockets
-The Text to Speech service supports synthesizing text to spoken audio using web sockets with the `synthesize_using_websocket`. The Speech to Text service supports recognizing speech to text using web sockets with the `recognize_using_websocket`. These methods need a custom callback class to listen to events. Below is an example of `synthesize_using_websocket`.
+The Text to Speech service supports synthesizing text to spoken audio using web sockets with the `synthesize_using_websocket`. The Speech to Text service supports recognizing speech to text using web sockets with the `recognize_using_websocket`. These methods need a custom callback class to listen to events. Below is an example of `synthesize_using_websocket`. Note: The service accepts one request per connection.
 
 ```py
 from watson_developer_cloud.websocket import SynthesizeCallback
@@ -267,10 +267,10 @@ class MySynthesizeCallback(SynthesizeCallback):
         return data
 
 my_callback = MySynthesizeCallback()
-service.synthesize_using_websocket("I like to pet dogs",
+service.synthesize_using_websocket('I like to pet dogs',
                                    my_callback,
                                    accept='audio/wav',
-                                   voice="en-US_AllisonVoice"
+                                   voice='en-US_AllisonVoice'
                                   )
 ```
 

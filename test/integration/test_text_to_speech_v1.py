@@ -70,7 +70,7 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
         assert word['translation'] == 'mackles'
 
     def test_synthesize_using_websocket(self):
-        file = "tongue_twister.wav"
+        file = 'tongue_twister.wav'
         class MySynthesizeCallback(SynthesizeCallback):
             def __init__(self):
                 SynthesizeCallback.__init__(self)
@@ -78,7 +78,7 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
                 self.error = None
 
             def on_connected(self):
-                self.fd = open(file, "ab")
+                self.fd = open(file, 'ab')
 
             def on_error(self, error):
                 self.error = error
@@ -90,10 +90,10 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
                 self.fd.close()
 
         test_callback = MySynthesizeCallback()
-        self.text_to_speech.synthesize_using_websocket("She sells seashells by the seashore",
+        self.text_to_speech.synthesize_using_websocket('She sells seashells by the seashore',
                                                        test_callback,
                                                        accept='audio/wav',
-                                                       voice="en-GB_KateVoice"
+                                                       voice='en-GB_KateVoice'
                                                       )
         assert test_callback.error is None
         assert test_callback.fd is not None

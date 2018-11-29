@@ -70,16 +70,16 @@ file_path = join(dirname(__file__), "../resources/dog.wav")
 class MySynthesizeCallback(SynthesizeCallback):
     def __init__(self):
         SynthesizeCallback.__init__(self)
-        self.fd = open(file_path, "ab")
+        self.fd = open(file_path, 'ab')
 
     def on_connected(self):
-        print("Connection was successful")
+        print('Connection was successful')
 
     def on_error(self, error):
-        print("Error received: {}".format(error))
+        print('Error received: {}'.format(error))
 
     def on_content_type(self, content_type):
-        print("Content type: {}".format(content_type))
+        print('Content type: {}'.format(content_type))
 
     def on_timing_information(self, timing_information):
         print(timing_information)
@@ -89,11 +89,11 @@ class MySynthesizeCallback(SynthesizeCallback):
 
     def on_close(self):
         self.fd.close()
-        print("Done synthesizing. Closing the connection")
+        print('Done synthesizing. Closing the connection')
 
 my_callback = MySynthesizeCallback()
-service.synthesize_using_websocket("I like to pet dogs",
+service.synthesize_using_websocket('I like to pet dogs',
                                    my_callback,
                                    accept='audio/wav',
-                                   voice="en-US_AllisonVoice"
+                                   voice='en-US_AllisonVoice'
                                   )
