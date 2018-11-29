@@ -91,9 +91,9 @@ class MySynthesizeCallback(SynthesizeCallback):
         self.fd.close()
         print("Done synthesizing. Closing the connection")
 
-myCallback = MySynthesizeCallback()
+my_callback = MySynthesizeCallback()
 service.synthesize_using_websocket("I like to pet dogs",
-                                   myCallback,
+                                   my_callback,
                                    accept='audio/wav',
                                    voice="en-US_AllisonVoice"
                                   )

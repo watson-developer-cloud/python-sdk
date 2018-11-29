@@ -89,13 +89,13 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
             def on_close(self):
                 self.fd.close()
 
-        testCallback = MySynthesizeCallback()
+        test_callback = MySynthesizeCallback()
         self.text_to_speech.synthesize_using_websocket("She sells seashells by the seashore",
-                                                       testCallback,
+                                                       test_callback,
                                                        accept='audio/wav',
                                                        voice="en-GB_KateVoice"
                                                       )
-        assert testCallback.error is None
-        assert testCallback.fd is not None
+        assert test_callback.error is None
+        assert test_callback.fd is not None
         assert os.stat(file).st_size > 0
         os.remove(file)

@@ -1,7 +1,7 @@
 # You need to install pyaudio to run this example
 # pip install pyaudio
 
-# In this example, the a websocket connection is opened with a text
+# In this example, the websocket connection is opened with a text
 # passed in the request. When the service responds with the synthesized
 # audio, the pyaudio would play it in a blocking mode
 
@@ -82,7 +82,7 @@ class MySynthesizeCallback(SynthesizeCallback):
         print 'Completed synthesizing'
         self.play.complete_playing()
 
-testCallback = MySynthesizeCallback()
+test_callback = MySynthesizeCallback()
 
 # An example SSML text
 SSML_sorry_text = """<speak version=\"1.0\">
@@ -108,7 +108,7 @@ SSML_text = """
    </speak>"""
 
 service.synthesize_using_websocket(SSML_text,
-                                   testCallback,
+                                   test_callback,
                                    accept='audio/wav',
                                    voice="en-US_AllisonVoice"
                                   )
