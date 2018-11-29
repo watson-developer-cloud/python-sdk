@@ -257,7 +257,7 @@ You can use the `get_result()`, `get_headers()` and get_status_code() to return 
 * `python_dateutil` >= 2.5.3
 * [responses] for testing
 * Following for web sockets support in speech to text
-   * `websocket-client` 0.47.0
+   * `websocket-client` 0.52.0
 
 ## Contributing
 
