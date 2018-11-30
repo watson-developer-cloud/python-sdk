@@ -280,7 +280,7 @@ service.synthesize_using_websocket('I like to pet dogs',
 * `python_dateutil` >= 2.5.3
 * [responses] for testing
 * Following for web sockets support in speech to text
-   * `websocket-client` 0.52.0
+   * `websocket-client` 0.48.0
 
 ## Contributing
 
