@@ -1,0 +1,261 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.visual_recognition_v3_adapter &#8212; Watson Developer Cloud Python SDK 2.5.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for watson_developer_cloud.visual_recognition_v3_adapter</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">.visual_recognition_v3</span> <span class="k">import</span> <span class="n">VisualRecognitionV3</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">basename</span>
+
+<div class="viewcode-block" id="VisualRecognitionV3Adapter"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3_adapter.html#watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter">[docs]</a><span class="k">class</span> <span class="nc">VisualRecognitionV3Adapter</span><span class="p">(</span><span class="n">VisualRecognitionV3</span><span class="p">):</span>
+<div class="viewcode-block" id="VisualRecognitionV3Adapter.create_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3_adapter.html#watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.create_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">create_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">name</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a classifier.</span>
+<span class="sd">        :param str name: The name of the new classifier. Encode special characters in UTF-8.</span>
+<span class="sd">        :param file &lt;NAME&gt;_positive_examples: A compressed (.zip) file of images that depict the visual subject for a class within the new classifier. Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file. Encode special characters in the file name in UTF-8.</span>
+<span class="sd">        :param file negative_examples: A compressed (.zip) file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images. Encode special characters in the file name in UTF-8.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `dict` containing the `Classifier` response.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;name must be provided&#39;</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v3/classifiers&#39;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">files</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="VisualRecognitionV3Adapter.update_classifier"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3_adapter.html#watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.update_classifier">[docs]</a>    <span class="k">def</span> <span class="nf">update_classifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">classifier_id</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update a classifier.</span>
+<span class="sd">        :param str classifier_id: The ID of the classifier.</span>
+<span class="sd">        :param file &lt;NAME&gt;_positive_examples: A .zip file of images that depict the visual subject of a class in the classifier. The positive examples create or update classes in the classifier. You can include more than one positive example file in a call. Include at least 10 images in .jpg or .png format. The minimum recommended image resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100 MB per .zip file. Encode special characters in the file name in UTF-8.</span>
+<span class="sd">        :param file negative_examples: A .zip file of images that do not depict the visual subject of any of the classes of the new classifier. Must contain a minimum of 10 images. Encode special characters in the file name in UTF-8.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `dict` containing the `Classifier` response.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">classifier_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;classifier_id must be provided&#39;</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v3/classifiers/</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_encode_path_vars</span><span class="p">(</span><span class="n">classifier_id</span><span class="p">))</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">files</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># General</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="VisualRecognitionV3Adapter.classify"><a class="viewcode-back" href="../../apis/watson_developer_cloud.visual_recognition_v3_adapter.html#watson_developer_cloud.visual_recognition_v3_adapter.VisualRecognitionV3Adapter.classify">[docs]</a>    <span class="k">def</span> <span class="nf">classify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">images_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">accept_language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">owners</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">classifier_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">images_file_content_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">images_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Classify images.</span>
+
+<span class="sd">        Classify images with built-in or custom classifiers.</span>
+
+<span class="sd">        :param file images_file: An image file (.jpg, .png) or .zip file with images.</span>
+<span class="sd">        Maximum image size is 10 MB. Include no more than 20 images and limit the .zip</span>
+<span class="sd">        file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain</span>
+<span class="sd">        non-ASCII characters. The service assumes UTF-8 encoding if it encounters</span>
+<span class="sd">        non-ASCII characters.</span>
+<span class="sd">        You can also include an image with the **url** parameter.</span>
+<span class="sd">        :param str accept_language: The language of the output class names. The full set</span>
+<span class="sd">        of languages is supported for the built-in classifier IDs: `default`, `food`, and</span>
+<span class="sd">        `explicit`. The class names of custom classifiers are not translated.</span>
+<span class="sd">        The response might not be in the specified language when the requested language is</span>
+<span class="sd">        not supported or when there is no translation for the class name.</span>
+<span class="sd">        :param str url: The URL of an image to analyze. Must be in .jpg, or .png format.</span>
+<span class="sd">        The minimum recommended pixel density is 32X32 pixels per inch, and the maximum</span>
+<span class="sd">        image size is 10 MB.</span>
+<span class="sd">        You can also include images with the **images_file** parameter.</span>
+<span class="sd">        :param float threshold: The minimum score a class must have to be displayed in the</span>
+<span class="sd">        response. Set the threshold to `0.0` to ignore the classification score and return</span>
+<span class="sd">        all values.</span>
+<span class="sd">        :param list[str] owners: The categories of classifiers to apply. Use `IBM` to</span>
+<span class="sd">        classify against the `default` general classifier, and use `me` to classify</span>
+<span class="sd">        against your custom classifiers. To analyze the image against both classifier</span>
+<span class="sd">        categories, set the value to both `IBM` and `me`.</span>
+<span class="sd">        The built-in `default` classifier is used if both **classifier_ids** and</span>
+<span class="sd">        **owners** parameters are empty.</span>
+<span class="sd">        The **classifier_ids** parameter overrides **owners**, so make sure that</span>
+<span class="sd">        **classifier_ids** is empty.</span>
+<span class="sd">        :param list[str] classifier_ids: Which classifiers to apply. Overrides the</span>
+<span class="sd">        **owners** parameter. You can specify both custom and built-in classifier IDs. The</span>
+<span class="sd">        built-in `default` classifier is used if both **classifier_ids** and **owners**</span>
+<span class="sd">        parameters are empty.</span>
+<span class="sd">        The following built-in classifier IDs require no training:</span>
+<span class="sd">        - `default`: Returns classes from thousands of general tags.</span>
+<span class="sd">        - `food`: Enhances specificity and accuracy for images of food items.</span>
+<span class="sd">        - `explicit`: Evaluates whether the image might be pornographic.</span>
+<span class="sd">        :param str images_file_content_type: The content type of images_file.</span>
+<span class="sd">        :param str images_filename: The filename for images_file.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Accept-Language&#39;</span><span class="p">:</span> <span class="n">accept_language</span><span class="p">}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+        <span class="n">images_file_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">images_file</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">images_filename</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">images_file</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">):</span>
+                <span class="n">images_filename</span> <span class="o">=</span> <span class="n">images_file</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">images_filename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">images_filename</span><span class="p">)</span>
+            <span class="n">mime_type</span> <span class="o">=</span> <span class="n">images_file_content_type</span> <span class="ow">or</span> <span class="s1">&#39;application/octet-stream&#39;</span>
+            <span class="n">images_file_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="n">images_filename</span><span class="p">,</span> <span class="n">images_file</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">)</span>
+        <span class="n">url_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">url</span><span class="p">:</span>
+            <span class="n">url_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)</span>
+        <span class="n">threshold_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">threshold_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="n">owners_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">owners</span><span class="p">:</span>
+            <span class="n">owners</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">owners</span><span class="p">)</span>
+            <span class="n">owners_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">owners</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="n">classifier_ids_tuple</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">classifier_ids</span><span class="p">:</span>
+            <span class="n">classifier_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">classifier_ids</span><span class="p">)</span>
+            <span class="n">classifier_ids_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">classifier_ids</span><span class="p">,</span> <span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v3/classify&#39;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">files</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;images_file&#39;</span><span class="p">:</span> <span class="n">images_file_tuple</span><span class="p">,</span>
+                <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">url_tuple</span><span class="p">,</span>
+                <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="n">threshold_tuple</span><span class="p">,</span>
+                <span class="s1">&#39;owners&#39;</span><span class="p">:</span> <span class="n">owners_tuple</span><span class="p">,</span>
+                <span class="s1">&#39;classifier_ids&#39;</span><span class="p">:</span> <span class="n">classifier_ids_tuple</span>
+            <span class="p">},</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
