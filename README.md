@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/python-sdk)
 [![Slack](https://wdc-slack-inviter.mybluemix.net/badge.svg)](https://wdc-slack-inviter.mybluemix.net)
+[![codecov.io](https://codecov.io/github/watson-developer-cloud/python-sdk/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/python-sdk?branch=master)
 [![Latest Stable Version](https://img.shields.io/pypi/v/watson-developer-cloud.svg)](https://pypi.python.org/pypi/watson-developer-cloud)
 [![CLA assistant](https://cla-assistant.io/readme/badge/watson-developer-cloud/python-sdk)](https://cla-assistant.io/watson-developer-cloud/python-sdk)
 
@@ -250,37 +251,13 @@ This would give an output of `DetailedResponse` having the structure:
 ```
 You can use the `get_result()`, `get_headers()` and get_status_code() to return the result, headers and status code respectively.
 
-## Using Websockets
-The Text to Speech service supports synthesizing text to spoken audio using web sockets with the `synthesize_using_websocket`. The Speech to Text service supports recognizing speech to text using web sockets with the `recognize_using_websocket`. These methods need a custom callback class to listen to events. Below is an example of `synthesize_using_websocket`. Note: The service accepts one request per connection.
-
-```py
-from watson_developer_cloud.websocket import SynthesizeCallback
-
-class MySynthesizeCallback(SynthesizeCallback):
-    def __init__(self):
-        SynthesizeCallback.__init__(self)
-
-    def on_audio_stream(self, audio_stream):
-        return audio_stream
-
-    def on_data(self, data):
-        return data
-
-my_callback = MySynthesizeCallback()
-service.synthesize_using_websocket('I like to pet dogs',
-                                   my_callback,
-                                   accept='audio/wav',
-                                   voice='en-US_AllisonVoice'
-                                  )
-```
-
 ## Dependencies
 
 * [requests]
 * `python_dateutil` >= 2.5.3
 * [responses] for testing
 * Following for web sockets support in speech to text
-   * `websocket-client` 0.52.0
+   * `websocket-client` 0.47.0
 
 ## Contributing
 

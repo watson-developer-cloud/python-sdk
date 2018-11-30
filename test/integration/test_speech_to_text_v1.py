@@ -97,12 +97,12 @@ class TestSpeechToTextV1(TestCase):
             def on_transcription(self, transcript):
                 self.transcript = transcript
 
-        test_callback = MyRecognizeCallback()
+        testCallback = MyRecognizeCallback()
         with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
             audio_source = AudioSource(audio_file, False)
-            t = threading.Thread(target=self.speech_to_text.recognize_using_websocket, args=(audio_source, "audio/l16; rate=44100", test_callback))
+            t = threading.Thread(target=self.speech_to_text.recognize_using_websocket, args=(audio_source, "audio/l16; rate=44100", testCallback))
             t.start()
             t.join()
-        assert test_callback.error is None
-        assert test_callback.transcript is not None
-        assert test_callback.transcript[0]['transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
+        assert testCallback.error is None
+        assert testCallback.transcript is not None
+        assert testCallback.transcript[0]['transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '

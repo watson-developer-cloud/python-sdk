@@ -17,5 +17,3 @@
 from .recognize_abstract_callback import RecognizeCallback
 from .recognize_listener import RecognizeListener
 from .audio_source import AudioSource
-from .synthesize_callback import SynthesizeCallback
-from .synthesize_listener import SynthesizeListener
