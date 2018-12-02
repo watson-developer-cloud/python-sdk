@@ -5,6 +5,7 @@
 # passed in the request. When the service responds with the synthesized
 # audio, the pyaudio would play it in a blocking mode
 
+from __future__ import print_function
 from watson_developer_cloud import TextToSpeechV1
 from watson_developer_cloud.websocket import SynthesizeCallback
 import pyaudio
@@ -66,20 +67,20 @@ class MySynthesizeCallback(SynthesizeCallback):
         self.play = Play()
 
     def on_connected(self):
-        print 'Opening stream to play'
+        print('Opening stream to play')
         self.play.start_streaming()
 
     def on_error(self, error):
-        print 'Error received: {}'.format(error)
+        print('Error received: {}'.format(error))
 
     def on_timing_information(self, timing_information):
-        print timing_information
+        print(timing_information)
 
     def on_audio_stream(self, audio_stream):
         self.play.write_stream(audio_stream)
 
     def on_close(self):
-        print 'Completed synthesizing'
+        print('Completed synthesizing')
         self.play.complete_playing()
 
 test_callback = MySynthesizeCallback()
