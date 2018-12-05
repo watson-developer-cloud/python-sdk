@@ -119,8 +119,8 @@ class PersonalityInsightsV3(WatsonService):
 
     def profile(self,
                 content,
-                accept,
-                content_type=None,
+                content_type,
+                accept=None,
                 content_language=None,
                 accept_language=None,
                 raw_scores=None,
@@ -165,11 +165,11 @@ class PersonalityInsightsV3(WatsonService):
         service requires much less text; for more information, see [Providing sufficient
         input](/docs/services/personality-insights/input.html#sufficient). For JSON input,
         provide an object of type `Content`.
-        :param str accept: The type of the response. For more information, see **Accept
-        types** in the method description.
         :param str content_type: The type of the input. For more information, see
         **Content types** in the method description.
         Default: `text/plain`.
+        :param str accept: The type of the response. For more information, see **Accept
+        types** in the method description.
         :param str content_language: The language of the input text for the request:
         Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as
         their parent language; for example, `en-US` is interpreted as `en`.
@@ -200,8 +200,8 @@ class PersonalityInsightsV3(WatsonService):
 
         if content is None:
             raise ValueError('content must be provided')
-        if accept is None:
-            raise ValueError('accept must be provided')
+        if content_type is None:
+            raise ValueError('content_type must be provided')
         if isinstance(content, Content):
             content = self._convert_model(content, Content)
 
