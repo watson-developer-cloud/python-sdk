@@ -24,6 +24,7 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import datetime_to_string, string_to_datetime
+from os.path import basename
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -187,8 +188,8 @@ class NaturalLanguageClassifierV1(WatsonService):
         (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian Portuguese
         (`pt`), and Spanish (`es`).
         :param file training_data: Training data in CSV format. Each text value must have
-        at least one class. The data can include up to 20,000 records. For details, see
-        [Data
+        at least one class. The data can include up to 3,000 classes and 20,000 records.
+        For details, see [Data
         preparation](https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html).
         :param str metadata_filename: The filename for training_metadata.
         :param str training_data_filename: The filename for training_data.
@@ -208,11 +209,11 @@ class NaturalLanguageClassifierV1(WatsonService):
 
         form_data = {}
         if not metadata_filename and hasattr(metadata, 'name'):
-            metadata_filename = metadata.name
+            metadata_filename = basename(metadata.name)
         form_data['training_metadata'] = (metadata_filename, metadata,
                                           'application/json')
         if not training_data_filename and hasattr(training_data, 'name'):
-            training_data_filename = training_data.name
+            training_data_filename = basename(training_data.name)
         form_data['training_data'] = (training_data_filename, training_data,
                                       'text/csv')
 
