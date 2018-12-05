@@ -117,23 +117,23 @@ class AssistantV1(WatsonService):
         """
         Get response to user input.
 
-        Get a response to a user's input.
+        Send user input to a workspace and receive a response.
         There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
-        :param InputData input: An input object that includes the input text.
+        :param InputData input: The user input.
         :param bool alternate_intents: Whether to return more than one intent. Set to
         `true` to return all matching intents.
-        :param Context context: State information for the conversation. Continue a
-        conversation by including the context object from the previous response.
+        :param Context context: State information for the conversation. To maintain state,
+        include the context from the previous response.
         :param list[RuntimeEntity] entities: Entities to use when evaluating the message.
         Include entities from the previous response to continue using those entities
         rather than detecting entities in the new input.
         :param list[RuntimeIntent] intents: Intents to use when evaluating the user input.
         Include intents from the previous response to continue using those intents rather
         than trying to recognize intents in the new input.
-        :param OutputData output: System output. Include the output from the previous
-        response to maintain intermediate information over multiple requests.
+        :param OutputData output: An output object that includes the response to the user,
+        the dialog nodes that were triggered, and messages from the log.
         :param bool nodes_visited_details: Whether to include additional diagnostic
         information about the dialog nodes that were visited during processing of the
         message.
@@ -219,7 +219,7 @@ class AssistantV1(WatsonService):
         :param list[CreateEntity] entities: An array of objects defining the entities for
         the workspace.
         :param list[CreateDialogNode] dialog_nodes: An array of objects defining the nodes
-        in the workspace dialog.
+        in the dialog.
         :param list[CreateCounterexample] counterexamples: An array of objects defining
         input examples that have been marked as irrelevant input.
         :param object metadata: Any metadata related to the workspace.
@@ -314,6 +314,7 @@ class AssistantV1(WatsonService):
                       workspace_id,
                       export=None,
                       include_audit=None,
+                      sort=None,
                       **kwargs):
         """
         Get information about a workspace.
@@ -330,6 +331,9 @@ class AssistantV1(WatsonService):
         included.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
+        :param str sort: Indicates how the returned workspace data will be sorted. This
+        parameter is valid only if **export**=`true`. Specify `sort=stable` to sort all
+        workspace objects by unique identifier, in ascending alphabetical order.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -345,7 +349,8 @@ class AssistantV1(WatsonService):
         params = {
             'version': self.version,
             'export': export,
-            'include_audit': include_audit
+            'include_audit': include_audit,
+            'sort': sort
         }
 
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
@@ -374,7 +379,7 @@ class AssistantV1(WatsonService):
         :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of
         records returned.
-        :param str sort: The attribute by which returned results will be sorted. To
+        :param str sort: The attribute by which returned workspaces will be sorted. To
         reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
@@ -440,7 +445,7 @@ class AssistantV1(WatsonService):
         :param list[CreateEntity] entities: An array of objects defining the entities for
         the workspace.
         :param list[CreateDialogNode] dialog_nodes: An array of objects defining the nodes
-        in the workspace dialog.
+        in the dialog.
         :param list[CreateCounterexample] counterexamples: An array of objects defining
         input examples that have been marked as irrelevant input.
         :param object metadata: Any metadata related to the workspace.
@@ -687,7 +692,7 @@ class AssistantV1(WatsonService):
         :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of
         records returned.
-        :param str sort: The attribute by which returned results will be sorted. To
+        :param str sort: The attribute by which returned intents will be sorted. To
         reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
@@ -952,7 +957,7 @@ class AssistantV1(WatsonService):
         :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of
         records returned.
-        :param str sort: The attribute by which returned results will be sorted. To
+        :param str sort: The attribute by which returned examples will be sorted. To
         reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
@@ -1198,8 +1203,8 @@ class AssistantV1(WatsonService):
         :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of
         records returned.
-        :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`).
+        :param str sort: The attribute by which returned counterexamples will be sorted.
+        To reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
@@ -1292,7 +1297,7 @@ class AssistantV1(WatsonService):
         """
         Create entity.
 
-        Create a new entity.
+        Create a new entity, or enable a system entity.
         This operation is limited to 1000 requests per 30 minutes. For more information,
         see **Rate limiting**.
 
@@ -1300,8 +1305,10 @@ class AssistantV1(WatsonService):
         :param str entity: The name of the entity. This string must conform to the
         following restrictions:
         - It can contain only Unicode alphanumeric, underscore, and hyphen characters.
-        - It cannot begin with the reserved prefix `sys-`.
         - It must be no longer than 64 characters.
+        If you specify an entity name beginning with the reserved prefix `sys-`, it must
+        be the name of a system entity that you want to enable. (Any entity content
+        specified with the request is ignored.).
         :param str description: The description of the entity. This string cannot contain
         carriage return, newline, or tab characters, and it must be no longer than 128
         characters.
@@ -1349,7 +1356,7 @@ class AssistantV1(WatsonService):
         """
         Delete entity.
 
-        Delete an entity from a workspace.
+        Delete an entity from a workspace, or disable a system entity.
         This operation is limited to 1000 requests per 30 minutes. For more information,
         see **Rate limiting**.
 
@@ -1458,7 +1465,7 @@ class AssistantV1(WatsonService):
         :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of
         records returned.
-        :param str sort: The attribute by which returned results will be sorted. To
+        :param str sort: The attribute by which returned entities will be sorted. To
         reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
@@ -1817,7 +1824,7 @@ class AssistantV1(WatsonService):
         :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of
         records returned.
-        :param str sort: The attribute by which returned results will be sorted. To
+        :param str sort: The attribute by which returned entity values will be sorted. To
         reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
@@ -2100,8 +2107,8 @@ class AssistantV1(WatsonService):
         :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of
         records returned.
-        :param str sort: The attribute by which returned results will be sorted. To
-        reverse the sort order, prefix the value with a minus sign (`-`).
+        :param str sort: The attribute by which returned entity value synonyms will be
+        sorted. To reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
         `updated` timestamps) in the response.
@@ -2247,8 +2254,8 @@ class AssistantV1(WatsonService):
         [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: The context for the dialog node.
         :param object metadata: The metadata for the dialog node.
-        :param DialogNodeNextStep next_step: The next step to be executed in dialog
-        processing.
+        :param DialogNodeNextStep next_step: The next step to execute following this
+        dialog node.
         :param list[DialogNodeAction] actions: An array of objects describing any actions
         to be invoked by the dialog node.
         :param str title: The alias used to identify the dialog node. This string must
@@ -2419,7 +2426,7 @@ class AssistantV1(WatsonService):
         :param int page_limit: The number of records to return in each page of results.
         :param bool include_count: Whether to include information about the number of
         records returned.
-        :param str sort: The attribute by which returned results will be sorted. To
+        :param str sort: The attribute by which returned dialog nodes will be sorted. To
         reverse the sort order, prefix the value with a minus sign (`-`).
         :param str cursor: A token identifying the page of results to retrieve.
         :param bool include_audit: Whether to include the audit properties (`created` and
@@ -2504,8 +2511,8 @@ class AssistantV1(WatsonService):
         [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object new_context: The context for the dialog node.
         :param object new_metadata: The metadata for the dialog node.
-        :param DialogNodeNextStep new_next_step: The next step to be executed in dialog
-        processing.
+        :param DialogNodeNextStep new_next_step: The next step to execute following this
+        dialog node.
         :param str new_title: The alias used to identify the dialog node. This string must
         conform to the following restrictions:
         - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
@@ -2803,18 +2810,26 @@ class Context(object):
 
     :attr str conversation_id: (optional) The unique identifier of the conversation.
     :attr SystemResponse system: (optional) For internal use only.
+    :attr MessageContextMetadata metadata: (optional) Metadata related to the message.
     """
 
-    def __init__(self, conversation_id=None, system=None, **kwargs):
+    def __init__(self,
+                 conversation_id=None,
+                 system=None,
+                 metadata=None,
+                 **kwargs):
         """
         Initialize a Context object.
 
         :param str conversation_id: (optional) The unique identifier of the conversation.
         :param SystemResponse system: (optional) For internal use only.
+        :param MessageContextMetadata metadata: (optional) Metadata related to the
+        message.
         :param **kwargs: (optional) Any additional properties.
         """
         self.conversation_id = conversation_id
         self.system = system
+        self.metadata = metadata
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -2829,6 +2844,10 @@ class Context(object):
         if 'system' in _dict:
             args['system'] = SystemResponse._from_dict(_dict.get('system'))
             del xtra['system']
+        if 'metadata' in _dict:
+            args['metadata'] = MessageContextMetadata._from_dict(
+                _dict.get('metadata'))
+            del xtra['metadata']
         args.update(xtra)
         return cls(**args)
 
@@ -2840,6 +2859,8 @@ class Context(object):
             _dict['conversation_id'] = self.conversation_id
         if hasattr(self, 'system') and self.system is not None:
             _dict['system'] = self.system._to_dict()
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata._to_dict()
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -2848,7 +2869,7 @@ class Context(object):
         return _dict
 
     def __setattr__(self, name, value):
-        properties = {'conversation_id', 'system'}
+        properties = {'conversation_id', 'system', 'metadata'}
         if not hasattr(self, '_additionalProperties'):
             super(Context, self).__setattr__('_additionalProperties', set())
         if name not in properties:
@@ -3082,8 +3103,8 @@ class CreateDialogNode(object):
     [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
     :attr object context: (optional) The context for the dialog node.
     :attr object metadata: (optional) The metadata for the dialog node.
-    :attr DialogNodeNextStep next_step: (optional) The next step to be executed in dialog
-    processing.
+    :attr DialogNodeNextStep next_step: (optional) The next step to execute following this
+    dialog node.
     :attr list[DialogNodeAction] actions: (optional) An array of objects describing any
     actions to be invoked by the dialog node.
     :attr str title: (optional) The alias used to identify the dialog node. This string
@@ -3145,8 +3166,8 @@ class CreateDialogNode(object):
         [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: (optional) The context for the dialog node.
         :param object metadata: (optional) The metadata for the dialog node.
-        :param DialogNodeNextStep next_step: (optional) The next step to be executed in
-        dialog processing.
+        :param DialogNodeNextStep next_step: (optional) The next step to execute following
+        this dialog node.
         :param list[DialogNodeAction] actions: (optional) An array of objects describing
         any actions to be invoked by the dialog node.
         :param str title: (optional) The alias used to identify the dialog node. This
@@ -3301,8 +3322,10 @@ class CreateEntity(object):
     :attr str entity: The name of the entity. This string must conform to the following
     restrictions:
     - It can contain only Unicode alphanumeric, underscore, and hyphen characters.
-    - It cannot begin with the reserved prefix `sys-`.
     - It must be no longer than 64 characters.
+    If you specify an entity name beginning with the reserved prefix `sys-`, it must be
+    the name of a system entity that you want to enable. (Any entity content specified
+    with the request is ignored.).
     :attr str description: (optional) The description of the entity. This string cannot
     contain carriage return, newline, or tab characters, and it must be no longer than 128
     characters.
@@ -3324,8 +3347,10 @@ class CreateEntity(object):
         :param str entity: The name of the entity. This string must conform to the
         following restrictions:
         - It can contain only Unicode alphanumeric, underscore, and hyphen characters.
-        - It cannot begin with the reserved prefix `sys-`.
         - It must be no longer than 64 characters.
+        If you specify an entity name beginning with the reserved prefix `sys-`, it must
+        be the name of a system entity that you want to enable. (Any entity content
+        specified with the request is ignored.).
         :param str description: (optional) The description of the entity. This string
         cannot contain carriage return, newline, or tab characters, and it must be no
         longer than 128 characters.
@@ -5858,10 +5883,9 @@ class LogExport(object):
     """
     LogExport.
 
-    :attr MessageRequest request: A request received by the workspace, including the user
-    input and context.
-    :attr MessageResponse response: The response sent by the workspace, including the
-    output text, detected intents and entities, and context.
+    :attr MessageRequest request: A message request formatted for the Watson Assistant
+    service.
+    :attr MessageResponse response: A response from the Watson Assistant service.
     :attr str log_id: A unique identifier for the logged event.
     :attr str request_timestamp: The timestamp for receipt of the message.
     :attr str response_timestamp: The timestamp for the system response to the message.
@@ -5875,10 +5899,9 @@ class LogExport(object):
         """
         Initialize a LogExport object.
 
-        :param MessageRequest request: A request received by the workspace, including the
-        user input and context.
-        :param MessageResponse response: The response sent by the workspace, including the
-        output text, detected intents and entities, and context.
+        :param MessageRequest request: A message request formatted for the Watson
+        Assistant service.
+        :param MessageResponse response: A response from the Watson Assistant service.
         :param str log_id: A unique identifier for the logged event.
         :param str request_timestamp: The timestamp for receipt of the message.
         :param str response_timestamp: The timestamp for the system response to the
@@ -6176,6 +6199,70 @@ class Mentions(object):
         return not self == other
 
 
+class MessageContextMetadata(object):
+    """
+    Metadata related to the message.
+
+    :attr str deployment: (optional) A label identifying the deployment environment, used
+    for filtering log data. This string cannot contain carriage return, newline, or tab
+    characters.
+    :attr str user_id: (optional) A string value that identifies the user who is
+    interacting with the workspace. The client must provide a unique identifier for each
+    individual end user who accesses the application. For Plus and Premium plans, this
+    user ID is used to identify unique users for billing purposes. This string cannot
+    contain carriage return, newline, or tab characters.
+    """
+
+    def __init__(self, deployment=None, user_id=None):
+        """
+        Initialize a MessageContextMetadata object.
+
+        :param str deployment: (optional) A label identifying the deployment environment,
+        used for filtering log data. This string cannot contain carriage return, newline,
+        or tab characters.
+        :param str user_id: (optional) A string value that identifies the user who is
+        interacting with the workspace. The client must provide a unique identifier for
+        each individual end user who accesses the application. For Plus and Premium plans,
+        this user ID is used to identify unique users for billing purposes. This string
+        cannot contain carriage return, newline, or tab characters.
+        """
+        self.deployment = deployment
+        self.user_id = user_id
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextMetadata object from a json dictionary."""
+        args = {}
+        if 'deployment' in _dict:
+            args['deployment'] = _dict.get('deployment')
+        if 'user_id' in _dict:
+            args['user_id'] = _dict.get('user_id')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'deployment') and self.deployment is not None:
+            _dict['deployment'] = self.deployment
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MessageContextMetadata object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class MessageInput(object):
     """
     The text of the user input.
@@ -6225,19 +6312,19 @@ class MessageRequest(object):
     """
     A message request formatted for the Watson Assistant service.
 
-    :attr InputData input: (optional) An input object that includes the input text.
+    :attr InputData input: (optional) The user input.
     :attr bool alternate_intents: (optional) Whether to return more than one intent. Set
     to `true` to return all matching intents.
-    :attr Context context: (optional) State information for the conversation. Continue a
-    conversation by including the context object from the previous response.
+    :attr Context context: (optional) State information for the conversation. To maintain
+    state, include the context from the previous response.
     :attr list[RuntimeEntity] entities: (optional) Entities to use when evaluating the
     message. Include entities from the previous response to continue using those entities
     rather than detecting entities in the new input.
     :attr list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user
     input. Include intents from the previous response to continue using those intents
     rather than trying to recognize intents in the new input.
-    :attr OutputData output: (optional) System output. Include the output from the
-    previous response to maintain intermediate information over multiple requests.
+    :attr OutputData output: (optional) An output object that includes the response to the
+    user, the dialog nodes that were triggered, and messages from the log.
     """
 
     def __init__(self,
@@ -6250,20 +6337,19 @@ class MessageRequest(object):
         """
         Initialize a MessageRequest object.
 
-        :param InputData input: (optional) An input object that includes the input text.
+        :param InputData input: (optional) The user input.
         :param bool alternate_intents: (optional) Whether to return more than one intent.
         Set to `true` to return all matching intents.
-        :param Context context: (optional) State information for the conversation.
-        Continue a conversation by including the context object from the previous
-        response.
+        :param Context context: (optional) State information for the conversation. To
+        maintain state, include the context from the previous response.
         :param list[RuntimeEntity] entities: (optional) Entities to use when evaluating
         the message. Include entities from the previous response to continue using those
         entities rather than detecting entities in the new input.
         :param list[RuntimeIntent] intents: (optional) Intents to use when evaluating the
         user input. Include intents from the previous response to continue using those
         intents rather than trying to recognize intents in the new input.
-        :param OutputData output: (optional) System output. Include the output from the
-        previous response to maintain intermediate information over multiple requests.
+        :param OutputData output: (optional) An output object that includes the response
+        to the user, the dialog nodes that were triggered, and messages from the log.
         """
         self.input = input
         self.alternate_intents = alternate_intents
@@ -6331,15 +6417,16 @@ class MessageResponse(object):
     """
     A response from the Watson Assistant service.
 
-    :attr MessageInput input: (optional) The user input from the request.
+    :attr MessageInput input: (optional) The text of the user input.
     :attr list[RuntimeIntent] intents: An array of intents recognized in the user input,
     sorted in descending order of confidence.
     :attr list[RuntimeEntity] entities: An array of entities identified in the user input.
     :attr bool alternate_intents: (optional) Whether to return more than one intent. A
     value of `true` indicates that all matching intents are returned.
-    :attr Context context: State information for the conversation.
-    :attr OutputData output: Output from the dialog, including the response to the user,
-    the nodes that were triggered, and log messages.
+    :attr Context context: State information for the conversation. To maintain state,
+    include the context from the previous response.
+    :attr OutputData output: An output object that includes the response to the user, the
+    dialog nodes that were triggered, and messages from the log.
     :attr list[DialogNodeAction] actions: (optional) An array of objects describing any
     actions requested by the dialog node.
     """
@@ -6360,10 +6447,11 @@ class MessageResponse(object):
         input, sorted in descending order of confidence.
         :param list[RuntimeEntity] entities: An array of entities identified in the user
         input.
-        :param Context context: State information for the conversation.
-        :param OutputData output: Output from the dialog, including the response to the
-        user, the nodes that were triggered, and log messages.
-        :param MessageInput input: (optional) The user input from the request.
+        :param Context context: State information for the conversation. To maintain state,
+        include the context from the previous response.
+        :param OutputData output: An output object that includes the response to the user,
+        the dialog nodes that were triggered, and messages from the log.
+        :param MessageInput input: (optional) The text of the user input.
         :param bool alternate_intents: (optional) Whether to return more than one intent.
         A value of `true` indicates that all matching intents are returned.
         :param list[DialogNodeAction] actions: (optional) An array of objects describing
@@ -7228,8 +7316,7 @@ class ValueCollection(object):
     ValueCollection.
 
     :attr list[ValueExport] values: An array of entity values.
-    :attr Pagination pagination: An object defining the pagination data for the returned
-    objects.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, values, pagination):
@@ -7237,8 +7324,7 @@ class ValueCollection(object):
         Initialize a ValueCollection object.
 
         :param list[ValueExport] values: An array of entity values.
-        :param Pagination pagination: An object defining the pagination data for the
-        returned objects.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.values = values
         self.pagination = pagination
@@ -7402,7 +7488,7 @@ class Workspace(object):
     :attr str language: The language of the workspace.
     :attr datetime created: (optional) The timestamp for creation of the workspace.
     :attr datetime updated: (optional) The timestamp for the last update to the workspace.
-    :attr str workspace_id: The workspace ID.
+    :attr str workspace_id: The workspace ID of the workspace.
     :attr str description: (optional) The description of the workspace.
     :attr object metadata: (optional) Any metadata related to the workspace.
     :attr bool learning_opt_out: (optional) Whether training data from the workspace
@@ -7427,7 +7513,7 @@ class Workspace(object):
 
         :param str name: The name of the workspace.
         :param str language: The language of the workspace.
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: The workspace ID of the workspace.
         :param datetime created: (optional) The timestamp for creation of the workspace.
         :param datetime updated: (optional) The timestamp for the last update to the
         workspace.
@@ -7531,8 +7617,7 @@ class WorkspaceCollection(object):
 
     :attr list[Workspace] workspaces: An array of objects describing the workspaces
     associated with the service instance.
-    :attr Pagination pagination: An object defining the pagination data for the returned
-    objects.
+    :attr Pagination pagination: The pagination data for the returned objects.
     """
 
     def __init__(self, workspaces, pagination):
@@ -7541,8 +7626,7 @@ class WorkspaceCollection(object):
 
         :param list[Workspace] workspaces: An array of objects describing the workspaces
         associated with the service instance.
-        :param Pagination pagination: An object defining the pagination data for the
-        returned objects.
+        :param Pagination pagination: The pagination data for the returned objects.
         """
         self.workspaces = workspaces
         self.pagination = pagination
@@ -7601,7 +7685,7 @@ class WorkspaceExport(object):
     :attr object metadata: Any metadata that is required by the workspace.
     :attr datetime created: (optional) The timestamp for creation of the workspace.
     :attr datetime updated: (optional) The timestamp for the last update to the workspace.
-    :attr str workspace_id: The workspace ID.
+    :attr str workspace_id: The workspace ID of the workspace.
     :attr str status: The current status of the workspace.
     :attr bool learning_opt_out: Whether training data from the workspace can be used by
     IBM for general service improvements. `true` indicates that workspace training data is
@@ -7637,7 +7721,7 @@ class WorkspaceExport(object):
         :param str description: The description of the workspace.
         :param str language: The language of the workspace.
         :param object metadata: Any metadata that is required by the workspace.
-        :param str workspace_id: The workspace ID.
+        :param str workspace_id: The workspace ID of the workspace.
         :param str status: The current status of the workspace.
         :param bool learning_opt_out: Whether training data from the workspace can be used
         by IBM for general service improvements. `true` indicates that workspace training
