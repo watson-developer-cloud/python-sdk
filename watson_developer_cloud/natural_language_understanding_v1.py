@@ -27,6 +27,7 @@ Understanding.
 from __future__ import absolute_import
 
 import json
+from .watson_service import datetime_to_string, string_to_datetime
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -121,24 +122,35 @@ class NaturalLanguageUnderstandingV1(WatsonService):
                 limit_text_characters=None,
                 **kwargs):
         """
-        Analyze text, HTML, or a public webpage.
+        Analyze text.
 
-        Analyzes text, HTML, or a public webpage with one or more text analysis features,
-        including categories, concepts, emotion, entities, keywords, metadata, relations,
-        semantic roles, and sentiment.
+        Analyzes text, HTML, or a public webpage for the following features:
+        - Categories
+        - Concepts
+        - Emotion
+        - Entities
+        - Keywords
+        - Metadata
+        - Relations
+        - Semantic roles
+        - Sentiment.
 
-        :param Features features: Specific features to analyze the document for.
+        :param Features features: Analysis features and options.
         :param str text: The plain text to analyze. One of the `text`, `html`, or `url`
         parameters is required.
         :param str html: The HTML file to analyze. One of the `text`, `html`, or `url`
         parameters is required.
-        :param str url: The web page to analyze. One of the `text`, `html`, or `url`
+        :param str url: The webpage to analyze. One of the `text`, `html`, or `url`
         parameters is required.
-        :param bool clean: Remove website elements, such as links, ads, etc.
-        :param str xpath: An [XPath query](https://www.w3.org/TR/xpath/) to perform on
-        `html` or `url` input. Results of the query will be appended to the cleaned
-        webpage text before it is analyzed. To analyze only the results of the XPath
-        query, set the `clean` parameter to `false`.
+        :param bool clean: Set this to `false` to disable webpage cleaning. To learn more
+        about webpage cleaning, see the [Analyzing
+        webpages](/docs/services/natural-language-understanding/analyzing-webpages.html)
+        documentation.
+        :param str xpath: An [XPath
+        query](/docs/services/natural-language-understanding/analyzing-webpages.html#xpath)
+        to perform on `html` or `url` input. Results of the query will be appended to the
+        cleaned webpage text before it is analyzed. To analyze only the results of the
+        XPath query, set the `clean` parameter to `false`.
         :param bool fallback_to_raw: Whether to use raw HTML content if text cleaning
         fails.
         :param bool return_analyzed_text: Whether or not to return the analyzed text.
@@ -225,9 +237,9 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         """
         List models.
 
-        Lists available models for Relations and Entities features, including Watson
-        Knowledge Studio custom models that you have created and linked to your Natural
-        Language Understanding service.
+        Lists Watson Knowledge Studio [custom
+        models](/docs/services/natural-language-understanding/customizing.html) that are
+        deployed to your Natural Language Understanding service.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -261,24 +273,25 @@ class AnalysisResults(object):
 
     :attr str language: (optional) Language used to analyze the text.
     :attr str analyzed_text: (optional) Text that was used in the analysis.
-    :attr str retrieved_url: (optional) URL that was used to retrieve HTML content.
-    :attr Usage usage: (optional) API usage information for the request.
+    :attr str retrieved_url: (optional) URL of the webpage that was analyzed.
+    :attr Usage usage: (optional) Usage information.
     :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or
-    alluded to in the specified content.
-    :attr list[EntitiesResult] entities: (optional) The important entities in the
-    specified content.
-    :attr list[KeywordsResult] keywords: (optional) The important keywords in content
-    organized by relevance.
-    :attr list[CategoriesResult] categories: (optional) The hierarchical 5-level taxonomy
-    the content is categorized into.
-    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
-    conveyed by the content.
-    :attr MetadataResult metadata: (optional) The metadata holds author information,
-    publication date and the title of the text/HTML content.
+    alluded to in the analyzed text.
+    :attr list[EntitiesResult] entities: (optional) The entities detected in the analyzed
+    text.
+    :attr list[KeywordsResult] keywords: (optional) The keywords from the analyzed text.
+    :attr list[CategoriesResult] categories: (optional) The categories that the service
+    assigned to the analyzed text.
+    :attr EmotionResult emotion: (optional) The detected anger, disgust, fear, joy, or
+    sadness that is conveyed by the content. Emotion information can be returned for
+    detected entities, keywords, or user-specified target phrases found in the text.
+    :attr MetadataResult metadata: (optional) The authors, publication date, title,
+    prominent page image, and RSS/ATOM feeds of the webpage. Supports URL and HTML input
+    types.
     :attr list[RelationsResult] relations: (optional) The relationships between entities
     in the content.
-    :attr list[SemanticRolesResult] semantic_roles: (optional) The subjects of actions and
-    the objects the actions act upon.
+    :attr list[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
+    `subject`, `action`, and `object` form.
     :attr SentimentResult sentiment: (optional) The sentiment of the content.
     """
 
@@ -301,24 +314,27 @@ class AnalysisResults(object):
 
         :param str language: (optional) Language used to analyze the text.
         :param str analyzed_text: (optional) Text that was used in the analysis.
-        :param str retrieved_url: (optional) URL that was used to retrieve HTML content.
-        :param Usage usage: (optional) API usage information for the request.
+        :param str retrieved_url: (optional) URL of the webpage that was analyzed.
+        :param Usage usage: (optional) Usage information.
         :param list[ConceptsResult] concepts: (optional) The general concepts referenced
-        or alluded to in the specified content.
-        :param list[EntitiesResult] entities: (optional) The important entities in the
-        specified content.
-        :param list[KeywordsResult] keywords: (optional) The important keywords in content
-        organized by relevance.
-        :param list[CategoriesResult] categories: (optional) The hierarchical 5-level
-        taxonomy the content is categorized into.
-        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
-        conveyed by the content.
-        :param MetadataResult metadata: (optional) The metadata holds author information,
-        publication date and the title of the text/HTML content.
+        or alluded to in the analyzed text.
+        :param list[EntitiesResult] entities: (optional) The entities detected in the
+        analyzed text.
+        :param list[KeywordsResult] keywords: (optional) The keywords from the analyzed
+        text.
+        :param list[CategoriesResult] categories: (optional) The categories that the
+        service assigned to the analyzed text.
+        :param EmotionResult emotion: (optional) The detected anger, disgust, fear, joy,
+        or sadness that is conveyed by the content. Emotion information can be returned
+        for detected entities, keywords, or user-specified target phrases found in the
+        text.
+        :param MetadataResult metadata: (optional) The authors, publication date, title,
+        prominent page image, and RSS/ATOM feeds of the webpage. Supports URL and HTML
+        input types.
         :param list[RelationsResult] relations: (optional) The relationships between
         entities in the content.
-        :param list[SemanticRolesResult] semantic_roles: (optional) The subjects of
-        actions and the objects the actions act upon.
+        :param list[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
+        `subject`, `action`, and `object` form.
         :param SentimentResult sentiment: (optional) The sentiment of the content.
         """
         self.language = language
@@ -481,43 +497,33 @@ class CategoriesOptions(object):
     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
     Portuguese, Spanish.
 
+    :attr int limit: (optional) Maximum number of categories to return.
+    Maximum value: **10**.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, limit=None):
         """
         Initialize a CategoriesOptions object.
 
-        :param **kwargs: (optional) Any additional properties.
+        :param int limit: (optional) Maximum number of categories to return.
+        Maximum value: **10**.
         """
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
+        self.limit = limit
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a CategoriesOptions object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
-        args.update(xtra)
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
         return _dict
-
-    def __setattr__(self, name, value):
-        properties = {}
-        if not hasattr(self, '_additionalProperties'):
-            super(CategoriesOptions, self).__setattr__('_additionalProperties',
-                                                       set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(CategoriesOptions, self).__setattr__(name, value)
 
     def __str__(self):
         """Return a `str` version of this CategoriesOptions object."""
@@ -536,9 +542,12 @@ class CategoriesOptions(object):
 
 class CategoriesResult(object):
     """
-    The hierarchical 5-level taxonomy the content is categorized into.
+    A categorization of the analyzed text.
 
-    :attr str label: (optional) The path to the category through the taxonomy hierarchy.
+    :attr str label: (optional) The path to the category through the 5-level taxonomy
+    hierarchy. For the complete list of categories, see the [Categories
+    hierarchy](/docs/services/natural-language-understanding/categories.html#categories-hierarchy)
+    documentation.
     :attr float score: (optional) Confidence score for the category classification. Higher
     values indicate greater confidence.
     """
@@ -547,8 +556,10 @@ class CategoriesResult(object):
         """
         Initialize a CategoriesResult object.
 
-        :param str label: (optional) The path to the category through the taxonomy
-        hierarchy.
+        :param str label: (optional) The path to the category through the 5-level taxonomy
+        hierarchy. For the complete list of categories, see the [Categories
+        hierarchy](/docs/services/natural-language-understanding/categories.html#categories-hierarchy)
+        documentation.
         :param float score: (optional) Confidence score for the category classification.
         Higher values indicate greater confidence.
         """
@@ -639,7 +650,7 @@ class ConceptsOptions(object):
 
 class ConceptsResult(object):
     """
-    The general concepts referenced or alluded to in the specified content.
+    The general concepts referenced or alluded to in the analyzed text.
 
     :attr str text: (optional) Name of the concept.
     :attr float relevance: (optional) Relevance score between 0 and 1. Higher scores
@@ -808,18 +819,17 @@ class DisambiguationResult(object):
 
 class DocumentEmotionResults(object):
     """
-    An object containing the emotion results of a document.
+    Emotion results for the document as a whole.
 
-    :attr EmotionScores emotion: (optional) An object containing the emotion results for
-    the document.
+    :attr EmotionScores emotion: (optional) Emotion results for the document as a whole.
     """
 
     def __init__(self, emotion=None):
         """
         Initialize a DocumentEmotionResults object.
 
-        :param EmotionScores emotion: (optional) An object containing the emotion results
-        for the document.
+        :param EmotionScores emotion: (optional) Emotion results for the document as a
+        whole.
         """
         self.emotion = emotion
 
@@ -973,20 +983,20 @@ class EmotionResult(object):
     Emotion information can be returned for detected entities, keywords, or user-specified
     target phrases found in the text.
 
-    :attr DocumentEmotionResults document: (optional) The returned emotion results across
-    the document.
-    :attr list[TargetedEmotionResults] targets: (optional) The returned emotion results
-    per specified target.
+    :attr DocumentEmotionResults document: (optional) Emotion results for the document as
+    a whole.
+    :attr list[TargetedEmotionResults] targets: (optional) Emotion results for specified
+    targets.
     """
 
     def __init__(self, document=None, targets=None):
         """
         Initialize a EmotionResult object.
 
-        :param DocumentEmotionResults document: (optional) The returned emotion results
-        across the document.
-        :param list[TargetedEmotionResults] targets: (optional) The returned emotion
-        results per specified target.
+        :param DocumentEmotionResults document: (optional) Emotion results for the
+        document as a whole.
+        :param list[TargetedEmotionResults] targets: (optional) Emotion results for
+        specified targets.
         """
         self.document = document
         self.targets = targets
@@ -1222,9 +1232,9 @@ class EntitiesResult(object):
     :attr list[EntityMention] mentions: (optional) Entity mentions and locations.
     :attr int count: (optional) How many times the entity was mentioned in the text.
     :attr EmotionScores emotion: (optional) Emotion analysis results for the entity,
-    enabled with the "emotion" option.
+    enabled with the `emotion` option.
     :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the
-    entity, enabled with the "sentiment" option.
+    entity, enabled with the `sentiment` option.
     :attr DisambiguationResult disambiguation: (optional) Disambiguation information for
     the entity.
     """
@@ -1248,9 +1258,9 @@ class EntitiesResult(object):
         :param list[EntityMention] mentions: (optional) Entity mentions and locations.
         :param int count: (optional) How many times the entity was mentioned in the text.
         :param EmotionScores emotion: (optional) Emotion analysis results for the entity,
-        enabled with the "emotion" option.
+        enabled with the `emotion` option.
         :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results
-        for the entity, enabled with the "sentiment" option.
+        for the entity, enabled with the `sentiment` option.
         :param DisambiguationResult disambiguation: (optional) Disambiguation information
         for the entity.
         """
@@ -1436,7 +1446,7 @@ class Features(object):
     that is conveyed in the content or by the context around target phrases specified in
     the targets parameter. You can analyze emotion for detected entities with
     `entities.emotion` and for keywords with `keywords.emotion`.
-    Supported languages: English
+    Supported languages: English.
     :attr EntitiesOptions entities: (optional) Identifies people, cities, organizations,
     and other entities in the content. See [Entity types and
     subtypes](/docs/services/natural-language-understanding/entity-types.html).
@@ -1463,7 +1473,7 @@ class Features(object):
     detected entities with `entities.sentiment` and for keywords with
     `keywords.sentiment`.
      Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
-    Portuguese, Russian, Spanish
+    Portuguese, Russian, Spanish.
     :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of the
     content. The top three categories are returned.
     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
@@ -1492,7 +1502,7 @@ class Features(object):
         sadness that is conveyed in the content or by the context around target phrases
         specified in the targets parameter. You can analyze emotion for detected entities
         with `entities.emotion` and for keywords with `keywords.emotion`.
-        Supported languages: English
+        Supported languages: English.
         :param EntitiesOptions entities: (optional) Identifies people, cities,
         organizations, and other entities in the content. See [Entity types and
         subtypes](/docs/services/natural-language-understanding/entity-types.html).
@@ -1520,7 +1530,7 @@ class Features(object):
         sentiment for detected entities with `entities.sentiment` and for keywords with
         `keywords.sentiment`.
          Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
-        Portuguese, Russian, Spanish
+        Portuguese, Russian, Spanish.
         :param CategoriesOptions categories: (optional) Returns a five-level taxonomy of
         the content. The top three categories are returned.
         Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
@@ -1714,29 +1724,38 @@ class KeywordsOptions(object):
 
 class KeywordsResult(object):
     """
-    The most important keywords in the content, organized by relevance.
+    The important keywords in the content, organized by relevance.
 
+    :attr int count: (optional) Number of times the keyword appears in the analyzed text.
     :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate
     greater relevance.
     :attr str text: (optional) The keyword text.
     :attr EmotionScores emotion: (optional) Emotion analysis results for the keyword,
-    enabled with the "emotion" option.
+    enabled with the `emotion` option.
     :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the
-    keyword, enabled with the "sentiment" option.
+    keyword, enabled with the `sentiment` option.
     """
 
-    def __init__(self, relevance=None, text=None, emotion=None, sentiment=None):
+    def __init__(self,
+                 count=None,
+                 relevance=None,
+                 text=None,
+                 emotion=None,
+                 sentiment=None):
         """
         Initialize a KeywordsResult object.
 
+        :param int count: (optional) Number of times the keyword appears in the analyzed
+        text.
         :param float relevance: (optional) Relevance score from 0 to 1. Higher values
         indicate greater relevance.
         :param str text: (optional) The keyword text.
         :param EmotionScores emotion: (optional) Emotion analysis results for the keyword,
-        enabled with the "emotion" option.
+        enabled with the `emotion` option.
         :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results
-        for the keyword, enabled with the "sentiment" option.
+        for the keyword, enabled with the `sentiment` option.
         """
+        self.count = count
         self.relevance = relevance
         self.text = text
         self.emotion = emotion
@@ -1746,6 +1765,8 @@ class KeywordsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a KeywordsResult object from a json dictionary."""
         args = {}
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
         if 'relevance' in _dict:
             args['relevance'] = _dict.get('relevance')
         if 'text' in _dict:
@@ -1760,6 +1781,8 @@ class KeywordsResult(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
         if hasattr(self, 'relevance') and self.relevance is not None:
             _dict['relevance'] = self.relevance
         if hasattr(self, 'text') and self.text is not None:
@@ -1892,8 +1915,8 @@ class MetadataOptions(object):
 
 class MetadataResult(object):
     """
-    The Authors, Publication Date, and Title of the document. Supports URL and HTML input
-    types.
+    The authors, publication date, title, prominent page image, and RSS/ATOM feeds of the
+    webpage. Supports URL and HTML input types.
 
     :attr list[Author] authors: (optional) The authors of the document.
     :attr str publication_date: (optional) The publication date in the format ISO 8601.
@@ -1977,30 +2000,55 @@ class Model(object):
     """
     Model.
 
-    :attr str status: (optional) Shows as available if the model is ready for use.
+    :attr str status: (optional) When the status is `available`, the model is ready to
+    use.
     :attr str model_id: (optional) Unique model ID.
     :attr str language: (optional) ISO 639-1 code indicating the language of the model.
     :attr str description: (optional) Model description.
+    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace that
+    deployed this model to Natural Language Understanding.
+    :attr str version: (optional) The model version, if it was manually provided in Watson
+    Knowledge Studio.
+    :attr str version_description: (optional) The description of the version, if it was
+    manually provided in Watson Knowledge Studio.
+    :attr datetime created: (optional) A dateTime indicating when the model was created.
     """
 
     def __init__(self,
                  status=None,
                  model_id=None,
                  language=None,
-                 description=None):
+                 description=None,
+                 workspace_id=None,
+                 version=None,
+                 version_description=None,
+                 created=None):
         """
         Initialize a Model object.
 
-        :param str status: (optional) Shows as available if the model is ready for use.
+        :param str status: (optional) When the status is `available`, the model is ready
+        to use.
         :param str model_id: (optional) Unique model ID.
         :param str language: (optional) ISO 639-1 code indicating the language of the
         model.
         :param str description: (optional) Model description.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
+        that deployed this model to Natural Language Understanding.
+        :param str version: (optional) The model version, if it was manually provided in
+        Watson Knowledge Studio.
+        :param str version_description: (optional) The description of the version, if it
+        was manually provided in Watson Knowledge Studio.
+        :param datetime created: (optional) A dateTime indicating when the model was
+        created.
         """
         self.status = status
         self.model_id = model_id
         self.language = language
         self.description = description
+        self.workspace_id = workspace_id
+        self.version = version
+        self.version_description = version_description
+        self.created = created
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -2014,6 +2062,14 @@ class Model(object):
             args['language'] = _dict.get('language')
         if 'description' in _dict:
             args['description'] = _dict.get('description')
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict.get('workspace_id')
+        if 'version' in _dict:
+            args['version'] = _dict.get('version')
+        if 'version_description' in _dict:
+            args['version_description'] = _dict.get('version_description')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2027,6 +2083,16 @@ class Model(object):
             _dict['language'] = self.language
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
+        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
+            _dict['workspace_id'] = self.workspace_id
+        if hasattr(self, 'version') and self.version is not None:
+            _dict['version'] = self.version
+        if hasattr(
+                self,
+                'version_description') and self.version_description is not None:
+            _dict['version_description'] = self.version_description
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
         return _dict
 
     def __str__(self):
@@ -2221,8 +2287,8 @@ class RelationsResult(object):
     indicate greater confidence.
     :attr str sentence: (optional) The sentence that contains the relation.
     :attr str type: (optional) The type of the relation.
-    :attr list[RelationArgument] arguments: (optional) The extracted relation objects from
-    the text.
+    :attr list[RelationArgument] arguments: (optional) Entity mentions that are involved
+    in the relation.
     """
 
     def __init__(self, score=None, sentence=None, type=None, arguments=None):
@@ -2233,8 +2299,8 @@ class RelationsResult(object):
         indicate greater confidence.
         :param str sentence: (optional) The sentence that contains the relation.
         :param str type: (optional) The type of the relation.
-        :param list[RelationArgument] arguments: (optional) The extracted relation objects
-        from the text.
+        :param list[RelationArgument] arguments: (optional) Entity mentions that are
+        involved in the relation.
         """
         self.score = score
         self.sentence = sentence
@@ -2873,11 +2939,10 @@ class SentimentResult(object):
 
 class TargetedEmotionResults(object):
     """
-    An object containing the emotion results for the target.
+    Emotion results for a specified target.
 
     :attr str text: (optional) Targeted text.
-    :attr EmotionScores emotion: (optional) An object containing the emotion results for
-    the target.
+    :attr EmotionScores emotion: (optional) The emotion results for the target.
     """
 
     def __init__(self, text=None, emotion=None):
@@ -2885,8 +2950,7 @@ class TargetedEmotionResults(object):
         Initialize a TargetedEmotionResults object.
 
         :param str text: (optional) Targeted text.
-        :param EmotionScores emotion: (optional) An object containing the emotion results
-        for the target.
+        :param EmotionScores emotion: (optional) The emotion results for the target.
         """
         self.text = text
         self.emotion = emotion
