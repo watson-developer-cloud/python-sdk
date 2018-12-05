@@ -972,6 +972,58 @@ class DiscoveryV1(WatsonService):
             accept_json=True)
         return response
 
+    def create_stopword_list(self,
+                             environment_id,
+                             collection_id,
+                             stopword_file,
+                             stopword_filename=None,
+                             **kwargs):
+        """
+        Create stopword list.
+
+        Upload a custom stopword list to use with the specified collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param file stopword_file: The content of the stopword list to ingest.
+        :param str stopword_filename: The filename for stopword_file.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if stopword_file is None:
+            raise ValueError('stopword_file must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        form_data = {}
+        if not stopword_filename and hasattr(stopword_file, 'name'):
+            stopword_filename = basename(stopword_file.name)
+        if not stopword_filename:
+            raise ValueError('stopword_filename must be provided')
+        form_data['stopword_file'] = (stopword_filename, stopword_file,
+                                      'application/octet-stream')
+
+        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+            accept_json=True)
+        return response
+
     def create_tokenization_dictionary(self,
                                        environment_id,
                                        collection_id,
@@ -1047,6 +1099,41 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version}
 
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def delete_stopword_list(self, environment_id, collection_id, **kwargs):
+        """
+        Delete a custom stopword list.
+
+        Delete a custom stopword list from the collection. After a custom stopword list is
+        deleted, the default list is used for the collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
             method='DELETE',

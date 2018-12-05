@@ -1215,3 +1215,29 @@ def test_tokenization_dictionary():
     assert responses.calls[2].response.status_code is 200
 
     assert len(responses.calls) == 3
+
+@responses.activate
+def test_stopword_operations():
+    url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/word_lists/stopwords?version=2017-11-07'
+    responses.add(
+        responses.POST,
+        url,
+        body='{"status": "pending", "type": "stopwords"}',
+        status=200,
+        content_type='application_json')
+    responses.add(
+        responses.DELETE,
+        url,
+        status=200)
+
+    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
+
+    stopwords_file_path = os.path.join(os.getcwd(), 'resources', 'stopwords.txt')
+    with open(stopwords_file_path) as file:
+        discovery.create_stopword_list('envid', 'colid', file)
+        assert responses.calls[0].response.json() == {"status": "pending", "type": "stopwords"}
+
+    discovery.delete_stopword_list('envid', 'colid')
+    assert responses.calls[1].response.content is ''
+
+    assert len(responses.calls) == 2
