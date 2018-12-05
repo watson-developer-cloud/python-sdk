@@ -31,7 +31,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   content_type,
                                   recognize_callback,
                                   model=None,
-                                  customization_id=None,
+                                  language_customization_id=None,
                                   acoustic_customization_id=None,
                                   customization_weight=None,
                                   base_model_version=None,
@@ -48,6 +48,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   speaker_labels=None,
                                   http_proxy_host=None,
                                   http_proxy_port=None,
+                                  customization_id=None,
                                   **kwargs):
         """
         Sends audio for speech recognition using web sockets.
@@ -61,12 +62,15 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         :param RecognizeCallback recognize_callback: The callback method for the websocket.
         :param str model: The identifier of the model that is to be used for the
         recognition request or, for the **Create a session** method, with the new session.
-        :param str customization_id: The customization ID (GUID) of a custom language
-        model that is to be used with the recognition request or, for the **Create a
-        session** method, with the new session. The base model of the specified custom
-        language model must match the model specified with the `model` parameter. You must
-        make the request with service credentials created for the instance of the service
-        that owns the custom model. By default, no custom language model is used.
+        :param str language_customization_id: The customization ID (GUID) of a custom
+        language model that is to be used with the recognition request. The base model of
+        the specified custom language model must match the model specified with the
+        `model` parameter. You must make the request with service credentials created for
+        the instance of the service that owns the custom model. By default, no custom
+        language model is used. See [Custom
+        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).
+        **Note:** Use this parameter instead of the deprecated `customization_id`
+        parameter.
         :param str acoustic_customization_id: The customization ID (GUID) of a custom
         acoustic model that is to be used with the recognition request or, for the
         **Create a session** method, with the new session. The base model of the specified
@@ -141,6 +145,10 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
         :param str http_proxy_host: http proxy host name.
         :param str http_proxy_port: http proxy port. If not set, set to 80.
+        :param str customization_id: **Deprecated.** Use the `language_customization_id`
+        parameter to specify the customization ID (GUID) of a custom language model that
+        is to be used with the recognition request. Do not specify both parameters with a
+        request.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
@@ -178,7 +186,8 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'customization_id': customization_id,
             'acoustic_customization_id': acoustic_customization_id,
             'customization_weight': customization_weight,
-            'base_model_version': base_model_version
+            'base_model_version': base_model_version,
+            'language_customization_id': language_customization_id,
         }
         params = _remove_null_values(params)
         url += '/v1/recognize?{0}'.format(urlencode(params))
