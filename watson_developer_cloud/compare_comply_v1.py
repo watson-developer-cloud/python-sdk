@@ -21,6 +21,8 @@ critical aspects of the documents.
 from __future__ import absolute_import
 
 import json
+from .watson_service import datetime_to_string, string_to_datetime
+from os.path import basename
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -95,10 +97,9 @@ class CompareComplyV1(WatsonService):
         """
         Convert file to HTML.
 
-        Uploads an input file to the service instance, which returns an HTML version of
-        the document.
+        Uploads an input file. The response includes an HTML version of the document.
 
-        :param file file: The input file to convert.
+        :param file file: The file to convert.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
         `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
@@ -122,7 +123,7 @@ class CompareComplyV1(WatsonService):
 
         form_data = {}
         if not filename and hasattr(file, 'name'):
-            filename = file.name
+            filename = basename(file.name)
         if not filename:
             raise ValueError('filename must be provided')
         form_data['file'] = (filename, file, file_content_type or
@@ -151,10 +152,10 @@ class CompareComplyV1(WatsonService):
         """
         Classify the elements of a document.
 
-        Uploads a file to the service instance, which returns an analysis of the
-        document's structural and semantic elements.
+        Uploads a file. The response includes an analysis of the document's structural and
+        semantic elements.
 
-        :param file file: The input file to convert.
+        :param file file: The file to classify.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
         `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
@@ -178,7 +179,7 @@ class CompareComplyV1(WatsonService):
 
         form_data = {}
         if not filename and hasattr(file, 'name'):
-            filename = file.name
+            filename = basename(file.name)
         form_data['file'] = (filename, file, file_content_type or
                              'application/octet-stream')
 
@@ -205,10 +206,9 @@ class CompareComplyV1(WatsonService):
         """
         Extract a document's tables.
 
-        Uploads a document file to the service instance, which extracts the contents of
-        the document's tables.
+        Uploads a file. The response includes an analysis of the document's tables.
 
-        :param file file: The input file on which to run table extraction.
+        :param file file: The file on which to run table extraction.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
         `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
@@ -232,7 +232,7 @@ class CompareComplyV1(WatsonService):
 
         form_data = {}
         if not filename and hasattr(file, 'name'):
-            filename = file.name
+            filename = basename(file.name)
         form_data['file'] = (filename, file, file_content_type or
                              'application/octet-stream')
 
@@ -264,16 +264,13 @@ class CompareComplyV1(WatsonService):
         """
         Compare two documents.
 
-        Uploads two input files to the service instance, which analyzes the content and
-        returns parsed JSON comparing the two documents. Uploaded files must be in the
-        same file format.
+        Uploads two input files. The response includes JSON comparing the two documents.
+        Uploaded files must be in the same file format.
 
         :param file file_1: The first file to compare.
         :param file file_2: The second file to compare.
-        :param str file_1_label: A text label for the first file. The label cannot exceed
-        64 characters in length. The default is `file_1`.
-        :param str file_2_label: A text label for the second file. The label cannot exceed
-        64 characters in length. The default is `file_2`.
+        :param str file_1_label: A text label for the first file.
+        :param str file_2_label: A text label for the second file.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
         `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
@@ -306,11 +303,11 @@ class CompareComplyV1(WatsonService):
 
         form_data = {}
         if not file_1_filename and hasattr(file_1, 'name'):
-            file_1_filename = file_1.name
+            file_1_filename = basename(file_1.name)
         form_data['file_1'] = (file_1_filename, file_1, file_1_content_type or
                                'application/octet-stream')
         if not file_2_filename and hasattr(file_2, 'name'):
-            file_2_filename = file_2.name
+            file_2_filename = basename(file_2.name)
         form_data['file_2'] = (file_2_filename, file_2, file_2_content_type or
                                'application/octet-stream')
 
@@ -495,8 +492,7 @@ class CompareComplyV1(WatsonService):
         include only feedback that has at least one `nature`:`party` pair from the list
         unchanged.
         :param int page_limit: An optional integer specifying the number of documents that
-        you want the service to return. The default value is `10` and the maximum value is
-        `100`.
+        you want the service to return.
         :param str cursor: An optional string that returns the set of documents after the
         previous set. Use this parameter with the `page_limit` parameter.
         :param str sort: An optional comma-separated list of fields in the document to
@@ -571,8 +567,7 @@ class CompareComplyV1(WatsonService):
         processing](https://console.bluemix.net/docs/services/compare-comply/batching.html#before-you-batch).
 
         :param str function: The Compare and Comply method to run across the submitted
-        input documents. Possible values are `html_conversion`, `element_classification`,
-        and `tables`.
+        input documents.
         :param file input_credentials_file: A JSON file containing the input Cloud Object
         Storage credentials. At a minimum, the credentials must enable `READ` permissions
         on the bucket defined by the `input_bucket_name` parameter.
@@ -627,7 +622,7 @@ class CompareComplyV1(WatsonService):
         form_data = {}
         if not input_credentials_filename and hasattr(input_credentials_file,
                                                       'name'):
-            input_credentials_filename = input_credentials_file.name
+            input_credentials_filename = basename(input_credentials_file.name)
         form_data['input_credentials_file'] = (input_credentials_filename,
                                                input_credentials_file,
                                                'application/json')
@@ -636,7 +631,7 @@ class CompareComplyV1(WatsonService):
         form_data['input_bucket_name'] = (None, input_bucket_name, 'text/plain')
         if not output_credentials_filename and hasattr(output_credentials_file,
                                                        'name'):
-            output_credentials_filename = output_credentials_file.name
+            output_credentials_filename = basename(output_credentials_file.name)
         form_data['output_credentials_file'] = (output_credentials_filename,
                                                 output_credentials_file,
                                                 'application/json')
@@ -721,7 +716,7 @@ class CompareComplyV1(WatsonService):
 
         :param str batch_id: The ID of the batch-processing request you want to update.
         :param str action: The action you want to perform on the specified
-        batch-processing request. Possible values are `rescan` and `cancel`.
+        batch-processing request.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
         `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
@@ -823,6 +818,8 @@ class AlignedElement(object):
     :attr list[ElementPair] element_pair: (optional) Identifies two elements that
     semantically align between the compared documents.
     :attr bool identical_text: (optional) Specifies whether the text is identical.
+    :attr bool significant_elements: (optional) Indicates that the elements aligned are
+    contractual clauses of significance.
     :attr list[str] provenance_ids: (optional) One or more hashed values that you can send
     to IBM to provide feedback or receive support.
     """
@@ -830,6 +827,7 @@ class AlignedElement(object):
     def __init__(self,
                  element_pair=None,
                  identical_text=None,
+                 significant_elements=None,
                  provenance_ids=None):
         """
         Initialize a AlignedElement object.
@@ -837,11 +835,14 @@ class AlignedElement(object):
         :param list[ElementPair] element_pair: (optional) Identifies two elements that
         semantically align between the compared documents.
         :param bool identical_text: (optional) Specifies whether the text is identical.
+        :param bool significant_elements: (optional) Indicates that the elements aligned
+        are contractual clauses of significance.
         :param list[str] provenance_ids: (optional) One or more hashed values that you can
         send to IBM to provide feedback or receive support.
         """
         self.element_pair = element_pair
         self.identical_text = identical_text
+        self.significant_elements = significant_elements
         self.provenance_ids = provenance_ids
 
     @classmethod
@@ -854,6 +855,8 @@ class AlignedElement(object):
             ]
         if 'identical_text' in _dict:
             args['identical_text'] = _dict.get('identical_text')
+        if 'significant_elements' in _dict:
+            args['significant_elements'] = _dict.get('significant_elements')
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         return cls(**args)
@@ -865,6 +868,9 @@ class AlignedElement(object):
             _dict['element_pair'] = [x._to_dict() for x in self.element_pair]
         if hasattr(self, 'identical_text') and self.identical_text is not None:
             _dict['identical_text'] = self.identical_text
+        if hasattr(self, 'significant_elements'
+                  ) and self.significant_elements is not None:
+            _dict['significant_elements'] = self.significant_elements
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         return _dict
@@ -889,7 +895,7 @@ class Attribute(object):
     List of document attributes.
 
     :attr str type: (optional) The type of attribute. Possible values are `Currency`,
-    `DateTime`, and `Location`.
+    `DateTime`, `Location`, `Organization`, and `Person`.
     :attr str text: (optional) The text associated with the attribute.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
@@ -900,7 +906,7 @@ class Attribute(object):
         Initialize a Attribute object.
 
         :param str type: (optional) The type of attribute. Possible values are `Currency`,
-        `DateTime`, and `Location`.
+        `DateTime`, `Location`, `Organization`, and `Person`.
         :param str text: (optional) The text associated with the attribute.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
@@ -966,8 +972,8 @@ class BatchStatus(object):
     :attr str batch_id: (optional) The unique identifier for the batch request.
     :attr DocCounts document_counts: (optional) Document counts.
     :attr str status: (optional) The status of the batch request.
-    :attr date created: (optional) The creation time of the batch request.
-    :attr date updated: (optional) The time of the most recent update to the batch
+    :attr datetime created: (optional) The creation time of the batch request.
+    :attr datetime updated: (optional) The time of the most recent update to the batch
     request.
     """
 
@@ -1000,9 +1006,9 @@ class BatchStatus(object):
         :param str batch_id: (optional) The unique identifier for the batch request.
         :param DocCounts document_counts: (optional) Document counts.
         :param str status: (optional) The status of the batch request.
-        :param date created: (optional) The creation time of the batch request.
-        :param date updated: (optional) The time of the most recent update to the batch
-        request.
+        :param datetime created: (optional) The creation time of the batch request.
+        :param datetime updated: (optional) The time of the most recent update to the
+        batch request.
         """
         self.function = function
         self.input_bucket_location = input_bucket_location
@@ -1037,9 +1043,9 @@ class BatchStatus(object):
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'created' in _dict:
-            args['created'] = _dict.get('created')
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = _dict.get('updated')
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1068,9 +1074,9 @@ class BatchStatus(object):
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
     def __str__(self):
@@ -1700,8 +1706,9 @@ class ColumnHeaders(object):
     :attr str cell_id: (optional) A string value in the format `columnHeader-x-y`, where
     `x` and `y` are the begin and end offsets of this column header cell in the input
     document.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr object location: (optional) The location of the column header cell in the
+    current table as defined by its `begin` and `end` offsets, respectfully, in the input
+    document.
     :attr str text: (optional) The textual contents of this cell from the input document
     without associated markup content.
     :attr str text_normalized: (optional) If you provide customization input, the
@@ -1732,8 +1739,9 @@ class ColumnHeaders(object):
         :param str cell_id: (optional) A string value in the format `columnHeader-x-y`,
         where `x` and `y` are the begin and end offsets of this column header cell in the
         input document.
-        :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+        :param object location: (optional) The location of the column header cell in the
+        current table as defined by its `begin` and `end` offsets, respectfully, in the
+        input document.
         :param str text: (optional) The textual contents of this cell from the input
         document without associated markup content.
         :param str text_normalized: (optional) If you provide customization input, the
@@ -1764,7 +1772,7 @@ class ColumnHeaders(object):
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = _dict.get('location')
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'text_normalized' in _dict:
@@ -1785,7 +1793,7 @@ class ColumnHeaders(object):
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
@@ -2969,7 +2977,7 @@ class FeedbackReturn(object):
     feedback.
     :attr str comment: (optional) An optional comment from the person submitting the
     feedback.
-    :attr date created: (optional) Timestamp listing the creation time of the feedback
+    :attr datetime created: (optional) Timestamp listing the creation time of the feedback
     submission.
     :attr FeedbackDataOutput feedback_data: (optional) Information returned from the `POST
     /v1/feedback` method.
@@ -2989,7 +2997,7 @@ class FeedbackReturn(object):
         submitting feedback.
         :param str comment: (optional) An optional comment from the person submitting the
         feedback.
-        :param date created: (optional) Timestamp listing the creation time of the
+        :param datetime created: (optional) Timestamp listing the creation time of the
         feedback submission.
         :param FeedbackDataOutput feedback_data: (optional) Information returned from the
         `POST /v1/feedback` method.
@@ -3011,7 +3019,7 @@ class FeedbackReturn(object):
         if 'comment' in _dict:
             args['comment'] = _dict.get('comment')
         if 'created' in _dict:
-            args['created'] = _dict.get('created')
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'feedback_data' in _dict:
             args['feedback_data'] = FeedbackDataOutput._from_dict(
                 _dict.get('feedback_data'))
@@ -3027,7 +3035,7 @@ class FeedbackReturn(object):
         if hasattr(self, 'comment') and self.comment is not None:
             _dict['comment'] = self.comment
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'feedback_data') and self.feedback_data is not None:
             _dict['feedback_data'] = self.feedback_data._to_dict()
         return _dict
@@ -3052,7 +3060,7 @@ class GetFeedback(object):
     The results of a single feedback query.
 
     :attr str feedback_id: (optional) A string uniquely identifying the feedback entry.
-    :attr date created: (optional) A timestamp identifying the creation time of the
+    :attr datetime created: (optional) A timestamp identifying the creation time of the
     feedback entry.
     :attr str comment: (optional) A string containing the user's comment about the
     feedback entry.
@@ -3070,8 +3078,8 @@ class GetFeedback(object):
 
         :param str feedback_id: (optional) A string uniquely identifying the feedback
         entry.
-        :param date created: (optional) A timestamp identifying the creation time of the
-        feedback entry.
+        :param datetime created: (optional) A timestamp identifying the creation time of
+        the feedback entry.
         :param str comment: (optional) A string containing the user's comment about the
         feedback entry.
         :param FeedbackDataOutput feedback_data: (optional) Information returned from the
@@ -3089,7 +3097,7 @@ class GetFeedback(object):
         if 'feedback_id' in _dict:
             args['feedback_id'] = _dict.get('feedback_id')
         if 'created' in _dict:
-            args['created'] = _dict.get('created')
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'comment' in _dict:
             args['comment'] = _dict.get('comment')
         if 'feedback_data' in _dict:
@@ -3103,7 +3111,7 @@ class GetFeedback(object):
         if hasattr(self, 'feedback_id') and self.feedback_id is not None:
             _dict['feedback_id'] = self.feedback_id
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'comment') and self.comment is not None:
             _dict['comment'] = self.comment
         if hasattr(self, 'feedback_data') and self.feedback_data is not None:
@@ -4022,7 +4030,7 @@ class SectionTitles(object):
     located in the input document. For example, `1` represents a top-level section, `2`
     represents a subsection within the level `1` section, and so forth.
     :attr list[ElementLocations] element_locations: (optional) An array of `location`
-    objects listing the locations of detected section titles.
+    objects listing the locations of detected leading sentences.
     """
 
     def __init__(self,
@@ -4040,7 +4048,7 @@ class SectionTitles(object):
         is located in the input document. For example, `1` represents a top-level section,
         `2` represents a subsection within the level `1` section, and so forth.
         :param list[ElementLocations] element_locations: (optional) An array of `location`
-        objects listing the locations of detected section titles.
+        objects listing the locations of detected leading sentences.
         """
         self.text = text
         self.location = location
@@ -4154,8 +4162,9 @@ class TableHeaders(object):
     :attr str cell_id: (optional) String value in the format `tableHeader-x-y` where `x`
     and `y` are the `begin` and `end` offsets, respectfully, of the cell value in the
     input document.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr object location: (optional) The location of the table header cell in the current
+    table as defined by its `begin` and `end` offsets, respectfully, in the input
+    document.
     :attr str text: (optional) The textual contents of the cell from the input document
     without associated markup content.
     :attr int row_index_begin: (optional) The `begin` index of this cell's `row` location
@@ -4182,8 +4191,9 @@ class TableHeaders(object):
         :param str cell_id: (optional) String value in the format `tableHeader-x-y` where
         `x` and `y` are the `begin` and `end` offsets, respectfully, of the cell value in
         the input document.
-        :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+        :param object location: (optional) The location of the table header cell in the
+        current table as defined by its `begin` and `end` offsets, respectfully, in the
+        input document.
         :param str text: (optional) The textual contents of the cell from the input
         document without associated markup content.
         :param int row_index_begin: (optional) The `begin` index of this cell's `row`
@@ -4210,7 +4220,7 @@ class TableHeaders(object):
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = _dict.get('location')
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'row_index_begin' in _dict:
@@ -4229,7 +4239,7 @@ class TableHeaders(object):
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,

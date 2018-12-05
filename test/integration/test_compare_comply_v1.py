@@ -6,14 +6,14 @@ from os.path import abspath
 from unittest import TestCase
 
 
-@pytest.mark.skip("Skip Compare and comply tests")
+@pytest.mark.skip('Skip Compare and comply tests')
 class IntegrationTestCompareComplyV1(TestCase):
     compare_comply = None
 
     @classmethod
     def setup_class(cls):
         cls.compare_comply = watson_developer_cloud.CompareComplyV1(
-            "2018-10-15",
+            '2018-10-15',
             iam_apikey='YOUR IAM API KEY')
         cls.compare_comply.set_default_headers({
             'X-Watson-Learning-Opt-Out':
@@ -49,73 +49,73 @@ class IntegrationTestCompareComplyV1(TestCase):
 
     def test_feedback(self):
         feedback_data = {
-            "feedback_type": "element_classification",
-            "document": {
-                "hash": "",
-                "title": "doc title"
+            'feedback_type': 'element_classification',
+            'document': {
+                'hash': '',
+                'title': 'doc title'
             },
-            "model_id": "contracts",
-            "model_version": "11.00",
-            "location": {
-                "begin": "214",
-                "end": "237"
+            'model_id': 'contracts',
+            'model_version': '11.00',
+            'location': {
+                'begin': '214',
+                'end': '237'
             },
-            "text": "1. IBM will provide a Senior Managing Consultant / expert resource, for up to 80 hours, to assist Florida Power & Light (FPL) with the creation of an IT infrastructure unit cost model for existing infrastructure.",
-            "original_labels": {
-                "types": [
+            'text': '1. IBM will provide a Senior Managing Consultant / expert resource, for up to 80 hours, to assist Florida Power & Light (FPL) with the creation of an IT infrastructure unit cost model for existing infrastructure.',
+            'original_labels': {
+                'types': [
                     {
-                        "label": {
-                            "nature": "Obligation",
-                            "party": "IBM"
+                        'label': {
+                            'nature': 'Obligation',
+                            'party': 'IBM'
                         },
-                        "provenance_ids": [
-                            "85f5981a-ba91-44f5-9efa-0bd22e64b7bc",
-                            "ce0480a1-5ef1-4c3e-9861-3743b5610795"
+                        'provenance_ids': [
+                            '85f5981a-ba91-44f5-9efa-0bd22e64b7bc',
+                            'ce0480a1-5ef1-4c3e-9861-3743b5610795'
                         ]
                     },
                     {
-                        "label": {
-                            "nature": "End User",
-                            "party": "Exclusion"
+                        'label': {
+                            'nature': 'End User',
+                            'party': 'Exclusion'
                         },
-                        "provenance_ids": [
-                            "85f5981a-ba91-44f5-9efa-0bd22e64b7bc",
-                            "ce0480a1-5ef1-4c3e-9861-3743b5610795"
+                        'provenance_ids': [
+                            '85f5981a-ba91-44f5-9efa-0bd22e64b7bc',
+                            'ce0480a1-5ef1-4c3e-9861-3743b5610795'
                         ]
                     }
                 ],
-                "categories": [
+                'categories': [
                     {
-                        "label": "Responsibilities",
-                        "provenance_ids": []
+                        'label': 'Responsibilities',
+                        'provenance_ids': []
                     },
                     {
-                        "label": "Amendments",
-                        "provenance_ids": []
+                        'label': 'Amendments',
+                        'provenance_ids': []
                     }
                 ]
             },
-            "updated_labels": {
-                "types": [
+            'updated_labels': {
+                'types': [
                     {
-                        "label": {
-                            "nature": "Obligation",
-                            "party": "IBM"
+                        'label': {
+                            'nature': 'Obligation',
+                            'party': 'IBM'
                         }
                     },
                     {
-                        "label": {
-                            "nature": "Disclaimer",
-                            "party": "Buyer"
+                        'label': {
+                            'nature': 'Disclaimer',
+                            'party': 'Buyer'
                         }
                     }
                 ],
-                "categories": [
+                'categories': [
                     {
-                        "label": "Responsibilities"
+                        'label': 'Responsibilities'
                     },
                     {
-                        "label": "Audits"
+                        'label': 'Audits'
                     }
                 ]
             }
@@ -123,17 +123,17 @@ class IntegrationTestCompareComplyV1(TestCase):
 
         add_feedback = self.compare_comply.add_feedback(
             feedback_data,
-            "wonder woman",
-            "test commment").get_result()
+            'wonder woman',
+            'test commment').get_result()
         assert add_feedback is not None
-        assert add_feedback["feedback_id"] is not None
-        feedback_id = add_feedback["feedback_id"]
+        assert add_feedback['feedback_id'] is not None
+        feedback_id = add_feedback['feedback_id']
 
         get_feedback = self.compare_comply.get_feedback(feedback_id).get_result()
         assert get_feedback is not None
 
         list_feedback = self.compare_comply.list_feedback(
-            feedback_type="element_classification").get_result()
+            feedback_type='element_classification').get_result()
         assert list_feedback is not None
 
         delete_feedback = self.compare_comply.delete_feedback(feedback_id).get_result()
@@ -146,20 +146,20 @@ class IntegrationTestCompareComplyV1(TestCase):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/cloud-object-storage-credentials-input.json'), 'rb') as input_credentials_file, \
           open(os.path.join(os.path.dirname(__file__), '../../resources/cloud-object-storage-credentials-output.json'), 'rb') as output_credentials_file:
             create_batch = self.compare_comply.create_batch(
-                "html_conversion",
+                'html_conversion',
                 input_credentials_file,
-                "us-south",
-                "compare-comply-integration-test-bucket-input",
+                'us-south',
+                'compare-comply-integration-test-bucket-input',
                 output_credentials_file,
-                "us-south",
-                "compare-comply-integration-test-bucket-output").get_result()
+                'us-south',
+                'compare-comply-integration-test-bucket-output').get_result()
 
         assert create_batch is not None
-        assert create_batch["batch_id"] is not None
-        batch_id = create_batch["batch_id"]
+        assert create_batch['batch_id'] is not None
+        batch_id = create_batch['batch_id']
 
         get_batch = self.compare_comply.get_batch(batch_id)
         assert get_batch is not None
 
-        update_batch = self.compare_comply.update_batch(batch_id, "rescan")
+        update_batch = self.compare_comply.update_batch(batch_id, 'rescan')
         assert update_batch is not None
