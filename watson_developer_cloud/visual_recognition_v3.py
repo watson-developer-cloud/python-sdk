@@ -238,7 +238,7 @@ class VisualRecognitionV3(WatsonService):
                                         images_file_content_type or
                                         'application/octet-stream')
         if url:
-            form_data['url'] = (None, url, 'text/plain')
+            form_data['url'] = (None, url)
 
         url = '/v3/detect_faces'
         response = self.request(
