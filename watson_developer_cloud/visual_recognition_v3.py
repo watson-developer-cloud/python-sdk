@@ -23,6 +23,8 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import datetime_to_string, string_to_datetime
+from os.path import basename
+import re
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -39,7 +41,6 @@ class VisualRecognitionV3(WatsonService):
             self,
             version,
             url=default_url,
-            api_key=None,
             iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
@@ -62,8 +63,6 @@ class VisualRecognitionV3(WatsonService):
                "https://gateway.watsonplatform.net/visual-recognition/api").
                The base url may differ between Bluemix regions.
 
-        :param str api_key: The API Key used to authenticate.
-
         :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
                refreshing.
@@ -81,12 +80,106 @@ class VisualRecognitionV3(WatsonService):
             self,
             vcap_services_name='watson_vision_combined',
             url=url,
-            api_key=api_key,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
             use_vcap_services=True)
         self.version = version
+
+    #########################
+    # General
+    #########################
+
+    def classify(self,
+                 images_file=None,
+                 accept_language=None,
+                 url=None,
+                 threshold=None,
+                 owners=None,
+                 classifier_ids=None,
+                 images_file_content_type=None,
+                 images_filename=None,
+                 **kwargs):
+        """
+        Classify images.
+
+        Classify images with built-in or custom classifiers.
+
+        :param file images_file: An image file (.jpg, .png) or .zip file with images.
+        Maximum image size is 10 MB. Include no more than 20 images and limit the .zip
+        file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain
+        non-ASCII characters. The service assumes UTF-8 encoding if it encounters
+        non-ASCII characters.
+        You can also include an image with the **url** parameter.
+        :param str accept_language: The language of the output class names. The full set
+        of languages is supported for the built-in classifier IDs: `default`, `food`, and
+        `explicit`. The class names of custom classifiers are not translated.
+        The response might not be in the specified language when the requested language is
+        not supported or when there is no translation for the class name.
+        :param str url: The URL of an image to analyze. Must be in .jpg, or .png format.
+        The minimum recommended pixel density is 32X32 pixels per inch, and the maximum
+        image size is 10 MB.
+        You can also include images with the **images_file** parameter.
+        :param float threshold: The minimum score a class must have to be displayed in the
+        response. Set the threshold to `0.0` to ignore the classification score and return
+        all values.
+        :param list[str] owners: The categories of classifiers to apply. Use `IBM` to
+        classify against the `default` general classifier, and use `me` to classify
+        against your custom classifiers. To analyze the image against both classifier
+        categories, set the value to both `IBM` and `me`.
+        The built-in `default` classifier is used if both **classifier_ids** and
+        **owners** parameters are empty.
+        The **classifier_ids** parameter overrides **owners**, so make sure that
+        **classifier_ids** is empty.
+        :param list[str] classifier_ids: Which classifiers to apply. Overrides the
+        **owners** parameter. You can specify both custom and built-in classifier IDs. The
+        built-in `default` classifier is used if both **classifier_ids** and **owners**
+        parameters are empty.
+        The following built-in classifier IDs require no training:
+        - `default`: Returns classes from thousands of general tags.
+        - `food`: Enhances specificity and accuracy for images of food items.
+        - `explicit`: Evaluates whether the image might be pornographic.
+        :param str images_file_content_type: The content type of images_file.
+        :param str images_filename: The filename for images_file.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        headers = {'Accept-Language': accept_language}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        form_data = {}
+        if images_file:
+            if not images_filename and hasattr(images_file, 'name'):
+                images_filename = basename(images_file.name)
+            form_data['images_file'] = (images_filename, images_file,
+                                        images_file_content_type or
+                                        'application/octet-stream')
+        if url:
+            form_data['url'] = (None, url, 'text/plain')
+        if threshold:
+            form_data['threshold'] = (None, threshold, 'application/json')
+        if owners:
+            owners = self._convert_list(owners)
+            form_data['owners'] = (None, owners, 'application/json')
+        if classifier_ids:
+            classifier_ids = self._convert_list(classifier_ids)
+            form_data['classifier_ids'] = (None, classifier_ids,
+                                           'application/json')
+
+        url = '/v3/classify'
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+            accept_json=True)
+        return response
 
     #########################
     # Face
@@ -140,12 +233,12 @@ class VisualRecognitionV3(WatsonService):
         form_data = {}
         if images_file:
             if not images_filename and hasattr(images_file, 'name'):
-                images_filename = images_file.name
+                images_filename = basename(images_file.name)
             form_data['images_file'] = (images_filename, images_file,
                                         images_file_content_type or
                                         'application/octet-stream')
         if url:
-            form_data['url'] = (None, url)
+            form_data['url'] = (None, url, 'text/plain')
 
         url = '/v3/detect_faces'
         response = self.request(
@@ -161,6 +254,88 @@ class VisualRecognitionV3(WatsonService):
     # Custom
     #########################
 
+    def create_classifier(self,
+                          name,
+                          negative_examples=None,
+                          negative_examples_filename=None,
+                          **kwargs):
+        """
+        Create a classifier.
+
+        Train a new multi-faceted classifier on the uploaded image data. Create your
+        custom classifier with positive or negative examples. Include at least two sets of
+        examples, either two positive example files or one positive and one negative file.
+        You can upload a maximum of 256 MB per call.
+        Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
+        file names, and classifier and class names). The service assumes UTF-8 encoding if
+        it encounters non-ASCII characters.
+
+        :param str name: The name of the new classifier. Encode special characters in
+        UTF-8.
+        :param file negative_examples: A .zip file of images that do not depict the visual
+        subject of any of the classes of the new classifier. Must contain a minimum of 10
+        images.
+        Encode special characters in the file name in UTF-8.
+        :param str negative_examples_filename: The filename for negative_examples.
+        :param file positive_examples: A .zip file of images that depict the visual
+        subject of a class in the new classifier. You can include more than one positive
+        example file in a call.
+        Specify the parameter name by appending `_positive_examples` to the class name.
+        For example, `goldenretriever_positive_examples` creates the class
+        **goldenretriever**.
+        Include at least 10 images in .jpg or .png format. The minimum recommended image
+        resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100
+        MB per .zip file.
+        Encode special characters in the file name in UTF-8.
+        :param str positive_examples_filename: The filename for positive_examples.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if name is None:
+            raise ValueError('name must be provided')
+        positive_examples_keys = [
+            key for key in kwargs if re.match('^.+_positive_examples$', key)
+        ]
+        if not positive_examples_keys:
+            raise ValueError(
+                'At least one <classname>_positive_examples parameter must be provided'
+            )
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        form_data = {}
+        form_data['name'] = (None, name, 'text/plain')
+        if negative_examples:
+            if not negative_examples_filename and hasattr(
+                    negative_examples, 'name'):
+                negative_examples_filename = basename(negative_examples.name)
+            if not negative_examples_filename:
+                raise ValueError('negative_examples_filename must be provided')
+            form_data['negative_examples'] = (negative_examples_filename,
+                                              negative_examples,
+                                              'application/octet-stream')
+        for key in positive_examples_keys:
+            value = kwargs[key]
+            filename = kwargs.get(key + '_filename')
+            if not filename and hasattr(value, 'name'):
+                filename = basename(value.name)
+            form_data[key] = (filename, value, 'application/octet-stream')
+
+        url = '/v3/classifiers'
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+            accept_json=True)
+        return response
 
     def delete_classifier(self, classifier_id, **kwargs):
         """
@@ -248,6 +423,88 @@ class VisualRecognitionV3(WatsonService):
             accept_json=True)
         return response
 
+    def update_classifier(self,
+                          classifier_id,
+                          negative_examples=None,
+                          negative_examples_filename=None,
+                          **kwargs):
+        """
+        Update a classifier.
+
+        Update a custom classifier by adding new positive or negative classes (examples)
+        or by adding new images to existing classes. You must supply at least one set of
+        positive or negative examples. For details, see [Updating custom
+        classifiers](https://console.bluemix.net/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
+        Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
+        file names, and classifier and class names). The service assumes UTF-8 encoding if
+        it encounters non-ASCII characters.
+        **Tip:** Don't make retraining calls on a classifier until the status is ready.
+        When you submit retraining requests in parallel, the last request overwrites the
+        previous requests. The retrained property shows the last time the classifier
+        retraining finished.
+
+        :param str classifier_id: The ID of the classifier.
+        :param file negative_examples: A .zip file of images that do not depict the visual
+        subject of any of the classes of the new classifier. Must contain a minimum of 10
+        images.
+        Encode special characters in the file name in UTF-8.
+        :param str negative_examples_filename: The filename for negative_examples.
+        :param file positive_examples: A .zip file of images that depict the visual
+        subject of a class in the classifier. The positive examples create or update
+        classes in the classifier. You can include more than one positive example file in
+        a call.
+        Specify the parameter name by appending `_positive_examples` to the class name.
+        For example, `goldenretriever_positive_examples` creates the class
+        `goldenretriever`.
+        Include at least 10 images in .jpg or .png format. The minimum recommended image
+        resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100
+        MB per .zip file.
+        Encode special characters in the file name in UTF-8.
+        :param str positive_examples_filename: The filename for positive_examples.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+        positive_examples_keys = [
+            key for key in kwargs if re.match('^.+_positive_examples$', key)
+        ]
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        form_data = {}
+        if negative_examples:
+            if not negative_examples_filename and hasattr(
+                    negative_examples, 'name'):
+                negative_examples_filename = basename(negative_examples.name)
+            if not negative_examples_filename:
+                raise ValueError('negative_examples_filename must be provided')
+            form_data['negative_examples'] = (negative_examples_filename,
+                                              negative_examples,
+                                              'application/octet-stream')
+        for key in positive_examples_keys:
+            value = kwargs[key]
+            filename = kwargs.get(key + '_filename')
+            if not filename and hasattr(value, 'name'):
+                filename = basename(value.name)
+            form_data[key] = (filename, value, 'application/octet-stream')
+
+        url = '/v3/classifiers/{0}'.format(
+            *self._encode_path_vars(classifier_id))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+            accept_json=True)
+        return response
 
     #########################
     # Core ML
@@ -383,24 +640,23 @@ class ClassResult(object):
     Result of a class within a classifier.
 
     :attr str class_name: Name of the class.
-    :attr float score: (optional) Confidence score for the property in the range of 0 to
-    1. A higher score indicates greater likelihood that the class is depicted in the
-    image. The default threshold for returning scores from a classifier is 0.5.
-    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example,
+    :attr float score: Confidence score for the property in the range of 0 to 1. A higher
+    score indicates greater likelihood that the class is depicted in the image. The
+    default threshold for returning scores from a classifier is 0.5.
+    :attr str type_hierarchy: Knowledge graph of the property. For example,
     `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
     """
 
-    def __init__(self, class_name, score=None, type_hierarchy=None):
+    def __init__(self, class_name, score, type_hierarchy):
         """
         Initialize a ClassResult object.
 
         :param str class_name: Name of the class.
-        :param float score: (optional) Confidence score for the property in the range of 0
-        to 1. A higher score indicates greater likelihood that the class is depicted in
-        the image. The default threshold for returning scores from a classifier is 0.5.
-        :param str type_hierarchy: (optional) Knowledge graph of the property. For
-        example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if
-        identified.
+        :param float score: Confidence score for the property in the range of 0 to 1. A
+        higher score indicates greater likelihood that the class is depicted in the image.
+        The default threshold for returning scores from a classifier is 0.5.
+        :param str type_hierarchy: Knowledge graph of the property. For example,
+        `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
         """
         self.class_name = class_name
         self.score = score
@@ -417,8 +673,15 @@ class ClassResult(object):
                 'Required property \'class\' not present in ClassResult JSON')
         if 'score' in _dict:
             args['score'] = _dict.get('score')
+        else:
+            raise ValueError(
+                'Required property \'score\' not present in ClassResult JSON')
         if 'type_hierarchy' in _dict:
             args['type_hierarchy'] = _dict.get('type_hierarchy')
+        else:
+            raise ValueError(
+                'Required property \'type_hierarchy\' not present in ClassResult JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -544,9 +807,8 @@ class ClassifiedImages(object):
     """
     Results for all images.
 
-    :attr int custom_classes: (optional) Number of custom classes identified in the
-    images.
-    :attr int images_processed: (optional) Number of images processed for the API call.
+    :attr int custom_classes: Number of custom classes identified in the images.
+    :attr int images_processed: Number of images processed for the API call.
     :attr list[ClassifiedImage] images: Classified images.
     :attr list[WarningInfo] warnings: (optional) Information about what might cause less
     than optimal output. For example, a request sent with a corrupt .zip file and a list
@@ -554,19 +816,13 @@ class ClassifiedImages(object):
     returned when there is no warning.
     """
 
-    def __init__(self,
-                 images,
-                 custom_classes=None,
-                 images_processed=None,
-                 warnings=None):
+    def __init__(self, custom_classes, images_processed, images, warnings=None):
         """
         Initialize a ClassifiedImages object.
 
+        :param int custom_classes: Number of custom classes identified in the images.
+        :param int images_processed: Number of images processed for the API call.
         :param list[ClassifiedImage] images: Classified images.
-        :param int custom_classes: (optional) Number of custom classes identified in the
-        images.
-        :param int images_processed: (optional) Number of images processed for the API
-        call.
         :param list[WarningInfo] warnings: (optional) Information about what might cause
         less than optimal output. For example, a request sent with a corrupt .zip file and
         a list of image URLs will still complete, but does not return the expected output.
@@ -583,8 +839,16 @@ class ClassifiedImages(object):
         args = {}
         if 'custom_classes' in _dict:
             args['custom_classes'] = _dict.get('custom_classes')
+        else:
+            raise ValueError(
+                'Required property \'custom_classes\' not present in ClassifiedImages JSON'
+            )
         if 'images_processed' in _dict:
             args['images_processed'] = _dict.get('images_processed')
+        else:
+            raise ValueError(
+                'Required property \'images_processed\' not present in ClassifiedImages JSON'
+            )
         if 'images' in _dict:
             args['images'] = [
                 ClassifiedImage._from_dict(x) for x in (_dict.get('images'))
@@ -902,7 +1166,7 @@ class DetectedFaces(object):
     """
     Results for all faces.
 
-    :attr int images_processed: (optional) Number of images processed for the API call.
+    :attr int images_processed: Number of images processed for the API call.
     :attr list[ImageWithFaces] images: The images.
     :attr list[WarningInfo] warnings: (optional) Information about what might cause less
     than optimal output. For example, a request sent with a corrupt .zip file and a list
@@ -910,13 +1174,12 @@ class DetectedFaces(object):
     returned when there is no warning.
     """
 
-    def __init__(self, images, images_processed=None, warnings=None):
+    def __init__(self, images_processed, images, warnings=None):
         """
         Initialize a DetectedFaces object.
 
+        :param int images_processed: Number of images processed for the API call.
         :param list[ImageWithFaces] images: The images.
-        :param int images_processed: (optional) Number of images processed for the API
-        call.
         :param list[WarningInfo] warnings: (optional) Information about what might cause
         less than optimal output. For example, a request sent with a corrupt .zip file and
         a list of image URLs will still complete, but does not return the expected output.
@@ -932,6 +1195,10 @@ class DetectedFaces(object):
         args = {}
         if 'images_processed' in _dict:
             args['images_processed'] = _dict.get('images_processed')
+        else:
+            raise ValueError(
+                'Required property \'images_processed\' not present in DetectedFaces JSON'
+            )
         if 'images' in _dict:
             args['images'] = [
                 ImageWithFaces._from_dict(x) for x in (_dict.get('images'))
@@ -1113,18 +1380,18 @@ class FaceAge(object):
 
     :attr int min: (optional) Estimated minimum age.
     :attr int max: (optional) Estimated maximum age.
-    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score
-    indicates greater confidence in the estimated value for the property.
+    :attr float score: Confidence score in the range of 0 to 1. A higher score indicates
+    greater confidence in the estimated value for the property.
     """
 
-    def __init__(self, min=None, max=None, score=None):
+    def __init__(self, score, min=None, max=None):
         """
         Initialize a FaceAge object.
 
+        :param float score: Confidence score in the range of 0 to 1. A higher score
+        indicates greater confidence in the estimated value for the property.
         :param int min: (optional) Estimated minimum age.
         :param int max: (optional) Estimated maximum age.
-        :param float score: (optional) Confidence score in the range of 0 to 1. A higher
-        score indicates greater confidence in the estimated value for the property.
         """
         self.min = min
         self.max = max
@@ -1140,6 +1407,9 @@ class FaceAge(object):
             args['max'] = _dict.get('max')
         if 'score' in _dict:
             args['score'] = _dict.get('score')
+        else:
+            raise ValueError(
+                'Required property \'score\' not present in FaceAge JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -1173,17 +1443,17 @@ class FaceGender(object):
     Information about the gender of the face.
 
     :attr str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
-    :attr float score: (optional) Confidence score in the range of 0 to 1. A higher score
-    indicates greater confidence in the estimated value for the property.
+    :attr float score: Confidence score in the range of 0 to 1. A higher score indicates
+    greater confidence in the estimated value for the property.
     """
 
-    def __init__(self, gender, score=None):
+    def __init__(self, gender, score):
         """
         Initialize a FaceGender object.
 
         :param str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
-        :param float score: (optional) Confidence score in the range of 0 to 1. A higher
-        score indicates greater confidence in the estimated value for the property.
+        :param float score: Confidence score in the range of 0 to 1. A higher score
+        indicates greater confidence in the estimated value for the property.
         """
         self.gender = gender
         self.score = score
@@ -1199,6 +1469,9 @@ class FaceGender(object):
                 'Required property \'gender\' not present in FaceGender JSON')
         if 'score' in _dict:
             args['score'] = _dict.get('score')
+        else:
+            raise ValueError(
+                'Required property \'score\' not present in FaceGender JSON')
         return cls(**args)
 
     def _to_dict(self):
