@@ -199,7 +199,7 @@ class AssistantV2(WatsonService):
         [documentation](https://console.bluemix.net/docs/services/assistant/create-assistant.html#creating-assistants).
         **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
-        :param MessageInput input: An input object that includes the input text.
+        :param MessageInput input: The user input.
         :param MessageContext context: State information for the conversation.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -966,16 +966,16 @@ class MessageContextGlobal(object):
     """
     Contains information that can be shared by all skills within the Assistant.
 
-    :attr MessageContextGlobalSystem system: (optional) Properties interpreted by the
-    Assistant that are shared across all skills within the Assistant.
+    :attr MessageContextGlobalSystem system: (optional) Properties that are shared by all
+    skills used by the assistant.
     """
 
     def __init__(self, system=None):
         """
         Initialize a MessageContextGlobal object.
 
-        :param MessageContextGlobalSystem system: (optional) Properties interpreted by the
-        Assistant that are shared across all skills within the Assistant.
+        :param MessageContextGlobalSystem system: (optional) Properties that are shared by
+        all skills used by the assistant.
         """
         self.system = system
 
@@ -1018,8 +1018,9 @@ class MessageContextGlobalSystem(object):
     correctly resolve relative time references.
     :attr str user_id: (optional) A string value that identifies the user who is
     interacting with the assistant. The client must provide a unique identifier for each
-    individual end user who accesses the application. This user ID may be used for billing
-    and other purposes.
+    individual end user who accesses the application. For Plus and Premium plans, this
+    user ID is used to identify unique users for billing purposes. This string cannot
+    contain carriage return, newline, or tab characters.
     :attr int turn_count: (optional) A counter that is automatically incremented with each
     turn of the conversation. A value of 1 indicates that this is the the first turn of a
     new conversation, which can affect the behavior of some skills.
@@ -1033,8 +1034,9 @@ class MessageContextGlobalSystem(object):
         zone to correctly resolve relative time references.
         :param str user_id: (optional) A string value that identifies the user who is
         interacting with the assistant. The client must provide a unique identifier for
-        each individual end user who accesses the application. This user ID may be used
-        for billing and other purposes.
+        each individual end user who accesses the application. For Plus and Premium plans,
+        this user ID is used to identify unique users for billing purposes. This string
+        cannot contain carriage return, newline, or tab characters.
         :param int turn_count: (optional) A counter that is automatically incremented with
         each turn of the conversation. A value of 1 indicates that this is the the first
         turn of a new conversation, which can affect the behavior of some skills.
@@ -1068,6 +1070,53 @@ class MessageContextGlobalSystem(object):
 
     def __str__(self):
         """Return a `str` version of this MessageContextGlobalSystem object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageContextSkill(object):
+    """
+    Contains information specific to a particular skill within the Assistant.
+
+    :attr str user_defined: (optional) Arbitrary variables that can be read and written to
+    by a particular skill within the Assistant.
+    """
+
+    def __init__(self, user_defined=None):
+        """
+        Initialize a MessageContextSkill object.
+
+        :param str user_defined: (optional) Arbitrary variables that can be read and
+        written to by a particular skill within the Assistant.
+        """
+        self.user_defined = user_defined
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextSkill object from a json dictionary."""
+        args = {}
+        if 'user_defined' in _dict:
+            args['user_defined'] = _dict.get('user_defined')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this MessageContextSkill object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1147,7 +1196,7 @@ class MessageInput(object):
     :attr str text: (optional) The text of the user input. This string cannot contain
     carriage return, newline, or tab characters, and it must be no longer than 2048
     characters.
-    :attr MessageInputOptions options: (optional) Properties that control how the
+    :attr MessageInputOptions options: (optional) Optional properties that control how the
     assistant responds.
     :attr list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user
     input. Include intents from the previous response to continue using those intents
@@ -1173,8 +1222,8 @@ class MessageInput(object):
         :param str text: (optional) The text of the user input. This string cannot contain
         carriage return, newline, or tab characters, and it must be no longer than 2048
         characters.
-        :param MessageInputOptions options: (optional) Properties that control how the
-        assistant responds.
+        :param MessageInputOptions options: (optional) Optional properties that control
+        how the assistant responds.
         :param list[RuntimeIntent] intents: (optional) Intents to use when evaluating the
         user input. Include intents from the previous response to continue using those
         intents rather than trying to recognize intents in the new input.
@@ -1518,8 +1567,7 @@ class MessageResponse(object):
 
     :attr MessageOutput output: Assistant output to be rendered or processed by the
     client.
-    :attr MessageContext context: (optional) The current session context. Included in the
-    response if the `return_context` property of the message input was set to `true`.
+    :attr MessageContext context: (optional) State information for the conversation.
     """
 
     def __init__(self, output, context=None):
@@ -1528,9 +1576,7 @@ class MessageResponse(object):
 
         :param MessageOutput output: Assistant output to be rendered or processed by the
         client.
-        :param MessageContext context: (optional) The current session context. Included in
-        the response if the `return_context` property of the message input was set to
-        `true`.
+        :param MessageContext context: (optional) State information for the conversation.
         """
         self.output = output
         self.context = context

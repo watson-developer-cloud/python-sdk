@@ -35,6 +35,7 @@ supported languages.
 from __future__ import absolute_import
 
 import json
+from os.path import basename
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -111,10 +112,10 @@ class SpeechToTextV1(WatsonService):
         with the service. The information includes the name of the model and its minimum
         sampling rate in Hertz, among other things.
         **See also:** [Languages and
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#models).
+        models](/docs/services/speech-to-text/input.html#models).
 
         :param str model_id: The identifier of the model in the form of its name from the
-        output of the **Get models** method.
+        output of the **Get a model** method.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -140,7 +141,7 @@ class SpeechToTextV1(WatsonService):
         information includes the name of the model and its minimum sampling rate in Hertz,
         among other things.
         **See also:** [Languages and
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#models).
+        models](/docs/services/speech-to-text/input.html#models).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -183,13 +184,14 @@ class SpeechToTextV1(WatsonService):
         """
         Recognize audio.
 
-        Sends audio and returns transcription results for a recognition request. Returns
-        only the final results; to enable interim results, use the WebSocket API. The
-        service imposes a data size limit of 100 MB. It automatically detects the
-        endianness of the incoming audio and, for audio that includes multiple channels,
-        downmixes the audio to one-channel mono during transcoding.
+        Sends audio and returns transcription results for a recognition request. You can
+        pass a maximum of 100 MB and a minimum of 100 bytes of audio with a request. The
+        service automatically detects the endianness of the incoming audio and, for audio
+        that includes multiple channels, downmixes the audio to one-channel mono during
+        transcoding. The method returns only final results; to enable interim results, use
+        the WebSocket API.
         **See also:** [Making a basic HTTP
-        request](https://console.bluemix.net/docs/services/speech-to-text/http.html#HTTP-basic).
+        request](/docs/services/speech-to-text/http.html#HTTP-basic).
         ### Streaming mode
          For requests to transcribe live audio as it becomes available, you must set the
         `Transfer-Encoding` header to `chunked` to use streaming mode. In streaming mode,
@@ -199,10 +201,8 @@ class SpeechToTextV1(WatsonService):
         `inactivity_timeout` seconds of audio (not processing time); use the
         `inactivity_timeout` parameter to change the default of 30 seconds.
         **See also:**
-        * [Audio
-        transmission](https://console.bluemix.net/docs/services/speech-to-text/input.html#transmission)
-        *
-        [Timeouts](https://console.bluemix.net/docs/services/speech-to-text/input.html#timeouts).
+        * [Audio transmission](/docs/services/speech-to-text/input.html#transmission)
+        * [Timeouts](/docs/services/speech-to-text/input.html#timeouts)
         ### Audio formats (content types)
          The service accepts audio in the following formats (MIME types).
         * For formats that are labeled **Required**, you must use the `Content-Type`
@@ -227,24 +227,24 @@ class SpeechToTextV1(WatsonService):
         * `audio/webm` (The service automatically detects the codec of the input audio.)
         * `audio/webm;codecs=opus`
         * `audio/webm;codecs=vorbis`
-        **See also:** [Audio
-        formats](https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html).
-        **Note:** You must pass a content type when using any of the Watson SDKs. The SDKs
-        require the content-type parameter for all audio formats.
+        **See also:** [Audio formats](/docs/services/speech-to-text/audio-formats.html).
         ### Multipart speech recognition
-         The method also supports multipart recognition requests. With multipart requests,
-        you pass all audio data as multipart form data. You specify some parameters as
-        request headers and query parameters, but you pass JSON metadata as form data to
-        control most aspects of the transcription.
+         **Note:** The Watson SDKs do not support multipart speech recognition.
+        The HTTP `POST` method of the service also supports multipart speech recognition.
+        With multipart requests, you pass all audio data as multipart form data. You
+        specify some parameters as request headers and query parameters, but you pass JSON
+        metadata as form data to control most aspects of the transcription.
         The multipart approach is intended for use with browsers for which JavaScript is
         disabled or when the parameters used with the request are greater than the 8 KB
         limit imposed by most HTTP servers and proxies. You can encounter this limit, for
         example, if you want to spot a very large number of keywords.
         **See also:** [Making a multipart HTTP
-        request](https://console.bluemix.net/docs/services/speech-to-text/http.html#HTTP-multi).
+        request](/docs/services/speech-to-text/http.html#HTTP-multi).
 
         :param file audio: The audio to transcribe.
-        :param str content_type: The type of the input.
+        :param str content_type: The format (MIME type) of the audio. For more information
+        about specifying an audio format, see **Audio formats (content types)** in the
+        method description.
         :param str model: The identifier of the model that is to be used for the
         recognition request.
         :param str language_customization_id: The customization ID (GUID) of a custom
@@ -253,7 +253,7 @@ class SpeechToTextV1(WatsonService):
         `model` parameter. You must make the request with service credentials created for
         the instance of the service that owns the custom model. By default, no custom
         language model is used. See [Custom
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).
+        models](/docs/services/speech-to-text/input.html#custom).
         **Note:** Use this parameter instead of the deprecated `customization_id`
         parameter.
         :param str acoustic_customization_id: The customization ID (GUID) of a custom
@@ -262,14 +262,13 @@ class SpeechToTextV1(WatsonService):
         `model` parameter. You must make the request with service credentials created for
         the instance of the service that owns the custom model. By default, no custom
         acoustic model is used. See [Custom
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).
+        models](/docs/services/speech-to-text/input.html#custom).
         :param str base_model_version: The version of the specified base model that is to
         be used with recognition request. Multiple versions of a base model can exist when
         a model is updated for internal improvements. The parameter is intended primarily
         for use with custom models that have been upgraded for a new base model. The
         default value depends on whether the parameter is used with or without a custom
-        model. See [Base model
-        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
+        model. See [Base model version](/docs/services/speech-to-text/input.html#version).
         :param float customization_weight: If you specify the customization ID (GUID) of a
         custom language model with the recognition request, the customization weight tells
         the service how much weight to give to words from the custom language model
@@ -283,63 +282,62 @@ class SpeechToTextV1(WatsonService):
         setting the weight: a higher value can improve the accuracy of phrases from the
         custom model's domain, but it can negatively affect performance on non-domain
         phrases.
-        See [Custom
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).
+        See [Custom models](/docs/services/speech-to-text/input.html#custom).
         :param int inactivity_timeout: The time in seconds after which, if only silence
         (no speech) is detected in submitted audio, the connection is closed with a 400
         error. The parameter is useful for stopping audio submission from a live
         microphone when a user simply walks away. Use `-1` for infinity. See
-        [Timeouts](https://console.bluemix.net/docs/services/speech-to-text/input.html#timeouts).
+        [Timeouts](/docs/services/speech-to-text/input.html#timeouts).
         :param list[str] keywords: An array of keyword strings to spot in the audio. Each
         keyword string can include one or more string tokens. Keywords are spotted only in
         the final results, not in interim hypotheses. If you specify any keywords, you
         must also specify a keywords threshold. You can spot a maximum of 1000 keywords.
         Omit the parameter or specify an empty array if you do not need to spot keywords.
         See [Keyword
-        spotting](https://console.bluemix.net/docs/services/speech-to-text/output.html#keyword_spotting).
+        spotting](/docs/services/speech-to-text/output.html#keyword_spotting).
         :param float keywords_threshold: A confidence value that is the lower bound for
         spotting a keyword. A word is considered to match a keyword if its confidence is
         greater than or equal to the threshold. Specify a probability between 0.0 and 1.0.
         No keyword spotting is performed if you omit the parameter. If you specify a
         threshold, you must also specify one or more keywords. See [Keyword
-        spotting](https://console.bluemix.net/docs/services/speech-to-text/output.html#keyword_spotting).
+        spotting](/docs/services/speech-to-text/output.html#keyword_spotting).
         :param int max_alternatives: The maximum number of alternative transcripts that
         the service is to return. By default, a single transcription is returned. See
         [Maximum
-        alternatives](https://console.bluemix.net/docs/services/speech-to-text/output.html#max_alternatives).
+        alternatives](/docs/services/speech-to-text/output.html#max_alternatives).
         :param float word_alternatives_threshold: A confidence value that is the lower
         bound for identifying a hypothesis as a possible word alternative (also known as
         \"Confusion Networks\"). An alternative word is considered if its confidence is
         greater than or equal to the threshold. Specify a probability between 0.0 and 1.0.
         No alternative words are computed if you omit the parameter. See [Word
-        alternatives](https://console.bluemix.net/docs/services/speech-to-text/output.html#word_alternatives).
+        alternatives](/docs/services/speech-to-text/output.html#word_alternatives).
         :param bool word_confidence: If `true`, the service returns a confidence measure
         in the range of 0.0 to 1.0 for each word. By default, no word confidence measures
         are returned. See [Word
-        confidence](https://console.bluemix.net/docs/services/speech-to-text/output.html#word_confidence).
+        confidence](/docs/services/speech-to-text/output.html#word_confidence).
         :param bool timestamps: If `true`, the service returns time alignment for each
         word. By default, no timestamps are returned. See [Word
-        timestamps](https://console.bluemix.net/docs/services/speech-to-text/output.html#word_timestamps).
+        timestamps](/docs/services/speech-to-text/output.html#word_timestamps).
         :param bool profanity_filter: If `true`, the service filters profanity from all
         output except for keyword results by replacing inappropriate words with a series
         of asterisks. Set the parameter to `false` to return results with no censoring.
         Applies to US English transcription only. See [Profanity
-        filtering](https://console.bluemix.net/docs/services/speech-to-text/output.html#profanity_filter).
+        filtering](/docs/services/speech-to-text/output.html#profanity_filter).
         :param bool smart_formatting: If `true`, the service converts dates, times, series
         of digits and numbers, phone numbers, currency values, and internet addresses into
         more readable, conventional representations in the final transcript of a
         recognition request. For US English, the service also converts certain keyword
         strings to punctuation symbols. By default, no smart formatting is performed.
-        Applies to US English and Spanish transcription only. See [Smart
-        formatting](https://console.bluemix.net/docs/services/speech-to-text/output.html#smart_formatting).
+        Applies to US English, Japanese, and Spanish transcription only. See [Smart
+        formatting](/docs/services/speech-to-text/output.html#smart_formatting).
         :param bool speaker_labels: If `true`, the response includes labels that identify
         which words were spoken by which participants in a multi-person exchange. By
         default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
         the `timestamps` parameter to be `true`, regardless of whether you specify `false`
-        for the parameter. To determine whether a language model supports speaker labels,
-        use the **Get models** method and check that the attribute `speaker_labels` is set
-        to `true`. See [Speaker
-        labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
+        for the parameter.
+        To determine whether a language model supports speaker labels, use the **Get a
+        model** method and check that the attribute `speaker_labels` is set to `true`. See
+        [Speaker labels](/docs/services/speech-to-text/output.html#speaker_labels).
         :param str customization_id: **Deprecated.** Use the `language_customization_id`
         parameter to specify the customization ID (GUID) of a custom language model that
         is to be used with the recognition request. Do not specify both parameters with a
@@ -405,7 +403,7 @@ class SpeechToTextV1(WatsonService):
         available. Use the **Check jobs** method to request information about the most
         recent jobs associated with the caller.
         **See also:** [Checking the status and retrieving the results of a
-        job](https://console.bluemix.net/docs/services/speech-to-text/async.html#job).
+        job](/docs/services/speech-to-text/async.html#job).
 
         :param str id: The identifier of the asynchronous job that is to be used for the
         request.
@@ -439,7 +437,7 @@ class SpeechToTextV1(WatsonService):
         them with the **Delete a job** method or until the job's time to live expires,
         whichever comes first.
         **See also:** [Checking the status of the latest
-        jobs](https://console.bluemix.net/docs/services/speech-to-text/async.html#jobs).
+        jobs](/docs/services/speech-to-text/async.html#jobs).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -509,11 +507,12 @@ class SpeechToTextV1(WatsonService):
         * `events`
         * `user_token`
         * `results_ttl`
-        The service imposes a data size limit of 100 MB. It automatically detects the
-        endianness of the incoming audio and, for audio that includes multiple channels,
-        downmixes the audio to one-channel mono during transcoding.
-        **See also:** [Creating a
-        job](https://console.bluemix.net/docs/services/speech-to-text/async.html#create).
+        You can pass a maximum of 100 MB and a minimum of 100 bytes of audio with a
+        request. The service automatically detects the endianness of the incoming audio
+        and, for audio that includes multiple channels, downmixes the audio to one-channel
+        mono during transcoding. The method returns only final results; to enable interim
+        results, use the WebSocket API.
+        **See also:** [Creating a job](/docs/services/speech-to-text/async.html#create).
         ### Streaming mode
          For requests to transcribe live audio as it becomes available, you must set the
         `Transfer-Encoding` header to `chunked` to use streaming mode. In streaming mode,
@@ -523,10 +522,8 @@ class SpeechToTextV1(WatsonService):
         `inactivity_timeout` seconds of audio (not processing time); use the
         `inactivity_timeout` parameter to change the default of 30 seconds.
         **See also:**
-        * [Audio
-        transmission](https://console.bluemix.net/docs/services/speech-to-text/input.html#transmission)
-        *
-        [Timeouts](https://console.bluemix.net/docs/services/speech-to-text/input.html#timeouts)
+        * [Audio transmission](/docs/services/speech-to-text/input.html#transmission)
+        * [Timeouts](/docs/services/speech-to-text/input.html#timeouts)
         ### Audio formats (content types)
          The service accepts audio in the following formats (MIME types).
         * For formats that are labeled **Required**, you must use the `Content-Type`
@@ -551,13 +548,12 @@ class SpeechToTextV1(WatsonService):
         * `audio/webm` (The service automatically detects the codec of the input audio.)
         * `audio/webm;codecs=opus`
         * `audio/webm;codecs=vorbis`
-        **See also:** [Audio
-        formats](https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html).
-        **Note:** You must pass a content type when using any of the Watson SDKs. The SDKs
-        require the content-type parameter for all audio formats.
+        **See also:** [Audio formats](/docs/services/speech-to-text/audio-formats.html).
 
         :param file audio: The audio to transcribe.
-        :param str content_type: The type of the input.
+        :param str content_type: The format (MIME type) of the audio. For more information
+        about specifying an audio format, see **Audio formats (content types)** in the
+        method description.
         :param str model: The identifier of the model that is to be used for the
         recognition request.
         :param str callback_url: A URL to which callback notifications are to be sent. The
@@ -598,7 +594,7 @@ class SpeechToTextV1(WatsonService):
         `model` parameter. You must make the request with service credentials created for
         the instance of the service that owns the custom model. By default, no custom
         language model is used. See [Custom
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).
+        models](/docs/services/speech-to-text/input.html#custom).
         **Note:** Use this parameter instead of the deprecated `customization_id`
         parameter.
         :param str acoustic_customization_id: The customization ID (GUID) of a custom
@@ -607,14 +603,13 @@ class SpeechToTextV1(WatsonService):
         `model` parameter. You must make the request with service credentials created for
         the instance of the service that owns the custom model. By default, no custom
         acoustic model is used. See [Custom
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).
+        models](/docs/services/speech-to-text/input.html#custom).
         :param str base_model_version: The version of the specified base model that is to
         be used with recognition request. Multiple versions of a base model can exist when
         a model is updated for internal improvements. The parameter is intended primarily
         for use with custom models that have been upgraded for a new base model. The
         default value depends on whether the parameter is used with or without a custom
-        model. See [Base model
-        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
+        model. See [Base model version](/docs/services/speech-to-text/input.html#version).
         :param float customization_weight: If you specify the customization ID (GUID) of a
         custom language model with the recognition request, the customization weight tells
         the service how much weight to give to words from the custom language model
@@ -628,63 +623,62 @@ class SpeechToTextV1(WatsonService):
         setting the weight: a higher value can improve the accuracy of phrases from the
         custom model's domain, but it can negatively affect performance on non-domain
         phrases.
-        See [Custom
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).
+        See [Custom models](/docs/services/speech-to-text/input.html#custom).
         :param int inactivity_timeout: The time in seconds after which, if only silence
         (no speech) is detected in submitted audio, the connection is closed with a 400
         error. The parameter is useful for stopping audio submission from a live
         microphone when a user simply walks away. Use `-1` for infinity. See
-        [Timeouts](https://console.bluemix.net/docs/services/speech-to-text/input.html#timeouts).
+        [Timeouts](/docs/services/speech-to-text/input.html#timeouts).
         :param list[str] keywords: An array of keyword strings to spot in the audio. Each
         keyword string can include one or more string tokens. Keywords are spotted only in
         the final results, not in interim hypotheses. If you specify any keywords, you
         must also specify a keywords threshold. You can spot a maximum of 1000 keywords.
         Omit the parameter or specify an empty array if you do not need to spot keywords.
         See [Keyword
-        spotting](https://console.bluemix.net/docs/services/speech-to-text/output.html#keyword_spotting).
+        spotting](/docs/services/speech-to-text/output.html#keyword_spotting).
         :param float keywords_threshold: A confidence value that is the lower bound for
         spotting a keyword. A word is considered to match a keyword if its confidence is
         greater than or equal to the threshold. Specify a probability between 0.0 and 1.0.
         No keyword spotting is performed if you omit the parameter. If you specify a
         threshold, you must also specify one or more keywords. See [Keyword
-        spotting](https://console.bluemix.net/docs/services/speech-to-text/output.html#keyword_spotting).
+        spotting](/docs/services/speech-to-text/output.html#keyword_spotting).
         :param int max_alternatives: The maximum number of alternative transcripts that
         the service is to return. By default, a single transcription is returned. See
         [Maximum
-        alternatives](https://console.bluemix.net/docs/services/speech-to-text/output.html#max_alternatives).
+        alternatives](/docs/services/speech-to-text/output.html#max_alternatives).
         :param float word_alternatives_threshold: A confidence value that is the lower
         bound for identifying a hypothesis as a possible word alternative (also known as
         \"Confusion Networks\"). An alternative word is considered if its confidence is
         greater than or equal to the threshold. Specify a probability between 0.0 and 1.0.
         No alternative words are computed if you omit the parameter. See [Word
-        alternatives](https://console.bluemix.net/docs/services/speech-to-text/output.html#word_alternatives).
+        alternatives](/docs/services/speech-to-text/output.html#word_alternatives).
         :param bool word_confidence: If `true`, the service returns a confidence measure
         in the range of 0.0 to 1.0 for each word. By default, no word confidence measures
         are returned. See [Word
-        confidence](https://console.bluemix.net/docs/services/speech-to-text/output.html#word_confidence).
+        confidence](/docs/services/speech-to-text/output.html#word_confidence).
         :param bool timestamps: If `true`, the service returns time alignment for each
         word. By default, no timestamps are returned. See [Word
-        timestamps](https://console.bluemix.net/docs/services/speech-to-text/output.html#word_timestamps).
+        timestamps](/docs/services/speech-to-text/output.html#word_timestamps).
         :param bool profanity_filter: If `true`, the service filters profanity from all
         output except for keyword results by replacing inappropriate words with a series
         of asterisks. Set the parameter to `false` to return results with no censoring.
         Applies to US English transcription only. See [Profanity
-        filtering](https://console.bluemix.net/docs/services/speech-to-text/output.html#profanity_filter).
+        filtering](/docs/services/speech-to-text/output.html#profanity_filter).
         :param bool smart_formatting: If `true`, the service converts dates, times, series
         of digits and numbers, phone numbers, currency values, and internet addresses into
         more readable, conventional representations in the final transcript of a
         recognition request. For US English, the service also converts certain keyword
         strings to punctuation symbols. By default, no smart formatting is performed.
-        Applies to US English and Spanish transcription only. See [Smart
-        formatting](https://console.bluemix.net/docs/services/speech-to-text/output.html#smart_formatting).
+        Applies to US English, Japanese, and Spanish transcription only. See [Smart
+        formatting](/docs/services/speech-to-text/output.html#smart_formatting).
         :param bool speaker_labels: If `true`, the response includes labels that identify
         which words were spoken by which participants in a multi-person exchange. By
         default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
         the `timestamps` parameter to be `true`, regardless of whether you specify `false`
-        for the parameter. To determine whether a language model supports speaker labels,
-        use the **Get models** method and check that the attribute `speaker_labels` is set
-        to `true`. See [Speaker
-        labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
+        for the parameter.
+        To determine whether a language model supports speaker labels, use the **Get a
+        model** method and check that the attribute `speaker_labels` is set to `true`. See
+        [Speaker labels](/docs/services/speech-to-text/output.html#speaker_labels).
         :param str customization_id: **Deprecated.** Use the `language_customization_id`
         parameter to specify the customization ID (GUID) of a custom language model that
         is to be used with the recognition request. Do not specify both parameters with a
@@ -745,8 +739,7 @@ class SpeechToTextV1(WatsonService):
         service automatically deletes a job and its results when the time to live for the
         results expires. You must submit the request with the service credentials of the
         user who created the job.
-        **See also:** [Deleting a
-        job](https://console.bluemix.net/docs/services/speech-to-text/async.html#delete).
+        **See also:** [Deleting a job](/docs/services/speech-to-text/async.html#delete).
 
         :param str id: The identifier of the asynchronous job that is to be used for the
         request.
@@ -799,7 +792,7 @@ class SpeechToTextV1(WatsonService):
         number of recognition requests. You can register a maximum of 20 callback URLS in
         a one-hour span of time.
         **See also:** [Registering a callback
-        URL](https://console.bluemix.net/docs/services/speech-to-text/async.html#register).
+        URL](/docs/services/speech-to-text/async.html#register).
 
         :param str callback_url: An HTTP or HTTPS URL to which callback notifications are
         to be sent. To be white-listed, the URL must successfully echo the challenge
@@ -842,7 +835,7 @@ class SpeechToTextV1(WatsonService):
         callback** request for use with the asynchronous interface. Once unregistered, the
         URL can no longer be used with asynchronous recognition requests.
         **See also:** [Unregistering a callback
-        URL](https://console.bluemix.net/docs/services/speech-to-text/async.html#unregister).
+        URL](/docs/services/speech-to-text/async.html#unregister).
 
         :param str callback_url: The callback URL that is to be unregistered.
         :param dict headers: A `dict` containing the request headers
@@ -886,7 +879,7 @@ class SpeechToTextV1(WatsonService):
         model is owned by the instance of the service whose credentials are used to create
         it.
         **See also:** [Create a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-create.html#createModel).
+        model](/docs/services/speech-to-text/language-create.html#createModel).
 
         :param str name: A user-defined name for the new custom language model. Use a name
         that is unique among all custom language models that you own. Use a localized name
@@ -895,11 +888,11 @@ class SpeechToTextV1(WatsonService):
         model`.
         :param str base_model_name: The name of the base language model that is to be
         customized by the new custom language model. The new custom model can be used only
-        with the base model that it customizes. To determine whether a base model supports
-        language model customization, request information about the base model and check
-        that the attribute `custom_language_model` is set to `true`, or refer to [Language
-        support for
-        customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
+        with the base model that it customizes.
+        To determine whether a base model supports language model customization, use the
+        **Get a model** method and check that the attribute `custom_language_model` is set
+        to `true`. You can also refer to [Language support for
+        customization](/docs/services/speech-to-text/custom.html#languageSupport).
         :param str dialect: The dialect of the specified language that is to be used with
         the custom language model. The parameter is meaningful only for Spanish models,
         for which the service creates a custom language model that is suited for speech in
@@ -951,7 +944,7 @@ class SpeechToTextV1(WatsonService):
         processed. You must use credentials for the instance of the service that owns a
         model to delete it.
         **See also:** [Deleting a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-models.html#deleteModel).
+        model](/docs/services/speech-to-text/language-models.html#deleteModel).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -981,7 +974,7 @@ class SpeechToTextV1(WatsonService):
         Gets information about a specified custom language model. You must use credentials
         for the instance of the service that owns a model to list information about it.
         **See also:** [Listing custom language
-        models](https://console.bluemix.net/docs/services/speech-to-text/language-models.html#listModels).
+        models](/docs/services/speech-to-text/language-models.html#listModels).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1014,7 +1007,7 @@ class SpeechToTextV1(WatsonService):
         all languages. You must use credentials for the instance of the service that owns
         a model to list information about it.
         **See also:** [Listing custom language
-        models](https://console.bluemix.net/docs/services/speech-to-text/language-models.html#listModels).
+        models](/docs/services/speech-to-text/language-models.html#listModels).
 
         :param str language: The identifier of the language for which custom language or
         custom acoustic models are to be returned (for example, `en-US`). Omit the
@@ -1050,7 +1043,7 @@ class SpeechToTextV1(WatsonService):
         but the model's words resource is removed and must be re-created. You must use
         credentials for the instance of the service that owns a model to reset it.
         **See also:** [Resetting a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-models.html#resetModel).
+        model](/docs/services/speech-to-text/language-models.html#resetModel).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1105,7 +1098,7 @@ class SpeechToTextV1(WatsonService):
         * One or more words that were added to the custom model have invalid sounds-like
         pronunciations that you must fix.
         **See also:** [Train the custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-create.html#trainModel).
+        model](/docs/services/speech-to-text/language-create.html#trainModel).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1174,7 +1167,7 @@ class SpeechToTextV1(WatsonService):
         resumes the status that it had prior to upgrade. The service cannot accept
         subsequent requests for the model until the upgrade completes.
         **See also:** [Upgrading a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/custom-upgrade.html#upgradeLanguage).
+        model](/docs/services/speech-to-text/custom-upgrade.html#upgradeLanguage).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1201,6 +1194,113 @@ class SpeechToTextV1(WatsonService):
     # Custom corpora
     #########################
 
+    def add_corpus(self,
+                   customization_id,
+                   corpus_name,
+                   corpus_file,
+                   allow_overwrite=None,
+                   corpus_filename=None,
+                   **kwargs):
+        """
+        Add a corpus.
+
+        Adds a single corpus text file of new training data to a custom language model.
+        Use multiple requests to submit multiple corpus text files. You must use
+        credentials for the instance of the service that owns a model to add a corpus to
+        it. Adding a corpus does not affect the custom language model until you train the
+        model for the new data by using the **Train a custom language model** method.
+        Submit a plain text file that contains sample sentences from the domain of
+        interest to enable the service to extract words in context. The more sentences you
+        add that represent the context in which speakers use words from the domain, the
+        better the service's recognition accuracy.
+        The call returns an HTTP 201 response code if the corpus is valid. The service
+        then asynchronously processes the contents of the corpus and automatically
+        extracts new words that it finds. This can take on the order of a minute or two to
+        complete depending on the total number of words and the number of new words in the
+        corpus, as well as the current load on the service. You cannot submit requests to
+        add additional corpora or words to the custom model, or to train the model, until
+        the service's analysis of the corpus for the current request completes. Use the
+        **List a corpus** method to check the status of the analysis.
+        The service auto-populates the model's words resource with any word that is not
+        found in its base vocabulary; these are referred to as out-of-vocabulary (OOV)
+        words. You can use the **List custom words** method to examine the words resource,
+        using other words method to eliminate typos and modify how words are pronounced as
+        needed.
+        To add a corpus file that has the same name as an existing corpus, set the
+        `allow_overwrite` parameter to `true`; otherwise, the request fails. Overwriting
+        an existing corpus causes the service to process the corpus text file and extract
+        OOV words anew. Before doing so, it removes any OOV words associated with the
+        existing corpus from the model's words resource unless they were also added by
+        another corpus or they have been modified in some way with the **Add custom
+        words** or **Add a custom word** method.
+        The service limits the overall amount of data that you can add to a custom model
+        to a maximum of 10 million total words from all corpora combined. Also, you can
+        add no more than 30 thousand custom (OOV) words to a model; this includes words
+        that the service extracts from corpora and words that you add directly.
+        **See also:**
+        * [Working with
+        corpora](/docs/services/speech-to-text/language-resource.html#workingCorpora)
+        * [Add corpora to the custom language
+        model](/docs/services/speech-to-text/language-create.html#addCorpora).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with service
+        credentials created for the instance of the service that owns the custom model.
+        :param str corpus_name: The name of the new corpus for the custom language model.
+        Use a localized name that matches the language of the custom model and reflects
+        the contents of the corpus.
+        * Include a maximum of 128 characters in the name.
+        * Do not include spaces, slashes, or backslashes in the name.
+        * Do not use the name of a corpus that has already been added to the custom model.
+        * Do not use the name `user`, which is reserved by the service to denote custom
+        words that are added or modified by the user.
+        :param file corpus_file: A plain text file that contains the training data for the
+        corpus. Encode the file in UTF-8 if it contains non-ASCII characters; the service
+        assumes UTF-8 encoding if it encounters non-ASCII characters.
+        Make sure that you know the character encoding of the file. You must use that
+        encoding when working with the words in the custom language model. For more
+        information, see [Character
+        encoding](/docs/services/speech-to-text/language-resource.html#charEncoding).
+        With the `curl` command, use the `--data-binary` option to upload the file for the
+        request.
+        :param bool allow_overwrite: If `true`, the specified corpus overwrites an
+        existing corpus with the same name. If `false`, the request fails if a corpus with
+        the same name already exists. The parameter has no effect if a corpus with the
+        same name does not already exist.
+        :param str corpus_filename: The filename for corpus_file.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+        if corpus_name is None:
+            raise ValueError('corpus_name must be provided')
+        if corpus_file is None:
+            raise ValueError('corpus_file must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'allow_overwrite': allow_overwrite}
+
+        form_data = {}
+        if not corpus_filename and hasattr(corpus_file, 'name'):
+            corpus_filename = basename(corpus_file.name)
+        form_data['corpus_file'] = (corpus_filename, corpus_file, 'text/plain')
+
+        url = '/v1/customizations/{0}/corpora/{1}'.format(
+            *self._encode_path_vars(customization_id, corpus_name))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+            accept_json=True)
+        return response
 
     def delete_corpus(self, customization_id, corpus_name, **kwargs):
         """
@@ -1214,7 +1314,7 @@ class SpeechToTextV1(WatsonService):
         model with the **Train a custom language model** method. You must use credentials
         for the instance of the service that owns a model to delete its corpora.
         **See also:** [Deleting a corpus from a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-corpora.html#deleteCorpus).
+        model](/docs/services/speech-to-text/language-corpora.html#deleteCorpus).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1249,7 +1349,7 @@ class SpeechToTextV1(WatsonService):
         status of the corpus. You must use credentials for the instance of the service
         that owns a model to list its corpora.
         **See also:** [Listing corpora for a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-corpora.html#listCorpora).
+        model](/docs/services/speech-to-text/language-corpora.html#listCorpora).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1284,7 +1384,7 @@ class SpeechToTextV1(WatsonService):
         status of each corpus. You must use credentials for the instance of the service
         that owns a model to list its corpora.
         **See also:** [Listing corpora for a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-corpora.html#listCorpora).
+        model](/docs/services/speech-to-text/language-corpora.html#listCorpora).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1351,22 +1451,23 @@ class SpeechToTextV1(WatsonService):
         the **List a custom word** method to review the word that you add.
         **See also:**
         * [Working with custom
-        words](https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#workingWords)
+        words](/docs/services/speech-to-text/language-resource.html#workingWords)
         * [Add words to the custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-create.html#addWords).
+        model](/docs/services/speech-to-text/language-create.html#addWords).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
         credentials created for the instance of the service that owns the custom model.
-        :param str word_name: The custom word for the custom language model. When you add
-        or update a custom word with the **Add a custom word** method, do not include
-        spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
-        compound words.
+        :param str word_name: The custom word that is to be added to or updated in the
+        custom language model. Do not include spaces in the word. Use a `-` (dash) or `_`
+        (underscore) to connect the tokens of compound words. URL-encode the word if it
+        includes non-ASCII characters. For more information, see [Character
+        encoding](/docs/services/speech-to-text/language-resource.html#charEncoding).
         :param str word: For the **Add custom words** method, you must specify the custom
         word that is to be added to or updated in the custom model. Do not include spaces
         in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
         compound words.
-        Omit this field for the **Add a custom word** method.
+        Omit this parameter for the **Add a custom word** method.
         :param list[str] sounds_like: An array of sounds-like pronunciations for the
         custom word. Specify how words that are difficult to pronounce, foreign words,
         acronyms, and so on can be pronounced by users.
@@ -1457,9 +1558,9 @@ class SpeechToTextV1(WatsonService):
         to correct errors, eliminate typos, and modify how words are pronounced as needed.
         **See also:**
         * [Working with custom
-        words](https://console.bluemix.net/docs/services/speech-to-text/language-resource.html#workingWords)
+        words](/docs/services/speech-to-text/language-resource.html#workingWords)
         * [Add words to the custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-create.html#addWords).
+        model](/docs/services/speech-to-text/language-create.html#addWords).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1505,15 +1606,15 @@ class SpeechToTextV1(WatsonService):
         **Train a custom language model** method. You must use credentials for the
         instance of the service that owns a model to delete its words.
         **See also:** [Deleting a word from a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-words.html#deleteWord).
+        model](/docs/services/speech-to-text/language-words.html#deleteWord).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
         credentials created for the instance of the service that owns the custom model.
-        :param str word_name: The custom word for the custom language model. When you add
-        or update a custom word with the **Add a custom word** method, do not include
-        spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
-        compound words.
+        :param str word_name: The custom word that is to be deleted from the custom
+        language model. URL-encode the word if it includes non-ASCII characters. For more
+        information, see [Character
+        encoding](/docs/services/speech-to-text/language-resource.html#charEncoding).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1542,15 +1643,15 @@ class SpeechToTextV1(WatsonService):
         credentials for the instance of the service that owns a model to query information
         about its words.
         **See also:** [Listing words from a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-words.html#listWords).
+        model](/docs/services/speech-to-text/language-words.html#listWords).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
         credentials created for the instance of the service that owns the custom model.
-        :param str word_name: The custom word for the custom language model. When you add
-        or update a custom word with the **Add a custom word** method, do not include
-        spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
-        compound words.
+        :param str word_name: The custom word that is to be read from the custom language
+        model. URL-encode the word if it includes non-ASCII characters. For more
+        information, see [Character
+        encoding](/docs/services/speech-to-text/language-resource.html#charEncoding).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1583,7 +1684,7 @@ class SpeechToTextV1(WatsonService):
         must use credentials for the instance of the service that owns a model to query
         information about its words.
         **See also:** [Listing words from a custom language
-        model](https://console.bluemix.net/docs/services/speech-to-text/language-words.html#listWords).
+        model](/docs/services/speech-to-text/language-words.html#listWords).
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with service
@@ -1642,7 +1743,7 @@ class SpeechToTextV1(WatsonService):
         model is owned by the instance of the service whose credentials are used to create
         it.
         **See also:** [Create a custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/acoustic-create.html#createModel).
+        model](/docs/services/speech-to-text/acoustic-create.html#createModel).
 
         :param str name: A user-defined name for the new custom acoustic model. Use a name
         that is unique among all custom acoustic models that you own. Use a localized name
@@ -1651,9 +1752,10 @@ class SpeechToTextV1(WatsonService):
         car custom model`.
         :param str base_model_name: The name of the base language model that is to be
         customized by the new custom acoustic model. The new custom model can be used only
-        with the base model that it customizes. To determine whether a base model supports
-        acoustic model customization, refer to [Language support for
-        customization](https://console.bluemix.net/docs/services/speech-to-text/custom.html#languageSupport).
+        with the base model that it customizes.
+        To determine whether a base model supports acoustic model customization, refer to
+        [Language support for
+        customization](/docs/services/speech-to-text/custom.html#languageSupport).
         :param str description: A description of the new custom acoustic model. Use a
         localized description that matches the language of the custom model.
         :param dict headers: A `dict` containing the request headers
@@ -1694,7 +1796,7 @@ class SpeechToTextV1(WatsonService):
         processed. You must use credentials for the instance of the service that owns a
         model to delete it.
         **See also:** [Deleting a custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/acoustic-models.html#deleteModel).
+        model](/docs/services/speech-to-text/acoustic-models.html#deleteModel).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with service
@@ -1724,7 +1826,7 @@ class SpeechToTextV1(WatsonService):
         Gets information about a specified custom acoustic model. You must use credentials
         for the instance of the service that owns a model to list information about it.
         **See also:** [Listing custom acoustic
-        models](https://console.bluemix.net/docs/services/speech-to-text/acoustic-models.html#listModels).
+        models](/docs/services/speech-to-text/acoustic-models.html#listModels).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with service
@@ -1757,7 +1859,7 @@ class SpeechToTextV1(WatsonService):
         all languages. You must use credentials for the instance of the service that owns
         a model to list information about it.
         **See also:** [Listing custom acoustic
-        models](https://console.bluemix.net/docs/services/speech-to-text/acoustic-models.html#listModels).
+        models](/docs/services/speech-to-text/acoustic-models.html#listModels).
 
         :param str language: The identifier of the language for which custom language or
         custom acoustic models are to be returned (for example, `en-US`). Omit the
@@ -1793,7 +1895,7 @@ class SpeechToTextV1(WatsonService):
         but the model's audio resources are removed and must be re-created. You must use
         credentials for the instance of the service that owns a model to reset it.
         **See also:** [Resetting a custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/acoustic-models.html#resetModel).
+        model](/docs/services/speech-to-text/acoustic-models.html#resetModel).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with service
@@ -1855,7 +1957,7 @@ class SpeechToTextV1(WatsonService):
         data.
         * One or more of the custom model's audio resources is invalid.
         **See also:** [Train the custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/acoustic-create.html#trainModel).
+        model](/docs/services/speech-to-text/acoustic-create.html#trainModel).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with service
@@ -1917,7 +2019,7 @@ class SpeechToTextV1(WatsonService):
         the custom acoustic model can be upgraded. Omit the parameter if the custom
         acoustic model was not trained with a custom language model.
         **See also:** [Upgrading a custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/custom-upgrade.html#upgradeAcoustic).
+        model](/docs/services/speech-to-text/custom-upgrade.html#upgradeAcoustic).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with service
@@ -1958,7 +2060,7 @@ class SpeechToTextV1(WatsonService):
                   customization_id,
                   audio_name,
                   audio_resource,
-                  content_type,
+                  content_type=None,
                   contained_content_type=None,
                   allow_overwrite=None,
                   **kwargs):
@@ -1997,7 +2099,7 @@ class SpeechToTextV1(WatsonService):
         returns the status of the resource. Use a loop to check the status of the audio
         every few seconds until it becomes `ok`.
         **See also:** [Add audio to the custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/acoustic-create.html#addAudio).
+        model](/docs/services/speech-to-text/acoustic-create.html#addAudio).
         ### Content types for audio-type resources
          You can add an individual audio file in any format that the service supports for
         speech recognition. For an audio-type resource, use the `Content-Type` parameter
@@ -2017,8 +2119,7 @@ class SpeechToTextV1(WatsonService):
         * `audio/webm` (The service automatically detects the codec of the input audio.)
         * `audio/webm;codecs=opus`
         * `audio/webm;codecs=vorbis`
-        **See also:** [Audio
-        formats](https://console.bluemix.net/docs/services/speech-to-text/audio-formats.html).
+        **See also:** [Audio formats](/docs/services/speech-to-text/audio-formats.html).
         **Note:** The sampling rate of an audio file must match the sampling rate of the
         base model for the custom model: for broadband models, at least 16 kHz; for
         narrowband models, at least 8 kHz. If the sampling rate of the audio is higher
@@ -2059,18 +2160,22 @@ class SpeechToTextV1(WatsonService):
         custom model.
         :param file audio_resource: The audio resource that is to be added to the custom
         acoustic model, an individual audio file or an archive file.
-        :param str content_type: The type of the input.
+        :param str content_type: For an audio-type resource, the format (MIME type) of the
+        audio. For more information, see **Content types for audio-type resources** in the
+        method description.
+        For an archive-type resource, the media type of the archive file. For more
+        information, see **Content types for archive-type resources** in the method
+        description.
         :param str contained_content_type: For an archive-type resource, specifies the
-        format of the audio files contained in the archive file. The parameter accepts all
-        of the audio formats supported for use with speech recognition, including the
-        `rate`, `channels`, and `endianness` parameters that are used with some formats.
-        For a complete list of supported audio formats, see [Audio
-        formats](/docs/services/speech-to-text/input.html#formats).
-        :param bool allow_overwrite: If `true`, the specified corpus or audio resource
-        overwrites an existing corpus or audio resource with the same name. If `false`,
-        the request fails if a corpus or audio resource with the same name already exists.
-        The parameter has no effect if a corpus or audio resource with the same name does
-        not already exist.
+        format of the audio files that are contained in the archive file. The parameter
+        accepts all of the audio formats that are supported for use with speech
+        recognition, including the `rate`, `channels`, and `endianness` parameters that
+        are used with some formats. For more information, see **Content types for
+        audio-type resources** in the method description.
+        :param bool allow_overwrite: If `true`, the specified audio resource overwrites an
+        existing audio resource with the same name. If `false`, the request fails if an
+        audio resource with the same name already exists. The parameter has no effect if
+        an audio resource with the same name does not already exist.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2082,8 +2187,6 @@ class SpeechToTextV1(WatsonService):
             raise ValueError('audio_name must be provided')
         if audio_resource is None:
             raise ValueError('audio_resource must be provided')
-        if content_type is None:
-            raise ValueError('content_type must be provided')
 
         headers = {
             'Content-Type': content_type,
@@ -2119,7 +2222,7 @@ class SpeechToTextV1(WatsonService):
         You must use credentials for the instance of the service that owns a model to
         delete its audio resources.
         **See also:** [Deleting an audio resource from a custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/acoustic-audio.html#deleteAudio).
+        model](/docs/services/speech-to-text/acoustic-audio.html#deleteAudio).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with service
@@ -2169,7 +2272,7 @@ class SpeechToTextV1(WatsonService):
         You must use credentials for the instance of the service that owns a model to list
         its audio resources.
         **See also:** [Listing audio resources for a custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/acoustic-audio.html#listAudio).
+        model](/docs/services/speech-to-text/acoustic-audio.html#listAudio).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with service
@@ -2207,7 +2310,7 @@ class SpeechToTextV1(WatsonService):
         to a request to add it to the custom acoustic model. You must use credentials for
         the instance of the service that owns a model to list its audio resources.
         **See also:** [Listing audio resources for a custom acoustic
-        model](https://console.bluemix.net/docs/services/speech-to-text/acoustic-audio.html#listAudio).
+        model](/docs/services/speech-to-text/acoustic-audio.html#listAudio).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with service
@@ -2246,7 +2349,7 @@ class SpeechToTextV1(WatsonService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes the data.
         **See also:** [Information
-        security](https://console.bluemix.net/docs/services/speech-to-text/information-security.html).
+        security](/docs/services/speech-to-text/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
@@ -3093,7 +3196,7 @@ class CustomWord(object):
     custom word that is to be added to or updated in the custom model. Do not include
     spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
     compound words.
-    Omit this field for the **Add a custom word** method.
+    Omit this parameter for the **Add a custom word** method.
     :attr list[str] sounds_like: (optional) An array of sounds-like pronunciations for the
     custom word. Specify how words that are difficult to pronounce, foreign words,
     acronyms, and so on can be pronounced by users.
@@ -3118,7 +3221,7 @@ class CustomWord(object):
         the custom word that is to be added to or updated in the custom model. Do not
         include spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the
         tokens of compound words.
-        Omit this field for the **Add a custom word** method.
+        Omit this parameter for the **Add a custom word** method.
         :param list[str] sounds_like: (optional) An array of sounds-like pronunciations
         for the custom word. Specify how words that are difficult to pronounce, foreign
         words, acronyms, and so on can be pronounced by users.
@@ -3934,8 +4037,8 @@ class SpeechModel(object):
     model in Hertz.
     :attr str url: The URI for the model.
     :attr SupportedFeatures supported_features: Describes the additional service features
-    supported with the model.
-    :attr str description: Brief description of the model.
+    that are supported with the model.
+    :attr str description: A brief description of the model.
     """
 
     def __init__(self, name, language, rate, url, supported_features,
@@ -3950,8 +4053,8 @@ class SpeechModel(object):
         model in Hertz.
         :param str url: The URI for the model.
         :param SupportedFeatures supported_features: Describes the additional service
-        features supported with the model.
-        :param str description: Brief description of the model.
+        features that are supported with the model.
+        :param str description: A brief description of the model.
         """
         self.name = name
         self.language = language
@@ -4194,8 +4297,10 @@ class SpeechRecognitionResult(object):
     word confidence or timestamps.
     :attr dict keywords_result: (optional) A dictionary (or associative array) whose keys
     are the strings specified for `keywords` if both that parameter and
-    `keywords_threshold` are specified. A keyword for which no matches are found is
-    omitted from the array. The array is omitted if no matches are found for any keywords.
+    `keywords_threshold` are specified. The value for each key is an array of matches
+    spotted in the audio for that keyword. Each match is described by a `KeywordResult`
+    object. A keyword for which no matches are found is omitted from the dictionary. The
+    dictionary is omitted entirely if no matches are found for any keywords.
     :attr list[WordAlternativeResults] word_alternatives: (optional) An array of
     alternative hypotheses found for words of the input audio if a
     `word_alternatives_threshold` is specified.
@@ -4218,8 +4323,10 @@ class SpeechRecognitionResult(object):
         as word confidence or timestamps.
         :param dict keywords_result: (optional) A dictionary (or associative array) whose
         keys are the strings specified for `keywords` if both that parameter and
-        `keywords_threshold` are specified. A keyword for which no matches are found is
-        omitted from the array. The array is omitted if no matches are found for any
+        `keywords_threshold` are specified. The value for each key is an array of matches
+        spotted in the audio for that keyword. Each match is described by a
+        `KeywordResult` object. A keyword for which no matches are found is omitted from
+        the dictionary. The dictionary is omitted entirely if no matches are found for any
         keywords.
         :param list[WordAlternativeResults] word_alternatives: (optional) An array of
         alternative hypotheses found for words of the input audio if a
@@ -4315,7 +4422,8 @@ class SpeechRecognitionResults(object):
     request:
     * Warnings for invalid parameters or fields can include a descriptive message and a
     list of invalid argument strings, for example, `"Unknown arguments:"` or `"Unknown url
-    query arguments:"` followed by a list of the form `"invalid_arg_1, invalid_arg_2."`
+    query arguments:"` followed by a list of the form `"{invalid_arg_1},
+    {invalid_arg_2}."`
     * The following warning is returned if the request passes a custom model that is based
     on an older version of a base model for which an updated version is available: `"Using
     previous version of base model, because your custom model has been built with it.
@@ -4353,8 +4461,8 @@ class SpeechRecognitionResults(object):
         the request:
         * Warnings for invalid parameters or fields can include a descriptive message and
         a list of invalid argument strings, for example, `"Unknown arguments:"` or
-        `"Unknown url query arguments:"` followed by a list of the form `"invalid_arg_1,
-        invalid_arg_2."`
+        `"Unknown url query arguments:"` followed by a list of the form `"{invalid_arg_1},
+        {invalid_arg_2}."`
         * The following warning is returned if the request passes a custom model that is
         based on an older version of a base model for which an updated version is
         available: `"Using previous version of base model, because your custom model has
@@ -4421,7 +4529,7 @@ class SpeechRecognitionResults(object):
 
 class SupportedFeatures(object):
     """
-    SupportedFeatures.
+    Describes the additional service features that are supported with the model.
 
     :attr bool custom_language_model: Indicates whether the customization interface can be
     used to create a custom language model based on the language model.

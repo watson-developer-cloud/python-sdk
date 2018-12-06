@@ -25,6 +25,7 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import datetime_to_string, string_to_datetime
+from os.path import basename
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -344,8 +345,7 @@ class DiscoveryV1(WatsonService):
         :param str environment_id: The ID of the environment.
         :param str name: The name of the configuration.
         :param str description: The description of the configuration, if available.
-        :param Conversions conversions: The document conversion settings for the
-        configuration.
+        :param Conversions conversions: Document conversion settings.
         :param list[Enrichment] enrichments: An array of document enrichment settings for
         the configuration.
         :param list[NormalizationOperation] normalizations: Defines operations that can be
@@ -531,8 +531,7 @@ class DiscoveryV1(WatsonService):
         :param str configuration_id: The ID of the configuration.
         :param str name: The name of the configuration.
         :param str description: The description of the configuration, if available.
-        :param Conversions conversions: The document conversion settings for the
-        configuration.
+        :param Conversions conversions: Document conversion settings.
         :param list[Enrichment] enrichments: An array of document enrichment settings for
         the configuration.
         :param list[NormalizationOperation] normalizations: Defines operations that can be
@@ -660,7 +659,7 @@ class DiscoveryV1(WatsonService):
             form_data['configuration'] = (None, configuration, 'text/plain')
         if file:
             if not filename and hasattr(file, 'name'):
-                filename = file.name
+                filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
             form_data['file'] = (filename, file, file_content_type or
@@ -1229,7 +1228,7 @@ class DiscoveryV1(WatsonService):
         form_data = {}
         if file:
             if not filename and hasattr(file, 'name'):
-                filename = file.name
+                filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
             form_data['file'] = (filename, file, file_content_type or
@@ -1379,7 +1378,7 @@ class DiscoveryV1(WatsonService):
         form_data = {}
         if file:
             if not filename and hasattr(file, 'name'):
-                filename = file.name
+                filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
             form_data['file'] = (filename, file, file_content_type or
@@ -1401,6 +1400,155 @@ class DiscoveryV1(WatsonService):
     #########################
     # Queries
     #########################
+
+    def federated_query(self,
+                        environment_id,
+                        collection_ids,
+                        filter=None,
+                        query=None,
+                        natural_language_query=None,
+                        aggregation=None,
+                        count=None,
+                        return_fields=None,
+                        offset=None,
+                        sort=None,
+                        highlight=None,
+                        deduplicate=None,
+                        deduplicate_field=None,
+                        similar=None,
+                        similar_document_ids=None,
+                        similar_fields=None,
+                        passages=None,
+                        passages_fields=None,
+                        passages_count=None,
+                        passages_characters=None,
+                        bias=None,
+                        logging_opt_out=None,
+                        **kwargs):
+        """
+        Long environment queries.
+
+        Complex queries might be too long for a standard method query. By using this
+        method, you can construct longer queries. However, these queries may take longer
+        to complete than the standard method. For details, see the [Discovery service
+        documentation](https://console.bluemix.net/docs/services/discovery/using.html).
+
+        :param str environment_id: The ID of the environment.
+        :param list[str] collection_ids: A comma-separated list of collection IDs to be
+        queried against.
+        :param str filter: A cacheable query that limits the documents returned to exclude
+        any documents that don't mention the query content. Filter searches are better for
+        metadata type searches and when you are trying to get a sense of concepts in the
+        data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first. Use
+        a query search when you want to find the most relevant search results. You cannot
+        use **natural_language_query** and **query** at the same time.
+        :param str natural_language_query: A natural language query that returns relevant
+        documents by utilizing training data and natural language understanding. You
+        cannot use **natural_language_query** and **query** at the same time.
+        :param str aggregation: An aggregation search uses combinations of filters and
+        query search to return an exact answer. Aggregations are useful for building
+        applications, because you can use them to build lists, tables, and time series.
+        For a full list of possible aggregrations, see the Query reference.
+        :param int count: Number of results to return.
+        :param list[str] return_fields: A comma separated list of the portion of the
+        document hierarchy to return.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10, and the offset is
+        8, it returns the last two results.
+        :param list[str] sort: A comma separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
+        :param bool highlight: When true a highlight field is returned for each result
+        which contains the fields that match the query with `<em></em>` tags around the
+        matching query terms. Defaults to false.
+        :param bool deduplicate: When `true` and used with a Watson Discovery News
+        collection, duplicate results (based on the contents of the **title** field) are
+        removed. Duplicate comparison is limited to the current query only; **offset** is
+        not considered. This parameter is currently Beta functionality.
+        :param str deduplicate_field: When specified, duplicate results based on the field
+        specified are removed from the returned results. Duplicate comparison is limited
+        to the current query only, **offset** is not considered. This parameter is
+        currently Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity
+        to the document IDs specified in the **similar.document_ids** parameter.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that
+        will be used to find similar documents.
+        **Note:** If the **natural_language_query** parameter is also specified, it will
+        be used to expand the scope of the document similarity search to include the
+        natural language query. Other query parameters, such as **filter** and **query**
+        are subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will
+        be used as a basis for comparison to identify similar documents. If not specified,
+        the entire document is used for comparison.
+        :param bool passages: A passages query that returns the most relevant passages
+        from the results.
+        :param list[str] passages_fields: A comma-separated list of fields that passages
+        are drawn from. If this parameter not specified, then all top-level fields are
+        included.
+        :param int passages_count: The maximum number of passages to return. The search
+        returns fewer passages if the requested total is not found. The default is `10`.
+        The maximum is `100`.
+        :param int passages_characters: The approximate number of characters that any one
+        passage will have. The default is `400`. The minimum is `50`. The maximum is
+        `2000`.
+        :param str bias: Field which the returned results will be biased against. The
+        specified field must be either a **date** or **number** format. When a **date**
+        type field is specified returned results are biased towards field values closer to
+        the current date. When a **number** type field is specified, returned results are
+        biased towards higher field values. This parameter cannot be used in the same
+        query as the **sort** parameter.
+        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
+        **Logs** endpoint.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+
+        headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        data = {
+            'collection_ids': self._convert_list(collection_ids),
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'aggregation': aggregation,
+            'count': count,
+            'return': self._convert_list(return_fields),
+            'offset': offset,
+            'sort': self._convert_list(sort),
+            'highlight': highlight,
+            'deduplicate': deduplicate,
+            'deduplicate.field': deduplicate_field,
+            'similar': similar,
+            'similar.document_ids': self._convert_list(similar_document_ids),
+            'similar.fields': self._convert_list(similar_fields),
+            'passages': passages,
+            'passages.fields': self._convert_list(passages_fields),
+            'passages.count': passages_count,
+            'passages.characters': passages_characters,
+            'bias': bias
+        }
+
+        url = '/v1/environments/{0}/query'.format(
+            *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
 
     def federated_query_notices(self,
                                 environment_id,
@@ -1533,12 +1681,12 @@ class DiscoveryV1(WatsonService):
               passages_characters=None,
               deduplicate=None,
               deduplicate_field=None,
-              collection_ids=None,
               similar=None,
               similar_document_ids=None,
               similar_fields=None,
-              bias=None,
               logging_opt_out=None,
+              collection_ids=None,
+              bias=None,
               **kwargs):
         """
         Long collection queries.
@@ -1550,9 +1698,10 @@ class DiscoveryV1(WatsonService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
+        :param str filter: A cacheable query that limits the documents returned to exclude
+        any documents that don't mention the query content. Filter searches are better for
+        metadata type searches and when you are trying to get a sense of concepts in the
+        data set.
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
         a query search when you want to find the most relevant search results. You cannot
@@ -1562,32 +1711,32 @@ class DiscoveryV1(WatsonService):
         cannot use **natural_language_query** and **query** at the same time.
         :param bool passages: A passages query that returns the most relevant passages
         from the results.
-        :param str aggregation: An aggregation search that returns an exact answer by
-        combining query search with filters. Useful for applications to build lists,
-        tables, and time series. For a full list of possible aggregations, see the Query
-        reference.
+        :param str aggregation: An aggregation search uses combinations of filters and
+        query search to return an exact answer. Aggregations are useful for building
+        applications, because you can use them to build lists, tables, and time series.
+        For a full list of possible aggregrations, see the Query reference.
         :param int count: Number of results to return.
-        :param str return_fields: A comma-separated list of the portion of the document
-        hierarchy to return.
+        :param list[str] return_fields: A comma separated list of the portion of the
+        document hierarchy to return.
         :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
+        example, if the total number of results that are returned is 10, and the offset is
         8, it returns the last two results.
-        :param str sort: A comma-separated list of fields in the document to sort on. You
-        can optionally specify a sort direction by prefixing the field with `-` for
-        descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified. This parameter cannot be used in the same query as the
-        **bias** parameter.
-        :param bool highlight: When true, a highlight field is returned for each result
-        which contains the fields which match the query with `<em></em>` tags around the
-        matching query terms.
-        :param str passages_fields: A comma-separated list of fields that passages are
-        drawn from. If this parameter not specified, then all top-level fields are
+        :param list[str] sort: A comma separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
+        :param bool highlight: When true a highlight field is returned for each result
+        which contains the fields that match the query with `<em></em>` tags around the
+        matching query terms. Defaults to false.
+        :param list[str] passages_fields: A comma-separated list of fields that passages
+        are drawn from. If this parameter not specified, then all top-level fields are
         included.
         :param int passages_count: The maximum number of passages to return. The search
         returns fewer passages if the requested total is not found. The default is `10`.
         The maximum is `100`.
         :param int passages_characters: The approximate number of characters that any one
-        passage will have.
+        passage will have. The default is `400`. The minimum is `50`. The maximum is
+        `2000`.
         :param bool deduplicate: When `true` and used with a Watson Discovery News
         collection, duplicate results (based on the contents of the **title** field) are
         removed. Duplicate comparison is limited to the current query only; **offset** is
@@ -1596,28 +1745,28 @@ class DiscoveryV1(WatsonService):
         specified are removed from the returned results. Duplicate comparison is limited
         to the current query only, **offset** is not considered. This parameter is
         currently Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity
+        to the document IDs specified in the **similar.document_ids** parameter.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs that
+        will be used to find similar documents.
+        **Note:** If the **natural_language_query** parameter is also specified, it will
+        be used to expand the scope of the document similarity search to include the
+        natural language query. Other query parameters, such as **filter** and **query**
+        are subsequently applied and reduce the query scope.
+        :param list[str] similar_fields: A comma-separated list of field names that will
+        be used as a basis for comparison to identify similar documents. If not specified,
+        the entire document is used for comparison.
+        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
+        **Logs** endpoint.
         :param str collection_ids: A comma-separated list of collection IDs to be queried
         against. Required when querying multiple collections, invalid when performing a
         single collection query.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param str similar_document_ids: A comma-separated list of document IDs to find
-        similar documents.
-        **Tip:** Include the **natural_language_query** parameter to expand the scope of
-        the document similarity search with the natural language query. Other query
-        parameters, such as **filter** and **query**, are subsequently applied and reduce
-        the scope.
-        :param str similar_fields: A comma-separated list of field names that are used as
-        a basis for comparison to identify similar documents. If not specified, the entire
-        document is used for comparison.
         :param str bias: Field which the returned results will be biased against. The
         specified field must be either a **date** or **number** format. When a **date**
         type field is specified returned results are biased towards field values closer to
         the current date. When a **number** type field is specified, returned results are
         biased towards higher field values. This parameter cannot be used in the same
         query as the **sort** parameter.
-        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
-        **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1635,25 +1784,26 @@ class DiscoveryV1(WatsonService):
         params = {'version': self.version}
 
         data = {
+            'version': self.version,
             'filter': filter,
             'query': query,
             'natural_language_query': natural_language_query,
             'passages': passages,
             'aggregation': aggregation,
             'count': count,
-            'return': return_fields,
+            'return': self._convert_list(return_fields),
             'offset': offset,
-            'sort': sort,
+            'sort': self._convert_list(sort),
             'highlight': highlight,
-            'passages.fields': passages_fields,
+            'passages.fields': self._convert_list(passages_fields),
             'passages.count': passages_count,
             'passages.characters': passages_characters,
             'deduplicate': deduplicate,
             'deduplicate.field': deduplicate_field,
-            'collection_ids': collection_ids,
             'similar': similar,
-            'similar.document_ids': similar_document_ids,
-            'similar.fields': similar_fields,
+            'similar.document_ids': self._convert_list(similar_document_ids),
+            'similar.fields': self._convert_list(similar_fields),
+            'collection_ids': collection_ids,
             'bias': bias
         }
 
@@ -2429,7 +2579,7 @@ class DiscoveryV1(WatsonService):
         were \"clicked\" by a user and when that click occured.
 
         :param str type: The event type to be created.
-        :param EventData data: Data object used to create a query event.
+        :param EventData data: Query event data object.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3028,9 +3178,8 @@ class Collection(object):
     :attr DocumentCounts document_counts: (optional) The object providing information
     about the documents in the collection. Present only when retrieving details of a
     collection.
-    :attr CollectionDiskUsage disk_usage: (optional) The object providing information
-    about the disk usage of the collection. Present only when retrieving details of a
-    collection.
+    :attr CollectionDiskUsage disk_usage: (optional) Summary of the disk usage statistics
+    for this collection.
     :attr TrainingStatus training_status: (optional) Provides information about the status
     of relevance training for collection.
     :attr SourceStatus source_crawl: (optional) Object containing source crawl status
@@ -3069,9 +3218,8 @@ class Collection(object):
         :param DocumentCounts document_counts: (optional) The object providing information
         about the documents in the collection. Present only when retrieving details of a
         collection.
-        :param CollectionDiskUsage disk_usage: (optional) The object providing information
-        about the disk usage of the collection. Present only when retrieving details of a
-        collection.
+        :param CollectionDiskUsage disk_usage: (optional) Summary of the disk usage
+        statistics for this collection.
         :param TrainingStatus training_status: (optional) Provides information about the
         status of relevance training for collection.
         :param SourceStatus source_crawl: (optional) Object containing source crawl status
@@ -3282,8 +3430,7 @@ class Configuration(object):
     :attr datetime updated: (optional) The timestamp of when the configuration was last
     updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str description: (optional) The description of the configuration, if available.
-    :attr Conversions conversions: (optional) The document conversion settings for the
-    configuration.
+    :attr Conversions conversions: (optional) Document conversion settings.
     :attr list[Enrichment] enrichments: (optional) An array of document enrichment
     settings for the configuration.
     :attr list[NormalizationOperation] normalizations: (optional) Defines operations that
@@ -3315,8 +3462,7 @@ class Configuration(object):
         last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str description: (optional) The description of the configuration, if
         available.
-        :param Conversions conversions: (optional) The document conversion settings for
-        the configuration.
+        :param Conversions conversions: (optional) Document conversion settings.
         :param list[Enrichment] enrichments: (optional) An array of document enrichment
         settings for the configuration.
         :param list[NormalizationOperation] normalizations: (optional) Defines operations
@@ -4639,7 +4785,7 @@ class Enrichment(object):
     :attr bool ignore_downstream_errors: (optional) If true, then most errors generated
     during the enrichment process will be treated as warnings and will not cause the
     document to fail processing.
-    :attr EnrichmentOptions options: (optional) A list of options specific to the
+    :attr EnrichmentOptions options: (optional) Options which are specific to a particular
     enrichment.
     """
 
@@ -4674,8 +4820,8 @@ class Enrichment(object):
         :param bool ignore_downstream_errors: (optional) If true, then most errors
         generated during the enrichment process will be treated as warnings and will not
         cause the document to fail processing.
-        :param EnrichmentOptions options: (optional) A list of options specific to the
-        enrichment.
+        :param EnrichmentOptions options: (optional) Options which are specific to a
+        particular enrichment.
         """
         self.description = description
         self.destination_field = destination_field
@@ -4851,8 +4997,8 @@ class Environment(object):
     *Note:* Querying and indexing can still be performed during an environment upsize.
     :attr IndexCapacity index_capacity: (optional) Details about the resource usage and
     capacity of the environment.
-    :attr SearchStatus search_status: (optional) Information about Continuous Relevancy
-    Training for this environment.
+    :attr SearchStatus search_status: (optional) Information about the Continuous
+    Relevancy Training for this environment.
     """
 
     def __init__(self,
@@ -4888,7 +5034,7 @@ class Environment(object):
         *Note:* Querying and indexing can still be performed during an environment upsize.
         :param IndexCapacity index_capacity: (optional) Details about the resource usage
         and capacity of the environment.
-        :param SearchStatus search_status: (optional) Information about Continuous
+        :param SearchStatus search_status: (optional) Information about the Continuous
         Relevancy Training for this environment.
         """
         self.environment_id = environment_id
@@ -5535,11 +5681,12 @@ class IndexCapacity(object):
 
     :attr EnvironmentDocuments documents: (optional) Summary of the document usage
     statistics for the environment.
-    :attr DiskUsage disk_usage: (optional) Summary of the disk usage of the environment.
+    :attr DiskUsage disk_usage: (optional) Summary of the disk usage statistics for the
+    environment.
     :attr CollectionUsage collections: (optional) Summary of the collection usage in the
     environment.
     :attr MemoryUsage memory_usage: (optional) **Deprecated**: Summary of the memory usage
-    of the environment.
+    statistics for this environment.
     """
 
     def __init__(self,
@@ -5552,12 +5699,12 @@ class IndexCapacity(object):
 
         :param EnvironmentDocuments documents: (optional) Summary of the document usage
         statistics for the environment.
-        :param DiskUsage disk_usage: (optional) Summary of the disk usage of the
-        environment.
+        :param DiskUsage disk_usage: (optional) Summary of the disk usage statistics for
+        the environment.
         :param CollectionUsage collections: (optional) Summary of the collection usage in
         the environment.
         :param MemoryUsage memory_usage: (optional) **Deprecated**: Summary of the memory
-        usage of the environment.
+        usage statistics for this environment.
         """
         self.documents = documents
         self.disk_usage = disk_usage
@@ -6988,8 +7135,8 @@ class NluEnrichmentFeatures(object):
     extraction enrichment and related parameters.
     :attr NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
     detection enrichment and related parameters.
-    :attr NluEnrichmentCategories categories: (optional) An object specifying the
-    categories enrichment and related parameters.
+    :attr NluEnrichmentCategories categories: (optional) An object that indicates the
+    Categories enrichment will be applied to the specified field.
     :attr NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying the
     semantic roles enrichment and related parameters.
     :attr NluEnrichmentRelations relations: (optional) An object specifying the relations
@@ -7018,8 +7165,8 @@ class NluEnrichmentFeatures(object):
         sentiment extraction enrichment and related parameters.
         :param NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
         detection enrichment and related parameters.
-        :param NluEnrichmentCategories categories: (optional) An object specifying the
-        categories enrichment and related parameters.
+        :param NluEnrichmentCategories categories: (optional) An object that indicates the
+        Categories enrichment will be applied to the specified field.
         :param NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying
         the semantic roles enrichment and related parameters.
         :param NluEnrichmentRelations relations: (optional) An object specifying the
@@ -8256,7 +8403,7 @@ class QueryNoticesResult(object):
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the
     document for this result.
-    :attr QueryResultMetadata result_metadata: (optional) Metadata of the query result.
+    :attr QueryResultMetadata result_metadata: (optional) Metadata of a query result.
     :attr int code: (optional) The internal status code returned by the ingestion
     subsystem indicating the overall result of ingesting the source document.
     :attr str filename: (optional) Name of the original source file (if available).
@@ -8287,8 +8434,7 @@ class QueryNoticesResult(object):
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
         containing the document for this result.
-        :param QueryResultMetadata result_metadata: (optional) Metadata of the query
-        result.
+        :param QueryResultMetadata result_metadata: (optional) Metadata of a query result.
         :param int code: (optional) The internal status code returned by the ingestion
         subsystem indicating the overall result of ingesting the source document.
         :param str filename: (optional) Name of the original source file (if available).
@@ -8822,6 +8968,8 @@ class QueryResponse(object):
     :attr str session_token: (optional) The session token for this query. The session
     token can be used to add events associated with this query to the query and event log.
     **Important:** Session tokens are case sensitive.
+    :attr RetrievalDetails retrieval_details: (optional) An object contain retrieval type
+    information.
     """
 
     def __init__(self,
@@ -8830,7 +8978,8 @@ class QueryResponse(object):
                  aggregations=None,
                  passages=None,
                  duplicates_removed=None,
-                 session_token=None):
+                 session_token=None,
+                 retrieval_details=None):
         """
         Initialize a QueryResponse object.
 
@@ -8843,6 +8992,8 @@ class QueryResponse(object):
         token can be used to add events associated with this query to the query and event
         log.
         **Important:** Session tokens are case sensitive.
+        :param RetrievalDetails retrieval_details: (optional) An object contain retrieval
+        type information.
         """
         self.matching_results = matching_results
         self.results = results
@@ -8850,6 +9001,7 @@ class QueryResponse(object):
         self.passages = passages
         self.duplicates_removed = duplicates_removed
         self.session_token = session_token
+        self.retrieval_details = retrieval_details
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -8874,6 +9026,9 @@ class QueryResponse(object):
             args['duplicates_removed'] = _dict.get('duplicates_removed')
         if 'session_token' in _dict:
             args['session_token'] = _dict.get('session_token')
+        if 'retrieval_details' in _dict:
+            args['retrieval_details'] = RetrievalDetails._from_dict(
+                _dict.get('retrieval_details'))
         return cls(**args)
 
     def _to_dict(self):
@@ -8894,6 +9049,9 @@ class QueryResponse(object):
             _dict['duplicates_removed'] = self.duplicates_removed
         if hasattr(self, 'session_token') and self.session_token is not None:
             _dict['session_token'] = self.session_token
+        if hasattr(self,
+                   'retrieval_details') and self.retrieval_details is not None:
+            _dict['retrieval_details'] = self.retrieval_details._to_dict()
         return _dict
 
     def __str__(self):
@@ -8921,7 +9079,7 @@ class QueryResult(object):
     :attr object metadata: (optional) Metadata of the document.
     :attr str collection_id: (optional) The collection ID of the collection containing the
     document for this result.
-    :attr QueryResultMetadata result_metadata: (optional) Metadata of the query result.
+    :attr QueryResultMetadata result_metadata: (optional) Metadata of a query result.
     """
 
     def __init__(self,
@@ -8940,8 +9098,7 @@ class QueryResult(object):
         :param object metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
         containing the document for this result.
-        :param QueryResultMetadata result_metadata: (optional) Metadata of the query
-        result.
+        :param QueryResultMetadata result_metadata: (optional) Metadata of a query result.
         :param **kwargs: (optional) Any additional properties.
         """
         self.id = id
@@ -9026,26 +9183,28 @@ class QueryResultMetadata(object):
     """
     Metadata of a query result.
 
-    :attr float score: (optional) An unbounded measure of the relevance of a particular
-    result, dependent on the query and matching document. A higher score indicates a
-    greater match to the query parameters.
-    :attr float confidence: (optional) The confidence score for the given result.
-    Calculated based on how relevant the result is estimated to be, compared to a trained
-    relevancy model. confidence can range from `0.0` to `1.0`. The higher the number, the
-    more relevant the document.
+    :attr float score: An unbounded measure of the relevance of a particular result,
+    dependent on the query and matching document. A higher score indicates a greater match
+    to the query parameters.
+    :attr float confidence: The confidence score for the given result. Calculated based on
+    how relevant the result is estimated to be. confidence can range from `0.0` to `1.0`.
+    The higher the number, the more relevant the document. The `confidence` value for a
+    result was calculated using the model specified in the `document_retrieval_strategy`
+    field of the result set.
     """
 
-    def __init__(self, score=None, confidence=None):
+    def __init__(self, score, confidence):
         """
         Initialize a QueryResultMetadata object.
 
-        :param float score: (optional) An unbounded measure of the relevance of a
-        particular result, dependent on the query and matching document. A higher score
-        indicates a greater match to the query parameters.
-        :param float confidence: (optional) The confidence score for the given result.
-        Calculated based on how relevant the result is estimated to be, compared to a
-        trained relevancy model. confidence can range from `0.0` to `1.0`. The higher the
-        number, the more relevant the document.
+        :param float score: An unbounded measure of the relevance of a particular result,
+        dependent on the query and matching document. A higher score indicates a greater
+        match to the query parameters.
+        :param float confidence: The confidence score for the given result. Calculated
+        based on how relevant the result is estimated to be. confidence can range from
+        `0.0` to `1.0`. The higher the number, the more relevant the document. The
+        `confidence` value for a result was calculated using the model specified in the
+        `document_retrieval_strategy` field of the result set.
         """
         self.score = score
         self.confidence = confidence
@@ -9056,8 +9215,16 @@ class QueryResultMetadata(object):
         args = {}
         if 'score' in _dict:
             args['score'] = _dict.get('score')
+        else:
+            raise ValueError(
+                'Required property \'score\' not present in QueryResultMetadata JSON'
+            )
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
+        else:
+            raise ValueError(
+                'Required property \'confidence\' not present in QueryResultMetadata JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -9071,6 +9238,70 @@ class QueryResultMetadata(object):
 
     def __str__(self):
         """Return a `str` version of this QueryResultMetadata object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RetrievalDetails(object):
+    """
+    An object contain retrieval type information.
+
+    :attr str document_retrieval_strategy: (optional) Indentifies the document retrieval
+    strategy used for this query. `relevancy_training` indicates that the results were
+    returned using a relevancy trained model. `continuous_relevancy_training` indicates
+    that the results were returned using the continuous relevancy training model created
+    by result feedback analysis. `untrained` means the results were returned using the
+    standard untrained model.
+     **Note**: In the event of trained collections being queried, but the trained model is
+    not used to return results, the **document_retrieval_strategy** will be listed as
+    `untrained`.
+    """
+
+    def __init__(self, document_retrieval_strategy=None):
+        """
+        Initialize a RetrievalDetails object.
+
+        :param str document_retrieval_strategy: (optional) Indentifies the document
+        retrieval strategy used for this query. `relevancy_training` indicates that the
+        results were returned using a relevancy trained model.
+        `continuous_relevancy_training` indicates that the results were returned using the
+        continuous relevancy training model created by result feedback analysis.
+        `untrained` means the results were returned using the standard untrained model.
+         **Note**: In the event of trained collections being queried, but the trained
+        model is not used to return results, the **document_retrieval_strategy** will be
+        listed as `untrained`.
+        """
+        self.document_retrieval_strategy = document_retrieval_strategy
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RetrievalDetails object from a json dictionary."""
+        args = {}
+        if 'document_retrieval_strategy' in _dict:
+            args['document_retrieval_strategy'] = _dict.get(
+                'document_retrieval_strategy')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'document_retrieval_strategy'
+                  ) and self.document_retrieval_strategy is not None:
+            _dict[
+                'document_retrieval_strategy'] = self.document_retrieval_strategy
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this RetrievalDetails object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

@@ -1359,7 +1359,7 @@ def test_get_workspace():
         content_type='application/json')
     service = watson_developer_cloud.AssistantV1(
         username='username', password='password', version='2017-02-03')
-    workspace = service.get_workspace(workspace_id='boguswid', export=False).get_result()
+    workspace = service.get_workspace(workspace_id='boguswid', export=True, sort='stable').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
