@@ -1,0 +1,301 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.speech_to_text_v1_adapter &#8212; Watson Developer Cloud Python SDK 2.5.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for watson_developer_cloud.speech_to_text_v1_adapter</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">watson_developer_cloud.websocket</span> <span class="k">import</span> <span class="n">RecognizeCallback</span><span class="p">,</span> <span class="n">RecognizeListener</span><span class="p">,</span> <span class="n">AudioSource</span>
+<span class="kn">from</span> <span class="nn">.speech_to_text_v1</span> <span class="k">import</span> <span class="n">SpeechToTextV1</span>
+<span class="kn">from</span> <span class="nn">.watson_service</span> <span class="k">import</span> <span class="n">_remove_null_values</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlencode</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib</span> <span class="k">import</span> <span class="n">urlencode</span>
+
+<span class="n">BEARER</span> <span class="o">=</span> <span class="s1">&#39;Bearer&#39;</span>
+
+<div class="viewcode-block" id="SpeechToTextV1Adapter"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1_adapter.html#watson_developer_cloud.speech_to_text_v1_adapter.SpeechToTextV1Adapter">[docs]</a><span class="k">class</span> <span class="nc">SpeechToTextV1Adapter</span><span class="p">(</span><span class="n">SpeechToTextV1</span><span class="p">):</span>
+<div class="viewcode-block" id="SpeechToTextV1Adapter.recognize_using_websocket"><a class="viewcode-back" href="../../apis/watson_developer_cloud.speech_to_text_v1_adapter.html#watson_developer_cloud.speech_to_text_v1_adapter.SpeechToTextV1Adapter.recognize_using_websocket">[docs]</a>    <span class="k">def</span> <span class="nf">recognize_using_websocket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">audio</span><span class="p">,</span>
+                                  <span class="n">content_type</span><span class="p">,</span>
+                                  <span class="n">recognize_callback</span><span class="p">,</span>
+                                  <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">language_customization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">acoustic_customization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">customization_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">base_model_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">inactivity_timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">interim_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">keywords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">keywords_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">max_alternatives</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">word_alternatives_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">word_confidence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">profanity_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">smart_formatting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">speaker_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">http_proxy_host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">http_proxy_port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">customization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends audio for speech recognition using web sockets.</span>
+
+<span class="sd">        :param AudioSource audio: The audio to transcribe in the format specified by the</span>
+<span class="sd">        `Content-Type` header.</span>
+<span class="sd">        :param str content_type: The type of the input: audio/basic, audio/flac,</span>
+<span class="sd">        audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus,</span>
+<span class="sd">        audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or</span>
+<span class="sd">        audio/webm;codecs=vorbis.</span>
+<span class="sd">        :param RecognizeCallback recognize_callback: The callback method for the websocket.</span>
+<span class="sd">        :param str model: The identifier of the model that is to be used for the</span>
+<span class="sd">        recognition request or, for the **Create a session** method, with the new session.</span>
+<span class="sd">        :param str language_customization_id: The customization ID (GUID) of a custom</span>
+<span class="sd">        language model that is to be used with the recognition request. The base model of</span>
+<span class="sd">        the specified custom language model must match the model specified with the</span>
+<span class="sd">        `model` parameter. You must make the request with service credentials created for</span>
+<span class="sd">        the instance of the service that owns the custom model. By default, no custom</span>
+<span class="sd">        language model is used. See [Custom</span>
+<span class="sd">        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).</span>
+<span class="sd">        **Note:** Use this parameter instead of the deprecated `customization_id`</span>
+<span class="sd">        parameter.</span>
+<span class="sd">        :param str acoustic_customization_id: The customization ID (GUID) of a custom</span>
+<span class="sd">        acoustic model that is to be used with the recognition request or, for the</span>
+<span class="sd">        **Create a session** method, with the new session. The base model of the specified</span>
+<span class="sd">        custom acoustic model must match the model specified with the `model` parameter.</span>
+<span class="sd">        You must make the request with service credentials created for the instance of the</span>
+<span class="sd">        service that owns the custom model. By default, no custom acoustic model is used.</span>
+<span class="sd">        :param float customization_weight: If you specify the customization ID (GUID) of a</span>
+<span class="sd">        custom language model with the recognition request or, for sessions, with the</span>
+<span class="sd">        **Create a session** method, the customization weight tells the service how much</span>
+<span class="sd">        weight to give to words from the custom language model compared to those from the</span>
+<span class="sd">        base model for the current request.</span>
+<span class="sd">        Specify a value between 0.0 and 1.0. Unless a different customization weight was</span>
+<span class="sd">        specified for the custom model when it was trained, the default value is 0.3. A</span>
+<span class="sd">        customization weight that you specify overrides a weight that was specified when</span>
+<span class="sd">        the custom model was trained.</span>
+<span class="sd">        The default value yields the best performance in general. Assign a higher value if</span>
+<span class="sd">        your audio makes frequent use of OOV words from the custom model. Use caution when</span>
+<span class="sd">        setting the weight: a higher value can improve the accuracy of phrases from the</span>
+<span class="sd">        custom model&#39;s domain, but it can negatively affect performance on non-domain</span>
+<span class="sd">        phrases.</span>
+<span class="sd">        :param str base_model_version: The version of the specified base model that is to</span>
+<span class="sd">        be used with recognition request or, for the **Create a session** method, with the</span>
+<span class="sd">        new session. Multiple versions of a base model can exist when a model is updated</span>
+<span class="sd">        for internal improvements. The parameter is intended primarily for use with custom</span>
+<span class="sd">        models that have been upgraded for a new base model. The default value depends on</span>
+<span class="sd">        whether the parameter is used with or without a custom model. For more</span>
+<span class="sd">        information, see [Base model</span>
+<span class="sd">        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).</span>
+<span class="sd">        :param int inactivity_timeout: The time in seconds after which, if only silence</span>
+<span class="sd">        (no speech) is detected in submitted audio, the connection is closed with a 400</span>
+<span class="sd">        error. Useful for stopping audio submission from a live microphone when a user</span>
+<span class="sd">        simply walks away. Use `-1` for infinity.</span>
+<span class="sd">        :param list[str] keywords: An array of keyword strings to spot in the audio. Each</span>
+<span class="sd">        keyword string can include one or more tokens. Keywords are spotted only in the</span>
+<span class="sd">        final hypothesis, not in interim results. If you specify any keywords, you must</span>
+<span class="sd">        also specify a keywords threshold. You can spot a maximum of 1000 keywords. Omit</span>
+<span class="sd">        the parameter or specify an empty array if you do not need to spot keywords.</span>
+<span class="sd">        :param float keywords_threshold: A confidence value that is the lower bound for</span>
+<span class="sd">        spotting a keyword. A word is considered to match a keyword if its confidence is</span>
+<span class="sd">        greater than or equal to the threshold. Specify a probability between 0 and 1</span>
+<span class="sd">        inclusive. No keyword spotting is performed if you omit the parameter. If you</span>
+<span class="sd">        specify a threshold, you must also specify one or more keywords.</span>
+<span class="sd">        :param int max_alternatives: The maximum number of alternative transcripts to be</span>
+<span class="sd">        returned. By default, a single transcription is returned.</span>
+<span class="sd">        :param float word_alternatives_threshold: A confidence value that is the lower</span>
+<span class="sd">        bound for identifying a hypothesis as a possible word alternative (also known as</span>
+<span class="sd">        \&quot;Confusion Networks\&quot;). An alternative word is considered if its confidence is</span>
+<span class="sd">        greater than or equal to the threshold. Specify a probability between 0 and 1</span>
+<span class="sd">        inclusive. No alternative words are computed if you omit the parameter.</span>
+<span class="sd">        :param bool word_confidence: If `true`, a confidence measure in the range of 0 to</span>
+<span class="sd">        1 is returned for each word. By default, no word confidence measures are returned.</span>
+<span class="sd">        :param bool timestamps: If `true`, time alignment is returned for each word. By</span>
+<span class="sd">        default, no timestamps are returned.</span>
+<span class="sd">        :param bool profanity_filter: If `true` (the default), filters profanity from all</span>
+<span class="sd">        output except for keyword results by replacing inappropriate words with a series</span>
+<span class="sd">        of asterisks. Set the parameter to `false` to return results with no censoring.</span>
+<span class="sd">        Applies to US English transcription only.</span>
+<span class="sd">        :param bool smart_formatting: If `true`, converts dates, times, series of digits</span>
+<span class="sd">        and numbers, phone numbers, currency values, and internet addresses into more</span>
+<span class="sd">        readable, conventional representations in the final transcript of a recognition</span>
+<span class="sd">        request. For US English, also converts certain keyword strings to punctuation</span>
+<span class="sd">        symbols. By default, no smart formatting is performed. Applies to US English and</span>
+<span class="sd">        Spanish transcription only.</span>
+<span class="sd">        :param bool speaker_labels: If `true`, the response includes labels that identify</span>
+<span class="sd">        which words were spoken by which participants in a multi-person exchange. By</span>
+<span class="sd">        default, no speaker labels are returned. Setting `speaker_labels` to `true` forces</span>
+<span class="sd">        the `timestamps` parameter to be `true`, regardless of whether you specify `false`</span>
+<span class="sd">        for the parameter.</span>
+<span class="sd">        To determine whether a language model supports speaker labels, use the **Get</span>
+<span class="sd">        models** method and check that the attribute `speaker_labels` is set to `true`.</span>
+<span class="sd">        You can also refer to [Speaker</span>
+<span class="sd">        labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).</span>
+<span class="sd">        :param str http_proxy_host: http proxy host name.</span>
+<span class="sd">        :param str http_proxy_port: http proxy port. If not set, set to 80.</span>
+<span class="sd">        :param str customization_id: **Deprecated.** Use the `language_customization_id`</span>
+<span class="sd">        parameter to specify the customization ID (GUID) of a custom language model that</span>
+<span class="sd">        is to be used with the recognition request. Do not specify both parameters with a</span>
+<span class="sd">        request.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `dict` containing the `SpeechRecognitionResults` response.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">audio</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;audio must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="n">AudioSource</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s1">&#39;audio is not of type AudioSource. Import the class from watson_developer_cloud.websocket&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;content_type must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">recognize_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;recognize_callback must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recognize_callback</span><span class="p">,</span> <span class="n">RecognizeCallback</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s1">&#39;Callback is not a derived class of RecognizeCallback&#39;</span><span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_manager</span><span class="p">:</span>
+            <span class="n">access_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_manager</span><span class="o">.</span><span class="n">get_token</span><span class="p">()</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">BEARER</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">authstring</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">:</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+            <span class="n">base64_authorization</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">authstring</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Authorization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Basic </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">base64_authorization</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;https:&#39;</span><span class="p">,</span> <span class="s1">&#39;wss:&#39;</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+            <span class="s1">&#39;customization_id&#39;</span><span class="p">:</span> <span class="n">customization_id</span><span class="p">,</span>
+            <span class="s1">&#39;acoustic_customization_id&#39;</span><span class="p">:</span> <span class="n">acoustic_customization_id</span><span class="p">,</span>
+            <span class="s1">&#39;customization_weight&#39;</span><span class="p">:</span> <span class="n">customization_weight</span><span class="p">,</span>
+            <span class="s1">&#39;base_model_version&#39;</span><span class="p">:</span> <span class="n">base_model_version</span><span class="p">,</span>
+            <span class="s1">&#39;language_customization_id&#39;</span><span class="p">:</span> <span class="n">language_customization_id</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="s1">&#39;/v1/recognize?</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;content_type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">,</span>
+            <span class="s1">&#39;inactivity_timeout&#39;</span><span class="p">:</span> <span class="n">inactivity_timeout</span><span class="p">,</span>
+            <span class="s1">&#39;interim_results&#39;</span><span class="p">:</span> <span class="n">interim_results</span><span class="p">,</span>
+            <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="n">keywords</span><span class="p">,</span>
+            <span class="s1">&#39;keywords_threshold&#39;</span><span class="p">:</span> <span class="n">keywords_threshold</span><span class="p">,</span>
+            <span class="s1">&#39;max_alternatives&#39;</span><span class="p">:</span> <span class="n">max_alternatives</span><span class="p">,</span>
+            <span class="s1">&#39;word_alternatives_threshold&#39;</span><span class="p">:</span> <span class="n">word_alternatives_threshold</span><span class="p">,</span>
+            <span class="s1">&#39;word_confidence&#39;</span><span class="p">:</span> <span class="n">word_confidence</span><span class="p">,</span>
+            <span class="s1">&#39;timestamps&#39;</span><span class="p">:</span> <span class="n">timestamps</span><span class="p">,</span>
+            <span class="s1">&#39;profanity_filter&#39;</span><span class="p">:</span> <span class="n">profanity_filter</span><span class="p">,</span>
+            <span class="s1">&#39;smart_formatting&#39;</span><span class="p">:</span> <span class="n">smart_formatting</span><span class="p">,</span>
+            <span class="s1">&#39;speaker_labels&#39;</span><span class="p">:</span> <span class="n">speaker_labels</span>
+        <span class="p">}</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">_remove_null_values</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+
+        <span class="n">RecognizeListener</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span>
+                          <span class="n">options</span><span class="p">,</span>
+                          <span class="n">recognize_callback</span><span class="p">,</span>
+                          <span class="n">url</span><span class="p">,</span>
+                          <span class="n">headers</span><span class="p">,</span>
+                          <span class="n">http_proxy_host</span><span class="p">,</span>
+                          <span class="n">http_proxy_port</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
