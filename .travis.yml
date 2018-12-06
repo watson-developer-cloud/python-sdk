@@ -4,10 +4,11 @@ python:
 - '3.4'
 - '3.5'
 - '3.6'
-matrix:
-  include:
-    - python: '3.7'
-      dist: xenial  # required for Python >= 3.7 (travis-ci/travis-ci#9069)
+# Temporarily comment, check issue: https://github.com/watson-developer-cloud/python-sdk/issues/612
+# matrix:
+#   include:
+#     - python: '3.7'
+#       dist: xenial  # required for Python >= 3.7 (travis-ci/travis-ci#9069)
 cache: pip
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
