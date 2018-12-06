@@ -111,7 +111,7 @@ class TextToSpeechV1(WatsonService):
         obtain information for that custom voice model of the specified voice. To list
         information about all available voices, use the **List voices** method.
         **See also:** [Specifying a
-        voice](https://console.bluemix.net/docs/services/text-to-speech/http.html#voices).
+        voice](/docs/services/text-to-speech/http.html#voices).
 
         :param str voice: The voice for which information is to be returned.
         :param str customization_id: The customization ID (GUID) of a custom voice model
@@ -150,7 +150,7 @@ class TextToSpeechV1(WatsonService):
         name, language, gender, and other details about the voice. To see information
         about a specific voice, use the **Get a voice** method.
         **See also:** [Specifying a
-        voice](https://console.bluemix.net/docs/services/text-to-speech/http.html#voices).
+        voice](/docs/services/text-to-speech/http.html#voices).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -179,27 +179,78 @@ class TextToSpeechV1(WatsonService):
         """
         Synthesize audio.
 
-        Synthesizes text to spoken audio, returning the synthesized audio stream as an
-        array of bytes. You can pass a maximum of 5 KB of text.  Use the `Accept` header
-        or the `accept` query parameter to specify the requested format (MIME type) of the
-        response audio. By default, the service uses `audio/ogg;codecs=opus`.
-        If a request includes invalid query parameters, the service returns a `Warnings`
+        Synthesizes text to audio that is spoken in the specified voice. The service bases
+        its understanding of the language for the input text on the specified voice. Use a
+        voice that matches the language of the input text.
+        The service returns the synthesized audio stream as an array of bytes. You can
+        pass a maximum of 5 KB of text to the service.
+        **See also:** [Synthesizing text to
+        audio](/docs/services/text-to-speech/http.html#synthesize).
+        ### Audio formats (accept types)
+         The service can return audio in the following formats (MIME types).
+        * Where indicated, you can optionally specify the sampling rate (`rate`) of the
+        audio. You must specify a sampling rate for the `audio/l16` and `audio/mulaw`
+        formats. A specified sampling rate must lie in the range of 8 kHz to 192 kHz.
+        * For the `audio/l16` format, you can optionally specify the endianness
+        (`endianness`) of the audio: `endianness=big-endian` or
+        `endianness=little-endian`.
+        Use the `Accept` header or the `accept` parameter to specify the requested format
+        of the response audio. If you omit an audio format altogether, the service returns
+        the audio in Ogg format with the Opus codec (`audio/ogg;codecs=opus`). The service
+        always returns single-channel audio.
+        * `audio/basic`
+          The service returns audio with a sampling rate of 8000 Hz.
+        * `audio/flac`
+          You can optionally specify the `rate` of the audio. The default sampling rate is
+        22,050 Hz.
+        * `audio/l16`
+          You must specify the `rate` of the audio. You can optionally specify the
+        `endianness` of the audio. The default endianness is `little-endian`.
+        * `audio/mp3`
+          You can optionally specify the `rate` of the audio. The default sampling rate is
+        22,050 Hz.
+        * `audio/mpeg`
+          You can optionally specify the `rate` of the audio. The default sampling rate is
+        22,050 Hz.
+        * `audio/mulaw`
+          You must specify the `rate` of the audio.
+        * `audio/ogg`
+          The service returns the audio in the `vorbis` codec. You can optionally specify
+        the `rate` of the audio. The default sampling rate is 22,050 Hz.
+        * `audio/ogg;codecs=opus`
+          You can optionally specify the `rate` of the audio. The default sampling rate is
+        22,050 Hz.
+        * `audio/ogg;codecs=vorbis`
+          You can optionally specify the `rate` of the audio. The default sampling rate is
+        22,050 Hz.
+        * `audio/wav`
+          You can optionally specify the `rate` of the audio. The default sampling rate is
+        22,050 Hz.
+        * `audio/webm`
+          The service returns the audio in the `opus` codec. The service returns audio
+        with a sampling rate of 48,000 Hz.
+        * `audio/webm;codecs=opus`
+          The service returns audio with a sampling rate of 48,000 Hz.
+        * `audio/webm;codecs=vorbis`
+          You can optionally specify the `rate` of the audio. The default sampling rate is
+        22,050 Hz.
+        For more information about specifying an audio format, including additional
+        details about some of the formats, see [Specifying an audio
+        format](/docs/services/text-to-speech/http.html#format).
+        ### Warning messages
+         If a request includes invalid query parameters, the service returns a `Warnings`
         response header that provides messages about the invalid parameters. The warning
         includes a descriptive message and a list of invalid argument strings. For
         example, a message such as `\"Unknown arguments:\"` or `\"Unknown url query
-        arguments:\"` followed by a list of the form `\"invalid_arg_1, invalid_arg_2.\"`
-        The request succeeds despite the warnings.
-        **See also:** [Synthesizing text to
-        audio](https://console.bluemix.net/docs/services/text-to-speech/http.html#synthesize).
+        arguments:\"` followed by a list of the form `\"{invalid_arg_1},
+        {invalid_arg_2}.\"` The request succeeds despite the warnings.
 
         :param str text: The text to synthesize.
-        :param str accept: The requested audio format (MIME type) of the audio. You can
-        use the `Accept` header or the `accept` query parameter to specify the audio
-        format. (For the `audio/l16` format, you can optionally specify
-        `endianness=big-endian` or `endianness=little-endian`; the default is little
-        endian.) For detailed information about the supported audio formats and sampling
-        rates, see [Specifying an audio
-        format](https://console.bluemix.net/docs/services/text-to-speech/http.html#format).
+        :param str accept: The requested format (MIME type) of the audio. You can use the
+        `Accept` header or the `accept` parameter to specify the audio format. For more
+        information about specifying an audio format, see **Audio formats (accept types)**
+        in the method description.
+        Default: `audio/ogg;codecs=opus`.
         :param str voice: The voice to use for synthesis.
         :param str customization_id: The customization ID (GUID) of a custom voice model
         to use for the synthesis. If a custom voice model is specified, it is guaranteed
@@ -252,7 +303,7 @@ class TextToSpeechV1(WatsonService):
         for a specific custom voice model to see the translation for that voice model.
         **Note:** This method is currently a beta release.
         **See also:** [Querying a word from a
-        language](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuWordsQueryLanguage).
+        language](/docs/services/text-to-speech/custom-entries.html#cuWordsQueryLanguage).
 
         :param str text: The word for which the pronunciation is requested.
         :param str voice: A voice that specifies the language in which the pronunciation
@@ -313,7 +364,7 @@ class TextToSpeechV1(WatsonService):
         used to create it.
         **Note:** This method is currently a beta release.
         **See also:** [Creating a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-models.html#cuModelsCreate).
+        model](/docs/services/text-to-speech/custom-models.html#cuModelsCreate).
 
         :param str name: The name of the new custom voice model.
         :param str language: The language of the new custom voice model. Omit the
@@ -351,7 +402,7 @@ class TextToSpeechV1(WatsonService):
         instance of the service that owns a model to delete it.
         **Note:** This method is currently a beta release.
         **See also:** [Deleting a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-models.html#cuModelsDelete).
+        model](/docs/services/text-to-speech/custom-models.html#cuModelsDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -384,7 +435,7 @@ class TextToSpeechV1(WatsonService):
         voice model, use the **List custom models** method.
         **Note:** This method is currently a beta release.
         **See also:** [Querying a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-models.html#cuModelsQuery).
+        model](/docs/services/text-to-speech/custom-models.html#cuModelsQuery).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -419,7 +470,7 @@ class TextToSpeechV1(WatsonService):
         about it.
         **Note:** This method is currently a beta release.
         **See also:** [Querying all custom
-        models](https://console.bluemix.net/docs/services/text-to-speech/custom-models.html#cuModelsQueryAll).
+        models](/docs/services/text-to-speech/custom-models.html#cuModelsQueryAll).
 
         :param str language: The language for which custom voice models that are owned by
         the requesting service credentials are to be returned. Omit the parameter to see
@@ -472,11 +523,10 @@ class TextToSpeechV1(WatsonService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Updating a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-models.html#cuModelsUpdate)
+        model](/docs/services/text-to-speech/custom-models.html#cuModelsUpdate)
         * [Adding words to a Japanese custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
-        * [Understanding
-        customization](https://console.bluemix.net/docs/services/text-to-speech/custom-intro.html).
+        model](/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
+        * [Understanding customization](/docs/services/text-to-speech/custom-intro.html).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -543,11 +593,10 @@ class TextToSpeechV1(WatsonService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Adding a single word to a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuWordAdd)
+        model](/docs/services/text-to-speech/custom-entries.html#cuWordAdd)
         * [Adding words to a Japanese custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
-        * [Understanding
-        customization](https://console.bluemix.net/docs/services/text-to-speech/custom-intro.html).
+        model](/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
+        * [Understanding customization](/docs/services/text-to-speech/custom-intro.html).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -563,7 +612,7 @@ class TextToSpeechV1(WatsonService):
         create only a single entry, with or without a single part of speech, for any word;
         you cannot create multiple entries with different parts of speech for the same
         word. For more information, see [Working with Japanese
-        entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).
+        entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -610,11 +659,10 @@ class TextToSpeechV1(WatsonService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Adding multiple words to a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuWordsAdd)
+        model](/docs/services/text-to-speech/custom-entries.html#cuWordsAdd)
         * [Adding words to a Japanese custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
-        * [Understanding
-        customization](https://console.bluemix.net/docs/services/text-to-speech/custom-intro.html).
+        model](/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
+        * [Understanding customization](/docs/services/text-to-speech/custom-intro.html).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -661,7 +709,7 @@ class TextToSpeechV1(WatsonService):
         credentials for the instance of the service that owns a model to delete its words.
         **Note:** This method is currently a beta release.
         **See also:** [Deleting a word from a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuWordDelete).
+        model](/docs/services/text-to-speech/custom-entries.html#cuWordDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -696,7 +744,7 @@ class TextToSpeechV1(WatsonService):
         the instance of the service that owns a model to list its words.
         **Note:** This method is currently a beta release.
         **See also:** [Querying a single word from a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuWordQueryModel).
+        model](/docs/services/text-to-speech/custom-entries.html#cuWordQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -732,7 +780,7 @@ class TextToSpeechV1(WatsonService):
         words.
         **Note:** This method is currently a beta release.
         **See also:** [Querying all words from a custom
-        model](https://console.bluemix.net/docs/services/text-to-speech/custom-entries.html#cuWordsQueryModel).
+        model](/docs/services/text-to-speech/custom-entries.html#cuWordsQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -771,7 +819,7 @@ class TextToSpeechV1(WatsonService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes the data.
         **See also:** [Information
-        security](https://console.bluemix.net/docs/services/text-to-speech/information-security.html).
+        security](/docs/services/text-to-speech/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
@@ -858,7 +906,7 @@ class Pronunciation(object):
 
 class SupportedFeatures(object):
     """
-    SupportedFeatures.
+    Describes the additional service features that are supported with the voice.
 
     :attr bool custom_pronunciation: If `true`, the voice can be customized; if `false`,
     the voice cannot be customized. (Same as `customizable`.).
@@ -937,7 +985,7 @@ class Translation(object):
     can create only a single entry, with or without a single part of speech, for any word;
     you cannot create multiple entries with different parts of speech for the same word.
     For more information, see [Working with Japanese
-    entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).
+    entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
     """
 
     def __init__(self, translation, part_of_speech=None):
@@ -953,7 +1001,7 @@ class Translation(object):
         word. You can create only a single entry, with or without a single part of speech,
         for any word; you cannot create multiple entries with different parts of speech
         for the same word. For more information, see [Working with Japanese
-        entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).
+        entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
         """
         self.translation = translation
         self.part_of_speech = part_of_speech
@@ -1010,7 +1058,7 @@ class Voice(object):
     cannot be customized. (Same as `custom_pronunciation`; maintained for backward
     compatibility.).
     :attr SupportedFeatures supported_features: Describes the additional service features
-    supported with the voice.
+    that are supported with the voice.
     :attr VoiceModel customization: (optional) Returns information about a specified
     custom voice model. This field is returned only by the **Get a voice** method and only
     when you specify the customization ID of a custom voice model.
@@ -1038,7 +1086,7 @@ class Voice(object):
         voice cannot be customized. (Same as `custom_pronunciation`; maintained for
         backward compatibility.).
         :param SupportedFeatures supported_features: Describes the additional service
-        features supported with the voice.
+        features that are supported with the voice.
         :param VoiceModel customization: (optional) Returns information about a specified
         custom voice model. This field is returned only by the **Get a voice** method and
         only when you specify the customization ID of a custom voice model.
@@ -1393,7 +1441,7 @@ class Word(object):
     can create only a single entry, with or without a single part of speech, for any word;
     you cannot create multiple entries with different parts of speech for the same word.
     For more information, see [Working with Japanese
-    entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).
+    entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
     """
 
     def __init__(self, word, translation, part_of_speech=None):
@@ -1411,7 +1459,7 @@ class Word(object):
         word. You can create only a single entry, with or without a single part of speech,
         for any word; you cannot create multiple entries with different parts of speech
         for the same word. For more information, see [Working with Japanese
-        entries](https://console.bluemix.net/docs/services/text-to-speech/custom-rules.html#jaNotes).
+        entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
         """
         self.word = word
         self.translation = translation

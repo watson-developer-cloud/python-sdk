@@ -20,9 +20,9 @@ sentence levels. You can use the service to understand how your written communic
 perceived and then to improve the tone of your communications. Businesses can use the
 service to learn the tone of their customers' communications and to respond to each
 customer appropriately, or to understand and improve their customer conversations.
-**Note:** Request logging is disabled for the Tone Analyzer service. The service neither
-logs nor retains data from requests and responses, regardless of whether the
-`X-Watson-Learning-Opt-Out` request header is set.
+**Note:** Request logging is disabled for the Tone Analyzer service. Regardless of whether
+you set the `X-Watson-Learning-Opt-Out` request header, the service does not log or retain
+data from requests and responses.
 """
 
 from __future__ import absolute_import
@@ -111,7 +111,7 @@ class ToneAnalyzerV3(WatsonService):
 
     def tone(self,
              tone_input,
-             content_type,
+             content_type=None,
              sentences=None,
              tones=None,
              content_language=None,
@@ -136,7 +136,7 @@ class ToneAnalyzerV3(WatsonService):
         text/plain;charset=utf-8`. For `text/html`, the service removes HTML tags and
         analyzes only the textual content.
         **See also:** [Using the general-purpose
-        endpoint](https://console.bluemix.net/docs/services/tone-analyzer/using-tone.html#using-the-general-purpose-endpoint).
+        endpoint](/docs/services/tone-analyzer/using-tone.html#using-the-general-purpose-endpoint).
 
         :param ToneInput tone_input: JSON, plain text, or HTML input that contains the
         content to be analyzed. For JSON input, provide an object of type `ToneInput`.
@@ -171,8 +171,6 @@ class ToneAnalyzerV3(WatsonService):
 
         if tone_input is None:
             raise ValueError('tone_input must be provided')
-        if content_type is None:
-            raise ValueError('content_type must be provided')
         if isinstance(tone_input, ToneInput):
             tone_input = self._convert_model(tone_input, ToneInput)
 
@@ -224,7 +222,7 @@ class ToneAnalyzerV3(WatsonService):
         utterances have more than 500 characters. Per the JSON specification, the default
         character encoding for JSON content is effectively always UTF-8.
         **See also:** [Using the customer-engagement
-        endpoint](https://console.bluemix.net/docs/services/tone-analyzer/using-tone-chat.html#using-the-customer-engagement-endpoint).
+        endpoint](/docs/services/tone-analyzer/using-tone-chat.html#using-the-customer-engagement-endpoint).
 
         :param list[Utterance] utterances: An array of `Utterance` objects that provides
         the input content that the service is to analyze.
@@ -277,7 +275,8 @@ class ToneAnalyzerV3(WatsonService):
 
 class DocumentAnalysis(object):
     """
-    DocumentAnalysis.
+    An object of type `DocumentAnalysis` that provides the results of the analysis for the
+    full input document.
 
     :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore`
     objects that provides the results of the analysis for each qualifying tone of the

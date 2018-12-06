@@ -24,6 +24,7 @@ language, and more.
 from __future__ import absolute_import
 
 import json
+from os.path import basename
 from .watson_service import WatsonService
 
 ##############################################################################
@@ -114,15 +115,10 @@ class LanguageTranslatorV3(WatsonService):
 
         :param list[str] text: Input text in UTF-8 encoding. Multiple entries will result
         in multiple translations in the response.
-        :param str model_id: Model ID of the translation model to use. If this is
-        specified, the **source** and **target** parameters will be ignored. The method
-        requires either a model ID or both the **source** and **target** parameters.
-        :param str source: Language code of the source text language. Use with `target` as
-        an alternative way to select a translation model. When `source` and `target` are
-        set, and a model ID is not set, the system chooses a default model for the
-        language pair (usually the model based on the news domain).
-        :param str target: Language code of the translation target language. Use with
-        source as an alternative way to select a translation model.
+        :param str model_id: A globally unique string that identifies the underlying model
+        that is used for translation.
+        :param str source: Translation source language code.
+        :param str target: Translation target language code.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -289,14 +285,14 @@ class LanguageTranslatorV3(WatsonService):
         if forced_glossary:
             if not forced_glossary_filename and hasattr(forced_glossary,
                                                         'name'):
-                forced_glossary_filename = forced_glossary.name
+                forced_glossary_filename = basename(forced_glossary.name)
             form_data['forced_glossary'] = (forced_glossary_filename,
                                             forced_glossary,
                                             'application/octet-stream')
         if parallel_corpus:
             if not parallel_corpus_filename and hasattr(parallel_corpus,
                                                         'name'):
-                parallel_corpus_filename = parallel_corpus.name
+                parallel_corpus_filename = basename(parallel_corpus.name)
             form_data['parallel_corpus'] = (parallel_corpus_filename,
                                             parallel_corpus,
                                             'application/octet-stream')
