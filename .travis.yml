@@ -10,9 +10,6 @@ matrix:
       dist: xenial  # required for Python >= 3.7 (travis-ci/travis-ci#9069)
 cache: pip
 before_install:
-# try a workaround to avoid BlockingIOError on Travis-CI for python 3.7. See
-# https://github.com/travis-ci/travis-ci/issues/8920#issuecomment-352767521
-- python -c "import fcntl; fcntl.fcntl(1, fcntl.F_SETFL, 0)"
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
   -iv $encrypted_cebf25e6c525_iv -in .env.enc -out .env -d || true'
 - npm install npm@latest -g
