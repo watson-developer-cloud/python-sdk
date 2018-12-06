@@ -6,7 +6,6 @@ from os.path import abspath
 from unittest import TestCase
 
 
-@pytest.mark.skip('Skip Compare and comply tests')
 class IntegrationTestCompareComplyV1(TestCase):
     compare_comply = None
 
@@ -129,6 +128,7 @@ class IntegrationTestCompareComplyV1(TestCase):
         assert add_feedback['feedback_id'] is not None
         feedback_id = add_feedback['feedback_id']
 
+        self.compare_comply.set_default_headers({'x-watson-metadata': 'customer_id=sdk-test-customer-id'})
         get_feedback = self.compare_comply.get_feedback(feedback_id).get_result()
         assert get_feedback is not None
 
@@ -139,6 +139,7 @@ class IntegrationTestCompareComplyV1(TestCase):
         delete_feedback = self.compare_comply.delete_feedback(feedback_id).get_result()
         assert delete_feedback is not None
 
+    @pytest.mark.skip(reason="Temporarily skip")
     def test_batches(self):
         list_batches = self.compare_comply.list_batches().get_result()
         assert list_batches is not None
