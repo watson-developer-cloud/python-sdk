@@ -22,8 +22,8 @@ Command to run the sample code
 
 `python tone_conversation_integration.v1.py`
 
-[conversation]: https://www.ibm.com/watson/developercloud/conversation.html
-[tone_analyzer]: http://www.ibm.com/watson/developercloud/tone-analyzer.html
+[conversation]: https://cloud.ibm.com/apidocs/assistant
+[tone_analyzer]: https://cloud.ibm.com/apidocs/tone-analyzer
 [ibm_cloud_conversation_service]: https://console.ng.bluemix.net/catalog/services/conversation/
 [ibm_cloud_tone_analyzer_service]: https://console.ng.bluemix.net/catalog/services/tone-analyzer/
 [conversation_simple_workspace]: https://github.com/watson-developer-cloud/conversation-simple#workspace
