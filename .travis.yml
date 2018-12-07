@@ -4,11 +4,6 @@ python:
 - '3.4'
 - '3.5'
 - '3.6'
-# Temporarily comment, check issue: https://github.com/watson-developer-cloud/python-sdk/issues/612
-# matrix:
-#   include:
-#     - python: '3.7'
-#       dist: xenial  # required for Python >= 3.7 (travis-ci/travis-ci#9069)
 cache: pip
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
@@ -18,11 +13,12 @@ install:
 - pip install tox-travis
 - pip install bumpversion
 - npm install @semantic-release/exec
-- 'if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then cd appscan; make asoc-tool; cd ../; fi'
+- if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then cd appscan; make asoc-tool; cd
+  ../; fi
 before_script:
-- 'if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then chmod a+x ./appscan/ASOC.sh; fi'
+- if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then chmod a+x ./appscan/ASOC.sh; fi
 script:
-- 'if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then ./appscan/ASOC.sh; fi'
+- if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then ./appscan/ASOC.sh; fi
 - pip install -U python-dotenv
 - tox
 before_deploy:
@@ -33,24 +29,24 @@ before_deploy:
 - sudo apt-get install pandoc
 - pip install --editable .
 deploy:
-  - provider: script
-    script: docs/publish.sh
-    skip_cleanup: true
-    on:
-      python: '3.5'
-      tags: true
-  - provider: script
-    script: npx semantic-release
-    skip_cleanup: true
-    on:
-      python: '3.5'
-      branch: master
-  - provider: pypi
-    user: ehdsouza
-    password:
-      secure: eMssjS1Airz5MrmcEDAnKYnTlMLuzinX8JFsh4TB0A4t7GCes2a/mlvcoazAv2QZMQUKQMC++bAXYGGgXtsSQsfOYnRtojW4pRphxOZrlXlWFgCLGz/eHioamNZVbH+/P/OYjbLy5ZKSzp3M3bZxYqHcmGTq0sBeo5A2Ilkzu5P+D865Jqtn52brwh/xYq4XWeJeQN/BSLwdtPEtZYQXhQupAteNDAo2ON0FVyt0amINrjA0Qw+0k35g36wti+CsKn5fhbaHf6jjN0oRj8J8wPZieXLAUMdxscfBjUXJ8AK8E4H/wPI30IsaMus+1r85ekiDKZC5iukO6uqMARFywjX/eTIDbWxwKImQUgvVa2+gncre7GvZrHIFxhIDDkssH1IfC1fcw3mNY4vCO9df/vHStp3Kvi27GvsYJnfsbXXj6fAhokHtsrnrbpXFET6LghGQx3HgOKrlCQ1EI0Fk92Qw7+g15jwMGlkwUE1qMS+PVOe7dQ4ikxJgw4CVrqU6/zaLFHV8LXFfjv166ZSWcOJHJXGgJ2TPuGiooL60+pWp/UYY00hZVlYX0Vlks6zN0h9zJd16kR3EwDrW0muqFnLC2xTuv5WsCjsOATtsTQzmBNEdCbGdOskgF4+0yPe7ps3kEs3UpAooKtYVh1OOJAUkl4vSMyu4Jg1ASyQWt00=
-    repository: https://upload.pypi.org/legacy
-    skip_cleanup: true
-    on:
-      python: '3.5'
-      tags: true
+- provider: script
+  script: docs/publish.sh
+  skip_cleanup: true
+  on:
+    python: '3.5'
+    tags: true
+- provider: script
+  script: npx semantic-release
+  skip_cleanup: true
+  on:
+    python: '3.5'
+    branch: master
+- provider: pypi
+  user: ehdsouza
+  password:
+    secure: eMssjS1Airz5MrmcEDAnKYnTlMLuzinX8JFsh4TB0A4t7GCes2a/mlvcoazAv2QZMQUKQMC++bAXYGGgXtsSQsfOYnRtojW4pRphxOZrlXlWFgCLGz/eHioamNZVbH+/P/OYjbLy5ZKSzp3M3bZxYqHcmGTq0sBeo5A2Ilkzu5P+D865Jqtn52brwh/xYq4XWeJeQN/BSLwdtPEtZYQXhQupAteNDAo2ON0FVyt0amINrjA0Qw+0k35g36wti+CsKn5fhbaHf6jjN0oRj8J8wPZieXLAUMdxscfBjUXJ8AK8E4H/wPI30IsaMus+1r85ekiDKZC5iukO6uqMARFywjX/eTIDbWxwKImQUgvVa2+gncre7GvZrHIFxhIDDkssH1IfC1fcw3mNY4vCO9df/vHStp3Kvi27GvsYJnfsbXXj6fAhokHtsrnrbpXFET6LghGQx3HgOKrlCQ1EI0Fk92Qw7+g15jwMGlkwUE1qMS+PVOe7dQ4ikxJgw4CVrqU6/zaLFHV8LXFfjv166ZSWcOJHJXGgJ2TPuGiooL60+pWp/UYY00hZVlYX0Vlks6zN0h9zJd16kR3EwDrW0muqFnLC2xTuv5WsCjsOATtsTQzmBNEdCbGdOskgF4+0yPe7ps3kEs3UpAooKtYVh1OOJAUkl4vSMyu4Jg1ASyQWt00=
+  repository: https://upload.pypi.org/legacy
+  skip_cleanup: true
+  on:
+    python: '3.5'
+    tags: true
