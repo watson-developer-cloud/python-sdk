@@ -10,7 +10,6 @@ before_install:
   -iv $encrypted_cebf25e6c525_iv -in .env.enc -out .env -d || true'
 - npm install npm@latest -g
 install:
-- cat .env
 - pip install tox-travis
 - pip install bumpversion
 - npm install @semantic-release/exec
