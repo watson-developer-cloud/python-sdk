@@ -5,7 +5,8 @@ import os
 from os.path import abspath
 from unittest import TestCase
 
-
+@pytest.mark.skipif(
+    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class IntegrationTestCompareComplyV1(TestCase):
     compare_comply = None
 
