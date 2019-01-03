@@ -1388,6 +1388,8 @@ class MessageOutput(object):
     actions requested by the dialog node.
     :attr MessageOutputDebug debug: (optional) Additional detailed information about a
     message response and how it was generated.
+    :attr object user_defined: (optional) Arbitrary variables that can be read and written
+    to by a particular skill within the Assistant.
     """
 
     def __init__(self,
@@ -1395,7 +1397,8 @@ class MessageOutput(object):
                  intents=None,
                  entities=None,
                  actions=None,
-                 debug=None):
+                 debug=None,
+                 user_defined=None):
         """
         Initialize a MessageOutput object.
 
@@ -1410,12 +1413,15 @@ class MessageOutput(object):
         any actions requested by the dialog node.
         :param MessageOutputDebug debug: (optional) Additional detailed information about
         a message response and how it was generated.
+        :param object user_defined: (optional) Arbitrary variables that can be read and
+        written to by a particular skill within the Assistant.
         """
         self.generic = generic
         self.intents = intents
         self.entities = entities
         self.actions = actions
         self.debug = debug
+        self.user_defined = user_defined
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -1440,6 +1446,8 @@ class MessageOutput(object):
             ]
         if 'debug' in _dict:
             args['debug'] = MessageOutputDebug._from_dict(_dict.get('debug'))
+        if 'user_defined' in _dict:
+            args['user_defined'] = _dict.get('user_defined')
         return cls(**args)
 
     def _to_dict(self):
@@ -1455,6 +1463,8 @@ class MessageOutput(object):
             _dict['actions'] = [x._to_dict() for x in self.actions]
         if hasattr(self, 'debug') and self.debug is not None:
             _dict['debug'] = self.debug._to_dict()
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
         return _dict
 
     def __str__(self):
