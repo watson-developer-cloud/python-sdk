@@ -147,6 +147,9 @@ def _convert_boolean_values(dictionary):
             [(k, _convert_boolean_value(v)) for k, v in dictionary.items()])
     return dictionary
 
+def _has_bad_first_or_last_char(str):
+    return str.startswith('{') or str.startswith('"') or str.endswith('}') or str.endswith('"')
+
 def get_error_message(response):
     """
     Gets the error message from a JSON response.
@@ -236,6 +239,10 @@ class WatsonService(object):
         self.token_manager = None
         self.verify = None # Indicates whether to ignore verifying the SSL certification
 
+        if _has_bad_first_or_last_char(self.url):
+            raise ValueError('The URL shouldn\'t start or end with curly brackets or quotes. '
+                             'Be sure to remove any {} and \" characters surrounding your URL')
+
         user_agent_string = 'watson-apis-python-sdk-' + __version__ # SDK version
         user_agent_string += ' ' + platform.system() # OS
         user_agent_string += ' ' + platform.release() # OS version
@@ -281,6 +288,13 @@ class WatsonService(object):
         if password == 'YOUR SERVICE PASSWORD':
             password = None
 
+        if _has_bad_first_or_last_char(username):
+            raise ValueError('The username shouldn\'t start or end with curly brackets or quotes. '
+                             'Be sure to remove any {} and \" characters surrounding your username')
+        if _has_bad_first_or_last_char(password):
+            raise ValueError('The password shouldn\'t start or end with curly brackets or quotes. '
+                             'Be sure to remove any {} and \" characters surrounding your password')
+
         self.username = username
         self.password = password
         self.jar = CookieJar()
@@ -304,7 +318,9 @@ class WatsonService(object):
     def set_token_manager(self, iam_apikey=None, iam_access_token=None, iam_url=None):
         if iam_apikey == 'YOUR IAM API KEY':
             return
-
+        if _has_bad_first_or_last_char(iam_apikey):
+            raise ValueError('The credentials shouldn\'t start or end with curly brackets or quotes. '
+                             'Be sure to remove any {} and \" characters surrounding your credentials')
         self.iam_apikey = iam_apikey
         self.iam_access_token = iam_access_token
         self.iam_url = iam_url
@@ -320,6 +336,9 @@ class WatsonService(object):
         self.jar = CookieJar()
 
     def set_iam_apikey(self, iam_apikey):
+        if _has_bad_first_or_last_char(iam_apikey):
+            raise ValueError('The credentials shouldn\'t start or end with curly brackets or quotes. '
+                             'Be sure to remove any {} and \" characters surrounding your credentials')
         if self.token_manager:
             self.token_manager.set_iam_apikey(iam_apikey)
         else:
@@ -328,6 +347,9 @@ class WatsonService(object):
         self.jar = CookieJar()
 
     def set_url(self, url):
+        if _has_bad_first_or_last_char(url):
+            raise ValueError('The URL shouldn\'t start or end with curly brackets or quotes. '
+                             'Be sure to remove any {} and \" characters surrounding your URL')
         self.url = url
 
     def set_default_headers(self, headers):
