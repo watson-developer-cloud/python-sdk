@@ -3102,8 +3102,6 @@ class CreateDialogNode(object):
     information about how to specify dialog node output, see the
     [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
     :attr object context: (optional) The context for the dialog node.
-    :attr bool disabled: (optional) Whether to consider the dialog node during runtime
-    evaluation.  Set to `true` to ignore the dialog node.
     :attr object metadata: (optional) The metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute following this
     dialog node.
@@ -3136,7 +3134,6 @@ class CreateDialogNode(object):
                  previous_sibling=None,
                  output=None,
                  context=None,
-                 disabled=None,
                  metadata=None,
                  next_step=None,
                  actions=None,
@@ -3168,8 +3165,6 @@ class CreateDialogNode(object):
         information about how to specify dialog node output, see the
         [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
         :param object context: (optional) The context for the dialog node.
-        :param bool disabled: (optional) Whether to consider the dialog node during
-        runtime evaluation.  Set to `true` to ignore the dialog node.
         :param object metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute following
         this dialog node.
@@ -3201,7 +3196,6 @@ class CreateDialogNode(object):
         self.previous_sibling = previous_sibling
         self.output = output
         self.context = context
-        self.disabled = disabled
         self.metadata = metadata
         self.next_step = next_step
         self.actions = actions
@@ -3236,8 +3230,6 @@ class CreateDialogNode(object):
             args['output'] = DialogNodeOutput._from_dict(_dict.get('output'))
         if 'context' in _dict:
             args['context'] = _dict.get('context')
-        if 'disabled' in _dict:
-            args['disabled'] = _dict.get('disabled')
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
         if 'next_step' in _dict:
@@ -3283,8 +3275,6 @@ class CreateDialogNode(object):
             _dict['output'] = self.output._to_dict()
         if hasattr(self, 'context') and self.context is not None:
             _dict['context'] = self.context
-        if hasattr(self, 'disabled') and self.disabled is not None:
-            _dict['disabled'] = self.disabled
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'next_step') and self.next_step is not None:
@@ -3700,6 +3690,7 @@ class DialogNode(object):
     dialog node.
     :attr list[DialogNodeAction] actions: (optional) The actions for the dialog node.
     :attr str title: (optional) The alias used to identify the dialog node.
+    :attr bool disabled: (optional) For internal use only.
     :attr str node_type: (optional) How the dialog node is processed.
     :attr str event_name: (optional) How an `event_handler` node is processed.
     :attr str variable: (optional) The location in the dialog context where output is
@@ -3728,6 +3719,7 @@ class DialogNode(object):
                  updated=None,
                  actions=None,
                  title=None,
+                 disabled=None,
                  node_type=None,
                  event_name=None,
                  variable=None,
@@ -3757,6 +3749,7 @@ class DialogNode(object):
         the dialog node.
         :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
         :param str title: (optional) The alias used to identify the dialog node.
+        :attr bool disabled: (optional) For internal use only.
         :param str node_type: (optional) How the dialog node is processed.
         :param str event_name: (optional) How an `event_handler` node is processed.
         :param str variable: (optional) The location in the dialog context where output is
@@ -3784,6 +3777,7 @@ class DialogNode(object):
         self.updated = updated
         self.actions = actions
         self.title = title
+        self.disabled = disabled
         self.node_type = node_type
         self.event_name = event_name
         self.variable = variable
@@ -3830,6 +3824,8 @@ class DialogNode(object):
             ]
         if 'title' in _dict:
             args['title'] = _dict.get('title')
+        if 'disabled' in _dict:
+            args['disabled'] = _dict.get('disabled')
         if 'type' in _dict or 'node_type' in _dict:
             args['node_type'] = _dict.get('type') or _dict.get('node_type')
         if 'event_name' in _dict:
@@ -3876,6 +3872,8 @@ class DialogNode(object):
             _dict['actions'] = [x._to_dict() for x in self.actions]
         if hasattr(self, 'title') and self.title is not None:
             _dict['title'] = self.title
+        if hasattr(self, 'disabled') and self.disabled is not None:
+            _dict['disabled'] = self.disabled
         if hasattr(self, 'node_type') and self.node_type is not None:
             _dict['type'] = self.node_type
         if hasattr(self, 'event_name') and self.event_name is not None:
