@@ -1,0 +1,168 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.websocket.synthesize_listener module &#8212; Watson Developer Cloud Python SDK 2.5.4 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="watson_developer_cloud.websocket.synthesize_callback module" href="watson_developer_cloud.websocket.synthesize_callback.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.websocket.synthesize_listener">
+<span id="watson-developer-cloud-websocket-synthesize-listener-module"></span><h1>watson_developer_cloud.websocket.synthesize_listener module<a class="headerlink" href="#module-watson_developer_cloud.websocket.synthesize_listener" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener">
+<em class="property">class </em><code class="descname">SynthesizeListener</code><span class="sig-paren">(</span><em>options</em>, <em>callback</em>, <em>url</em>, <em>headers</em>, <em>http_proxy_host=None</em>, <em>http_proxy_port=None</em>, <em>verify=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/synthesize_listener.html#SynthesizeListener"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.send_text">
+<code class="descname">send_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/synthesize_listener.html#SynthesizeListener.send_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.send_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the text message
+Note: The service handles one request per connection</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.on_open">
+<code class="descname">on_open</code><span class="sig-paren">(</span><em>ws</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/synthesize_listener.html#SynthesizeListener.on_open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.on_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback executed when a connection is opened to the server.
+Handles sending text to server</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ws</strong> – Websocket client</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.on_data">
+<code class="descname">on_data</code><span class="sig-paren">(</span><em>ws</em>, <em>message</em>, <em>message_type</em>, <em>fin</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/synthesize_listener.html#SynthesizeListener.on_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.on_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback executed when message is received from the server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ws</strong> – Websocket client</li>
+<li><strong>message</strong> – utf-8 string which we get from the server.</li>
+<li><strong>message_type</strong> – Message type which is either ABNF.OPCODE_TEXT or ABNF.OPCODE_BINARY</li>
+<li><strong>fin</strong> – continue flag. If 0, the data continues.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.on_error">
+<code class="descname">on_error</code><span class="sig-paren">(</span><em>ws</em>, <em>error</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/synthesize_listener.html#SynthesizeListener.on_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.on_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback executed when an error is received</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ws</strong> – Websocket client</li>
+<li><strong>error</strong> – Exception object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.on_close">
+<code class="descname">on_close</code><span class="sig-paren">(</span><em>ws</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/websocket/synthesize_listener.html#SynthesizeListener.on_close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.websocket.synthesize_listener.SynthesizeListener.on_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback executed when websocket connection is closed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ws</strong> – Websocket client</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="watson_developer_cloud.websocket.html">watson_developer_cloud.websocket package</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.websocket.synthesize_callback.html" title="previous chapter">watson_developer_cloud.websocket.synthesize_callback module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
