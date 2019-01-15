@@ -148,7 +148,7 @@ def _convert_boolean_values(dictionary):
     return dictionary
 
 def _has_bad_first_or_last_char(str):
-    return str.startswith('{') or str.startswith('"') or str.endswith('}') or str.endswith('"')
+    return str is not None and (str.startswith('{') or str.startswith('"') or str.endswith('}') or str.endswith('"'))
 
 def get_error_message(response):
     """
