@@ -913,7 +913,7 @@ class DiscoveryV1(WatsonService):
         return response
 
     #########################
-    # Expansions
+    # Query modifications
     #########################
 
     def create_expansions(self, environment_id, collection_id, expansions,
@@ -2977,6 +2977,7 @@ class DiscoveryV1(WatsonService):
         -  `salesforce` indicates the credentials are used to connect to Salesforce.
         -  `sharepoint` indicates the credentials are used to connect to Microsoft
         SharePoint Online.
+        -  `web_crawl` indicates the credentials are used to perform a web crawl.
         :param CredentialDetails credential_details: Object containing details of the
         stored credentials.
         Obtain credentials for your source from the administrator of the source.
@@ -3137,6 +3138,7 @@ class DiscoveryV1(WatsonService):
         -  `salesforce` indicates the credentials are used to connect to Salesforce.
         -  `sharepoint` indicates the credentials are used to connect to Microsoft
         SharePoint Online.
+        -  `web_crawl` indicates the credentials are used to perform a web crawl.
         :param CredentialDetails credential_details: Object containing details of the
         stored credentials.
         Obtain credentials for your source from the administrator of the source.
@@ -3932,16 +3934,19 @@ class CredentialDetails(object):
     **source_type**. The following combinations are possible:
     -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
     -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
-    -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml`.
+    -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
+    **source_version** of `online`, or `ntml_v1` with **source_version** of `2016`
+    -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`.
     :attr str client_id: (optional) The **client_id** of the source that these credentials
     connect to. Only valid, and required, with a **credential_type** of `oauth2`.
     :attr str enterprise_id: (optional) The **enterprise_id** of the Box site that these
     credentials connect to. Only valid, and required, with a **source_type** of `box`.
     :attr str url: (optional) The **url** of the source that these credentials connect to.
-    Only valid, and required, with a **credential_type** of `username_password`.
+    Only valid, and required, with a **credential_type** of `username_password`, `noauth`,
+    and `basic`.
     :attr str username: (optional) The **username** of the source that these credentials
-    connect to. Only valid, and required, with a **credential_type** of `saml` and
-    `username_password`.
+    connect to. Only valid, and required, with a **credential_type** of `saml`,
+    `username_password`, `basic`, or `ntml_v1`.
     :attr str organization_url: (optional) The **organization_url** of the source that
     these credentials connect to. Only valid, and required, with a **credential_type** of
     `saml`.
@@ -3965,11 +3970,21 @@ class CredentialDetails(object):
     `oauth2`. This value is never returned and is only used when creating or modifying
     **credentials**.
     :attr str password: (optional) The **password** of the source that these credentials
-    connect to. Only valid, and required, with **credential_type**s of `saml` and
-    `username_password`.
+    connect to. Only valid, and required, with **credential_type**s of `saml`,
+    `username_password`, `basic`, or `ntml_v1`.
     **Note:** When used with a **source_type** of `salesforce`, the password consists of
     the Salesforce password and a valid Salesforce security token concatenated. This value
     is never returned and is only used when creating or modifying **credentials**.
+    :attr str gateway_id: (optional) The ID of the **gateway** to be connected through
+    (when connecting to intranet sites). Only valid with a **credential_type** of
+    `noauth`, `basic`, or `ntml_v1`. Gateways are created using the
+    `/v1/environments/{environment_id}/gateways` methods.
+    :attr str source_version: (optional) The type of Sharepoint repository to connect to.
+    Only valid, and required, with a **source_type** of `sharepoint`.
+    :attr str web_application_url: (optional) SharePoint OnPrem WebApplication URL. Only
+    valid, and required, with a **source_version** of `2016`.
+    :attr str domain: (optional) The domain used to log in to your OnPrem SharePoint
+    account. Only valid, and required, with a **source_version** of `2016`.
     """
 
     def __init__(self,
@@ -3984,7 +3999,11 @@ class CredentialDetails(object):
                  public_key_id=None,
                  private_key=None,
                  passphrase=None,
-                 password=None):
+                 password=None,
+                 gateway_id=None,
+                 source_version=None,
+                 web_application_url=None,
+                 domain=None):
         """
         Initialize a CredentialDetails object.
 
@@ -3993,7 +4012,9 @@ class CredentialDetails(object):
         the **source_type**. The following combinations are possible:
         -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
         -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
-        -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml`.
+        -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
+        **source_version** of `online`, or `ntml_v1` with **source_version** of `2016`
+        -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`.
         :param str client_id: (optional) The **client_id** of the source that these
         credentials connect to. Only valid, and required, with a **credential_type** of
         `oauth2`.
@@ -4002,10 +4023,10 @@ class CredentialDetails(object):
         `box`.
         :param str url: (optional) The **url** of the source that these credentials
         connect to. Only valid, and required, with a **credential_type** of
-        `username_password`.
+        `username_password`, `noauth`, and `basic`.
         :param str username: (optional) The **username** of the source that these
         credentials connect to. Only valid, and required, with a **credential_type** of
-        `saml` and `username_password`.
+        `saml`, `username_password`, `basic`, or `ntml_v1`.
         :param str organization_url: (optional) The **organization_url** of the source
         that these credentials connect to. Only valid, and required, with a
         **credential_type** of `saml`.
@@ -4030,11 +4051,21 @@ class CredentialDetails(object):
         **credentials**.
         :param str password: (optional) The **password** of the source that these
         credentials connect to. Only valid, and required, with **credential_type**s of
-        `saml` and `username_password`.
+        `saml`, `username_password`, `basic`, or `ntml_v1`.
         **Note:** When used with a **source_type** of `salesforce`, the password consists
         of the Salesforce password and a valid Salesforce security token concatenated.
         This value is never returned and is only used when creating or modifying
         **credentials**.
+        :param str gateway_id: (optional) The ID of the **gateway** to be connected
+        through (when connecting to intranet sites). Only valid with a **credential_type**
+        of `noauth`, `basic`, or `ntml_v1`. Gateways are created using the
+        `/v1/environments/{environment_id}/gateways` methods.
+        :param str source_version: (optional) The type of Sharepoint repository to connect
+        to. Only valid, and required, with a **source_type** of `sharepoint`.
+        :param str web_application_url: (optional) SharePoint OnPrem WebApplication URL.
+        Only valid, and required, with a **source_version** of `2016`.
+        :param str domain: (optional) The domain used to log in to your OnPrem SharePoint
+        account. Only valid, and required, with a **source_version** of `2016`.
         """
         self.credential_type = credential_type
         self.client_id = client_id
@@ -4048,6 +4079,10 @@ class CredentialDetails(object):
         self.private_key = private_key
         self.passphrase = passphrase
         self.password = password
+        self.gateway_id = gateway_id
+        self.source_version = source_version
+        self.web_application_url = web_application_url
+        self.domain = domain
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -4077,6 +4112,14 @@ class CredentialDetails(object):
             args['passphrase'] = _dict.get('passphrase')
         if 'password' in _dict:
             args['password'] = _dict.get('password')
+        if 'gateway_id' in _dict:
+            args['gateway_id'] = _dict.get('gateway_id')
+        if 'source_version' in _dict:
+            args['source_version'] = _dict.get('source_version')
+        if 'web_application_url' in _dict:
+            args['web_application_url'] = _dict.get('web_application_url')
+        if 'domain' in _dict:
+            args['domain'] = _dict.get('domain')
         return cls(**args)
 
     def _to_dict(self):
@@ -4109,6 +4152,16 @@ class CredentialDetails(object):
             _dict['passphrase'] = self.passphrase
         if hasattr(self, 'password') and self.password is not None:
             _dict['password'] = self.password
+        if hasattr(self, 'gateway_id') and self.gateway_id is not None:
+            _dict['gateway_id'] = self.gateway_id
+        if hasattr(self, 'source_version') and self.source_version is not None:
+            _dict['source_version'] = self.source_version
+        if hasattr(
+                self,
+                'web_application_url') and self.web_application_url is not None:
+            _dict['web_application_url'] = self.web_application_url
+        if hasattr(self, 'domain') and self.domain is not None:
+            _dict['domain'] = self.domain
         return _dict
 
     def __str__(self):
@@ -4136,6 +4189,7 @@ class Credentials(object):
     -  `salesforce` indicates the credentials are used to connect to Salesforce.
     -  `sharepoint` indicates the credentials are used to connect to Microsoft SharePoint
     Online.
+    -  `web_crawl` indicates the credentials are used to perform a web crawl.
     :attr CredentialDetails credential_details: (optional) Object containing details of
     the stored credentials.
     Obtain credentials for your source from the administrator of the source.
@@ -4157,6 +4211,7 @@ class Credentials(object):
         -  `salesforce` indicates the credentials are used to connect to Salesforce.
         -  `sharepoint` indicates the credentials are used to connect to Microsoft
         SharePoint Online.
+        -  `web_crawl` indicates the credentials are used to perform a web crawl.
         :param CredentialDetails credential_details: (optional) Object containing details
         of the stored credentials.
         Obtain credentials for your source from the administrator of the source.
@@ -9869,6 +9924,7 @@ class Source(object):
     -  `salesforce` indicates the configuration is to connect to Salesforce.
     -  `sharepoint` indicates the configuration is to connect to Microsoft SharePoint
     Online.
+    -  `web_crawl` indicates the configuration is to perform a web page crawl.
     :attr str credential_id: (optional) The **credential_id** of the credentials to use to
     connect to the source. Credentials are defined using the **credentials** method. The
     **source_type** of the credentials used must match the **type** field specified in
@@ -9892,6 +9948,7 @@ class Source(object):
         -  `salesforce` indicates the configuration is to connect to Salesforce.
         -  `sharepoint` indicates the configuration is to connect to Microsoft SharePoint
         Online.
+        -  `web_crawl` indicates the configuration is to perform a web page crawl.
         :param str credential_id: (optional) The **credential_id** of the credentials to
         use to connect to the source. Credentials are defined using the **credentials**
         method. The **source_type** of the credentials used must match the **type** field
@@ -9961,9 +10018,16 @@ class SourceOptions(object):
     :attr list[SourceOptionsSiteColl] site_collections: (optional) Array of Microsoft
     SharePointoint Online site collections to crawl from the SharePoint source. Only valid
     and required when the **type** field of the **source** object is set to `sharepoint`.
+    :attr list[SourceOptionsWebCrawl] urls: (optional) Array of Web page URLs to begin
+    crawling the web from. Only valid and required when the **type** field of the
+    **source** object is set to `web_crawl`.
     """
 
-    def __init__(self, folders=None, objects=None, site_collections=None):
+    def __init__(self,
+                 folders=None,
+                 objects=None,
+                 site_collections=None,
+                 urls=None):
         """
         Initialize a SourceOptions object.
 
@@ -9977,10 +10041,14 @@ class SourceOptions(object):
         SharePointoint Online site collections to crawl from the SharePoint source. Only
         valid and required when the **type** field of the **source** object is set to
         `sharepoint`.
+        :param list[SourceOptionsWebCrawl] urls: (optional) Array of Web page URLs to
+        begin crawling the web from. Only valid and required when the **type** field of
+        the **source** object is set to `web_crawl`.
         """
         self.folders = folders
         self.objects = objects
         self.site_collections = site_collections
+        self.urls = urls
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -10001,6 +10069,10 @@ class SourceOptions(object):
                 SourceOptionsSiteColl._from_dict(x)
                 for x in (_dict.get('site_collections'))
             ]
+        if 'urls' in _dict:
+            args['urls'] = [
+                SourceOptionsWebCrawl._from_dict(x) for x in (_dict.get('urls'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -10015,6 +10087,8 @@ class SourceOptions(object):
             _dict['site_collections'] = [
                 x._to_dict() for x in self.site_collections
             ]
+        if hasattr(self, 'urls') and self.urls is not None:
+            _dict['urls'] = [x._to_dict() for x in self.urls]
         return _dict
 
     def __str__(self):
@@ -10213,6 +10287,140 @@ class SourceOptionsSiteColl(object):
 
     def __str__(self):
         """Return a `str` version of this SourceOptionsSiteColl object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SourceOptionsWebCrawl(object):
+    """
+    Object defining which URL to crawl and how to crawl it.
+
+    :attr str url: The starting URL to crawl.
+    :attr bool limit_to_starting_hosts: (optional) When `true`, crawls of the specified
+    URL are limited to the host part of the **url** field.
+    :attr str crawl_speed: (optional) The number of concurrent URLs to fetch. `gentle`
+    means one URL is fetched at a time with a delay between each call. `normal` means as
+    many as two URLs are fectched concurrently with a short delay between fetch calls.
+    `aggressive` means that up to ten URLs are fetched concurrently with a short delay
+    between fetch calls.
+    :attr bool allow_untrusted_certificate: (optional) When `true`, allows the crawl to
+    interact with HTTPS sites with SSL certificates with untrusted signers.
+    :attr int maximum_hops: (optional) The maximum number of hops to make from the initial
+    URL. When a page is crawled each link on that page will also be crawled if it is
+    within the **maximum_hops** from the initial URL. The first page crawled is 0 hops,
+    each link crawled from the first page is 1 hop, each link crawled from those pages is
+    2 hops, and so on.
+    :attr int request_timeout: (optional) The maximum milliseconds to wait for a response
+    from the web server.
+    :attr bool override_robots_txt: (optional) When `true`, the crawler will ignore any
+    `robots.txt` encountered by the crawler. This should only ever be done when crawling a
+    web site the user owns. This must be be set to `true` when a **gateway_id** is specied
+    in the **credentials**.
+    """
+
+    def __init__(self,
+                 url,
+                 limit_to_starting_hosts=None,
+                 crawl_speed=None,
+                 allow_untrusted_certificate=None,
+                 maximum_hops=None,
+                 request_timeout=None,
+                 override_robots_txt=None):
+        """
+        Initialize a SourceOptionsWebCrawl object.
+
+        :param str url: The starting URL to crawl.
+        :param bool limit_to_starting_hosts: (optional) When `true`, crawls of the
+        specified URL are limited to the host part of the **url** field.
+        :param str crawl_speed: (optional) The number of concurrent URLs to fetch.
+        `gentle` means one URL is fetched at a time with a delay between each call.
+        `normal` means as many as two URLs are fectched concurrently with a short delay
+        between fetch calls. `aggressive` means that up to ten URLs are fetched
+        concurrently with a short delay between fetch calls.
+        :param bool allow_untrusted_certificate: (optional) When `true`, allows the crawl
+        to interact with HTTPS sites with SSL certificates with untrusted signers.
+        :param int maximum_hops: (optional) The maximum number of hops to make from the
+        initial URL. When a page is crawled each link on that page will also be crawled if
+        it is within the **maximum_hops** from the initial URL. The first page crawled is
+        0 hops, each link crawled from the first page is 1 hop, each link crawled from
+        those pages is 2 hops, and so on.
+        :param int request_timeout: (optional) The maximum milliseconds to wait for a
+        response from the web server.
+        :param bool override_robots_txt: (optional) When `true`, the crawler will ignore
+        any `robots.txt` encountered by the crawler. This should only ever be done when
+        crawling a web site the user owns. This must be be set to `true` when a
+        **gateway_id** is specied in the **credentials**.
+        """
+        self.url = url
+        self.limit_to_starting_hosts = limit_to_starting_hosts
+        self.crawl_speed = crawl_speed
+        self.allow_untrusted_certificate = allow_untrusted_certificate
+        self.maximum_hops = maximum_hops
+        self.request_timeout = request_timeout
+        self.override_robots_txt = override_robots_txt
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SourceOptionsWebCrawl object from a json dictionary."""
+        args = {}
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        else:
+            raise ValueError(
+                'Required property \'url\' not present in SourceOptionsWebCrawl JSON'
+            )
+        if 'limit_to_starting_hosts' in _dict:
+            args['limit_to_starting_hosts'] = _dict.get(
+                'limit_to_starting_hosts')
+        if 'crawl_speed' in _dict:
+            args['crawl_speed'] = _dict.get('crawl_speed')
+        if 'allow_untrusted_certificate' in _dict:
+            args['allow_untrusted_certificate'] = _dict.get(
+                'allow_untrusted_certificate')
+        if 'maximum_hops' in _dict:
+            args['maximum_hops'] = _dict.get('maximum_hops')
+        if 'request_timeout' in _dict:
+            args['request_timeout'] = _dict.get('request_timeout')
+        if 'override_robots_txt' in _dict:
+            args['override_robots_txt'] = _dict.get('override_robots_txt')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'limit_to_starting_hosts'
+                  ) and self.limit_to_starting_hosts is not None:
+            _dict['limit_to_starting_hosts'] = self.limit_to_starting_hosts
+        if hasattr(self, 'crawl_speed') and self.crawl_speed is not None:
+            _dict['crawl_speed'] = self.crawl_speed
+        if hasattr(self, 'allow_untrusted_certificate'
+                  ) and self.allow_untrusted_certificate is not None:
+            _dict[
+                'allow_untrusted_certificate'] = self.allow_untrusted_certificate
+        if hasattr(self, 'maximum_hops') and self.maximum_hops is not None:
+            _dict['maximum_hops'] = self.maximum_hops
+        if hasattr(self,
+                   'request_timeout') and self.request_timeout is not None:
+            _dict['request_timeout'] = self.request_timeout
+        if hasattr(
+                self,
+                'override_robots_txt') and self.override_robots_txt is not None:
+            _dict['override_robots_txt'] = self.override_robots_txt
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SourceOptionsWebCrawl object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -10554,22 +10762,21 @@ class TokenDictRule(object):
 
 class TokenDictStatusResponse(object):
     """
-    Object describing the current status of the tokenization dictionary.
+    Object describing the current status of the wordlist.
 
-    :attr str status: (optional) Current tokenization dictionary status for the specified
-    collection.
-    :attr str type: (optional) The type for this dictionary. Always returns
-    `tokenization_dictionary`.
+    :attr str status: (optional) Current wordlist status for the specified collection.
+    :attr str type: (optional) The type for this wordlist. Can be
+    `tokenization_dictionary` or `stopwords`.
     """
 
     def __init__(self, status=None, type=None):
         """
         Initialize a TokenDictStatusResponse object.
 
-        :param str status: (optional) Current tokenization dictionary status for the
-        specified collection.
-        :param str type: (optional) The type for this dictionary. Always returns
-        `tokenization_dictionary`.
+        :param str status: (optional) Current wordlist status for the specified
+        collection.
+        :param str type: (optional) The type for this wordlist. Can be
+        `tokenization_dictionary` or `stopwords`.
         """
         self.status = status
         self.type = type
