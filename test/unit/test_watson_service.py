@@ -204,3 +204,16 @@ def test_response_with_no_body():
     assert response is not None
     assert len(responses.calls) == 1
     assert response.get_result() is None
+
+def test_has_bad_first_or_last_char():
+    with pytest.raises(ValueError) as err:
+        AnyServiceV1('2018-11-20', username='{username}', password='password')
+    assert str(err.value) == 'The username shouldn\'t start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your username'
+
+    with pytest.raises(ValueError) as err:
+        AnyServiceV1('2018-11-20', iam_apikey='{apikey}')
+    assert str(err.value) == 'The credentials shouldn\'t start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your credentials'
+
+    with pytest.raises(ValueError) as err:
+        AnyServiceV1('2018-11-20', iam_apikey='apikey', url='"url"')
+    assert str(err.value) == 'The URL shouldn\'t start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your URL'
