@@ -3175,6 +3175,144 @@ class DiscoveryV1(WatsonService):
             accept_json=True)
         return response
 
+    #########################
+    # gatewayConfiguration
+    #########################
+
+    def create_gateway(self, environment_id, name=None, **kwargs):
+        """
+        Create Gateway.
+
+        Create a gateway configuration to use with a remotely installed gateway.
+
+        :param str environment_id: The ID of the environment.
+        :param str name: User-defined name.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        data = {'name': name}
+
+        url = '/v1/environments/{0}/gateways'.format(
+            *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    def delete_gateway(self, environment_id, gateway_id, **kwargs):
+        """
+        Delete Gateway.
+
+        Delete the specified gateway configuration.
+
+        :param str environment_id: The ID of the environment.
+        :param str gateway_id: The requested gateway ID.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if gateway_id is None:
+            raise ValueError('gateway_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/gateways/{1}'.format(
+            *self._encode_path_vars(environment_id, gateway_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def get_gateway(self, environment_id, gateway_id, **kwargs):
+        """
+        List Gateway Details.
+
+        List information about the specified gateway.
+
+        :param str environment_id: The ID of the environment.
+        :param str gateway_id: The requested gateway ID.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if gateway_id is None:
+            raise ValueError('gateway_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/gateways/{1}'.format(
+            *self._encode_path_vars(environment_id, gateway_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_gateways(self, environment_id, **kwargs):
+        """
+        List Gateways.
+
+        List the currently configured gateways.
+
+        :param str environment_id: The ID of the environment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/gateways'.format(
+            *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
 
 ##############################################################################
 # Models
@@ -5653,6 +5791,191 @@ class FontSetting(object):
 
     def __str__(self):
         """Return a `str` version of this FontSetting object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Gateway(object):
+    """
+    Object describing a specific gateway.
+
+    :attr str gateway_id: (optional) The gateway ID of the gateway.
+    :attr str name: (optional) The user defined name of the gateway.
+    :attr str status: (optional) The current status of the gateway. `connected` means the
+    gateway is connected to the remotly installed gateway. `idle` means this gateway is
+    not currently in use.
+    :attr str token: (optional) The generated **token** for this gateway. The value of
+    this field is used when configuring the remotly installed gateway.
+    :attr str token_id: (optional) The generated **token_id** for this gateway. The value
+    of this field is used when configuring the remotly installed gateway.
+    """
+
+    def __init__(self,
+                 gateway_id=None,
+                 name=None,
+                 status=None,
+                 token=None,
+                 token_id=None):
+        """
+        Initialize a Gateway object.
+
+        :param str gateway_id: (optional) The gateway ID of the gateway.
+        :param str name: (optional) The user defined name of the gateway.
+        :param str status: (optional) The current status of the gateway. `connected` means
+        the gateway is connected to the remotly installed gateway. `idle` means this
+        gateway is not currently in use.
+        :param str token: (optional) The generated **token** for this gateway. The value
+        of this field is used when configuring the remotly installed gateway.
+        :param str token_id: (optional) The generated **token_id** for this gateway. The
+        value of this field is used when configuring the remotly installed gateway.
+        """
+        self.gateway_id = gateway_id
+        self.name = name
+        self.status = status
+        self.token = token
+        self.token_id = token_id
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Gateway object from a json dictionary."""
+        args = {}
+        if 'gateway_id' in _dict:
+            args['gateway_id'] = _dict.get('gateway_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'token' in _dict:
+            args['token'] = _dict.get('token')
+        if 'token_id' in _dict:
+            args['token_id'] = _dict.get('token_id')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'gateway_id') and self.gateway_id is not None:
+            _dict['gateway_id'] = self.gateway_id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'token') and self.token is not None:
+            _dict['token'] = self.token
+        if hasattr(self, 'token_id') and self.token_id is not None:
+            _dict['token_id'] = self.token_id
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Gateway object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class GatewayDelete(object):
+    """
+    Gatway deletion confirmation.
+
+    :attr str gateway_id: (optional) The gateway ID of the deleted gateway.
+    :attr str status: (optional) The status of the request.
+    """
+
+    def __init__(self, gateway_id=None, status=None):
+        """
+        Initialize a GatewayDelete object.
+
+        :param str gateway_id: (optional) The gateway ID of the deleted gateway.
+        :param str status: (optional) The status of the request.
+        """
+        self.gateway_id = gateway_id
+        self.status = status
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayDelete object from a json dictionary."""
+        args = {}
+        if 'gateway_id' in _dict:
+            args['gateway_id'] = _dict.get('gateway_id')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'gateway_id') and self.gateway_id is not None:
+            _dict['gateway_id'] = self.gateway_id
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this GatewayDelete object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class GatewayList(object):
+    """
+    Object containing gateways array.
+
+    :attr list[Gateway] gateways: (optional) Array of configured gateway connections.
+    """
+
+    def __init__(self, gateways=None):
+        """
+        Initialize a GatewayList object.
+
+        :param list[Gateway] gateways: (optional) Array of configured gateway connections.
+        """
+        self.gateways = gateways
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GatewayList object from a json dictionary."""
+        args = {}
+        if 'gateways' in _dict:
+            args['gateways'] = [
+                Gateway._from_dict(x) for x in (_dict.get('gateways'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'gateways') and self.gateways is not None:
+            _dict['gateways'] = [x._to_dict() for x in self.gateways]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this GatewayList object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

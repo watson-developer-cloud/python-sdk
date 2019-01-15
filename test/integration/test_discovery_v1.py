@@ -235,3 +235,27 @@ class Discoveryv1(TestCase):
             self.collection_id
         ).get_result()
         assert delete_stopword_list_result is None
+
+    def test_gateway_configuration(self):
+        create_gateway_result = self.discovery.create_gateway(
+            self.environment_id,
+            'test-gateway-configuration-python'
+        ).get_result()
+        assert create_gateway_result['gateway_id'] is not None
+
+        get_gateway_result = self.discovery.get_gateway(
+            self.environment_id,
+            create_gateway_result['gateway_id']
+        ).get_result()
+        assert get_gateway_result is not None
+
+        list_gateways_result = self.discovery.list_gateways(
+            self.environment_id
+        ).get_result()
+        assert list_gateways_result is not None
+
+        delete_gateways_result = self.discovery.delete_gateway(
+            self.environment_id,
+            create_gateway_result['gateway_id']
+        ).get_result()
+        assert delete_gateways_result is not None
