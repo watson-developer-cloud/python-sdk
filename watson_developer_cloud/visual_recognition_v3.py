@@ -111,11 +111,8 @@ class VisualRecognitionV3(WatsonService):
         non-ASCII characters. The service assumes UTF-8 encoding if it encounters
         non-ASCII characters.
         You can also include an image with the **url** parameter.
-        :param str accept_language: The language of the output class names. The full set
-        of languages is supported for the built-in classifier IDs: `default`, `food`, and
-        `explicit`. The class names of custom classifiers are not translated.
-        The response might not be in the specified language when the requested language is
-        not supported or when there is no translation for the class name.
+        :param str accept_language: The desired language of parts of the response. See the
+        response for details.
         :param str url: The URL of an image to analyze. Must be in .jpg, or .png format.
         The minimum recommended pixel density is 32X32 pixels per inch, and the maximum
         image size is 10 MB.
@@ -188,6 +185,7 @@ class VisualRecognitionV3(WatsonService):
     def detect_faces(self,
                      images_file=None,
                      url=None,
+                     accept_language=None,
                      images_file_content_type=None,
                      images_filename=None,
                      **kwargs):
@@ -198,7 +196,7 @@ class VisualRecognitionV3(WatsonService):
         to the Face model was removed. The identity information refers to the `name` of
         the person, `score`, and `type_hierarchy` knowledge graph. For details about the
         enhanced Face model, see the [Release
-        notes](https://console.bluemix.net/docs/services/visual-recognition/release-notes.html#2april2018).
+        notes](https://cloud.ibm.com/docs/services/visual-recognition/release-notes.html#2april2018).
         Analyze and get data about faces in images. Responses can include estimated age
         and gender. This feature uses a built-in model, so no training is necessary. The
         Detect faces method does not support general biometric facial recognition.
@@ -217,6 +215,8 @@ class VisualRecognitionV3(WatsonService):
         the maximum image size is 10 MB. Redirects are followed, so you can use a
         shortened URL.
         You can also include images with the **images_file** parameter.
+        :param str accept_language: The desired language of parts of the response. See the
+        response for details.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
         :param dict headers: A `dict` containing the request headers
@@ -224,7 +224,7 @@ class VisualRecognitionV3(WatsonService):
         :rtype: DetailedResponse
         """
 
-        headers = {}
+        headers = {'Accept-Language': accept_language}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
 
@@ -238,7 +238,7 @@ class VisualRecognitionV3(WatsonService):
                                         images_file_content_type or
                                         'application/octet-stream')
         if url:
-            form_data['url'] = (None, url)
+            form_data['url'] = (None, url, 'text/plain')
 
         url = '/v3/detect_faces'
         response = self.request(
@@ -434,7 +434,7 @@ class VisualRecognitionV3(WatsonService):
         Update a custom classifier by adding new positive or negative classes (examples)
         or by adding new images to existing classes. You must supply at least one set of
         positive or negative examples. For details, see [Updating custom
-        classifiers](https://console.bluemix.net/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
+        classifiers](https://cloud.ibm.com/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
         Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
         file names, and classifier and class names). The service assumes UTF-8 encoding if
         it encounters non-ASCII characters.
@@ -555,7 +555,7 @@ class VisualRecognitionV3(WatsonService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
-        security](https://console.bluemix.net/docs/services/visual-recognition/information-security.html).
+        security](https://cloud.ibm.com/docs/services/visual-recognition/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
@@ -640,23 +640,34 @@ class ClassResult(object):
     Result of a class within a classifier.
 
     :attr str class_name: Name of the class.
+    Class names are translated in the language defined by the **Accept-Language** request
+    header for the build-in classifier IDs (`default`, `food`, and `explicit`). Class
+    names of custom classifiers are not translated. The response might not be in the
+    specified language when the requested language is not supported or when there is no
+    translation for the class name.
     :attr float score: Confidence score for the property in the range of 0 to 1. A higher
     score indicates greater likelihood that the class is depicted in the image. The
     default threshold for returning scores from a classifier is 0.5.
-    :attr str type_hierarchy: Knowledge graph of the property. For example,
+    :attr str type_hierarchy: (optional) Knowledge graph of the property. For example,
     `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
     """
 
-    def __init__(self, class_name, score, type_hierarchy):
+    def __init__(self, class_name, score, type_hierarchy=None):
         """
         Initialize a ClassResult object.
 
         :param str class_name: Name of the class.
+        Class names are translated in the language defined by the **Accept-Language**
+        request header for the build-in classifier IDs (`default`, `food`, and
+        `explicit`). Class names of custom classifiers are not translated. The response
+        might not be in the specified language when the requested language is not
+        supported or when there is no translation for the class name.
         :param float score: Confidence score for the property in the range of 0 to 1. A
         higher score indicates greater likelihood that the class is depicted in the image.
         The default threshold for returning scores from a classifier is 0.5.
-        :param str type_hierarchy: Knowledge graph of the property. For example,
-        `/fruit/pome/apple/eating apple/Granny Smith`. Included only if identified.
+        :param str type_hierarchy: (optional) Knowledge graph of the property. For
+        example, `/fruit/pome/apple/eating apple/Granny Smith`. Included only if
+        identified.
         """
         self.class_name = class_name
         self.score = score
@@ -678,10 +689,6 @@ class ClassResult(object):
                 'Required property \'score\' not present in ClassResult JSON')
         if 'type_hierarchy' in _dict:
             args['type_hierarchy'] = _dict.get('type_hierarchy')
-        else:
-            raise ValueError(
-                'Required property \'type_hierarchy\' not present in ClassResult JSON'
-            )
         return cls(**args)
 
     def _to_dict(self):
@@ -807,8 +814,9 @@ class ClassifiedImages(object):
     """
     Results for all images.
 
-    :attr int custom_classes: Number of custom classes identified in the images.
-    :attr int images_processed: Number of images processed for the API call.
+    :attr int custom_classes: (optional) Number of custom classes identified in the
+    images.
+    :attr int images_processed: (optional) Number of images processed for the API call.
     :attr list[ClassifiedImage] images: Classified images.
     :attr list[WarningInfo] warnings: (optional) Information about what might cause less
     than optimal output. For example, a request sent with a corrupt .zip file and a list
@@ -816,13 +824,19 @@ class ClassifiedImages(object):
     returned when there is no warning.
     """
 
-    def __init__(self, custom_classes, images_processed, images, warnings=None):
+    def __init__(self,
+                 images,
+                 custom_classes=None,
+                 images_processed=None,
+                 warnings=None):
         """
         Initialize a ClassifiedImages object.
 
-        :param int custom_classes: Number of custom classes identified in the images.
-        :param int images_processed: Number of images processed for the API call.
         :param list[ClassifiedImage] images: Classified images.
+        :param int custom_classes: (optional) Number of custom classes identified in the
+        images.
+        :param int images_processed: (optional) Number of images processed for the API
+        call.
         :param list[WarningInfo] warnings: (optional) Information about what might cause
         less than optimal output. For example, a request sent with a corrupt .zip file and
         a list of image URLs will still complete, but does not return the expected output.
@@ -839,16 +853,8 @@ class ClassifiedImages(object):
         args = {}
         if 'custom_classes' in _dict:
             args['custom_classes'] = _dict.get('custom_classes')
-        else:
-            raise ValueError(
-                'Required property \'custom_classes\' not present in ClassifiedImages JSON'
-            )
         if 'images_processed' in _dict:
             args['images_processed'] = _dict.get('images_processed')
-        else:
-            raise ValueError(
-                'Required property \'images_processed\' not present in ClassifiedImages JSON'
-            )
         if 'images' in _dict:
             args['images'] = [
                 ClassifiedImage._from_dict(x) for x in (_dict.get('images'))
@@ -1443,19 +1449,24 @@ class FaceGender(object):
     Information about the gender of the face.
 
     :attr str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
+    :attr str gender_label: The word for "male" or "female" in the language defined by the
+    **Accept-Language** request header.
     :attr float score: Confidence score in the range of 0 to 1. A higher score indicates
     greater confidence in the estimated value for the property.
     """
 
-    def __init__(self, gender, score):
+    def __init__(self, gender, gender_label, score):
         """
         Initialize a FaceGender object.
 
         :param str gender: Gender identified by the face. For example, `MALE` or `FEMALE`.
+        :param str gender_label: The word for "male" or "female" in the language defined
+        by the **Accept-Language** request header.
         :param float score: Confidence score in the range of 0 to 1. A higher score
         indicates greater confidence in the estimated value for the property.
         """
         self.gender = gender
+        self.gender_label = gender_label
         self.score = score
 
     @classmethod
@@ -1467,6 +1478,12 @@ class FaceGender(object):
         else:
             raise ValueError(
                 'Required property \'gender\' not present in FaceGender JSON')
+        if 'gender_label' in _dict:
+            args['gender_label'] = _dict.get('gender_label')
+        else:
+            raise ValueError(
+                'Required property \'gender_label\' not present in FaceGender JSON'
+            )
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -1479,6 +1496,8 @@ class FaceGender(object):
         _dict = {}
         if hasattr(self, 'gender') and self.gender is not None:
             _dict['gender'] = self.gender
+        if hasattr(self, 'gender_label') and self.gender_label is not None:
+            _dict['gender_label'] = self.gender_label
         if hasattr(self, 'score') and self.score is not None:
             _dict['score'] = self.score
         return _dict
