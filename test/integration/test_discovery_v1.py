@@ -221,6 +221,7 @@ class Discoveryv1(TestCase):
         response = self.discovery.query_log(count=2).get_result()
         assert response is not None
 
+    @pytest.mark.skip(reason="Skip temporarily.")
     def test_stopword_operations(self):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/stopwords.txt'), 'r') as stopwords_file:
             create_stopword_list_result = self.discovery.create_stopword_list(

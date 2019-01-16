@@ -58,7 +58,6 @@ class TestSpeechToTextV1(TestCase):
         assert output['results'][0]['alternatives'][0][
             'transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
 
-    @pytest.mark.skip(reason="Timeout from service")
     def test_recognitions(self):
         output = self.speech_to_text.check_jobs().get_result()
         assert output is not None
