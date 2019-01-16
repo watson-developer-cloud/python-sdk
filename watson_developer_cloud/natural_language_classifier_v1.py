@@ -190,7 +190,7 @@ class NaturalLanguageClassifierV1(WatsonService):
         :param file training_data: Training data in CSV format. Each text value must have
         at least one class. The data can include up to 3,000 classes and 20,000 records.
         For details, see [Data
-        preparation](https://console.bluemix.net/docs/services/natural-language-classifier/using-your-data.html).
+        preparation](https://cloud.ibm.com/docs/services/natural-language-classifier/using-your-data.html).
         :param str metadata_filename: The filename for training_metadata.
         :param str training_data_filename: The filename for training_data.
         :param dict headers: A `dict` containing the request headers

@@ -513,3 +513,55 @@ def test_delete_user_data():
     response = speech_to_text.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1
+
+@responses.activate
+def test_custom_grammars():
+    url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/customizations/{0}/grammars/{1}'
+
+    responses.add(
+        responses.POST,
+        url.format('customization_id', 'grammar_name'),
+        body='{}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.DELETE,
+        url.format('customization_id', 'grammar_name'),
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        url.format('customization_id', 'grammar_name'),
+        body='{"status": "analyzed", "name": "test-add-grammar-python", "out_of_vocabulary_words": 0}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.GET,
+        url='https://stream.watsonplatform.net/speech-to-text/api/v1/customizations/customization_id/grammars',
+        body='{"grammars":[{"status": "analyzed", "name": "test-add-grammar-python", "out_of_vocabulary_words": 0}]}',
+        status=200,
+        content_type='application/json')
+
+    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+        username="username", password="password")
+
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/confirm-grammar.xml'), 'rb') as grammar_file:
+        speech_to_text.add_grammar(
+            "customization_id",
+            grammar_name='grammar_name',
+            grammar_file=grammar_file,
+            content_type='application/srgs+xml',
+            allow_overwrite=True)
+    assert responses.calls[0].response.json() == {}
+
+    speech_to_text.delete_grammar('customization_id', 'grammar_name')
+    assert responses.calls[1].response.status_code == 200
+
+    speech_to_text.get_grammar('customization_id', 'grammar_name')
+    assert responses.calls[2].response.json() == {"status": "analyzed", "name": "test-add-grammar-python", "out_of_vocabulary_words": 0}
+
+    speech_to_text.list_grammars('customization_id')
+    assert responses.calls[3].response.json() == {"grammars":[{"status": "analyzed", "name": "test-add-grammar-python", "out_of_vocabulary_words": 0}]}

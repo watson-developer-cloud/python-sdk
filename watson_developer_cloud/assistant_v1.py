@@ -121,7 +121,7 @@ class AssistantV1(WatsonService):
         There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
-        :param InputData input: The user input.
+        :param InputData input: An input object that includes the input text.
         :param bool alternate_intents: Whether to return more than one intent. Set to
         `true` to return all matching intents.
         :param Context context: State information for the conversation. To maintain state,
@@ -1665,7 +1665,7 @@ class AssistantV1(WatsonService):
         provide either synonyms or patterns (as indicated by **type**), but not both. A
         pattern is a regular expression no longer than 512 characters. For more
         information about how to specify a pattern, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#creating-entities).
         :param str value_type: Specifies the type of value.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1901,7 +1901,7 @@ class AssistantV1(WatsonService):
         provide either synonyms or patterns (as indicated by **type**), but not both. A
         pattern is a regular expression no longer than 512 characters. For more
         information about how to specify a pattern, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#creating-entities).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2251,7 +2251,7 @@ class AssistantV1(WatsonService):
         :param str previous_sibling: The ID of the previous dialog node.
         :param DialogNodeOutput output: The output of the dialog node. For more
         information about how to specify dialog node output, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
         :param object context: The context for the dialog node.
         :param object metadata: The metadata for the dialog node.
         :param DialogNodeNextStep next_step: The next step to execute following this
@@ -2508,7 +2508,7 @@ class AssistantV1(WatsonService):
         :param str new_previous_sibling: The ID of the previous sibling dialog node.
         :param DialogNodeOutput new_output: The output of the dialog node. For more
         information about how to specify dialog node output, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
         :param object new_context: The context for the dialog node.
         :param object new_metadata: The metadata for the dialog node.
         :param DialogNodeNextStep new_next_step: The next step to execute following this
@@ -2612,7 +2612,7 @@ class AssistantV1(WatsonService):
         the specified filter. You must specify a filter query that includes a value for
         `language`, as well as a value for `workspace_id` or
         `request.context.metadata.deployment`. For more information, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/filter-reference.html#filter-query-syntax).
         :param str sort: How to sort the returned log events. You can sort by
         **request_timestamp**. To reverse the sort order, prefix the parameter value with
         a minus sign (`-`).
@@ -2668,7 +2668,7 @@ class AssistantV1(WatsonService):
         a minus sign (`-`).
         :param str filter: A cacheable parameter that limits the results to those matching
         the specified filter. For more information, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/filter-reference.html#filter-query-syntax).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/filter-reference.html#filter-query-syntax).
         :param int page_limit: The number of records to return in each page of results.
         :param str cursor: A token identifying the page of results to retrieve.
         :param dict headers: A `dict` containing the request headers
@@ -2714,7 +2714,7 @@ class AssistantV1(WatsonService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
-        security](https://console.bluemix.net/docs/services/conversation/information-security.html).
+        security](https://cloud.ibm.com/docs/services/assistant/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
@@ -3100,7 +3100,7 @@ class CreateDialogNode(object):
     :attr str previous_sibling: (optional) The ID of the previous dialog node.
     :attr DialogNodeOutput output: (optional) The output of the dialog node. For more
     information about how to specify dialog node output, see the
-    [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+    [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
     :attr object context: (optional) The context for the dialog node.
     :attr object metadata: (optional) The metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute following this
@@ -3163,7 +3163,7 @@ class CreateDialogNode(object):
         :param str previous_sibling: (optional) The ID of the previous dialog node.
         :param DialogNodeOutput output: (optional) The output of the dialog node. For more
         information about how to specify dialog node output, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
         :param object context: (optional) The context for the dialog node.
         :param object metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute following
@@ -3580,7 +3580,7 @@ class CreateValue(object):
     can provide either synonyms or patterns (as indicated by **type**), but not both. A
     pattern is a regular expression no longer than 512 characters. For more information
     about how to specify a pattern, see the
-    [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+    [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#creating-entities).
     :attr str value_type: (optional) Specifies the type of value.
     """
 
@@ -3609,7 +3609,7 @@ class CreateValue(object):
         You can provide either synonyms or patterns (as indicated by **type**), but not
         both. A pattern is a regular expression no longer than 512 characters. For more
         information about how to specify a pattern, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#creating-entities).
         :param str value_type: (optional) Specifies the type of value.
         """
         self.value = value
@@ -3680,7 +3680,7 @@ class DialogNode(object):
     This property is not returned if the dialog node has no previous sibling.
     :attr DialogNodeOutput output: (optional) The output of the dialog node. For more
     information about how to specify dialog node output, see the
-    [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+    [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
     :attr object context: (optional) The context (if defined) for the dialog node.
     :attr object metadata: (optional) Any metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute following this
@@ -3739,7 +3739,7 @@ class DialogNode(object):
         node. This property is not returned if the dialog node has no previous sibling.
         :param DialogNodeOutput output: (optional) The output of the dialog node. For more
         information about how to specify dialog node output, see the
-        [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
         :param object context: (optional) The context (if defined) for the dialog node.
         :param object metadata: (optional) Any metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute following
@@ -3749,7 +3749,7 @@ class DialogNode(object):
         the dialog node.
         :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
         :param str title: (optional) The alias used to identify the dialog node.
-        :attr bool disabled: (optional) For internal use only.
+        :param bool disabled: (optional) For internal use only.
         :param str node_type: (optional) How the dialog node is processed.
         :param str event_name: (optional) How an `event_handler` node is processed.
         :param str variable: (optional) The location in the dialog context where output is
@@ -4172,7 +4172,7 @@ class DialogNodeOutput(object):
     """
     The output of the dialog node. For more information about how to specify dialog node
     output, see the
-    [documentation](https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex).
+    [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
 
     :attr list[DialogNodeOutputGeneric] generic: (optional) An array of objects describing
     the output defined for the dialog node.
@@ -4553,14 +4553,14 @@ class DialogNodeOutputOptionsElementValue(object):
     An object defining the message input to be sent to the Watson Assistant service if the
     user selects the corresponding option.
 
-    :attr InputData input: (optional) The user input.
+    :attr InputData input: (optional) An input object that includes the input text.
     """
 
     def __init__(self, input=None):
         """
         Initialize a DialogNodeOutputOptionsElementValue object.
 
-        :param InputData input: (optional) The user input.
+        :param InputData input: (optional) An input object that includes the input text.
         """
         self.input = input
 
@@ -4953,7 +4953,7 @@ class DialogSuggestionValue(object):
     An object defining the message input, intents, and entities to be sent to the Watson
     Assistant service if the user selects the corresponding disambiguation option.
 
-    :attr InputData input: (optional) The user input.
+    :attr InputData input: (optional) An input object that includes the input text.
     :attr list[RuntimeIntent] intents: (optional) An array of intents to be sent along
     with the user input.
     :attr list[RuntimeEntity] entities: (optional) An array of entities to be sent along
@@ -4964,7 +4964,7 @@ class DialogSuggestionValue(object):
         """
         Initialize a DialogSuggestionValue object.
 
-        :param InputData input: (optional) The user input.
+        :param InputData input: (optional) An input object that includes the input text.
         :param list[RuntimeIntent] intents: (optional) An array of intents to be sent
         along with the user input.
         :param list[RuntimeEntity] entities: (optional) An array of entities to be sent
@@ -5551,7 +5551,7 @@ class ExampleCollection(object):
 
 class InputData(object):
     """
-    The user input.
+    An input object that includes the input text.
 
     :attr str text: The text of the user input. This string cannot contain carriage
     return, newline, or tab characters, and it must be no longer than 2048 characters.
@@ -5891,9 +5891,10 @@ class LogExport(object):
     """
     LogExport.
 
-    :attr MessageRequest request: A message request formatted for the Watson Assistant
-    service.
-    :attr MessageResponse response: A response from the Watson Assistant service.
+    :attr MessageRequest request: A request sent to the workspace, including the user
+    input and context.
+    :attr MessageResponse response: The response sent by the workspace, including the
+    output text, detected intents and entities, and context.
     :attr str log_id: A unique identifier for the logged event.
     :attr str request_timestamp: The timestamp for receipt of the message.
     :attr str response_timestamp: The timestamp for the system response to the message.
@@ -5907,9 +5908,10 @@ class LogExport(object):
         """
         Initialize a LogExport object.
 
-        :param MessageRequest request: A message request formatted for the Watson
-        Assistant service.
-        :param MessageResponse response: A response from the Watson Assistant service.
+        :param MessageRequest request: A request sent to the workspace, including the user
+        input and context.
+        :param MessageResponse response: The response sent by the workspace, including the
+        output text, detected intents and entities, and context.
         :param str log_id: A unique identifier for the logged event.
         :param str request_timestamp: The timestamp for receipt of the message.
         :param str response_timestamp: The timestamp for the system response to the
@@ -6318,9 +6320,9 @@ class MessageInput(object):
 
 class MessageRequest(object):
     """
-    A message request formatted for the Watson Assistant service.
+    A request sent to the workspace, including the user input and context.
 
-    :attr InputData input: (optional) The user input.
+    :attr InputData input: (optional) An input object that includes the input text.
     :attr bool alternate_intents: (optional) Whether to return more than one intent. Set
     to `true` to return all matching intents.
     :attr Context context: (optional) State information for the conversation. To maintain
@@ -6345,7 +6347,7 @@ class MessageRequest(object):
         """
         Initialize a MessageRequest object.
 
-        :param InputData input: (optional) The user input.
+        :param InputData input: (optional) An input object that includes the input text.
         :param bool alternate_intents: (optional) Whether to return more than one intent.
         Set to `true` to return all matching intents.
         :param Context context: (optional) State information for the conversation. To
@@ -6423,7 +6425,8 @@ class MessageRequest(object):
 
 class MessageResponse(object):
     """
-    A response from the Watson Assistant service.
+    The response sent by the workspace, including the output text, detected intents and
+    entities, and context.
 
     :attr MessageInput input: (optional) The text of the user input.
     :attr list[RuntimeIntent] intents: An array of intents recognized in the user input,
@@ -7888,7 +7891,7 @@ class WorkspaceExport(object):
 
 class WorkspaceSystemSettings(object):
     """
-    WorkspaceSystemSettings.
+    Global settings for the workspace.
 
     :attr WorkspaceSystemSettingsTooling tooling: (optional) Workspace settings related to
     the Watson Assistant tool.
@@ -7961,7 +7964,8 @@ class WorkspaceSystemSettings(object):
 
 class WorkspaceSystemSettingsDisambiguation(object):
     """
-    WorkspaceSystemSettingsDisambiguation.
+    Workspace settings related to the disambiguation feature.
+    **Note:** This feature is available only to Premium users.
 
     :attr str prompt: (optional) The text of the introductory prompt that accompanies
     disambiguation options presented to the user.
@@ -8046,7 +8050,7 @@ class WorkspaceSystemSettingsDisambiguation(object):
 
 class WorkspaceSystemSettingsTooling(object):
     """
-    WorkspaceSystemSettingsTooling.
+    Workspace settings related to the Watson Assistant tool.
 
     :attr bool store_generic_responses: (optional) Whether the dialog JSON editor displays
     text responses within the `output.generic` object.

@@ -1,0 +1,18 @@
+<grammar version="1.0" xml:lang="en-US" root="confirmations">
+  <rule id="confirmations">
+    <one-of>
+      <item> affirmative </item>
+      <item> nah </item>
+      <item> no </item>
+      <item> nope </item>
+      <item> yeah </item>
+      <item> yep </item>
+      <item> yes </item>
+      <item> yup </item>
+      <item> fine </item>
+      <item> negative </item>
+      <item> OK </item>
+      <item> sure </item>
+    </one-of>
+  </rule>
+</grammar>

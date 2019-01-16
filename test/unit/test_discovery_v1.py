@@ -1215,3 +1215,76 @@ def test_tokenization_dictionary():
     assert responses.calls[2].response.status_code is 200
 
     assert len(responses.calls) == 3
+
+@responses.activate
+def test_stopword_operations():
+    url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/word_lists/stopwords?version=2017-11-07'
+    responses.add(
+        responses.POST,
+        url,
+        body='{"status": "pending", "type": "stopwords"}',
+        status=200,
+        content_type='application_json')
+    responses.add(
+        responses.DELETE,
+        url,
+        status=200)
+
+    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
+
+    stopwords_file_path = os.path.join(os.getcwd(), 'resources', 'stopwords.txt')
+    with open(stopwords_file_path) as file:
+        discovery.create_stopword_list('envid', 'colid', file)
+        assert responses.calls[0].response.json() == {"status": "pending", "type": "stopwords"}
+
+    discovery.delete_stopword_list('envid', 'colid')
+    assert responses.calls[1].response.status_code == 200
+
+    assert len(responses.calls) == 2
+
+@responses.activate
+def test_gateway_configuration():
+    discovery_gateway_url = urljoin(base_discovery_url, 'environments/envid/gateways')
+
+    gateway_details = {
+        "status": "idle",
+        "token_id": "9GnaCreixek_prod_ng",
+        "token": "4FByv9Mmd79x6c",
+        "name": "test-gateway-configuration-python",
+        "gateway_id": "gateway_id"
+    }
+
+    iam_url = "https://iam.bluemix.net/identity/token"
+    iam_token_response = """{
+        "access_token": "oAeisG8yqPY7sFR_x66Z15",
+        "token_type": "Bearer",
+        "expires_in": 3600,
+        "expiration": 1524167011,
+        "refresh_token": "jy4gl91BQ"
+    }"""
+    responses.add(responses.POST, url=iam_url, body=iam_token_response, status=200)
+    responses.add(responses.GET, "{0}/{1}?version=2016-11-07".format(discovery_gateway_url, 'gateway_id'),
+                  body=json.dumps(gateway_details),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.POST, "{0}?version=2016-11-07".format(discovery_gateway_url),
+                  body=json.dumps(gateway_details),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.GET, "{0}?version=2016-11-07".format(discovery_gateway_url),
+                  body=json.dumps({'gateways': [gateway_details]}),
+                  status=200,
+                  content_type='application/json')
+    responses.add(responses.DELETE, "{0}/{1}?version=2016-11-07".format(discovery_gateway_url, 'gateway_id'),
+                  body=json.dumps({'gateway_id': 'gateway_id', 'status': 'deleted'}),
+                  status=200,
+                  content_type='application/json')
+
+    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
+                                                   iam_apikey='iam_apikey')
+
+    discovery.create_gateway('envid', 'gateway_id')
+    discovery.list_gateways('envid')
+    discovery.get_gateway('envid', 'gateway_id')
+    discovery.delete_gateway(environment_id='envid', gateway_id='gateway_id')
+    assert len(responses.calls) == 8

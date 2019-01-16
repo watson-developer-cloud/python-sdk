@@ -187,6 +187,13 @@ class Discoveryv1(TestCase):
                                        self.collection_id,
                                        document_id).get_result()
 
+    def test_tokenization_dictionary(self):
+        result = self.discovery.get_tokenization_dictionary_status(
+            self.environment_id,
+            self.collection_id_JP
+        ).get_result()
+        assert result['status'] is not None
+
     def test_feedback(self):
         response = self.discovery.get_metrics_event_rate('2018-08-13T14:39:59.309Z',
                                                          '2018-08-14T14:39:59.309Z',
@@ -214,10 +221,42 @@ class Discoveryv1(TestCase):
         response = self.discovery.query_log(count=2).get_result()
         assert response is not None
 
+    @pytest.mark.skip(reason="Skip temporarily.")
+    def test_stopword_operations(self):
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/stopwords.txt'), 'r') as stopwords_file:
+            create_stopword_list_result = self.discovery.create_stopword_list(
+                self.environment_id,
+                self.collection_id,
+                stopwords_file
+            ).get_result()
+        assert create_stopword_list_result is not None
 
-    def test_tokenization_dictionary(self):
-        result = self.discovery.get_tokenization_dictionary_status(
+        delete_stopword_list_result = self.discovery.delete_stopword_list(
             self.environment_id,
-            self.collection_id_JP
+            self.collection_id
         ).get_result()
-        assert result['status'] is not None
+        assert delete_stopword_list_result is None
+
+    def test_gateway_configuration(self):
+        create_gateway_result = self.discovery.create_gateway(
+            self.environment_id,
+            'test-gateway-configuration-python'
+        ).get_result()
+        assert create_gateway_result['gateway_id'] is not None
+
+        get_gateway_result = self.discovery.get_gateway(
+            self.environment_id,
+            create_gateway_result['gateway_id']
+        ).get_result()
+        assert get_gateway_result is not None
+
+        list_gateways_result = self.discovery.list_gateways(
+            self.environment_id
+        ).get_result()
+        assert list_gateways_result is not None
+
+        delete_gateways_result = self.discovery.delete_gateway(
+            self.environment_id,
+            create_gateway_result['gateway_id']
+        ).get_result()
+        assert delete_gateways_result is not None

@@ -49,6 +49,8 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   http_proxy_host=None,
                                   http_proxy_port=None,
                                   customization_id=None,
+                                  grammar_name=None,
+                                  redaction=None,
                                   **kwargs):
         """
         Sends audio for speech recognition using web sockets.
@@ -149,6 +151,26 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         parameter to specify the customization ID (GUID) of a custom language model that
         is to be used with the recognition request. Do not specify both parameters with a
         request.
+        :param str grammar_name: The name of a grammar that is to be used with the
+        recognition request. If you specify a grammar, you must also use the
+        `language_customization_id` parameter to specify the name of the custom language
+        model for which the grammar is defined. The service recognizes only strings that
+        are recognized by the specified grammar; it does not recognize other custom words
+        from the model's words resource. See
+        [Grammars](https://cloud.ibm.com/docs/services/speech-to-text/output.html).
+        :param bool redaction: If `true`, the service redacts, or masks, numeric data from
+        final transcripts. The feature redacts any number that has three or more
+        consecutive digits by replacing each digit with an `X` character. It is intended
+        to redact sensitive numeric data, such as credit card numbers. By default, the
+        service performs no redaction.
+        When you enable redaction, the service automatically enables smart formatting,
+        regardless of whether you explicitly disable that feature. To ensure maximum
+        security, the service also disables keyword spotting (ignores the `keywords` and
+        `keywords_threshold` parameters) and returns only a single final transcript
+        (forces the `max_alternatives` parameter to be `1`).
+        **Note:** Applies to US English, Japanese, and Korean transcription only.
+        See [Numeric
+        redaction](https://cloud.ibm.com/docs/services/speech-to-text/output.html#redaction).
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
@@ -188,6 +210,8 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'customization_weight': customization_weight,
             'base_model_version': base_model_version,
             'language_customization_id': language_customization_id,
+            'grammar_name': grammar_name,
+            'redaction': redaction
         }
         params = _remove_null_values(params)
         url += '/v1/recognize?{0}'.format(urlencode(params))

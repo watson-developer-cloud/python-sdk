@@ -1,3 +1,4 @@
+from __future__ import print_function
 from unittest import TestCase
 import os
 from watson_developer_cloud.websocket import RecognizeCallback, AudioSource
@@ -57,7 +58,6 @@ class TestSpeechToTextV1(TestCase):
         assert output['results'][0]['alternatives'][0][
             'transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
 
-    @pytest.mark.skip(reason="Timeout from service")
     def test_recognitions(self):
         output = self.speech_to_text.check_jobs().get_result()
         assert output is not None
@@ -107,3 +107,51 @@ class TestSpeechToTextV1(TestCase):
         assert test_callback.error is None
         assert test_callback.transcript is not None
         assert test_callback.transcript[0]['transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
+
+    def test_custom_grammars(self):
+        customization_id = None
+        for custom_model in self.custom_models['customizations']:
+            if custom_model['name'] == 'integration_test_model_for_grammar':
+                customization_id = custom_model['customization_id']
+                break
+
+        if customization_id is None:
+            print('Creating a new custom model')
+            create_custom_model_for_grammar = self.speech_to_text.create_language_model(
+                name="integration_test_model_for_grammar",
+                base_model_name="en-US_BroadbandModel"
+                ).get_result()
+            customization_id = create_custom_model_for_grammar['customization_id']
+
+        grammars = self.speech_to_text.list_grammars(
+            customization_id
+            ).get_result()['grammars']
+
+        if not grammars:
+            with open(os.path.join(os.path.dirname(__file__), '../../resources/confirm-grammar.xml'), 'rb') as grammar_file:
+                add_grammar_result = self.speech_to_text.add_grammar(
+                    customization_id,
+                    grammar_name='test-add-grammar-python',
+                    grammar_file=grammar_file,
+                    content_type='application/srgs+xml',
+                    allow_overwrite=True
+                ).get_result()
+                assert add_grammar_result is not None
+
+            get_grammar_result = self.speech_to_text.get_grammar(
+                customization_id,
+                grammar_name='test-add-grammar-python'
+            ).get_result()
+            assert get_grammar_result is not None
+        else:
+            print('Deleting grammar')
+            delete_grammar_result = self.speech_to_text.delete_grammar(
+                customization_id,
+                'test-add-grammar-python'
+                ).get_result()
+            assert delete_grammar_result is not None
+
+        try:
+            self.speech_to_text.delete_language_model(customization_id)
+        except watson_developer_cloud.WatsonApiException as ex:
+            print('Could not delete model: {0}'.format(ex.message))

@@ -111,7 +111,7 @@ class TextToSpeechV1(WatsonService):
         obtain information for that custom voice model of the specified voice. To list
         information about all available voices, use the **List voices** method.
         **See also:** [Specifying a
-        voice](/docs/services/text-to-speech/http.html#voices).
+        voice](https://cloud.ibm.com/docs/services/text-to-speech/http.html#voices).
 
         :param str voice: The voice for which information is to be returned.
         :param str customization_id: The customization ID (GUID) of a custom voice model
@@ -150,7 +150,7 @@ class TextToSpeechV1(WatsonService):
         name, language, gender, and other details about the voice. To see information
         about a specific voice, use the **Get a voice** method.
         **See also:** [Specifying a
-        voice](/docs/services/text-to-speech/http.html#voices).
+        voice](https://cloud.ibm.com/docs/services/text-to-speech/http.html#voices).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -185,7 +185,7 @@ class TextToSpeechV1(WatsonService):
         The service returns the synthesized audio stream as an array of bytes. You can
         pass a maximum of 5 KB of text to the service.
         **See also:** [Synthesizing text to
-        audio](/docs/services/text-to-speech/http.html#synthesize).
+        audio](https://cloud.ibm.com/docs/services/text-to-speech/http.html#synthesize).
         ### Audio formats (accept types)
          The service can return audio in the following formats (MIME types).
         * Where indicated, you can optionally specify the sampling rate (`rate`) of the
@@ -236,7 +236,7 @@ class TextToSpeechV1(WatsonService):
         22,050 Hz.
         For more information about specifying an audio format, including additional
         details about some of the formats, see [Specifying an audio
-        format](/docs/services/text-to-speech/http.html#format).
+        format](https://cloud.ibm.com/docs/services/text-to-speech/http.html#format).
         ### Warning messages
          If a request includes invalid query parameters, the service returns a `Warnings`
         response header that provides messages about the invalid parameters. The warning
@@ -303,7 +303,7 @@ class TextToSpeechV1(WatsonService):
         for a specific custom voice model to see the translation for that voice model.
         **Note:** This method is currently a beta release.
         **See also:** [Querying a word from a
-        language](/docs/services/text-to-speech/custom-entries.html#cuWordsQueryLanguage).
+        language](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsQueryLanguage).
 
         :param str text: The word for which the pronunciation is requested.
         :param str voice: A voice that specifies the language in which the pronunciation
@@ -364,7 +364,7 @@ class TextToSpeechV1(WatsonService):
         used to create it.
         **Note:** This method is currently a beta release.
         **See also:** [Creating a custom
-        model](/docs/services/text-to-speech/custom-models.html#cuModelsCreate).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsCreate).
 
         :param str name: The name of the new custom voice model.
         :param str language: The language of the new custom voice model. Omit the
@@ -402,7 +402,7 @@ class TextToSpeechV1(WatsonService):
         instance of the service that owns a model to delete it.
         **Note:** This method is currently a beta release.
         **See also:** [Deleting a custom
-        model](/docs/services/text-to-speech/custom-models.html#cuModelsDelete).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -435,7 +435,7 @@ class TextToSpeechV1(WatsonService):
         voice model, use the **List custom models** method.
         **Note:** This method is currently a beta release.
         **See also:** [Querying a custom
-        model](/docs/services/text-to-speech/custom-models.html#cuModelsQuery).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsQuery).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -470,7 +470,7 @@ class TextToSpeechV1(WatsonService):
         about it.
         **Note:** This method is currently a beta release.
         **See also:** [Querying all custom
-        models](/docs/services/text-to-speech/custom-models.html#cuModelsQueryAll).
+        models](https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsQueryAll).
 
         :param str language: The language for which custom voice models that are owned by
         the requesting service credentials are to be returned. Omit the parameter to see
@@ -523,10 +523,11 @@ class TextToSpeechV1(WatsonService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Updating a custom
-        model](/docs/services/text-to-speech/custom-models.html#cuModelsUpdate)
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsUpdate)
         * [Adding words to a Japanese custom
-        model](/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
-        * [Understanding customization](/docs/services/text-to-speech/custom-intro.html).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
+        * [Understanding
+        customization](https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -593,10 +594,11 @@ class TextToSpeechV1(WatsonService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Adding a single word to a custom
-        model](/docs/services/text-to-speech/custom-entries.html#cuWordAdd)
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordAdd)
         * [Adding words to a Japanese custom
-        model](/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
-        * [Understanding customization](/docs/services/text-to-speech/custom-intro.html).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
+        * [Understanding
+        customization](https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -612,7 +614,7 @@ class TextToSpeechV1(WatsonService):
         create only a single entry, with or without a single part of speech, for any word;
         you cannot create multiple entries with different parts of speech for the same
         word. For more information, see [Working with Japanese
-        entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
+        entries](https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -659,10 +661,11 @@ class TextToSpeechV1(WatsonService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Adding multiple words to a custom
-        model](/docs/services/text-to-speech/custom-entries.html#cuWordsAdd)
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsAdd)
         * [Adding words to a Japanese custom
-        model](/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
-        * [Understanding customization](/docs/services/text-to-speech/custom-intro.html).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd)
+        * [Understanding
+        customization](https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -709,7 +712,7 @@ class TextToSpeechV1(WatsonService):
         credentials for the instance of the service that owns a model to delete its words.
         **Note:** This method is currently a beta release.
         **See also:** [Deleting a word from a custom
-        model](/docs/services/text-to-speech/custom-entries.html#cuWordDelete).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -744,7 +747,7 @@ class TextToSpeechV1(WatsonService):
         the instance of the service that owns a model to list its words.
         **Note:** This method is currently a beta release.
         **See also:** [Querying a single word from a custom
-        model](/docs/services/text-to-speech/custom-entries.html#cuWordQueryModel).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -780,7 +783,7 @@ class TextToSpeechV1(WatsonService):
         words.
         **Note:** This method is currently a beta release.
         **See also:** [Querying all words from a custom
-        model](/docs/services/text-to-speech/custom-entries.html#cuWordsQueryModel).
+        model](https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
         model. You must make the request with service credentials created for the instance
@@ -819,7 +822,7 @@ class TextToSpeechV1(WatsonService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes the data.
         **See also:** [Information
-        security](/docs/services/text-to-speech/information-security.html).
+        security](https://cloud.ibm.com/docs/services/text-to-speech/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
@@ -985,7 +988,7 @@ class Translation(object):
     can create only a single entry, with or without a single part of speech, for any word;
     you cannot create multiple entries with different parts of speech for the same word.
     For more information, see [Working with Japanese
-    entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
+    entries](https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes).
     """
 
     def __init__(self, translation, part_of_speech=None):
@@ -1001,7 +1004,7 @@ class Translation(object):
         word. You can create only a single entry, with or without a single part of speech,
         for any word; you cannot create multiple entries with different parts of speech
         for the same word. For more information, see [Working with Japanese
-        entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
+        entries](https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes).
         """
         self.translation = translation
         self.part_of_speech = part_of_speech
@@ -1441,7 +1444,7 @@ class Word(object):
     can create only a single entry, with or without a single part of speech, for any word;
     you cannot create multiple entries with different parts of speech for the same word.
     For more information, see [Working with Japanese
-    entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
+    entries](https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes).
     """
 
     def __init__(self, word, translation, part_of_speech=None):
@@ -1459,7 +1462,7 @@ class Word(object):
         word. You can create only a single entry, with or without a single part of speech,
         for any word; you cannot create multiple entries with different parts of speech
         for the same word. For more information, see [Working with Japanese
-        entries](/docs/services/text-to-speech/custom-rules.html#jaNotes).
+        entries](https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes).
         """
         self.word = word
         self.translation = translation

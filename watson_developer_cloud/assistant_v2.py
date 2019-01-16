@@ -199,7 +199,7 @@ class AssistantV2(WatsonService):
         [documentation](https://console.bluemix.net/docs/services/assistant/create-assistant.html#creating-assistants).
         **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
-        :param MessageInput input: The user input.
+        :param MessageInput input: An input object that includes the input text.
         :param MessageContext context: State information for the conversation.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -518,14 +518,15 @@ class DialogNodeOutputOptionsElementValue(object):
     An object defining the message input to be sent to the assistant if the user selects
     the corresponding option.
 
-    :attr MessageInput input: (optional) The user input.
+    :attr MessageInput input: (optional) An input object that includes the input text.
     """
 
     def __init__(self, input=None):
         """
         Initialize a DialogNodeOutputOptionsElementValue object.
 
-        :param MessageInput input: (optional) The user input.
+        :param MessageInput input: (optional) An input object that includes the input
+        text.
         """
         self.input = input
 
@@ -863,14 +864,15 @@ class DialogSuggestionValue(object):
     An object defining the message input to be sent to the assistant if the user selects
     the corresponding disambiguation option.
 
-    :attr MessageInput input: (optional) The user input.
+    :attr MessageInput input: (optional) An input object that includes the input text.
     """
 
     def __init__(self, input=None):
         """
         Initialize a DialogSuggestionValue object.
 
-        :param MessageInput input: (optional) The user input.
+        :param MessageInput input: (optional) An input object that includes the input
+        text.
         """
         self.input = input
 
@@ -1189,7 +1191,7 @@ class MessageContextSkills(object):
 
 class MessageInput(object):
     """
-    The user input.
+    An input object that includes the input text.
 
     :attr str message_type: (optional) The type of user input. Currently, only text input
     is supported.
@@ -1300,8 +1302,9 @@ class MessageInputOptions(object):
 
     :attr bool debug: (optional) Whether to return additional diagnostic information. Set
     to `true` to return additional information under the `output.debug` key.
-    :attr bool restart: (optional) Whether to start a new conversation with this user
-    input. Specify `true` to clear the state information stored by the session.
+    :attr bool restart: (optional) Whether to restart dialog processing at the root of the
+    dialog, regardless of any previously visited nodes. **Note:** This does not affect
+    `turn_count` or any other context variables.
     :attr bool alternate_intents: (optional) Whether to return more than one intent. Set
     to `true` to return all matching intents.
     :attr bool return_context: (optional) Whether to return session context with the
@@ -1318,8 +1321,9 @@ class MessageInputOptions(object):
 
         :param bool debug: (optional) Whether to return additional diagnostic information.
         Set to `true` to return additional information under the `output.debug` key.
-        :param bool restart: (optional) Whether to start a new conversation with this user
-        input. Specify `true` to clear the state information stored by the session.
+        :param bool restart: (optional) Whether to restart dialog processing at the root
+        of the dialog, regardless of any previously visited nodes. **Note:** This does not
+        affect `turn_count` or any other context variables.
         :param bool alternate_intents: (optional) Whether to return more than one intent.
         Set to `true` to return all matching intents.
         :param bool return_context: (optional) Whether to return session context with the
@@ -1388,8 +1392,9 @@ class MessageOutput(object):
     actions requested by the dialog node.
     :attr MessageOutputDebug debug: (optional) Additional detailed information about a
     message response and how it was generated.
-    :attr object user_defined: (optional) Arbitrary variables that can be read and written
-    to by a particular skill within the Assistant.
+    :attr object user_defined: (optional) An object containing any custom properties
+    included in the response. This object includes any arbitrary properties defined in the
+    dialog JSON editor as part of the dialog node output.
     """
 
     def __init__(self,
@@ -1413,8 +1418,9 @@ class MessageOutput(object):
         any actions requested by the dialog node.
         :param MessageOutputDebug debug: (optional) Additional detailed information about
         a message response and how it was generated.
-        :param object user_defined: (optional) Arbitrary variables that can be read and
-        written to by a particular skill within the Assistant.
+        :param object user_defined: (optional) An object containing any custom properties
+        included in the response. This object includes any arbitrary properties defined in
+        the dialog JSON editor as part of the dialog node output.
         """
         self.generic = generic
         self.intents = intents

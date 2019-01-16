@@ -26,9 +26,11 @@ that provides a full-duplex, low-latency communication channel: Clients send req
 audio to the service and receive results over a single connection asynchronously.
 The service also offers two customization interfaces. Use language model customization to
 expand the vocabulary of a base model with domain-specific terminology. Use acoustic model
-customization to adapt a base model for the acoustic characteristics of your audio.
+customization to adapt a base model for the acoustic characteristics of your audio. For
+language model customization, the service also supports grammars. A grammar is a formal
+language specification that lets you restrict the phrases that the service can recognize.
 Language model customization is generally available for production use with most supported
-languages; acoustic model customization is beta functionality that is available for all
+languages. Acoustic model customization is beta functionality that is available for all
 supported languages.
 """
 
@@ -112,7 +114,7 @@ class SpeechToTextV1(WatsonService):
         with the service. The information includes the name of the model and its minimum
         sampling rate in Hertz, among other things.
         **See also:** [Languages and
-        models](/docs/services/speech-to-text/input.html#models).
+        models](https://cloud.ibm.com/docs/services/speech-to-text/models.html).
 
         :param str model_id: The identifier of the model in the form of its name from the
         output of the **Get a model** method.
@@ -141,7 +143,7 @@ class SpeechToTextV1(WatsonService):
         information includes the name of the model and its minimum sampling rate in Hertz,
         among other things.
         **See also:** [Languages and
-        models](/docs/services/speech-to-text/input.html#models).
+        models](https://cloud.ibm.com/docs/services/speech-to-text/models.html).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -180,6 +182,8 @@ class SpeechToTextV1(WatsonService):
                   smart_formatting=None,
                   speaker_labels=None,
                   customization_id=None,
+                  grammar_name=None,
+                  redaction=None,
                   **kwargs):
         """
         Recognize audio.
@@ -191,7 +195,7 @@ class SpeechToTextV1(WatsonService):
         transcoding. The method returns only final results; to enable interim results, use
         the WebSocket API.
         **See also:** [Making a basic HTTP
-        request](/docs/services/speech-to-text/http.html#HTTP-basic).
+        request](https://cloud.ibm.com/docs/services/speech-to-text/http.html#HTTP-basic).
         ### Streaming mode
          For requests to transcribe live audio as it becomes available, you must set the
         `Transfer-Encoding` header to `chunked` to use streaming mode. In streaming mode,
@@ -201,8 +205,10 @@ class SpeechToTextV1(WatsonService):
         `inactivity_timeout` seconds of audio (not processing time); use the
         `inactivity_timeout` parameter to change the default of 30 seconds.
         **See also:**
-        * [Audio transmission](/docs/services/speech-to-text/input.html#transmission)
-        * [Timeouts](/docs/services/speech-to-text/input.html#timeouts)
+        * [Audio
+        transmission](https://cloud.ibm.com/docs/services/speech-to-text/input.html#transmission)
+        *
+        [Timeouts](https://cloud.ibm.com/docs/services/speech-to-text/input.html#timeouts)
         ### Audio formats (content types)
          The service accepts audio in the following formats (MIME types).
         * For formats that are labeled **Required**, you must use the `Content-Type`
@@ -215,6 +221,7 @@ class SpeechToTextV1(WatsonService):
         can optionally include the number of channels and the endianness of the audio.
         * `audio/basic` (**Required.** Use only with narrowband models.)
         * `audio/flac`
+        * `audio/g729` (Use only with narrowband models.)
         * `audio/l16` (**Required.** Specify the sampling rate (`rate`) and optionally the
         number of channels (`channels`) and endianness (`endianness`) of the audio.)
         * `audio/mp3`
@@ -227,7 +234,14 @@ class SpeechToTextV1(WatsonService):
         * `audio/webm` (The service automatically detects the codec of the input audio.)
         * `audio/webm;codecs=opus`
         * `audio/webm;codecs=vorbis`
-        **See also:** [Audio formats](/docs/services/speech-to-text/audio-formats.html).
+        The sampling rate of the audio must match the sampling rate of the model for the
+        recognition request: for broadband models, at least 16 kHz; for narrowband models,
+        at least 8 kHz. If the sampling rate of the audio is higher than the minimum
+        required rate, the service down-samples the audio to the appropriate rate. If the
+        sampling rate of the audio is lower than the minimum required rate, the request
+        fails.
+         **See also:** [Audio
+        formats](https://cloud.ibm.com/docs/services/speech-to-text/audio-formats.html).
         ### Multipart speech recognition
          **Note:** The Watson SDKs do not support multipart speech recognition.
         The HTTP `POST` method of the service also supports multipart speech recognition.
@@ -239,36 +253,38 @@ class SpeechToTextV1(WatsonService):
         limit imposed by most HTTP servers and proxies. You can encounter this limit, for
         example, if you want to spot a very large number of keywords.
         **See also:** [Making a multipart HTTP
-        request](/docs/services/speech-to-text/http.html#HTTP-multi).
+        request](https://cloud.ibm.com/docs/services/speech-to-text/http.html#HTTP-multi).
 
         :param file audio: The audio to transcribe.
         :param str content_type: The format (MIME type) of the audio. For more information
         about specifying an audio format, see **Audio formats (content types)** in the
         method description.
         :param str model: The identifier of the model that is to be used for the
-        recognition request.
+        recognition request. See [Languages and
+        models](https://cloud.ibm.com/docs/services/speech-to-text/models.html).
         :param str language_customization_id: The customization ID (GUID) of a custom
         language model that is to be used with the recognition request. The base model of
         the specified custom language model must match the model specified with the
-        `model` parameter. You must make the request with service credentials created for
-        the instance of the service that owns the custom model. By default, no custom
-        language model is used. See [Custom
-        models](/docs/services/speech-to-text/input.html#custom).
+        `model` parameter. You must make the request with credentials for the instance of
+        the service that owns the custom model. By default, no custom language model is
+        used. See [Custom
+        models](https://cloud.ibm.com/docs/services/speech-to-text/input.html#custom).
         **Note:** Use this parameter instead of the deprecated `customization_id`
         parameter.
         :param str acoustic_customization_id: The customization ID (GUID) of a custom
         acoustic model that is to be used with the recognition request. The base model of
         the specified custom acoustic model must match the model specified with the
-        `model` parameter. You must make the request with service credentials created for
-        the instance of the service that owns the custom model. By default, no custom
-        acoustic model is used. See [Custom
-        models](/docs/services/speech-to-text/input.html#custom).
+        `model` parameter. You must make the request with credentials for the instance of
+        the service that owns the custom model. By default, no custom acoustic model is
+        used. See [Custom
+        models](https://cloud.ibm.com/docs/services/speech-to-text/input.html#custom).
         :param str base_model_version: The version of the specified base model that is to
         be used with recognition request. Multiple versions of a base model can exist when
         a model is updated for internal improvements. The parameter is intended primarily
         for use with custom models that have been upgraded for a new base model. The
         default value depends on whether the parameter is used with or without a custom
-        model. See [Base model version](/docs/services/speech-to-text/input.html#version).
+        model. See [Base model
+        version](https://cloud.ibm.com/docs/services/speech-to-text/input.html#version).
         :param float customization_weight: If you specify the customization ID (GUID) of a
         custom language model with the recognition request, the customization weight tells
         the service how much weight to give to words from the custom language model
@@ -282,66 +298,92 @@ class SpeechToTextV1(WatsonService):
         setting the weight: a higher value can improve the accuracy of phrases from the
         custom model's domain, but it can negatively affect performance on non-domain
         phrases.
-        See [Custom models](/docs/services/speech-to-text/input.html#custom).
+        See [Custom
+        models](https://cloud.ibm.com/docs/services/speech-to-text/input.html#custom).
         :param int inactivity_timeout: The time in seconds after which, if only silence
         (no speech) is detected in submitted audio, the connection is closed with a 400
         error. The parameter is useful for stopping audio submission from a live
         microphone when a user simply walks away. Use `-1` for infinity. See
-        [Timeouts](/docs/services/speech-to-text/input.html#timeouts).
+        [Timeouts](https://cloud.ibm.com/docs/services/speech-to-text/input.html#timeouts).
         :param list[str] keywords: An array of keyword strings to spot in the audio. Each
         keyword string can include one or more string tokens. Keywords are spotted only in
         the final results, not in interim hypotheses. If you specify any keywords, you
         must also specify a keywords threshold. You can spot a maximum of 1000 keywords.
         Omit the parameter or specify an empty array if you do not need to spot keywords.
         See [Keyword
-        spotting](/docs/services/speech-to-text/output.html#keyword_spotting).
+        spotting](https://cloud.ibm.com/docs/services/speech-to-text/output.html#keyword_spotting).
         :param float keywords_threshold: A confidence value that is the lower bound for
         spotting a keyword. A word is considered to match a keyword if its confidence is
         greater than or equal to the threshold. Specify a probability between 0.0 and 1.0.
-        No keyword spotting is performed if you omit the parameter. If you specify a
-        threshold, you must also specify one or more keywords. See [Keyword
-        spotting](/docs/services/speech-to-text/output.html#keyword_spotting).
+        If you specify a threshold, you must also specify one or more keywords. The
+        service performs no keyword spotting if you omit either parameter. See [Keyword
+        spotting](https://cloud.ibm.com/docs/services/speech-to-text/output.html#keyword_spotting).
         :param int max_alternatives: The maximum number of alternative transcripts that
-        the service is to return. By default, a single transcription is returned. See
+        the service is to return. By default, the service returns a single transcript. See
         [Maximum
-        alternatives](/docs/services/speech-to-text/output.html#max_alternatives).
+        alternatives](https://cloud.ibm.com/docs/services/speech-to-text/output.html#max_alternatives).
         :param float word_alternatives_threshold: A confidence value that is the lower
         bound for identifying a hypothesis as a possible word alternative (also known as
         \"Confusion Networks\"). An alternative word is considered if its confidence is
         greater than or equal to the threshold. Specify a probability between 0.0 and 1.0.
-        No alternative words are computed if you omit the parameter. See [Word
-        alternatives](/docs/services/speech-to-text/output.html#word_alternatives).
+        By default, the service computes no alternative words. See [Word
+        alternatives](https://cloud.ibm.com/docs/services/speech-to-text/output.html#word_alternatives).
         :param bool word_confidence: If `true`, the service returns a confidence measure
-        in the range of 0.0 to 1.0 for each word. By default, no word confidence measures
-        are returned. See [Word
-        confidence](/docs/services/speech-to-text/output.html#word_confidence).
+        in the range of 0.0 to 1.0 for each word. By default, the service returns no word
+        confidence scores. See [Word
+        confidence](https://cloud.ibm.com/docs/services/speech-to-text/output.html#word_confidence).
         :param bool timestamps: If `true`, the service returns time alignment for each
         word. By default, no timestamps are returned. See [Word
-        timestamps](/docs/services/speech-to-text/output.html#word_timestamps).
+        timestamps](https://cloud.ibm.com/docs/services/speech-to-text/output.html#word_timestamps).
         :param bool profanity_filter: If `true`, the service filters profanity from all
         output except for keyword results by replacing inappropriate words with a series
         of asterisks. Set the parameter to `false` to return results with no censoring.
         Applies to US English transcription only. See [Profanity
-        filtering](/docs/services/speech-to-text/output.html#profanity_filter).
+        filtering](https://cloud.ibm.com/docs/services/speech-to-text/output.html#profanity_filter).
         :param bool smart_formatting: If `true`, the service converts dates, times, series
         of digits and numbers, phone numbers, currency values, and internet addresses into
         more readable, conventional representations in the final transcript of a
         recognition request. For US English, the service also converts certain keyword
-        strings to punctuation symbols. By default, no smart formatting is performed.
-        Applies to US English, Japanese, and Spanish transcription only. See [Smart
-        formatting](/docs/services/speech-to-text/output.html#smart_formatting).
+        strings to punctuation symbols. By default, the service performs no smart
+        formatting.
+        **Note:** Applies to US English, Japanese, and Spanish transcription only.
+        See [Smart
+        formatting](https://cloud.ibm.com/docs/services/speech-to-text/output.html#smart_formatting).
         :param bool speaker_labels: If `true`, the response includes labels that identify
         which words were spoken by which participants in a multi-person exchange. By
-        default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
-        the `timestamps` parameter to be `true`, regardless of whether you specify `false`
-        for the parameter.
-        To determine whether a language model supports speaker labels, use the **Get a
-        model** method and check that the attribute `speaker_labels` is set to `true`. See
-        [Speaker labels](/docs/services/speech-to-text/output.html#speaker_labels).
+        default, the service returns no speaker labels. Setting `speaker_labels` to `true`
+        forces the `timestamps` parameter to be `true`, regardless of whether you specify
+        `false` for the parameter.
+        **Note:** Applies to US English, Japanese, and Spanish transcription only. To
+        determine whether a language model supports speaker labels, you can also use the
+        **Get a model** method and check that the attribute `speaker_labels` is set to
+        `true`.
+        See [Speaker
+        labels](https://cloud.ibm.com/docs/services/speech-to-text/output.html#speaker_labels).
         :param str customization_id: **Deprecated.** Use the `language_customization_id`
         parameter to specify the customization ID (GUID) of a custom language model that
         is to be used with the recognition request. Do not specify both parameters with a
         request.
+        :param str grammar_name: The name of a grammar that is to be used with the
+        recognition request. If you specify a grammar, you must also use the
+        `language_customization_id` parameter to specify the name of the custom language
+        model for which the grammar is defined. The service recognizes only strings that
+        are recognized by the specified grammar; it does not recognize other custom words
+        from the model's words resource. See
+        [Grammars](https://cloud.ibm.com/docs/services/speech-to-text/output.html).
+        :param bool redaction: If `true`, the service redacts, or masks, numeric data from
+        final transcripts. The feature redacts any number that has three or more
+        consecutive digits by replacing each digit with an `X` character. It is intended
+        to redact sensitive numeric data, such as credit card numbers. By default, the
+        service performs no redaction.
+        When you enable redaction, the service automatically enables smart formatting,
+        regardless of whether you explicitly disable that feature. To ensure maximum
+        security, the service also disables keyword spotting (ignores the `keywords` and
+        `keywords_threshold` parameters) and returns only a single final transcript
+        (forces the `max_alternatives` parameter to be `1`).
+        **Note:** Applies to US English, Japanese, and Korean transcription only.
+        See [Numeric
+        redaction](https://cloud.ibm.com/docs/services/speech-to-text/output.html#redaction).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -370,7 +412,9 @@ class SpeechToTextV1(WatsonService):
             'profanity_filter': profanity_filter,
             'smart_formatting': smart_formatting,
             'speaker_labels': speaker_labels,
-            'customization_id': customization_id
+            'customization_id': customization_id,
+            'grammar_name': grammar_name,
+            'redaction': redaction
         }
 
         data = audio
@@ -395,18 +439,20 @@ class SpeechToTextV1(WatsonService):
 
         Returns information about the specified job. The response always includes the
         status of the job and its creation and update times. If the status is `completed`,
-        the response includes the results of the recognition request. You must submit the
-        request with the service credentials of the user who created the job.
+        the response includes the results of the recognition request. You must use
+        credentials for the instance of the service that owns a job to list information
+        about it.
         You can use the method to retrieve the results of any job, regardless of whether
         it was submitted with a callback URL and the `recognitions.completed_with_results`
         event, and you can retrieve the results multiple times for as long as they remain
         available. Use the **Check jobs** method to request information about the most
-        recent jobs associated with the caller.
+        recent jobs associated with the calling credentials.
         **See also:** [Checking the status and retrieving the results of a
-        job](/docs/services/speech-to-text/async.html#job).
+        job](https://cloud.ibm.com/docs/services/speech-to-text/async.html#job).
 
         :param str id: The identifier of the asynchronous job that is to be used for the
-        request.
+        request. You must make the request with credentials for the instance of the
+        service that owns the job.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -429,15 +475,15 @@ class SpeechToTextV1(WatsonService):
         Check jobs.
 
         Returns the ID and status of the latest 100 outstanding jobs associated with the
-        service credentials with which it is called. The method also returns the creation
-        and update times of each job, and, if a job was created with a callback URL and a
-        user token, the user token for the job. To obtain the results for a job whose
-        status is `completed` or not one of the latest 100 outstanding jobs, use the
-        **Check a job** method. A job and its results remain available until you delete
-        them with the **Delete a job** method or until the job's time to live expires,
-        whichever comes first.
+        credentials with which it is called. The method also returns the creation and
+        update times of each job, and, if a job was created with a callback URL and a user
+        token, the user token for the job. To obtain the results for a job whose status is
+        `completed` or not one of the latest 100 outstanding jobs, use the **Check a job**
+        method. A job and its results remain available until you delete them with the
+        **Delete a job** method or until the job's time to live expires, whichever comes
+        first.
         **See also:** [Checking the status of the latest
-        jobs](/docs/services/speech-to-text/async.html#jobs).
+        jobs](https://cloud.ibm.com/docs/services/speech-to-text/async.html#jobs).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -476,14 +522,16 @@ class SpeechToTextV1(WatsonService):
                    smart_formatting=None,
                    speaker_labels=None,
                    customization_id=None,
+                   grammar_name=None,
+                   redaction=None,
                    **kwargs):
         """
         Create a job.
 
         Creates a job for a new asynchronous recognition request. The job is owned by the
-        user whose service credentials are used to create it. How you learn the status and
-        results of a job depends on the parameters you include with the job creation
-        request:
+        instance of the service whose credentials are used to create it. How you learn the
+        status and results of a job depends on the parameters you include with the job
+        creation request:
         * By callback notification: Include the `callback_url` parameter to specify a URL
         to which the service is to send callback notifications when the status of the job
         changes. Optionally, you can also include the `events` and `user_token` parameters
@@ -512,7 +560,8 @@ class SpeechToTextV1(WatsonService):
         and, for audio that includes multiple channels, downmixes the audio to one-channel
         mono during transcoding. The method returns only final results; to enable interim
         results, use the WebSocket API.
-        **See also:** [Creating a job](/docs/services/speech-to-text/async.html#create).
+        **See also:** [Creating a
+        job](https://cloud.ibm.com/docs/services/speech-to-text/async.html#create).
         ### Streaming mode
          For requests to transcribe live audio as it becomes available, you must set the
         `Transfer-Encoding` header to `chunked` to use streaming mode. In streaming mode,
@@ -522,8 +571,10 @@ class SpeechToTextV1(WatsonService):
         `inactivity_timeout` seconds of audio (not processing time); use the
         `inactivity_timeout` parameter to change the default of 30 seconds.
         **See also:**
-        * [Audio transmission](/docs/services/speech-to-text/input.html#transmission)
-        * [Timeouts](/docs/services/speech-to-text/input.html#timeouts)
+        * [Audio
+        transmission](https://cloud.ibm.com/docs/services/speech-to-text/input.html#transmission)
+        *
+        [Timeouts](https://cloud.ibm.com/docs/services/speech-to-text/input.html#timeouts)
         ### Audio formats (content types)
          The service accepts audio in the following formats (MIME types).
         * For formats that are labeled **Required**, you must use the `Content-Type`
@@ -536,6 +587,7 @@ class SpeechToTextV1(WatsonService):
         can optionally include the number of channels and the endianness of the audio.
         * `audio/basic` (**Required.** Use only with narrowband models.)
         * `audio/flac`
+        * `audio/g729` (Use only with narrowband models.)
         * `audio/l16` (**Required.** Specify the sampling rate (`rate`) and optionally the
         number of channels (`channels`) and endianness (`endianness`) of the audio.)
         * `audio/mp3`
@@ -548,14 +600,22 @@ class SpeechToTextV1(WatsonService):
         * `audio/webm` (The service automatically detects the codec of the input audio.)
         * `audio/webm;codecs=opus`
         * `audio/webm;codecs=vorbis`
-        **See also:** [Audio formats](/docs/services/speech-to-text/audio-formats.html).
+        The sampling rate of the audio must match the sampling rate of the model for the
+        recognition request: for broadband models, at least 16 kHz; for narrowband models,
+        at least 8 kHz. If the sampling rate of the audio is higher than the minimum
+        required rate, the service down-samples the audio to the appropriate rate. If the
+        sampling rate of the audio is lower than the minimum required rate, the request
+        fails.
+         **See also:** [Audio
+        formats](https://cloud.ibm.com/docs/services/speech-to-text/audio-formats.html).
 
         :param file audio: The audio to transcribe.
         :param str content_type: The format (MIME type) of the audio. For more information
         about specifying an audio format, see **Audio formats (content types)** in the
         method description.
         :param str model: The identifier of the model that is to be used for the
-        recognition request.
+        recognition request. See [Languages and
+        models](https://cloud.ibm.com/docs/services/speech-to-text/models.html).
         :param str callback_url: A URL to which callback notifications are to be sent. The
         URL must already be successfully white-listed by using the **Register a callback**
         method. You can include the same callback URL with any number of job creation
@@ -591,25 +651,26 @@ class SpeechToTextV1(WatsonService):
         :param str language_customization_id: The customization ID (GUID) of a custom
         language model that is to be used with the recognition request. The base model of
         the specified custom language model must match the model specified with the
-        `model` parameter. You must make the request with service credentials created for
-        the instance of the service that owns the custom model. By default, no custom
-        language model is used. See [Custom
-        models](/docs/services/speech-to-text/input.html#custom).
+        `model` parameter. You must make the request with credentials for the instance of
+        the service that owns the custom model. By default, no custom language model is
+        used. See [Custom
+        models](https://cloud.ibm.com/docs/services/speech-to-text/input.html#custom).
         **Note:** Use this parameter instead of the deprecated `customization_id`
         parameter.
         :param str acoustic_customization_id: The customization ID (GUID) of a custom
         acoustic model that is to be used with the recognition request. The base model of
         the specified custom acoustic model must match the model specified with the
-        `model` parameter. You must make the request with service credentials created for
-        the instance of the service that owns the custom model. By default, no custom
-        acoustic model is used. See [Custom
-        models](/docs/services/speech-to-text/input.html#custom).
+        `model` parameter. You must make the request with credentials for the instance of
+        the service that owns the custom model. By default, no custom acoustic model is
+        used. See [Custom
+        models](https://cloud.ibm.com/docs/services/speech-to-text/input.html#custom).
         :param str base_model_version: The version of the specified base model that is to
         be used with recognition request. Multiple versions of a base model can exist when
         a model is updated for internal improvements. The parameter is intended primarily
         for use with custom models that have been upgraded for a new base model. The
         default value depends on whether the parameter is used with or without a custom
-        model. See [Base model version](/docs/services/speech-to-text/input.html#version).
+        model. See [Base model
+        version](https://cloud.ibm.com/docs/services/speech-to-text/input.html#version).
         :param float customization_weight: If you specify the customization ID (GUID) of a
         custom language model with the recognition request, the customization weight tells
         the service how much weight to give to words from the custom language model
@@ -623,66 +684,92 @@ class SpeechToTextV1(WatsonService):
         setting the weight: a higher value can improve the accuracy of phrases from the
         custom model's domain, but it can negatively affect performance on non-domain
         phrases.
-        See [Custom models](/docs/services/speech-to-text/input.html#custom).
+        See [Custom
+        models](https://cloud.ibm.com/docs/services/speech-to-text/input.html#custom).
         :param int inactivity_timeout: The time in seconds after which, if only silence
         (no speech) is detected in submitted audio, the connection is closed with a 400
         error. The parameter is useful for stopping audio submission from a live
         microphone when a user simply walks away. Use `-1` for infinity. See
-        [Timeouts](/docs/services/speech-to-text/input.html#timeouts).
+        [Timeouts](https://cloud.ibm.com/docs/services/speech-to-text/input.html#timeouts).
         :param list[str] keywords: An array of keyword strings to spot in the audio. Each
         keyword string can include one or more string tokens. Keywords are spotted only in
         the final results, not in interim hypotheses. If you specify any keywords, you
         must also specify a keywords threshold. You can spot a maximum of 1000 keywords.
         Omit the parameter or specify an empty array if you do not need to spot keywords.
         See [Keyword
-        spotting](/docs/services/speech-to-text/output.html#keyword_spotting).
+        spotting](https://cloud.ibm.com/docs/services/speech-to-text/output.html#keyword_spotting).
         :param float keywords_threshold: A confidence value that is the lower bound for
         spotting a keyword. A word is considered to match a keyword if its confidence is
         greater than or equal to the threshold. Specify a probability between 0.0 and 1.0.
-        No keyword spotting is performed if you omit the parameter. If you specify a
-        threshold, you must also specify one or more keywords. See [Keyword
-        spotting](/docs/services/speech-to-text/output.html#keyword_spotting).
+        If you specify a threshold, you must also specify one or more keywords. The
+        service performs no keyword spotting if you omit either parameter. See [Keyword
+        spotting](https://cloud.ibm.com/docs/services/speech-to-text/output.html#keyword_spotting).
         :param int max_alternatives: The maximum number of alternative transcripts that
-        the service is to return. By default, a single transcription is returned. See
+        the service is to return. By default, the service returns a single transcript. See
         [Maximum
-        alternatives](/docs/services/speech-to-text/output.html#max_alternatives).
+        alternatives](https://cloud.ibm.com/docs/services/speech-to-text/output.html#max_alternatives).
         :param float word_alternatives_threshold: A confidence value that is the lower
         bound for identifying a hypothesis as a possible word alternative (also known as
         \"Confusion Networks\"). An alternative word is considered if its confidence is
         greater than or equal to the threshold. Specify a probability between 0.0 and 1.0.
-        No alternative words are computed if you omit the parameter. See [Word
-        alternatives](/docs/services/speech-to-text/output.html#word_alternatives).
+        By default, the service computes no alternative words. See [Word
+        alternatives](https://cloud.ibm.com/docs/services/speech-to-text/output.html#word_alternatives).
         :param bool word_confidence: If `true`, the service returns a confidence measure
-        in the range of 0.0 to 1.0 for each word. By default, no word confidence measures
-        are returned. See [Word
-        confidence](/docs/services/speech-to-text/output.html#word_confidence).
+        in the range of 0.0 to 1.0 for each word. By default, the service returns no word
+        confidence scores. See [Word
+        confidence](https://cloud.ibm.com/docs/services/speech-to-text/output.html#word_confidence).
         :param bool timestamps: If `true`, the service returns time alignment for each
         word. By default, no timestamps are returned. See [Word
-        timestamps](/docs/services/speech-to-text/output.html#word_timestamps).
+        timestamps](https://cloud.ibm.com/docs/services/speech-to-text/output.html#word_timestamps).
         :param bool profanity_filter: If `true`, the service filters profanity from all
         output except for keyword results by replacing inappropriate words with a series
         of asterisks. Set the parameter to `false` to return results with no censoring.
         Applies to US English transcription only. See [Profanity
-        filtering](/docs/services/speech-to-text/output.html#profanity_filter).
+        filtering](https://cloud.ibm.com/docs/services/speech-to-text/output.html#profanity_filter).
         :param bool smart_formatting: If `true`, the service converts dates, times, series
         of digits and numbers, phone numbers, currency values, and internet addresses into
         more readable, conventional representations in the final transcript of a
         recognition request. For US English, the service also converts certain keyword
-        strings to punctuation symbols. By default, no smart formatting is performed.
-        Applies to US English, Japanese, and Spanish transcription only. See [Smart
-        formatting](/docs/services/speech-to-text/output.html#smart_formatting).
+        strings to punctuation symbols. By default, the service performs no smart
+        formatting.
+        **Note:** Applies to US English, Japanese, and Spanish transcription only.
+        See [Smart
+        formatting](https://cloud.ibm.com/docs/services/speech-to-text/output.html#smart_formatting).
         :param bool speaker_labels: If `true`, the response includes labels that identify
         which words were spoken by which participants in a multi-person exchange. By
-        default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
-        the `timestamps` parameter to be `true`, regardless of whether you specify `false`
-        for the parameter.
-        To determine whether a language model supports speaker labels, use the **Get a
-        model** method and check that the attribute `speaker_labels` is set to `true`. See
-        [Speaker labels](/docs/services/speech-to-text/output.html#speaker_labels).
+        default, the service returns no speaker labels. Setting `speaker_labels` to `true`
+        forces the `timestamps` parameter to be `true`, regardless of whether you specify
+        `false` for the parameter.
+        **Note:** Applies to US English, Japanese, and Spanish transcription only. To
+        determine whether a language model supports speaker labels, you can also use the
+        **Get a model** method and check that the attribute `speaker_labels` is set to
+        `true`.
+        See [Speaker
+        labels](https://cloud.ibm.com/docs/services/speech-to-text/output.html#speaker_labels).
         :param str customization_id: **Deprecated.** Use the `language_customization_id`
         parameter to specify the customization ID (GUID) of a custom language model that
         is to be used with the recognition request. Do not specify both parameters with a
         request.
+        :param str grammar_name: The name of a grammar that is to be used with the
+        recognition request. If you specify a grammar, you must also use the
+        `language_customization_id` parameter to specify the name of the custom language
+        model for which the grammar is defined. The service recognizes only strings that
+        are recognized by the specified grammar; it does not recognize other custom words
+        from the model's words resource. See
+        [Grammars](https://cloud.ibm.com/docs/services/speech-to-text/output.html).
+        :param bool redaction: If `true`, the service redacts, or masks, numeric data from
+        final transcripts. The feature redacts any number that has three or more
+        consecutive digits by replacing each digit with an `X` character. It is intended
+        to redact sensitive numeric data, such as credit card numbers. By default, the
+        service performs no redaction.
+        When you enable redaction, the service automatically enables smart formatting,
+        regardless of whether you explicitly disable that feature. To ensure maximum
+        security, the service also disables keyword spotting (ignores the `keywords` and
+        `keywords_threshold` parameters) and returns only a single final transcript
+        (forces the `max_alternatives` parameter to be `1`).
+        **Note:** Applies to US English, Japanese, and Korean transcription only.
+        See [Numeric
+        redaction](https://cloud.ibm.com/docs/services/speech-to-text/output.html#redaction).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -715,7 +802,9 @@ class SpeechToTextV1(WatsonService):
             'profanity_filter': profanity_filter,
             'smart_formatting': smart_formatting,
             'speaker_labels': speaker_labels,
-            'customization_id': customization_id
+            'customization_id': customization_id,
+            'grammar_name': grammar_name,
+            'redaction': redaction
         }
 
         data = audio
@@ -737,12 +826,14 @@ class SpeechToTextV1(WatsonService):
         Deletes the specified job. You cannot delete a job that the service is actively
         processing. Once you delete a job, its results are no longer available. The
         service automatically deletes a job and its results when the time to live for the
-        results expires. You must submit the request with the service credentials of the
-        user who created the job.
-        **See also:** [Deleting a job](/docs/services/speech-to-text/async.html#delete).
+        results expires. You must use credentials for the instance of the service that
+        owns a job to delete it.
+        **See also:** [Deleting a
+        job](https://cloud.ibm.com/docs/services/speech-to-text/async.html#delete).
 
         :param str id: The identifier of the asynchronous job that is to be used for the
-        request.
+        request. You must make the request with credentials for the instance of the
+        service that owns the job.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -792,7 +883,7 @@ class SpeechToTextV1(WatsonService):
         number of recognition requests. You can register a maximum of 20 callback URLS in
         a one-hour span of time.
         **See also:** [Registering a callback
-        URL](/docs/services/speech-to-text/async.html#register).
+        URL](https://cloud.ibm.com/docs/services/speech-to-text/async.html#register).
 
         :param str callback_url: An HTTP or HTTPS URL to which callback notifications are
         to be sent. To be white-listed, the URL must successfully echo the challenge
@@ -835,7 +926,7 @@ class SpeechToTextV1(WatsonService):
         callback** request for use with the asynchronous interface. Once unregistered, the
         URL can no longer be used with asynchronous recognition requests.
         **See also:** [Unregistering a callback
-        URL](/docs/services/speech-to-text/async.html#unregister).
+        URL](https://cloud.ibm.com/docs/services/speech-to-text/async.html#unregister).
 
         :param str callback_url: The callback URL that is to be unregistered.
         :param dict headers: A `dict` containing the request headers
@@ -879,7 +970,7 @@ class SpeechToTextV1(WatsonService):
         model is owned by the instance of the service whose credentials are used to create
         it.
         **See also:** [Create a custom language
-        model](/docs/services/speech-to-text/language-create.html#createModel).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-create.html#createModel).
 
         :param str name: A user-defined name for the new custom language model. Use a name
         that is unique among all custom language models that you own. Use a localized name
@@ -892,7 +983,7 @@ class SpeechToTextV1(WatsonService):
         To determine whether a base model supports language model customization, use the
         **Get a model** method and check that the attribute `custom_language_model` is set
         to `true`. You can also refer to [Language support for
-        customization](/docs/services/speech-to-text/custom.html#languageSupport).
+        customization](https://cloud.ibm.com/docs/services/speech-to-text/custom.html#languageSupport).
         :param str dialect: The dialect of the specified language that is to be used with
         the custom language model. The parameter is meaningful only for Spanish models,
         for which the service creates a custom language model that is suited for speech in
@@ -940,15 +1031,15 @@ class SpeechToTextV1(WatsonService):
         Delete a custom language model.
 
         Deletes an existing custom language model. The custom model cannot be deleted if
-        another request, such as adding a corpus to the model, is currently being
-        processed. You must use credentials for the instance of the service that owns a
-        model to delete it.
+        another request, such as adding a corpus or grammar to the model, is currently
+        being processed. You must use credentials for the instance of the service that
+        owns a model to delete it.
         **See also:** [Deleting a custom language
-        model](/docs/services/speech-to-text/language-models.html#deleteModel).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-models.html#deleteModel).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -974,11 +1065,11 @@ class SpeechToTextV1(WatsonService):
         Gets information about a specified custom language model. You must use credentials
         for the instance of the service that owns a model to list information about it.
         **See also:** [Listing custom language
-        models](/docs/services/speech-to-text/language-models.html#listModels).
+        models](https://cloud.ibm.com/docs/services/speech-to-text/language-models.html#listModels).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1007,12 +1098,12 @@ class SpeechToTextV1(WatsonService):
         all languages. You must use credentials for the instance of the service that owns
         a model to list information about it.
         **See also:** [Listing custom language
-        models](/docs/services/speech-to-text/language-models.html#listModels).
+        models](https://cloud.ibm.com/docs/services/speech-to-text/language-models.html#listModels).
 
         :param str language: The identifier of the language for which custom language or
         custom acoustic models are to be returned (for example, `en-US`). Omit the
-        parameter to see all custom language or custom acoustic models owned by the
-        requesting service credentials.
+        parameter to see all custom language or custom acoustic models that are owned by
+        the requesting credentials.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1037,17 +1128,18 @@ class SpeechToTextV1(WatsonService):
         """
         Reset a custom language model.
 
-        Resets a custom language model by removing all corpora and words from the model.
-        Resetting a custom language model initializes the model to its state when it was
-        first created. Metadata such as the name and language of the model are preserved,
-        but the model's words resource is removed and must be re-created. You must use
-        credentials for the instance of the service that owns a model to reset it.
+        Resets a custom language model by removing all corpora, grammars, and words from
+        the model. Resetting a custom language model initializes the model to its state
+        when it was first created. Metadata such as the name and language of the model are
+        preserved, but the model's words resource is removed and must be re-created. You
+        must use credentials for the instance of the service that owns a model to reset
+        it.
         **See also:** [Resetting a custom language
-        model](/docs/services/speech-to-text/language-models.html#resetModel).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-models.html#resetModel).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1074,13 +1166,13 @@ class SpeechToTextV1(WatsonService):
         """
         Train a custom language model.
 
-        Initiates the training of a custom language model with new corpora, custom words,
-        or both. After adding, modifying, or deleting corpora or words for a custom
-        language model, use this method to begin the actual training of the model on the
-        latest data. You can specify whether the custom language model is to be trained
-        with all words from its words resource or only with words that were added or
-        modified by the user. You must use credentials for the instance of the service
-        that owns a model to train it.
+        Initiates the training of a custom language model with new resources such as
+        corpora, grammars, and custom words. After adding, modifying, or deleting
+        resources for a custom language model, use this method to begin the actual
+        training of the model on the latest data. You can specify whether the custom
+        language model is to be trained with all words from its words resource or only
+        with words that were added or modified by the user directly. You must use
+        credentials for the instance of the service that owns a model to train it.
         The training method is asynchronous. It can take on the order of minutes to
         complete depending on the amount of data on which the service is being trained and
         the current load on the service. The method returns an HTTP 200 response code to
@@ -1089,26 +1181,28 @@ class SpeechToTextV1(WatsonService):
         model** method to poll the model's status. Use a loop to check the status every 10
         seconds. The method returns a `LanguageModel` object that includes `status` and
         `progress` fields. A status of `available` means that the custom model is trained
-        and ready to use. The service cannot accept subsequent training requests, or
-        requests to add new corpora or words, until the existing request completes.
+        and ready to use. The service cannot accept subsequent training requests or
+        requests to add new resources until the existing request completes.
         Training can fail to start for the following reasons:
         * The service is currently handling another request for the custom model, such as
-        another training request or a request to add a corpus or words to the model.
-        * No training data (corpora or words) have been added to the custom model.
+        another training request or a request to add a corpus or grammar to the model.
+        * No training data have been added to the custom model.
         * One or more words that were added to the custom model have invalid sounds-like
         pronunciations that you must fix.
         **See also:** [Train the custom language
-        model](/docs/services/speech-to-text/language-create.html#trainModel).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-create.html#trainModel).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str word_type_to_add: The type of words from the custom language model's
         words resource on which to train the model:
         * `all` (the default) trains the model on all new words, regardless of whether
-        they were extracted from corpora or were added or modified by the user.
+        they were extracted from corpora or grammars or were added or modified by the
+        user.
         * `user` trains the model only on new words that were added or modified by the
-        user; the model is not trained on new words extracted from corpora.
+        user directly. The model is not trained on new words extracted from corpora or
+        grammars.
         :param float customization_weight: Specifies a customization weight for the custom
         language model. The customization weight tells the service how much weight to give
         to words from the custom language model compared to those from the base model for
@@ -1167,11 +1261,11 @@ class SpeechToTextV1(WatsonService):
         resumes the status that it had prior to upgrade. The service cannot accept
         subsequent requests for the model until the upgrade completes.
         **See also:** [Upgrading a custom language
-        model](/docs/services/speech-to-text/custom-upgrade.html#upgradeLanguage).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/custom-upgrade.html#upgradeLanguage).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1218,40 +1312,42 @@ class SpeechToTextV1(WatsonService):
         extracts new words that it finds. This can take on the order of a minute or two to
         complete depending on the total number of words and the number of new words in the
         corpus, as well as the current load on the service. You cannot submit requests to
-        add additional corpora or words to the custom model, or to train the model, until
-        the service's analysis of the corpus for the current request completes. Use the
-        **List a corpus** method to check the status of the analysis.
-        The service auto-populates the model's words resource with any word that is not
-        found in its base vocabulary; these are referred to as out-of-vocabulary (OOV)
-        words. You can use the **List custom words** method to examine the words resource,
-        using other words method to eliminate typos and modify how words are pronounced as
-        needed.
+        add additional resources to the custom model or to train the model until the
+        service's analysis of the corpus for the current request completes. Use the **List
+        a corpus** method to check the status of the analysis.
+        The service auto-populates the model's words resource with words from the corpus
+        that are not found in its base vocabulary. These are referred to as
+        out-of-vocabulary (OOV) words. You can use the **List custom words** method to
+        examine the words resource. You can use other words method to eliminate typos and
+        modify how words are pronounced as needed.
         To add a corpus file that has the same name as an existing corpus, set the
         `allow_overwrite` parameter to `true`; otherwise, the request fails. Overwriting
         an existing corpus causes the service to process the corpus text file and extract
         OOV words anew. Before doing so, it removes any OOV words associated with the
         existing corpus from the model's words resource unless they were also added by
-        another corpus or they have been modified in some way with the **Add custom
-        words** or **Add a custom word** method.
+        another corpus or grammar, or they have been modified in some way with the **Add
+        custom words** or **Add a custom word** method.
         The service limits the overall amount of data that you can add to a custom model
-        to a maximum of 10 million total words from all corpora combined. Also, you can
-        add no more than 30 thousand custom (OOV) words to a model; this includes words
-        that the service extracts from corpora and words that you add directly.
+        to a maximum of 10 million total words from all sources combined. Also, you can
+        add no more than 30 thousand custom (OOV) words to a model. This includes words
+        that the service extracts from corpora and grammars, and words that you add
+        directly.
         **See also:**
         * [Working with
-        corpora](/docs/services/speech-to-text/language-resource.html#workingCorpora)
+        corpora](https://cloud.ibm.com/docs/services/speech-to-text/language-resource.html#workingCorpora)
         * [Add corpora to the custom language
-        model](/docs/services/speech-to-text/language-create.html#addCorpora).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-create.html#addCorpora).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str corpus_name: The name of the new corpus for the custom language model.
         Use a localized name that matches the language of the custom model and reflects
         the contents of the corpus.
         * Include a maximum of 128 characters in the name.
         * Do not include spaces, slashes, or backslashes in the name.
-        * Do not use the name of a corpus that has already been added to the custom model.
+        * Do not use the name of an existing corpus or grammar that is already defined for
+        the custom model.
         * Do not use the name `user`, which is reserved by the service to denote custom
         words that are added or modified by the user.
         :param file corpus_file: A plain text file that contains the training data for the
@@ -1260,7 +1356,7 @@ class SpeechToTextV1(WatsonService):
         Make sure that you know the character encoding of the file. You must use that
         encoding when working with the words in the custom language model. For more
         information, see [Character
-        encoding](/docs/services/speech-to-text/language-resource.html#charEncoding).
+        encoding](https://cloud.ibm.com/docs/services/speech-to-text/language-resource.html#charEncoding).
         With the `curl` command, use the `--data-binary` option to upload the file for the
         request.
         :param bool allow_overwrite: If `true`, the specified corpus overwrites an
@@ -1307,18 +1403,19 @@ class SpeechToTextV1(WatsonService):
         Delete a corpus.
 
         Deletes an existing corpus from a custom language model. The service removes any
-        out-of-vocabulary (OOV) words associated with the corpus from the custom model's
-        words resource unless they were also added by another corpus or they have been
-        modified in some way with the **Add custom words** or **Add a custom word**
-        method. Removing a corpus does not affect the custom model until you train the
-        model with the **Train a custom language model** method. You must use credentials
-        for the instance of the service that owns a model to delete its corpora.
+        out-of-vocabulary (OOV) words that are associated with the corpus from the custom
+        model's words resource unless they were also added by another corpus or grammar,
+        or they were modified in some way with the **Add custom words** or **Add a custom
+        word** method. Removing a corpus does not affect the custom model until you train
+        the model with the **Train a custom language model** method. You must use
+        credentials for the instance of the service that owns a model to delete its
+        corpora.
         **See also:** [Deleting a corpus from a custom language
-        model](/docs/services/speech-to-text/language-corpora.html#deleteCorpus).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-corpora.html#deleteCorpus).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str corpus_name: The name of the corpus for the custom language model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1349,11 +1446,11 @@ class SpeechToTextV1(WatsonService):
         status of the corpus. You must use credentials for the instance of the service
         that owns a model to list its corpora.
         **See also:** [Listing corpora for a custom language
-        model](/docs/services/speech-to-text/language-corpora.html#listCorpora).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-corpora.html#listCorpora).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str corpus_name: The name of the corpus for the custom language model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1384,11 +1481,11 @@ class SpeechToTextV1(WatsonService):
         status of each corpus. You must use credentials for the instance of the service
         that owns a model to list its corpora.
         **See also:** [Listing corpora for a custom language
-        model](/docs/services/speech-to-text/language-corpora.html#listCorpora).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-corpora.html#listCorpora).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1422,11 +1519,11 @@ class SpeechToTextV1(WatsonService):
         Add a custom word.
 
         Adds a custom word to a custom language model. The service populates the words
-        resource for a custom model with out-of-vocabulary (OOV) words found in each
-        corpus added to the model. You can use this method to add a word or to modify an
-        existing word in the words resource. The words resource for a model can contain a
-        maximum of 30 thousand custom (OOV) words, including words that the service
-        extracts from corpora and words that you add directly.
+        resource for a custom model with out-of-vocabulary (OOV) words from each corpus or
+        grammar that is added to the model. You can use this method to add a word or to
+        modify an existing word in the words resource. The words resource for a model can
+        contain a maximum of 30 thousand custom (OOV) words. This includes words that the
+        service extracts from corpora and grammars and words that you add directly.
         You must use credentials for the instance of the service that owns a model to add
         or modify a custom word for the model. Adding or modifying a custom word does not
         affect the custom model until you train the model for the new data by using the
@@ -1442,27 +1539,26 @@ class SpeechToTextV1(WatsonService):
         word.
         * The `display_as` field provides a different way of spelling the word in a
         transcript. Use the parameter when you want the word to appear different from its
-        usual representation or from its spelling in corpora training data. For example,
-        you might indicate that the word `IBM(trademark)` is to be displayed as
-        `IBM&trade;`.
+        usual representation or from its spelling in training data. For example, you might
+        indicate that the word `IBM(trademark)` is to be displayed as `IBM&trade;`.
         If you add a custom word that already exists in the words resource for the custom
         model, the new definition overwrites the existing data for the word. If the
         service encounters an error, it does not add the word to the words resource. Use
         the **List a custom word** method to review the word that you add.
         **See also:**
         * [Working with custom
-        words](/docs/services/speech-to-text/language-resource.html#workingWords)
+        words](https://cloud.ibm.com/docs/services/speech-to-text/language-resource.html#workingWords)
         * [Add words to the custom language
-        model](/docs/services/speech-to-text/language-create.html#addWords).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-create.html#addWords).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str word_name: The custom word that is to be added to or updated in the
         custom language model. Do not include spaces in the word. Use a `-` (dash) or `_`
         (underscore) to connect the tokens of compound words. URL-encode the word if it
         includes non-ASCII characters. For more information, see [Character
-        encoding](/docs/services/speech-to-text/language-resource.html#charEncoding).
+        encoding](https://cloud.ibm.com/docs/services/speech-to-text/language-resource.html#charEncoding).
         :param str word: For the **Add custom words** method, you must specify the custom
         word that is to be added to or updated in the custom model. Do not include spaces
         in the word. Use a `-` (dash) or `_` (underscore) to connect the tokens of
@@ -1514,11 +1610,12 @@ class SpeechToTextV1(WatsonService):
         Add custom words.
 
         Adds one or more custom words to a custom language model. The service populates
-        the words resource for a custom model with out-of-vocabulary (OOV) words found in
-        each corpus added to the model. You can use this method to add additional words or
-        to modify existing words in the words resource. The words resource for a model can
-        contain a maximum of 30 thousand custom (OOV) words, including words that the
-        service extracts from corpora and words that you add directly.
+        the words resource for a custom model with out-of-vocabulary (OOV) words from each
+        corpus or grammar that is added to the model. You can use this method to add
+        additional words or to modify existing words in the words resource. The words
+        resource for a model can contain a maximum of 30 thousand custom (OOV) words. This
+        includes words that the service extracts from corpora and grammars and words that
+        you add directly.
         You must use credentials for the instance of the service that owns a model to add
         or modify custom words for the model. Adding or modifying custom words does not
         affect the custom model until you train the model for the new data by using the
@@ -1535,9 +1632,8 @@ class SpeechToTextV1(WatsonService):
         word.
         * The `display_as` field provides a different way of spelling the word in a
         transcript. Use the parameter when you want the word to appear different from its
-        usual representation or from its spelling in corpora training data. For example,
-        you might indicate that the word `IBM(trademark)` is to be displayed as
-        `IBM&trade;`.
+        usual representation or from its spelling in training data. For example, you might
+        indicate that the word `IBM(trademark)` is to be displayed as `IBM&trade;`.
         If you add a custom word that already exists in the words resource for the custom
         model, the new definition overwrites the existing data for the word. If the
         service encounters an error with the input data, it returns a failure code and
@@ -1545,28 +1641,29 @@ class SpeechToTextV1(WatsonService):
         The call returns an HTTP 201 response code if the input data is valid. It then
         asynchronously processes the words to add them to the model's words resource. The
         time that it takes for the analysis to complete depends on the number of new words
-        that you add but is generally faster than adding a corpus or training a model.
+        that you add but is generally faster than adding a corpus or grammar.
         You can monitor the status of the request by using the **List a custom language
         model** method to poll the model's status. Use a loop to check the status every 10
         seconds. The method returns a `Customization` object that includes a `status`
         field. A status of `ready` means that the words have been added to the custom
-        model. The service cannot accept requests to add new corpora or words or to train
-        the model until the existing request completes.
+        model. The service cannot accept requests to add new data or to train the model
+        until the existing request completes.
         You can use the **List custom words** or **List a custom word** method to review
         the words that you add. Words with an invalid `sounds_like` field include an
         `error` field that describes the problem. You can use other words-related methods
         to correct errors, eliminate typos, and modify how words are pronounced as needed.
         **See also:**
         * [Working with custom
-        words](/docs/services/speech-to-text/language-resource.html#workingWords)
+        words](https://cloud.ibm.com/docs/services/speech-to-text/language-resource.html#workingWords)
         * [Add words to the custom language
-        model](/docs/services/speech-to-text/language-create.html#addWords).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-create.html#addWords).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
-        :param list[CustomWord] words: An array of objects that provides information about
-        each custom word that is to be added to or updated in the custom language model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param list[CustomWord] words: An array of `CustomWord` objects that provides
+        information about each custom word that is to be added to or updated in the custom
+        language model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1606,15 +1703,15 @@ class SpeechToTextV1(WatsonService):
         **Train a custom language model** method. You must use credentials for the
         instance of the service that owns a model to delete its words.
         **See also:** [Deleting a word from a custom language
-        model](/docs/services/speech-to-text/language-words.html#deleteWord).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-words.html#deleteWord).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str word_name: The custom word that is to be deleted from the custom
         language model. URL-encode the word if it includes non-ASCII characters. For more
         information, see [Character
-        encoding](/docs/services/speech-to-text/language-resource.html#charEncoding).
+        encoding](https://cloud.ibm.com/docs/services/speech-to-text/language-resource.html#charEncoding).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1640,18 +1737,18 @@ class SpeechToTextV1(WatsonService):
         Get a custom word.
 
         Gets information about a custom word from a custom language model. You must use
-        credentials for the instance of the service that owns a model to query information
+        credentials for the instance of the service that owns a model to list information
         about its words.
         **See also:** [Listing words from a custom language
-        model](/docs/services/speech-to-text/language-words.html#listWords).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-words.html#listWords).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str word_name: The custom word that is to be read from the custom language
         model. URL-encode the word if it includes non-ASCII characters. For more
         information, see [Character
-        encoding](/docs/services/speech-to-text/language-resource.html#charEncoding).
+        encoding](https://cloud.ibm.com/docs/services/speech-to-text/language-resource.html#charEncoding).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1679,21 +1776,22 @@ class SpeechToTextV1(WatsonService):
         Lists information about custom words from a custom language model. You can list
         all words from the custom model's words resource, only custom words that were
         added or modified by the user, or only out-of-vocabulary (OOV) words that were
-        extracted from corpora. You can also indicate the order in which the service is to
-        return words; by default, words are listed in ascending alphabetical order. You
-        must use credentials for the instance of the service that owns a model to query
-        information about its words.
+        extracted from corpora or are recognized by grammars. You can also indicate the
+        order in which the service is to return words; by default, the service lists words
+        in ascending alphabetical order. You must use credentials for the instance of the
+        service that owns a model to list information about its words.
         **See also:** [Listing words from a custom language
-        model](/docs/services/speech-to-text/language-words.html#listWords).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/language-words.html#listWords).
 
         :param str customization_id: The customization ID (GUID) of the custom language
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str word_type: The type of words to be listed from the custom language
         model's words resource:
         * `all` (the default) shows all words.
-        * `user` shows only custom words that were added or modified by the user.
+        * `user` shows only custom words that were added or modified by the user directly.
         * `corpora` shows only OOV that were extracted from corpora.
+        * `grammars` shows only OOV words that are recognized by grammars.
         :param str sort: Indicates the order in which the words are to be listed,
         `alphabetical` or by `count`. You can prepend an optional `+` or `-` to an
         argument to indicate whether the results are to be sorted in ascending or
@@ -1727,6 +1825,219 @@ class SpeechToTextV1(WatsonService):
         return response
 
     #########################
+    # Custom grammars
+    #########################
+
+    def add_grammar(self,
+                    customization_id,
+                    grammar_name,
+                    grammar_file,
+                    content_type,
+                    allow_overwrite=None,
+                    **kwargs):
+        """
+        Add a grammar.
+
+        Adds a single grammar file to a custom language model. Submit a plain text file in
+        UTF-8 format that defines the grammar. Use multiple requests to submit multiple
+        grammar files. You must use credentials for the instance of the service that owns
+        a model to add a grammar to it. Adding a grammar does not affect the custom
+        language model until you train the model for the new data by using the **Train a
+        custom language model** method.
+        The call returns an HTTP 201 response code if the grammar is valid. The service
+        then asynchronously processes the contents of the grammar and automatically
+        extracts new words that it finds. This can take a few seconds to complete
+        depending on the size and complexity of the grammar, as well as the current load
+        on the service. You cannot submit requests to add additional resources to the
+        custom model or to train the model until the service's analysis of the grammar for
+        the current request completes. Use the **Get a grammar** method to check the
+        status of the analysis.
+        The service populates the model's words resource with any word that is recognized
+        by the grammar that is not found in the model's base vocabulary. These are
+        referred to as out-of-vocabulary (OOV) words. You can use the **List custom
+        words** method to examine the words resource and use other words-related methods
+        to eliminate typos and modify how words are pronounced as needed.
+        To add a grammar that has the same name as an existing grammar, set the
+        `allow_overwrite` parameter to `true`; otherwise, the request fails. Overwriting
+        an existing grammar causes the service to process the grammar file and extract OOV
+        words anew. Before doing so, it removes any OOV words associated with the existing
+        grammar from the model's words resource unless they were also added by another
+        resource or they have been modified in some way with the **Add custom words** or
+        **Add a custom word** method.
+        The service limits the overall amount of data that you can add to a custom model
+        to a maximum of 10 million total words from all sources combined. Also, you can
+        add no more than 30 thousand OOV words to a model. This includes words that the
+        service extracts from corpora and grammars and words that you add directly.
+        **See also:**
+        * [Working with grammars](https://cloud.ibm.com/docs/services/speech-to-text/)
+        * [Add grammars to the custom language
+        model](https://cloud.ibm.com/docs/services/speech-to-text/).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param str grammar_name: The name of the new grammar for the custom language
+        model. Use a localized name that matches the language of the custom model and
+        reflects the contents of the grammar.
+        * Include a maximum of 128 characters in the name.
+        * Do not include spaces, slashes, or backslashes in the name.
+        * Do not use the name of an existing grammar or corpus that is already defined for
+        the custom model.
+        * Do not use the name `user`, which is reserved by the service to denote custom
+        words that are added or modified by the user.
+        :param str grammar_file: A plain text file that contains the grammar in the format
+        specified by the `Content-Type` header. Encode the file in UTF-8 (ASCII is a
+        subset of UTF-8). Using any other encoding can lead to issues when compiling the
+        grammar or to unexpected results in decoding. The service ignores an encoding that
+        is specified in the header of the grammar.
+        :param str content_type: The format (MIME type) of the grammar file:
+        * `application/srgs` for Augmented Backus-Naur Form (ABNF), which uses a
+        plain-text representation that is similar to traditional BNF grammars.
+        * `application/srgs+xml` for XML Form, which uses XML elements to represent the
+        grammar.
+        :param bool allow_overwrite: If `true`, the specified grammar overwrites an
+        existing grammar with the same name. If `false`, the request fails if a grammar
+        with the same name already exists. The parameter has no effect if a grammar with
+        the same name does not already exist.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+        if grammar_name is None:
+            raise ValueError('grammar_name must be provided')
+        if grammar_file is None:
+            raise ValueError('grammar_file must be provided')
+        if content_type is None:
+            raise ValueError('content_type must be provided')
+
+        headers = {'Content-Type': content_type}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'allow_overwrite': allow_overwrite}
+
+        data = grammar_file
+
+        url = '/v1/customizations/{0}/grammars/{1}'.format(
+            *self._encode_path_vars(customization_id, grammar_name))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+            accept_json=True)
+        return response
+
+    def delete_grammar(self, customization_id, grammar_name, **kwargs):
+        """
+        Delete a grammar.
+
+        Deletes an existing grammar from a custom language model. The service removes any
+        out-of-vocabulary (OOV) words associated with the grammar from the custom model's
+        words resource unless they were also added by another resource or they were
+        modified in some way with the **Add custom words** or **Add a custom word**
+        method. Removing a grammar does not affect the custom model until you train the
+        model with the **Train a custom language model** method. You must use credentials
+        for the instance of the service that owns a model to delete its grammar.
+        **See also:** [Deleting a grammar from a custom language
+        model](https://cloud.ibm.com/docs/services/speech-to-text/).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param str grammar_name: The name of the grammar for the custom language model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+        if grammar_name is None:
+            raise ValueError('grammar_name must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/customizations/{0}/grammars/{1}'.format(
+            *self._encode_path_vars(customization_id, grammar_name))
+        response = self.request(
+            method='DELETE', url=url, headers=headers, accept_json=True)
+        return response
+
+    def get_grammar(self, customization_id, grammar_name, **kwargs):
+        """
+        Get a grammar.
+
+        Gets information about a grammar from a custom language model. The information
+        includes the total number of out-of-vocabulary (OOV) words, name, and status of
+        the grammar. You must use credentials for the instance of the service that owns a
+        model to list its grammars.
+        **See also:** [Listing grammars from a custom language
+        model](https://cloud.ibm.com/docs/services/speech-to-text/).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param str grammar_name: The name of the grammar for the custom language model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+        if grammar_name is None:
+            raise ValueError('grammar_name must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/customizations/{0}/grammars/{1}'.format(
+            *self._encode_path_vars(customization_id, grammar_name))
+        response = self.request(
+            method='GET', url=url, headers=headers, accept_json=True)
+        return response
+
+    def list_grammars(self, customization_id, **kwargs):
+        """
+        List grammars.
+
+        Lists information about all grammars from a custom language model. The information
+        includes the total number of out-of-vocabulary (OOV) words, name, and status of
+        each grammar. You must use credentials for the instance of the service that owns a
+        model to list its grammars.
+        **See also:** [Listing grammars from a custom language
+        model](https://cloud.ibm.com/docs/services/speech-to-text/).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/customizations/{0}/grammars'.format(
+            *self._encode_path_vars(customization_id))
+        response = self.request(
+            method='GET', url=url, headers=headers, accept_json=True)
+        return response
+
+    #########################
     # Custom acoustic models
     #########################
 
@@ -1743,7 +2054,7 @@ class SpeechToTextV1(WatsonService):
         model is owned by the instance of the service whose credentials are used to create
         it.
         **See also:** [Create a custom acoustic
-        model](/docs/services/speech-to-text/acoustic-create.html#createModel).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-create.html#createModel).
 
         :param str name: A user-defined name for the new custom acoustic model. Use a name
         that is unique among all custom acoustic models that you own. Use a localized name
@@ -1755,7 +2066,7 @@ class SpeechToTextV1(WatsonService):
         with the base model that it customizes.
         To determine whether a base model supports acoustic model customization, refer to
         [Language support for
-        customization](/docs/services/speech-to-text/custom.html#languageSupport).
+        customization](https://cloud.ibm.com/docs/services/speech-to-text/custom.html#languageSupport).
         :param str description: A description of the new custom acoustic model. Use a
         localized description that matches the language of the custom model.
         :param dict headers: A `dict` containing the request headers
@@ -1796,11 +2107,11 @@ class SpeechToTextV1(WatsonService):
         processed. You must use credentials for the instance of the service that owns a
         model to delete it.
         **See also:** [Deleting a custom acoustic
-        model](/docs/services/speech-to-text/acoustic-models.html#deleteModel).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-models.html#deleteModel).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1826,11 +2137,11 @@ class SpeechToTextV1(WatsonService):
         Gets information about a specified custom acoustic model. You must use credentials
         for the instance of the service that owns a model to list information about it.
         **See also:** [Listing custom acoustic
-        models](/docs/services/speech-to-text/acoustic-models.html#listModels).
+        models](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-models.html#listModels).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1859,12 +2170,12 @@ class SpeechToTextV1(WatsonService):
         all languages. You must use credentials for the instance of the service that owns
         a model to list information about it.
         **See also:** [Listing custom acoustic
-        models](/docs/services/speech-to-text/acoustic-models.html#listModels).
+        models](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-models.html#listModels).
 
         :param str language: The identifier of the language for which custom language or
         custom acoustic models are to be returned (for example, `en-US`). Omit the
-        parameter to see all custom language or custom acoustic models owned by the
-        requesting service credentials.
+        parameter to see all custom language or custom acoustic models that are owned by
+        the requesting credentials.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1895,11 +2206,11 @@ class SpeechToTextV1(WatsonService):
         but the model's audio resources are removed and must be re-created. You must use
         credentials for the instance of the service that owns a model to reset it.
         **See also:** [Resetting a custom acoustic
-        model](/docs/services/speech-to-text/acoustic-models.html#resetModel).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-models.html#resetModel).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1953,15 +2264,15 @@ class SpeechToTextV1(WatsonService):
         Training can fail to start for the following reasons:
         * The service is currently handling another request for the custom model, such as
         another training request or a request to add audio resources to the model.
-        * The custom model contains less than 10 minutes or more than 50 hours of audio
+        * The custom model contains less than 10 minutes or more than 100 hours of audio
         data.
         * One or more of the custom model's audio resources is invalid.
         **See also:** [Train the custom acoustic
-        model](/docs/services/speech-to-text/acoustic-create.html#trainModel).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-create.html#trainModel).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str custom_language_model_id: The customization ID (GUID) of a custom
         language model that is to be used during training of the custom acoustic model.
         Specify a custom language model that has been trained with verbatim transcriptions
@@ -2019,11 +2330,11 @@ class SpeechToTextV1(WatsonService):
         the custom acoustic model can be upgraded. Omit the parameter if the custom
         acoustic model was not trained with a custom language model.
         **See also:** [Upgrading a custom acoustic
-        model](/docs/services/speech-to-text/custom-upgrade.html#upgradeAcoustic).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/custom-upgrade.html#upgradeAcoustic).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str custom_language_model_id: If the custom acoustic model was trained with
         a custom language model, the customization ID (GUID) of that custom language
         model. The custom language model must be upgraded before the custom acoustic model
@@ -2080,8 +2391,8 @@ class SpeechToTextV1(WatsonService):
         You can use this method to add any number of audio resources to a custom model by
         calling the method once for each audio or archive file. But the addition of one
         audio resource must be fully complete before you can add another. You must add a
-        minimum of 10 minutes and a maximum of 50 hours of audio that includes speech, not
-        just silence, to a custom acoustic model before you can train it. No audio
+        minimum of 10 minutes and a maximum of 100 hours of audio that includes speech,
+        not just silence, to a custom acoustic model before you can train it. No audio
         resource, audio- or archive-type, can be larger than 100 MB. To add an audio
         resource that has the same name as an existing audio resource, set the
         `allow_overwrite` parameter to `true`; otherwise, the request fails.
@@ -2099,7 +2410,7 @@ class SpeechToTextV1(WatsonService):
         returns the status of the resource. Use a loop to check the status of the audio
         every few seconds until it becomes `ok`.
         **See also:** [Add audio to the custom acoustic
-        model](/docs/services/speech-to-text/acoustic-create.html#addAudio).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-create.html#addAudio).
         ### Content types for audio-type resources
          You can add an individual audio file in any format that the service supports for
         speech recognition. For an audio-type resource, use the `Content-Type` parameter
@@ -2107,6 +2418,7 @@ class SpeechToTextV1(WatsonService):
         the sampling rate, channels, and endianness where indicated.
         * `audio/basic` (Use only with narrowband models.)
         * `audio/flac`
+        * `audio/g729` (Use only with narrowband models.)
         * `audio/l16` (Specify the sampling rate (`rate`) and optionally the number of
         channels (`channels`) and endianness (`endianness`) of the audio.)
         * `audio/mp3`
@@ -2119,13 +2431,14 @@ class SpeechToTextV1(WatsonService):
         * `audio/webm` (The service automatically detects the codec of the input audio.)
         * `audio/webm;codecs=opus`
         * `audio/webm;codecs=vorbis`
-        **See also:** [Audio formats](/docs/services/speech-to-text/audio-formats.html).
-        **Note:** The sampling rate of an audio file must match the sampling rate of the
-        base model for the custom model: for broadband models, at least 16 kHz; for
-        narrowband models, at least 8 kHz. If the sampling rate of the audio is higher
-        than the minimum required rate, the service down-samples the audio to the
-        appropriate rate. If the sampling rate of the audio is lower than the minimum
-        required rate, the service labels the audio file as `invalid`.
+        The sampling rate of an audio file must match the sampling rate of the base model
+        for the custom model: for broadband models, at least 16 kHz; for narrowband
+        models, at least 8 kHz. If the sampling rate of the audio is higher than the
+        minimum required rate, the service down-samples the audio to the appropriate rate.
+        If the sampling rate of the audio is lower than the minimum required rate, the
+        service labels the audio file as `invalid`.
+         **See also:** [Audio
+        formats](https://cloud.ibm.com/docs/services/speech-to-text/audio-formats.html).
         ### Content types for archive-type resources
          You can add an archive file (**.zip** or **.tar.gz** file) that contains audio
         files in any format that the service supports for speech recognition. For an
@@ -2149,8 +2462,8 @@ class SpeechToTextV1(WatsonService):
         model as part of an archive-type resource.
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str audio_name: The name of the new audio resource for the custom acoustic
         model. Use a localized name that matches the language of the custom model and
         reflects the contents of the resource.
@@ -2222,11 +2535,11 @@ class SpeechToTextV1(WatsonService):
         You must use credentials for the instance of the service that owns a model to
         delete its audio resources.
         **See also:** [Deleting an audio resource from a custom acoustic
-        model](/docs/services/speech-to-text/acoustic-audio.html#deleteAudio).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-audio.html#deleteAudio).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str audio_name: The name of the audio resource for the custom acoustic
         model.
         :param dict headers: A `dict` containing the request headers
@@ -2272,11 +2585,11 @@ class SpeechToTextV1(WatsonService):
         You must use credentials for the instance of the service that owns a model to list
         its audio resources.
         **See also:** [Listing audio resources for a custom acoustic
-        model](/docs/services/speech-to-text/acoustic-audio.html#listAudio).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-audio.html#listAudio).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param str audio_name: The name of the audio resource for the custom acoustic
         model.
         :param dict headers: A `dict` containing the request headers
@@ -2310,11 +2623,11 @@ class SpeechToTextV1(WatsonService):
         to a request to add it to the custom acoustic model. You must use credentials for
         the instance of the service that owns a model to list its audio resources.
         **See also:** [Listing audio resources for a custom acoustic
-        model](/docs/services/speech-to-text/acoustic-audio.html#listAudio).
+        model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-audio.html#listAudio).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
-        model that is to be used for the request. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2349,7 +2662,7 @@ class SpeechToTextV1(WatsonService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes the data.
         **See also:** [Information
-        security](/docs/services/speech-to-text/information-security.html).
+        security](https://cloud.ibm.com/docs/services/speech-to-text/information-security.html).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
@@ -2397,20 +2710,20 @@ class AcousticModel(object):
     acoustic model. Each element of the array indicates a version of the base model with
     which the custom model can be used. Multiple versions exist only if the custom model
     has been upgraded; otherwise, only a single version is shown.
-    :attr str owner: (optional) The GUID of the service credentials for the instance of
-    the service that owns the custom acoustic model.
+    :attr str owner: (optional) The GUID of the credentials for the instance of the
+    service that owns the custom acoustic model.
     :attr str name: (optional) The name of the custom acoustic model.
     :attr str description: (optional) The description of the custom acoustic model.
     :attr str base_model_name: (optional) The name of the language model for which the
     custom acoustic model was created.
     :attr str status: (optional) The current status of the custom acoustic model:
-    * `pending` indicates that the model was created but is waiting either for training
-    data to be added or for the service to finish analyzing added data.
-    * `ready` indicates that the model contains data and is ready to be trained.
-    * `training` indicates that the model is currently being trained.
-    * `available` indicates that the model is trained and ready to use.
-    * `upgrading` indicates that the model is currently being upgraded.
-    * `failed` indicates that training of the model failed.
+    * `pending`: The model was created but is waiting either for training data to be added
+    or for the service to finish analyzing added data.
+    * `ready`: The model contains data and is ready to be trained.
+    * `training`: The model is currently being trained.
+    * `available`: The model is trained and ready to use.
+    * `upgrading`: The model is currently being upgraded.
+    * `failed`: Training of the model failed.
     :attr int progress: (optional) A percentage that indicates the progress of the custom
     acoustic model's current training. A value of `100` means that the model is fully
     trained. **Note:** The `progress` field does not currently reflect the progress of the
@@ -2447,20 +2760,20 @@ class AcousticModel(object):
         custom acoustic model. Each element of the array indicates a version of the base
         model with which the custom model can be used. Multiple versions exist only if the
         custom model has been upgraded; otherwise, only a single version is shown.
-        :param str owner: (optional) The GUID of the service credentials for the instance
-        of the service that owns the custom acoustic model.
+        :param str owner: (optional) The GUID of the credentials for the instance of the
+        service that owns the custom acoustic model.
         :param str name: (optional) The name of the custom acoustic model.
         :param str description: (optional) The description of the custom acoustic model.
         :param str base_model_name: (optional) The name of the language model for which
         the custom acoustic model was created.
         :param str status: (optional) The current status of the custom acoustic model:
-        * `pending` indicates that the model was created but is waiting either for
-        training data to be added or for the service to finish analyzing added data.
-        * `ready` indicates that the model contains data and is ready to be trained.
-        * `training` indicates that the model is currently being trained.
-        * `available` indicates that the model is trained and ready to use.
-        * `upgrading` indicates that the model is currently being upgraded.
-        * `failed` indicates that training of the model failed.
+        * `pending`: The model was created but is waiting either for training data to be
+        added or for the service to finish analyzing added data.
+        * `ready`: The model contains data and is ready to be trained.
+        * `training`: The model is currently being trained.
+        * `available`: The model is trained and ready to use.
+        * `upgrading`: The model is currently being upgraded.
+        * `failed`: Training of the model failed.
         :param int progress: (optional) A percentage that indicates the progress of the
         custom acoustic model's current training. A value of `100` means that the model is
         fully trained. **Note:** The `progress` field does not currently reflect the
@@ -2562,20 +2875,20 @@ class AcousticModels(object):
     """
     AcousticModels.
 
-    :attr list[AcousticModel] customizations: An array of objects that provides
-    information about each available custom acoustic model. The array is empty if the
-    requesting service credentials own no custom acoustic models (if no language is
-    specified) or own no custom acoustic models for the specified language.
+    :attr list[AcousticModel] customizations: An array of `AcousticModel` objects that
+    provides information about each available custom acoustic model. The array is empty if
+    the requesting credentials own no custom acoustic models (if no language is specified)
+    or own no custom acoustic models for the specified language.
     """
 
     def __init__(self, customizations):
         """
         Initialize a AcousticModels object.
 
-        :param list[AcousticModel] customizations: An array of objects that provides
-        information about each available custom acoustic model. The array is empty if the
-        requesting service credentials own no custom acoustic models (if no language is
-        specified) or own no custom acoustic models for the specified language.
+        :param list[AcousticModel] customizations: An array of `AcousticModel` objects
+        that provides information about each available custom acoustic model. The array is
+        empty if the requesting credentials own no custom acoustic models (if no language
+        is specified) or own no custom acoustic models for the specified language.
         """
         self.customizations = customizations
 
@@ -2721,14 +3034,13 @@ class AudioListing(object):
     archive-type resource.
     :attr str status: (optional) **For an audio-type resource,** the status of the
     resource:
-    * `ok` indicates that the service has successfully analyzed the audio data. The data
-    can be used to train the custom model.
-    * `being_processed` indicates that the service is still analyzing the audio data. The
-    service cannot accept requests to add new audio resources or to train the custom model
-    until its analysis is complete.
-    * `invalid` indicates that the audio data is not valid for training the custom model
-    (possibly because it has the wrong format or sampling rate, or because it is
-    corrupted).
+    * `ok`: The service successfully analyzed the audio data. The data can be used to
+    train the custom model.
+    * `being_processed`: The service is still analyzing the audio data. The service cannot
+    accept requests to add new audio resources or to train the custom model until its
+    analysis is complete.
+    * `invalid`: The audio data is not valid for training the custom model (possibly
+    because it has the wrong format or sampling rate, or because it is corrupted).
     Omitted for an archive-type resource.
     :attr AudioResource container: (optional) **For an archive-type resource,** an object
     of type `AudioResource` that provides information about the resource. Omitted for an
@@ -2759,14 +3071,13 @@ class AudioListing(object):
         archive-type resource.
         :param str status: (optional) **For an audio-type resource,** the status of the
         resource:
-        * `ok` indicates that the service has successfully analyzed the audio data. The
-        data can be used to train the custom model.
-        * `being_processed` indicates that the service is still analyzing the audio data.
-        The service cannot accept requests to add new audio resources or to train the
-        custom model until its analysis is complete.
-        * `invalid` indicates that the audio data is not valid for training the custom
-        model (possibly because it has the wrong format or sampling rate, or because it is
-        corrupted).
+        * `ok`: The service successfully analyzed the audio data. The data can be used to
+        train the custom model.
+        * `being_processed`: The service is still analyzing the audio data. The service
+        cannot accept requests to add new audio resources or to train the custom model
+        until its analysis is complete.
+        * `invalid`: The audio data is not valid for training the custom model (possibly
+        because it has the wrong format or sampling rate, or because it is corrupted).
         Omitted for an archive-type resource.
         :param AudioResource container: (optional) **For an archive-type resource,** an
         object of type `AudioResource` that provides information about the resource.
@@ -2849,15 +3160,14 @@ class AudioResource(object):
     information about the audio resource. The object is empty until the service finishes
     processing the audio.
     :attr str status: The status of the audio resource:
-    * `ok` indicates that the service has successfully analyzed the audio data. The data
-    can be used to train the custom model.
-    * `being_processed` indicates that the service is still analyzing the audio data. The
-    service cannot accept requests to add new audio resources or to train the custom model
-    until its analysis is complete.
-    * `invalid` indicates that the audio data is not valid for training the custom model
-    (possibly because it has the wrong format or sampling rate, or because it is
-    corrupted). For an archive file, the entire archive is invalid if any of its audio
-    files are invalid.
+    * `ok`: The service successfully analyzed the audio data. The data can be used to
+    train the custom model.
+    * `being_processed`: The service is still analyzing the audio data. The service cannot
+    accept requests to add new audio resources or to train the custom model until its
+    analysis is complete.
+    * `invalid`: The audio data is not valid for training the custom model (possibly
+    because it has the wrong format or sampling rate, or because it is corrupted). For an
+    archive file, the entire archive is invalid if any of its audio files are invalid.
     """
 
     def __init__(self, duration, name, details, status):
@@ -2875,15 +3185,15 @@ class AudioResource(object):
         information about the audio resource. The object is empty until the service
         finishes processing the audio.
         :param str status: The status of the audio resource:
-        * `ok` indicates that the service has successfully analyzed the audio data. The
-        data can be used to train the custom model.
-        * `being_processed` indicates that the service is still analyzing the audio data.
-        The service cannot accept requests to add new audio resources or to train the
-        custom model until its analysis is complete.
-        * `invalid` indicates that the audio data is not valid for training the custom
-        model (possibly because it has the wrong format or sampling rate, or because it is
-        corrupted). For an archive file, the entire archive is invalid if any of its audio
-        files are invalid.
+        * `ok`: The service successfully analyzed the audio data. The data can be used to
+        train the custom model.
+        * `being_processed`: The service is still analyzing the audio data. The service
+        cannot accept requests to add new audio resources or to train the custom model
+        until its analysis is complete.
+        * `invalid`: The audio data is not valid for training the custom model (possibly
+        because it has the wrong format or sampling rate, or because it is corrupted). For
+        an archive file, the entire archive is invalid if any of its audio files are
+        invalid.
         """
         self.duration = duration
         self.name = name
@@ -2955,9 +3265,9 @@ class AudioResources(object):
     all of the valid audio resources for the custom acoustic model. You can use this value
     to determine whether the custom model has too little or too much audio to begin
     training.
-    :attr list[AudioResource] audio: An array of objects that provides information about
-    the audio resources of the custom acoustic model. The array is empty if the custom
-    model has no audio resources.
+    :attr list[AudioResource] audio: An array of `AudioResource` objects that provides
+    information about the audio resources of the custom acoustic model. The array is empty
+    if the custom model has no audio resources.
     """
 
     def __init__(self, total_minutes_of_audio, audio):
@@ -2968,9 +3278,9 @@ class AudioResources(object):
         over all of the valid audio resources for the custom acoustic model. You can use
         this value to determine whether the custom model has too little or too much audio
         to begin training.
-        :param list[AudioResource] audio: An array of objects that provides information
-        about the audio resources of the custom acoustic model. The array is empty if the
-        custom model has no audio resources.
+        :param list[AudioResource] audio: An array of `AudioResource` objects that
+        provides information about the audio resources of the custom acoustic model. The
+        array is empty if the custom model has no audio resources.
         """
         self.total_minutes_of_audio = total_minutes_of_audio
         self.audio = audio
@@ -3024,17 +3334,18 @@ class Corpora(object):
     """
     Corpora.
 
-    :attr list[Corpus] corpora: An array of objects that provides information about the
-    corpora for the custom model. The array is empty if the custom model has no corpora.
+    :attr list[Corpus] corpora: An array of `Corpus` objects that provides information
+    about the corpora for the custom model. The array is empty if the custom model has no
+    corpora.
     """
 
     def __init__(self, corpora):
         """
         Initialize a Corpora object.
 
-        :param list[Corpus] corpora: An array of objects that provides information about
-        the corpora for the custom model. The array is empty if the custom model has no
-        corpora.
+        :param list[Corpus] corpora: An array of `Corpus` objects that provides
+        information about the corpora for the custom model. The array is empty if the
+        custom model has no corpora.
         """
         self.corpora = corpora
 
@@ -3083,13 +3394,12 @@ class Corpus(object):
     :attr int out_of_vocabulary_words: The number of OOV words in the corpus. The value is
     `0` while the corpus is being processed.
     :attr str status: The status of the corpus:
-    * `analyzed` indicates that the service has successfully analyzed the corpus; the
-    custom model can be trained with data from the corpus.
-    * `being_processed` indicates that the service is still analyzing the corpus; the
-    service cannot accept requests to add new corpora or words, or to train the custom
-    model.
-    * `undetermined` indicates that the service encountered an error while processing the
-    corpus.
+    * `analyzed`: The service successfully analyzed the corpus. The custom model can be
+    trained with data from the corpus.
+    * `being_processed`: The service is still analyzing the corpus. The service cannot
+    accept requests to add new resources or to train the custom model.
+    * `undetermined`: The service encountered an error while processing the corpus. The
+    `error` field describes the failure.
     :attr str error: (optional) If the status of the corpus is `undetermined`, the
     following message: `Analysis of corpus 'name' failed. Please try adding the corpus
     again by setting the 'allow_overwrite' flag to 'true'`.
@@ -3110,13 +3420,12 @@ class Corpus(object):
         :param int out_of_vocabulary_words: The number of OOV words in the corpus. The
         value is `0` while the corpus is being processed.
         :param str status: The status of the corpus:
-        * `analyzed` indicates that the service has successfully analyzed the corpus; the
-        custom model can be trained with data from the corpus.
-        * `being_processed` indicates that the service is still analyzing the corpus; the
-        service cannot accept requests to add new corpora or words, or to train the custom
-        model.
-        * `undetermined` indicates that the service encountered an error while processing
-        the corpus.
+        * `analyzed`: The service successfully analyzed the corpus. The custom model can
+        be trained with data from the corpus.
+        * `being_processed`: The service is still analyzing the corpus. The service cannot
+        accept requests to add new resources or to train the custom model.
+        * `undetermined`: The service encountered an error while processing the corpus.
+        The `error` field describes the failure.
         :param str error: (optional) If the status of the corpus is `undetermined`, the
         following message: `Analysis of corpus 'name' failed. Please try adding the corpus
         again by setting the 'allow_overwrite' flag to 'true'`.
@@ -3280,6 +3589,157 @@ class CustomWord(object):
         return not self == other
 
 
+class Grammar(object):
+    """
+    Grammar.
+
+    :attr str name: The name of the grammar.
+    :attr int out_of_vocabulary_words: The number of OOV words in the grammar. The value
+    is `0` while the grammar is being processed.
+    :attr str status: The status of the grammar:
+    * `analyzed`: The service successfully analyzed the grammar. The custom model can be
+    trained with data from the grammar.
+    * `being_processed`: The service is still analyzing the grammar. The service cannot
+    accept requests to add new resources or to train the custom model.
+    * `undetermined`: The service encountered an error while processing the grammar. The
+    `error` field describes the failure.
+    :attr str error: (optional) If the status of the grammar is `undetermined`, the
+    following message: `Analysis of grammar '{grammar_name}' failed. Please try fixing the
+    error or adding the grammar again by setting the 'allow_overwrite' flag to 'true'.`.
+    """
+
+    def __init__(self, name, out_of_vocabulary_words, status, error=None):
+        """
+        Initialize a Grammar object.
+
+        :param str name: The name of the grammar.
+        :param int out_of_vocabulary_words: The number of OOV words in the grammar. The
+        value is `0` while the grammar is being processed.
+        :param str status: The status of the grammar:
+        * `analyzed`: The service successfully analyzed the grammar. The custom model can
+        be trained with data from the grammar.
+        * `being_processed`: The service is still analyzing the grammar. The service
+        cannot accept requests to add new resources or to train the custom model.
+        * `undetermined`: The service encountered an error while processing the grammar.
+        The `error` field describes the failure.
+        :param str error: (optional) If the status of the grammar is `undetermined`, the
+        following message: `Analysis of grammar '{grammar_name}' failed. Please try fixing
+        the error or adding the grammar again by setting the 'allow_overwrite' flag to
+        'true'.`.
+        """
+        self.name = name
+        self.out_of_vocabulary_words = out_of_vocabulary_words
+        self.status = status
+        self.error = error
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Grammar object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in Grammar JSON')
+        if 'out_of_vocabulary_words' in _dict:
+            args['out_of_vocabulary_words'] = _dict.get(
+                'out_of_vocabulary_words')
+        else:
+            raise ValueError(
+                'Required property \'out_of_vocabulary_words\' not present in Grammar JSON'
+            )
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError(
+                'Required property \'status\' not present in Grammar JSON')
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'out_of_vocabulary_words'
+                  ) and self.out_of_vocabulary_words is not None:
+            _dict['out_of_vocabulary_words'] = self.out_of_vocabulary_words
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Grammar object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Grammars(object):
+    """
+    Grammars.
+
+    :attr list[Grammar] grammars: An array of `Grammar` objects that provides information
+    about the grammars for the custom model. The array is empty if the custom model has no
+    grammars.
+    """
+
+    def __init__(self, grammars):
+        """
+        Initialize a Grammars object.
+
+        :param list[Grammar] grammars: An array of `Grammar` objects that provides
+        information about the grammars for the custom model. The array is empty if the
+        custom model has no grammars.
+        """
+        self.grammars = grammars
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Grammars object from a json dictionary."""
+        args = {}
+        if 'grammars' in _dict:
+            args['grammars'] = [
+                Grammar._from_dict(x) for x in (_dict.get('grammars'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'grammars\' not present in Grammars JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'grammars') and self.grammars is not None:
+            _dict['grammars'] = [x._to_dict() for x in self.grammars]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Grammars object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class KeywordResult(object):
     """
     KeywordResult.
@@ -3390,24 +3850,28 @@ class LanguageModel(object):
     language model. Each element of the array indicates a version of the base model with
     which the custom model can be used. Multiple versions exist only if the custom model
     has been upgraded; otherwise, only a single version is shown.
-    :attr str owner: (optional) The GUID of the service credentials for the instance of
-    the service that owns the custom language model.
+    :attr str owner: (optional) The GUID of the credentials for the instance of the
+    service that owns the custom language model.
     :attr str name: (optional) The name of the custom language model.
     :attr str description: (optional) The description of the custom language model.
     :attr str base_model_name: (optional) The name of the language model for which the
     custom language model was created.
     :attr str status: (optional) The current status of the custom language model:
-    * `pending` indicates that the model was created but is waiting either for training
-    data to be added or for the service to finish analyzing added data.
-    * `ready` indicates that the model contains data and is ready to be trained.
-    * `training` indicates that the model is currently being trained.
-    * `available` indicates that the model is trained and ready to use.
-    * `upgrading` indicates that the model is currently being upgraded.
-    * `failed` indicates that training of the model failed.
+    * `pending`: The model was created but is waiting either for training data to be added
+    or for the service to finish analyzing added data.
+    * `ready`: The model contains data and is ready to be trained.
+    * `training`: The model is currently being trained.
+    * `available`: The model is trained and ready to use.
+    * `upgrading`: The model is currently being upgraded.
+    * `failed`: Training of the model failed.
     :attr int progress: (optional) A percentage that indicates the progress of the custom
     language model's current training. A value of `100` means that the model is fully
     trained. **Note:** The `progress` field does not currently reflect the progress of the
     training. The field changes from `0` to `100` when training is complete.
+    :attr str error: (optional) If an error occurred while adding a grammar file to the
+    custom language model, a message that describes an `Internal Server Error` and
+    includes the string `Cannot compile grammar`. The status of the custom model is not
+    affected by the error, but the grammar cannot be used with the model.
     :attr str warnings: (optional) If the request included unknown parameters, the
     following message: `Unexpected query parameter(s) ['parameters'] detected`, where
     `parameters` is a list that includes a quoted string for each unknown parameter.
@@ -3425,6 +3889,7 @@ class LanguageModel(object):
                  base_model_name=None,
                  status=None,
                  progress=None,
+                 error=None,
                  warnings=None):
         """
         Initialize a LanguageModel object.
@@ -3448,25 +3913,29 @@ class LanguageModel(object):
         custom language model. Each element of the array indicates a version of the base
         model with which the custom model can be used. Multiple versions exist only if the
         custom model has been upgraded; otherwise, only a single version is shown.
-        :param str owner: (optional) The GUID of the service credentials for the instance
-        of the service that owns the custom language model.
+        :param str owner: (optional) The GUID of the credentials for the instance of the
+        service that owns the custom language model.
         :param str name: (optional) The name of the custom language model.
         :param str description: (optional) The description of the custom language model.
         :param str base_model_name: (optional) The name of the language model for which
         the custom language model was created.
         :param str status: (optional) The current status of the custom language model:
-        * `pending` indicates that the model was created but is waiting either for
-        training data to be added or for the service to finish analyzing added data.
-        * `ready` indicates that the model contains data and is ready to be trained.
-        * `training` indicates that the model is currently being trained.
-        * `available` indicates that the model is trained and ready to use.
-        * `upgrading` indicates that the model is currently being upgraded.
-        * `failed` indicates that training of the model failed.
+        * `pending`: The model was created but is waiting either for training data to be
+        added or for the service to finish analyzing added data.
+        * `ready`: The model contains data and is ready to be trained.
+        * `training`: The model is currently being trained.
+        * `available`: The model is trained and ready to use.
+        * `upgrading`: The model is currently being upgraded.
+        * `failed`: Training of the model failed.
         :param int progress: (optional) A percentage that indicates the progress of the
         custom language model's current training. A value of `100` means that the model is
         fully trained. **Note:** The `progress` field does not currently reflect the
         progress of the training. The field changes from `0` to `100` when training is
         complete.
+        :param str error: (optional) If an error occurred while adding a grammar file to
+        the custom language model, a message that describes an `Internal Server Error` and
+        includes the string `Cannot compile grammar`. The status of the custom model is
+        not affected by the error, but the grammar cannot be used with the model.
         :param str warnings: (optional) If the request included unknown parameters, the
         following message: `Unexpected query parameter(s) ['parameters'] detected`, where
         `parameters` is a list that includes a quoted string for each unknown parameter.
@@ -3482,6 +3951,7 @@ class LanguageModel(object):
         self.base_model_name = base_model_name
         self.status = status
         self.progress = progress
+        self.error = error
         self.warnings = warnings
 
     @classmethod
@@ -3514,6 +3984,8 @@ class LanguageModel(object):
             args['status'] = _dict.get('status')
         if 'progress' in _dict:
             args['progress'] = _dict.get('progress')
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
         if 'warnings' in _dict:
             args['warnings'] = _dict.get('warnings')
         return cls(**args)
@@ -3545,6 +4017,8 @@ class LanguageModel(object):
             _dict['status'] = self.status
         if hasattr(self, 'progress') and self.progress is not None:
             _dict['progress'] = self.progress
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
         if hasattr(self, 'warnings') and self.warnings is not None:
             _dict['warnings'] = self.warnings
         return _dict
@@ -3568,20 +4042,20 @@ class LanguageModels(object):
     """
     LanguageModels.
 
-    :attr list[LanguageModel] customizations: An array of objects that provides
-    information about each available custom language model. The array is empty if the
-    requesting service credentials own no custom language models (if no language is
-    specified) or own no custom language models for the specified language.
+    :attr list[LanguageModel] customizations: An array of `LanguageModel` objects that
+    provides information about each available custom language model. The array is empty if
+    the requesting credentials own no custom language models (if no language is specified)
+    or own no custom language models for the specified language.
     """
 
     def __init__(self, customizations):
         """
         Initialize a LanguageModels object.
 
-        :param list[LanguageModel] customizations: An array of objects that provides
-        information about each available custom language model. The array is empty if the
-        requesting service credentials own no custom language models (if no language is
-        specified) or own no custom language models for the specified language.
+        :param list[LanguageModel] customizations: An array of `LanguageModel` objects
+        that provides information about each available custom language model. The array is
+        empty if the requesting credentials own no custom language models (if no language
+        is specified) or own no custom language models for the specified language.
         """
         self.customizations = customizations
 
@@ -3637,7 +4111,7 @@ class RecognitionJob(object):
     * `processing`: The service is actively processing the job.
     * `completed`: The service has finished processing the job. If the job specified a
     callback URL and the event `recognitions.completed_with_results`, the service sent the
-    results with the callback notification; otherwise, you must retrieve the results by
+    results with the callback notification. Otherwise, you must retrieve the results by
     checking the individual job.
     * `failed`: The job failed.
     :attr str created: The date and time in Coordinated Universal Time (UTC) at which the
@@ -3684,7 +4158,7 @@ class RecognitionJob(object):
         * `processing`: The service is actively processing the job.
         * `completed`: The service has finished processing the job. If the job specified a
         callback URL and the event `recognitions.completed_with_results`, the service sent
-        the results with the callback notification; otherwise, you must retrieve the
+        the results with the callback notification. Otherwise, you must retrieve the
         results by checking the individual job.
         * `failed`: The job failed.
         :param str created: The date and time in Coordinated Universal Time (UTC) at which
@@ -3796,18 +4270,18 @@ class RecognitionJobs(object):
     """
     RecognitionJobs.
 
-    :attr list[RecognitionJob] recognitions: An array of objects that provides the status
-    for each of the user's current jobs. The array is empty if the user has no current
-    jobs.
+    :attr list[RecognitionJob] recognitions: An array of `RecognitionJob` objects that
+    provides the status for each of the user's current jobs. The array is empty if the
+    user has no current jobs.
     """
 
     def __init__(self, recognitions):
         """
         Initialize a RecognitionJobs object.
 
-        :param list[RecognitionJob] recognitions: An array of objects that provides the
-        status for each of the user's current jobs. The array is empty if the user has no
-        current jobs.
+        :param list[RecognitionJob] recognitions: An array of `RecognitionJob` objects
+        that provides the status for each of the user's current jobs. The array is empty
+        if the user has no current jobs.
         """
         self.recognitions = recognitions
 
@@ -3853,8 +4327,9 @@ class RegisterStatus(object):
     RegisterStatus.
 
     :attr str status: The current status of the job:
-    * `created` if the callback URL was successfully white-listed as a result of the call.
-    * `already created` if the URL was already white-listed.
+    * `created`: The service successfully white-listed the callback URL as a result of the
+    call.
+    * `already created`: The URL was already white-listed.
     :attr str url: The callback URL that is successfully registered.
     """
 
@@ -3863,9 +4338,9 @@ class RegisterStatus(object):
         Initialize a RegisterStatus object.
 
         :param str status: The current status of the job:
-        * `created` if the callback URL was successfully white-listed as a result of the
-        call.
-        * `already created` if the URL was already white-listed.
+        * `created`: The service successfully white-listed the callback URL as a result of
+        the call.
+        * `already created`: The URL was already white-listed.
         :param str url: The callback URL that is successfully registered.
         """
         self.status = status
@@ -4141,16 +4616,16 @@ class SpeechModels(object):
     """
     SpeechModels.
 
-    :attr list[SpeechModel] models: An array of objects that provides information about
-    each available model.
+    :attr list[SpeechModel] models: An array of `SpeechModel` objects that provides
+    information about each available model.
     """
 
     def __init__(self, models):
         """
         Initialize a SpeechModels object.
 
-        :param list[SpeechModel] models: An array of objects that provides information
-        about each available model.
+        :param list[SpeechModel] models: An array of `SpeechModel` objects that provides
+        information about each available model.
         """
         self.models = models
 
@@ -4930,18 +5405,18 @@ class Words(object):
     """
     Words.
 
-    :attr list[Word] words: An array of objects that provides information about each word
-    in the custom model's words resource. The array is empty if the custom model has no
-    words.
+    :attr list[Word] words: An array of `Word` objects that provides information about
+    each word in the custom model's words resource. The array is empty if the custom model
+    has no words.
     """
 
     def __init__(self, words):
         """
         Initialize a Words object.
 
-        :param list[Word] words: An array of objects that provides information about each
-        word in the custom model's words resource. The array is empty if the custom model
-        has no words.
+        :param list[Word] words: An array of `Word` objects that provides information
+        about each word in the custom model's words resource. The array is empty if the
+        custom model has no words.
         """
         self.words = words
 

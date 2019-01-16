@@ -25,9 +25,9 @@ consumption preferences based on the results of its analysis and, for JSON conte
 timestamped, can report temporal behavior.
 * For information about the meaning of the models that the service uses to describe
 personality characteristics, see [Personality
-models](/docs/services/personality-insights/models.html).
+models](https://cloud.ibm.com/docs/services/personality-insights/models.html).
 * For information about the meaning of the consumption preferences, see [Consumption
-preferences](/docs/services/personality-insights/preferences.html).
+preferences](https://cloud.ibm.com/docs/services/personality-insights/preferences.html).
 **Note:** Request logging is disabled for the Personality Insights service. Regardless of
 whether you set the `X-Watson-Learning-Opt-Out` request header, the service does not log
 or retain data from requests and responses.
@@ -135,9 +135,10 @@ class PersonalityInsightsV3(WatsonService):
         produce an accurate profile. The service can analyze text in Arabic, English,
         Japanese, Korean, or Spanish. It can return its results in a variety of languages.
         **See also:**
-        * [Requesting a profile](/docs/services/personality-insights/input.html)
+        * [Requesting a
+        profile](https://cloud.ibm.com/docs/services/personality-insights/input.html)
         * [Providing sufficient
-        input](/docs/services/personality-insights/input.html#sufficient)
+        input](https://cloud.ibm.com/docs/services/personality-insights/input.html#sufficient)
         ### Content types
          You can provide input content as plain text (`text/plain`), HTML (`text/html`),
         or JSON (`application/json`) by specifying the **Content-Type** parameter. The
@@ -150,26 +151,27 @@ class PersonalityInsightsV3(WatsonService):
         parameter to indicate the character encoding of the input text; for example,
         `Content-Type: text/plain;charset=utf-8`.
         **See also:** [Specifying request and response
-        formats](/docs/services/personality-insights/input.html#formats)
+        formats](https://cloud.ibm.com/docs/services/personality-insights/input.html#formats)
         ### Accept types
          You must request a response as JSON (`application/json`) or comma-separated
         values (`text/csv`) by specifying the **Accept** parameter. CSV output includes a
         fixed number of columns. Set the **csv_headers** parameter to `true` to request
         optional column headers for CSV output.
         **See also:**
-        * [Understanding a JSON profile](/docs/services/personality-insights/output.html)
+        * [Understanding a JSON
+        profile](https://cloud.ibm.com/docs/services/personality-insights/output.html)
         * [Understanding a CSV
-        profile](/docs/services/personality-insights/output-csv.html).
+        profile](https://cloud.ibm.com/docs/services/personality-insights/output-csv.html).
 
         :param Content content: A maximum of 20 MB of content to analyze, though the
         service requires much less text; for more information, see [Providing sufficient
-        input](/docs/services/personality-insights/input.html#sufficient). For JSON input,
-        provide an object of type `Content`.
+        input](https://cloud.ibm.com/docs/services/personality-insights/input.html#sufficient).
+        For JSON input, provide an object of type `Content`.
+        :param str accept: The type of the response. For more information, see **Accept
+        types** in the method description.
         :param str content_type: The type of the input. For more information, see
         **Content types** in the method description.
         Default: `text/plain`.
-        :param str accept: The type of the response. For more information, see **Accept
-        types** in the method description.
         :param str content_language: The language of the input text for the request:
         Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as
         their parent language; for example, `en-US` is interpreted as `en`.
