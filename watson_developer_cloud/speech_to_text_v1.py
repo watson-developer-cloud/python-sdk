@@ -1727,6 +1727,219 @@ class SpeechToTextV1(WatsonService):
         return response
 
     #########################
+    # Custom grammars
+    #########################
+
+    def add_grammar(self,
+                    customization_id,
+                    grammar_name,
+                    grammar_file,
+                    content_type,
+                    allow_overwrite=None,
+                    **kwargs):
+        """
+        Add a grammar.
+
+        Adds a single grammar file to a custom language model. Submit a plain text file in
+        UTF-8 format that defines the grammar. Use multiple requests to submit multiple
+        grammar files. You must use credentials for the instance of the service that owns
+        a model to add a grammar to it. Adding a grammar does not affect the custom
+        language model until you train the model for the new data by using the **Train a
+        custom language model** method.
+        The call returns an HTTP 201 response code if the grammar is valid. The service
+        then asynchronously processes the contents of the grammar and automatically
+        extracts new words that it finds. This can take a few seconds to complete
+        depending on the size and complexity of the grammar, as well as the current load
+        on the service. You cannot submit requests to add additional resources to the
+        custom model or to train the model until the service's analysis of the grammar for
+        the current request completes. Use the **Get a grammar** method to check the
+        status of the analysis.
+        The service populates the model's words resource with any word that is recognized
+        by the grammar that is not found in the model's base vocabulary. These are
+        referred to as out-of-vocabulary (OOV) words. You can use the **List custom
+        words** method to examine the words resource and use other words-related methods
+        to eliminate typos and modify how words are pronounced as needed.
+        To add a grammar that has the same name as an existing grammar, set the
+        `allow_overwrite` parameter to `true`; otherwise, the request fails. Overwriting
+        an existing grammar causes the service to process the grammar file and extract OOV
+        words anew. Before doing so, it removes any OOV words associated with the existing
+        grammar from the model's words resource unless they were also added by another
+        resource or they have been modified in some way with the **Add custom words** or
+        **Add a custom word** method.
+        The service limits the overall amount of data that you can add to a custom model
+        to a maximum of 10 million total words from all sources combined. Also, you can
+        add no more than 30 thousand OOV words to a model. This includes words that the
+        service extracts from corpora and grammars and words that you add directly.
+        **See also:**
+        * [Working with grammars](https://cloud.ibm.com/docs/services/speech-to-text/)
+        * [Add grammars to the custom language
+        model](https://cloud.ibm.com/docs/services/speech-to-text/).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param str grammar_name: The name of the new grammar for the custom language
+        model. Use a localized name that matches the language of the custom model and
+        reflects the contents of the grammar.
+        * Include a maximum of 128 characters in the name.
+        * Do not include spaces, slashes, or backslashes in the name.
+        * Do not use the name of an existing grammar or corpus that is already defined for
+        the custom model.
+        * Do not use the name `user`, which is reserved by the service to denote custom
+        words that are added or modified by the user.
+        :param str grammar_file: A plain text file that contains the grammar in the format
+        specified by the `Content-Type` header. Encode the file in UTF-8 (ASCII is a
+        subset of UTF-8). Using any other encoding can lead to issues when compiling the
+        grammar or to unexpected results in decoding. The service ignores an encoding that
+        is specified in the header of the grammar.
+        :param str content_type: The format (MIME type) of the grammar file:
+        * `application/srgs` for Augmented Backus-Naur Form (ABNF), which uses a
+        plain-text representation that is similar to traditional BNF grammars.
+        * `application/srgs+xml` for XML Form, which uses XML elements to represent the
+        grammar.
+        :param bool allow_overwrite: If `true`, the specified grammar overwrites an
+        existing grammar with the same name. If `false`, the request fails if a grammar
+        with the same name already exists. The parameter has no effect if a grammar with
+        the same name does not already exist.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+        if grammar_name is None:
+            raise ValueError('grammar_name must be provided')
+        if grammar_file is None:
+            raise ValueError('grammar_file must be provided')
+        if content_type is None:
+            raise ValueError('content_type must be provided')
+
+        headers = {'Content-Type': content_type}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        params = {'allow_overwrite': allow_overwrite}
+
+        data = grammar_file
+
+        url = '/v1/customizations/{0}/grammars/{1}'.format(
+            *self._encode_path_vars(customization_id, grammar_name))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            data=data,
+            accept_json=True)
+        return response
+
+    def delete_grammar(self, customization_id, grammar_name, **kwargs):
+        """
+        Delete a grammar.
+
+        Deletes an existing grammar from a custom language model. The service removes any
+        out-of-vocabulary (OOV) words associated with the grammar from the custom model's
+        words resource unless they were also added by another resource or they were
+        modified in some way with the **Add custom words** or **Add a custom word**
+        method. Removing a grammar does not affect the custom model until you train the
+        model with the **Train a custom language model** method. You must use credentials
+        for the instance of the service that owns a model to delete its grammar.
+        **See also:** [Deleting a grammar from a custom language
+        model](https://cloud.ibm.com/docs/services/speech-to-text/).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param str grammar_name: The name of the grammar for the custom language model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+        if grammar_name is None:
+            raise ValueError('grammar_name must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/customizations/{0}/grammars/{1}'.format(
+            *self._encode_path_vars(customization_id, grammar_name))
+        response = self.request(
+            method='DELETE', url=url, headers=headers, accept_json=True)
+        return response
+
+    def get_grammar(self, customization_id, grammar_name, **kwargs):
+        """
+        Get a grammar.
+
+        Gets information about a grammar from a custom language model. The information
+        includes the total number of out-of-vocabulary (OOV) words, name, and status of
+        the grammar. You must use credentials for the instance of the service that owns a
+        model to list its grammars.
+        **See also:** [Listing grammars from a custom language
+        model](https://cloud.ibm.com/docs/services/speech-to-text/).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param str grammar_name: The name of the grammar for the custom language model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+        if grammar_name is None:
+            raise ValueError('grammar_name must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/customizations/{0}/grammars/{1}'.format(
+            *self._encode_path_vars(customization_id, grammar_name))
+        response = self.request(
+            method='GET', url=url, headers=headers, accept_json=True)
+        return response
+
+    def list_grammars(self, customization_id, **kwargs):
+        """
+        List grammars.
+
+        Lists information about all grammars from a custom language model. The information
+        includes the total number of out-of-vocabulary (OOV) words, name, and status of
+        each grammar. You must use credentials for the instance of the service that owns a
+        model to list its grammars.
+        **See also:** [Listing grammars from a custom language
+        model](https://cloud.ibm.com/docs/services/speech-to-text/).
+
+        :param str customization_id: The customization ID (GUID) of the custom language
+        model that is to be used for the request. You must make the request with
+        credentials for the instance of the service that owns the custom model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customization_id is None:
+            raise ValueError('customization_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        url = '/v1/customizations/{0}/grammars'.format(
+            *self._encode_path_vars(customization_id))
+        response = self.request(
+            method='GET', url=url, headers=headers, accept_json=True)
+        return response
+
+    #########################
     # Custom acoustic models
     #########################
 
@@ -3267,6 +3480,157 @@ class CustomWord(object):
 
     def __str__(self):
         """Return a `str` version of this CustomWord object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Grammar(object):
+    """
+    Grammar.
+
+    :attr str name: The name of the grammar.
+    :attr int out_of_vocabulary_words: The number of OOV words in the grammar. The value
+    is `0` while the grammar is being processed.
+    :attr str status: The status of the grammar:
+    * `analyzed`: The service successfully analyzed the grammar. The custom model can be
+    trained with data from the grammar.
+    * `being_processed`: The service is still analyzing the grammar. The service cannot
+    accept requests to add new resources or to train the custom model.
+    * `undetermined`: The service encountered an error while processing the grammar. The
+    `error` field describes the failure.
+    :attr str error: (optional) If the status of the grammar is `undetermined`, the
+    following message: `Analysis of grammar '{grammar_name}' failed. Please try fixing the
+    error or adding the grammar again by setting the 'allow_overwrite' flag to 'true'.`.
+    """
+
+    def __init__(self, name, out_of_vocabulary_words, status, error=None):
+        """
+        Initialize a Grammar object.
+
+        :param str name: The name of the grammar.
+        :param int out_of_vocabulary_words: The number of OOV words in the grammar. The
+        value is `0` while the grammar is being processed.
+        :param str status: The status of the grammar:
+        * `analyzed`: The service successfully analyzed the grammar. The custom model can
+        be trained with data from the grammar.
+        * `being_processed`: The service is still analyzing the grammar. The service
+        cannot accept requests to add new resources or to train the custom model.
+        * `undetermined`: The service encountered an error while processing the grammar.
+        The `error` field describes the failure.
+        :param str error: (optional) If the status of the grammar is `undetermined`, the
+        following message: `Analysis of grammar '{grammar_name}' failed. Please try fixing
+        the error or adding the grammar again by setting the 'allow_overwrite' flag to
+        'true'.`.
+        """
+        self.name = name
+        self.out_of_vocabulary_words = out_of_vocabulary_words
+        self.status = status
+        self.error = error
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Grammar object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in Grammar JSON')
+        if 'out_of_vocabulary_words' in _dict:
+            args['out_of_vocabulary_words'] = _dict.get(
+                'out_of_vocabulary_words')
+        else:
+            raise ValueError(
+                'Required property \'out_of_vocabulary_words\' not present in Grammar JSON'
+            )
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError(
+                'Required property \'status\' not present in Grammar JSON')
+        if 'error' in _dict:
+            args['error'] = _dict.get('error')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'out_of_vocabulary_words'
+                  ) and self.out_of_vocabulary_words is not None:
+            _dict['out_of_vocabulary_words'] = self.out_of_vocabulary_words
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'error') and self.error is not None:
+            _dict['error'] = self.error
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Grammar object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Grammars(object):
+    """
+    Grammars.
+
+    :attr list[Grammar] grammars: An array of `Grammar` objects that provides information
+    about the grammars for the custom model. The array is empty if the custom model has no
+    grammars.
+    """
+
+    def __init__(self, grammars):
+        """
+        Initialize a Grammars object.
+
+        :param list[Grammar] grammars: An array of `Grammar` objects that provides
+        information about the grammars for the custom model. The array is empty if the
+        custom model has no grammars.
+        """
+        self.grammars = grammars
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Grammars object from a json dictionary."""
+        args = {}
+        if 'grammars' in _dict:
+            args['grammars'] = [
+                Grammar._from_dict(x) for x in (_dict.get('grammars'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'grammars\' not present in Grammars JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'grammars') and self.grammars is not None:
+            _dict['grammars'] = [x._to_dict() for x in self.grammars]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Grammars object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
