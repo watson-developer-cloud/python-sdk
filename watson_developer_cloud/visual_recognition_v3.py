@@ -185,9 +185,9 @@ class VisualRecognitionV3(WatsonService):
     def detect_faces(self,
                      images_file=None,
                      url=None,
-                     accept_language=None,
                      images_file_content_type=None,
                      images_filename=None,
+                     accept_language=None,
                      **kwargs):
         """
         Detect faces in images.
@@ -215,10 +215,10 @@ class VisualRecognitionV3(WatsonService):
         the maximum image size is 10 MB. Redirects are followed, so you can use a
         shortened URL.
         You can also include images with the **images_file** parameter.
-        :param str accept_language: The desired language of parts of the response. See the
-        response for details.
         :param str images_file_content_type: The content type of images_file.
         :param str images_filename: The filename for images_file.
+        :param str accept_language: The desired language of parts of the response. See the
+        response for details.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
