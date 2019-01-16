@@ -1238,7 +1238,7 @@ def test_stopword_operations():
         assert responses.calls[0].response.json() == {"status": "pending", "type": "stopwords"}
 
     discovery.delete_stopword_list('envid', 'colid')
-    assert responses.calls[1].response.content is ''
+    assert responses.calls[1].response.status_code == 200
 
     assert len(responses.calls) == 2
 
