@@ -209,9 +209,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'acoustic_customization_id': acoustic_customization_id,
             'customization_weight': customization_weight,
             'base_model_version': base_model_version,
-            'language_customization_id': language_customization_id,
-            'grammar_name': grammar_name,
-            'redaction': redaction
+            'language_customization_id': language_customization_id
         }
         params = _remove_null_values(params)
         url += '/v1/recognize?{0}'.format(urlencode(params))
@@ -228,7 +226,9 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'timestamps': timestamps,
             'profanity_filter': profanity_filter,
             'smart_formatting': smart_formatting,
-            'speaker_labels': speaker_labels
+            'speaker_labels': speaker_labels,
+            'grammar_name': grammar_name,
+            'redaction': redaction
         }
         options = _remove_null_values(options)
 
