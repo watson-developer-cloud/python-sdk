@@ -13,12 +13,7 @@ install:
 - pip install tox-travis
 - pip install bumpversion
 - npm install @semantic-release/exec
-- if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then cd appscan; make asoc-tool; cd
-  ../; fi
-before_script:
-- if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then chmod a+x ./appscan/ASOC.sh; fi
 script:
-- if [ "${TRAVIS_TAG}" = "${TRAVIS_BRANCH}" ]; then ./appscan/ASOC.sh; fi
 - pip install -U python-dotenv
 - tox
 before_deploy:
