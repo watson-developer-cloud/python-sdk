@@ -217,3 +217,9 @@ def test_has_bad_first_or_last_char():
     with pytest.raises(ValueError) as err:
         AnyServiceV1('2018-11-20', iam_apikey='apikey', url='"url"')
     assert str(err.value) == 'The URL shouldn\'t start or end with curly brackets or quotes. Be sure to remove any {} and \" characters surrounding your URL'
+
+@responses.activate
+def test__set_credential_based_on_type():
+    service = AnyServiceV1('2018-11-20', username='username', password='password')
+    service._set_credential_based_on_type('test', 'test_apikey', 'xxx')
+    assert service.iam_apikey == 'xxx'

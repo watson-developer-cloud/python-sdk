@@ -15,6 +15,7 @@
 import json as json_import
 import platform
 import os
+from os.path import dirname, isfile, join, expanduser, abspath
 import requests
 import sys
 from requests.structures import CaseInsensitiveDict
@@ -33,7 +34,13 @@ X_WATSON_AUTHORIZATION_TOKEN = 'X-Watson-Authorization-Token'
 AUTH_HEADER_DEPRECATION_MESSAGE = 'Authenticating with the X-Watson-Authorization-Token header is deprecated. The token continues to work with Cloud Foundry services, but is not supported for services that use Identity and Access Management (IAM) authentication.'
 ICP_PREFIX = 'icp-'
 APIKEY = 'apikey'
+URL = 'url'
+USERNAME = 'username'
+PASSWORD = 'password'
+IAM_APIKEY = 'iam_apikey'
+IAM_URL = 'iam_url'
 APIKEY_DEPRECATION_MESSAGE = 'Authenticating with apikey is deprecated. Move to using Identity and Access Management (IAM) authentication.'
+DEFAULT_CREDENTIALS_FILE_NAME = 'ibm-credentials.env'
 
 # Uncomment this to enable http debugging
 # try:
@@ -52,7 +59,6 @@ def load_from_vcap_services(service_name):
             return services[service_name][0]["credentials"]
     else:
         return None
-
 
 class WatsonException(Exception):
     """
@@ -259,6 +265,8 @@ class WatsonService(object):
         elif iam_access_token is not None or iam_apikey is not None:
             self.set_token_manager(iam_apikey, iam_access_token, iam_url)
 
+        self.load_from_credential_file(vcap_services_name)
+
         if use_vcap_services and not self.username and not self.api_key:
             self.vcap_service_credentials = load_from_vcap_services(
                 vcap_services_name)
@@ -281,6 +289,50 @@ class WatsonService(object):
             raise ValueError(
                 'You must specify your IAM api key or username and password service '
                 'credentials (Note: these are different from your Bluemix id)')
+
+    def load_from_credential_file(self, service_name, separator='='):
+        """
+        Initiates the credentials based on the credential file
+
+        :param str service_name: The service name
+        :param str separator: the separator for key value pair
+        """
+        # File path specified by an env variable
+        credential_file_path = os.getenv("IBM_CREDENTIALS_FILE")
+
+        # Home directory
+        if credential_file_path is None:
+            file_path = join(expanduser('~'), DEFAULT_CREDENTIALS_FILE_NAME)
+            if isfile(file_path):
+                credential_file_path = file_path
+
+        # Top-level of the project directory
+        if credential_file_path is None:
+            file_path = join(dirname(dirname(abspath(__file__))), DEFAULT_CREDENTIALS_FILE_NAME)
+            if isfile(file_path):
+                credential_file_path = file_path
+
+        if credential_file_path is not None:
+            with open(credential_file_path, 'rb') as fp:
+                for line in fp:
+                    key_val = line.strip().split(separator)
+                    self._set_credential_based_on_type(service_name, key_val[0].lower(), key_val[1].lower())
+
+
+    def _set_credential_based_on_type(self, service_name, key, value):
+        if service_name in key:
+            if APIKEY in key:
+                self.set_iam_apikey(value)
+            elif URL in key:
+                self.set_url(value)
+            elif USERNAME in key:
+                self.username = value
+            elif PASSWORD in key:
+                self.password = value
+            elif IAM_APIKEY in key:
+                self.set_iam_apikey(value)
+            elif IAM_URL in key:
+                self.set_iam_url(value)
 
     def set_username_and_password(self, username=None, password=None):
         if username == 'YOUR SERVICE USERNAME':
@@ -333,6 +385,14 @@ class WatsonService(object):
         else:
             self.token_manager = IAMTokenManager(iam_access_token=iam_access_token)
         self.iam_access_token = iam_access_token
+        self.jar = CookieJar()
+
+    def set_iam_url(self, iam_url):
+        if self.token_manager:
+            self.token_manager.set_iam_url(iam_url)
+        else:
+            self.token_manager = IAMTokenManager(iam_url=iam_url)
+        self.iam_url = iam_url
         self.jar = CookieJar()
 
     def set_iam_apikey(self, iam_apikey):
