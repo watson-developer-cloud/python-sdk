@@ -221,7 +221,8 @@ class DetailedResponse(object):
 class WatsonService(object):
     def __init__(self, vcap_services_name, url, username=None, password=None,
                  use_vcap_services=True, api_key=None,
-                 iam_apikey=None, iam_access_token=None, iam_url=None):
+                 iam_apikey=None, iam_access_token=None, iam_url=None,
+                 display_name=None):
         """
         Loads credentials from the VCAP_SERVICES environment variable if
         available, preferring credentials explicitly
@@ -265,7 +266,8 @@ class WatsonService(object):
         elif iam_access_token is not None or iam_apikey is not None:
             self.set_token_manager(iam_apikey, iam_access_token, iam_url)
 
-        self.load_from_credential_file(vcap_services_name)
+        service_name = display_name.replace(' ', '_').lower()
+        self.load_from_credential_file(service_name)
 
         if use_vcap_services and not self.username and not self.api_key:
             self.vcap_service_credentials = load_from_vcap_services(

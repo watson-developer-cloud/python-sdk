@@ -28,7 +28,8 @@ class AnyServiceV1(WatsonService):
             use_vcap_services=True,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
-            iam_url=iam_url)
+            iam_url=iam_url,
+            display_name='Test')
         self.version = version
 
     def op_with_path_params(self, path0, path1):
