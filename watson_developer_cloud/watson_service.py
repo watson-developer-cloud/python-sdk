@@ -256,6 +256,7 @@ class WatsonService(object):
         user_agent_string += ' ' + platform.python_version() # Python version
         self.user_agent_header = {'user-agent': user_agent_string}
 
+        # 1. Credentials are passed in constructor
         if api_key is not None:
             self.set_api_key(api_key)
         elif username is not None and password is not None:
@@ -266,11 +267,13 @@ class WatsonService(object):
         elif iam_access_token is not None or iam_apikey is not None:
             self.set_token_manager(iam_apikey, iam_access_token, iam_url)
 
-        if display_name is not None:
+        # 2. Credentials from credential file
+        if not display_name and not self.username and not self.token_manager:
             service_name = display_name.replace(' ', '_').lower()
             self.load_from_credential_file(service_name)
 
-        if use_vcap_services and not self.username and not self.api_key:
+        # 3. Credentials from VCAP
+        if use_vcap_services and not self.username and not self.token_manager:
             self.vcap_service_credentials = load_from_vcap_services(
                 vcap_services_name)
             if self.vcap_service_credentials is not None and isinstance(
