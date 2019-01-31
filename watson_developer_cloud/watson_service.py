@@ -268,7 +268,7 @@ class WatsonService(object):
             self.set_token_manager(iam_apikey, iam_access_token, iam_url)
 
         # 2. Credentials from credential file
-        if not display_name and not self.username and not self.token_manager:
+        if display_name and not self.username and not self.token_manager:
             service_name = display_name.replace(' ', '_').lower()
             self.load_from_credential_file(service_name)
 
@@ -322,7 +322,8 @@ class WatsonService(object):
             with open(credential_file_path, 'rb') as fp:
                 for line in fp:
                     key_val = line.strip().split(separator)
-                    self._set_credential_based_on_type(service_name, key_val[0].lower(), key_val[1].lower())
+                    if len(key_val) == 2:
+                        self._set_credential_based_on_type(service_name, key_val[0].lower(), key_val[1].lower())
 
 
     def _set_credential_based_on_type(self, service_name, key, value):

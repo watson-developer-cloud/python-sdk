@@ -38,7 +38,7 @@ class AuthorizationV1(WatsonService):
     def __init__(self, url=default_url,
                  username=None, password=None, use_vcap_services=True):
         WatsonService.__init__(
-            self, 'authorization', url, username, password, use_vcap_services)
+            self, 'authorization', url, username, password, use_vcap_services, display_name='authorization')
 
     def get_token(self, url):
         """
