@@ -266,8 +266,9 @@ class WatsonService(object):
         elif iam_access_token is not None or iam_apikey is not None:
             self.set_token_manager(iam_apikey, iam_access_token, iam_url)
 
-        service_name = display_name.replace(' ', '_').lower()
-        self.load_from_credential_file(service_name)
+        if display_name is not None:
+            service_name = display_name.replace(' ', '_').lower()
+            self.load_from_credential_file(service_name)
 
         if use_vcap_services and not self.username and not self.api_key:
             self.vcap_service_credentials = load_from_vcap_services(
