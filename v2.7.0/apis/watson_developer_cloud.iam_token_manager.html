@@ -1,0 +1,128 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.iam_token_manager module &#8212; Watson Developer Cloud Python SDK 2.7.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.language_translator_v3 module" href="watson_developer_cloud.language_translator_v3.html" />
+    <link rel="prev" title="watson_developer_cloud.discovery_v1 module" href="watson_developer_cloud.discovery_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.iam_token_manager">
+<span id="watson-developer-cloud-iam-token-manager-module"></span><h1>watson_developer_cloud.iam_token_manager module<a class="headerlink" href="#module-watson_developer_cloud.iam_token_manager" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager">
+<em class="property">class </em><code class="descname">IAMTokenManager</code><span class="sig-paren">(</span><em>iam_apikey=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.request">
+<code class="descname">request</code><span class="sig-paren">(</span><em>method</em>, <em>url</em>, <em>headers=None</em>, <em>params=None</em>, <em>data=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.get_token">
+<code class="descname">get_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.get_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.get_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>The source of the token is determined by the following logic:
+1. If user provides their own managed access token, assume it is valid and send it
+2. If this class is managing tokens and does not yet have one, make a request for one
+3. If this class is managing tokens and the token has expired refresh it. In case the refresh token is expired, get a new one
+If this class is managing tokens and has a valid token stored, send it</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.set_access_token">
+<code class="descname">set_access_token</code><span class="sig-paren">(</span><em>iam_access_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.set_access_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.set_access_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a self-managed IAM access token.
+The access token should be valid and not yet expired.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.set_iam_apikey">
+<code class="descname">set_iam_apikey</code><span class="sig-paren">(</span><em>iam_apikey</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.set_iam_apikey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.set_iam_apikey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the IAM api key</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.iam_token_manager.IAMTokenManager.set_iam_url">
+<code class="descname">set_iam_url</code><span class="sig-paren">(</span><em>iam_url</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/iam_token_manager.html#IAMTokenManager.set_iam_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.iam_token_manager.IAMTokenManager.set_iam_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the IAM url</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.discovery_v1.html" title="previous chapter">watson_developer_cloud.discovery_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.language_translator_v3.html" title="next chapter">watson_developer_cloud.language_translator_v3 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,1581 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.conversation_v1 module &#8212; Watson Developer Cloud Python SDK 2.7.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.discovery_v1 module" href="watson_developer_cloud.discovery_v1.html" />
+    <link rel="prev" title="watson_developer_cloud.compare_comply_v1 module" href="watson_developer_cloud.compare_comply_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.conversation_v1">
+<span id="watson-developer-cloud-conversation-v1-module"></span><h1>watson_developer_cloud.conversation_v1 module<a class="headerlink" href="#module-watson_developer_cloud.conversation_v1" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson&amp;trade; Conversation service combines machine learning, natural language
+understanding, and integrated dialog tools to create conversation flows between your apps
+and your users.</p>
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CaptureGroup">
+<em class="property">class </em><code class="descname">CaptureGroup</code><span class="sig-paren">(</span><em>group</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CaptureGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CaptureGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CaptureGroup.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str group:</th><td class="field-body">A recognized capture group for the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[int] location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Zero-based character offsets that indicate where</td>
+</tr>
+</tbody>
+</table>
+<p>the entity value begins and ends in the input text.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Context">
+<em class="property">class </em><code class="descname">Context</code><span class="sig-paren">(</span><em>conversation_id=None</em>, <em>system=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>State information for the conversation. To maintain state, include the context from
+the previous response.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str conversation_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The unique identifier of the conversation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr SystemResponse system:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) For internal use only.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Counterexample">
+<em class="property">class </em><code class="descname">Counterexample</code><span class="sig-paren">(</span><em>text</em>, <em>created=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Counterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Counterexample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Counterexample.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">The text of the counterexample.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the counterexample.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the</td>
+</tr>
+</tbody>
+</table>
+<p>counterexample.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CounterexampleCollection">
+<em class="property">class </em><code class="descname">CounterexampleCollection</code><span class="sig-paren">(</span><em>counterexamples</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CounterexampleCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CounterexampleCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CounterexampleCollection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Counterexample] counterexamples:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects describing the</td>
+</tr>
+</tbody>
+</table>
+<p>examples marked as irrelevant input.
+:attr Pagination pagination: The pagination data for the returned objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CreateCounterexample">
+<em class="property">class </em><code class="descname">CreateCounterexample</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CreateCounterexample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CreateCounterexample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CreateCounterexample.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">The text of a user input marked as irrelevant input. This string must</td>
+</tr>
+</tbody>
+</table>
+<p>conform to the following restrictions:
+- It cannot contain carriage return, newline, or tab characters
+- It cannot consist of only whitespace characters
+- It must be no longer than 1024 characters.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CreateDialogNode">
+<em class="property">class </em><code class="descname">CreateDialogNode</code><span class="sig-paren">(</span><em>dialog_node</em>, <em>description=None</em>, <em>conditions=None</em>, <em>parent=None</em>, <em>previous_sibling=None</em>, <em>output=None</em>, <em>context=None</em>, <em>metadata=None</em>, <em>next_step=None</em>, <em>actions=None</em>, <em>title=None</em>, <em>node_type=None</em>, <em>event_name=None</em>, <em>variable=None</em>, <em>digress_in=None</em>, <em>digress_out=None</em>, <em>digress_out_slots=None</em>, <em>user_label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CreateDialogNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CreateDialogNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CreateDialogNode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str dialog_node:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The dialog node ID. This string must conform to the following</td>
+</tr>
+</tbody>
+</table>
+<p>restrictions:
+- It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
+characters.
+- It must be no longer than 1024 characters.
+:attr str description: (optional) The description of the dialog node. This string
+cannot contain carriage return, newline, or tab characters, and it must be no longer
+than 128 characters.
+:attr str conditions: (optional) The condition that will trigger the dialog node. This
+string cannot contain carriage return, newline, or tab characters, and it must be no
+longer than 2048 characters.
+:attr str parent: (optional) The ID of the parent dialog node.
+:attr str previous_sibling: (optional) The ID of the previous dialog node.
+:attr DialogNodeOutput output: (optional) The output of the dialog node. For more
+information about how to specify dialog node output, see the
+[documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex">https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex</a>).
+:attr object context: (optional) The context for the dialog node.
+:attr object metadata: (optional) The metadata for the dialog node.
+:attr DialogNodeNextStep next_step: (optional) The next step to be executed in dialog
+processing.
+:attr list[DialogNodeAction] actions: (optional) An array of objects describing any
+actions to be invoked by the dialog node.
+:attr str title: (optional) The alias used to identify the dialog node. This string
+must conform to the following restrictions:
+- It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
+characters.
+- It must be no longer than 64 characters.
+:attr str node_type: (optional) How the dialog node is processed.
+:attr str event_name: (optional) How an <cite>event_handler</cite> node is processed.
+:attr str variable: (optional) The location in the dialog context where output is
+stored.
+:attr str digress_in: (optional) Whether this top-level dialog node can be digressed
+into.
+:attr str digress_out: (optional) Whether this dialog node can be returned to after a
+digression.
+:attr str digress_out_slots: (optional) Whether the user can digress to top-level
+nodes while filling out slots.
+:attr str user_label: (optional) A label that can be displayed externally to describe
+the purpose of the node to users. This string must be no longer than 512 characters.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CreateEntity">
+<em class="property">class </em><code class="descname">CreateEntity</code><span class="sig-paren">(</span><em>entity</em>, <em>description=None</em>, <em>metadata=None</em>, <em>values=None</em>, <em>fuzzy_match=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CreateEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CreateEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CreateEntity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str entity:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the entity. This string must conform to the following</td>
+</tr>
+</tbody>
+</table>
+<p>restrictions:
+- It can contain only Unicode alphanumeric, underscore, and hyphen characters.
+- It cannot begin with the reserved prefix <cite>sys-</cite>.
+- It must be no longer than 64 characters.
+:attr str description: (optional) The description of the entity. This string cannot
+contain carriage return, newline, or tab characters, and it must be no longer than 128
+characters.
+:attr object metadata: (optional) Any metadata related to the value.
+:attr list[CreateValue] values: (optional) An array of objects describing the entity
+values.
+:attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CreateExample">
+<em class="property">class </em><code class="descname">CreateExample</code><span class="sig-paren">(</span><em>text</em>, <em>mentions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CreateExample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CreateExample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CreateExample.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">The text of a user input example. This string must conform to the</td>
+</tr>
+</tbody>
+</table>
+<p>following restrictions:
+- It cannot contain carriage return, newline, or tab characters.
+- It cannot consist of only whitespace characters.
+- It must be no longer than 1024 characters.
+:attr list[Mentions] mentions: (optional) An array of contextual entity mentions.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CreateIntent">
+<em class="property">class </em><code class="descname">CreateIntent</code><span class="sig-paren">(</span><em>intent</em>, <em>description=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CreateIntent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CreateIntent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CreateIntent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str intent:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the intent. This string must conform to the following</td>
+</tr>
+</tbody>
+</table>
+<p>restrictions:
+- It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.
+- It cannot begin with the reserved prefix <cite>sys-</cite>.
+- It must be no longer than 128 characters.
+:attr str description: (optional) The description of the intent. This string cannot
+contain carriage return, newline, or tab characters, and it must be no longer than 128
+characters.
+:attr list[CreateExample] examples: (optional) An array of user input examples for the
+intent.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.CreateValue">
+<em class="property">class </em><code class="descname">CreateValue</code><span class="sig-paren">(</span><em>value</em>, <em>metadata=None</em>, <em>synonyms=None</em>, <em>patterns=None</em>, <em>value_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#CreateValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.CreateValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CreateValue.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str value:</th><td class="field-body">The text of the entity value. This string must conform to the</td>
+</tr>
+</tbody>
+</table>
+<p>following restrictions:
+- It cannot contain carriage return, newline, or tab characters.
+- It cannot consist of only whitespace characters.
+- It must be no longer than 64 characters.
+:attr object metadata: (optional) Any metadata related to the entity value.
+:attr list[str] synonyms: (optional) An array containing any synonyms for the entity
+value. You can provide either synonyms or patterns (as indicated by <strong>type</strong>), but not
+both. A synonym must conform to the following restrictions:
+- It cannot contain carriage return, newline, or tab characters.
+- It cannot consist of only whitespace characters.
+- It must be no longer than 64 characters.
+:attr list[str] patterns: (optional) An array of patterns for the entity value. You
+can provide either synonyms or patterns (as indicated by <strong>type</strong>), but not both. A
+pattern is a regular expression no longer than 512 characters. For more information
+about how to specify a pattern, see the
+[documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities">https://console.bluemix.net/docs/services/conversation/entities.html#creating-entities</a>).
+:attr str value_type: (optional) Specifies the type of value.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNode">
+<em class="property">class </em><code class="descname">DialogNode</code><span class="sig-paren">(</span><em>dialog_node_id</em>, <em>description=None</em>, <em>conditions=None</em>, <em>parent=None</em>, <em>previous_sibling=None</em>, <em>output=None</em>, <em>context=None</em>, <em>metadata=None</em>, <em>next_step=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>actions=None</em>, <em>title=None</em>, <em>node_type=None</em>, <em>event_name=None</em>, <em>variable=None</em>, <em>digress_in=None</em>, <em>digress_out=None</em>, <em>digress_out_slots=None</em>, <em>user_label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str dialog_node_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The dialog node ID.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the dialog node.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str conditions:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The condition that triggers the dialog node.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str parent:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The ID of the parent dialog node. This property is not</td>
+</tr>
+</tbody>
+</table>
+<p>returned if the dialog node has no parent.
+:attr str previous_sibling: (optional) The ID of the previous sibling dialog node.
+This property is not returned if the dialog node has no previous sibling.
+:attr DialogNodeOutput output: (optional) The output of the dialog node. For more
+information about how to specify dialog node output, see the
+[documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex">https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex</a>).
+:attr object context: (optional) The context (if defined) for the dialog node.
+:attr object metadata: (optional) Any metadata for the dialog node.
+:attr DialogNodeNextStep next_step: (optional) The next step to execute following this
+dialog node.
+:attr datetime created: (optional) The timestamp for creation of the dialog node.
+:attr datetime updated: (optional) The timestamp for the most recent update to the
+dialog node.
+:attr list[DialogNodeAction] actions: (optional) The actions for the dialog node.
+:attr str title: (optional) The alias used to identify the dialog node.
+:attr str node_type: (optional) How the dialog node is processed.
+:attr str event_name: (optional) How an <cite>event_handler</cite> node is processed.
+:attr str variable: (optional) The location in the dialog context where output is
+stored.
+:attr str digress_in: (optional) Whether this top-level dialog node can be digressed
+into.
+:attr str digress_out: (optional) Whether this dialog node can be returned to after a
+digression.
+:attr str digress_out_slots: (optional) Whether the user can digress to top-level
+nodes while filling out slots.
+:attr str user_label: (optional) A label that can be displayed externally to describe
+the purpose of the node to users. This string must be no longer than 512 characters.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeAction">
+<em class="property">class </em><code class="descname">DialogNodeAction</code><span class="sig-paren">(</span><em>name</em>, <em>result_variable</em>, <em>action_type=None</em>, <em>parameters=None</em>, <em>credentials=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeAction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">The name of the action.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str action_type:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The type of action to invoke.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr object parameters:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A map of key/value pairs to be provided to the</td>
+</tr>
+</tbody>
+</table>
+<p>action.
+:attr str result_variable: The location in the dialog context where the result of the
+action is stored.
+:attr str credentials: (optional) The name of the context variable that the client
+application will use to pass in credentials for the action.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeCollection">
+<em class="property">class </em><code class="descname">DialogNodeCollection</code><span class="sig-paren">(</span><em>dialog_nodes</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An array of dialog nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[DialogNode] dialog_nodes:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects describing the dialog nodes</td>
+</tr>
+</tbody>
+</table>
+<p>defined for the workspace.
+:attr Pagination pagination: The pagination data for the returned objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeNextStep">
+<em class="property">class </em><code class="descname">DialogNodeNextStep</code><span class="sig-paren">(</span><em>behavior</em>, <em>dialog_node=None</em>, <em>selector=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeNextStep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeNextStep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The next step to execute following this dialog node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str behavior:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">What happens after the dialog node completes. The valid values</td>
+</tr>
+</tbody>
+</table>
+<p>depend on the node type:
+- The following values are valid for any node:</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>get_user_input</cite></li>
+<li><cite>skip_user_input</cite></li>
+<li><cite>jump_to</cite></li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>If the node is of type <cite>event_handler</cite> and its parent node is of type <cite>slot</cite> or</li>
+</ul>
+<dl class="docutils">
+<dt><cite>frame</cite>, additional values are also valid:</dt>
+<dd><ul class="first last simple">
+<li>if <a href="#id1"><span class="problematic" id="id2">**</span></a>event_name**=`filled` and the type of the parent node is <cite>slot</cite>:
+- <cite>reprompt</cite>
+- <cite>skip_all_slots</cite></li>
+</ul>
+</dd>
+</dl>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>if <a href="#id3"><span class="problematic" id="id4">**</span></a>event_name**=`nomatch` and the type of the parent node is <cite>slot</cite>:</dt>
+<dd><ul class="first last">
+<li><cite>reprompt</cite></li>
+<li><cite>skip_slot</cite></li>
+<li><cite>skip_all_slots</cite></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>if <a href="#id5"><span class="problematic" id="id6">**</span></a>event_name**=`generic` and the type of the parent node is <cite>frame</cite>:</dt>
+<dd><ul class="first last">
+<li><cite>reprompt</cite></li>
+<li><cite>skip_slot</cite></li>
+<li><cite>skip_all_slots</cite></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>If you specify <cite>jump_to</cite>, then you must also specify a value for the <cite>dialog_node</cite>
+property.
+:attr str dialog_node: (optional) The ID of the dialog node to process next. This
+parameter is required if <a href="#id7"><span class="problematic" id="id8">**</span></a>behavior**=`jump_to`.
+:attr str selector: (optional) Which part of the dialog node to process next.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeOutput">
+<em class="property">class </em><code class="descname">DialogNodeOutput</code><span class="sig-paren">(</span><em>generic=None</em>, <em>modifiers=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The output of the dialog node. For more information about how to specify dialog node
+output, see the
+[documentation](<a class="reference external" href="https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex">https://console.bluemix.net/docs/services/conversation/dialog-overview.html#complex</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[DialogNodeOutputGeneric] generic:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of objects describing</td>
+</tr>
+</tbody>
+</table>
+<p>the output defined for the dialog node.
+:attr DialogNodeOutputModifiers modifiers: (optional) Options that modify how
+specified output is handled.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeOutputGeneric">
+<em class="property">class </em><code class="descname">DialogNodeOutputGeneric</code><span class="sig-paren">(</span><em>response_type</em>, <em>values=None</em>, <em>selection_policy=None</em>, <em>delimiter=None</em>, <em>time=None</em>, <em>typing=None</em>, <em>source=None</em>, <em>title=None</em>, <em>description=None</em>, <em>preference=None</em>, <em>options=None</em>, <em>message_to_human_agent=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeOutputGeneric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeOutputGeneric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeOutputGeneric.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str response_type:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The type of response returned by the dialog node. The</td>
+</tr>
+</tbody>
+</table>
+<p>specified response type must be supported by the client application or channel.
+:attr list[DialogNodeOutputTextValuesElement] values: (optional) A list of one or more
+objects defining text responses. Required when <a href="#id9"><span class="problematic" id="id10">**</span></a>response_type**=`text`.
+:attr str selection_policy: (optional) How a response is selected from the list, if
+more than one response is specified. Valid only when <a href="#id11"><span class="problematic" id="id12">**</span></a>response_type**=`text`.
+:attr str delimiter: (optional) The delimiter to use as a separator between responses
+when <cite>selection_policy`=`multiline</cite>.
+:attr int time: (optional) How long to pause, in milliseconds. The valid values are
+from 0 to 10000. Valid only when <a href="#id13"><span class="problematic" id="id14">**</span></a>response_type**=`pause`.
+:attr bool typing: (optional) Whether to send a “user is typing” event during the
+pause. Ignored if the channel does not support this event. Valid only when
+<a href="#id15"><span class="problematic" id="id16">**</span></a>response_type**=`pause`.
+:attr str source: (optional) The URL of the image. Required when
+<a href="#id17"><span class="problematic" id="id18">**</span></a>response_type**=`image`.
+:attr str title: (optional) An optional title to show before the response. Valid only
+when <a href="#id19"><span class="problematic" id="id20">**</span></a>response_type**=`image` or <cite>option</cite>. This string must be no longer than 512
+characters.
+:attr str description: (optional) An optional description to show with the response.
+Valid only when <a href="#id21"><span class="problematic" id="id22">**</span></a>response_type**=`image` or <cite>option</cite>. This string must be no longer
+than 256 characters.
+:attr str preference: (optional) The preferred type of control to display, if
+supported by the channel. Valid only when <a href="#id23"><span class="problematic" id="id24">**</span></a>response_type**=`option`.
+:attr list[DialogNodeOutputOptionsElement] options: (optional) An array of objects
+describing the options from which the user can choose. You can include up to 20
+options. Required when <a href="#id25"><span class="problematic" id="id26">**</span></a>response_type**=`option`.
+:attr str message_to_human_agent: (optional) An optional message to be sent to the
+human agent who will be taking over the conversation. Valid only when
+<a href="#id27"><span class="problematic" id="id28">**</span></a>reponse_type**=`connect_to_agent`. This string must be no longer than 256
+characters.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeOutputModifiers">
+<em class="property">class </em><code class="descname">DialogNodeOutputModifiers</code><span class="sig-paren">(</span><em>overwrite=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeOutputModifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeOutputModifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Options that modify how specified output is handled.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool overwrite:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Whether values in the output will overwrite output</td>
+</tr>
+</tbody>
+</table>
+<p>values in an array specified by previously executed dialog nodes. If this option is
+set to <strong>false</strong>, new values will be appended to previously specified values.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeOutputOptionsElement">
+<em class="property">class </em><code class="descname">DialogNodeOutputOptionsElement</code><span class="sig-paren">(</span><em>label</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeOutputOptionsElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeOutputOptionsElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeOutputOptionsElement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str label:</th><td class="field-body">The user-facing label for the option.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr DialogNodeOutputOptionsElementValue value:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An object defining the message input</td>
+</tr>
+</tbody>
+</table>
+<p>to be sent to the Conversation service if the user selects the corresponding option.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeOutputOptionsElementValue">
+<em class="property">class </em><code class="descname">DialogNodeOutputOptionsElementValue</code><span class="sig-paren">(</span><em>input=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeOutputOptionsElementValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeOutputOptionsElementValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object defining the message input to be sent to the Conversation service if the
+user selects the corresponding option.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr InputData input:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The user input.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeOutputTextValuesElement">
+<em class="property">class </em><code class="descname">DialogNodeOutputTextValuesElement</code><span class="sig-paren">(</span><em>text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeOutputTextValuesElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeOutputTextValuesElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeOutputTextValuesElement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The text of a response. This string can include newline</td>
+</tr>
+</tbody>
+</table>
+<p>characters (`
+<a href="#id29"><span class="problematic" id="id30">`</span></a>), Markdown tagging, or other special characters, if supported by the channel. It
+must be no longer than 4096 characters.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogNodeVisitedDetails">
+<em class="property">class </em><code class="descname">DialogNodeVisitedDetails</code><span class="sig-paren">(</span><em>dialog_node=None</em>, <em>title=None</em>, <em>conditions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogNodeVisitedDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogNodeVisitedDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeVisitedDetails.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str dialog_node:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A dialog node that was triggered during processing</td>
+</tr>
+</tbody>
+</table>
+<p>of the input message.
+:attr str title: (optional) The title of the dialog node.
+:attr str conditions: (optional) The conditions that trigger the dialog node.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogRuntimeResponseGeneric">
+<em class="property">class </em><code class="descname">DialogRuntimeResponseGeneric</code><span class="sig-paren">(</span><em>response_type</em>, <em>text=None</em>, <em>time=None</em>, <em>typing=None</em>, <em>source=None</em>, <em>title=None</em>, <em>description=None</em>, <em>preference=None</em>, <em>options=None</em>, <em>message_to_human_agent=None</em>, <em>topic=None</em>, <em>suggestions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogRuntimeResponseGeneric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogRuntimeResponseGeneric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogRuntimeResponseGeneric.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str response_type:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The type of response returned by the dialog node. The</td>
+</tr>
+</tbody>
+</table>
+<p>specified response type must be supported by the client application or channel.
+<strong>Note:</strong> The <strong>suggestion</strong> response type is part of the disambiguation feature,
+which is only available for Premium users.
+:attr str text: (optional) The text of the response.
+:attr int time: (optional) How long to pause, in milliseconds.
+:attr bool typing: (optional) Whether to send a “user is typing” event during the
+pause.
+:attr str source: (optional) The URL of the image.
+:attr str title: (optional) The title or introductory text to show before the
+response.
+:attr str description: (optional) The description to show with the the response.
+:attr str preference: (optional) The preferred type of control to display.
+:attr list[DialogNodeOutputOptionsElement] options: (optional) An array of objects
+describing the options from which the user can choose.
+:attr str message_to_human_agent: (optional) A message to be sent to the human agent
+who will be taking over the conversation.
+:attr str topic: (optional) A label identifying the topic of the conversation, derived
+from the <strong>user_label</strong> property of the relevant node.
+:attr list[DialogSuggestion] suggestions: (optional) An array of objects describing
+the possible matching dialog nodes from which the user can choose.
+<strong>Note:</strong> The <strong>suggestions</strong> property is part of the disambiguation feature, which is
+only available for Premium users.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogSuggestion">
+<em class="property">class </em><code class="descname">DialogSuggestion</code><span class="sig-paren">(</span><em>label</em>, <em>value</em>, <em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogSuggestion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogSuggestion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogSuggestion.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str label:</th><td class="field-body">The user-facing label for the disambiguation option. This label is</td>
+</tr>
+</tbody>
+</table>
+<p>taken from the <strong>user_label</strong> property of the corresponding dialog node.
+:attr DialogSuggestionValue value: An object defining the message input, intents, and
+entities to be sent to the Conversation service if the user selects the corresponding
+disambiguation option.
+:attr object output: (optional) The dialog output that will be returned from the
+Conversation service if the user selects the corresponding option.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.DialogSuggestionValue">
+<em class="property">class </em><code class="descname">DialogSuggestionValue</code><span class="sig-paren">(</span><em>input=None</em>, <em>intents=None</em>, <em>entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#DialogSuggestionValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.DialogSuggestionValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object defining the message input, intents, and entities to be sent to the
+Conversation service if the user selects the corresponding disambiguation option.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr InputData input:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The user input.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[RuntimeIntent] intents:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of intents to be sent along</td>
+</tr>
+</tbody>
+</table>
+<p>with the user input.
+:attr list[RuntimeEntity] entities: (optional) An array of entities to be sent along
+with the user input.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Entity">
+<em class="property">class </em><code class="descname">Entity</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Entity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Entity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Entity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str entity_name:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool fuzzy_match:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether fuzzy matching is used for the entity.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.EntityCollection">
+<em class="property">class </em><code class="descname">EntityCollection</code><span class="sig-paren">(</span><em>entities</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#EntityCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.EntityCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An array of entities.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[EntityExport] entities:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects describing the entities defined</td>
+</tr>
+</tbody>
+</table>
+<p>for the workspace.
+:attr Pagination pagination: The pagination data for the returned objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.EntityExport">
+<em class="property">class </em><code class="descname">EntityExport</code><span class="sig-paren">(</span><em>entity_name</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>metadata=None</em>, <em>fuzzy_match=None</em>, <em>values=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#EntityExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.EntityExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>EntityExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str entity_name:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool fuzzy_match:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether fuzzy matching is used for the entity.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ValueExport] values:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array objects describing the entity</td>
+</tr>
+</tbody>
+</table>
+<p>values.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.EntityMention">
+<em class="property">class </em><code class="descname">EntityMention</code><span class="sig-paren">(</span><em>example_text</em>, <em>intent_name</em>, <em>location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#EntityMention"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.EntityMention" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object describing a contextual entity mention.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str example_text:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the user input example.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str intent_name:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The name of the intent.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[int] location:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of zero-based character offsets that indicate where</td>
+</tr>
+</tbody>
+</table>
+<p>the entity mentions begin and end in the input text.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.EntityMentionCollection">
+<em class="property">class </em><code class="descname">EntityMentionCollection</code><span class="sig-paren">(</span><em>examples</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#EntityMentionCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.EntityMentionCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>EntityMentionCollection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[EntityMention] examples:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects describing the entity mentions</td>
+</tr>
+</tbody>
+</table>
+<p>defined for an entity.
+:attr Pagination pagination: The pagination data for the returned objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Example">
+<em class="property">class </em><code class="descname">Example</code><span class="sig-paren">(</span><em>example_text</em>, <em>created=None</em>, <em>updated=None</em>, <em>mentions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Example" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Example.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str example_text:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the user input example.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the example.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the example.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[Mentions] mentions:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An array of contextual entity mentions.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.ExampleCollection">
+<em class="property">class </em><code class="descname">ExampleCollection</code><span class="sig-paren">(</span><em>examples</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ExampleCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ExampleCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ExampleCollection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Example] examples:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects describing the examples defined for</td>
+</tr>
+</tbody>
+</table>
+<p>the intent.
+:attr Pagination pagination: The pagination data for the returned objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.InputData">
+<em class="property">class </em><code class="descname">InputData</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#InputData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.InputData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The user input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">The text of the user input. This string cannot contain carriage</td>
+</tr>
+</tbody>
+</table>
+<p>return, newline, or tab characters, and it must be no longer than 2048 characters.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Intent">
+<em class="property">class </em><code class="descname">Intent</code><span class="sig-paren">(</span><em>intent_name</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Intent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Intent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Intent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str intent_name:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the intent.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the intent.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the intent.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the intent.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.IntentCollection">
+<em class="property">class </em><code class="descname">IntentCollection</code><span class="sig-paren">(</span><em>intents</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#IntentCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.IntentCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>IntentCollection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[IntentExport] intents:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects describing the intents defined</td>
+</tr>
+</tbody>
+</table>
+<p>for the workspace.
+:attr Pagination pagination: The pagination data for the returned objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.IntentExport">
+<em class="property">class </em><code class="descname">IntentExport</code><span class="sig-paren">(</span><em>intent_name</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>examples=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#IntentExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.IntentExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>IntentExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str intent_name:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the intent.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the intent.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the intent.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the intent.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Example] examples:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array of objects describing the user input</td>
+</tr>
+</tbody>
+</table>
+<p>examples for the intent.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.LogCollection">
+<em class="property">class </em><code class="descname">LogCollection</code><span class="sig-paren">(</span><em>logs</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#LogCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.LogCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>LogCollection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[LogExport] logs:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects describing log events.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr LogPagination pagination:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The pagination data for the returned objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.LogExport">
+<em class="property">class </em><code class="descname">LogExport</code><span class="sig-paren">(</span><em>request</em>, <em>response</em>, <em>log_id</em>, <em>request_timestamp</em>, <em>response_timestamp</em>, <em>workspace_id</em>, <em>language</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#LogExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.LogExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>LogExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr MessageRequest request:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">A request received by the workspace, including the user</td>
+</tr>
+</tbody>
+</table>
+<p>input and context.
+:attr MessageResponse response: The response sent by the workspace, including the
+output text, detected intents and entities, and context.
+:attr str log_id: A unique identifier for the logged event.
+:attr str request_timestamp: The timestamp for receipt of the message.
+:attr str response_timestamp: The timestamp for the system response to the message.
+:attr str workspace_id: The unique identifier of the workspace where the request was
+made.
+:attr str language: The language of the workspace where the message request was made.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.LogMessage">
+<em class="property">class </em><code class="descname">LogMessage</code><span class="sig-paren">(</span><em>level</em>, <em>msg</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#LogMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.LogMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Log message details.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str level:</th><td class="field-body">The severity of the log message.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str msg:</th><td class="field-body">The text of the log message.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.LogPagination">
+<em class="property">class </em><code class="descname">LogPagination</code><span class="sig-paren">(</span><em>next_url=None</em>, <em>matched=None</em>, <em>next_cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#LogPagination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.LogPagination" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The pagination data for the returned objects.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str next_url:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The URL that will return the next page of results, if</td>
+</tr>
+</tbody>
+</table>
+<p>any.
+:attr int matched: (optional) Reserved for future use.
+:attr str next_cursor: (optional) A token identifying the next page of results.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Mentions">
+<em class="property">class </em><code class="descname">Mentions</code><span class="sig-paren">(</span><em>entity</em>, <em>location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Mentions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Mentions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A mention of a contextual entity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str entity:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the entity.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[int] location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of zero-based character offsets that indicate where</td>
+</tr>
+</tbody>
+</table>
+<p>the entity mentions begin and end in the input text.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.MessageInput">
+<em class="property">class </em><code class="descname">MessageInput</code><span class="sig-paren">(</span><em>text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#MessageInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.MessageInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The text of the user input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The user’s input.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.MessageRequest">
+<em class="property">class </em><code class="descname">MessageRequest</code><span class="sig-paren">(</span><em>input=None</em>, <em>alternate_intents=None</em>, <em>context=None</em>, <em>entities=None</em>, <em>intents=None</em>, <em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#MessageRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.MessageRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A message request formatted for the Conversation service.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr InputData input:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An input object that includes the input text.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool alternate_intents:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether to return more than one intent. Set</td>
+</tr>
+</tbody>
+</table>
+<p>to <cite>true</cite> to return all matching intents.
+:attr Context context: (optional) State information for the conversation. Continue a
+conversation by including the context object from the previous response.
+:attr list[RuntimeEntity] entities: (optional) Entities to use when evaluating the
+message. Include entities from the previous response to continue using those entities
+rather than detecting entities in the new input.
+:attr list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user
+input. Include intents from the previous response to continue using those intents
+rather than trying to recognize intents in the new input.
+:attr OutputData output: (optional) System output. Include the output from the
+previous response to maintain intermediate information over multiple requests.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.MessageResponse">
+<em class="property">class </em><code class="descname">MessageResponse</code><span class="sig-paren">(</span><em>intents</em>, <em>entities</em>, <em>context</em>, <em>output</em>, <em>input=None</em>, <em>alternate_intents=None</em>, <em>actions=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#MessageResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.MessageResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A response from the Conversation service.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr MessageInput input:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The user input from the request.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[RuntimeIntent] intents:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of intents recognized in the user input,</td>
+</tr>
+</tbody>
+</table>
+<p>sorted in descending order of confidence.
+:attr list[RuntimeEntity] entities: An array of entities identified in the user input.
+:attr bool alternate_intents: (optional) Whether to return more than one intent. A
+value of <cite>true</cite> indicates that all matching intents are returned.
+:attr Context context: State information for the conversation.
+:attr OutputData output: Output from the dialog, including the response to the user,
+the nodes that were triggered, and log messages.
+:attr list[DialogNodeAction] actions: (optional) An array of objects describing any
+actions requested by the dialog node.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.OutputData">
+<em class="property">class </em><code class="descname">OutputData</code><span class="sig-paren">(</span><em>log_messages</em>, <em>text</em>, <em>generic=None</em>, <em>nodes_visited=None</em>, <em>nodes_visited_details=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#OutputData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.OutputData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An output object that includes the response to the user, the dialog nodes that were
+triggered, and messages from the log.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[LogMessage] log_messages:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of up to 50 messages logged with the</td>
+</tr>
+</tbody>
+</table>
+<p>request.
+:attr list[str] text: An array of responses to the user.
+:attr list[DialogRuntimeResponseGeneric] generic: (optional) Output intended for any
+channel. It is the responsibility of the client application to implement the supported
+response types.
+:attr list[str] nodes_visited: (optional) An array of the nodes that were triggered to
+create the response, in the order in which they were visited. This information is
+useful for debugging and for tracing the path taken through the node tree.
+:attr list[DialogNodeVisitedDetails] nodes_visited_details: (optional) An array of
+objects containing detailed diagnostic information about the nodes that were triggered
+during processing of the input message. Included only if <strong>nodes_visited_details</strong> is
+set to <cite>true</cite> in the message request.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Pagination">
+<em class="property">class </em><code class="descname">Pagination</code><span class="sig-paren">(</span><em>refresh_url</em>, <em>next_url=None</em>, <em>total=None</em>, <em>matched=None</em>, <em>refresh_cursor=None</em>, <em>next_cursor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Pagination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Pagination" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The pagination data for the returned objects.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str refresh_url:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The URL that will return the same page of results.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str next_url:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The URL that will return the next page of results.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr int total:</th><td class="field-body">(optional) Reserved for future use.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int matched:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Reserved for future use.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str refresh_cursor:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A token identifying the current page of results.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str next_cursor:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A token identifying the next page of results.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.RuntimeEntity">
+<em class="property">class </em><code class="descname">RuntimeEntity</code><span class="sig-paren">(</span><em>entity</em>, <em>location</em>, <em>value</em>, <em>confidence=None</em>, <em>metadata=None</em>, <em>groups=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#RuntimeEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.RuntimeEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A term from the request that was identified as an entity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str entity:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An entity detected in the input.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[int] location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An array of zero-based character offsets that indicate where</td>
+</tr>
+</tbody>
+</table>
+<p>the detected entity values begin and end in the input text.
+:attr str value: The term in the input text that was recognized as an entity value.
+:attr float confidence: (optional) A decimal percentage that represents Watson’s
+confidence in the entity.
+:attr object metadata: (optional) Any metadata for the entity.
+:attr list[CaptureGroup] groups: (optional) The recognized capture groups for the
+entity, as defined by the entity pattern.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.RuntimeIntent">
+<em class="property">class </em><code class="descname">RuntimeIntent</code><span class="sig-paren">(</span><em>intent</em>, <em>confidence</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#RuntimeIntent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.RuntimeIntent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An intent identified in the user input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str intent:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The name of the recognized intent.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr float confidence:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">A decimal percentage that represents Watson’s confidence in</td>
+</tr>
+</tbody>
+</table>
+<p>the intent.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Synonym">
+<em class="property">class </em><code class="descname">Synonym</code><span class="sig-paren">(</span><em>synonym_text</em>, <em>created=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Synonym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Synonym" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Synonym.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str synonym_text:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the synonym.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the synonym.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the most recent update to the</td>
+</tr>
+</tbody>
+</table>
+<p>synonym.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.SynonymCollection">
+<em class="property">class </em><code class="descname">SynonymCollection</code><span class="sig-paren">(</span><em>synonyms</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#SynonymCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.SynonymCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SynonymCollection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Synonym] synonyms:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of synonyms.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr Pagination pagination:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The pagination data for the returned objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.SystemResponse">
+<em class="property">class </em><code class="descname">SystemResponse</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#SystemResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.SystemResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>For internal use only.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Value">
+<em class="property">class </em><code class="descname">Value</code><span class="sig-paren">(</span><em>value_text</em>, <em>value_type</em>, <em>metadata=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>synonyms=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str value_text:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the entity value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity value.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the entity value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the entity</td>
+</tr>
+</tbody>
+</table>
+<p>value.
+:attr list[str] synonyms: (optional) An array containing any synonyms for the entity
+value.
+:attr list[str] patterns: (optional) An array containing any patterns for the entity
+value.
+:attr str value_type: Specifies the type of value.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.ValueCollection">
+<em class="property">class </em><code class="descname">ValueCollection</code><span class="sig-paren">(</span><em>values</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ValueCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ValueCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ValueCollection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ValueExport] values:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of entity values.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr Pagination pagination:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">An object defining the pagination data for the returned</td>
+</tr>
+</tbody>
+</table>
+<p>objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.ValueExport">
+<em class="property">class </em><code class="descname">ValueExport</code><span class="sig-paren">(</span><em>value_text</em>, <em>value_type</em>, <em>metadata=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>synonyms=None</em>, <em>patterns=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#ValueExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.ValueExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ValueExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str value_text:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The text of the entity value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the entity value.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the entity value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the entity</td>
+</tr>
+</tbody>
+</table>
+<p>value.
+:attr list[str] synonyms: (optional) An array containing any synonyms for the entity
+value.
+:attr list[str] patterns: (optional) An array containing any patterns for the entity
+value.
+:attr str value_type: Specifies the type of value.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.Workspace">
+<em class="property">class </em><code class="descname">Workspace</code><span class="sig-paren">(</span><em>name</em>, <em>language</em>, <em>workspace_id</em>, <em>created=None</em>, <em>updated=None</em>, <em>description=None</em>, <em>metadata=None</em>, <em>learning_opt_out=None</em>, <em>system_settings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.Workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Workspace.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">The name of the workspace.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str language:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The language of the workspace.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the workspace.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the workspace.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str workspace_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The workspace ID.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The description of the workspace.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Any metadata related to the workspace.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr bool learning_opt_out:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Whether training data from the workspace</td>
+</tr>
+</tbody>
+</table>
+<p>(including artifacts such as intents and entities) can be used by IBM for general
+service improvements. <cite>true</cite> indicates that workspace training data is not to be used.
+:attr WorkspaceSystemSettings system_settings: (optional) Global settings for the
+workspace.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.WorkspaceCollection">
+<em class="property">class </em><code class="descname">WorkspaceCollection</code><span class="sig-paren">(</span><em>workspaces</em>, <em>pagination</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#WorkspaceCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.WorkspaceCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>WorkspaceCollection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Workspace] workspaces:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">An array of objects describing the workspaces</td>
+</tr>
+</tbody>
+</table>
+<p>associated with the service instance.
+:attr Pagination pagination: An object defining the pagination data for the returned
+objects.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.WorkspaceExport">
+<em class="property">class </em><code class="descname">WorkspaceExport</code><span class="sig-paren">(</span><em>name</em>, <em>description</em>, <em>language</em>, <em>metadata</em>, <em>workspace_id</em>, <em>status</em>, <em>learning_opt_out</em>, <em>created=None</em>, <em>updated=None</em>, <em>system_settings=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>counterexamples=None</em>, <em>dialog_nodes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#WorkspaceExport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.WorkspaceExport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>WorkspaceExport.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">The name of the workspace.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str description:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The description of the workspace.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str language:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The language of the workspace.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr object metadata:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Any metadata that is required by the workspace.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The timestamp for creation of the workspace.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime updated:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The timestamp for the last update to the workspace.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str workspace_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The workspace ID.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str status:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">The current status of the workspace.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool learning_opt_out:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Whether training data from the workspace can be used by</td>
+</tr>
+</tbody>
+</table>
+<p>IBM for general service improvements. <cite>true</cite> indicates that workspace training data is
+not to be used.
+:attr WorkspaceSystemSettings system_settings: (optional) Global settings for the
+workspace.
+:attr list[IntentExport] intents: (optional) An array of intents.
+:attr list[EntityExport] entities: (optional) An array of entities.
+:attr list[Counterexample] counterexamples: (optional) An array of counterexamples.
+:attr list[DialogNode] dialog_nodes: (optional) An array of objects describing the
+dialog nodes in the workspace.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.WorkspaceSystemSettings">
+<em class="property">class </em><code class="descname">WorkspaceSystemSettings</code><span class="sig-paren">(</span><em>tooling=None</em>, <em>disambiguation=None</em>, <em>human_agent_assist=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#WorkspaceSystemSettings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.WorkspaceSystemSettings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>WorkspaceSystemSettings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr WorkspaceSystemSettingsTooling tooling:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Workspace settings related to</td>
+</tr>
+</tbody>
+</table>
+<p>the Conversation tool.
+:attr WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
+settings related to the disambiguation feature.
+<strong>Note:</strong> This feature is available only to Premium users.
+:attr object human_agent_assist: (optional) For internal use only.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.WorkspaceSystemSettingsDisambiguation">
+<em class="property">class </em><code class="descname">WorkspaceSystemSettingsDisambiguation</code><span class="sig-paren">(</span><em>prompt=None</em>, <em>none_of_the_above_prompt=None</em>, <em>enabled=None</em>, <em>sensitivity=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#WorkspaceSystemSettingsDisambiguation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.WorkspaceSystemSettingsDisambiguation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>WorkspaceSystemSettingsDisambiguation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str prompt:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The text of the introductory prompt that accompanies</td>
+</tr>
+</tbody>
+</table>
+<p>disambiguation options presented to the user.
+:attr str none_of_the_above_prompt: (optional) The user-facing label for the option
+users can select if none of the suggested options is correct. If no value is specified
+for this property, this option does not appear.
+:attr bool enabled: (optional) Whether the disambiguation feature is enabled for the
+workspace.
+:attr str sensitivity: (optional) The sensitivity of the disambiguation feature to
+intent detection conflicts. Set to <strong>high</strong> if you want the disambiguation feature to
+be triggered more often. This can be useful for testing or demonstration purposes.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.conversation_v1.WorkspaceSystemSettingsTooling">
+<em class="property">class </em><code class="descname">WorkspaceSystemSettingsTooling</code><span class="sig-paren">(</span><em>store_generic_responses=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/conversation_v1.html#WorkspaceSystemSettingsTooling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.conversation_v1.WorkspaceSystemSettingsTooling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>WorkspaceSystemSettingsTooling.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr bool store_generic_responses:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Whether the dialog JSON editor displays</td>
+</tr>
+</tbody>
+</table>
+<p>text responses within the <cite>output.generic</cite> object.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.compare_comply_v1.html" title="previous chapter">watson_developer_cloud.compare_comply_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.discovery_v1.html" title="next chapter">watson_developer_cloud.discovery_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
