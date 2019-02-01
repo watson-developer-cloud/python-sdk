@@ -319,7 +319,7 @@ class WatsonService(object):
                 credential_file_path = file_path
 
         if credential_file_path is not None:
-            with open(credential_file_path, 'rb') as fp:
+            with open(credential_file_path, 'r') as fp:
                 for line in fp:
                     key_val = line.strip().split(separator)
                     if len(key_val) == 2:
