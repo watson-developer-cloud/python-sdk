@@ -83,7 +83,8 @@ class VisualRecognitionV3(WatsonService):
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
-            use_vcap_services=True)
+            use_vcap_services=True,
+            display_name='Visual Recognition')
         self.version = version
 
     #########################

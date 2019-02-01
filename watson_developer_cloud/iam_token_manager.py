@@ -111,6 +111,12 @@ class IAMTokenManager(object):
         """
         self.iam_apikey = iam_apikey
 
+    def set_iam_url(self, iam_url):
+        """
+        Set the IAM url
+        """
+        self.iam_url = iam_url
+
     def _is_token_expired(self):
         """
         Check if currently stored token is expired.
