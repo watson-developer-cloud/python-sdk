@@ -3,6 +3,7 @@ import json
 import pytest
 from watson_developer_cloud import WatsonService
 import time
+import os
 
 import responses
 
@@ -29,7 +30,7 @@ class AnyServiceV1(WatsonService):
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
-            display_name='Test')
+            display_name='Watson')
         self.version = version
 
     def op_with_path_params(self, path0, path1):
@@ -221,6 +222,11 @@ def test_has_bad_first_or_last_char():
 
 @responses.activate
 def test__set_credential_based_on_type():
-    service = AnyServiceV1('2018-11-20', username='username', password='password')
-    service._set_credential_based_on_type('test', 'test_apikey', 'xxx')
-    assert service.iam_apikey == 'xxx'
+    file_path = os.path.join(os.path.dirname(__file__), '../../resources/ibm-credentials.env')
+    os.environ['IBM_CREDENTIALS_FILE'] = file_path
+    service = AnyServiceV1('2018-11-20')
+    assert service.iam_apikey == '5678efgh'
+    del os.environ['IBM_CREDENTIALS_FILE']
+
+    service = AnyServiceV1('2018-11-20', username='test', password='test')
+    assert service.username == 'test'
