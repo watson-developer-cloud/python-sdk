@@ -3626,17 +3626,25 @@ class Parties(object):
     identified.
 
     :attr str party: (optional) A string identifying the party.
+    :attr str importance: (optional) A string that identifies the importance of the party.
     :attr str role: (optional) A string identifying the party's role.
     :attr list[Address] addresses: (optional) List of the party's address or addresses.
     :attr list[Contact] contacts: (optional) List of the names and roles of contacts
     identified in the input document.
     """
 
-    def __init__(self, party=None, role=None, addresses=None, contacts=None):
+    def __init__(self,
+                 party=None,
+                 importance=None,
+                 role=None,
+                 addresses=None,
+                 contacts=None):
         """
         Initialize a Parties object.
 
         :param str party: (optional) A string identifying the party.
+        :param str importance: (optional) A string that identifies the importance of the
+        party.
         :param str role: (optional) A string identifying the party's role.
         :param list[Address] addresses: (optional) List of the party's address or
         addresses.
@@ -3644,6 +3652,7 @@ class Parties(object):
         identified in the input document.
         """
         self.party = party
+        self.importance = importance
         self.role = role
         self.addresses = addresses
         self.contacts = contacts
@@ -3654,6 +3663,8 @@ class Parties(object):
         args = {}
         if 'party' in _dict:
             args['party'] = _dict.get('party')
+        if 'importance' in _dict:
+            args['importance'] = _dict.get('importance')
         if 'role' in _dict:
             args['role'] = _dict.get('role')
         if 'addresses' in _dict:
@@ -3671,6 +3682,8 @@ class Parties(object):
         _dict = {}
         if hasattr(self, 'party') and self.party is not None:
             _dict['party'] = self.party
+        if hasattr(self, 'importance') and self.importance is not None:
+            _dict['importance'] = self.importance
         if hasattr(self, 'role') and self.role is not None:
             _dict['role'] = self.role
         if hasattr(self, 'addresses') and self.addresses is not None:
