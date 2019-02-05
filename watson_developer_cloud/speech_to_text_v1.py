@@ -2306,6 +2306,7 @@ class SpeechToTextV1(WatsonService):
     def upgrade_acoustic_model(self,
                                customization_id,
                                custom_language_model_id=None,
+                               force=None,
                                **kwargs):
         """
         Upgrade a custom acoustic model.
@@ -2339,7 +2340,15 @@ class SpeechToTextV1(WatsonService):
         :param str custom_language_model_id: If the custom acoustic model was trained with
         a custom language model, the customization ID (GUID) of that custom language
         model. The custom language model must be upgraded before the custom acoustic model
-        can be upgraded.
+        can be upgraded. The credentials specified with the request must own both custom
+        models.
+        :param bool force: If `true`, forces the upgrade of a custom acoustic model for
+        which no input data has been modified since it was last trained. Use this
+        parameter only to force the upgrade of a custom acoustic model that is trained
+        with a custom language model, and only if you receive a 400 response code and the
+        message `No input data modified since last training`. See [Upgrading a custom
+        acoustic
+        model](https://cloud.ibm.com/docs/services/speech-to-text/custom-upgrade.html#upgradeAcoustic).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2351,8 +2360,13 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=upgrade_acoustic_model'
 
-        params = {'custom_language_model_id': custom_language_model_id}
+        params = {
+            'custom_language_model_id': custom_language_model_id,
+            'force': force
+        }
 
         url = '/v1/acoustic_customizations/{0}/upgrade_model'.format(
             *self._encode_path_vars(customization_id))
