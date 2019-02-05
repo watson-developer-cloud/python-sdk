@@ -98,7 +98,7 @@ class CompareComplyV1(WatsonService):
         """
         Convert file to HTML.
 
-        Uploads an input file. The response includes an HTML version of the document.
+        Convert an uploaded file to HTML.
 
         :param file file: The file to convert.
         :param str model_id: The analysis model to be used by the service. For the
@@ -119,6 +119,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=convert_to_html'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -153,8 +155,7 @@ class CompareComplyV1(WatsonService):
         """
         Classify the elements of a document.
 
-        Uploads a file. The response includes an analysis of the document's structural and
-        semantic elements.
+        Analyze an uploaded file's structural and semantic elements.
 
         :param file file: The file to classify.
         :param str model_id: The analysis model to be used by the service. For the
@@ -175,6 +176,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=classify_elements'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -207,7 +210,7 @@ class CompareComplyV1(WatsonService):
         """
         Extract a document's tables.
 
-        Uploads a file. The response includes an analysis of the document's tables.
+        Extract and analyze an uploaded file's tables.
 
         :param file file: The file on which to run table extraction.
         :param str model_id: The analysis model to be used by the service. For the
@@ -228,6 +231,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=extract_tables'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -265,8 +270,7 @@ class CompareComplyV1(WatsonService):
         """
         Compare two documents.
 
-        Uploads two input files. The response includes JSON comparing the two documents.
-        Uploaded files must be in the same file format.
+        Compare two uploaded input files. Uploaded files must be in the same file format.
 
         :param file file_1: The first file to compare.
         :param file file_2: The second file to compare.
@@ -294,6 +298,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=compare_documents'
 
         params = {
             'version': self.version,
@@ -351,6 +357,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=add_feedback'
 
         params = {'version': self.version}
 
@@ -374,7 +382,7 @@ class CompareComplyV1(WatsonService):
         """
         Deletes a specified feedback entry.
 
-        :param str feedback_id: An string that specifies the feedback entry to be deleted
+        :param str feedback_id: A string that specifies the feedback entry to be deleted
         from the document.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
@@ -392,6 +400,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=delete_feedback'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -408,7 +418,7 @@ class CompareComplyV1(WatsonService):
         """
         List a specified feedback entry.
 
-        :param str feedback_id: An string that specifies the feedback entry to be included
+        :param str feedback_id: A string that specifies the feedback entry to be included
         in the output.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
@@ -426,6 +436,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=get_feedback'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -511,6 +523,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=list_feedback'
 
         params = {
             'version': self.version,
@@ -562,10 +576,10 @@ class CompareComplyV1(WatsonService):
 
         Run Compare and Comply methods over a collection of input documents.
         **Important:** Batch processing requires the use of the [IBM Cloud Object Storage
-        service](https://console.bluemix.net/docs/services/cloud-object-storage/about-cos.html#about-ibm-cloud-object-storage).
+        service](https://cloud.ibm.com/docs/services/cloud-object-storage/about-cos.html#about-ibm-cloud-object-storage).
         The use of IBM Cloud Object Storage with Compare and Comply is discussed at [Using
         batch
-        processing](https://console.bluemix.net/docs/services/compare-comply/batching.html#before-you-batch).
+        processing](https://cloud.ibm.com/docs/services/compare-comply/batching.html#before-you-batch).
 
         :param str function: The Compare and Comply method to run across the submitted
         input documents.
@@ -613,6 +627,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=create_batch'
 
         params = {
             'version': self.version,
@@ -653,9 +669,9 @@ class CompareComplyV1(WatsonService):
 
     def get_batch(self, batch_id, **kwargs):
         """
-        Gets information about a specific batch-processing request.
+        Get information about a specific batch-processing request.
 
-        Gets information about a batch-processing request with a specified ID.
+        Get information about a batch-processing request with a specified ID.
 
         :param str batch_id: The ID of the batch-processing request whose information you
         want to retrieve.
@@ -670,6 +686,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=get_batch'
 
         params = {'version': self.version}
 
@@ -684,9 +702,9 @@ class CompareComplyV1(WatsonService):
 
     def list_batches(self, **kwargs):
         """
-        Gets the list of submitted batch-processing jobs.
+        List submitted batch-processing jobs.
 
-        Gets the list of batch-processing jobs submitted by users.
+        List the batch-processing jobs submitted by users.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -696,6 +714,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=list_batches'
 
         params = {'version': self.version}
 
@@ -710,9 +730,9 @@ class CompareComplyV1(WatsonService):
 
     def update_batch(self, batch_id, action, model_id=None, **kwargs):
         """
-        Updates a pending or active batch-processing request.
+        Update a pending or active batch-processing request.
 
-        Updates a pending or active batch-processing request. You can rescan the input
+        Update a pending or active batch-processing request. You can rescan the input
         bucket to check for new documents or cancel a request.
 
         :param str batch_id: The ID of the batch-processing request you want to update.
@@ -736,6 +756,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=update_batch'
 
         params = {
             'version': self.version,
@@ -895,8 +917,7 @@ class Attribute(object):
     """
     List of document attributes.
 
-    :attr str type: (optional) The type of attribute. Possible values are `Currency`,
-    `DateTime`, `Location`, `Organization`, and `Person`.
+    :attr str type: (optional) The type of attribute.
     :attr str text: (optional) The text associated with the attribute.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
@@ -906,8 +927,7 @@ class Attribute(object):
         """
         Initialize a Attribute object.
 
-        :param str type: (optional) The type of attribute. Possible values are `Currency`,
-        `DateTime`, `Location`, `Organization`, and `Person`.
+        :param str type: (optional) The type of attribute.
         :param str text: (optional) The text associated with the attribute.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
@@ -1242,6 +1262,7 @@ class BodyCells(object):
         self.column_header_ids = column_header_ids
         self.column_header_texts = column_header_texts
         self.column_header_texts_normalized = column_header_texts_normalized
+        self.attributes = attributes
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -1544,146 +1565,6 @@ class ClassifyReturn(object):
 
     def __str__(self):
         """Return a `str` version of this ClassifyReturn object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderIds(object):
-    """
-    An array of values, each being the `id` value of a column header that is applicable to
-    the current cell.
-
-    :attr str id: (optional) The `id` value of a column header.
-    """
-
-    def __init__(self, id=None):
-        """
-        Initialize a ColumnHeaderIds object.
-
-        :param str id: (optional) The `id` value of a column header.
-        """
-        self.id = id
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderIds object from a json dictionary."""
-        args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderIds object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderTexts(object):
-    """
-    An array of values, each being the `text` value of a column header that is applicable
-    to the current cell.
-
-    :attr str text: (optional) The `text` value of a column header.
-    """
-
-    def __init__(self, text=None):
-        """
-        Initialize a ColumnHeaderTexts object.
-
-        :param str text: (optional) The `text` value of a column header.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderTexts object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderTexts object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderTextsNormalized(object):
-    """
-    If you provide customization input, the normalized version of the column header texts
-    according to the customization; otherwise, the same value as `column_header_texts`.
-
-    :attr str text_normalized: (optional) The normalized version of a column header text.
-    """
-
-    def __init__(self, text_normalized=None):
-        """
-        Initialize a ColumnHeaderTextsNormalized object.
-
-        :param str text_normalized: (optional) The normalized version of a column header
-        text.
-        """
-        self.text_normalized = text_normalized
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderTextsNormalized object from a json dictionary."""
-        args = {}
-        if 'text_normalized' in _dict:
-            args['text_normalized'] = _dict.get('text_normalized')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'text_normalized') and self.text_normalized is not None:
-            _dict['text_normalized'] = self.text_normalized
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderTextsNormalized object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2251,7 +2132,8 @@ class Document(object):
     :attr str html: (optional) The input document converted into HTML format.
     :attr str hash: (optional) The MD5 hash value of the input document.
     :attr str label: (optional) The label applied to the input document with the calling
-    method's `file1_label` or `file2_label` value.
+    method's `file_1_label` or `file_2_label` value. This field is specified only in the
+    output of the **Comparing two documents** method.
     """
 
     def __init__(self, title=None, html=None, hash=None, label=None):
@@ -2262,7 +2144,8 @@ class Document(object):
         :param str html: (optional) The input document converted into HTML format.
         :param str hash: (optional) The MD5 hash value of the input document.
         :param str label: (optional) The label applied to the input document with the
-        calling method's `file1_label` or `file2_label` value.
+        calling method's `file_1_label` or `file_2_label` value. This field is specified
+        only in the output of the **Comparing two documents** method.
         """
         self.title = title
         self.html = html
@@ -3301,7 +3184,7 @@ class LeadingSentence(object):
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     :attr list[ElementLocations] element_locations: (optional) An array of `location`
-    objects listing the locations of detected leading sentences.
+    objects that lists the locations of detected leading sentences.
     """
 
     def __init__(self, text=None, location=None, element_locations=None):
@@ -3312,7 +3195,7 @@ class LeadingSentence(object):
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         :param list[ElementLocations] element_locations: (optional) An array of `location`
-        objects listing the locations of detected leading sentences.
+        objects that lists the locations of detected leading sentences.
         """
         self.text = text
         self.location = location
@@ -3727,146 +3610,6 @@ class Parties(object):
         return not self == other
 
 
-class RowHeaderIds(object):
-    """
-    An array of values, each being the `id` value of a row header that is applicable to
-    this body cell.
-
-    :attr str id: (optional) The `id` values of a row header.
-    """
-
-    def __init__(self, id=None):
-        """
-        Initialize a RowHeaderIds object.
-
-        :param str id: (optional) The `id` values of a row header.
-        """
-        self.id = id
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderIds object from a json dictionary."""
-        args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderIds object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RowHeaderTexts(object):
-    """
-    An array of values, each being the `text` value of a row header that is applicable to
-    this body cell.
-
-    :attr str text: (optional) The `text` value of a row header.
-    """
-
-    def __init__(self, text=None):
-        """
-        Initialize a RowHeaderTexts object.
-
-        :param str text: (optional) The `text` value of a row header.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderTexts object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderTexts object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RowHeaderTextsNormalized(object):
-    """
-    If you provide customization input, the normalized version of the row header texts
-    according to the customization; otherwise, the same value as `row_header_texts`.
-
-    :attr str text_normalized: (optional) The normalized version of a row header text.
-    """
-
-    def __init__(self, text_normalized=None):
-        """
-        Initialize a RowHeaderTextsNormalized object.
-
-        :param str text_normalized: (optional) The normalized version of a row header
-        text.
-        """
-        self.text_normalized = text_normalized
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderTextsNormalized object from a json dictionary."""
-        args = {}
-        if 'text_normalized' in _dict:
-            args['text_normalized'] = _dict.get('text_normalized')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'text_normalized') and self.text_normalized is not None:
-            _dict['text_normalized'] = self.text_normalized
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderTextsNormalized object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class RowHeaders(object):
     """
     Row-level cells, each applicable as a header to other cells in the same row as itself,
@@ -4062,7 +3805,7 @@ class SectionTitles(object):
     located in the input document. For example, `1` represents a top-level section, `2`
     represents a subsection within the level `1` section, and so forth.
     :attr list[ElementLocations] element_locations: (optional) An array of `location`
-    objects listing the locations of detected leading sentences.
+    objects that lists the locations of detected section titles.
     """
 
     def __init__(self,
@@ -4080,7 +3823,7 @@ class SectionTitles(object):
         is located in the input document. For example, `1` represents a top-level section,
         `2` represents a subsection within the level `1` section, and so forth.
         :param list[ElementLocations] element_locations: (optional) An array of `location`
-        objects listing the locations of detected leading sentences.
+        objects that lists the locations of detected section titles.
         """
         self.text = text
         self.location = location
