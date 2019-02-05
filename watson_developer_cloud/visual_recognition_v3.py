@@ -106,29 +106,30 @@ class VisualRecognitionV3(WatsonService):
 
         Classify images with built-in or custom classifiers.
 
-        :param file images_file: An image file (.jpg, .png) or .zip file with images.
-        Maximum image size is 10 MB. Include no more than 20 images and limit the .zip
-        file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain
+        :param file images_file: An image file (.gif, .jpg, .png, .tif) or .zip file with
+        images. Maximum image size is 10 MB. Include no more than 20 images and limit the
+        .zip file to 100 MB. Encode the image and .zip file names in UTF-8 if they contain
         non-ASCII characters. The service assumes UTF-8 encoding if it encounters
         non-ASCII characters.
         You can also include an image with the **url** parameter.
         :param str accept_language: The desired language of parts of the response. See the
         response for details.
-        :param str url: The URL of an image to analyze. Must be in .jpg, or .png format.
-        The minimum recommended pixel density is 32X32 pixels per inch, and the maximum
-        image size is 10 MB.
+        :param str url: The URL of an image (.gif, .jpg, .png, .tif) to analyze. The
+        minimum recommended pixel density is 32X32 pixels, but the service tends to
+        perform better with images that are at least 224 x 224 pixels. The maximum image
+        size is 10 MB.
         You can also include images with the **images_file** parameter.
         :param float threshold: The minimum score a class must have to be displayed in the
-        response. Set the threshold to `0.0` to ignore the classification score and return
-        all values.
-        :param list[str] owners: The categories of classifiers to apply. Use `IBM` to
-        classify against the `default` general classifier, and use `me` to classify
-        against your custom classifiers. To analyze the image against both classifier
-        categories, set the value to both `IBM` and `me`.
-        The built-in `default` classifier is used if both **classifier_ids** and
-        **owners** parameters are empty.
-        The **classifier_ids** parameter overrides **owners**, so make sure that
+        response. Set the threshold to `0.0` to return all identified classes.
+        :param list[str] owners: The categories of classifiers to apply. The
+        **classifier_ids** parameter overrides **owners**, so make sure that
         **classifier_ids** is empty.
+        - Use `IBM` to classify against the `default` general classifier. You get the same
+        result if both **classifier_ids** and **owners** parameters are empty.
+        - Use `me` to classify against all your custom classifiers. However, for better
+        performance use **classifier_ids** to specify the specific custom classifiers to
+        apply.
+        - Use both `IBM` and `me` to analyze the image against both classifier categories.
         :param list[str] classifier_ids: Which classifiers to apply. Overrides the
         **owners** parameter. You can specify both custom and built-in classifier IDs. The
         built-in `default` classifier is used if both **classifier_ids** and **owners**
@@ -147,6 +148,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {'Accept-Language': accept_language}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=classify'
 
         params = {'version': self.version}
 
@@ -186,9 +189,9 @@ class VisualRecognitionV3(WatsonService):
     def detect_faces(self,
                      images_file=None,
                      url=None,
+                     accept_language=None,
                      images_file_content_type=None,
                      images_filename=None,
-                     accept_language=None,
                      **kwargs):
         """
         Detect faces in images.
@@ -202,7 +205,8 @@ class VisualRecognitionV3(WatsonService):
         and gender. This feature uses a built-in model, so no training is necessary. The
         Detect faces method does not support general biometric facial recognition.
         Supported image formats include .gif, .jpg, .png, and .tif. The maximum image size
-        is 10 MB. The minimum recommended pixel density is 32X32 pixels per inch.
+        is 10 MB. The minimum recommended pixel density is 32X32 pixels, but the service
+        tends to perform better with images that are at least 224 x 224 pixels.
 
         :param file images_file: An image file (gif, .jpg, .png, .tif.) or .zip file with
         images. Limit the .zip file to 100 MB. You can include a maximum of 15 images in a
@@ -212,14 +216,15 @@ class VisualRecognitionV3(WatsonService):
         characters.
         You can also include an image with the **url** parameter.
         :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or
-        .tif format. The minimum recommended pixel density is 32X32 pixels per inch, and
-        the maximum image size is 10 MB. Redirects are followed, so you can use a
+        .tif format. The minimum recommended pixel density is 32X32 pixels, but the
+        service tends to perform better with images that are at least 224 x 224 pixels.
+        The maximum image size is 10 MB. Redirects are followed, so you can use a
         shortened URL.
         You can also include images with the **images_file** parameter.
-        :param str images_file_content_type: The content type of images_file.
-        :param str images_filename: The filename for images_file.
         :param str accept_language: The desired language of parts of the response. See the
         response for details.
+        :param str images_file_content_type: The content type of images_file.
+        :param str images_filename: The filename for images_file.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -228,6 +233,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {'Accept-Language': accept_language}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=detect_faces'
 
         params = {'version': self.version}
 
@@ -307,6 +314,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=create_classifier'
 
         params = {'version': self.version}
 
@@ -354,6 +363,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=delete_classifier'
 
         params = {'version': self.version}
 
@@ -385,6 +396,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=get_classifier'
 
         params = {'version': self.version}
 
@@ -412,6 +425,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=list_classifiers'
 
         params = {'version': self.version, 'verbose': verbose}
 
@@ -432,9 +447,9 @@ class VisualRecognitionV3(WatsonService):
         """
         Update a classifier.
 
-        Update a custom classifier by adding new positive or negative classes (examples)
-        or by adding new images to existing classes. You must supply at least one set of
-        positive or negative examples. For details, see [Updating custom
+        Update a custom classifier by adding new positive or negative classes or by adding
+        new images to existing classes. You must supply at least one set of positive or
+        negative examples. For details, see [Updating custom
         classifiers](https://cloud.ibm.com/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
         Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
         file names, and classifier and class names). The service assumes UTF-8 encoding if
@@ -476,6 +491,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=update_classifier'
 
         params = {'version': self.version}
 
@@ -530,6 +547,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=get_core_ml_model'
 
         params = {'version': self.version}
 
@@ -570,6 +589,8 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=delete_user_data'
 
         params = {'version': self.version, 'customer_id': customer_id}
 
@@ -905,8 +926,8 @@ class Classifier(object):
 
     :attr str classifier_id: ID of a classifier identified in the image.
     :attr str name: Name of the classifier.
-    :attr str owner: (optional) Unique ID of the account who owns the classifier. Returned
-    when verbose=`true`. Might not be returned by some requests.
+    :attr str owner: (optional) Unique ID of the account who owns the classifier. Might
+    not be returned by some requests.
     :attr str status: (optional) Training status of classifier.
     :attr bool core_ml_enabled: (optional) Whether the classifier can be downloaded as a
     Core ML model after the training status is `ready`.
@@ -916,11 +937,11 @@ class Classifier(object):
     that the classifier was created.
     :attr list[Class] classes: (optional) Classes that define a classifier.
     :attr datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC)
-    that the classifier was updated. Returned when verbose=`true`. Might not be returned
-    by some requests. Identical to `updated` and retained for backward compatibility.
+    that the classifier was updated. Might not be returned by some requests. Identical to
+    `updated` and retained for backward compatibility.
     :attr datetime updated: (optional) Date and time in Coordinated Universal Time (UTC)
     that the classifier was most recently updated. The field matches either `retrained` or
-    `created`.  Returned when verbose=`true`. Might not be returned by some requests.
+    `created`. Might not be returned by some requests.
     """
 
     def __init__(self,
@@ -940,7 +961,7 @@ class Classifier(object):
         :param str classifier_id: ID of a classifier identified in the image.
         :param str name: Name of the classifier.
         :param str owner: (optional) Unique ID of the account who owns the classifier.
-        Returned when verbose=`true`. Might not be returned by some requests.
+        Might not be returned by some requests.
         :param str status: (optional) Training status of classifier.
         :param bool core_ml_enabled: (optional) Whether the classifier can be downloaded
         as a Core ML model after the training status is `ready`.
@@ -950,13 +971,11 @@ class Classifier(object):
         (UTC) that the classifier was created.
         :param list[Class] classes: (optional) Classes that define a classifier.
         :param datetime retrained: (optional) Date and time in Coordinated Universal Time
-        (UTC) that the classifier was updated. Returned when verbose=`true`. Might not be
-        returned by some requests. Identical to `updated` and retained for backward
-        compatibility.
+        (UTC) that the classifier was updated. Might not be returned by some requests.
+        Identical to `updated` and retained for backward compatibility.
         :param datetime updated: (optional) Date and time in Coordinated Universal Time
         (UTC) that the classifier was most recently updated. The field matches either
-        `retrained` or `created`.  Returned when verbose=`true`. Might not be returned by
-        some requests.
+        `retrained` or `created`. Might not be returned by some requests.
         """
         self.classifier_id = classifier_id
         self.name = name
