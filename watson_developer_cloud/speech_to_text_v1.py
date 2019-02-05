@@ -16,7 +16,7 @@
 """
 The IBM&reg; Speech to Text service provides APIs that use IBM's speech-recognition
 capabilities to produce transcripts of spoken audio. The service can transcribe speech
-from various languages and audio formats. It addition to basic transcription, the service
+from various languages and audio formats. In addition to basic transcription, the service
 can produce detailed information about many different aspects of the audio. For most
 languages, the service supports two sampling rates, broadband and narrowband. It returns
 all JSON response content in the UTF-8 character set.
@@ -130,6 +130,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=get_model'
 
         url = '/v1/models/{0}'.format(*self._encode_path_vars(model_id))
         response = self.request(
@@ -154,6 +156,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=list_models'
 
         url = '/v1/models'
         response = self.request(
@@ -396,6 +400,8 @@ class SpeechToTextV1(WatsonService):
         headers = {'Content-Type': content_type}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=recognize'
 
         params = {
             'model': model,
@@ -465,6 +471,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=check_job'
 
         url = '/v1/recognitions/{0}'.format(*self._encode_path_vars(id))
         response = self.request(
@@ -494,6 +502,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=check_jobs'
 
         url = '/v1/recognitions'
         response = self.request(
@@ -782,6 +792,8 @@ class SpeechToTextV1(WatsonService):
         headers = {'Content-Type': content_type}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=create_job'
 
         params = {
             'model': model,
@@ -846,6 +858,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=delete_job'
 
         url = '/v1/recognitions/{0}'.format(*self._encode_path_vars(id))
         response = self.request(
@@ -907,6 +921,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=register_callback'
 
         params = {'callback_url': callback_url, 'user_secret': user_secret}
 
@@ -941,6 +957,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=unregister_callback'
 
         params = {'callback_url': callback_url}
 
@@ -1010,6 +1028,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=create_language_model'
 
         data = {
             'name': name,
@@ -1052,6 +1072,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=delete_language_model'
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
@@ -1082,6 +1104,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=get_language_model'
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
@@ -1113,6 +1137,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=list_language_models'
 
         params = {'language': language}
 
@@ -1152,6 +1178,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=reset_language_model'
 
         url = '/v1/customizations/{0}/reset'.format(
             *self._encode_path_vars(customization_id))
@@ -1227,6 +1255,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=train_language_model'
 
         params = {
             'word_type_to_add': word_type_to_add,
@@ -1278,6 +1308,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=upgrade_language_model'
 
         url = '/v1/customizations/{0}/upgrade_model'.format(
             *self._encode_path_vars(customization_id))
@@ -1380,6 +1412,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=add_corpus'
 
         params = {'allow_overwrite': allow_overwrite}
 
@@ -1431,6 +1465,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=delete_corpus'
 
         url = '/v1/customizations/{0}/corpora/{1}'.format(
             *self._encode_path_vars(customization_id, corpus_name))
@@ -1466,6 +1502,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=get_corpus'
 
         url = '/v1/customizations/{0}/corpora/{1}'.format(
             *self._encode_path_vars(customization_id, corpus_name))
@@ -1498,6 +1536,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=list_corpora'
 
         url = '/v1/customizations/{0}/corpora'.format(
             *self._encode_path_vars(customization_id))
@@ -1593,6 +1633,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=add_word'
 
         data = {
             'word': word,
@@ -1679,6 +1721,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=add_words'
 
         data = {'words': words}
 
@@ -1726,6 +1770,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=delete_word'
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word_name))
@@ -1763,6 +1809,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=get_word'
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word_name))
@@ -1812,6 +1860,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=list_words'
 
         params = {'word_type': word_type, 'sort': sort}
 
@@ -1917,6 +1967,8 @@ class SpeechToTextV1(WatsonService):
         headers = {'Content-Type': content_type}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=add_grammar'
 
         params = {'allow_overwrite': allow_overwrite}
 
@@ -1964,6 +2016,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=delete_grammar'
 
         url = '/v1/customizations/{0}/grammars/{1}'.format(
             *self._encode_path_vars(customization_id, grammar_name))
@@ -1999,6 +2053,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=get_grammar'
 
         url = '/v1/customizations/{0}/grammars/{1}'.format(
             *self._encode_path_vars(customization_id, grammar_name))
@@ -2031,6 +2087,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=list_grammars'
 
         url = '/v1/customizations/{0}/grammars'.format(
             *self._encode_path_vars(customization_id))
@@ -2083,6 +2141,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=create_acoustic_model'
 
         data = {
             'name': name,
@@ -2124,6 +2184,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=delete_acoustic_model'
 
         url = '/v1/acoustic_customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
@@ -2154,6 +2216,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=get_acoustic_model'
 
         url = '/v1/acoustic_customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
@@ -2185,6 +2249,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=list_acoustic_models'
 
         params = {'language': language}
 
@@ -2223,6 +2289,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=reset_acoustic_model'
 
         url = '/v1/acoustic_customizations/{0}/reset'.format(
             *self._encode_path_vars(customization_id))
@@ -2258,16 +2326,20 @@ class SpeechToTextV1(WatsonService):
         or requests to add new audio resources, until the existing request completes.
         You can use the optional `custom_language_model_id` parameter to specify the GUID
         of a separately created custom language model that is to be used during training.
-        Specify a custom language model if you have verbatim transcriptions of the audio
-        files that you have added to the custom model or you have either corpora (text
-        files) or a list of words that are relevant to the contents of the audio files.
-        For more information, see the **Create a custom language model** method.
+        Train with a custom language model if you have verbatim transcriptions of the
+        audio files that you have added to the custom model or you have either corpora
+        (text files) or a list of words that are relevant to the contents of the audio
+        files. Both of the custom models must be based on the same version of the same
+        base model for training to succeed.
         Training can fail to start for the following reasons:
         * The service is currently handling another request for the custom model, such as
         another training request or a request to add audio resources to the model.
         * The custom model contains less than 10 minutes or more than 100 hours of audio
         data.
         * One or more of the custom model's audio resources is invalid.
+        * You passed an incompatible custom language model with the
+        `custom_language_model_id` query parameter. Both custom models must be based on
+        the same version of the same base model.
         **See also:** [Train the custom acoustic
         model](https://cloud.ibm.com/docs/services/speech-to-text/acoustic-create.html#trainModel).
 
@@ -2278,7 +2350,9 @@ class SpeechToTextV1(WatsonService):
         language model that is to be used during training of the custom acoustic model.
         Specify a custom language model that has been trained with verbatim transcriptions
         of the audio resources or that contains words that are relevant to the contents of
-        the audio resources.
+        the audio resources. The custom language model must be based on the same version
+        of the same base model as the custom acoustic model. The credentials specified
+        with the request must own both custom models.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2290,6 +2364,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=train_acoustic_model'
 
         params = {'custom_language_model_id': custom_language_model_id}
 
@@ -2522,6 +2598,8 @@ class SpeechToTextV1(WatsonService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=add_audio'
 
         params = {'allow_overwrite': allow_overwrite}
 
@@ -2570,6 +2648,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=delete_audio'
 
         url = '/v1/acoustic_customizations/{0}/audio/{1}'.format(
             *self._encode_path_vars(customization_id, audio_name))
@@ -2620,6 +2700,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=get_audio'
 
         url = '/v1/acoustic_customizations/{0}/audio/{1}'.format(
             *self._encode_path_vars(customization_id, audio_name))
@@ -2654,6 +2736,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=list_audio'
 
         url = '/v1/acoustic_customizations/{0}/audio'.format(
             *self._encode_path_vars(customization_id))
@@ -2691,6 +2775,8 @@ class SpeechToTextV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=speech_to_text;service_version=V1;operation_id=delete_user_data'
 
         params = {'customer_id': customer_id}
 
