@@ -1988,19 +1988,24 @@ class ContractAmts(object):
     A monetary amount identified in the input document.
 
     :attr str text: (optional) The monetary amount.
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the contract amount.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, text=None, confidence_level=None, location=None):
         """
         Initialize a ContractAmts object.
 
         :param str text: (optional) The monetary amount.
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the contract amount.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
         self.text = text
+        self.confidence_level = confidence_level
         self.location = location
 
     @classmethod
@@ -2009,6 +2014,8 @@ class ContractAmts(object):
         args = {}
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -2018,6 +2025,9 @@ class ContractAmts(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
@@ -2306,19 +2316,24 @@ class EffectiveDates(object):
     An effective date.
 
     :attr str text: (optional) The effective date, listed as a string.
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the effective date.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, text=None, confidence_level=None, location=None):
         """
         Initialize a EffectiveDates object.
 
         :param str text: (optional) The effective date, listed as a string.
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the effective date.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
         self.text = text
+        self.confidence_level = confidence_level
         self.location = location
 
     @classmethod
@@ -2327,6 +2342,8 @@ class EffectiveDates(object):
         args = {}
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -2336,6 +2353,9 @@ class EffectiveDates(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
@@ -4488,19 +4508,24 @@ class TerminationDates(object):
     Termination dates identified in the input document.
 
     :attr str text: (optional) The termination date.
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the termination date.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, text=None, confidence_level=None, location=None):
         """
         Initialize a TerminationDates object.
 
         :param str text: (optional) The termination date.
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the termination date.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
         self.text = text
+        self.confidence_level = confidence_level
         self.location = location
 
     @classmethod
@@ -4509,6 +4534,8 @@ class TerminationDates(object):
         args = {}
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -4518,6 +4545,9 @@ class TerminationDates(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
