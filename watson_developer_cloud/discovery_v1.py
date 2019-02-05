@@ -1179,6 +1179,42 @@ class DiscoveryV1(WatsonService):
             accept_json=True)
         return response
 
+    def get_stopword_list_status(self, environment_id, collection_id, **kwargs):
+        """
+        Get stopword list status.
+
+        Returns the current status of the stopword list for the specified collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_stopword_list_status'
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
     def get_tokenization_dictionary_status(self, environment_id, collection_id,
                                            **kwargs):
         """
