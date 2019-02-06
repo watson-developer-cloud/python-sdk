@@ -1229,6 +1229,12 @@ def test_stopword_operations():
         responses.DELETE,
         url,
         status=200)
+    responses.add(
+        responses.GET,
+        url,
+        body='{"status": "ready", "type": "stopwords"}',
+        status=200,
+        content_type='application_json')
 
     discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
 
@@ -1237,10 +1243,13 @@ def test_stopword_operations():
         discovery.create_stopword_list('envid', 'colid', file)
         assert responses.calls[0].response.json() == {"status": "pending", "type": "stopwords"}
 
-    discovery.delete_stopword_list('envid', 'colid')
-    assert responses.calls[1].response.status_code == 200
+    discovery.get_stopword_list_status('envid', 'colid')
+    assert responses.calls[1].response.json() == {"status": "ready", "type": "stopwords"}
 
-    assert len(responses.calls) == 2
+    discovery.delete_stopword_list('envid', 'colid')
+    assert responses.calls[2].response.status_code == 200
+
+    assert len(responses.calls) == 3
 
 @responses.activate
 def test_gateway_configuration():

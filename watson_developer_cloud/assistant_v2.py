@@ -127,6 +127,8 @@ class AssistantV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V2;operation_id=create_session'
 
         params = {'version': self.version}
 
@@ -165,6 +167,8 @@ class AssistantV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V2;operation_id=delete_session'
 
         params = {'version': self.version}
 
@@ -219,6 +223,8 @@ class AssistantV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V2;operation_id=message'
 
         params = {'version': self.version}
 

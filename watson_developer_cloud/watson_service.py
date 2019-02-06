@@ -265,7 +265,10 @@ class WatsonService(object):
             else:
                 self.set_username_and_password(username, password)
         elif iam_access_token is not None or iam_apikey is not None:
-            self.set_token_manager(iam_apikey, iam_access_token, iam_url)
+            if iam_apikey and iam_apikey.startswith(ICP_PREFIX):
+                self.set_username_and_password(APIKEY, iam_apikey)
+            else:
+                self.set_token_manager(iam_apikey, iam_access_token, iam_url)
 
         # 2. Credentials from credential file
         if display_name and not self.username and not self.token_manager:

@@ -170,6 +170,17 @@ def test_for_icp():
     assert service2.password is not None
     assert service2.url is 'service_url'
 
+    service3 = AnyServiceV1('2017-07-07', iam_apikey='icp-xxx')
+    assert service3.token_manager is None
+    assert service2.iam_apikey is None
+    assert service2.username is not None
+    assert service2.password is not None
+
+    service4 = AnyServiceV1('2017-07-07', iam_access_token='lala')
+    assert service4.token_manager is not None
+    assert service4.username is None
+    assert service4.password is None
+
 @responses.activate
 def test_disable_SSL_verification():
     service1 = AnyServiceV1('2017-07-07', username='apikey', password='icp-xxxx', url='service_url')
