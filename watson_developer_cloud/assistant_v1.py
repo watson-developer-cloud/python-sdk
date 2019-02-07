@@ -159,6 +159,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=message'
 
         params = {
             'version': self.version,
@@ -253,6 +255,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_workspace'
 
         params = {'version': self.version}
 
@@ -299,6 +303,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_workspace'
 
         params = {'version': self.version}
 
@@ -346,6 +352,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_workspace'
 
         params = {
             'version': self.version,
@@ -393,6 +401,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_workspaces'
 
         params = {
             'version': self.version,
@@ -490,6 +500,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_workspace'
 
         params = {'version': self.version, 'append': append}
 
@@ -560,6 +572,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_intent'
 
         params = {'version': self.version}
 
@@ -603,6 +617,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_intent'
 
         params = {'version': self.version}
 
@@ -651,6 +667,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_intent'
 
         params = {
             'version': self.version,
@@ -709,6 +727,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_intents'
 
         params = {
             'version': self.version,
@@ -773,6 +793,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_intent'
 
         params = {'version': self.version}
 
@@ -835,6 +857,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_example'
 
         params = {'version': self.version}
 
@@ -877,6 +901,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_example'
 
         params = {'version': self.version}
 
@@ -923,6 +949,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_example'
 
         params = {'version': self.version, 'include_audit': include_audit}
 
@@ -976,6 +1004,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_examples'
 
         params = {
             'version': self.version,
@@ -1038,6 +1068,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_example'
 
         params = {'version': self.version}
 
@@ -1086,6 +1118,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_counterexample'
 
         params = {'version': self.version}
 
@@ -1127,6 +1161,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_counterexample'
 
         params = {'version': self.version}
 
@@ -1171,6 +1207,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_counterexample'
 
         params = {'version': self.version, 'include_audit': include_audit}
 
@@ -1220,6 +1258,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_counterexamples'
 
         params = {
             'version': self.version,
@@ -1267,6 +1307,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_counterexample'
 
         params = {'version': self.version}
 
@@ -1331,6 +1373,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_entity'
 
         params = {'version': self.version}
 
@@ -1376,6 +1420,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_entity'
 
         params = {'version': self.version}
 
@@ -1424,6 +1470,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_entity'
 
         params = {
             'version': self.version,
@@ -1482,6 +1530,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_entities'
 
         params = {
             'version': self.version,
@@ -1550,6 +1600,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_entity'
 
         params = {'version': self.version}
 
@@ -1611,6 +1663,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_mentions'
 
         params = {
             'version': self.version,
@@ -1683,6 +1737,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_value'
 
         params = {'version': self.version}
 
@@ -1731,6 +1787,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_value'
 
         params = {'version': self.version}
 
@@ -1782,6 +1840,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_value'
 
         params = {
             'version': self.version,
@@ -1843,6 +1903,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_values'
 
         params = {
             'version': self.version,
@@ -1918,6 +1980,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_value'
 
         params = {'version': self.version}
 
@@ -1977,6 +2041,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_synonym'
 
         params = {'version': self.version}
 
@@ -2022,6 +2088,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_synonym'
 
         params = {'version': self.version}
 
@@ -2072,6 +2140,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_synonym'
 
         params = {'version': self.version, 'include_audit': include_audit}
 
@@ -2128,6 +2198,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_synonyms'
 
         params = {
             'version': self.version,
@@ -2188,6 +2260,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_synonym'
 
         params = {'version': self.version}
 
@@ -2295,6 +2369,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_dialog_node'
 
         params = {'version': self.version}
 
@@ -2353,6 +2429,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_dialog_node'
 
         params = {'version': self.version}
 
@@ -2395,6 +2473,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_dialog_node'
 
         params = {'version': self.version, 'include_audit': include_audit}
 
@@ -2443,6 +2523,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_dialog_nodes'
 
         params = {
             'version': self.version,
@@ -2556,6 +2638,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_dialog_node'
 
         params = {'version': self.version}
 
@@ -2630,6 +2714,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_all_logs'
 
         params = {
             'version': self.version,
@@ -2683,6 +2769,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_logs'
 
         params = {
             'version': self.version,
@@ -2729,6 +2817,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_user_data'
 
         params = {'version': self.version, 'customer_id': customer_id}
 
@@ -5558,24 +5648,30 @@ class InputData(object):
     return, newline, or tab characters, and it must be no longer than 2048 characters.
     """
 
-    def __init__(self, text):
+    def __init__(self, text, **kwargs):
         """
         Initialize a InputData object.
 
         :param str text: The text of the user input. This string cannot contain carriage
         return, newline, or tab characters, and it must be no longer than 2048 characters.
+        :param **kwargs: (optional) Any additional properties.
         """
         self.text = text
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a InputData object from a json dictionary."""
         args = {}
+        xtra = _dict.copy()
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+            del xtra['text']
         else:
             raise ValueError(
                 'Required property \'text\' not present in InputData JSON')
+        args.update(xtra)
         return cls(**args)
 
     def _to_dict(self):
@@ -5583,7 +5679,20 @@ class InputData(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
         return _dict
+
+    def __setattr__(self, name, value):
+        properties = {'text'}
+        if not hasattr(self, '_additionalProperties'):
+            super(InputData, self).__setattr__('_additionalProperties', set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(InputData, self).__setattr__(name, value)
 
     def __str__(self):
         """Return a `str` version of this InputData object."""
@@ -6450,8 +6559,7 @@ class MessageResponse(object):
                  output,
                  input=None,
                  alternate_intents=None,
-                 actions=None,
-                 **kwargs):
+                 actions=None):
         """
         Initialize a MessageResponse object.
 
@@ -6468,7 +6576,6 @@ class MessageResponse(object):
         A value of `true` indicates that all matching intents are returned.
         :param list[DialogNodeAction] actions: (optional) An array of objects describing
         any actions requested by the dialog node.
-        :param **kwargs: (optional) Any additional properties.
         """
         self.input = input
         self.intents = intents
@@ -6477,22 +6584,17 @@ class MessageResponse(object):
         self.context = context
         self.output = output
         self.actions = actions
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a MessageResponse object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
-            del xtra['input']
         if 'intents' in _dict:
             args['intents'] = [
                 RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
             ]
-            del xtra['intents']
         else:
             raise ValueError(
                 'Required property \'intents\' not present in MessageResponse JSON'
@@ -6501,24 +6603,20 @@ class MessageResponse(object):
             args['entities'] = [
                 RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
             ]
-            del xtra['entities']
         else:
             raise ValueError(
                 'Required property \'entities\' not present in MessageResponse JSON'
             )
         if 'alternate_intents' in _dict:
             args['alternate_intents'] = _dict.get('alternate_intents')
-            del xtra['alternate_intents']
         if 'context' in _dict:
             args['context'] = Context._from_dict(_dict.get('context'))
-            del xtra['context']
         else:
             raise ValueError(
                 'Required property \'context\' not present in MessageResponse JSON'
             )
         if 'output' in _dict:
             args['output'] = OutputData._from_dict(_dict.get('output'))
-            del xtra['output']
         else:
             raise ValueError(
                 'Required property \'output\' not present in MessageResponse JSON'
@@ -6527,8 +6625,6 @@ class MessageResponse(object):
             args['actions'] = [
                 DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
             ]
-            del xtra['actions']
-        args.update(xtra)
         return cls(**args)
 
     def _to_dict(self):
@@ -6549,24 +6645,7 @@ class MessageResponse(object):
             _dict['output'] = self.output._to_dict()
         if hasattr(self, 'actions') and self.actions is not None:
             _dict['actions'] = [x._to_dict() for x in self.actions]
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
         return _dict
-
-    def __setattr__(self, name, value):
-        properties = {
-            'input', 'intents', 'entities', 'alternate_intents', 'context',
-            'output', 'actions'
-        }
-        if not hasattr(self, '_additionalProperties'):
-            super(MessageResponse, self).__setattr__('_additionalProperties',
-                                                     set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(MessageResponse, self).__setattr__(name, value)
 
     def __str__(self):
         """Return a `str` version of this MessageResponse object."""

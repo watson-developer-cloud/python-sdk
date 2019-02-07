@@ -182,6 +182,8 @@ class ToneAnalyzerV3(WatsonService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=tone_analyzer;service_version=V3;operation_id=tone'
 
         params = {
             'version': self.version,
@@ -253,6 +255,8 @@ class ToneAnalyzerV3(WatsonService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=tone_analyzer;service_version=V3;operation_id=tone_chat'
 
         params = {'version': self.version}
 

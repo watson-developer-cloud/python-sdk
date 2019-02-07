@@ -297,6 +297,29 @@ def test_acoustic_model():
 
     assert len(responses.calls) == 6
 
+@responses.activate
+def test_upgrade_acoustic_model():
+    acoustic_customization_url = 'https://stream.watsonplatform.net/speech-to-text/api/v1/acoustic_customizations'
+    upgrade_url = "{0}/{1}/upgrade_model".format(acoustic_customization_url, 'customid')
+
+    responses.add(
+        responses.POST,
+        upgrade_url,
+        body='{"bogus_response": "yep"}',
+        status=200,
+        content_type='application/json')
+
+    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+        username="username", password="password")
+
+    speech_to_text.upgrade_acoustic_model(
+        'customid',
+        'model_x',
+        force=True)
+    assert responses.calls[0].response.json() == {"bogus_response": "yep"}
+
+    assert len(responses.calls) == 1
+
 
 def test_custom_corpora():
 

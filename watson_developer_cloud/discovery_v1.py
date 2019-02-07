@@ -132,6 +132,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_environment'
 
         params = {'version': self.version}
 
@@ -163,6 +165,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_environment'
 
         params = {'version': self.version}
 
@@ -192,6 +196,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_environment'
 
         params = {'version': self.version}
 
@@ -220,6 +226,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_environments'
 
         params = {'version': self.version, 'name': name}
 
@@ -255,6 +263,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_fields'
 
         params = {
             'version': self.version,
@@ -300,6 +310,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=update_environment'
 
         params = {'version': self.version}
 
@@ -379,6 +391,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_configuration'
 
         params = {'version': self.version}
 
@@ -428,6 +442,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_configuration'
 
         params = {'version': self.version}
 
@@ -460,6 +476,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_configuration'
 
         params = {'version': self.version}
 
@@ -492,6 +510,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_configurations'
 
         params = {'version': self.version, 'name': name}
 
@@ -567,6 +587,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=update_configuration'
 
         params = {'version': self.version}
 
@@ -648,6 +670,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=test_configuration_in_environment'
 
         params = {
             'version': self.version,
@@ -713,6 +737,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_collection'
 
         params = {'version': self.version}
 
@@ -753,6 +779,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_collection'
 
         params = {'version': self.version}
 
@@ -785,6 +813,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_collection'
 
         params = {'version': self.version}
 
@@ -819,6 +849,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_collection_fields'
 
         params = {'version': self.version}
 
@@ -851,6 +883,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_collections'
 
         params = {'version': self.version, 'name': name}
 
@@ -893,6 +927,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=update_collection'
 
         params = {'version': self.version}
 
@@ -957,6 +993,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_expansions'
 
         params = {'version': self.version}
 
@@ -1003,6 +1041,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_stopword_list'
 
         params = {'version': self.version}
 
@@ -1058,6 +1098,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_tokenization_dictionary'
 
         params = {'version': self.version}
 
@@ -1096,6 +1138,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_expansions'
 
         params = {'version': self.version}
 
@@ -1131,6 +1175,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_stopword_list'
 
         params = {'version': self.version}
 
@@ -1166,6 +1212,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_tokenization_dictionary'
 
         params = {'version': self.version}
 
@@ -1173,6 +1221,42 @@ class DiscoveryV1(WatsonService):
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
             method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def get_stopword_list_status(self, environment_id, collection_id, **kwargs):
+        """
+        Get stopword list status.
+
+        Returns the current status of the stopword list for the specified collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_stopword_list_status'
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
             url=url,
             headers=headers,
             params=params,
@@ -1202,6 +1286,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_tokenization_dictionary_status'
 
         params = {'version': self.version}
 
@@ -1237,6 +1323,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_expansions'
 
         params = {'version': self.version}
 
@@ -1310,6 +1398,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=add_document'
 
         params = {'version': self.version}
 
@@ -1362,6 +1452,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_document'
 
         params = {'version': self.version}
 
@@ -1403,6 +1495,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_document_status'
 
         params = {'version': self.version}
 
@@ -1460,6 +1554,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=update_document'
 
         params = {'version': self.version}
 
@@ -1601,6 +1697,8 @@ class DiscoveryV1(WatsonService):
         headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=federated_query'
 
         params = {'version': self.version}
 
@@ -1722,6 +1820,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=federated_query_notices'
 
         params = {
             'version': self.version,
@@ -1868,6 +1968,8 @@ class DiscoveryV1(WatsonService):
         headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=query'
 
         params = {'version': self.version}
 
@@ -1953,6 +2055,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=query_entities'
 
         params = {'version': self.version}
 
@@ -2071,6 +2175,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=query_notices'
 
         params = {
             'version': self.version,
@@ -2158,6 +2264,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=query_relations'
 
         params = {'version': self.version}
 
@@ -2220,6 +2328,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=add_training_data'
 
         params = {'version': self.version}
 
@@ -2274,6 +2384,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_training_example'
 
         params = {'version': self.version}
 
@@ -2315,6 +2427,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_all_training_data'
 
         params = {'version': self.version}
 
@@ -2354,6 +2468,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_training_data'
 
         params = {'version': self.version}
 
@@ -2395,6 +2511,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_training_example'
 
         params = {'version': self.version}
 
@@ -2435,6 +2553,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_training_data'
 
         params = {'version': self.version}
 
@@ -2476,6 +2596,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_training_example'
 
         params = {'version': self.version}
 
@@ -2511,6 +2633,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_training_data'
 
         params = {'version': self.version}
 
@@ -2549,6 +2673,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_training_examples'
 
         params = {'version': self.version}
 
@@ -2598,6 +2724,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=update_training_example'
 
         params = {'version': self.version}
 
@@ -2642,6 +2770,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_user_data'
 
         params = {'version': self.version, 'customer_id': customer_id}
 
@@ -2682,6 +2812,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_event'
 
         params = {'version': self.version}
 
@@ -2724,6 +2856,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_metrics_event_rate'
 
         params = {
             'version': self.version,
@@ -2766,6 +2900,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_metrics_query'
 
         params = {
             'version': self.version,
@@ -2809,6 +2945,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_metrics_query_event'
 
         params = {
             'version': self.version,
@@ -2851,6 +2989,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_metrics_query_no_results'
 
         params = {
             'version': self.version,
@@ -2886,6 +3026,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_metrics_query_token_event'
 
         params = {'version': self.version, 'count': count}
 
@@ -2935,6 +3077,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=query_log'
 
         params = {
             'version': self.version,
@@ -2996,6 +3140,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_credentials'
 
         params = {'version': self.version}
 
@@ -3036,6 +3182,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_credentials'
 
         params = {'version': self.version}
 
@@ -3072,6 +3220,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_credentials'
 
         params = {'version': self.version}
 
@@ -3105,6 +3255,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_credentials'
 
         params = {'version': self.version}
 
@@ -3159,6 +3311,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=update_credentials'
 
         params = {'version': self.version}
 
@@ -3201,6 +3355,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=create_gateway'
 
         params = {'version': self.version}
 
@@ -3238,6 +3394,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=delete_gateway'
 
         params = {'version': self.version}
 
@@ -3272,6 +3430,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=get_gateway'
 
         params = {'version': self.version}
 
@@ -3303,6 +3463,8 @@ class DiscoveryV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=discovery;service_version=V1;operation_id=list_gateways'
 
         params = {'version': self.version}
 
@@ -4719,7 +4881,9 @@ class DocumentAccepted(object):
     DocumentAccepted.
 
     :attr str document_id: (optional) The unique identifier of the ingested document.
-    :attr str status: (optional) Status of the document in the ingestion process.
+    :attr str status: (optional) Status of the document in the ingestion process. A status
+    of `processing` is returned for documents that are ingested with a *version* date
+    before `2019-01-01`. The `pending` status is returned for all others.
     :attr list[Notice] notices: (optional) Array of notices produced by the
     document-ingestion process.
     """
@@ -4729,7 +4893,10 @@ class DocumentAccepted(object):
         Initialize a DocumentAccepted object.
 
         :param str document_id: (optional) The unique identifier of the ingested document.
-        :param str status: (optional) Status of the document in the ingestion process.
+        :param str status: (optional) Status of the document in the ingestion process. A
+        status of `processing` is returned for documents that are ingested with a
+        *version* date before `2019-01-01`. The `pending` status is returned for all
+        others.
         :param list[Notice] notices: (optional) Array of notices produced by the
         document-ingestion process.
         """
@@ -4787,9 +4954,15 @@ class DocumentCounts(object):
     currently being processed.
     :attr int failed: (optional) The number of documents in the collection that failed to
     be ingested.
+    :attr int pending: (optional) The number of documents that have been uploaded to the
+    collection, but have not yet started processing.
     """
 
-    def __init__(self, available=None, processing=None, failed=None):
+    def __init__(self,
+                 available=None,
+                 processing=None,
+                 failed=None,
+                 pending=None):
         """
         Initialize a DocumentCounts object.
 
@@ -4799,10 +4972,13 @@ class DocumentCounts(object):
         are currently being processed.
         :param int failed: (optional) The number of documents in the collection that
         failed to be ingested.
+        :param int pending: (optional) The number of documents that have been uploaded to
+        the collection, but have not yet started processing.
         """
         self.available = available
         self.processing = processing
         self.failed = failed
+        self.pending = pending
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -4814,6 +4990,8 @@ class DocumentCounts(object):
             args['processing'] = _dict.get('processing')
         if 'failed' in _dict:
             args['failed'] = _dict.get('failed')
+        if 'pending' in _dict:
+            args['pending'] = _dict.get('pending')
         return cls(**args)
 
     def _to_dict(self):
@@ -4825,6 +5003,8 @@ class DocumentCounts(object):
             _dict['processing'] = self.processing
         if hasattr(self, 'failed') and self.failed is not None:
             _dict['failed'] = self.failed
+        if hasattr(self, 'pending') and self.pending is not None:
+            _dict['pending'] = self.pending
         return _dict
 
     def __str__(self):

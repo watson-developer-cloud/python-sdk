@@ -98,7 +98,7 @@ class CompareComplyV1(WatsonService):
         """
         Convert file to HTML.
 
-        Uploads an input file. The response includes an HTML version of the document.
+        Convert an uploaded file to HTML.
 
         :param file file: The file to convert.
         :param str model_id: The analysis model to be used by the service. For the
@@ -119,6 +119,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=convert_to_html'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -153,8 +155,7 @@ class CompareComplyV1(WatsonService):
         """
         Classify the elements of a document.
 
-        Uploads a file. The response includes an analysis of the document's structural and
-        semantic elements.
+        Analyze an uploaded file's structural and semantic elements.
 
         :param file file: The file to classify.
         :param str model_id: The analysis model to be used by the service. For the
@@ -175,6 +176,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=classify_elements'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -207,7 +210,7 @@ class CompareComplyV1(WatsonService):
         """
         Extract a document's tables.
 
-        Uploads a file. The response includes an analysis of the document's tables.
+        Extract and analyze an uploaded file's tables.
 
         :param file file: The file on which to run table extraction.
         :param str model_id: The analysis model to be used by the service. For the
@@ -228,6 +231,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=extract_tables'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -265,8 +270,7 @@ class CompareComplyV1(WatsonService):
         """
         Compare two documents.
 
-        Uploads two input files. The response includes JSON comparing the two documents.
-        Uploaded files must be in the same file format.
+        Compare two uploaded input files. Uploaded files must be in the same file format.
 
         :param file file_1: The first file to compare.
         :param file file_2: The second file to compare.
@@ -294,6 +298,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=compare_documents'
 
         params = {
             'version': self.version,
@@ -351,6 +357,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=add_feedback'
 
         params = {'version': self.version}
 
@@ -374,7 +382,7 @@ class CompareComplyV1(WatsonService):
         """
         Deletes a specified feedback entry.
 
-        :param str feedback_id: An string that specifies the feedback entry to be deleted
+        :param str feedback_id: A string that specifies the feedback entry to be deleted
         from the document.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
@@ -392,6 +400,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=delete_feedback'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -408,7 +418,7 @@ class CompareComplyV1(WatsonService):
         """
         List a specified feedback entry.
 
-        :param str feedback_id: An string that specifies the feedback entry to be included
+        :param str feedback_id: A string that specifies the feedback entry to be included
         in the output.
         :param str model_id: The analysis model to be used by the service. For the
         `/v1/element_classification` and `/v1/comparison` methods, the default is
@@ -426,6 +436,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=get_feedback'
 
         params = {'version': self.version, 'model_id': model_id}
 
@@ -511,6 +523,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=list_feedback'
 
         params = {
             'version': self.version,
@@ -562,10 +576,10 @@ class CompareComplyV1(WatsonService):
 
         Run Compare and Comply methods over a collection of input documents.
         **Important:** Batch processing requires the use of the [IBM Cloud Object Storage
-        service](https://console.bluemix.net/docs/services/cloud-object-storage/about-cos.html#about-ibm-cloud-object-storage).
+        service](https://cloud.ibm.com/docs/services/cloud-object-storage/about-cos.html#about-ibm-cloud-object-storage).
         The use of IBM Cloud Object Storage with Compare and Comply is discussed at [Using
         batch
-        processing](https://console.bluemix.net/docs/services/compare-comply/batching.html#before-you-batch).
+        processing](https://cloud.ibm.com/docs/services/compare-comply/batching.html#before-you-batch).
 
         :param str function: The Compare and Comply method to run across the submitted
         input documents.
@@ -613,6 +627,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=create_batch'
 
         params = {
             'version': self.version,
@@ -653,9 +669,9 @@ class CompareComplyV1(WatsonService):
 
     def get_batch(self, batch_id, **kwargs):
         """
-        Gets information about a specific batch-processing request.
+        Get information about a specific batch-processing request.
 
-        Gets information about a batch-processing request with a specified ID.
+        Get information about a batch-processing request with a specified ID.
 
         :param str batch_id: The ID of the batch-processing request whose information you
         want to retrieve.
@@ -670,6 +686,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=get_batch'
 
         params = {'version': self.version}
 
@@ -684,9 +702,9 @@ class CompareComplyV1(WatsonService):
 
     def list_batches(self, **kwargs):
         """
-        Gets the list of submitted batch-processing jobs.
+        List submitted batch-processing jobs.
 
-        Gets the list of batch-processing jobs submitted by users.
+        List the batch-processing jobs submitted by users.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -696,6 +714,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=list_batches'
 
         params = {'version': self.version}
 
@@ -710,9 +730,9 @@ class CompareComplyV1(WatsonService):
 
     def update_batch(self, batch_id, action, model_id=None, **kwargs):
         """
-        Updates a pending or active batch-processing request.
+        Update a pending or active batch-processing request.
 
-        Updates a pending or active batch-processing request. You can rescan the input
+        Update a pending or active batch-processing request. You can rescan the input
         bucket to check for new documents or cancel a request.
 
         :param str batch_id: The ID of the batch-processing request you want to update.
@@ -736,6 +756,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=update_batch'
 
         params = {
             'version': self.version,
@@ -895,8 +917,7 @@ class Attribute(object):
     """
     List of document attributes.
 
-    :attr str type: (optional) The type of attribute. Possible values are `Currency`,
-    `DateTime`, `Location`, `Organization`, and `Person`.
+    :attr str type: (optional) The type of attribute.
     :attr str text: (optional) The text associated with the attribute.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
@@ -906,8 +927,7 @@ class Attribute(object):
         """
         Initialize a Attribute object.
 
-        :param str type: (optional) The type of attribute. Possible values are `Currency`,
-        `DateTime`, `Location`, `Organization`, and `Person`.
+        :param str type: (optional) The type of attribute.
         :param str text: (optional) The text associated with the attribute.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
@@ -1163,12 +1183,21 @@ class BodyCells(object):
     location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
     location in the current table.
-    :attr list[RowHeaderIds] row_header_ids: (optional)
-    :attr list[RowHeaderTexts] row_header_texts: (optional)
-    :attr list[RowHeaderTextsNormalized] row_header_texts_normalized: (optional)
-    :attr list[ColumnHeaderIds] column_header_ids: (optional)
-    :attr list[ColumnHeaderTexts] column_header_texts: (optional)
-    :attr list[ColumnHeaderTextsNormalized] column_header_texts_normalized: (optional)
+    :attr list[str] row_header_ids: (optional) An array of values, each being the `id`
+    value of a row header that is applicable to this body cell.
+    :attr list[str] row_header_texts: (optional) An array of values, each being the `text`
+    value of a row header that is applicable to this body cell.
+    :attr list[str] row_header_texts_normalized: (optional) If you provide customization
+    input, the normalized version of the row header texts according to the customization;
+    otherwise, the same value as `row_header_texts`.
+    :attr list[str] column_header_ids: (optional) An array of values, each being the `id`
+    value of a column header that is applicable to the current cell.
+    :attr list[str] column_header_texts: (optional) An array of values, each being the
+    `text` value of a column header that is applicable to the current cell.
+    :attr list[str] column_header_texts_normalized: (optional) If you provide
+    customization input, the normalized version of the column header texts according to
+    the customization; otherwise, the same value as `column_header_texts`.
+    :attr list[Attribute] attributes: (optional)
     """
 
     def __init__(self,
@@ -1184,7 +1213,8 @@ class BodyCells(object):
                  row_header_texts_normalized=None,
                  column_header_ids=None,
                  column_header_texts=None,
-                 column_header_texts_normalized=None):
+                 column_header_texts_normalized=None,
+                 attributes=None):
         """
         Initialize a BodyCells object.
 
@@ -1203,13 +1233,21 @@ class BodyCells(object):
         `column` location in the current table.
         :param int column_index_end: (optional) The `end` index of this cell's `column`
         location in the current table.
-        :param list[RowHeaderIds] row_header_ids: (optional)
-        :param list[RowHeaderTexts] row_header_texts: (optional)
-        :param list[RowHeaderTextsNormalized] row_header_texts_normalized: (optional)
-        :param list[ColumnHeaderIds] column_header_ids: (optional)
-        :param list[ColumnHeaderTexts] column_header_texts: (optional)
-        :param list[ColumnHeaderTextsNormalized] column_header_texts_normalized:
-        (optional)
+        :param list[str] row_header_ids: (optional) An array of values, each being the
+        `id` value of a row header that is applicable to this body cell.
+        :param list[str] row_header_texts: (optional) An array of values, each being the
+        `text` value of a row header that is applicable to this body cell.
+        :param list[str] row_header_texts_normalized: (optional) If you provide
+        customization input, the normalized version of the row header texts according to
+        the customization; otherwise, the same value as `row_header_texts`.
+        :param list[str] column_header_ids: (optional) An array of values, each being the
+        `id` value of a column header that is applicable to the current cell.
+        :param list[str] column_header_texts: (optional) An array of values, each being
+        the `text` value of a column header that is applicable to the current cell.
+        :param list[str] column_header_texts_normalized: (optional) If you provide
+        customization input, the normalized version of the column header texts according
+        to the customization; otherwise, the same value as `column_header_texts`.
+        :param list[Attribute] attributes: (optional)
         """
         self.cell_id = cell_id
         self.location = location
@@ -1224,6 +1262,7 @@ class BodyCells(object):
         self.column_header_ids = column_header_ids
         self.column_header_texts = column_header_texts
         self.column_header_texts_normalized = column_header_texts_normalized
+        self.attributes = attributes
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -1244,34 +1283,22 @@ class BodyCells(object):
         if 'column_index_end' in _dict:
             args['column_index_end'] = _dict.get('column_index_end')
         if 'row_header_ids' in _dict:
-            args['row_header_ids'] = [
-                RowHeaderIds._from_dict(x)
-                for x in (_dict.get('row_header_ids'))
-            ]
+            args['row_header_ids'] = _dict.get('row_header_ids')
         if 'row_header_texts' in _dict:
-            args['row_header_texts'] = [
-                RowHeaderTexts._from_dict(x)
-                for x in (_dict.get('row_header_texts'))
-            ]
+            args['row_header_texts'] = _dict.get('row_header_texts')
         if 'row_header_texts_normalized' in _dict:
-            args['row_header_texts_normalized'] = [
-                RowHeaderTextsNormalized._from_dict(x)
-                for x in (_dict.get('row_header_texts_normalized'))
-            ]
+            args['row_header_texts_normalized'] = _dict.get(
+                'row_header_texts_normalized')
         if 'column_header_ids' in _dict:
-            args['column_header_ids'] = [
-                ColumnHeaderIds._from_dict(x)
-                for x in (_dict.get('column_header_ids'))
-            ]
+            args['column_header_ids'] = _dict.get('column_header_ids')
         if 'column_header_texts' in _dict:
-            args['column_header_texts'] = [
-                ColumnHeaderTexts._from_dict(x)
-                for x in (_dict.get('column_header_texts'))
-            ]
+            args['column_header_texts'] = _dict.get('column_header_texts')
         if 'column_header_texts_normalized' in _dict:
-            args['column_header_texts_normalized'] = [
-                ColumnHeaderTextsNormalized._from_dict(x)
-                for x in (_dict.get('column_header_texts_normalized'))
+            args['column_header_texts_normalized'] = _dict.get(
+                'column_header_texts_normalized')
+        if 'attributes' in _dict:
+            args['attributes'] = [
+                Attribute._from_dict(x) for x in (_dict.get('attributes'))
             ]
         return cls(**args)
 
@@ -1297,35 +1324,27 @@ class BodyCells(object):
                    'column_index_end') and self.column_index_end is not None:
             _dict['column_index_end'] = self.column_index_end
         if hasattr(self, 'row_header_ids') and self.row_header_ids is not None:
-            _dict['row_header_ids'] = [
-                x._to_dict() for x in self.row_header_ids
-            ]
+            _dict['row_header_ids'] = self.row_header_ids
         if hasattr(self,
                    'row_header_texts') and self.row_header_texts is not None:
-            _dict['row_header_texts'] = [
-                x._to_dict() for x in self.row_header_texts
-            ]
+            _dict['row_header_texts'] = self.row_header_texts
         if hasattr(self, 'row_header_texts_normalized'
                   ) and self.row_header_texts_normalized is not None:
-            _dict['row_header_texts_normalized'] = [
-                x._to_dict() for x in self.row_header_texts_normalized
-            ]
+            _dict[
+                'row_header_texts_normalized'] = self.row_header_texts_normalized
         if hasattr(self,
                    'column_header_ids') and self.column_header_ids is not None:
-            _dict['column_header_ids'] = [
-                x._to_dict() for x in self.column_header_ids
-            ]
+            _dict['column_header_ids'] = self.column_header_ids
         if hasattr(
                 self,
                 'column_header_texts') and self.column_header_texts is not None:
-            _dict['column_header_texts'] = [
-                x._to_dict() for x in self.column_header_texts
-            ]
+            _dict['column_header_texts'] = self.column_header_texts
         if hasattr(self, 'column_header_texts_normalized'
                   ) and self.column_header_texts_normalized is not None:
-            _dict['column_header_texts_normalized'] = [
-                x._to_dict() for x in self.column_header_texts_normalized
-            ]
+            _dict[
+                'column_header_texts_normalized'] = self.column_header_texts_normalized
+        if hasattr(self, 'attributes') and self.attributes is not None:
+            _dict['attributes'] = [x._to_dict() for x in self.attributes]
         return _dict
 
     def __str__(self):
@@ -1546,146 +1565,6 @@ class ClassifyReturn(object):
 
     def __str__(self):
         """Return a `str` version of this ClassifyReturn object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderIds(object):
-    """
-    An array of values, each being the `id` value of a column header that is applicable to
-    the current cell.
-
-    :attr str id: (optional) The `id` value of a column header.
-    """
-
-    def __init__(self, id=None):
-        """
-        Initialize a ColumnHeaderIds object.
-
-        :param str id: (optional) The `id` value of a column header.
-        """
-        self.id = id
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderIds object from a json dictionary."""
-        args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderIds object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderTexts(object):
-    """
-    An array of values, each being the `text` value of a column header that is applicable
-    to the current cell.
-
-    :attr str text: (optional) The `text` value of a column header.
-    """
-
-    def __init__(self, text=None):
-        """
-        Initialize a ColumnHeaderTexts object.
-
-        :param str text: (optional) The `text` value of a column header.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderTexts object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderTexts object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderTextsNormalized(object):
-    """
-    If you provide customization input, the normalized version of the column header texts
-    according to the customization; otherwise, the same value as `column_header_texts`.
-
-    :attr str text_normalized: (optional) The normalized version of a column header text.
-    """
-
-    def __init__(self, text_normalized=None):
-        """
-        Initialize a ColumnHeaderTextsNormalized object.
-
-        :param str text_normalized: (optional) The normalized version of a column header
-        text.
-        """
-        self.text_normalized = text_normalized
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderTextsNormalized object from a json dictionary."""
-        args = {}
-        if 'text_normalized' in _dict:
-            args['text_normalized'] = _dict.get('text_normalized')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'text_normalized') and self.text_normalized is not None:
-            _dict['text_normalized'] = self.text_normalized
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderTextsNormalized object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1990,19 +1869,24 @@ class ContractAmts(object):
     A monetary amount identified in the input document.
 
     :attr str text: (optional) The monetary amount.
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the contract amount.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, text=None, confidence_level=None, location=None):
         """
         Initialize a ContractAmts object.
 
         :param str text: (optional) The monetary amount.
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the contract amount.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
         self.text = text
+        self.confidence_level = confidence_level
         self.location = location
 
     @classmethod
@@ -2011,6 +1895,8 @@ class ContractAmts(object):
         args = {}
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -2020,6 +1906,9 @@ class ContractAmts(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
@@ -2243,7 +2132,8 @@ class Document(object):
     :attr str html: (optional) The input document converted into HTML format.
     :attr str hash: (optional) The MD5 hash value of the input document.
     :attr str label: (optional) The label applied to the input document with the calling
-    method's `file1_label` or `file2_label` value.
+    method's `file_1_label` or `file_2_label` value. This field is specified only in the
+    output of the **Comparing two documents** method.
     """
 
     def __init__(self, title=None, html=None, hash=None, label=None):
@@ -2254,7 +2144,8 @@ class Document(object):
         :param str html: (optional) The input document converted into HTML format.
         :param str hash: (optional) The MD5 hash value of the input document.
         :param str label: (optional) The label applied to the input document with the
-        calling method's `file1_label` or `file2_label` value.
+        calling method's `file_1_label` or `file_2_label` value. This field is specified
+        only in the output of the **Comparing two documents** method.
         """
         self.title = title
         self.html = html
@@ -2308,19 +2199,24 @@ class EffectiveDates(object):
     An effective date.
 
     :attr str text: (optional) The effective date, listed as a string.
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the effective date.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, text=None, confidence_level=None, location=None):
         """
         Initialize a EffectiveDates object.
 
         :param str text: (optional) The effective date, listed as a string.
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the effective date.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
         self.text = text
+        self.confidence_level = confidence_level
         self.location = location
 
     @classmethod
@@ -2329,6 +2225,8 @@ class EffectiveDates(object):
         args = {}
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -2338,6 +2236,9 @@ class EffectiveDates(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
@@ -3283,7 +3184,7 @@ class LeadingSentence(object):
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     :attr list[ElementLocations] element_locations: (optional) An array of `location`
-    objects listing the locations of detected leading sentences.
+    objects that lists the locations of detected leading sentences.
     """
 
     def __init__(self, text=None, location=None, element_locations=None):
@@ -3294,7 +3195,7 @@ class LeadingSentence(object):
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         :param list[ElementLocations] element_locations: (optional) An array of `location`
-        objects listing the locations of detected leading sentences.
+        objects that lists the locations of detected leading sentences.
         """
         self.text = text
         self.location = location
@@ -3628,17 +3529,25 @@ class Parties(object):
     identified.
 
     :attr str party: (optional) A string identifying the party.
+    :attr str importance: (optional) A string that identifies the importance of the party.
     :attr str role: (optional) A string identifying the party's role.
     :attr list[Address] addresses: (optional) List of the party's address or addresses.
     :attr list[Contact] contacts: (optional) List of the names and roles of contacts
     identified in the input document.
     """
 
-    def __init__(self, party=None, role=None, addresses=None, contacts=None):
+    def __init__(self,
+                 party=None,
+                 importance=None,
+                 role=None,
+                 addresses=None,
+                 contacts=None):
         """
         Initialize a Parties object.
 
         :param str party: (optional) A string identifying the party.
+        :param str importance: (optional) A string that identifies the importance of the
+        party.
         :param str role: (optional) A string identifying the party's role.
         :param list[Address] addresses: (optional) List of the party's address or
         addresses.
@@ -3646,6 +3555,7 @@ class Parties(object):
         identified in the input document.
         """
         self.party = party
+        self.importance = importance
         self.role = role
         self.addresses = addresses
         self.contacts = contacts
@@ -3656,6 +3566,8 @@ class Parties(object):
         args = {}
         if 'party' in _dict:
             args['party'] = _dict.get('party')
+        if 'importance' in _dict:
+            args['importance'] = _dict.get('importance')
         if 'role' in _dict:
             args['role'] = _dict.get('role')
         if 'addresses' in _dict:
@@ -3673,6 +3585,8 @@ class Parties(object):
         _dict = {}
         if hasattr(self, 'party') and self.party is not None:
             _dict['party'] = self.party
+        if hasattr(self, 'importance') and self.importance is not None:
+            _dict['importance'] = self.importance
         if hasattr(self, 'role') and self.role is not None:
             _dict['role'] = self.role
         if hasattr(self, 'addresses') and self.addresses is not None:
@@ -3683,146 +3597,6 @@ class Parties(object):
 
     def __str__(self):
         """Return a `str` version of this Parties object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RowHeaderIds(object):
-    """
-    An array of values, each being the `id` value of a row header that is applicable to
-    this body cell.
-
-    :attr str id: (optional) The `id` values of a row header.
-    """
-
-    def __init__(self, id=None):
-        """
-        Initialize a RowHeaderIds object.
-
-        :param str id: (optional) The `id` values of a row header.
-        """
-        self.id = id
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderIds object from a json dictionary."""
-        args = {}
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderIds object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RowHeaderTexts(object):
-    """
-    An array of values, each being the `text` value of a row header that is applicable to
-    this body cell.
-
-    :attr str text: (optional) The `text` value of a row header.
-    """
-
-    def __init__(self, text=None):
-        """
-        Initialize a RowHeaderTexts object.
-
-        :param str text: (optional) The `text` value of a row header.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderTexts object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderTexts object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RowHeaderTextsNormalized(object):
-    """
-    If you provide customization input, the normalized version of the row header texts
-    according to the customization; otherwise, the same value as `row_header_texts`.
-
-    :attr str text_normalized: (optional) The normalized version of a row header text.
-    """
-
-    def __init__(self, text_normalized=None):
-        """
-        Initialize a RowHeaderTextsNormalized object.
-
-        :param str text_normalized: (optional) The normalized version of a row header
-        text.
-        """
-        self.text_normalized = text_normalized
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderTextsNormalized object from a json dictionary."""
-        args = {}
-        if 'text_normalized' in _dict:
-            args['text_normalized'] = _dict.get('text_normalized')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'text_normalized') and self.text_normalized is not None:
-            _dict['text_normalized'] = self.text_normalized
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderTextsNormalized object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -4031,7 +3805,7 @@ class SectionTitles(object):
     located in the input document. For example, `1` represents a top-level section, `2`
     represents a subsection within the level `1` section, and so forth.
     :attr list[ElementLocations] element_locations: (optional) An array of `location`
-    objects listing the locations of detected leading sentences.
+    objects that lists the locations of detected section titles.
     """
 
     def __init__(self,
@@ -4049,7 +3823,7 @@ class SectionTitles(object):
         is located in the input document. For example, `1` represents a top-level section,
         `2` represents a subsection within the level `1` section, and so forth.
         :param list[ElementLocations] element_locations: (optional) An array of `location`
-        objects listing the locations of detected leading sentences.
+        objects that lists the locations of detected section titles.
         """
         self.text = text
         self.location = location
@@ -4477,19 +4251,24 @@ class TerminationDates(object):
     Termination dates identified in the input document.
 
     :attr str text: (optional) The termination date.
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the termination date.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, text=None, confidence_level=None, location=None):
         """
         Initialize a TerminationDates object.
 
         :param str text: (optional) The termination date.
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the termination date.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
         self.text = text
+        self.confidence_level = confidence_level
         self.location = location
 
     @classmethod
@@ -4498,6 +4277,8 @@ class TerminationDates(object):
         args = {}
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -4507,6 +4288,9 @@ class TerminationDates(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict

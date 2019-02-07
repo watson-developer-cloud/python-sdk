@@ -131,6 +131,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=translate'
 
         params = {'version': self.version}
 
@@ -173,6 +175,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=identify'
 
         params = {'version': self.version}
 
@@ -204,6 +208,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=list_identifiable_languages'
 
         params = {'version': self.version}
 
@@ -275,6 +281,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=create_model'
 
         params = {
             'version': self.version,
@@ -326,6 +334,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=delete_model'
 
         params = {'version': self.version}
 
@@ -358,6 +368,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=get_model'
 
         params = {'version': self.version}
 
@@ -395,6 +407,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=list_models'
 
         params = {
             'version': self.version,

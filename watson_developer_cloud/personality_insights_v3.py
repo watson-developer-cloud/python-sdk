@@ -216,6 +216,8 @@ class PersonalityInsightsV3(WatsonService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        headers[
+            'X-IBMCloud-SDK-Analytics'] = 'service_name=personality_insights;service_version=V3;operation_id=profile'
 
         params = {
             'version': self.version,
