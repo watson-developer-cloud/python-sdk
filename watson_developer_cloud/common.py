@@ -22,10 +22,9 @@ USER_AGENT_HEADER = 'User-Agent'
 SDK_NAME = 'watson-apis-python-sdk'
 
 def get_system_info():
-    user_agent_string = platform.system() # OS
-    user_agent_string += ' ' + platform.release() # OS version
-    user_agent_string += ' ' + platform.python_version() # Python version
-    return user_agent_string
+    return '{0} {1} {2}'.format(platform.system(), # OS
+                                platform.release(), # OS version
+                                platform.python_version()) # Python version
 
 def get_user_agent():
     return '{0}-{1} {2}'.format(SDK_NAME, __version__, get_system_info())
