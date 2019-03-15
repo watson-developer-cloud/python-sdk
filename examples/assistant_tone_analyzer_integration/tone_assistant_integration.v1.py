@@ -3,7 +3,7 @@ import json
 import os
 from dotenv import load_dotenv, find_dotenv
 
-from watson_developer_cloud import ConversationV1
+from watson_developer_cloud import AssistantV1
 from watson_developer_cloud import ToneAnalyzerV3
 
 # import tone detection
@@ -13,17 +13,17 @@ import tone_detection
 # services (conversation and tone)
 load_dotenv(find_dotenv())
 
-# replace with your own conversation credentials or put them in a .env file
-conversation = ConversationV1(
-    username=os.environ.get('CONVERSATION_USERNAME') or 'YOUR SERVICE NAME',
-    password=os.environ.get('CONVERSATION_PASSWORD') or 'YOUR PASSWORD',
-    version='2016-09-20')
+# replace with your own assistant credentials or put them in a .env file
+assistant = AssistantV1(
+    username=os.environ.get('ASSISTANT_USERNAME') or 'YOUR SERVICE USERNAME',
+    password=os.environ.get('ASSISTAN_PASSWORD') or 'YOUR SERVICE PASSWORD',
+    version='2018-07-10')
 
 # replace with your own tone analyzer credentials
 tone_analyzer = ToneAnalyzerV3(
-    username=os.environ.get('TONE_ANALYZER_USERNAME') or 'YOUR SERVICE NAME',
-    password=os.environ.get('TONE_ANALYZER_PASSWORD') or 'YOUR SERVICE NAME',
-    version='2016-02-11')
+    username=os.environ.get('TONE_ANALYZER_USERNAME') or 'YOUR SERVICE USERNAME',
+    password=os.environ.get('TONE_ANALYZER_PASSWORD') or 'YOUR SERVICE PASSWORD',
+    version='2016-05-19')
 
 # replace with your own workspace_id
 workspace_id = os.environ.get('WORKSPACE_ID') or 'YOUR WORKSPACE ID'
@@ -58,12 +58,12 @@ def invokeToneConversation(payload, maintainToneHistoryInContext):
      with application-specific code to process the err or data object
      returned by the Conversation Service.
     """
-    tone = tone_analyzer.tone(tone_input=payload['input']['text'], content_type='application/json').get_result()
+    tone = tone_analyzer.tone(tone_input=payload['input'], content_type='application/json').get_result()
     conversation_payload = tone_detection.\
         updateUserTone(payload, tone, maintainToneHistoryInContext)
-    response = conversation.message(workspace_id=workspace_id,
-                                    input=conversation_payload['input'],
-                                    context=conversation_payload['context']).get_result()
+    response = assistant.message(workspace_id=workspace_id,
+                                 input=conversation_payload['input'],
+                                 context=conversation_payload['context']).get_result()
     print(json.dumps(response, indent=2))
 
 
