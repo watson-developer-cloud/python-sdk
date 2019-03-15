@@ -19,6 +19,7 @@ from .watson_service import WatsonApiException
 from .watson_service import WatsonInvalidArgument
 from .authorization_v1 import AuthorizationV1
 from .iam_token_manager import IAMTokenManager
+from .conversation_v1 import ConversationV1
 from .assistant_v1 import AssistantV1
 from .assistant_v2 import AssistantV2
 from .language_translator_v3 import LanguageTranslatorV3
