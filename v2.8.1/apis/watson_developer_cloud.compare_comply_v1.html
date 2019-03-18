@@ -1,0 +1,1561 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>watson_developer_cloud.compare_comply_v1 module &#8212; Watson Developer Cloud Python SDK 2.8.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.conversation_v1 module" href="watson_developer_cloud.conversation_v1.html" />
+    <link rel="prev" title="watson_developer_cloud.authorization_v1 module" href="watson_developer_cloud.authorization_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.compare_comply_v1">
+<span id="watson-developer-cloud-compare-comply-v1-module"></span><h1>watson_developer_cloud.compare_comply_v1 module<a class="headerlink" href="#module-watson_developer_cloud.compare_comply_v1" title="Permalink to this headline">¶</a></h1>
+<p>IBM Watson&amp;trade; Compare and Comply analyzes governing documents to provide details about
+critical aspects of the documents.</p>
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1">
+<em class="property">class </em><code class="descname">CompareComplyV1</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/compare-comply/api'</em>, <em>iam_apikey=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
+<p>The Compare Comply V1 service.</p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/compare-comply/api'</em><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.convert_to_html">
+<code class="descname">convert_to_html</code><span class="sig-paren">(</span><em>file</em>, <em>model_id=None</em>, <em>file_content_type=None</em>, <em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.convert_to_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.convert_to_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert file to HTML.</p>
+<p>Convert an uploaded file to HTML.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> (<em>file</em>) – The file to convert.</li>
+<li><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The analysis model to be used by the service. For the</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><cite>/v1/element_classification</cite> and <cite>/v1/comparison</cite> methods, the default is
+<cite>contracts</cite>. For the <cite>/v1/tables</cite> method, the default is <cite>tables</cite>. These defaults
+apply to the standalone methods as well as to the methods’ use in batch-processing
+requests.
+:param str file_content_type: The content type of file.
+:param str filename: The filename for file.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.classify_elements">
+<code class="descname">classify_elements</code><span class="sig-paren">(</span><em>file</em>, <em>model_id=None</em>, <em>file_content_type=None</em>, <em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.classify_elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.classify_elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify the elements of a document.</p>
+<p>Analyze an uploaded file’s structural and semantic elements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> (<em>file</em>) – The file to classify.</li>
+<li><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The analysis model to be used by the service. For the</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><cite>/v1/element_classification</cite> and <cite>/v1/comparison</cite> methods, the default is
+<cite>contracts</cite>. For the <cite>/v1/tables</cite> method, the default is <cite>tables</cite>. These defaults
+apply to the standalone methods as well as to the methods’ use in batch-processing
+requests.
+:param str file_content_type: The content type of file.
+:param str filename: The filename for file.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.extract_tables">
+<code class="descname">extract_tables</code><span class="sig-paren">(</span><em>file</em>, <em>model_id=None</em>, <em>file_content_type=None</em>, <em>filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.extract_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.extract_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract a document’s tables.</p>
+<p>Extract and analyze an uploaded file’s tables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file</strong> (<em>file</em>) – The file on which to run table extraction.</li>
+<li><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The analysis model to be used by the service. For the</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><cite>/v1/element_classification</cite> and <cite>/v1/comparison</cite> methods, the default is
+<cite>contracts</cite>. For the <cite>/v1/tables</cite> method, the default is <cite>tables</cite>. These defaults
+apply to the standalone methods as well as to the methods’ use in batch-processing
+requests.
+:param str file_content_type: The content type of file.
+:param str filename: The filename for file.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.compare_documents">
+<code class="descname">compare_documents</code><span class="sig-paren">(</span><em>file_1</em>, <em>file_2</em>, <em>file_1_label=None</em>, <em>file_2_label=None</em>, <em>model_id=None</em>, <em>file_1_content_type=None</em>, <em>file_1_filename=None</em>, <em>file_2_content_type=None</em>, <em>file_2_filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.compare_documents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.compare_documents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare two documents.</p>
+<p>Compare two uploaded input files. Uploaded files must be in the same file format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file_1</strong> (<em>file</em>) – The first file to compare.</li>
+<li><strong>file_2</strong> (<em>file</em>) – The second file to compare.</li>
+<li><strong>file_1_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A text label for the first file.</li>
+<li><strong>file_2_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A text label for the second file.</li>
+<li><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The analysis model to be used by the service. For the</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p><cite>/v1/element_classification</cite> and <cite>/v1/comparison</cite> methods, the default is
+<cite>contracts</cite>. For the <cite>/v1/tables</cite> method, the default is <cite>tables</cite>. These defaults
+apply to the standalone methods as well as to the methods’ use in batch-processing
+requests.
+:param str file_1_content_type: The content type of file_1.
+:param str file_1_filename: The filename for file_1.
+:param str file_2_content_type: The content type of file_2.
+:param str file_2_filename: The filename for file_2.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.add_feedback">
+<code class="descname">add_feedback</code><span class="sig-paren">(</span><em>feedback_data</em>, <em>user_id=None</em>, <em>comment=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.add_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.add_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add feedback.</p>
+<p>Adds feedback in the form of _labels_ from a subject-matter expert (SME) to a
+governing document.
+<strong>Important:</strong> Feedback is not immediately incorporated into the training model,
+nor is it guaranteed to be incorporated at a later date. Instead, submitted
+feedback is used to suggest future updates to the training model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>feedback_data</strong> (<a class="reference internal" href="#watson_developer_cloud.compare_comply_v1.FeedbackDataInput" title="watson_developer_cloud.compare_comply_v1.FeedbackDataInput"><em>FeedbackDataInput</em></a>) – Feedback data for submission.</li>
+<li><strong>user_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – An optional string identifying the user.</li>
+<li><strong>comment</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – An optional comment on or description of the feedback.</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.DetailedResponse" title="watson_developer_cloud.watson_service.DetailedResponse">DetailedResponse</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.delete_feedback">
+<code class="descname">delete_feedback</code><span class="sig-paren">(</span><em>feedback_id</em>, <em>model_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.delete_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.delete_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a specified feedback entry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feedback_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A string that specifies the feedback entry to be deleted</td>
+</tr>
+</tbody>
+</table>
+<p>from the document.
+:param str model_id: The analysis model to be used by the service. For the
+<cite>/v1/element_classification</cite> and <cite>/v1/comparison</cite> methods, the default is
+<cite>contracts</cite>. For the <cite>/v1/tables</cite> method, the default is <cite>tables</cite>. These defaults
+apply to the standalone methods as well as to the methods’ use in batch-processing
+requests.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.get_feedback">
+<code class="descname">get_feedback</code><span class="sig-paren">(</span><em>feedback_id</em>, <em>model_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.get_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.get_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>List a specified feedback entry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feedback_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A string that specifies the feedback entry to be included</td>
+</tr>
+</tbody>
+</table>
+<p>in the output.
+:param str model_id: The analysis model to be used by the service. For the
+<cite>/v1/element_classification</cite> and <cite>/v1/comparison</cite> methods, the default is
+<cite>contracts</cite>. For the <cite>/v1/tables</cite> method, the default is <cite>tables</cite>. These defaults
+apply to the standalone methods as well as to the methods’ use in batch-processing
+requests.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.list_feedback">
+<code class="descname">list_feedback</code><span class="sig-paren">(</span><em>feedback_type=None</em>, <em>before=None</em>, <em>after=None</em>, <em>document_title=None</em>, <em>model_id=None</em>, <em>model_version=None</em>, <em>category_removed=None</em>, <em>category_added=None</em>, <em>category_not_changed=None</em>, <em>type_removed=None</em>, <em>type_added=None</em>, <em>type_not_changed=None</em>, <em>page_limit=None</em>, <em>cursor=None</em>, <em>sort=None</em>, <em>include_total=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.list_feedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.list_feedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the feedback in documents.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>feedback_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – An optional string that filters the output to include</td>
+</tr>
+</tbody>
+</table>
+<p>only feedback with the specified feedback type. The only permitted value is
+<cite>element_classification</cite>.
+:param date before: An optional string in the format <cite>YYYY-MM-DD</cite> that filters the
+output to include only feedback that was added before the specified date.
+:param date after: An optional string in the format <cite>YYYY-MM-DD</cite> that filters the
+output to include only feedback that was added after the specified date.
+:param str document_title: An optional string that filters the output to include
+only feedback from the document with the specified <cite>document_title</cite>.
+:param str model_id: An optional string that filters the output to include only
+feedback with the specified <cite>model_id</cite>. The only permitted value is <cite>contracts</cite>.
+:param str model_version: An optional string that filters the output to include
+only feedback with the specified <cite>model_version</cite>.
+:param str category_removed: An optional string in the form of a comma-separated
+list of categories. If this is specified, the service filters the output to
+include only feedback that has at least one category from the list removed.
+:param str category_added: An optional string in the form of a comma-separated
+list of categories. If this is specified, the service filters the output to
+include only feedback that has at least one category from the list added.
+:param str category_not_changed: An optional string in the form of a
+comma-separated list of categories. If this is specified, the service filters the
+output to include only feedback that has at least one category from the list
+unchanged.
+:param str type_removed: An optional string of comma-separated <cite>nature</cite>:<cite>party</cite>
+pairs. If this is specified, the service filters the output to include only
+feedback that has at least one <cite>nature</cite>:<cite>party</cite> pair from the list removed.
+:param str type_added: An optional string of comma-separated <cite>nature</cite>:<cite>party</cite>
+pairs. If this is specified, the service filters the output to include only
+feedback that has at least one <cite>nature</cite>:<cite>party</cite> pair from the list removed.
+:param str type_not_changed: An optional string of comma-separated
+<cite>nature</cite>:<cite>party</cite> pairs. If this is specified, the service filters the output to
+include only feedback that has at least one <cite>nature</cite>:<cite>party</cite> pair from the list
+unchanged.
+:param int page_limit: An optional integer specifying the number of documents that
+you want the service to return.
+:param str cursor: An optional string that returns the set of documents after the
+previous set. Use this parameter with the <cite>page_limit</cite> parameter.
+:param str sort: An optional comma-separated list of fields in the document to
+sort on. You can optionally specify the sort direction by prefixing the value of
+the field with <cite>-</cite> for descending order or <cite>+</cite> for ascending order (the default).
+Currently permitted sorting fields are <cite>created</cite>, <cite>user_id</cite>, and <cite>document_title</cite>.
+:param bool include_total: An optional boolean value. If specified as <cite>true</cite>, the
+<cite>pagination</cite> object in the output includes a value called <cite>total</cite> that gives the
+total count of feedback created.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.create_batch">
+<code class="descname">create_batch</code><span class="sig-paren">(</span><em>function</em>, <em>input_credentials_file</em>, <em>input_bucket_location</em>, <em>input_bucket_name</em>, <em>output_credentials_file</em>, <em>output_bucket_location</em>, <em>output_bucket_name</em>, <em>model_id=None</em>, <em>input_credentials_filename=None</em>, <em>output_credentials_filename=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.create_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.create_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit a batch-processing request.</p>
+<p>Run Compare and Comply methods over a collection of input documents.
+<strong>Important:</strong> Batch processing requires the use of the [IBM Cloud Object Storage
+service](<a class="reference external" href="https://cloud.ibm.com/docs/services/cloud-object-storage/about-cos.html#about-ibm-cloud-object-storage">https://cloud.ibm.com/docs/services/cloud-object-storage/about-cos.html#about-ibm-cloud-object-storage</a>).
+The use of IBM Cloud Object Storage with Compare and Comply is discussed at [Using
+batch
+processing](<a class="reference external" href="https://cloud.ibm.com/docs/services/compare-comply/batching.html#before-you-batch">https://cloud.ibm.com/docs/services/compare-comply/batching.html#before-you-batch</a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>function</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The Compare and Comply method to run across the submitted</td>
+</tr>
+</tbody>
+</table>
+<p>input documents.
+:param file input_credentials_file: A JSON file containing the input Cloud Object
+Storage credentials. At a minimum, the credentials must enable <cite>READ</cite> permissions
+on the bucket defined by the <cite>input_bucket_name</cite> parameter.
+:param str input_bucket_location: The geographical location of the Cloud Object
+Storage input bucket as listed on the <strong>Endpoint</strong> tab of your Cloud Object
+Storage instance; for example, <cite>us-geo</cite>, <cite>eu-geo</cite>, or <cite>ap-geo</cite>.
+:param str input_bucket_name: The name of the Cloud Object Storage input bucket.
+:param file output_credentials_file: A JSON file that lists the Cloud Object
+Storage output credentials. At a minimum, the credentials must enable <cite>READ</cite> and
+<cite>WRITE</cite> permissions on the bucket defined by the <cite>output_bucket_name</cite> parameter.
+:param str output_bucket_location: The geographical location of the Cloud Object
+Storage output bucket as listed on the <strong>Endpoint</strong> tab of your Cloud Object
+Storage instance; for example, <cite>us-geo</cite>, <cite>eu-geo</cite>, or <cite>ap-geo</cite>.
+:param str output_bucket_name: The name of the Cloud Object Storage output bucket.
+:param str model_id: The analysis model to be used by the service. For the
+<cite>/v1/element_classification</cite> and <cite>/v1/comparison</cite> methods, the default is
+<cite>contracts</cite>. For the <cite>/v1/tables</cite> method, the default is <cite>tables</cite>. These defaults
+apply to the standalone methods as well as to the methods’ use in batch-processing
+requests.
+:param str input_credentials_filename: The filename for input_credentials_file.
+:param str output_credentials_filename: The filename for output_credentials_file.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.get_batch">
+<code class="descname">get_batch</code><span class="sig-paren">(</span><em>batch_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.get_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.get_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information about a specific batch-processing request.</p>
+<p>Get information about a batch-processing request with a specified ID.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>batch_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the batch-processing request whose information you</td>
+</tr>
+</tbody>
+</table>
+<p>want to retrieve.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.list_batches">
+<code class="descname">list_batches</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.list_batches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.list_batches" title="Permalink to this definition">¶</a></dt>
+<dd><p>List submitted batch-processing jobs.</p>
+<p>List the batch-processing jobs submitted by users.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.DetailedResponse" title="watson_developer_cloud.watson_service.DetailedResponse">DetailedResponse</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareComplyV1.update_batch">
+<code class="descname">update_batch</code><span class="sig-paren">(</span><em>batch_id</em>, <em>action</em>, <em>model_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareComplyV1.update_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareComplyV1.update_batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a pending or active batch-processing request.</p>
+<p>Update a pending or active batch-processing request. You can rescan the input
+bucket to check for new documents or cancel a request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>batch_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The ID of the batch-processing request you want to update.</li>
+<li><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The action you want to perform on the specified</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>batch-processing request.
+:param str model_id: The analysis model to be used by the service. For the
+<cite>/v1/element_classification</cite> and <cite>/v1/comparison</cite> methods, the default is
+<cite>contracts</cite>. For the <cite>/v1/tables</cite> method, the default is <cite>tables</cite>. These defaults
+apply to the standalone methods as well as to the methods’ use in batch-processing
+requests.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Address">
+<em class="property">class </em><code class="descname">Address</code><span class="sig-paren">(</span><em>text=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A party’s address.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) A string listing the address.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr Location location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The numeric location of the identified element in</td>
+</tr>
+</tbody>
+</table>
+<p>the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.AlignedElement">
+<em class="property">class </em><code class="descname">AlignedElement</code><span class="sig-paren">(</span><em>element_pair=None</em>, <em>identical_text=None</em>, <em>significant_elements=None</em>, <em>provenance_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#AlignedElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.AlignedElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>AlignedElement.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[ElementPair] element_pair:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Identifies two elements that</td>
+</tr>
+</tbody>
+</table>
+<p>semantically align between the compared documents.
+:attr bool identical_text: (optional) Specifies whether the text is identical.
+:attr bool significant_elements: (optional) Indicates that the elements aligned are
+contractual clauses of significance.
+:attr list[str] provenance_ids: (optional) One or more hashed values that you can send
+to IBM to provide feedback or receive support.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Attribute">
+<em class="property">class </em><code class="descname">Attribute</code><span class="sig-paren">(</span><em>type=None</em>, <em>text=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>List of document attributes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str type:</th><td class="field-body">(optional) The type of attribute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The text associated with the attribute.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr Location location:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The numeric location of the identified element in</td>
+</tr>
+</tbody>
+</table>
+<p>the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.BatchStatus">
+<em class="property">class </em><code class="descname">BatchStatus</code><span class="sig-paren">(</span><em>function=None</em>, <em>input_bucket_location=None</em>, <em>input_bucket_name=None</em>, <em>output_bucket_location=None</em>, <em>output_bucket_name=None</em>, <em>batch_id=None</em>, <em>document_counts=None</em>, <em>status=None</em>, <em>created=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#BatchStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.BatchStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The batch-request status.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str function:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The method to be run against the documents. Possible</td>
+</tr>
+</tbody>
+</table>
+<p>values are <cite>html_conversion</cite>, <cite>element_classification</cite>, and <cite>tables</cite>.
+:attr str input_bucket_location: (optional) The geographical location of the Cloud
+Object Storage input bucket as listed on the <strong>Endpoint</strong> tab of your COS instance;
+for example, <cite>us-geo</cite>, <cite>eu-geo</cite>, or <cite>ap-geo</cite>.
+:attr str input_bucket_name: (optional) The name of the Cloud Object Storage input
+bucket.
+:attr str output_bucket_location: (optional) The geographical location of the Cloud
+Object Storage output bucket as listed on the <strong>Endpoint</strong> tab of your COS instance;
+for example, <cite>us-geo</cite>, <cite>eu-geo</cite>, or <cite>ap-geo</cite>.
+:attr str output_bucket_name: (optional) The name of the Cloud Object Storage output
+bucket.
+:attr str batch_id: (optional) The unique identifier for the batch request.
+:attr DocCounts document_counts: (optional) Document counts.
+:attr str status: (optional) The status of the batch request.
+:attr datetime created: (optional) The creation time of the batch request.
+:attr datetime updated: (optional) The time of the most recent update to the batch
+request.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Batches">
+<em class="property">class </em><code class="descname">Batches</code><span class="sig-paren">(</span><em>batches=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Batches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Batches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The results of a successful <cite>GET /v1/batches</cite> request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[BatchStatus] batches:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A list of the status of all batch</td>
+</tr>
+</tbody>
+</table>
+<p>requests.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.BodyCells">
+<em class="property">class </em><code class="descname">BodyCells</code><span class="sig-paren">(</span><em>cell_id=None</em>, <em>location=None</em>, <em>text=None</em>, <em>row_index_begin=None</em>, <em>row_index_end=None</em>, <em>column_index_begin=None</em>, <em>column_index_end=None</em>, <em>row_header_ids=None</em>, <em>row_header_texts=None</em>, <em>row_header_texts_normalized=None</em>, <em>column_header_ids=None</em>, <em>column_header_texts=None</em>, <em>column_header_texts_normalized=None</em>, <em>attributes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#BodyCells"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.BodyCells" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Cells that are not table header, column header, or row header cells.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str cell_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A string value in the format <cite>columnHeader-x-y</cite>, where</td>
+</tr>
+</tbody>
+</table>
+<p><cite>x</cite> and <cite>y</cite> are the begin and end offsets of this column header cell in the input
+document.
+:attr Location location: (optional) The numeric location of the identified element in
+the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr str text: (optional) The textual contents of this cell from the input document
+without associated markup content.
+:attr int row_index_begin: (optional) The <cite>begin</cite> index of this cell’s <cite>row</cite> location
+in the current table.
+:attr int row_index_end: (optional) The <cite>end</cite> index of this cell’s <cite>row</cite> location in
+the current table.
+:attr int column_index_begin: (optional) The <cite>begin</cite> index of this cell’s <cite>column</cite>
+location in the current table.
+:attr int column_index_end: (optional) The <cite>end</cite> index of this cell’s <cite>column</cite>
+location in the current table.
+:attr list[str] row_header_ids: (optional) An array of values, each being the <cite>id</cite>
+value of a row header that is applicable to this body cell.
+:attr list[str] row_header_texts: (optional) An array of values, each being the <cite>text</cite>
+value of a row header that is applicable to this body cell.
+:attr list[str] row_header_texts_normalized: (optional) If you provide customization
+input, the normalized version of the row header texts according to the customization;
+otherwise, the same value as <cite>row_header_texts</cite>.
+:attr list[str] column_header_ids: (optional) An array of values, each being the <cite>id</cite>
+value of a column header that is applicable to the current cell.
+:attr list[str] column_header_texts: (optional) An array of values, each being the
+<cite>text</cite> value of a column header that is applicable to the current cell.
+:attr list[str] column_header_texts_normalized: (optional) If you provide
+customization input, the normalized version of the column header texts according to
+the customization; otherwise, the same value as <cite>column_header_texts</cite>.
+:attr list[Attribute] attributes: (optional)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Category">
+<em class="property">class </em><code class="descname">Category</code><span class="sig-paren">(</span><em>label=None</em>, <em>provenance_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Category"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Category" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information defining an element’s subject matter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str label:</th><td class="field-body">(optional) The category of the associated element.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[str] provenance_ids:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) One or more hashed values that you can send</td>
+</tr>
+</tbody>
+</table>
+<p>to IBM to provide feedback or receive support.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.ClassifyReturn">
+<em class="property">class </em><code class="descname">ClassifyReturn</code><span class="sig-paren">(</span><em>document=None</em>, <em>model_id=None</em>, <em>model_version=None</em>, <em>elements=None</em>, <em>tables=None</em>, <em>document_structure=None</em>, <em>parties=None</em>, <em>effective_dates=None</em>, <em>contract_amounts=None</em>, <em>termination_dates=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#ClassifyReturn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.ClassifyReturn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The analysis of objects returned by the <cite>/v1/element_classification</cite> method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr Document document:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Basic information about the input document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str model_id:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The analysis model used to classify the input document.</td>
+</tr>
+</tbody>
+</table>
+<p>For the <cite>/v1/element_classification</cite> method, the only valid value is <cite>contracts</cite>.
+:attr str model_version: (optional) The version of the analysis model identified by
+the value of the <cite>model_id</cite> key.
+:attr list[Element] elements: (optional) Document elements identified by the service.
+:attr list[Tables] tables: (optional) Definition of tables identified in the input
+document.
+:attr DocStructure document_structure: (optional) The structure of the input document.
+:attr list[Parties] parties: (optional) Definitions of the parties identified in the
+input document.
+:attr list[EffectiveDates] effective_dates: (optional) The effective dates of the
+input document.
+:attr list[ContractAmts] contract_amounts: (optional) The monetary amounts identified
+in the input document.
+:attr list[TerminationDates] termination_dates: (optional) The input document’s
+termination dates.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.ColumnHeaders">
+<em class="property">class </em><code class="descname">ColumnHeaders</code><span class="sig-paren">(</span><em>cell_id=None</em>, <em>location=None</em>, <em>text=None</em>, <em>text_normalized=None</em>, <em>row_index_begin=None</em>, <em>row_index_end=None</em>, <em>column_index_begin=None</em>, <em>column_index_end=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#ColumnHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.ColumnHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Column-level cells, each applicable as a header to other cells in the same column as
+itself, of the current table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str cell_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A string value in the format <cite>columnHeader-x-y</cite>, where</td>
+</tr>
+</tbody>
+</table>
+<p><cite>x</cite> and <cite>y</cite> are the begin and end offsets of this column header cell in the input
+document.
+:attr object location: (optional) The location of the column header cell in the
+current table as defined by its <cite>begin</cite> and <cite>end</cite> offsets, respectfully, in the input
+document.
+:attr str text: (optional) The textual contents of this cell from the input document
+without associated markup content.
+:attr str text_normalized: (optional) If you provide customization input, the
+normalized version of the cell text according to the customization; otherwise, the
+same value as <cite>text</cite>.
+:attr int row_index_begin: (optional) The <cite>begin</cite> index of this cell’s <cite>row</cite> location
+in the current table.
+:attr int row_index_end: (optional) The <cite>end</cite> index of this cell’s <cite>row</cite> location in
+the current table.
+:attr int column_index_begin: (optional) The <cite>begin</cite> index of this cell’s <cite>column</cite>
+location in the current table.
+:attr int column_index_end: (optional) The <cite>end</cite> index of this cell’s <cite>column</cite>
+location in the current table.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.CompareReturn">
+<em class="property">class </em><code class="descname">CompareReturn</code><span class="sig-paren">(</span><em>documents=None</em>, <em>aligned_elements=None</em>, <em>unaligned_elements=None</em>, <em>model_id=None</em>, <em>model_version=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#CompareReturn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.CompareReturn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The comparison of the two submitted documents.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Document] documents:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Information about the documents being</td>
+</tr>
+</tbody>
+</table>
+<p>compared.
+:attr list[AlignedElement] aligned_elements: (optional) A list of pairs of elements
+that semantically align between the compared documents.
+:attr list[UnalignedElement] unaligned_elements: (optional) A list of elements that do
+not semantically align between the compared documents.
+:attr str model_id: (optional) The analysis model used to classify the input document.
+For the <cite>/v1/element_classification</cite> method, the only valid value is <cite>contracts</cite>.
+:attr str model_version: (optional) The version of the analysis model identified by
+the value of the <cite>model_id</cite> key.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Contact">
+<em class="property">class </em><code class="descname">Contact</code><span class="sig-paren">(</span><em>name=None</em>, <em>role=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Contact"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Contact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A contact.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str name:</th><td class="field-body">(optional) A string listing the name of the contact.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str role:</th><td class="field-body">(optional) A string listing the role of the contact.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.ContractAmts">
+<em class="property">class </em><code class="descname">ContractAmts</code><span class="sig-paren">(</span><em>text=None</em>, <em>confidence_level=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#ContractAmts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.ContractAmts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A monetary amount identified in the input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The monetary amount.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str confidence_level:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The confidence level in the identification of</td>
+</tr>
+</tbody>
+</table>
+<p>the contract amount.
+:attr Location location: (optional) The numeric location of the identified element in
+the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.DocCounts">
+<em class="property">class </em><code class="descname">DocCounts</code><span class="sig-paren">(</span><em>total=None</em>, <em>pending=None</em>, <em>successful=None</em>, <em>failed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#DocCounts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.DocCounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Document counts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr int total:</th><td class="field-body">(optional) Total number of documents.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int pending:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Number of pending documents.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int successful:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Number of documents successfully processed.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr int failed:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Number of documents not successfully processed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.DocInfo">
+<em class="property">class </em><code class="descname">DocInfo</code><span class="sig-paren">(</span><em>html=None</em>, <em>title=None</em>, <em>hash=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#DocInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.DocInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about the parsed input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str html:</th><td class="field-body">(optional) The full text of the parsed document in HTML format.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str title:</th><td class="field-body">(optional) The title of the parsed document. If the service did not</td>
+</tr>
+</tbody>
+</table>
+<p>detect a title, the value of this element is <cite>null</cite>.
+:attr str hash: (optional) The MD5 hash of the input document.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.DocStructure">
+<em class="property">class </em><code class="descname">DocStructure</code><span class="sig-paren">(</span><em>section_titles=None</em>, <em>leading_sentences=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#DocStructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.DocStructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The structure of the input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[SectionTitles] section_titles:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) An array containing one object</td>
+</tr>
+</tbody>
+</table>
+<p>per section or subsection identified in the input document.
+:attr list[LeadingSentence] leading_sentences: (optional) An array containing one
+object per section or subsection, in parallel with the <cite>section_titles</cite> array, that
+details the leading sentences in the corresponding section or subsection.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Document">
+<em class="property">class </em><code class="descname">Document</code><span class="sig-paren">(</span><em>title=None</em>, <em>html=None</em>, <em>hash=None</em>, <em>label=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Basic information about the input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str title:</th><td class="field-body">(optional) Document title, if detected.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str html:</th><td class="field-body">(optional) The input document converted into HTML format.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr str hash:</th><td class="field-body">(optional) The MD5 hash value of the input document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str label:</th><td class="field-body">(optional) The label applied to the input document with the calling</td>
+</tr>
+</tbody>
+</table>
+<p>method’s <cite>file_1_label</cite> or <cite>file_2_label</cite> value. This field is specified only in the
+output of the <strong>Comparing two documents</strong> method.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.EffectiveDates">
+<em class="property">class </em><code class="descname">EffectiveDates</code><span class="sig-paren">(</span><em>text=None</em>, <em>confidence_level=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#EffectiveDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.EffectiveDates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An effective date.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The effective date, listed as a string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str confidence_level:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The confidence level in the identification of</td>
+</tr>
+</tbody>
+</table>
+<p>the effective date.
+:attr Location location: (optional) The numeric location of the identified element in
+the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Element">
+<em class="property">class </em><code class="descname">Element</code><span class="sig-paren">(</span><em>location=None</em>, <em>text=None</em>, <em>types=None</em>, <em>categories=None</em>, <em>attributes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Element"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A component part of the document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr Location location:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The numeric location of the identified element in</td>
+</tr>
+</tbody>
+</table>
+<p>the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr str text: (optional) The text of the element.
+:attr list[TypeLabel] types: (optional) Description of the action specified by the
+element  and whom it affects.
+:attr list[Category] categories: (optional) List of functional categories into which
+the element falls; in other words, the subject matter of the element.
+:attr list[Attribute] attributes: (optional) List of document attributes.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.ElementLocations">
+<em class="property">class </em><code class="descname">ElementLocations</code><span class="sig-paren">(</span><em>begin=None</em>, <em>end=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#ElementLocations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.ElementLocations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A list of <cite>begin</cite> and <cite>end</cite> indexes that indicate the locations of the elements in the
+input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr int begin:</th><td class="field-body">(optional) An integer that indicates the starting position of the</td>
+</tr>
+</tbody>
+</table>
+<p>element in the input document.
+:attr int end: (optional) An integer that indicates the ending position of the element
+in the input document.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.ElementPair">
+<em class="property">class </em><code class="descname">ElementPair</code><span class="sig-paren">(</span><em>document_label=None</em>, <em>text=None</em>, <em>location=None</em>, <em>types=None</em>, <em>categories=None</em>, <em>attributes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#ElementPair"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.ElementPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details of semantically aligned elements.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str document_label:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The label of the document (that is, the value of</td>
+</tr>
+</tbody>
+</table>
+<p>either the <cite>file_1_label</cite> or <cite>file_2_label</cite> parameters) in which the element occurs.
+:attr str text: (optional) The text of the element.
+:attr Location location: (optional) The numeric location of the identified element in
+the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr list[TypeLabel] types: (optional) Description of the action specified by the
+element  and whom it affects.
+:attr list[Category] categories: (optional) List of functional categories into which
+the element falls; in other words, the subject matter of the element.
+:attr list[Attribute] attributes: (optional) List of document attributes.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.FeedbackDataInput">
+<em class="property">class </em><code class="descname">FeedbackDataInput</code><span class="sig-paren">(</span><em>feedback_type</em>, <em>location</em>, <em>text</em>, <em>original_labels</em>, <em>updated_labels</em>, <em>document=None</em>, <em>model_id=None</em>, <em>model_version=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#FeedbackDataInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.FeedbackDataInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Feedback data for submission.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str feedback_type:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The type of feedback. The only permitted value is</td>
+</tr>
+</tbody>
+</table>
+<p><cite>element_classification</cite>.
+:attr ShortDoc document: (optional) Brief information about the input document.
+:attr str model_id: (optional) An optional string identifying the model ID. The only
+permitted value is <cite>contracts</cite>.
+:attr str model_version: (optional) An optional string identifying the version of the
+model used.
+:attr Location location: The numeric location of the identified element in the
+document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr str text: The text on which to submit feedback.
+:attr OriginalLabelsIn original_labels: The original labeling from the input document,
+without the submitted feedback.
+:attr UpdatedLabelsIn updated_labels: The updated labeling from the input document,
+accounting for the submitted feedback.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.FeedbackDataOutput">
+<em class="property">class </em><code class="descname">FeedbackDataOutput</code><span class="sig-paren">(</span><em>feedback_type=None</em>, <em>document=None</em>, <em>model_id=None</em>, <em>model_version=None</em>, <em>location=None</em>, <em>text=None</em>, <em>original_labels=None</em>, <em>updated_labels=None</em>, <em>pagination=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#FeedbackDataOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.FeedbackDataOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information returned from the <cite>POST /v1/feedback</cite> method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str feedback_type:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A string identifying the user adding the feedback.</td>
+</tr>
+</tbody>
+</table>
+<p>The only permitted value is <cite>element_classification</cite>.
+:attr ShortDoc document: (optional) Brief information about the input document.
+:attr str model_id: (optional) An optional string identifying the model ID. The only
+permitted value is <cite>contracts</cite>.
+:attr str model_version: (optional) An optional string identifying the version of the
+model used.
+:attr Location location: (optional) The numeric location of the identified element in
+the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr str text: (optional) The text to which the feedback applies.
+:attr OriginalLabelsOut original_labels: (optional) The original labeling from the
+input document, without the submitted feedback.
+:attr UpdatedLabelsOut updated_labels: (optional) The updated labeling from the input
+document, accounting for the submitted feedback.
+:attr Pagination pagination: (optional) Pagination details, if required by the length
+of the output.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.FeedbackDeleted">
+<em class="property">class </em><code class="descname">FeedbackDeleted</code><span class="sig-paren">(</span><em>status=None</em>, <em>message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#FeedbackDeleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.FeedbackDeleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The status and message of the deletion request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr int status:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) HTTP return code.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str message:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) Status message returned from the service.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.FeedbackList">
+<em class="property">class </em><code class="descname">FeedbackList</code><span class="sig-paren">(</span><em>feedback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#FeedbackList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.FeedbackList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The results of a successful <cite>GET /v1/feedback</cite> request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[GetFeedback] feedback:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A list of all feedback for the document.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.FeedbackReturn">
+<em class="property">class </em><code class="descname">FeedbackReturn</code><span class="sig-paren">(</span><em>feedback_id=None</em>, <em>user_id=None</em>, <em>comment=None</em>, <em>created=None</em>, <em>feedback_data=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#FeedbackReturn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.FeedbackReturn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about the document and the submitted feedback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str feedback_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The unique ID of the feedback object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str user_id:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) An optional string identifying the person submitting</td>
+</tr>
+</tbody>
+</table>
+<p>feedback.
+:attr str comment: (optional) An optional comment from the person submitting the
+feedback.
+:attr datetime created: (optional) Timestamp listing the creation time of the feedback
+submission.
+:attr FeedbackDataOutput feedback_data: (optional) Information returned from the <cite>POST
+/v1/feedback</cite> method.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.GetFeedback">
+<em class="property">class </em><code class="descname">GetFeedback</code><span class="sig-paren">(</span><em>feedback_id=None</em>, <em>created=None</em>, <em>comment=None</em>, <em>feedback_data=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#GetFeedback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.GetFeedback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The results of a single feedback query.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str feedback_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A string uniquely identifying the feedback entry.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr datetime created:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A timestamp identifying the creation time of the</td>
+</tr>
+</tbody>
+</table>
+<p>feedback entry.
+:attr str comment: (optional) A string containing the user’s comment about the
+feedback entry.
+:attr FeedbackDataOutput feedback_data: (optional) Information returned from the <cite>POST
+/v1/feedback</cite> method.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.HTMLReturn">
+<em class="property">class </em><code class="descname">HTMLReturn</code><span class="sig-paren">(</span><em>num_pages=None</em>, <em>author=None</em>, <em>publication_date=None</em>, <em>title=None</em>, <em>html=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#HTMLReturn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.HTMLReturn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The HTML converted from an input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str num_pages:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The number of pages in the input document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str author:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The author of the input document, if identified.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str publication_date:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The publication date of the input document, if</td>
+</tr>
+</tbody>
+</table>
+<p>identified.
+:attr str title: (optional) The title of the input document, if identified.
+:attr str html: (optional) The HTML version of the input document.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Label">
+<em class="property">class </em><code class="descname">Label</code><span class="sig-paren">(</span><em>nature</em>, <em>party</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A pair of <cite>nature</cite> and <cite>party</cite> objects. The <cite>nature</cite> object identifies the effect of
+the element on the identified <cite>party</cite>, and the <cite>party</cite> object identifies the affected
+party.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str nature:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">The identified <cite>nature</cite> of the element.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str party:</th><td class="field-body">The identified <cite>party</cite> of the element.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.LeadingSentence">
+<em class="property">class </em><code class="descname">LeadingSentence</code><span class="sig-paren">(</span><em>text=None</em>, <em>location=None</em>, <em>element_locations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#LeadingSentence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.LeadingSentence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The leading sentences in a section or subsection of the input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The text of the leading sentence.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr Location location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The numeric location of the identified element in</td>
+</tr>
+</tbody>
+</table>
+<p>the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr list[ElementLocations] element_locations: (optional) An array of <cite>location</cite>
+objects that lists the locations of detected leading sentences.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Location">
+<em class="property">class </em><code class="descname">Location</code><span class="sig-paren">(</span><em>begin</em>, <em>end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The numeric location of the identified element in the document, represented with two
+integers labeled <cite>begin</cite> and <cite>end</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr int begin:</th><td class="field-body">The element’s <cite>begin</cite> index.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr int end:</th><td class="field-body">The element’s <cite>end</cite> index.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.OriginalLabelsIn">
+<em class="property">class </em><code class="descname">OriginalLabelsIn</code><span class="sig-paren">(</span><em>types</em>, <em>categories</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#OriginalLabelsIn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.OriginalLabelsIn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The original labeling from the input document, without the submitted feedback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[TypeLabel] types:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Description of the action specified by the element and</td>
+</tr>
+</tbody>
+</table>
+<p>whom it affects.
+:attr list[Category] categories: List of functional categories into which the element
+falls; in other words, the subject matter of the element.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.OriginalLabelsOut">
+<em class="property">class </em><code class="descname">OriginalLabelsOut</code><span class="sig-paren">(</span><em>types=None</em>, <em>categories=None</em>, <em>modification=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#OriginalLabelsOut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.OriginalLabelsOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The original labeling from the input document, without the submitted feedback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[TypeLabel] types:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Description of the action specified by the</td>
+</tr>
+</tbody>
+</table>
+<p>element and whom it affects.
+:attr list[Category] categories: (optional) List of functional categories into which
+the element falls; in other words, the subject matter of the element.
+:attr str modification: (optional) A string identifying the type of modification the
+feedback entry in the <cite>updated_labels</cite> array. Possible values are <cite>added</cite>,
+<cite>not_changed</cite>, and <cite>removed</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Pagination">
+<em class="property">class </em><code class="descname">Pagination</code><span class="sig-paren">(</span><em>refresh_cursor=None</em>, <em>next_cursor=None</em>, <em>refresh_url=None</em>, <em>next_url=None</em>, <em>total=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Pagination"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Pagination" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Pagination details, if required by the length of the output.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str refresh_cursor:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A token identifying the current page of results.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str next_cursor:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A token identifying the next page of results.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str refresh_url:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The URL that returns the current page of results.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str next_url:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The URL that returns the next page of results.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr int total:</th><td class="field-body">(optional) Reserved for future use.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Parties">
+<em class="property">class </em><code class="descname">Parties</code><span class="sig-paren">(</span><em>party=None</em>, <em>importance=None</em>, <em>role=None</em>, <em>addresses=None</em>, <em>contacts=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Parties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Parties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A party and its corresponding role, including address and contact information if
+identified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str party:</th><td class="field-body">(optional) A string identifying the party.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str importance:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) A string that identifies the importance of the party.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Attr str role:</th><td class="field-body">(optional) A string identifying the party’s role.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr list[Address] addresses:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) List of the party’s address or addresses.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[Contact] contacts:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) List of the names and roles of contacts</td>
+</tr>
+</tbody>
+</table>
+<p>identified in the input document.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.RowHeaders">
+<em class="property">class </em><code class="descname">RowHeaders</code><span class="sig-paren">(</span><em>cell_id=None</em>, <em>location=None</em>, <em>text=None</em>, <em>text_normalized=None</em>, <em>row_index_begin=None</em>, <em>row_index_end=None</em>, <em>column_index_begin=None</em>, <em>column_index_end=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#RowHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.RowHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Row-level cells, each applicable as a header to other cells in the same row as itself,
+of the current table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str cell_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A string value in the format <cite>rowHeader-x-y</cite>, where <cite>x</cite></td>
+</tr>
+</tbody>
+</table>
+<p>and <cite>y</cite> are the begin and end offsets of this row header cell in the input document.
+:attr Location location: (optional) The numeric location of the identified element in
+the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr str text: (optional) The textual contents of this cell from the input document
+without associated markup content.
+:attr str text_normalized: (optional) If you provide customization input, the
+normalized version of the cell text according to the customization; otherwise, the
+same value as <cite>text</cite>.
+:attr int row_index_begin: (optional) The <cite>begin</cite> index of this cell’s <cite>row</cite> location
+in the current table.
+:attr int row_index_end: (optional) The <cite>end</cite> index of this cell’s <cite>row</cite> location in
+the current table.
+:attr int column_index_begin: (optional) The <cite>begin</cite> index of this cell’s <cite>column</cite>
+location in the current table.
+:attr int column_index_end: (optional) The <cite>end</cite> index of this cell’s <cite>column</cite>
+location in the current table.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.SectionTitle">
+<em class="property">class </em><code class="descname">SectionTitle</code><span class="sig-paren">(</span><em>text=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#SectionTitle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.SectionTitle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The table’s section title, if identified.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The text of the section title, if identified.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr Location location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The numeric location of the identified element in</td>
+</tr>
+</tbody>
+</table>
+<p>the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.SectionTitles">
+<em class="property">class </em><code class="descname">SectionTitles</code><span class="sig-paren">(</span><em>text=None</em>, <em>location=None</em>, <em>level=None</em>, <em>element_locations=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#SectionTitles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.SectionTitles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An array containing one object per section or subsection detected in the input
+document. Sections and subsections are not nested; instead, they are flattened out and
+can be placed back in order by using the <cite>begin</cite> and <cite>end</cite> values of the element and
+the <cite>level</cite> value of the section.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The text of the section title, if identified.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr Location location:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The numeric location of the identified element in</td>
+</tr>
+</tbody>
+</table>
+<p>the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr int level: (optional) An integer indicating the level at which the section is
+located in the input document. For example, <cite>1</cite> represents a top-level section, <cite>2</cite>
+represents a subsection within the level <cite>1</cite> section, and so forth.
+:attr list[ElementLocations] element_locations: (optional) An array of <cite>location</cite>
+objects that lists the locations of detected section titles.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.ShortDoc">
+<em class="property">class </em><code class="descname">ShortDoc</code><span class="sig-paren">(</span><em>title=None</em>, <em>hash=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#ShortDoc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.ShortDoc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Brief information about the input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str title:</th><td class="field-body">(optional) The title of the input document, if identified.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Attr str hash:</th><td class="field-body">(optional) The MD5 hash of the input document.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.TableHeaders">
+<em class="property">class </em><code class="descname">TableHeaders</code><span class="sig-paren">(</span><em>cell_id=None</em>, <em>location=None</em>, <em>text=None</em>, <em>row_index_begin=None</em>, <em>row_index_end=None</em>, <em>column_index_begin=None</em>, <em>column_index_end=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#TableHeaders"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.TableHeaders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The contents of the current table’s header.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str cell_id:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) String value in the format <cite>tableHeader-x-y</cite> where <cite>x</cite></td>
+</tr>
+</tbody>
+</table>
+<p>and <cite>y</cite> are the <cite>begin</cite> and <cite>end</cite> offsets, respectfully, of the cell value in the
+input document.
+:attr object location: (optional) The location of the table header cell in the current
+table as defined by its <cite>begin</cite> and <cite>end</cite> offsets, respectfully, in the input
+document.
+:attr str text: (optional) The textual contents of the cell from the input document
+without associated markup content.
+:attr int row_index_begin: (optional) The <cite>begin</cite> index of this cell’s <cite>row</cite> location
+in the current table.
+:attr int row_index_end: (optional) The <cite>end</cite> index of this cell’s <cite>row</cite> location in
+the current table.
+:attr int column_index_begin: (optional) The <cite>begin</cite> index of this cell’s <cite>column</cite>
+location in the current table.
+:attr int column_index_end: (optional) The <cite>end</cite> index of this cell’s <cite>column</cite>
+location in the current table.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.TableReturn">
+<em class="property">class </em><code class="descname">TableReturn</code><span class="sig-paren">(</span><em>document=None</em>, <em>model_id=None</em>, <em>model_version=None</em>, <em>tables=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#TableReturn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.TableReturn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The analysis of the document’s tables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr DocInfo document:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Information about the parsed input document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str model_id:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The ID of the model used to extract the table contents.</td>
+</tr>
+</tbody>
+</table>
+<p>The value for table extraction is <cite>tables</cite>.
+:attr str model_version: (optional) The version of the <cite>tables</cite> model ID.
+:attr list[Tables] tables: (optional) Definitions of the tables identified in the
+input document.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.Tables">
+<em class="property">class </em><code class="descname">Tables</code><span class="sig-paren">(</span><em>location=None</em>, <em>text=None</em>, <em>section_title=None</em>, <em>table_headers=None</em>, <em>row_headers=None</em>, <em>column_headers=None</em>, <em>body_cells=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#Tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.Tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The contents of the tables extracted from a document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr Location location:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The numeric location of the identified element in</td>
+</tr>
+</tbody>
+</table>
+<p>the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr str text: (optional) The textual contents of the current table from the input
+document without associated markup content.
+:attr SectionTitle section_title: (optional) The table’s section title, if identified.
+:attr list[TableHeaders] table_headers: (optional) An array of table-level cells that
+apply as headers to all the other cells in the current table.
+:attr list[RowHeaders] row_headers: (optional) An array of row-level cells, each
+applicable as a header to other cells in the same row as itself, of the current table.
+:attr list[ColumnHeaders] column_headers: (optional) An array of column-level cells,
+each applicable as a header to other cells in the same column as itself, of the
+current table.
+:attr list[BodyCells] body_cells: (optional) An array of cells that are neither table
+header nor column header nor row header cells, of the current table with corresponding
+row and column header associations.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.TerminationDates">
+<em class="property">class </em><code class="descname">TerminationDates</code><span class="sig-paren">(</span><em>text=None</em>, <em>confidence_level=None</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#TerminationDates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.TerminationDates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Termination dates identified in the input document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attr str text:</th><td class="field-body">(optional) The termination date.</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Attr str confidence_level:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">(optional) The confidence level in the identification of</td>
+</tr>
+</tbody>
+</table>
+<p>the termination date.
+:attr Location location: (optional) The numeric location of the identified element in
+the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.TypeLabel">
+<em class="property">class </em><code class="descname">TypeLabel</code><span class="sig-paren">(</span><em>label=None</em>, <em>provenance_ids=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#TypeLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.TypeLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Identification of a specific type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr Label label:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) A pair of <cite>nature</cite> and <cite>party</cite> objects. The <cite>nature</cite></td>
+</tr>
+</tbody>
+</table>
+<p>object identifies the effect of the element on the identified <cite>party</cite>, and the <cite>party</cite>
+object identifies the affected party.
+:attr list[str] provenance_ids: (optional) One or more hash values that you can send
+to IBM to provide feedback or receive support.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.UnalignedElement">
+<em class="property">class </em><code class="descname">UnalignedElement</code><span class="sig-paren">(</span><em>document_label=None</em>, <em>location=None</em>, <em>text=None</em>, <em>types=None</em>, <em>categories=None</em>, <em>attributes=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#UnalignedElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.UnalignedElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Element that does not align semantically between two compared documents.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr str document_label:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) The label assigned to the document by the value</td>
+</tr>
+</tbody>
+</table>
+<p>of the <cite>file_1_label</cite> or <cite>file_2_label</cite> parameters on the <cite>/v1/compare</cite> method.
+:attr Location location: (optional) The numeric location of the identified element in
+the document, represented with two integers labeled <cite>begin</cite> and <cite>end</cite>.
+:attr str text: (optional) The text of the element.
+:attr list[TypeLabel] types: (optional) Description of the action specified by the
+element and whom it affects.
+:attr list[Category] categories: (optional) List of functional categories into which
+the element falls; in other words, the subject matter of the element.
+:attr list[Attribute] attributes: (optional) List of document attributes.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.UpdatedLabelsIn">
+<em class="property">class </em><code class="descname">UpdatedLabelsIn</code><span class="sig-paren">(</span><em>types</em>, <em>categories</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#UpdatedLabelsIn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.UpdatedLabelsIn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The updated labeling from the input document, accounting for the submitted feedback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[TypeLabel] types:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">Description of the action specified by the element and</td>
+</tr>
+</tbody>
+</table>
+<p>whom it affects.
+:attr list[Category] categories: List of functional categories into which the element
+falls; in other words, the subject matter of the element.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.compare_comply_v1.UpdatedLabelsOut">
+<em class="property">class </em><code class="descname">UpdatedLabelsOut</code><span class="sig-paren">(</span><em>types=None</em>, <em>categories=None</em>, <em>modification=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/compare_comply_v1.html#UpdatedLabelsOut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.compare_comply_v1.UpdatedLabelsOut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The updated labeling from the input document, accounting for the submitted feedback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Attr list[TypeLabel] types:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">(optional) Description of the action specified by the</td>
+</tr>
+</tbody>
+</table>
+<p>element and whom it affects.
+:attr list[Category] categories: (optional) List of functional categories into which
+the element falls; in other words, the subject matter of the element.
+:attr str modification: (optional) The type of modification the feedback entry in the
+<cite>updated_labels</cite> array. Possible values are <cite>added</cite>, <cite>not_changed</cite>, and <cite>removed</cite>.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.authorization_v1.html" title="previous chapter">watson_developer_cloud.authorization_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.conversation_v1.html" title="next chapter">watson_developer_cloud.conversation_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
