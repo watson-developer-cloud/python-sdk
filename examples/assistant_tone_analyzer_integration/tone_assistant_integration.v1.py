@@ -15,14 +15,12 @@ load_dotenv(find_dotenv())
 
 # replace with your own assistant credentials or put them in a .env file
 assistant = AssistantV1(
-    username=os.environ.get('ASSISTANT_USERNAME') or 'YOUR SERVICE USERNAME',
-    password=os.environ.get('ASSISTAN_PASSWORD') or 'YOUR SERVICE PASSWORD',
+    iam_apikey=os.environ.get('ASSISTANT_APIKEY') or 'YOUR ASSISTANT APIKEY',
     version='2018-07-10')
 
 # replace with your own tone analyzer credentials
 tone_analyzer = ToneAnalyzerV3(
-    username=os.environ.get('TONE_ANALYZER_USERNAME') or 'YOUR SERVICE USERNAME',
-    password=os.environ.get('TONE_ANALYZER_PASSWORD') or 'YOUR SERVICE PASSWORD',
+    iam_apikey=os.environ.get('TONE_ANALYZER_APIKEY') or 'YOUR TONE ANALYZER APIKEY',
     version='2016-05-19')
 
 # replace with your own workspace_id
