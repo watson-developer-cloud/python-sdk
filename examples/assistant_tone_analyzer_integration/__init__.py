@@ -14,7 +14,7 @@
 
 from .watson_service import WatsonService
 from .watson_service import WatsonException
-from .conversation_v1 import ConversationV1
+from .assistant import AssistantV1
 from .tone_analyzer_v3 import ToneAnalyzerV3
 
 

@@ -27,7 +27,7 @@ SOCIAL_LOW_SCORE_THRESHOLD = 0.25
 
 # Labels for the tone categories returned by the Watson Tone Analyzer
 EMOTION_TONE_LABEL = 'emotion_tone'
-WRITING_TONE_LABEL = 'writing_tone'
+WRITING_TONE_LABEL = 'language_tone'
 SOCIAL_TONE_LABEL = 'social_tone'
 
 
@@ -60,8 +60,7 @@ def updateUserTone(conversationPayload, toneAnalyzerPayload, maintainHistory):
 
     # Extract the tones - emotion, writing and social
     if toneAnalyzerPayload and toneAnalyzerPayload['document_tone']:
-        for toneCategory in toneAnalyzerPayload['document_tone'][
-                'tone_categories']:
+        for toneCategory in toneAnalyzerPayload['document_tone']['tone_categories']:
             if toneCategory['category_id'] == EMOTION_TONE_LABEL:
                 emotionTone = toneCategory
             if toneCategory['category_id'] == WRITING_TONE_LABEL:
