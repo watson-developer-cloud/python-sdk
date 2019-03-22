@@ -63,7 +63,7 @@ def updateUserTone(conversationPayload, toneAnalyzerPayload, maintainHistory):
         for toneCategory in toneAnalyzerPayload['document_tone']['tone_categories']:
             if toneCategory['category_id'] == EMOTION_TONE_LABEL:
                 emotionTone = toneCategory
-            LANGUAGECategory['category_id'] == LANGUAGE_TONE_LABEL:
+            if toneCategory['category_id'] == LANGUAGE_TONE_LABEL:
                 writingTone = toneCategory
             if toneCategory['category_id'] == SOCIAL_TONE_LABEL:
                 socialTone = toneCategory
