@@ -71,9 +71,6 @@ For more details see [#405](https://github.com/watson-developer-cloud/python-sdk
 
 The [examples][examples] folder has basic and advanced examples. The examples within each service assume that you already have [service credentials](#getting-credentials).
 
-Note:
-Conversation V1 is deprecated and will be removed in the next major release of the SDK. Use Assistant V1 or Assistant V2.
-
 ## Running in IBM Cloud
 
 If you run your app in IBM Cloud, the SDK gets credentials from the [`VCAP_SERVICES`][vcap_services] environment variable. 
