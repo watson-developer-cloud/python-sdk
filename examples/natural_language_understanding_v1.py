@@ -1,7 +1,7 @@
 from __future__ import print_function
 import json
-from watson_developer_cloud import NaturalLanguageUnderstandingV1
-from watson_developer_cloud.natural_language_understanding_v1 import Features, EntitiesOptions, KeywordsOptions
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_watson.natural_language_understanding_v1 import Features, EntitiesOptions, KeywordsOptions
 
 # If service instance provides API key authentication
 # service = NaturalLanguageUnderstandingV1(
