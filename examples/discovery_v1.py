@@ -1,7 +1,7 @@
 # coding: utf-8
 from __future__ import print_function
 import json
-from watson_developer_cloud import DiscoveryV1
+from ibm_watson import DiscoveryV1
 
 # If service instance provides API key authentication
 # discovery = DiscoveryV1(
