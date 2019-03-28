@@ -1,13 +1,13 @@
 # coding: utf-8
 import os
 import responses
-import watson_developer_cloud
+import ibm_watson
 
 
 @responses.activate
 def test_success():
-    natural_language_classifier = watson_developer_cloud.NaturalLanguageClassifierV1(username="username",
-                                                                                     password="password")
+    natural_language_classifier = ibm_watson.NaturalLanguageClassifierV1(username="username",
+                                                                         password="password")
 
     list_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers'
     list_response = '{"classifiers": [{"url": "https://gateway.watsonplatform.net/natural-language-classifier-' \
@@ -85,8 +85,8 @@ def test_success():
 
 @responses.activate
 def test_classify_collection():
-    natural_language_classifier = watson_developer_cloud.NaturalLanguageClassifierV1(username="username",
-                                                                                     password="password")
+    natural_language_classifier = ibm_watson.NaturalLanguageClassifierV1(username="username",
+                                                                         password="password")
     classify_collection_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers/497EF2-nlc-00/classify_collection'
     classify_collection_response = '{ \
             "classifier_id": "497EF2-nlc-00", \

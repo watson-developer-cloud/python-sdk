@@ -1,7 +1,7 @@
 # coding: utf-8
 from unittest import TestCase
 import os
-import watson_developer_cloud
+import ibm_watson
 import pytest
 import json
 import time
@@ -11,9 +11,7 @@ FIVE_SECONDS = 5
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class TestNaturalLanguageClassifierV1(TestCase):
     def setUp(self):
-        self.natural_language_classifier = watson_developer_cloud.NaturalLanguageClassifierV1(
-            username='YOUR SERVICE USERNAME',
-            password='YOUR SERVICE PASSWORD')
+        self.natural_language_classifier = ibm_watson.NaturalLanguageClassifierV1()
         self.natural_language_classifier.set_default_headers({
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'

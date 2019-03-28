@@ -3,7 +3,7 @@ import json
 import os
 
 # from os.path import join, dirname
-from watson_developer_cloud import NaturalLanguageClassifierV1
+from ibm_watson import NaturalLanguageClassifierV1
 
 # # If service instance provides API key authentication
 # service = NaturalLanguageClassifierV1(
