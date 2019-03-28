@@ -1,6 +1,6 @@
 from __future__ import print_function
 import json
-from watson_developer_cloud import AssistantV2
+from ibm_watson import AssistantV2
 
 # If service instance provides API key authentication
 # assistant = AssistantV2(
