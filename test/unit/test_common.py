@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from watson_developer_cloud import get_sdk_headers
+from ibm_watson import get_sdk_headers
 import unittest
 
 class TestCommon(unittest.TestCase):
