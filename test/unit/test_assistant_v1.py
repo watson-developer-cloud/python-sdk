@@ -3,12 +3,11 @@ import json
 import datetime
 from dateutil.tz import tzutc
 import responses
-import watson_developer_cloud
-from watson_developer_cloud import WatsonException
-from watson_developer_cloud import WatsonApiException
-from watson_developer_cloud.assistant_v1 import Context, Counterexample, \
+import ibm_watson
+from ibm_watson import ApiException
+from ibm_watson.assistant_v1 import Context, Counterexample, \
     CounterexampleCollection, Entity, EntityCollection, Example, \
-    ExampleCollection, InputData, Intent, IntentCollection, Synonym, \
+    ExampleCollection, MessageInput, Intent, IntentCollection, Synonym, \
     SynonymCollection, Value, ValueCollection, Workspace, WorkspaceCollection
 
 platform_url = 'https://gateway.watsonplatform.net'
@@ -35,7 +34,7 @@ def test_create_counterexample():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.create_counterexample(
         workspace_id='boguswid', text='I want financial advice today.').get_result()
@@ -57,14 +56,14 @@ def test_rate_limit_exceeded():
         body='Rate limit exceeded',
         status=429,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     try:
         service.create_counterexample(
             workspace_id='boguswid', text='I want financial advice today.')
-    except WatsonException as ex:
+    except ApiException as ex:
         assert len(responses.calls) == 1
-        assert isinstance(ex, WatsonApiException)
+        assert isinstance(ex, ApiException)
         assert error_code == ex.code
         assert error_msg in str(ex)
 
@@ -78,12 +77,12 @@ def test_unknown_error():
         url,
         status=407,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     try:
         service.create_counterexample(
             workspace_id='boguswid', text='I want financial advice today.')
-    except WatsonException as ex:
+    except ApiException as ex:
         assert len(responses.calls) == 1
         assert error_msg in str(ex)
 
@@ -99,7 +98,7 @@ def test_delete_counterexample():
         body=response,
         status=204,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.delete_counterexample(
         workspace_id='boguswid', text='I want financial advice today').get_result()
@@ -124,7 +123,7 @@ def test_get_counterexample():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.get_counterexample(
         workspace_id='boguswid', text='What are you wearing?').get_result()
@@ -161,7 +160,7 @@ def test_list_counterexamples():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     counterexamples = service.list_counterexamples(workspace_id='boguswid').get_result()
     assert len(responses.calls) == 1
@@ -186,7 +185,7 @@ def test_update_counterexample():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     counterexample = service.update_counterexample(
         workspace_id='boguswid',
@@ -222,7 +221,7 @@ def test_create_entity():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     entity = service.create_entity(
         workspace_id='boguswid',
@@ -248,7 +247,7 @@ def test_delete_entity():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     entity = service.delete_entity(workspace_id='boguswid', entity='pizza_toppings').get_result()
     assert len(responses.calls) == 1
@@ -275,7 +274,7 @@ def test_get_entity():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     entity = service.get_entity(workspace_id='boguswid', entity='pizza_toppings', export=True).get_result()
     assert len(responses.calls) == 1
@@ -316,7 +315,7 @@ def test_list_entities():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     entities = service.list_entities(
         workspace_id='boguswid',
@@ -347,7 +346,7 @@ def test_update_entity():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     entity = service.update_entity(
         workspace_id='boguswid',
@@ -381,7 +380,7 @@ def test_create_example():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     example = service.create_example(
         workspace_id='boguswid',
@@ -407,7 +406,7 @@ def test_delete_example():
         body=json.dumps(response),
         status=204,
         content_type='')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     example = service.delete_example(
         workspace_id='boguswid',
@@ -434,7 +433,7 @@ def test_get_example():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     example = service.get_example(
         workspace_id='boguswid',
@@ -475,7 +474,7 @@ def test_list_examples():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     examples = service.list_examples(
         workspace_id='boguswid', intent='pizza_order').get_result()
@@ -502,7 +501,7 @@ def test_update_example():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     example = service.update_example(
         workspace_id='boguswid',
@@ -538,7 +537,7 @@ def test_create_intent():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     intent = service.create_intent(
         workspace_id='boguswid',
@@ -563,7 +562,7 @@ def test_delete_intent():
         body=json.dumps(response),
         status=204,
         content_type='')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     intent = service.delete_intent(
         workspace_id='boguswid', intent='pizza_order').get_result()
@@ -589,7 +588,7 @@ def test_get_intent():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     intent = service.get_intent(
         workspace_id='boguswid', intent='pizza_order', export=False).get_result()
@@ -623,7 +622,7 @@ def test_list_intents():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     intents = service.list_intents(workspace_id='boguswid', export=False).get_result()
     assert len(responses.calls) == 1
@@ -649,7 +648,7 @@ def test_update_intent():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     intent = service.update_intent(
         workspace_id='boguswid',
@@ -663,7 +662,7 @@ def test_update_intent():
     Intent._from_dict(intent)
 
 def test_intent_models():
-    intent = Intent(intent_name="pizza_order",
+    intent = Intent(intent="pizza_order",
                     created=datetime.datetime(2015, 12, 6, 23, 53, 59, 15300, tzinfo=tzutc()),
                     updated=datetime.datetime(2015, 12, 7, 18, 53, 59, 15300, tzinfo=tzutc()),
                     description="User wants to start a new pizza order")
@@ -735,7 +734,7 @@ def test_list_logs():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     logs = service.list_logs(
         workspace_id='boguswid').get_result()
@@ -806,7 +805,7 @@ def test_list_all_logs():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     logs = service.list_all_logs(
         'language::en,request.context.metadata.deployment::deployment_1').get_result()
@@ -823,7 +822,7 @@ def test_list_all_logs():
 @responses.activate
 def test_message():
 
-    assistant = watson_developer_cloud.AssistantV1(
+    assistant = ibm_watson.AssistantV1(
         username="username", password="password", version='2016-09-20')
     assistant.set_default_headers({'x-watson-learning-opt-out': "true"})
 
@@ -899,7 +898,7 @@ def test_message():
 @responses.activate
 def test_message_with_models():
 
-    assistant = watson_developer_cloud.AssistantV1(
+    assistant = ibm_watson.AssistantV1(
         username="username", password="password", version='2016-09-20')
     assistant.set_default_headers({'x-watson-learning-opt-out': "true"})
 
@@ -934,7 +933,7 @@ def test_message_with_models():
 
     message = assistant.message(
         workspace_id=workspace_id,
-        input=InputData(text='Turn on the lights'),
+        input=MessageInput(text='Turn on the lights'),
         context=None).get_result()
 
     assert message is not None
@@ -954,7 +953,7 @@ def test_message_with_models():
     message_ctx = Context._from_dict(message_response['context'])
     message = assistant.message(
         workspace_id=workspace_id,
-        input=InputData(text='Turn on the lights'),
+        input=MessageInput(text='Turn on the lights'),
         context=message_ctx).get_result()
 
     assert message is not None
@@ -985,7 +984,7 @@ def test_create_synonym():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     synonym = service.create_synonym(
         workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a').get_result()
@@ -1007,7 +1006,7 @@ def test_delete_synonym():
         body=json.dumps(response),
         status=204,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     synonym = service.delete_synonym(
         workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a').get_result()
@@ -1032,7 +1031,7 @@ def test_get_synonym():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     synonym = service.get_synonym(
         workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue').get_result()
@@ -1075,7 +1074,7 @@ def test_list_synonyms():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     synonyms = service.list_synonyms(
         workspace_id='boguswid',
@@ -1104,7 +1103,7 @@ def test_update_synonym():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     synonym = service.update_synonym(
         workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue', new_synonym='barbecue').get_result()
@@ -1137,7 +1136,7 @@ def test_create_value():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     value = service.create_value(
         workspace_id='boguswid',
@@ -1162,7 +1161,7 @@ def test_delete_value():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     value = service.delete_value(
         workspace_id='boguswid', entity='grilling', value='bbq').get_result()
@@ -1191,7 +1190,7 @@ def test_get_value():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     value = service.get_value(
         workspace_id='boguswid', entity='grilling', value='bbq', export=True).get_result()
@@ -1233,7 +1232,7 @@ def test_list_values():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     values = service.list_values(
         workspace_id='boguswid',
@@ -1266,7 +1265,7 @@ def test_update_value():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-04-21')
     value = service.update_value(
         workspace_id='boguswid',
@@ -1298,7 +1297,8 @@ def test_create_workspace():
         "metadata": {},
         "updated": "2015-12-06T23:53:59.153Z",
         "description": "Pizza app",
-        "workspace_id": "pizza_app-e0f3"
+        "workspace_id": "pizza_app-e0f3",
+        "learning_opt_out": True
     }
     responses.add(
         responses.POST,
@@ -1306,7 +1306,7 @@ def test_create_workspace():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     workspace = service.create_workspace(
         name='Pizza app', description='Pizza app', language='en', metadata={},
@@ -1328,7 +1328,7 @@ def test_delete_workspace():
         body=json.dumps(response),
         status=204,
         content_type='')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     workspace = service.delete_workspace(workspace_id='boguswid').get_result()
     assert len(responses.calls) == 1
@@ -1357,7 +1357,7 @@ def test_get_workspace():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     workspace = service.get_workspace(workspace_id='boguswid', export=True, sort='stable').get_result()
     assert len(responses.calls) == 1
@@ -1379,7 +1379,8 @@ def test_list_workspaces():
             "metadata": {},
             "updated": "2015-12-06T23:53:59.153Z",
             "description": "Pizza app",
-            "workspace_id": "pizza_app-e0f3"
+            "workspace_id": "pizza_app-e0f3",
+            "learning_opt_out": True
         }],
         "pagination": {
             "refresh_url":
@@ -1394,7 +1395,7 @@ def test_list_workspaces():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     workspaces = service.list_workspaces().get_result()
     assert len(responses.calls) == 1
@@ -1415,7 +1416,8 @@ def test_update_workspace():
         "metadata": {},
         "updated": "2015-12-06T23:53:59.153Z",
         "description": "Pizza app",
-        "workspace_id": "pizza_app-e0f3"
+        "workspace_id": "pizza_app-e0f3",
+        "learning_opt_out": True
     }
     responses.add(
         responses.POST,
@@ -1423,7 +1425,7 @@ def test_update_workspace():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV1(
+    service = ibm_watson.AssistantV1(
         username='username', password='password', version='2017-02-03')
     workspace = service.update_workspace(
         workspace_id='pizza_app-e0f3',
@@ -1469,7 +1471,7 @@ def test_dialog_nodes():
         status=200,
         content_type='application/json')
 
-    assistant = watson_developer_cloud.AssistantV1('2017-05-26', username="username", password="password")
+    assistant = ibm_watson.AssistantV1('2017-05-26', username="username", password="password")
 
     assistant.create_dialog_node('id', 'location-done', user_label='xxx')
     assert responses.calls[0].response.json()['application/json']['dialog_node'] == 'location-done'
@@ -1495,7 +1497,7 @@ def test_delete_user_data():
         status=204,
         content_type='application_json')
 
-    assistant = watson_developer_cloud.AssistantV1('2017-05-26', username="username", password="password")
+    assistant = ibm_watson.AssistantV1('2017-05-26', username="username", password="password")
 
     response = assistant.delete_user_data('id').get_result()
     assert response is None
@@ -1511,7 +1513,7 @@ def test_list_mentions():
         status=200,
         content_type='application_json')
 
-    assistant = watson_developer_cloud.AssistantV1('2017-05-26', username="username", password="password")
+    assistant = ibm_watson.AssistantV1('2017-05-26', username="username", password="password")
 
     response = assistant.list_mentions('workspace_id', 'entity1').get_result()
     assert response == [{"entity": "xxx"}]
