@@ -2,8 +2,8 @@
 import os
 import json
 import responses
-import watson_developer_cloud
-from watson_developer_cloud.speech_to_text_v1 import CustomWord
+import ibm_watson
+from ibm_watson.speech_to_text_v1 import CustomWord
 
 
 @responses.activate
@@ -20,7 +20,7 @@ def test_success():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
     speech_to_text.list_models()
 
@@ -63,7 +63,7 @@ def test_get_model():
         body='{"bogus_response": "yep"}',
         status=200,
         content_type='application/json')
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
     speech_to_text.get_model(model_id='modelid')
     assert len(responses.calls) == 1
@@ -108,7 +108,7 @@ def test_recognitions():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
 
     speech_to_text.check_jobs()
@@ -147,7 +147,7 @@ def test_callbacks():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
     speech_to_text.register_callback("monitorcalls.com")
     assert responses.calls[0].response.json() == {
@@ -203,7 +203,7 @@ def test_custom_model():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
 
     speech_to_text.list_language_models()
@@ -270,7 +270,7 @@ def test_acoustic_model():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
 
     speech_to_text.list_acoustic_models()
@@ -309,7 +309,7 @@ def test_upgrade_acoustic_model():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
 
     speech_to_text.upgrade_acoustic_model(
@@ -356,7 +356,7 @@ def test_custom_corpora():
             status=200,
             content_type='application/json')
 
-        speech_to_text = watson_developer_cloud.SpeechToTextV1(
+        speech_to_text = ibm_watson.SpeechToTextV1(
             username="username", password="password")
 
         speech_to_text.list_corpora(customization_id='customid')
@@ -437,7 +437,7 @@ def test_custom_words():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
 
     custom_word = CustomWord(
@@ -502,7 +502,7 @@ def test_custom_audio_resources():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
@@ -532,7 +532,7 @@ def test_delete_user_data():
         status=204,
         content_type='application_json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(username="username", password="password")
+    speech_to_text = ibm_watson.SpeechToTextV1(username="username", password="password")
     response = speech_to_text.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1
@@ -568,7 +568,7 @@ def test_custom_grammars():
         status=200,
         content_type='application/json')
 
-    speech_to_text = watson_developer_cloud.SpeechToTextV1(
+    speech_to_text = ibm_watson.SpeechToTextV1(
         username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/confirm-grammar.xml'), 'rb') as grammar_file:

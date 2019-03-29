@@ -1,8 +1,8 @@
 from __future__ import print_function
 import json
 from os.path import join, dirname
-from watson_developer_cloud import SpeechToTextV1
-from watson_developer_cloud.websocket import RecognizeCallback, AudioSource
+from ibm_watson import SpeechToTextV1
+from ibm_watson.websocket import RecognizeCallback, AudioSource
 import threading
 
 # If service instance provides API key authentication
