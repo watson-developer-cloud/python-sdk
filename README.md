@@ -21,6 +21,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Python version](#python-version)
   * [Changes for v1.0](#changes-for-v10)
   * [Changes for v2.0](#changes-for-v20)
+  * [Changes for v3.0](#changes-for-v30)
   * [Migration](#migration)
   * [Configuring the http client](#configuring-the-http-client-supported-from-v110)
   * [Disable SSL certificate verification](#disable-ssl-certificate-verification)
@@ -40,13 +41,13 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
 To install, use `pip` or `easy_install`:
 
 ```bash
-pip install --upgrade watson-developer-cloud
+pip install --upgrade ibm-watson
 ```
 
 or
 
 ```bash
-easy_install --upgrade watson-developer-cloud
+easy_install --upgrade ibm-watson
 ```
 
 Note the following:
@@ -54,7 +55,7 @@ Note the following:
 a) If you run into permission issues try:
 
 ```bash
-sudo -H pip install --ignore-installed six watson-developer-cloud
+sudo -H pip install --ignore-installed six ibm-watson
 ```
 
 For more details see [#225](https://github.com/watson-developer-cloud/python-sdk/issues/225)
@@ -73,7 +74,7 @@ The [examples][examples] folder has basic and advanced examples. The examples wi
 
 ## Running in IBM Cloud
 
-If you run your app in IBM Cloud, the SDK gets credentials from the [`VCAP_SERVICES`][vcap_services] environment variable. 
+If you run your app in IBM Cloud, the SDK gets credentials from the [`VCAP_SERVICES`][vcap_services] environment variable.
 
 ## Authentication
 
@@ -92,6 +93,9 @@ To find out which authentication to use, view the service credentials. You find 
 1. Click on the **Manage** item in the left nav bar of your service instance.
 
 On this page, you should be able to see your credentials for accessing your service instance.
+
+![alt text](https://cdn-images-1.medium.com/max/1600/1*DaTt56z0RaKlbyWDUaRJgQ.png)
+
 
 ### Supplying credentials
 
@@ -142,14 +146,14 @@ You supply either an IAM service **API key** or an **access token**:
 # In the constructor, letting the SDK manage the IAM token
 discovery = DiscoveryV1(version='2018-08-01',
                         url='<url_as_per_region>',
-                        iam_apikey='<iam_apikey>',
+                        apikey='<apikey>',
                         iam_url='<iam_url>') # optional - the default value is https://iam.bluemix.net/identity/token
 ```
 
 ```python
 # after instantiation, letting the SDK manage the IAM token
 discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>')
-discovery.set_iam_apikey('<iam_apikey>')
+discovery.set_apikey('<apikey>')
 ```
 
 #### Supplying the access token
@@ -203,6 +207,11 @@ print(response.get_headers())
 print(response.get_status_code())
 ```
 See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
+
+## Changes for v3.0
+The SDK is generated using OpenAPI Specification(OAS3). Changes are basic reordering of parameters in function calls.
+
+The package is renamed to ibm_watson. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
 ## Migration
 This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
@@ -310,6 +319,7 @@ service.synthesize_using_websocket('I like to pet dogs',
 * [responses] for testing
 * Following for web sockets support in speech to text
    * `websocket-client` 0.48.0
+* `ibm_cloud_sdk_core` >=0.2.0
 
 ## Contributing
 
