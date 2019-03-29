@@ -33,7 +33,7 @@ from .utils import deprecated
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud renamed to ibm-watson")
+@deprecated("watson-developer-cloud moved to ibm-watson")
 class DiscoveryV1(WatsonService):
     """The Discovery V1 service."""
 

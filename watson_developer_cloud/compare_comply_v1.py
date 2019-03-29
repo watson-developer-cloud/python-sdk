@@ -30,7 +30,7 @@ from .utils import deprecated
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud renamed to ibm-watson")
+@deprecated("watson-developer-cloud moved to ibm-watson")
 class CompareComplyV1(WatsonService):
     """The Compare Comply V1 service."""
 

@@ -39,13 +39,11 @@ from __future__ import absolute_import
 import json
 from os.path import basename
 from .watson_service import WatsonService
-from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud renamed to ibm-watson")
 class SpeechToTextV1(WatsonService):
     """The Speech to Text V1 service."""
 

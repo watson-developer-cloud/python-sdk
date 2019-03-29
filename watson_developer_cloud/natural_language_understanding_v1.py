@@ -35,7 +35,7 @@ from .utils import deprecated
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud renamed to ibm-watson")
+@deprecated("watson-developer-cloud moved to ibm-watson")
 class NaturalLanguageUnderstandingV1(WatsonService):
     """The Natural Language Understanding V1 service."""
 

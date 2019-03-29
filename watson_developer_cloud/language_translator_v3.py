@@ -32,7 +32,7 @@ from .utils import deprecated
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud renamed to ibm-watson")
+@deprecated("watson-developer-cloud moved to ibm-watson")
 class LanguageTranslatorV3(WatsonService):
     """The Language Translator V3 service."""
 
