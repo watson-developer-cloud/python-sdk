@@ -5,18 +5,18 @@ from ibm_watson import ToneAnalyzerV3
 from ibm_watson.tone_analyzer_v3 import ToneInput
 
 # If service instance provides API key authentication
-# service = ToneAnalyzerV3(
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/tone-analyzer/api',
-#     version='2017-09-21',
-#     iam_apikey='your_apikey')
-
 service = ToneAnalyzerV3(
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    # url='https://gateway.watsonplatform.net/tone-analyzer/api',
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
-    version='2017-09-21')
+    url='https://gateway.watsonplatform.net/tone-analyzer/api',
+    version='2017-09-21',
+    iam_apikey='YOU APIKEY')
+
+# service = ToneAnalyzerV3(
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     # url='https://gateway.watsonplatform.net/tone-analyzer/api',
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD',
+#     version='2017-09-21')
 
 print("\ntone_chat() example 1:\n")
 utterances = [{

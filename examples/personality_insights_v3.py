@@ -8,19 +8,19 @@ from os.path import join, dirname
 from ibm_watson import PersonalityInsightsV3
 import csv
 
-# # If service instance provides API key authentication
-# service = PersonalityInsightsV3(
-#     version='2017-10-13',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/personality-insights/api',
-#     iam_apikey='your_apikey')
-
+# If service instance provides API key authentication
 service = PersonalityInsightsV3(
     version='2017-10-13',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    # url='https://gateway.watsonplatform.net/personality-insights/api',
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+    url='https://gateway.watsonplatform.net/personality-insights/api',
+    iam_apikey='YOUR APIKEY')
+
+# service = PersonalityInsightsV3(
+#     version='2017-10-13',
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     # url='https://gateway.watsonplatform.net/personality-insights/api',
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD')
 
 ############################
 # Profile with JSON output #

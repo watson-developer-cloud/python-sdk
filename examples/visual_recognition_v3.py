@@ -11,7 +11,7 @@ service = VisualRecognitionV3(
     '2018-03-19',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     url='https://gateway.watsonplatform.net/visual-recognition/api',
-    iam_apikey='iam_apikey')
+    iam_apikey='YOUR APIKEY')
 
 # with open(abspath('resources/cars.zip'), 'rb') as cars, \
 #      open(abspath('resources/trucks.zip'), 'rb') as trucks:
@@ -36,7 +36,7 @@ except ApiException as ex:
 
 # with open(abspath('resources/car.jpg'), 'rb') as image_file:
 #     classifier = service.update_classifier('CarsvsTrucks_1479118188',
-#                                            cars_positive_examples=image_file).get_result()
+#                                            positive_examples={'cars_positive_examples': image_file}).get_result()
 #     print(json.dumps(classifier, indent=2))
 
 # faces_result = service.detect_faces(url=test_url).get_result()

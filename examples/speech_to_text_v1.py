@@ -6,15 +6,15 @@ from ibm_watson.websocket import RecognizeCallback, AudioSource
 import threading
 
 # If service instance provides API key authentication
-# service = SpeechToTextV1(
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://stream.watsonplatform.net/speech-to-text/api',
-#     iam_apikey='your_apikey')
-
 service = SpeechToTextV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
-    url='https://stream.watsonplatform.net/speech-to-text/api')
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    url='https://stream.watsonplatform.net/speech-to-text/api',
+    iam_apikey='YOUR APIKEY')
+
+# service = SpeechToTextV1(
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD',
+#     url='https://stream.watsonplatform.net/speech-to-text/api')
 
 models = service.list_models().get_result()
 print(json.dumps(models, indent=2))

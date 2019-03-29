@@ -5,17 +5,17 @@ import os
 # from os.path import join, dirname
 from ibm_watson import NaturalLanguageClassifierV1
 
-# # If service instance provides API key authentication
-# service = NaturalLanguageClassifierV1(
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/natural-language-classifier/api',
-#     iam_apikey='your_apikey')
-
+# If service instance provides API key authentication
 service = NaturalLanguageClassifierV1(
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    # url='https://gateway.watsonplatform.net/natural-language-classifier/api',
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+    url='https://gateway.watsonplatform.net/natural-language-classifier/api',
+    iam_apikey='YOUR APIKEY')
+
+# service = NaturalLanguageClassifierV1(
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     # url='https://gateway.watsonplatform.net/natural-language-classifier/api',
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD')
 
 classifiers = service.list_classifiers().get_result()
 print(json.dumps(classifiers, indent=2))

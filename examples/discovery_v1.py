@@ -4,18 +4,18 @@ import json
 from ibm_watson import DiscoveryV1
 
 # If service instance provides API key authentication
-# discovery = DiscoveryV1(
-#     version='2018-08-01',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/discovery/api',
-#     iam_apikey='iam_apikey')
-
 discovery = DiscoveryV1(
     version='2018-08-01',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    # url='https://gateway.watsonplatform.net/discovery/api',
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+    url='https://gateway.watsonplatform.net/discovery/api',
+    iam_apikey='YOUR APIKEY')
+
+# discovery = DiscoveryV1(
+#     version='2018-08-01',
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     # url='https://gateway.watsonplatform.net/discovery/api',
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD')
 
 environments = discovery.list_environments().get_result()
 print(json.dumps(environments, indent=2))
@@ -59,9 +59,6 @@ print(json.dumps(query_results, indent=2))
 
 # collections = discovery.list_collections(environment_id=writable_environment_id).get_result()
 # print(collections)
-
-# # with open(os.path.join(os.getcwd(),'..', 'resources','simple.html')) as fileinfo:
-# #    print(discovery.test_document(environment_id=writable_environment_id, fileinfo=fileinfo).get_result())
 
 # with open(os.path.join(os.getcwd(), '..','resources', 'simple.html')) as fileinfo:
 #     res = discovery.add_document(environment_id=writable_environment_id,

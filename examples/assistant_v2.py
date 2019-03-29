@@ -3,18 +3,18 @@ import json
 from ibm_watson import AssistantV2
 
 # If service instance provides API key authentication
-# assistant = AssistantV2(
-#     version='2018-09-20',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/assistant/api',
-#     iam_apikey='iam_apikey')
-
 assistant = AssistantV2(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
+    version='2018-09-20',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     url='https://gateway.watsonplatform.net/assistant/api',
-    version='2018-09-20')
+    iam_apikey='YOUR APIKEY')
+
+# assistant = AssistantV2(
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD',
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     url='https://gateway.watsonplatform.net/assistant/api',
+#     version='2018-09-20')
 
 #########################
 # Sessions
