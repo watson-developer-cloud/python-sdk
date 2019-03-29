@@ -1,16 +1,16 @@
 # coding: utf-8
 import responses
-import watson_developer_cloud
+import ibm_watson
 import os
 import codecs
-from watson_developer_cloud.personality_insights_v3 import Profile
+from ibm_watson.personality_insights_v3 import Profile
 
 profile_url = 'https://gateway.watsonplatform.net/personality-insights/api/v3/profile'
 
 @responses.activate
 def test_plain_to_json():
 
-    personality_insights = watson_developer_cloud.PersonalityInsightsV3(
+    personality_insights = ibm_watson.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect1.txt')) as expect_file:
@@ -22,7 +22,7 @@ def test_plain_to_json():
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.txt')) as personality_text:
         response = personality_insights.profile(
-            personality_text, content_type='text/plain;charset=utf-8').get_result()
+            personality_text, 'application/json', content_type='text/plain;charset=utf-8').get_result()
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response
@@ -33,7 +33,7 @@ def test_plain_to_json():
 @responses.activate
 def test_json_to_json():
 
-    personality_insights = watson_developer_cloud.PersonalityInsightsV3(
+    personality_insights = ibm_watson.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect2.txt')) as expect_file:
@@ -45,8 +45,10 @@ def test_json_to_json():
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json')) as personality_text:
         response = personality_insights.profile(
-            personality_text, content_type='application/json',
-            raw_scores=True, consumption_preferences=True).get_result()
+            personality_text, accept='application/json',
+            content_type='application/json',
+            raw_scores=True,
+            consumption_preferences=True).get_result()
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
     assert 'raw_scores=true' in responses.calls[0].request.url
@@ -59,7 +61,7 @@ def test_json_to_json():
 @responses.activate
 def test_json_to_csv():
 
-    personality_insights = watson_developer_cloud.PersonalityInsightsV3(
+    personality_insights = ibm_watson.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect3.txt')) as expect_file:
@@ -71,9 +73,12 @@ def test_json_to_csv():
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json')) as personality_text:
         personality_insights.profile(
-            personality_text, content_type='application/json',
-            accept='text/csv', csv_headers=True,
-            raw_scores=True, consumption_preferences=True)
+            personality_text,
+            'text/csv',
+            content_type='application/json',
+            csv_headers=True,
+            raw_scores=True,
+            consumption_preferences=True)
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
     assert 'raw_scores=true' in responses.calls[0].request.url
@@ -86,7 +91,7 @@ def test_json_to_csv():
 @responses.activate
 def test_plain_to_json_es():
 
-    personality_insights = watson_developer_cloud.PersonalityInsightsV3(
+    personality_insights = ibm_watson.PersonalityInsightsV3(
         '2016-10-20', username="username", password="password")
 
     with codecs.open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect4.txt'), \
@@ -99,8 +104,11 @@ def test_plain_to_json_es():
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-es.txt')) as personality_text:
         response = personality_insights.profile(
-            personality_text, content_type='text/plain;charset=utf-8',
-            content_language='es', accept_language='es').get_result()
+            personality_text,
+            'application/json',
+            content_type='text/plain;charset=utf-8',
+            content_language='es',
+            accept_language='es').get_result()
 
     assert 'version=2016-10-20' in responses.calls[0].request.url
     assert responses.calls[0].response.text == profile_response

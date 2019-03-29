@@ -5,7 +5,7 @@ The example returns a JSON response whose content is the same as that in
 from __future__ import print_function
 import json
 from os.path import join, dirname
-from watson_developer_cloud import PersonalityInsightsV3
+from ibm_watson import PersonalityInsightsV3
 import csv
 
 # # If service instance provides API key authentication
@@ -30,7 +30,7 @@ with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
         profile_json:
     profile = service.profile(
         profile_json.read(),
-        content_type='application/json',
+        'application/json',
         raw_scores=True,
         consumption_preferences=True).get_result()
 
@@ -44,8 +44,7 @@ with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
         profile_json:
     response = service.profile(
         profile_json.read(),
-        content_type='application/json',
-        accept="text/csv",
+        accept='text/csv',
         csv_headers=True).get_result()
 
 profile = response.content
