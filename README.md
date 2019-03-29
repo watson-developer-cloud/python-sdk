@@ -36,6 +36,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
 
 ## Installation
+Note: We are renaming `watson-developer-cloud` to `ibm-watson`
 
 To install, use `pip` or `easy_install`:
 
