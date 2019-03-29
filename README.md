@@ -51,8 +51,13 @@ easy_install --upgrade ibm-watson
 ```
 
 Note the following:
+a) Versions prior to 3.0.0 can be installed using:
 
-a) If you run into permission issues try:
+```bash
+pip install --upgrade watson-developer-cloud
+```
+
+b) If you run into permission issues try:
 
 ```bash
 sudo -H pip install --ignore-installed six ibm-watson
@@ -60,7 +65,7 @@ sudo -H pip install --ignore-installed six ibm-watson
 
 For more details see [#225](https://github.com/watson-developer-cloud/python-sdk/issues/225)
 
-b) In case you run into problems installing the SDK in DSX, try
+c) In case you run into problems installing the SDK in DSX, try
 ```
 !pip install --upgrade pip
 ```
