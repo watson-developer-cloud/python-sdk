@@ -2,8 +2,8 @@
 from __future__ import print_function
 import json
 from os.path import join, dirname
-from watson_developer_cloud import TextToSpeechV1
-from watson_developer_cloud.websocket import SynthesizeCallback
+from ibm_watson import TextToSpeechV1
+from ibm_watson.websocket import SynthesizeCallback
 
 # If service instance provides API key authentication
 # service = TextToSpeechV1(

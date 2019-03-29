@@ -1,6 +1,6 @@
 # coding=utf-8
 import responses
-import watson_developer_cloud
+import ibm_watson
 import json
 
 
@@ -88,7 +88,7 @@ def test_success():
         content_type='application/json',
         match_querystring=True)
 
-    text_to_speech = watson_developer_cloud.TextToSpeechV1(
+    text_to_speech = ibm_watson.TextToSpeechV1(
         username="username", password="password")
 
     text_to_speech.list_voices()
@@ -116,7 +116,7 @@ def test_get_pronunciation():
         status=200,
         content_type='application_json')
 
-    text_to_speech = watson_developer_cloud.TextToSpeechV1(
+    text_to_speech = ibm_watson.TextToSpeechV1(
         username="username", password="password")
 
     text_to_speech.get_pronunciation(text="this is some text")
@@ -160,7 +160,7 @@ def test_custom_voice_models():
         status=200,
         content_type='application_json')
 
-    text_to_speech = watson_developer_cloud.TextToSpeechV1(
+    text_to_speech = ibm_watson.TextToSpeechV1(
         username="username", password="password")
     text_to_speech.list_voice_models()
     text_to_speech.list_voice_models(language="en-US")
@@ -215,7 +215,7 @@ def test_custom_words():
         status=200,
         content_type='application_json')
 
-    text_to_speech = watson_developer_cloud.TextToSpeechV1(
+    text_to_speech = ibm_watson.TextToSpeechV1(
         username="username", password="password")
 
     text_to_speech.list_words(customization_id="custid")
@@ -239,7 +239,7 @@ def test_delete_user_data():
         status=204,
         content_type='application_json')
 
-    text_to_speech = watson_developer_cloud.TextToSpeechV1(username="username", password="password")
+    text_to_speech = ibm_watson.TextToSpeechV1(username="username", password="password")
     response = text_to_speech.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1

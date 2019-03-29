@@ -1,7 +1,7 @@
 # coding: utf-8
 import unittest
-import watson_developer_cloud
-from watson_developer_cloud.websocket import SynthesizeCallback
+import ibm_watson
+from ibm_watson.websocket import SynthesizeCallback
 import pytest
 import os
 
@@ -14,8 +14,7 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.text_to_speech = watson_developer_cloud.TextToSpeechV1(
-            username="YOUR SERVICE USERNAME", password="YOUR SERVICE PASSWORD")
+        cls.text_to_speech = ibm_watson.TextToSpeechV1()
         cls.text_to_speech.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
