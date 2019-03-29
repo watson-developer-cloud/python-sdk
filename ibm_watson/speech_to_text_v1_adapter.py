@@ -16,7 +16,6 @@
 
 from ibm_watson.websocket import RecognizeCallback, RecognizeListener, AudioSource
 from .speech_to_text_v1 import SpeechToTextV1
-from .watson_service import _remove_null_values
 import base64
 try:
     from urllib.parse import urlencode
@@ -211,7 +210,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'base_model_version': base_model_version,
             'language_customization_id': language_customization_id
         }
-        params = _remove_null_values(params)
+        params = dict([(k, v) for k, v in params.items() if v is not None])
         url += '/v1/recognize?{0}'.format(urlencode(params))
 
         options = {
@@ -230,7 +229,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'grammar_name': grammar_name,
             'redaction': redaction
         }
-        options = _remove_null_values(options)
+        options = dict([(k, v) for k, v in options.items() if v is not None])
 
         RecognizeListener(audio,
                           options,

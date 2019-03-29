@@ -18,7 +18,6 @@
 from ibm_watson.websocket import SynthesizeCallback, SynthesizeListener
 import base64
 from .text_to_speech_v1 import TextToSpeechV1
-from .watson_service import _remove_null_values
 try:
     from urllib.parse import urlencode
 except ImportError:
@@ -97,7 +96,7 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
             'voice': voice,
             'customization_id': customization_id,
         }
-        params = _remove_null_values(params)
+        params = dict([(k, v) for k, v in params.items() if v is not None])
         url += '/v1/synthesize?{0}'.format(urlencode(params))
 
         options = {
@@ -105,7 +104,7 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
             'accept': accept,
             'timings': timings
         }
-        options = _remove_null_values(options)
+        options = dict([(k, v) for k, v in options.items() if v is not None])
 
         SynthesizeListener(options,
                            synthesize_callback,
