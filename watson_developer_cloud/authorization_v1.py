@@ -19,6 +19,7 @@ retrieve a temporary access token
 """
 
 from watson_developer_cloud.watson_service import WatsonService
+from .utils import deprecated
 
 try:
     import urllib.parse as urlparse  # Python 3
@@ -26,6 +27,7 @@ except ImportError:
     import urlparse  # Python 2
 
 
+@deprecated("watson-developer-cloud renamed to ibm-watson")
 class AuthorizationV1(WatsonService):
     """
     Generates tokens, which can be used client-side to avoid exposing the

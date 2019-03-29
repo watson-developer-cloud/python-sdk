@@ -27,12 +27,13 @@ import json
 from .watson_service import datetime_to_string, string_to_datetime
 from os.path import basename
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-
+@deprecated("watson-developer-cloud renamed to ibm-watson")
 class DiscoveryV1(WatsonService):
     """The Discovery V1 service."""
 

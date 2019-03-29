@@ -26,12 +26,13 @@ from .watson_service import datetime_to_string, string_to_datetime
 from os.path import basename
 import re
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-
+@deprecated("watson-developer-cloud renamed to ibm-watson")
 class VisualRecognitionV3(WatsonService):
     """The Visual Recognition V3 service."""
 

@@ -37,12 +37,13 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-
+@deprecated("watson-developer-cloud renamed to ibm-watson")
 class PersonalityInsightsV3(WatsonService):
     """The Personality Insights V3 service."""
 
