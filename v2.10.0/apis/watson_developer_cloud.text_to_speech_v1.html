@@ -1,0 +1,848 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>watson_developer_cloud.text_to_speech_v1 module &#8212; Watson Developer Cloud Python SDK 2.10.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.tone_analyzer_v3 module" href="watson_developer_cloud.tone_analyzer_v3.html" />
+    <link rel="prev" title="watson_developer_cloud.text_to_speech_adapter_v1 module" href="watson_developer_cloud.text_to_speech_adapter_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.text_to_speech_v1">
+<span id="watson-developer-cloud-text-to-speech-v1-module"></span><h1>watson_developer_cloud.text_to_speech_v1 module<a class="headerlink" href="#module-watson_developer_cloud.text_to_speech_v1" title="Permalink to this headline">¶</a></h1>
+<p>### Service Overview
+The IBM&amp;reg; Text to Speech service provides APIs that use IBM’s speech-synthesis
+capabilities to synthesize text into natural-sounding speech in a variety of languages,
+dialects, and voices. The service supports at least one male or female voice, sometimes
+both, for each language. The audio is streamed back to the client with minimal delay.
+For speech synthesis, the service supports a synchronous HTTP Representational State
+Transfer (REST) interface. It also supports a WebSocket interface that provides both plain
+text and SSML input, including the SSML &amp;lt;mark&amp;gt; element and word timings. SSML is an
+XML-based markup language that provides text annotation for speech-synthesis applications.
+The service also offers a customization interface. You can use the interface to define
+sounds-like or phonetic translations for words. A sounds-like translation consists of one
+or more words that, when combined, sound like the word. A phonetic translation is based on
+the SSML phoneme format for representing a word. You can specify a phonetic translation in
+standard International Phonetic Alphabet (IPA) representation or in the proprietary IBM
+Symbolic Phonetic Representation (SPR).</p>
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1">
+<em class="property">class </em><code class="descname">TextToSpeechV1</code><span class="sig-paren">(</span><em>url='https://stream.watsonplatform.net/text-to-speech/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>iam_apikey=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.WatsonService" title="watson_developer_cloud.watson_service.WatsonService"><code class="xref py py-class docutils literal notranslate"><span class="pre">watson_developer_cloud.watson_service.WatsonService</span></code></a></p>
+<p>The Text to Speech V1 service.</p>
+<dl class="attribute">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://stream.watsonplatform.net/text-to-speech/api'</em><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice">
+<code class="descname">get_voice</code><span class="sig-paren">(</span><em>voice</em>, <em>customization_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a voice.</p>
+<p>Gets information about the specified voice. The information includes the name,
+language, gender, and other details about the voice. Specify a customization ID to
+obtain information for that custom voice model of the specified voice. To list
+information about all available voices, use the <strong>List voices</strong> method.
+<strong>See also:</strong> [Specifying a
+voice](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/http.html#voices">https://cloud.ibm.com/docs/services/text-to-speech/http.html#voices</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The voice for which information is to be returned.</p></li>
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of a custom voice model</p></li>
+</ul>
+</dd>
+</dl>
+<p>for which information is to be returned. You must make the request with service
+credentials created for the instance of the service that owns the custom model.
+Omit the parameter to see information about the specified voice with no
+customization.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voices">
+<code class="descname">list_voices</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_voices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voices" title="Permalink to this definition">¶</a></dt>
+<dd><p>List voices.</p>
+<p>Lists all voices available for use with the service. The information includes the
+name, language, gender, and other details about the voice. To see information
+about a specific voice, use the <strong>Get a voice</strong> method.
+<strong>See also:</strong> [Specifying a
+voice](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/http.html#voices">https://cloud.ibm.com/docs/services/text-to-speech/http.html#voices</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.DetailedResponse" title="watson_developer_cloud.watson_service.DetailedResponse">DetailedResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.synthesize">
+<code class="descname">synthesize</code><span class="sig-paren">(</span><em>text</em>, <em>accept=None</em>, <em>voice=None</em>, <em>customization_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.synthesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.synthesize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthesize audio.</p>
+<p>Synthesizes text to audio that is spoken in the specified voice. The service bases
+its understanding of the language for the input text on the specified voice. Use a
+voice that matches the language of the input text.
+The service returns the synthesized audio stream as an array of bytes. You can
+pass a maximum of 5 KB of text to the service.
+<strong>See also:</strong> [Synthesizing text to
+audio](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/http.html#synthesize">https://cloud.ibm.com/docs/services/text-to-speech/http.html#synthesize</a>).
+### Audio formats (accept types)</p>
+<blockquote>
+<div><p>The service can return audio in the following formats (MIME types).</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Where indicated, you can optionally specify the sampling rate (<cite>rate</cite>) of the</p></li>
+</ul>
+<p>audio. You must specify a sampling rate for the <cite>audio/l16</cite> and <cite>audio/mulaw</cite>
+formats. A specified sampling rate must lie in the range of 8 kHz to 192 kHz.
+* For the <cite>audio/l16</cite> format, you can optionally specify the endianness
+(<cite>endianness</cite>) of the audio: <cite>endianness=big-endian</cite> or
+<cite>endianness=little-endian</cite>.
+Use the <cite>Accept</cite> header or the <cite>accept</cite> parameter to specify the requested format
+of the response audio. If you omit an audio format altogether, the service returns
+the audio in Ogg format with the Opus codec (<cite>audio/ogg;codecs=opus</cite>). The service
+always returns single-channel audio.
+* <cite>audio/basic</cite></p>
+<blockquote>
+<div><p>The service returns audio with a sampling rate of 8000 Hz.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><cite>audio/flac</cite>
+You can optionally specify the <cite>rate</cite> of the audio. The default sampling rate is</p></li>
+</ul>
+<p>22,050 Hz.
+* <cite>audio/l16</cite></p>
+<blockquote>
+<div><p>You must specify the <cite>rate</cite> of the audio. You can optionally specify the</p>
+</div></blockquote>
+<p><cite>endianness</cite> of the audio. The default endianness is <cite>little-endian</cite>.
+* <cite>audio/mp3</cite></p>
+<blockquote>
+<div><p>You can optionally specify the <cite>rate</cite> of the audio. The default sampling rate is</p>
+</div></blockquote>
+<p>22,050 Hz.
+* <cite>audio/mpeg</cite></p>
+<blockquote>
+<div><p>You can optionally specify the <cite>rate</cite> of the audio. The default sampling rate is</p>
+</div></blockquote>
+<p>22,050 Hz.
+* <cite>audio/mulaw</cite></p>
+<blockquote>
+<div><p>You must specify the <cite>rate</cite> of the audio.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><cite>audio/ogg</cite>
+The service returns the audio in the <cite>vorbis</cite> codec. You can optionally specify</p></li>
+</ul>
+<p>the <cite>rate</cite> of the audio. The default sampling rate is 22,050 Hz.
+* <cite>audio/ogg;codecs=opus</cite></p>
+<blockquote>
+<div><p>You can optionally specify the <cite>rate</cite> of the audio. The default sampling rate is</p>
+</div></blockquote>
+<p>22,050 Hz.
+* <cite>audio/ogg;codecs=vorbis</cite></p>
+<blockquote>
+<div><p>You can optionally specify the <cite>rate</cite> of the audio. The default sampling rate is</p>
+</div></blockquote>
+<p>22,050 Hz.
+* <cite>audio/wav</cite></p>
+<blockquote>
+<div><p>You can optionally specify the <cite>rate</cite> of the audio. The default sampling rate is</p>
+</div></blockquote>
+<p>22,050 Hz.
+* <cite>audio/webm</cite></p>
+<blockquote>
+<div><p>The service returns the audio in the <cite>opus</cite> codec. The service returns audio</p>
+</div></blockquote>
+<p>with a sampling rate of 48,000 Hz.
+* <cite>audio/webm;codecs=opus</cite></p>
+<blockquote>
+<div><p>The service returns audio with a sampling rate of 48,000 Hz.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><cite>audio/webm;codecs=vorbis</cite>
+You can optionally specify the <cite>rate</cite> of the audio. The default sampling rate is</p></li>
+</ul>
+<p>22,050 Hz.
+For more information about specifying an audio format, including additional
+details about some of the formats, see [Specifying an audio
+format](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/http.html#format">https://cloud.ibm.com/docs/services/text-to-speech/http.html#format</a>).
+### Warning messages</p>
+<blockquote>
+<div><p>If a request includes invalid query parameters, the service returns a <cite>Warnings</cite></p>
+</div></blockquote>
+<p>response header that provides messages about the invalid parameters. The warning
+includes a descriptive message and a list of invalid argument strings. For
+example, a message such as <cite>“Unknown arguments:”</cite> or <cite>“Unknown url query
+arguments:”</cite> followed by a list of the form <cite>“{invalid_arg_1},
+{invalid_arg_2}.”</cite> The request succeeds despite the warnings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The text to synthesize.</p></li>
+<li><p><strong>accept</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The requested format (MIME type) of the audio. You can use the</p></li>
+</ul>
+</dd>
+</dl>
+<p><cite>Accept</cite> header or the <cite>accept</cite> parameter to specify the audio format. For more
+information about specifying an audio format, see <strong>Audio formats (accept types)</strong>
+in the method description.
+Default: <cite>audio/ogg;codecs=opus</cite>.
+:param str voice: The voice to use for synthesis.
+:param str customization_id: The customization ID (GUID) of a custom voice model
+to use for the synthesis. If a custom voice model is specified, it is guaranteed
+to work only if it matches the language of the indicated voice. You must make the
+request with service credentials created for the instance of the service that owns
+the custom model. Omit the parameter to use the specified voice with no
+customization.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_pronunciation">
+<code class="descname">get_pronunciation</code><span class="sig-paren">(</span><em>text</em>, <em>voice=None</em>, <em>format=None</em>, <em>customization_id=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_pronunciation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_pronunciation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get pronunciation.</p>
+<p>Gets the phonetic pronunciation for the specified word. You can request the
+pronunciation for a specific format. You can also request the pronunciation for a
+specific voice to see the default translation for the language of that voice or
+for a specific custom voice model to see the translation for that voice model.
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong> [Querying a word from a
+language](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsQueryLanguage">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsQueryLanguage</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The word for which the pronunciation is requested.</p></li>
+<li><p><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A voice that specifies the language in which the pronunciation</p></li>
+</ul>
+</dd>
+</dl>
+<p>is to be returned. All voices for the same language (for example, <cite>en-US</cite>) return
+the same translation.
+:param str format: The phoneme format in which to return the pronunciation. Omit
+the parameter to obtain the pronunciation in the default format.
+:param str customization_id: The customization ID (GUID) of a custom voice model
+for which the pronunciation is to be returned. The language of a specified custom
+model must match the language of the specified voice. If the word is not defined
+in the specified custom model, the service returns the default translation for the
+custom model’s language. You must make the request with service credentials
+created for the instance of the service that owns the custom model. Omit the
+parameter to see the translation for the specified voice with no customization.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_voice_model">
+<code class="descname">create_voice_model</code><span class="sig-paren">(</span><em>name</em>, <em>language=None</em>, <em>description=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.create_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.create_voice_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a custom model.</p>
+<p>Creates a new empty custom voice model. You must specify a name for the new custom
+model. You can optionally specify the language and a description for the new
+model. The model is owned by the instance of the service whose credentials are
+used to create it.
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong> [Creating a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsCreate">https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsCreate</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The name of the new custom voice model.</p></li>
+<li><p><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The language of the new custom voice model. Omit the</p></li>
+</ul>
+</dd>
+</dl>
+<p>parameter to use the the default language, <cite>en-US</cite>.
+:param str description: A description of the new custom voice model. Specifying a
+description is recommended.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_voice_model">
+<code class="descname">delete_voice_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_voice_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a custom model.</p>
+<p>Deletes the specified custom voice model. You must use credentials for the
+instance of the service that owns a model to delete it.
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong> [Deleting a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsDelete">https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsDelete</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of the custom voice</p>
+</dd>
+</dl>
+<p>model. You must make the request with service credentials created for the instance
+of the service that owns the custom model.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice_model">
+<code class="descname">get_voice_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_voice_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a custom model.</p>
+<p>Gets all information about a specified custom voice model. In addition to metadata
+such as the name and description of the voice model, the output includes the words
+and their translations as defined in the model. To see just the metadata for a
+voice model, use the <strong>List custom models</strong> method.
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong> [Querying a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsQuery">https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsQuery</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of the custom voice</p>
+</dd>
+</dl>
+<p>model. You must make the request with service credentials created for the instance
+of the service that owns the custom model.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models">
+<code class="descname">list_voice_models</code><span class="sig-paren">(</span><em>language=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_voice_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_voice_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>List custom models.</p>
+<p>Lists metadata such as the name and description for all custom voice models that
+are owned by an instance of the service. Specify a language to list the voice
+models for that language only. To see the words in addition to the metadata for a
+specific voice model, use the <strong>List a custom model</strong> method. You must use
+credentials for the instance of the service that owns a model to list information
+about it.
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong> [Querying all custom
+models](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsQueryAll">https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsQueryAll</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The language for which custom voice models that are owned by</p>
+</dd>
+</dl>
+<p>the requesting service credentials are to be returned. Omit the parameter to see
+all custom voice models that are owned by the requester.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.update_voice_model">
+<code class="descname">update_voice_model</code><span class="sig-paren">(</span><em>customization_id</em>, <em>name=None</em>, <em>description=None</em>, <em>words=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.update_voice_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.update_voice_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a custom model.</p>
+<p>Updates information for the specified custom voice model. You can update metadata
+such as the name and description of the voice model. You can also update the words
+in the model and their translations. Adding a new translation for a word that
+already exists in a custom model overwrites the word’s existing translation. A
+custom model can contain no more than 20,000 entries. You must use credentials for
+the instance of the service that owns a model to update it.
+You can define sounds-like or phonetic translations for words. A sounds-like
+translation consists of one or more words that, when combined, sound like the
+word. Phonetic translations are based on the SSML phoneme format for representing
+a word. You can specify them in standard International Phonetic Alphabet (IPA)
+representation</p>
+<blockquote>
+<div><p>&lt;code&gt;&amp;lt;phoneme alphabet=”ipa”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ph=”t&amp;#601;m&amp;#712;&amp;#593;to”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;</dt><dd><p>or in the proprietary IBM Symbolic Phonetic Representation (SPR)
+&lt;code&gt;&amp;lt;phoneme alphabet=”ibm”</p>
+</dd>
+</dl>
+<p>ph=”1gAstroEntxrYFXs”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong>
+* [Updating a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsUpdate">https://cloud.ibm.com/docs/services/text-to-speech/custom-models.html#cuModelsUpdate</a>)
+* [Adding words to a Japanese custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd</a>)
+* [Understanding
+customization](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html">https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of the custom voice</p>
+</dd>
+</dl>
+<p>model. You must make the request with service credentials created for the instance
+of the service that owns the custom model.
+:param str name: A new name for the custom voice model.
+:param str description: A new description for the custom voice model.
+:param list[Word] words: An array of <cite>Word</cite> objects that provides the words and
+their translations that are to be added or updated for the custom voice model.
+Pass an empty array to make no additions or updates.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_word">
+<code class="descname">add_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em>, <em>translation</em>, <em>part_of_speech=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.add_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a custom word.</p>
+<p>Adds a single word and its translation to the specified custom voice model. Adding
+a new translation for a word that already exists in a custom model overwrites the
+word’s existing translation. A custom model can contain no more than 20,000
+entries. You must use credentials for the instance of the service that owns a
+model to add a word to it.
+You can define sounds-like or phonetic translations for words. A sounds-like
+translation consists of one or more words that, when combined, sound like the
+word. Phonetic translations are based on the SSML phoneme format for representing
+a word. You can specify them in standard International Phonetic Alphabet (IPA)
+representation</p>
+<blockquote>
+<div><p>&lt;code&gt;&amp;lt;phoneme alphabet=”ipa”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ph=”t&amp;#601;m&amp;#712;&amp;#593;to”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;</dt><dd><p>or in the proprietary IBM Symbolic Phonetic Representation (SPR)
+&lt;code&gt;&amp;lt;phoneme alphabet=”ibm”</p>
+</dd>
+</dl>
+<p>ph=”1gAstroEntxrYFXs”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong>
+* [Adding a single word to a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordAdd">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordAdd</a>)
+* [Adding words to a Japanese custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd</a>)
+* [Understanding
+customization](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html">https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of the custom voice</p>
+</dd>
+</dl>
+<p>model. You must make the request with service credentials created for the instance
+of the service that owns the custom model.
+:param str word: The word that is to be added or updated for the custom voice
+model.
+:param str translation: The phonetic or sounds-like translation for the word. A
+phonetic translation is based on the SSML format for representing the phonetic
+string of a word either as an IPA translation or as an IBM SPR translation. A
+sounds-like is one or more words that, when combined, sound like the word.
+:param str part_of_speech: <strong>Japanese only.</strong> The part of speech for the word. The
+service uses the value to produce the correct intonation for the word. You can
+create only a single entry, with or without a single part of speech, for any word;
+you cannot create multiple entries with different parts of speech for the same
+word. For more information, see [Working with Japanese
+entries](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes">https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes</a>).
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_words">
+<code class="descname">add_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>words</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.add_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.add_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add custom words.</p>
+<p>Adds one or more words and their translations to the specified custom voice model.
+Adding a new translation for a word that already exists in a custom model
+overwrites the word’s existing translation. A custom model can contain no more
+than 20,000 entries. You must use credentials for the instance of the service that
+owns a model to add words to it.
+You can define sounds-like or phonetic translations for words. A sounds-like
+translation consists of one or more words that, when combined, sound like the
+word. Phonetic translations are based on the SSML phoneme format for representing
+a word. You can specify them in standard International Phonetic Alphabet (IPA)
+representation</p>
+<blockquote>
+<div><p>&lt;code&gt;&amp;lt;phoneme alphabet=”ipa”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ph=”t&amp;#601;m&amp;#712;&amp;#593;to”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;</dt><dd><p>or in the proprietary IBM Symbolic Phonetic Representation (SPR)
+&lt;code&gt;&amp;lt;phoneme alphabet=”ibm”</p>
+</dd>
+</dl>
+<p>ph=”1gAstroEntxrYFXs”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong>
+* [Adding multiple words to a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsAdd">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsAdd</a>)
+* [Adding words to a Japanese custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuJapaneseAdd</a>)
+* [Understanding
+customization](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html">https://cloud.ibm.com/docs/services/text-to-speech/custom-intro.html</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of the custom voice</p>
+</dd>
+</dl>
+<p>model. You must make the request with service credentials created for the instance
+of the service that owns the custom model.
+:param list[Word] words: The <strong>Add custom words</strong> method accepts an array of
+<cite>Word</cite> objects. Each object provides a word that is to be added or updated for the
+custom voice model and the word’s translation.
+The <strong>List custom words</strong> method returns an array of <cite>Word</cite> objects. Each object
+shows a word and its translation from the custom voice model. The words are listed
+in alphabetical order, with uppercase letters listed before lowercase letters. The
+array is empty if the custom model contains no words.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_word">
+<code class="descname">delete_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a custom word.</p>
+<p>Deletes a single word from the specified custom voice model. You must use
+credentials for the instance of the service that owns a model to delete its words.
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong> [Deleting a word from a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordDelete">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordDelete</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of the custom voice</p>
+</dd>
+</dl>
+<p>model. You must make the request with service credentials created for the instance
+of the service that owns the custom model.
+:param str word: The word that is to be deleted from the custom voice model.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_word">
+<code class="descname">get_word</code><span class="sig-paren">(</span><em>customization_id</em>, <em>word</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.get_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.get_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a custom word.</p>
+<p>Gets the translation for a single word from the specified custom model. The output
+shows the translation as it is defined in the model. You must use credentials for
+the instance of the service that owns a model to list its words.
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong> [Querying a single word from a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordQueryModel">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordQueryModel</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of the custom voice</p>
+</dd>
+</dl>
+<p>model. You must make the request with service credentials created for the instance
+of the service that owns the custom model.
+:param str word: The word that is to be queried from the custom voice model.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_words">
+<code class="descname">list_words</code><span class="sig-paren">(</span><em>customization_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.list_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.list_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>List custom words.</p>
+<p>Lists all of the words and their translations for the specified custom voice
+model. The output shows the translations as they are defined in the model. You
+must use credentials for the instance of the service that owns a model to list its
+words.
+<strong>Note:</strong> This method is currently a beta release.
+<strong>See also:</strong> [Querying all words from a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsQueryModel">https://cloud.ibm.com/docs/services/text-to-speech/custom-entries.html#cuWordsQueryModel</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customization ID (GUID) of the custom voice</p>
+</dd>
+</dl>
+<p>model. You must make the request with service credentials created for the instance
+of the service that owns the custom model.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_user_data">
+<code class="descname">delete_user_data</code><span class="sig-paren">(</span><em>customer_id</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#TextToSpeechV1.delete_user_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.TextToSpeechV1.delete_user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete labeled data.</p>
+<p>Deletes all data that is associated with a specified customer ID. The method
+deletes all data for the customer ID, regardless of the method by which the
+information was added. The method has no effect if no data is associated with the
+customer ID. You must issue the request with credentials for the same instance of
+the service that was used to associate the customer ID with the data.
+You associate a customer ID with data by passing the <cite>X-Watson-Metadata</cite> header
+with a request that passes the data.
+<strong>See also:</strong> [Information
+security](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/information-security.html">https://cloud.ibm.com/docs/services/text-to-speech/information-security.html</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The customer ID for which all data is to be deleted.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="watson_developer_cloud.watson_service.html#watson_developer_cloud.watson_service.DetailedResponse" title="watson_developer_cloud.watson_service.DetailedResponse">DetailedResponse</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.Pronunciation">
+<em class="property">class </em><code class="descname">Pronunciation</code><span class="sig-paren">(</span><em>pronunciation</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#Pronunciation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.Pronunciation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Pronunciation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str pronunciation</dt>
+<dd class="field-odd"><p>The pronunciation of the specified text in the requested</p>
+</dd>
+</dl>
+<p>voice and format. If a custom voice model is specified, the pronunciation also
+reflects that custom voice.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.SupportedFeatures">
+<em class="property">class </em><code class="descname">SupportedFeatures</code><span class="sig-paren">(</span><em>custom_pronunciation</em>, <em>voice_transformation</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#SupportedFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.SupportedFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Describes the additional service features that are supported with the voice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool custom_pronunciation</dt>
+<dd class="field-odd"><p>If <cite>true</cite>, the voice can be customized; if <cite>false</cite>,</p>
+</dd>
+</dl>
+<p>the voice cannot be customized. (Same as <cite>customizable</cite>.).
+:attr bool voice_transformation: If <cite>true</cite>, the voice can be transformed by using the
+SSML &amp;lt;voice-transformation&amp;gt; element; if <cite>false</cite>, the voice cannot be
+transformed.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.Translation">
+<em class="property">class </em><code class="descname">Translation</code><span class="sig-paren">(</span><em>translation</em>, <em>part_of_speech=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#Translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.Translation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Translation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str translation</dt>
+<dd class="field-odd"><p>The phonetic or sounds-like translation for the word. A</p>
+</dd>
+</dl>
+<p>phonetic translation is based on the SSML format for representing the phonetic string
+of a word either as an IPA translation or as an IBM SPR translation. A sounds-like is
+one or more words that, when combined, sound like the word.
+:attr str part_of_speech: (optional) <strong>Japanese only.</strong> The part of speech for the
+word. The service uses the value to produce the correct intonation for the word. You
+can create only a single entry, with or without a single part of speech, for any word;
+you cannot create multiple entries with different parts of speech for the same word.
+For more information, see [Working with Japanese
+entries](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes">https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes</a>).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.Voice">
+<em class="property">class </em><code class="descname">Voice</code><span class="sig-paren">(</span><em>url</em>, <em>gender</em>, <em>name</em>, <em>language</em>, <em>description</em>, <em>customizable</em>, <em>supported_features</em>, <em>customization=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#Voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.Voice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Voice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str url</dt>
+<dd class="field-odd"><p>The URI of the voice.</p>
+</dd>
+<dt class="field-even">Attr str gender</dt>
+<dd class="field-even"><p>The gender of the voice: <cite>male</cite> or <cite>female</cite>.</p>
+</dd>
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>The name of the voice. Use this as the voice identifier in all</p>
+</dd>
+</dl>
+<p>requests.
+:attr str language: The language and region of the voice (for example, <cite>en-US</cite>).
+:attr str description: A textual description of the voice.
+:attr bool customizable: If <cite>true</cite>, the voice can be customized; if <cite>false</cite>, the voice
+cannot be customized. (Same as <cite>custom_pronunciation</cite>; maintained for backward
+compatibility.).
+:attr SupportedFeatures supported_features: Describes the additional service features
+that are supported with the voice.
+:attr VoiceModel customization: (optional) Returns information about a specified
+custom voice model. This field is returned only by the <strong>Get a voice</strong> method and only
+when you specify the customization ID of a custom voice model.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.VoiceModel">
+<em class="property">class </em><code class="descname">VoiceModel</code><span class="sig-paren">(</span><em>customization_id</em>, <em>name=None</em>, <em>language=None</em>, <em>owner=None</em>, <em>created=None</em>, <em>last_modified=None</em>, <em>description=None</em>, <em>words=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#VoiceModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.VoiceModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>VoiceModel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str customization_id</dt>
+<dd class="field-odd"><p>The customization ID (GUID) of the custom voice model. The</p>
+</dd>
+</dl>
+<p><strong>Create a custom model</strong> method returns only this field. It does not not return the
+other fields of this object.
+:attr str name: (optional) The name of the custom voice model.
+:attr str language: (optional) The language identifier of the custom voice model (for
+example, <cite>en-US</cite>).
+:attr str owner: (optional) The GUID of the service credentials for the instance of
+the service that owns the custom voice model.
+:attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at
+which the custom voice model was created. The value is provided in full ISO 8601
+format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).
+:attr str last_modified: (optional) The date and time in Coordinated Universal Time
+(UTC) at which the custom voice model was last modified. Equals <cite>created</cite> when a new
+voice model is first added but has yet to be updated. The value is provided in full
+ISO 8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).
+:attr str description: (optional) The description of the custom voice model.
+:attr list[Word] words: (optional) An array of <cite>Word</cite> objects that lists the words and
+their translations from the custom voice model. The words are listed in alphabetical
+order, with uppercase letters listed before lowercase letters. The array is empty if
+the custom model contains no words. This field is returned only by the <strong>Get a voice</strong>
+method and only when you specify the customization ID of a custom voice model.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.VoiceModels">
+<em class="property">class </em><code class="descname">VoiceModels</code><span class="sig-paren">(</span><em>customizations</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#VoiceModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.VoiceModels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>VoiceModels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[VoiceModel] customizations</dt>
+<dd class="field-odd"><p>An array of <cite>VoiceModel</cite> objects that provides</p>
+</dd>
+</dl>
+<p>information about each available custom voice model. The array is empty if the
+requesting service credentials own no custom voice models (if no language is
+specified) or own no custom voice models for the specified language.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.Voices">
+<em class="property">class </em><code class="descname">Voices</code><span class="sig-paren">(</span><em>voices</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#Voices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.Voices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Voices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[Voice] voices</dt>
+<dd class="field-odd"><p>A list of available voices.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.Word">
+<em class="property">class </em><code class="descname">Word</code><span class="sig-paren">(</span><em>word</em>, <em>translation</em>, <em>part_of_speech=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#Word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.Word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Word.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str word</dt>
+<dd class="field-odd"><p>A word from the custom voice model.</p>
+</dd>
+<dt class="field-even">Attr str translation</dt>
+<dd class="field-even"><p>The phonetic or sounds-like translation for the word. A</p>
+</dd>
+</dl>
+<p>phonetic translation is based on the SSML format for representing the phonetic string
+of a word either as an IPA or IBM SPR translation. A sounds-like translation consists
+of one or more words that, when combined, sound like the word.
+:attr str part_of_speech: (optional) <strong>Japanese only.</strong> The part of speech for the
+word. The service uses the value to produce the correct intonation for the word. You
+can create only a single entry, with or without a single part of speech, for any word;
+you cannot create multiple entries with different parts of speech for the same word.
+For more information, see [Working with Japanese
+entries](<a class="reference external" href="https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes">https://cloud.ibm.com/docs/services/text-to-speech/custom-rules.html#jaNotes</a>).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.text_to_speech_v1.Words">
+<em class="property">class </em><code class="descname">Words</code><span class="sig-paren">(</span><em>words</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/text_to_speech_v1.html#Words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.text_to_speech_v1.Words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Words.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[Word] words</dt>
+<dd class="field-odd"><p>The <strong>Add custom words</strong> method accepts an array of <cite>Word</cite></p>
+</dd>
+</dl>
+<p>objects. Each object provides a word that is to be added or updated for the custom
+voice model and the word’s translation.
+The <strong>List custom words</strong> method returns an array of <cite>Word</cite> objects. Each object shows
+a word and its translation from the custom voice model. The words are listed in
+alphabetical order, with uppercase letters listed before lowercase letters. The array
+is empty if the custom model contains no words.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.text_to_speech_adapter_v1.html" title="previous chapter">watson_developer_cloud.text_to_speech_adapter_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.tone_analyzer_v3.html" title="next chapter">watson_developer_cloud.tone_analyzer_v3 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

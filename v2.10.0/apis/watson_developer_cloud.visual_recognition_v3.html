@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>watson_developer_cloud.visual_recognition_v3 module &#8212; Watson Developer Cloud Python SDK 2.10.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.watson_service module" href="watson_developer_cloud.watson_service.html" />
+    <link rel="prev" title="watson_developer_cloud.utils module" href="watson_developer_cloud.utils.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.visual_recognition_v3">
+<span id="watson-developer-cloud-visual-recognition-v3-module"></span><h1>watson_developer_cloud.visual_recognition_v3 module<a class="headerlink" href="#module-watson_developer_cloud.visual_recognition_v3" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson&amp;trade; Visual Recognition service uses deep learning algorithms to identify
+scenes, objects, and faces  in images you upload to the service. You can create and train
+a custom classifier to identify subjects that suit your needs.</p>
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.Class">
+<em class="property">class </em><code class="descname">Class</code><span class="sig-paren">(</span><em>class_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A category within a classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str class_name</dt>
+<dd class="field-odd"><p>The name of the class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.ClassResult">
+<em class="property">class </em><code class="descname">ClassResult</code><span class="sig-paren">(</span><em>class_name</em>, <em>score</em>, <em>type_hierarchy=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Result of a class within a classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str class_name</dt>
+<dd class="field-odd"><p>Name of the class.</p>
+</dd>
+</dl>
+<p>Class names are translated in the language defined by the <strong>Accept-Language</strong> request
+header for the build-in classifier IDs (<cite>default</cite>, <cite>food</cite>, and <cite>explicit</cite>). Class
+names of custom classifiers are not translated. The response might not be in the
+specified language when the requested language is not supported or when there is no
+translation for the class name.
+:attr float score: Confidence score for the property in the range of 0 to 1. A higher
+score indicates greater likelihood that the class is depicted in the image. The
+default threshold for returning scores from a classifier is 0.5.
+:attr str type_hierarchy: (optional) Knowledge graph of the property. For example,
+<cite>/fruit/pome/apple/eating apple/Granny Smith</cite>. Included only if identified.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.ClassifiedImage">
+<em class="property">class </em><code class="descname">ClassifiedImage</code><span class="sig-paren">(</span><em>classifiers</em>, <em>source_url=None</em>, <em>resolved_url=None</em>, <em>image=None</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassifiedImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassifiedImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Results for one image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str source_url</dt>
+<dd class="field-odd"><p>(optional) Source of the image before any redirects. Not</p>
+</dd>
+</dl>
+<p>returned when the image is uploaded.
+:attr str resolved_url: (optional) Fully resolved URL of the image after redirects are
+followed. Not returned when the image is uploaded.
+:attr str image: (optional) Relative path of the image file if uploaded directly. Not
+returned when the image is passed by URL.
+:attr ErrorInfo error: (optional) Information about what might have caused a failure,
+such as an image that is too large. Not returned when there is no error.
+:attr list[ClassifierResult] classifiers: The classifiers.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.ClassifiedImages">
+<em class="property">class </em><code class="descname">ClassifiedImages</code><span class="sig-paren">(</span><em>images</em>, <em>custom_classes=None</em>, <em>images_processed=None</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassifiedImages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassifiedImages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Results for all images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int custom_classes</dt>
+<dd class="field-odd"><p>(optional) Number of custom classes identified in the</p>
+</dd>
+</dl>
+<p>images.
+:attr int images_processed: (optional) Number of images processed for the API call.
+:attr list[ClassifiedImage] images: Classified images.
+:attr list[WarningInfo] warnings: (optional) Information about what might cause less
+than optimal output. For example, a request sent with a corrupt .zip file and a list
+of image URLs will still complete, but does not return the expected output. Not
+returned when there is no warning.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.Classifier">
+<em class="property">class </em><code class="descname">Classifier</code><span class="sig-paren">(</span><em>classifier_id</em>, <em>name</em>, <em>owner=None</em>, <em>status=None</em>, <em>core_ml_enabled=None</em>, <em>explanation=None</em>, <em>created=None</em>, <em>classes=None</em>, <em>retrained=None</em>, <em>updated=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about a classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str classifier_id</dt>
+<dd class="field-odd"><p>ID of a classifier identified in the image.</p>
+</dd>
+<dt class="field-even">Attr str name</dt>
+<dd class="field-even"><p>Name of the classifier.</p>
+</dd>
+<dt class="field-odd">Attr str owner</dt>
+<dd class="field-odd"><p>(optional) Unique ID of the account who owns the classifier. Might</p>
+</dd>
+</dl>
+<p>not be returned by some requests.
+:attr str status: (optional) Training status of classifier.
+:attr bool core_ml_enabled: (optional) Whether the classifier can be downloaded as a
+Core ML model after the training status is <cite>ready</cite>.
+:attr str explanation: (optional) If classifier training has failed, this field might
+explain why.
+:attr datetime created: (optional) Date and time in Coordinated Universal Time (UTC)
+that the classifier was created.
+:attr list[Class] classes: (optional) Classes that define a classifier.
+:attr datetime retrained: (optional) Date and time in Coordinated Universal Time (UTC)
+that the classifier was updated. Might not be returned by some requests. Identical to
+<cite>updated</cite> and retained for backward compatibility.
+:attr datetime updated: (optional) Date and time in Coordinated Universal Time (UTC)
+that the classifier was most recently updated. The field matches either <cite>retrained</cite> or
+<cite>created</cite>. Might not be returned by some requests.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.ClassifierResult">
+<em class="property">class </em><code class="descname">ClassifierResult</code><span class="sig-paren">(</span><em>name</em>, <em>classifier_id</em>, <em>classes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ClassifierResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ClassifierResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Classifier and score combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>Name of the classifier.</p>
+</dd>
+<dt class="field-even">Attr str classifier_id</dt>
+<dd class="field-even"><p>ID of a classifier identified in the image.</p>
+</dd>
+<dt class="field-odd">Attr list[ClassResult] classes</dt>
+<dd class="field-odd"><p>Classes within the classifier.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.Classifiers">
+<em class="property">class </em><code class="descname">Classifiers</code><span class="sig-paren">(</span><em>classifiers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Classifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A container for the list of classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[Classifier] classifiers</dt>
+<dd class="field-odd"><p>List of classifiers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.DetectedFaces">
+<em class="property">class </em><code class="descname">DetectedFaces</code><span class="sig-paren">(</span><em>images_processed</em>, <em>images</em>, <em>warnings=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#DetectedFaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.DetectedFaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Results for all faces.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int images_processed</dt>
+<dd class="field-odd"><p>Number of images processed for the API call.</p>
+</dd>
+<dt class="field-even">Attr list[ImageWithFaces] images</dt>
+<dd class="field-even"><p>The images.</p>
+</dd>
+<dt class="field-odd">Attr list[WarningInfo] warnings</dt>
+<dd class="field-odd"><p>(optional) Information about what might cause less</p>
+</dd>
+</dl>
+<p>than optimal output. For example, a request sent with a corrupt .zip file and a list
+of image URLs will still complete, but does not return the expected output. Not
+returned when there is no warning.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.ErrorInfo">
+<em class="property">class </em><code class="descname">ErrorInfo</code><span class="sig-paren">(</span><em>code</em>, <em>description</em>, <em>error_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ErrorInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ErrorInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about what might have caused a failure, such as an image that is too
+large. Not returned when there is no error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int code</dt>
+<dd class="field-odd"><p>HTTP status code.</p>
+</dd>
+<dt class="field-even">Attr str description</dt>
+<dd class="field-even"><p>Human-readable error description. For example, <a href="#id1"><span class="problematic" id="id2">`</span></a>File size limit</p>
+</dd>
+</dl>
+<p>exceeded`.
+:attr str error_id: Codified error string. For example, <cite>limit_exceeded</cite>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.Face">
+<em class="property">class </em><code class="descname">Face</code><span class="sig-paren">(</span><em>age=None</em>, <em>gender=None</em>, <em>face_location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#Face"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.Face" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about the face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr FaceAge age</dt>
+<dd class="field-odd"><p>(optional) Age information about a face.</p>
+</dd>
+<dt class="field-even">Attr FaceGender gender</dt>
+<dd class="field-even"><p>(optional) Information about the gender of the face.</p>
+</dd>
+<dt class="field-odd">Attr FaceLocation face_location</dt>
+<dd class="field-odd"><p>(optional) The location of the bounding box around</p>
+</dd>
+</dl>
+<p>the face.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.FaceAge">
+<em class="property">class </em><code class="descname">FaceAge</code><span class="sig-paren">(</span><em>score</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceAge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceAge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Age information about a face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int min</dt>
+<dd class="field-odd"><p>(optional) Estimated minimum age.</p>
+</dd>
+<dt class="field-even">Attr int max</dt>
+<dd class="field-even"><p>(optional) Estimated maximum age.</p>
+</dd>
+<dt class="field-odd">Attr float score</dt>
+<dd class="field-odd"><p>Confidence score in the range of 0 to 1. A higher score indicates</p>
+</dd>
+</dl>
+<p>greater confidence in the estimated value for the property.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.FaceGender">
+<em class="property">class </em><code class="descname">FaceGender</code><span class="sig-paren">(</span><em>gender</em>, <em>gender_label</em>, <em>score</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceGender"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceGender" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about the gender of the face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str gender</dt>
+<dd class="field-odd"><p>Gender identified by the face. For example, <cite>MALE</cite> or <cite>FEMALE</cite>.</p>
+</dd>
+<dt class="field-even">Attr str gender_label</dt>
+<dd class="field-even"><p>The word for “male” or “female” in the language defined by the</p>
+</dd>
+</dl>
+<p><strong>Accept-Language</strong> request header.
+:attr float score: Confidence score in the range of 0 to 1. A higher score indicates
+greater confidence in the estimated value for the property.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.FaceLocation">
+<em class="property">class </em><code class="descname">FaceLocation</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>left</em>, <em>top</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#FaceLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.FaceLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The location of the bounding box around the face.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr float width</dt>
+<dd class="field-odd"><p>Width in pixels of face region.</p>
+</dd>
+<dt class="field-even">Attr float height</dt>
+<dd class="field-even"><p>Height in pixels of face region.</p>
+</dd>
+<dt class="field-odd">Attr float left</dt>
+<dd class="field-odd"><p>X-position of top-left pixel of face region.</p>
+</dd>
+<dt class="field-even">Attr float top</dt>
+<dd class="field-even"><p>Y-position of top-left pixel of face region.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.ImageWithFaces">
+<em class="property">class </em><code class="descname">ImageWithFaces</code><span class="sig-paren">(</span><em>faces</em>, <em>image=None</em>, <em>source_url=None</em>, <em>resolved_url=None</em>, <em>error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#ImageWithFaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.ImageWithFaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about faces in the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[Face] faces</dt>
+<dd class="field-odd"><p>Faces detected in the images.</p>
+</dd>
+<dt class="field-even">Attr str image</dt>
+<dd class="field-even"><p>(optional) Relative path of the image file if uploaded directly. Not</p>
+</dd>
+</dl>
+<p>returned when the image is passed by URL.
+:attr str source_url: (optional) Source of the image before any redirects. Not
+returned when the image is uploaded.
+:attr str resolved_url: (optional) Fully resolved URL of the image after redirects are
+followed. Not returned when the image is uploaded.
+:attr ErrorInfo error: (optional) Information about what might have caused a failure,
+such as an image that is too large. Not returned when there is no error.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.visual_recognition_v3.WarningInfo">
+<em class="property">class </em><code class="descname">WarningInfo</code><span class="sig-paren">(</span><em>warning_id</em>, <em>description</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/visual_recognition_v3.html#WarningInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.visual_recognition_v3.WarningInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about something that went wrong.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str warning_id</dt>
+<dd class="field-odd"><p>Codified warning string, such as <cite>limit_reached</cite>.</p>
+</dd>
+<dt class="field-even">Attr str description</dt>
+<dd class="field-even"><p>Information about the error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.utils.html" title="previous chapter">watson_developer_cloud.utils module</a></li>
+      <li>Next: <a href="watson_developer_cloud.watson_service.html" title="next chapter">watson_developer_cloud.watson_service module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>watson_developer_cloud.assistant_v2 module &#8212; Watson Developer Cloud Python SDK 2.10.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="watson_developer_cloud.authorization_v1 module" href="watson_developer_cloud.authorization_v1.html" />
+    <link rel="prev" title="watson_developer_cloud.assistant_v1 module" href="watson_developer_cloud.assistant_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-watson_developer_cloud.assistant_v2">
+<span id="watson-developer-cloud-assistant-v2-module"></span><h1>watson_developer_cloud.assistant_v2 module<a class="headerlink" href="#module-watson_developer_cloud.assistant_v2" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson&amp;trade; Assistant service combines machine learning, natural language
+understanding, and integrated dialog tools to create conversation flows between your apps
+and your users.</p>
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.CaptureGroup">
+<em class="property">class </em><code class="descname">CaptureGroup</code><span class="sig-paren">(</span><em>group</em>, <em>location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#CaptureGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.CaptureGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CaptureGroup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str group</dt>
+<dd class="field-odd"><p>A recognized capture group for the entity.</p>
+</dd>
+<dt class="field-even">Attr list[int] location</dt>
+<dd class="field-even"><p>(optional) Zero-based character offsets that indicate where</p>
+</dd>
+</dl>
+<p>the entity value begins and ends in the input text.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.DialogLogMessage">
+<em class="property">class </em><code class="descname">DialogLogMessage</code><span class="sig-paren">(</span><em>level</em>, <em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#DialogLogMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.DialogLogMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Dialog log message details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str level</dt>
+<dd class="field-odd"><p>The severity of the log message.</p>
+</dd>
+<dt class="field-even">Attr str message</dt>
+<dd class="field-even"><p>The text of the log message.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.DialogNodeAction">
+<em class="property">class </em><code class="descname">DialogNodeAction</code><span class="sig-paren">(</span><em>name</em>, <em>result_variable</em>, <em>action_type=None</em>, <em>parameters=None</em>, <em>credentials=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#DialogNodeAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.DialogNodeAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>The name of the action.</p>
+</dd>
+<dt class="field-even">Attr str action_type</dt>
+<dd class="field-even"><p>(optional) The type of action to invoke.</p>
+</dd>
+<dt class="field-odd">Attr object parameters</dt>
+<dd class="field-odd"><p>(optional) A map of key/value pairs to be provided to the</p>
+</dd>
+</dl>
+<p>action.
+:attr str result_variable: The location in the dialog context where the result of the
+action is stored.
+:attr str credentials: (optional) The name of the context variable that the client
+application will use to pass in credentials for the action.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.DialogNodeOutputOptionsElement">
+<em class="property">class </em><code class="descname">DialogNodeOutputOptionsElement</code><span class="sig-paren">(</span><em>label</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#DialogNodeOutputOptionsElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.DialogNodeOutputOptionsElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeOutputOptionsElement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str label</dt>
+<dd class="field-odd"><p>The user-facing label for the option.</p>
+</dd>
+<dt class="field-even">Attr DialogNodeOutputOptionsElementValue value</dt>
+<dd class="field-even"><p>An object defining the message input</p>
+</dd>
+</dl>
+<p>to be sent to the assistant if the user selects the corresponding option.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.DialogNodeOutputOptionsElementValue">
+<em class="property">class </em><code class="descname">DialogNodeOutputOptionsElementValue</code><span class="sig-paren">(</span><em>input=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#DialogNodeOutputOptionsElementValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.DialogNodeOutputOptionsElementValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object defining the message input to be sent to the assistant if the user selects
+the corresponding option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageInput input</dt>
+<dd class="field-odd"><p>(optional) An input object that includes the input text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.DialogNodesVisited">
+<em class="property">class </em><code class="descname">DialogNodesVisited</code><span class="sig-paren">(</span><em>dialog_node=None</em>, <em>title=None</em>, <em>conditions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#DialogNodesVisited"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.DialogNodesVisited" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodesVisited.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str dialog_node</dt>
+<dd class="field-odd"><p>(optional) A dialog node that was triggered during processing</p>
+</dd>
+</dl>
+<p>of the input message.
+:attr str title: (optional) The title of the dialog node.
+:attr str conditions: (optional) The conditions that trigger the dialog node.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.DialogRuntimeResponseGeneric">
+<em class="property">class </em><code class="descname">DialogRuntimeResponseGeneric</code><span class="sig-paren">(</span><em>response_type</em>, <em>text=None</em>, <em>time=None</em>, <em>typing=None</em>, <em>source=None</em>, <em>title=None</em>, <em>description=None</em>, <em>preference=None</em>, <em>options=None</em>, <em>message_to_human_agent=None</em>, <em>topic=None</em>, <em>suggestions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#DialogRuntimeResponseGeneric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.DialogRuntimeResponseGeneric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogRuntimeResponseGeneric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str response_type</dt>
+<dd class="field-odd"><p>The type of response returned by the dialog node. The</p>
+</dd>
+</dl>
+<p>specified response type must be supported by the client application or channel.
+<strong>Note:</strong> The <strong>suggestion</strong> response type is part of the disambiguation feature,
+which is only available for Premium users.
+:attr str text: (optional) The text of the response.
+:attr int time: (optional) How long to pause, in milliseconds.
+:attr bool typing: (optional) Whether to send a “user is typing” event during the
+pause.
+:attr str source: (optional) The URL of the image.
+:attr str title: (optional) The title to show before the response.
+:attr str description: (optional) The description to show with the the response.
+:attr str preference: (optional) The preferred type of control to display.
+:attr list[DialogNodeOutputOptionsElement] options: (optional) An array of objects
+describing the options from which the user can choose.
+:attr str message_to_human_agent: (optional) A message to be sent to the human agent
+who will be taking over the conversation.
+:attr str topic: (optional) A label identifying the topic of the conversation, derived
+from the <strong>user_label</strong> property of the relevant node.
+:attr list[DialogSuggestion] suggestions: (optional) An array of objects describing
+the possible matching dialog nodes from which the user can choose.
+<strong>Note:</strong> The <strong>suggestions</strong> property is part of the disambiguation feature, which is
+only available for Premium users.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.DialogSuggestion">
+<em class="property">class </em><code class="descname">DialogSuggestion</code><span class="sig-paren">(</span><em>label</em>, <em>value</em>, <em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#DialogSuggestion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.DialogSuggestion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogSuggestion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str label</dt>
+<dd class="field-odd"><p>The user-facing label for the disambiguation option. This label is</p>
+</dd>
+</dl>
+<p>taken from the <strong>user_label</strong> property of the corresponding dialog node.
+:attr DialogSuggestionValue value: An object defining the message input to be sent to
+the assistant if the user selects the corresponding disambiguation option.
+:attr object output: (optional) The dialog output that will be returned from the
+Watson Assistant service if the user selects the corresponding option.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.DialogSuggestionValue">
+<em class="property">class </em><code class="descname">DialogSuggestionValue</code><span class="sig-paren">(</span><em>input=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#DialogSuggestionValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.DialogSuggestionValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object defining the message input to be sent to the assistant if the user selects
+the corresponding disambiguation option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageInput input</dt>
+<dd class="field-odd"><p>(optional) An input object that includes the input text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageContext">
+<em class="property">class </em><code class="descname">MessageContext</code><span class="sig-paren">(</span><em>global_=None</em>, <em>skills=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>State information for the conversation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageContextGlobal global<a href="#id1"><span class="problematic" id="id2">global_</span></a></dt>
+<dd class="field-odd"><p>(optional) Contains information that can be shared</p>
+</dd>
+</dl>
+<p>by all skills within the Assistant.
+:attr MessageContextSkills skills: (optional) Contains information specific to
+particular skills within the Assistant.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageContextGlobal">
+<em class="property">class </em><code class="descname">MessageContextGlobal</code><span class="sig-paren">(</span><em>system=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageContextGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageContextGlobal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Contains information that can be shared by all skills within the Assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageContextGlobalSystem system</dt>
+<dd class="field-odd"><p>(optional) Properties that are shared by all</p>
+</dd>
+</dl>
+<p>skills used by the assistant.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageContextGlobalSystem">
+<em class="property">class </em><code class="descname">MessageContextGlobalSystem</code><span class="sig-paren">(</span><em>timezone=None</em>, <em>user_id=None</em>, <em>turn_count=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageContextGlobalSystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageContextGlobalSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Properties that are shared by all skills used by the assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str timezone</dt>
+<dd class="field-odd"><p>(optional) The user time zone. The assistant uses the time zone to</p>
+</dd>
+</dl>
+<p>correctly resolve relative time references.
+:attr str user_id: (optional) A string value that identifies the user who is
+interacting with the assistant. The client must provide a unique identifier for each
+individual end user who accesses the application. For Plus and Premium plans, this
+user ID is used to identify unique users for billing purposes. This string cannot
+contain carriage return, newline, or tab characters.
+:attr int turn_count: (optional) A counter that is automatically incremented with each
+turn of the conversation. A value of 1 indicates that this is the the first turn of a
+new conversation, which can affect the behavior of some skills.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageContextSkill">
+<em class="property">class </em><code class="descname">MessageContextSkill</code><span class="sig-paren">(</span><em>user_defined=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageContextSkill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageContextSkill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Contains information specific to a particular skill within the Assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str user_defined</dt>
+<dd class="field-odd"><p>(optional) Arbitrary variables that can be read and written to</p>
+</dd>
+</dl>
+<p>by a particular skill within the Assistant.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageContextSkills">
+<em class="property">class </em><code class="descname">MessageContextSkills</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageContextSkills"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageContextSkills" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Contains information specific to particular skills within the Assistant.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageInput">
+<em class="property">class </em><code class="descname">MessageInput</code><span class="sig-paren">(</span><em>message_type=None</em>, <em>text=None</em>, <em>options=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>suggestion_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An input object that includes the input text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str message_type</dt>
+<dd class="field-odd"><p>(optional) The type of user input. Currently, only text input</p>
+</dd>
+</dl>
+<p>is supported.
+:attr str text: (optional) The text of the user input. This string cannot contain
+carriage return, newline, or tab characters, and it must be no longer than 2048
+characters.
+:attr MessageInputOptions options: (optional) Optional properties that control how the
+assistant responds.
+:attr list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user
+input. Include intents from the previous response to continue using those intents
+rather than trying to recognize intents in the new input.
+:attr list[RuntimeEntity] entities: (optional) Entities to use when evaluating the
+message. Include entities from the previous response to continue using those entities
+rather than detecting entities in the new input.
+:attr str suggestion_id: (optional) For internal use only.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageInputOptions">
+<em class="property">class </em><code class="descname">MessageInputOptions</code><span class="sig-paren">(</span><em>debug=None</em>, <em>restart=None</em>, <em>alternate_intents=None</em>, <em>return_context=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageInputOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageInputOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Optional properties that control how the assistant responds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool debug</dt>
+<dd class="field-odd"><p>(optional) Whether to return additional diagnostic information. Set</p>
+</dd>
+</dl>
+<p>to <cite>true</cite> to return additional information under the <cite>output.debug</cite> key.
+:attr bool restart: (optional) Whether to restart dialog processing at the root of the
+dialog, regardless of any previously visited nodes. <strong>Note:</strong> This does not affect
+<cite>turn_count</cite> or any other context variables.
+:attr bool alternate_intents: (optional) Whether to return more than one intent. Set
+to <cite>true</cite> to return all matching intents.
+:attr bool return_context: (optional) Whether to return session context with the
+response. If you specify <cite>true</cite>, the response will include the <cite>context</cite> property.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageOutput">
+<em class="property">class </em><code class="descname">MessageOutput</code><span class="sig-paren">(</span><em>generic=None</em>, <em>intents=None</em>, <em>entities=None</em>, <em>actions=None</em>, <em>debug=None</em>, <em>user_defined=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Assistant output to be rendered or processed by the client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[DialogRuntimeResponseGeneric] generic</dt>
+<dd class="field-odd"><p>(optional) Output intended for any</p>
+</dd>
+</dl>
+<p>channel. It is the responsibility of the client application to implement the supported
+response types.
+:attr list[RuntimeIntent] intents: (optional) An array of intents recognized in the
+user input, sorted in descending order of confidence.
+:attr list[RuntimeEntity] entities: (optional) An array of entities identified in the
+user input.
+:attr list[DialogNodeAction] actions: (optional) An array of objects describing any
+actions requested by the dialog node.
+:attr MessageOutputDebug debug: (optional) Additional detailed information about a
+message response and how it was generated.
+:attr object user_defined: (optional) An object containing any custom properties
+included in the response. This object includes any arbitrary properties defined in the
+dialog JSON editor as part of the dialog node output.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageOutputDebug">
+<em class="property">class </em><code class="descname">MessageOutputDebug</code><span class="sig-paren">(</span><em>nodes_visited=None</em>, <em>log_messages=None</em>, <em>branch_exited=None</em>, <em>branch_exited_reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageOutputDebug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageOutputDebug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Additional detailed information about a message response and how it was generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[DialogNodesVisited] nodes_visited</dt>
+<dd class="field-odd"><p>(optional) An array of objects</p>
+</dd>
+</dl>
+<p>containing detailed diagnostic information about the nodes that were triggered during
+processing of the input message.
+:attr list[DialogLogMessage] log_messages: (optional) An array of up to 50 messages
+logged with the request.
+:attr bool branch_exited: (optional) Assistant sets this to true when this message
+response concludes or interrupts a dialog.
+:attr str branch_exited_reason: (optional) When <cite>branch_exited</cite> is set to <cite>true</cite> by
+the Assistant, the <cite>branch_exited_reason</cite> specifies whether the dialog completed by
+itself or got interrupted.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.MessageResponse">
+<em class="property">class </em><code class="descname">MessageResponse</code><span class="sig-paren">(</span><em>output</em>, <em>context=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#MessageResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.MessageResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A response from the Watson Assistant service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageOutput output</dt>
+<dd class="field-odd"><p>Assistant output to be rendered or processed by the</p>
+</dd>
+</dl>
+<p>client.
+:attr MessageContext context: (optional) State information for the conversation.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.RuntimeEntity">
+<em class="property">class </em><code class="descname">RuntimeEntity</code><span class="sig-paren">(</span><em>entity</em>, <em>location</em>, <em>value</em>, <em>confidence=None</em>, <em>metadata=None</em>, <em>groups=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#RuntimeEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.RuntimeEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A term from the request that was identified as an entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str entity</dt>
+<dd class="field-odd"><p>An entity detected in the input.</p>
+</dd>
+<dt class="field-even">Attr list[int] location</dt>
+<dd class="field-even"><p>An array of zero-based character offsets that indicate where</p>
+</dd>
+</dl>
+<p>the detected entity values begin and end in the input text.
+:attr str value: The term in the input text that was recognized as an entity value.
+:attr float confidence: (optional) A decimal percentage that represents Watson’s
+confidence in the entity.
+:attr object metadata: (optional) Any metadata for the entity.
+:attr list[CaptureGroup] groups: (optional) The recognized capture groups for the
+entity, as defined by the entity pattern.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.RuntimeIntent">
+<em class="property">class </em><code class="descname">RuntimeIntent</code><span class="sig-paren">(</span><em>intent</em>, <em>confidence</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#RuntimeIntent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.RuntimeIntent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An intent identified in the user input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str intent</dt>
+<dd class="field-odd"><p>The name of the recognized intent.</p>
+</dd>
+<dt class="field-even">Attr float confidence</dt>
+<dd class="field-even"><p>A decimal percentage that represents Watson’s confidence in</p>
+</dd>
+</dl>
+<p>the intent.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="watson_developer_cloud.assistant_v2.SessionResponse">
+<em class="property">class </em><code class="descname">SessionResponse</code><span class="sig-paren">(</span><em>session_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/watson_developer_cloud/assistant_v2.html#SessionResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#watson_developer_cloud.assistant_v2.SessionResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SessionResponse.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str session_id</dt>
+<dd class="field-odd"><p>The session ID.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="watson_developer_cloud.assistant_v1.html" title="previous chapter">watson_developer_cloud.assistant_v1 module</a></li>
+      <li>Next: <a href="watson_developer_cloud.authorization_v1.html" title="next chapter">watson_developer_cloud.authorization_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

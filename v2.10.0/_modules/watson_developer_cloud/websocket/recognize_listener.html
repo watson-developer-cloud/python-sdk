@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>watson_developer_cloud.websocket.recognize_listener &#8212; Watson Developer Cloud Python SDK 2.10.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for watson_developer_cloud.websocket.recognize_listener</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">websocket</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">ssl</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">thread</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">_thread</span> <span class="k">as</span> <span class="nn">thread</span>
+
+<span class="n">ONE_KB</span> <span class="o">=</span> <span class="mi">1024</span>
+<span class="n">TIMEOUT_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;No speech detected for&quot;</span>
+<span class="n">TEN_MILLISECONDS</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">STATE</span> <span class="o">=</span> <span class="s2">&quot;state&quot;</span>
+<span class="n">ACTION</span> <span class="o">=</span> <span class="s2">&quot;action&quot;</span>
+<span class="n">START</span> <span class="o">=</span> <span class="s2">&quot;start&quot;</span>
+<span class="n">STOP</span> <span class="o">=</span> <span class="s2">&quot;stop&quot;</span>
+
+<div class="viewcode-block" id="RecognizeListener"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener">[docs]</a><span class="k">class</span> <span class="nc">RecognizeListener</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">audio_source</span><span class="p">,</span>
+                 <span class="n">options</span><span class="p">,</span>
+                 <span class="n">callback</span><span class="p">,</span>
+                 <span class="n">url</span><span class="p">,</span>
+                 <span class="n">headers</span><span class="p">,</span>
+                 <span class="n">http_proxy_host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">http_proxy_port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">verify</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span> <span class="o">=</span> <span class="n">audio_source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http_proxy_host</span> <span class="o">=</span> <span class="n">http_proxy_host</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">http_proxy_port</span> <span class="o">=</span> <span class="n">http_proxy_port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isListening</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verify</span> <span class="o">=</span> <span class="n">verify</span>
+
+        <span class="c1"># websocket.enableTrace(True)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws_client</span> <span class="o">=</span> <span class="n">websocket</span><span class="o">.</span><span class="n">WebSocketApp</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">on_open</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_open</span><span class="p">,</span>
+            <span class="n">on_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_data</span><span class="p">,</span>
+            <span class="n">on_error</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_error</span><span class="p">,</span>
+            <span class="n">on_close</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">on_close</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws_client</span><span class="o">.</span><span class="n">run_forever</span><span class="p">(</span><span class="n">http_proxy_host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">http_proxy_host</span><span class="p">,</span>
+                                   <span class="n">http_proxy_port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">http_proxy_port</span><span class="p">,</span>
+                                   <span class="n">sslopt</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;cert_reqs&quot;</span><span class="p">:</span> <span class="n">ssl</span><span class="o">.</span><span class="n">CERT_NONE</span><span class="p">}</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RecognizeListener.build_start_message"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.build_start_message">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">build_start_message</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+        <span class="n">options</span><span class="p">[</span><span class="n">ACTION</span><span class="p">]</span> <span class="o">=</span> <span class="n">START</span>
+        <span class="k">return</span> <span class="n">options</span></div>
+
+<div class="viewcode-block" id="RecognizeListener.build_closing_message"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.build_closing_message">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">build_closing_message</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="n">ACTION</span><span class="p">:</span> <span class="n">STOP</span><span class="p">})</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecognizeListener.extract_transcripts"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.extract_transcripts">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">extract_transcripts</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">alternatives</span><span class="p">):</span>
+        <span class="n">transcripts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">alternative</span> <span class="ow">in</span> <span class="n">alternatives</span><span class="p">:</span>
+            <span class="n">transcript</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="s1">&#39;confidence&#39;</span> <span class="ow">in</span> <span class="n">alternative</span><span class="p">:</span>
+                <span class="n">transcript</span><span class="p">[</span><span class="s1">&#39;confidence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alternative</span><span class="p">[</span><span class="s1">&#39;confidence&#39;</span><span class="p">]</span>
+            <span class="n">transcript</span><span class="p">[</span><span class="s1">&#39;transcript&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">alternative</span><span class="p">[</span><span class="s1">&#39;transcript&#39;</span><span class="p">]</span>
+            <span class="n">transcripts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transcript</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">transcripts</span></div>
+
+<div class="viewcode-block" id="RecognizeListener.send"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">opcode</span><span class="o">=</span><span class="n">websocket</span><span class="o">.</span><span class="n">ABNF</span><span class="o">.</span><span class="n">OPCODE_TEXT</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send message to server.</span>
+
+<span class="sd">        data: message to send. If you set opcode to OPCODE_TEXT,</span>
+<span class="sd">              data must be utf-8 string or unicode.</span>
+<span class="sd">        opcode: operation code of data. default is OPCODE_TEXT.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">opcode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecognizeListener.send_audio"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.send_audio">[docs]</a>    <span class="k">def</span> <span class="nf">send_audio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ws</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stream audio to server</span>
+
+<span class="sd">        :param ws: Websocket client</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Background process to stream the data&quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span><span class="o">.</span><span class="n">is_buffer</span><span class="p">:</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">chunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ONE_KB</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">chunk</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ws_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">websocket</span><span class="o">.</span><span class="n">ABNF</span><span class="o">.</span><span class="n">OPCODE_BINARY</span><span class="p">)</span>
+                    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">TEN_MILLISECONDS</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                            <span class="n">chunk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">ws_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">websocket</span><span class="o">.</span><span class="n">ABNF</span><span class="o">.</span><span class="n">OPCODE_BINARY</span><span class="p">)</span>
+                            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">TEN_MILLISECONDS</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span><span class="o">.</span><span class="n">is_recording</span><span class="p">:</span>
+                                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">TEN_MILLISECONDS</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="k">break</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">audio_source</span><span class="o">.</span><span class="n">is_recording</span><span class="p">:</span>
+                            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">TEN_MILLISECONDS</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">break</span>
+
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">TEN_MILLISECONDS</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ws_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_closing_message</span><span class="p">(),</span> <span class="n">websocket</span><span class="o">.</span><span class="n">ABNF</span><span class="o">.</span><span class="n">OPCODE_TEXT</span><span class="p">)</span>
+
+        <span class="n">thread</span><span class="o">.</span><span class="n">start_new_thread</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="p">())</span></div>
+
+<div class="viewcode-block" id="RecognizeListener.on_open"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.on_open">[docs]</a>    <span class="k">def</span> <span class="nf">on_open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ws</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback executed when a connection is opened to the server.</span>
+<span class="sd">        Handles streaming of audio to the server.</span>
+
+<span class="sd">        :param ws: Websocket client</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_connected</span><span class="p">()</span>
+
+        <span class="c1"># Send initialization message</span>
+        <span class="n">init_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_start_message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ws_client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">init_data</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">),</span> <span class="n">websocket</span><span class="o">.</span><span class="n">ABNF</span><span class="o">.</span><span class="n">OPCODE_TEXT</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecognizeListener.on_data"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.on_data">[docs]</a>    <span class="k">def</span> <span class="nf">on_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ws</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">message_type</span><span class="p">,</span> <span class="n">fin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback executed when message is received from the server.</span>
+
+<span class="sd">        :param ws: Websocket client</span>
+<span class="sd">        :param message: utf-8 string which we get from the server.</span>
+<span class="sd">        :param message_type: Message type which is either ABNF.OPCODE_TEXT or ABNF.OPCODE_BINARY</span>
+<span class="sd">        :param fin: continue flag. If 0, the data continues.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">json_object</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">on_error</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="s1">&#39;Unable to parse received message.&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+            <span class="c1"># Only call on_error() if a real error occurred. The STT service sends</span>
+            <span class="c1"># {&quot;error&quot; : &quot;No speech detected for 5s&quot;} for valid timeouts, configured by</span>
+            <span class="c1"># options.inactivity_timeout</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">TIMEOUT_PREFIX</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_inactivity_timeout</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">on_error</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+
+        <span class="c1"># if uninitialized, receive the initialization response from the server</span>
+        <span class="k">elif</span> <span class="s1">&#39;state&#39;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isListening</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">isListening</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_listening</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send_audio</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># close the connection</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_close</span><span class="p">()</span>
+                <span class="n">ws</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="c1"># if in streaming</span>
+        <span class="k">elif</span> <span class="s1">&#39;results&#39;</span> <span class="ow">in</span> <span class="n">json_object</span> <span class="ow">or</span> <span class="s1">&#39;speaker_labels&#39;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+            <span class="n">hypothesis</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="s1">&#39;results&#39;</span> <span class="ow">in</span> <span class="n">json_object</span><span class="p">:</span>
+                <span class="n">hypothesis</span> <span class="o">=</span> <span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;alternatives&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span>
+                    <span class="s1">&#39;transcript&#39;</span><span class="p">]</span>
+                <span class="n">b_final</span> <span class="o">=</span> <span class="p">(</span><span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;final&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="n">transcripts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_transcripts</span><span class="p">(</span>
+                    <span class="n">json_object</span><span class="p">[</span><span class="s1">&#39;results&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;alternatives&#39;</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="n">b_final</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_transcription</span><span class="p">(</span><span class="n">transcripts</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_hypothesis</span><span class="p">(</span><span class="n">hypothesis</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_data</span><span class="p">(</span><span class="n">json_object</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecognizeListener.on_error"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.on_error">[docs]</a>    <span class="k">def</span> <span class="nf">on_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ws</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback executed when an error is received</span>
+
+<span class="sd">        :param ws: Websocket client</span>
+<span class="sd">        :param error: Exception object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RecognizeListener.on_close"><a class="viewcode-back" href="../../../apis/watson_developer_cloud.websocket.recognize_listener.html#watson_developer_cloud.websocket.recognize_listener.RecognizeListener.on_close">[docs]</a>    <span class="k">def</span> <span class="nf">on_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ws</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback executed when websocket connection is closed</span>
+
+<span class="sd">        :param ws: Websocket client</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">on_close</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
