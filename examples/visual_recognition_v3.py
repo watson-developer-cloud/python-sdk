@@ -1,7 +1,7 @@
 from __future__ import print_function
 import json
 from os.path import abspath
-from watson_developer_cloud import VisualRecognitionV3, WatsonApiException
+from ibm_watson import VisualRecognitionV3, ApiException
 
 test_url = 'https://www.ibm.com/ibm/ginni/images' \
            '/ginni_bio_780x981_v4_03162016.jpg'
@@ -16,7 +16,7 @@ service = VisualRecognitionV3(
 # with open(abspath('resources/cars.zip'), 'rb') as cars, \
 #      open(abspath('resources/trucks.zip'), 'rb') as trucks:
 #     classifier = service.create_classifier('Cars vs Trucks',
-#                                            cars_positive_examples=cars,
+#                                            positive_examples={'cars_positive_examples': cars},
 #                                            negative_examples=trucks).get_result()
 # print(json.dumps(classifier, indent=2))
 
@@ -28,7 +28,7 @@ try:
             threshold='0.1',
             classifier_ids=['default']).get_result()
         print(json.dumps(car_results, indent=2))
-except WatsonApiException as ex:
+except ApiException as ex:
     print(ex)
 
 # classifier = service.get_classifier('YOUR CLASSIFIER ID').get_result()
