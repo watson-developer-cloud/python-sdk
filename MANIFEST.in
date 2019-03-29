@@ -2,6 +2,6 @@ include README.md
 include LICENSE
 
 recursive-include examples *.py *.md
-recursive-include watson_developer_cloud *.py *.md
+recursive-include ibm_watson *.py *.md
 global-exclude .DS_Store
 global-exclude *.pyc

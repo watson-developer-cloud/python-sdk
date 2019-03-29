@@ -168,7 +168,7 @@ discovery.set_iam_access_token('<access_token>')
 
 ### Username and password
 ```python
-from watson_developer_cloud import DiscoveryV1
+from ibm_watson import DiscoveryV1
 # In the constructor
 discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>', username='<username>', password='<password>')
 ```
@@ -189,7 +189,7 @@ Version 1.0 focuses on the move to programmatically-generated code for many of t
 ## Changes for v2.0
 `DetailedResponse` which contains the result, headers and HTTP status code is now the default response for all methods.
 ```python
-from watson_developer_cloud import AssistantV1
+from ibm_watson import AssistantV1
 
 assistant = AssistantV1(
     username='xxx',
@@ -211,7 +211,7 @@ This version includes many breaking changes as a result of standardizing behavio
 To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs.
 
 ```python
-from watson_developer_cloud import AssistantV1
+from ibm_watson import AssistantV1
 
 assistant = AssistantV1(
     username='xxx',
@@ -242,7 +242,7 @@ headers = {
 For example, to send a header called `Custom-Header` to a call in Watson Assistant, pass
 the headers parameter as:
 ```python
-from watson_developer_cloud import AssistantV1
+from ibm_watson import AssistantV1
 
 assistant = AssistantV1(
     username='xxx',
@@ -256,7 +256,7 @@ response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).
 ## Parsing HTTP response info
 If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`. Since Python SDK `v2.0`, it is set to `True`
 ```python
-from watson_developer_cloud import AssistantV1
+from ibm_watson import AssistantV1
 
 assistant = AssistantV1(
     username='xxx',
@@ -283,7 +283,7 @@ You can use the `get_result()`, `get_headers()` and get_status_code() to return 
 The Text to Speech service supports synthesizing text to spoken audio using web sockets with the `synthesize_using_websocket`. The Speech to Text service supports recognizing speech to text using web sockets with the `recognize_using_websocket`. These methods need a custom callback class to listen to events. Below is an example of `synthesize_using_websocket`. Note: The service accepts one request per connection.
 
 ```py
-from watson_developer_cloud.websocket import SynthesizeCallback
+from ibm_watson.websocket import SynthesizeCallback
 
 class MySynthesizeCallback(SynthesizeCallback):
     def __init__(self):

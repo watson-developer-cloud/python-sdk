@@ -55,7 +55,7 @@ clean:
 
 document:
 	rm -rf apis
-	$(SPHINXAPIDOC) -o apis ../watson_developer_cloud -f -e -T
+	$(SPHINXAPIDOC) -o apis ../ibm_watson -f -e -T
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
