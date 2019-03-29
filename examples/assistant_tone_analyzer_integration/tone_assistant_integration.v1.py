@@ -3,8 +3,8 @@ import json
 import os
 from dotenv import load_dotenv, find_dotenv
 
-from watson_developer_cloud import AssistantV1
-from watson_developer_cloud import ToneAnalyzerV3
+from ibm_watson import AssistantV1
+from ibm_watson import ToneAnalyzerV3
 
 # import tone detection
 import tone_detection
