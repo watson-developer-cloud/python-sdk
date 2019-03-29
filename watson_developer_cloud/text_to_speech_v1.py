@@ -40,7 +40,6 @@ from .watson_service import WatsonService
 # Service
 ##############################################################################
 
-
 class TextToSpeechV1(WatsonService):
     """The Text to Speech V1 service."""
 

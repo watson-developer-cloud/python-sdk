@@ -24,12 +24,13 @@ import json
 from .watson_service import datetime_to_string, string_to_datetime
 from os.path import basename
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-
+@deprecated("watson-developer-cloud moved to ibm-watson")
 class CompareComplyV1(WatsonService):
     """The Compare Comply V1 service."""
 

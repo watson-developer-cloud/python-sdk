@@ -24,12 +24,13 @@ from __future__ import absolute_import
 import json
 from .watson_service import datetime_to_string, string_to_datetime
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-
+@deprecated("watson-developer-cloud moved to ibm-watson")
 class AssistantV1(WatsonService):
     """The Assistant V1 service."""
 

@@ -29,12 +29,13 @@ from __future__ import absolute_import
 
 import json
 from .watson_service import WatsonService
+from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-
+@deprecated("watson-developer-cloud moved to ibm-watson")
 class ToneAnalyzerV3(WatsonService):
     """The Tone Analyzer V3 service."""
 

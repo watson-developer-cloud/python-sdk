@@ -44,7 +44,6 @@ from .watson_service import WatsonService
 # Service
 ##############################################################################
 
-
 class SpeechToTextV1(WatsonService):
     """The Speech to Text V1 service."""
 
