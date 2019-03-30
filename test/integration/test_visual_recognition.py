@@ -1,6 +1,6 @@
 # coding: utf-8
 import pytest
-import watson_developer_cloud
+import ibm_watson
 import os
 from os.path import abspath
 from unittest import TestCase
@@ -13,8 +13,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.visual_recognition = watson_developer_cloud.VisualRecognitionV3(
-            '2018-03-19', iam_apikey='YOUR IAM API KEY')
+        cls.visual_recognition = ibm_watson.VisualRecognitionV3('2018-03-19')
         cls.visual_recognition.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
@@ -43,7 +42,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             open(abspath('resources/trucks.zip'), 'rb') as trucks:
             classifier = self.visual_recognition.create_classifier(
                 'CarsVsTrucks',
-                cars_positive_examples=cars,
+                positive_examples={'cars_positive_examples': cars},
                 negative_examples=trucks,
                 ).get_result()
 

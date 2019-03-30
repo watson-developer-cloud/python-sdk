@@ -12,14 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """
 The v1 Authorization "service" that enables developers to
 retrieve a temporary access token
 """
 
-from watson_developer_cloud.watson_service import WatsonService
-from .utils import deprecated
+from ibm_cloud_sdk_core import BaseService
 
 try:
     import urllib.parse as urlparse  # Python 3
@@ -27,8 +25,7 @@ except ImportError:
     import urlparse  # Python 2
 
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class AuthorizationV1(WatsonService):
+class AuthorizationV1(BaseService):
     """
     Generates tokens, which can be used client-side to avoid exposing the
     service credentials.
@@ -37,10 +34,19 @@ class AuthorizationV1(WatsonService):
     """
     default_url = "https://stream.watsonplatform.net/authorization/api"
 
-    def __init__(self, url=default_url,
-                 username=None, password=None, use_vcap_services=True):
-        WatsonService.__init__(
-            self, 'authorization', url, username, password, use_vcap_services, display_name='authorization')
+    def __init__(self,
+                 url=default_url,
+                 username=None,
+                 password=None,
+                 use_vcap_services=True):
+        BaseService.__init__(
+            self,
+            'authorization',
+            url,
+            username,
+            password,
+            use_vcap_services,
+            display_name='authorization')
 
     def get_token(self, url):
         """

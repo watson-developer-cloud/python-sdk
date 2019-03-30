@@ -13,12 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .watson_service import WatsonService
-from .watson_service import WatsonException
-from .watson_service import WatsonApiException
-from .watson_service import WatsonInvalidArgument
+from ibm_cloud_sdk_core import IAMTokenManager, DetailedResponse, BaseService, ApiException
+
 from .authorization_v1 import AuthorizationV1
-from .iam_token_manager import IAMTokenManager
 from .assistant_v1 import AssistantV1
 from .assistant_v2 import AssistantV2
 from .language_translator_v3 import LanguageTranslatorV3
@@ -31,5 +28,6 @@ from .discovery_v1 import DiscoveryV1
 from .compare_comply_v1 import CompareComplyV1
 from .visual_recognition_v3 import VisualRecognitionV3
 from .version import __version__
+from .common import get_sdk_headers
 from .speech_to_text_v1_adapter import SpeechToTextV1Adapter as SpeechToTextV1
 from .text_to_speech_adapter_v1 import TextToSpeechV1Adapter as TextToSpeechV1

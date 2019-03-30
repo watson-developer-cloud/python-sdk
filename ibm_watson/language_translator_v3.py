@@ -24,16 +24,15 @@ language, and more.
 from __future__ import absolute_import
 
 import json
-from os.path import basename
-from .watson_service import WatsonService
-from .utils import deprecated
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class LanguageTranslatorV3(WatsonService):
+
+class LanguageTranslatorV3(BaseService):
     """The Language Translator V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/language-translator/api'
@@ -63,7 +62,7 @@ class LanguageTranslatorV3(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/language-translator/api").
+               "https://gateway.watsonplatform.net/language-translator/api/language-translator/api").
                The base url may differ between Bluemix regions.
 
         :param str username: The username used to authenticate with the service.
@@ -91,7 +90,7 @@ class LanguageTranslatorV3(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='language_translator',
             url=url,
@@ -132,8 +131,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=translate'
+        sdk_headers = get_sdk_headers('language_translator', 'V3', 'translate')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -176,8 +175,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=identify'
+        sdk_headers = get_sdk_headers('language_translator', 'V3', 'identify')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -209,8 +208,9 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=list_identifiable_languages'
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'list_identifiable_languages')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -229,11 +229,9 @@ class LanguageTranslatorV3(WatsonService):
 
     def create_model(self,
                      base_model_id,
-                     name=None,
                      forced_glossary=None,
                      parallel_corpus=None,
-                     forced_glossary_filename=None,
-                     parallel_corpus_filename=None,
+                     name=None,
                      **kwargs):
         """
         Create model.
@@ -257,9 +255,6 @@ class LanguageTranslatorV3(WatsonService):
         IBM provided models are customizable. In addition, all your models that have been
         created via parallel corpus customization, can be further customized with a forced
         glossary.
-        :param str name: An optional model name that you can use to identify the model.
-        Valid characters are letters, numbers, dashes, underscores, spaces and
-        apostrophes. The maximum length is 32 characters.
         :param file forced_glossary: A TMX file with your customizations. The
         customizations in the file completely overwrite the domain translaton data,
         including high frequency or high confidence phrase translations. You can upload
@@ -269,8 +264,9 @@ class LanguageTranslatorV3(WatsonService):
         target language. You can upload multiple parallel_corpus files in one request. All
         uploaded parallel_corpus files combined, your parallel corpus must contain at
         least 5,000 parallel sentences to train successfully.
-        :param str forced_glossary_filename: The filename for forced_glossary.
-        :param str parallel_corpus_filename: The filename for parallel_corpus.
+        :param str name: An optional model name that you can use to identify the model.
+        Valid characters are letters, numbers, dashes, underscores, spaces and
+        apostrophes. The maximum length is 32 characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -282,8 +278,9 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=create_model'
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'create_model')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -293,18 +290,10 @@ class LanguageTranslatorV3(WatsonService):
 
         form_data = {}
         if forced_glossary:
-            if not forced_glossary_filename and hasattr(forced_glossary,
-                                                        'name'):
-                forced_glossary_filename = basename(forced_glossary.name)
-            form_data['forced_glossary'] = (forced_glossary_filename,
-                                            forced_glossary,
+            form_data['forced_glossary'] = (None, forced_glossary,
                                             'application/octet-stream')
         if parallel_corpus:
-            if not parallel_corpus_filename and hasattr(parallel_corpus,
-                                                        'name'):
-                parallel_corpus_filename = basename(parallel_corpus.name)
-            form_data['parallel_corpus'] = (parallel_corpus_filename,
-                                            parallel_corpus,
+            form_data['parallel_corpus'] = (None, parallel_corpus,
                                             'application/octet-stream')
 
         url = '/v3/models'
@@ -335,8 +324,9 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=delete_model'
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'delete_model')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -369,8 +359,8 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=get_model'
+        sdk_headers = get_sdk_headers('language_translator', 'V3', 'get_model')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -408,8 +398,9 @@ class LanguageTranslatorV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=language_translator;service_version=V3;operation_id=list_models'
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'list_models')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,

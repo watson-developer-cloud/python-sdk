@@ -3,8 +3,8 @@
 import json
 import os
 import responses
-import watson_developer_cloud
-from watson_developer_cloud.language_translator_v3 import TranslationResult, TranslationModels, TranslationModel, IdentifiedLanguages, IdentifiableLanguages, DeleteModelResult
+import ibm_watson
+from ibm_watson.language_translator_v3 import TranslationResult, TranslationModels, TranslationModel, IdentifiedLanguages, IdentifiableLanguages, DeleteModelResult
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/language-translator/api'
@@ -25,7 +25,7 @@ iam_token_response = """{
 
 @responses.activate
 def test_translate_source_target():
-    service = watson_developer_cloud.LanguageTranslatorV3(
+    service = ibm_watson.LanguageTranslatorV3(
         version='2018-05-01',
         iam_apikey='iam_apikey')
     endpoint = '/v3/translate'
@@ -51,7 +51,7 @@ def test_translate_source_target():
 
 @responses.activate
 def test_translate_model_id():
-    service = watson_developer_cloud.LanguageTranslatorV3(
+    service = ibm_watson.LanguageTranslatorV3(
         version='2018-05-01',
         iam_apikey='iam_apikey')
     endpoint = '/v3/translate'
@@ -82,7 +82,7 @@ def test_translate_model_id():
 
 @responses.activate
 def test_identify():
-    service = watson_developer_cloud.LanguageTranslatorV3(
+    service = ibm_watson.LanguageTranslatorV3(
         version='2018-05-01',
         iam_apikey='iam_apikey')
     endpoint = '/v3/identify'
@@ -118,7 +118,7 @@ def test_identify():
 
 @responses.activate
 def test_list_identifiable_languages():
-    service = watson_developer_cloud.LanguageTranslatorV3(
+    service = ibm_watson.LanguageTranslatorV3(
         version='2018-05-01',
         iam_apikey='iam_apikey')
     endpoint = '/v3/identifiable_languages'
@@ -166,7 +166,7 @@ def test_list_identifiable_languages():
 
 @responses.activate
 def test_create_model():
-    service = watson_developer_cloud.LanguageTranslatorV3(
+    service = ibm_watson.LanguageTranslatorV3(
         version='2018-05-01',
         username='xxx',
         password='yyy'
@@ -202,7 +202,7 @@ def test_create_model():
 
 @responses.activate
 def test_delete_model():
-    service = watson_developer_cloud.LanguageTranslatorV3(
+    service = ibm_watson.LanguageTranslatorV3(
         version='2018-05-01',
         iam_apikey='iam_apikey')
     model_id = 'en-es-conversational'
@@ -226,7 +226,7 @@ def test_delete_model():
 
 @responses.activate
 def test_get_model():
-    service = watson_developer_cloud.LanguageTranslatorV3(
+    service = ibm_watson.LanguageTranslatorV3(
         version='2018-05-01',
         iam_apikey='iam_apikey')
     model_id = 'en-es-conversational'
@@ -259,7 +259,7 @@ def test_get_model():
 
 @responses.activate
 def test_list_models():
-    service = watson_developer_cloud.LanguageTranslatorV3(
+    service = ibm_watson.LanguageTranslatorV3(
         version='2018-05-01',
         iam_apikey='iam_apikey')
     endpoint = '/v3/models'

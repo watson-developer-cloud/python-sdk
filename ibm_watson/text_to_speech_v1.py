@@ -34,13 +34,16 @@ Symbolic Phonetic Representation (SPR).
 from __future__ import absolute_import
 
 import json
-from .watson_service import WatsonService
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
+from os.path import basename
 
 ##############################################################################
 # Service
 ##############################################################################
 
-class TextToSpeechV1(WatsonService):
+
+class TextToSpeechV1(BaseService):
     """The Text to Speech V1 service."""
 
     default_url = 'https://stream.watsonplatform.net/text-to-speech/api'
@@ -58,7 +61,7 @@ class TextToSpeechV1(WatsonService):
         Construct a new client for the Text to Speech service.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://stream.watsonplatform.net/text-to-speech/api").
+               "https://stream.watsonplatform.net/text-to-speech/api/text-to-speech/api").
                The base url may differ between Bluemix regions.
 
         :param str username: The username used to authenticate with the service.
@@ -86,7 +89,7 @@ class TextToSpeechV1(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='text_to_speech',
             url=url,
@@ -110,8 +113,8 @@ class TextToSpeechV1(WatsonService):
         language, gender, and other details about the voice. Specify a customization ID to
         obtain information for that custom voice model of the specified voice. To list
         information about all available voices, use the **List voices** method.
-        **See also:** [Specifying a
-        voice](https://cloud.ibm.com/docs/services/text-to-speech/http.html#voices).
+        **See also:** [Listing a specific
+        voice](https://cloud.ibm.com/docs/services/text-to-speech/voices.html#listVoice).
 
         :param str voice: The voice for which information is to be returned.
         :param str customization_id: The customization ID (GUID) of a custom voice model
@@ -130,8 +133,8 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=get_voice'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'get_voice')
+        headers.update(sdk_headers)
 
         params = {'customization_id': customization_id}
 
@@ -151,8 +154,8 @@ class TextToSpeechV1(WatsonService):
         Lists all voices available for use with the service. The information includes the
         name, language, gender, and other details about the voice. To see information
         about a specific voice, use the **Get a voice** method.
-        **See also:** [Specifying a
-        voice](https://cloud.ibm.com/docs/services/text-to-speech/http.html#voices).
+        **See also:** [Listing all available
+        voices](https://cloud.ibm.com/docs/services/text-to-speech/voices.html#listVoices).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -162,8 +165,8 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=list_voices'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'list_voices')
+        headers.update(sdk_headers)
 
         url = '/v1/voices'
         response = self.request(
@@ -176,9 +179,9 @@ class TextToSpeechV1(WatsonService):
 
     def synthesize(self,
                    text,
-                   accept=None,
                    voice=None,
                    customization_id=None,
+                   accept=None,
                    **kwargs):
         """
         Synthesize audio.
@@ -186,10 +189,11 @@ class TextToSpeechV1(WatsonService):
         Synthesizes text to audio that is spoken in the specified voice. The service bases
         its understanding of the language for the input text on the specified voice. Use a
         voice that matches the language of the input text.
-        The service returns the synthesized audio stream as an array of bytes. You can
-        pass a maximum of 5 KB of text to the service.
-        **See also:** [Synthesizing text to
-        audio](https://cloud.ibm.com/docs/services/text-to-speech/http.html#synthesize).
+        The method accepts a maximum of 5 KB of input text in the body of the request, and
+        8 KB for the URL and headers. The 5 KB limit includes any SSML tags that you
+        specify. The service returns the synthesized audio stream as an array of bytes.
+        **See also:** [The HTTP
+        interface](https://cloud.ibm.com/docs/services/text-to-speech/http.html).
         ### Audio formats (accept types)
          The service can return audio in the following formats (MIME types).
         * Where indicated, you can optionally specify the sampling rate (`rate`) of the
@@ -239,8 +243,8 @@ class TextToSpeechV1(WatsonService):
           You can optionally specify the `rate` of the audio. The default sampling rate is
         22,050 Hz.
         For more information about specifying an audio format, including additional
-        details about some of the formats, see [Specifying an audio
-        format](https://cloud.ibm.com/docs/services/text-to-speech/http.html#format).
+        details about some of the formats, see [Audio
+        formats](https://cloud.ibm.com/docs/services/text-to-speech/audio-formats.html).
         ### Warning messages
          If a request includes invalid query parameters, the service returns a `Warnings`
         response header that provides messages about the invalid parameters. The warning
@@ -250,11 +254,6 @@ class TextToSpeechV1(WatsonService):
         {invalid_arg_2}.\"` The request succeeds despite the warnings.
 
         :param str text: The text to synthesize.
-        :param str accept: The requested format (MIME type) of the audio. You can use the
-        `Accept` header or the `accept` parameter to specify the audio format. For more
-        information about specifying an audio format, see **Audio formats (accept types)**
-        in the method description.
-        Default: `audio/ogg;codecs=opus`.
         :param str voice: The voice to use for synthesis.
         :param str customization_id: The customization ID (GUID) of a custom voice model
         to use for the synthesis. If a custom voice model is specified, it is guaranteed
@@ -262,6 +261,11 @@ class TextToSpeechV1(WatsonService):
         request with service credentials created for the instance of the service that owns
         the custom model. Omit the parameter to use the specified voice with no
         customization.
+        :param str accept: The requested format (MIME type) of the audio. You can use the
+        `Accept` header or the `accept` parameter to specify the audio format. For more
+        information about specifying an audio format, see **Audio formats (accept types)**
+        in the method description.
+        Default: `audio/ogg;codecs=opus`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -273,8 +277,8 @@ class TextToSpeechV1(WatsonService):
         headers = {'Accept': accept}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=synthesize'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'synthesize')
+        headers.update(sdk_headers)
 
         params = {'voice': voice, 'customization_id': customization_id}
 
@@ -335,8 +339,9 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=get_pronunciation'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
+                                      'get_pronunciation')
+        headers.update(sdk_headers)
 
         params = {
             'text': text,
@@ -390,8 +395,9 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=create_voice_model'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
+                                      'create_voice_model')
+        headers.update(sdk_headers)
 
         data = {'name': name, 'language': language, 'description': description}
 
@@ -428,13 +434,14 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=delete_voice_model'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
+                                      'delete_voice_model')
+        headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
         response = self.request(
-            method='DELETE', url=url, headers=headers, accept_json=True)
+            method='DELETE', url=url, headers=headers, accept_json=False)
         return response
 
     def get_voice_model(self, customization_id, **kwargs):
@@ -463,8 +470,8 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=get_voice_model'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'get_voice_model')
+        headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
@@ -497,8 +504,9 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=list_voice_models'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
+                                      'list_voice_models')
+        headers.update(sdk_headers)
 
         params = {'language': language}
 
@@ -566,8 +574,9 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=update_voice_model'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
+                                      'update_voice_model')
+        headers.update(sdk_headers)
 
         data = {'name': name, 'description': description, 'words': words}
 
@@ -648,15 +657,19 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=add_word'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'add_word')
+        headers.update(sdk_headers)
 
         data = {'translation': translation, 'part_of_speech': part_of_speech}
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
         response = self.request(
-            method='PUT', url=url, headers=headers, json=data, accept_json=True)
+            method='PUT',
+            url=url,
+            headers=headers,
+            json=data,
+            accept_json=False)
         return response
 
     def add_words(self, customization_id, words, **kwargs):
@@ -711,8 +724,8 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=add_words'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'add_words')
+        headers.update(sdk_headers)
 
         data = {'words': words}
 
@@ -753,13 +766,13 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=delete_word'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'delete_word')
+        headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
         response = self.request(
-            method='DELETE', url=url, headers=headers, accept_json=True)
+            method='DELETE', url=url, headers=headers, accept_json=False)
         return response
 
     def get_word(self, customization_id, word, **kwargs):
@@ -790,8 +803,8 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=get_word'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'get_word')
+        headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
@@ -825,8 +838,8 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=list_words'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'list_words')
+        headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
@@ -864,8 +877,9 @@ class TextToSpeechV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=text_to_speech;service_version=V1;operation_id=delete_user_data'
+        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
+                                      'delete_user_data')
+        headers.update(sdk_headers)
 
         params = {'customer_id': customer_id}
 
@@ -875,7 +889,7 @@ class TextToSpeechV1(WatsonService):
             url=url,
             headers=headers,
             params=params,
-            accept_json=True)
+            accept_json=False)
         return response
 
 

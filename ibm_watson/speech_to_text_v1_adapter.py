@@ -14,9 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from watson_developer_cloud.websocket import RecognizeCallback, RecognizeListener, AudioSource
+from ibm_watson.websocket import RecognizeCallback, RecognizeListener, AudioSource
 from .speech_to_text_v1 import SpeechToTextV1
-from .watson_service import _remove_null_values
 import base64
 try:
     from urllib.parse import urlencode
@@ -179,7 +178,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             raise ValueError('audio must be provided')
         if not isinstance(audio, AudioSource):
             raise Exception(
-                'audio is not of type AudioSource. Import the class from watson_developer_cloud.websocket')
+                'audio is not of type AudioSource. Import the class from ibm_watson.websocket')
         if content_type is None:
             raise ValueError('content_type must be provided')
         if recognize_callback is None:
@@ -211,7 +210,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'base_model_version': base_model_version,
             'language_customization_id': language_customization_id
         }
-        params = _remove_null_values(params)
+        params = dict([(k, v) for k, v in params.items() if v is not None])
         url += '/v1/recognize?{0}'.format(urlencode(params))
 
         options = {
@@ -230,7 +229,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'grammar_name': grammar_name,
             'redaction': redaction
         }
-        options = _remove_null_values(options)
+        options = dict([(k, v) for k, v in options.items() if v is not None])
 
         RecognizeListener(audio,
                           options,

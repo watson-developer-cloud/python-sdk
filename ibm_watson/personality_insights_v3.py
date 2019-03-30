@@ -36,15 +36,15 @@ or retain data from requests and responses.
 from __future__ import absolute_import
 
 import json
-from .watson_service import WatsonService
-from .utils import deprecated
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class PersonalityInsightsV3(WatsonService):
+
+class PersonalityInsightsV3(BaseService):
     """The Personality Insights V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
@@ -74,7 +74,7 @@ class PersonalityInsightsV3(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/personality-insights/api").
+               "https://gateway.watsonplatform.net/personality-insights/api/personality-insights/api").
                The base url may differ between Bluemix regions.
 
         :param str username: The username used to authenticate with the service.
@@ -102,7 +102,7 @@ class PersonalityInsightsV3(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='personality_insights',
             url=url,
@@ -121,13 +121,13 @@ class PersonalityInsightsV3(WatsonService):
 
     def profile(self,
                 content,
-                content_type,
-                accept=None,
+                accept,
                 content_language=None,
                 accept_language=None,
                 raw_scores=None,
                 csv_headers=None,
                 consumption_preferences=None,
+                content_type=None,
                 **kwargs):
         """
         Get profile.
@@ -171,9 +171,6 @@ class PersonalityInsightsV3(WatsonService):
         For JSON input, provide an object of type `Content`.
         :param str accept: The type of the response. For more information, see **Accept
         types** in the method description.
-        :param str content_type: The type of the input. For more information, see
-        **Content types** in the method description.
-        Default: `text/plain`.
         :param str content_language: The language of the input text for the request:
         Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as
         their parent language; for example, `en-US` is interpreted as `en`.
@@ -197,6 +194,9 @@ class PersonalityInsightsV3(WatsonService):
         response type is CSV (`text/csv`).
         :param bool consumption_preferences: Indicates whether consumption preferences are
         returned with the results. By default, no consumption preferences are returned.
+        :param str content_type: The type of the input. For more information, see
+        **Content types** in the method description.
+        Default: `text/plain`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -204,21 +204,21 @@ class PersonalityInsightsV3(WatsonService):
 
         if content is None:
             raise ValueError('content must be provided')
-        if content_type is None:
-            raise ValueError('content_type must be provided')
+        if accept is None:
+            raise ValueError('accept must be provided')
         if isinstance(content, Content):
             content = self._convert_model(content, Content)
 
         headers = {
             'Accept': accept,
-            'Content-Type': content_type,
             'Content-Language': content_language,
-            'Accept-Language': accept_language
+            'Accept-Language': accept_language,
+            'Content-Type': content_type
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=personality_insights;service_version=V3;operation_id=profile'
+        sdk_headers = get_sdk_headers('personality_insights', 'V3', 'profile')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,

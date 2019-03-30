@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .watson_service import WatsonService
-from .watson_service import WatsonException
-from .conversation_v1 import ConversationV1
+from .ibm_watson import WatsonService
+from .ibm_watson import WatsonException
+from .assistant import AssistantV1
 from .tone_analyzer_v3 import ToneAnalyzerV3
 
 

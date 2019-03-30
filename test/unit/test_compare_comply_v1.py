@@ -1,6 +1,6 @@
 # coding: utf-8
 import responses
-import watson_developer_cloud
+import ibm_watson
 import json
 import os
 
@@ -131,7 +131,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_convert_to_html(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/html_conversion')
@@ -163,7 +163,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_classify_elements(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/element_classification')
@@ -205,7 +205,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_extract_tables(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/tables')
@@ -254,7 +254,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_compare_documents(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/comparison')
@@ -314,7 +314,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_add_feedback(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/feedback')
@@ -409,7 +409,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_get_feedback(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/feedback/xxx')
@@ -428,7 +428,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_list_feedback(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/feedback')
@@ -447,7 +447,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_delete_feedback(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/feedback/xxx')
@@ -471,7 +471,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_create_batch(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/batches')
@@ -501,7 +501,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_get_batch(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/batches/xxx')
@@ -520,7 +520,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_list_batches(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/batches')
@@ -539,7 +539,7 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_update_batch(self):
-        service = watson_developer_cloud.CompareComplyV1(
+        service = ibm_watson.CompareComplyV1(
             '2016-10-20', iam_apikey='bogusapikey')
 
         url = "{0}{1}".format(base_url, '/v1/batches/xxx')

@@ -2,20 +2,20 @@
 from __future__ import print_function
 import json
 from os.path import join, dirname
-from watson_developer_cloud import TextToSpeechV1
-from watson_developer_cloud.websocket import SynthesizeCallback
+from ibm_watson import TextToSpeechV1
+from ibm_watson.websocket import SynthesizeCallback
 
 # If service instance provides API key authentication
-# service = TextToSpeechV1(
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://stream.watsonplatform.net/text-to-speech/api',
-#     iam_apikey='your_apikey')
-
 service = TextToSpeechV1(
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    # url='https://stream.watsonplatform.net/text-to-speech/api,
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+    url='https://stream.watsonplatform.net/text-to-speech/api',
+    iam_apikey='YOUR APIKEY')
+
+# service = TextToSpeechV1(
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     # url='https://stream.watsonplatform.net/text-to-speech/api,
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD')
 
 voices = service.list_voices().get_result()
 print(json.dumps(voices, indent=2))

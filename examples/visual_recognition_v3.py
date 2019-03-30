@@ -1,7 +1,7 @@
 from __future__ import print_function
 import json
 from os.path import abspath
-from watson_developer_cloud import VisualRecognitionV3, WatsonApiException
+from ibm_watson import VisualRecognitionV3, ApiException
 
 test_url = 'https://www.ibm.com/ibm/ginni/images' \
            '/ginni_bio_780x981_v4_03162016.jpg'
@@ -11,12 +11,12 @@ service = VisualRecognitionV3(
     '2018-03-19',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     url='https://gateway.watsonplatform.net/visual-recognition/api',
-    iam_apikey='iam_apikey')
+    iam_apikey='YOUR APIKEY')
 
 # with open(abspath('resources/cars.zip'), 'rb') as cars, \
 #      open(abspath('resources/trucks.zip'), 'rb') as trucks:
 #     classifier = service.create_classifier('Cars vs Trucks',
-#                                            cars_positive_examples=cars,
+#                                            positive_examples={'cars_positive_examples': cars},
 #                                            negative_examples=trucks).get_result()
 # print(json.dumps(classifier, indent=2))
 
@@ -28,7 +28,7 @@ try:
             threshold='0.1',
             classifier_ids=['default']).get_result()
         print(json.dumps(car_results, indent=2))
-except WatsonApiException as ex:
+except ApiException as ex:
     print(ex)
 
 # classifier = service.get_classifier('YOUR CLASSIFIER ID').get_result()
@@ -36,7 +36,7 @@ except WatsonApiException as ex:
 
 # with open(abspath('resources/car.jpg'), 'rb') as image_file:
 #     classifier = service.update_classifier('CarsvsTrucks_1479118188',
-#                                            cars_positive_examples=image_file).get_result()
+#                                            positive_examples={'cars_positive_examples': image_file}).get_result()
 #     print(json.dumps(classifier, indent=2))
 
 # faces_result = service.detect_faces(url=test_url).get_result()

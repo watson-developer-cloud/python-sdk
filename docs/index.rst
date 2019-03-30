@@ -12,13 +12,13 @@ To install, use ``pip`` or ``easy_install``:
 
 .. code:: bash
 
-    $ pip install --upgrade watson-developer-cloud
+    $ pip install --upgrade ibm-watson
 
 or
 
 .. code:: bash
 
-    $ easy_install --upgrade watson-developer-cloud
+    $ easy_install --upgrade ibm-watson
 
 Modules
 -------

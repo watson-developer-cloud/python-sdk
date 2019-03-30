@@ -1,8 +1,8 @@
 from __future__ import print_function
 from unittest import TestCase
 import os
-from watson_developer_cloud.websocket import RecognizeCallback, AudioSource
-import watson_developer_cloud
+from ibm_watson.websocket import RecognizeCallback, AudioSource
+import ibm_watson
 import pytest
 import threading
 
@@ -16,9 +16,7 @@ class TestSpeechToTextV1(TestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.speech_to_text = watson_developer_cloud.SpeechToTextV1(
-            username='YOUR SERVICE USERNAME',
-            password='YOUR SERVICE PASSWORD')
+        cls.speech_to_text = ibm_watson.SpeechToTextV1()
         cls.speech_to_text.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
@@ -153,5 +151,5 @@ class TestSpeechToTextV1(TestCase):
 
         try:
             self.speech_to_text.delete_language_model(customization_id)
-        except watson_developer_cloud.WatsonApiException as ex:
+        except ibm_watson.ApiException as ex:
             print('Could not delete model: {0}'.format(ex.message))

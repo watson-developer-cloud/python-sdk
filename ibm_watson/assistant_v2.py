@@ -22,15 +22,15 @@ and your users.
 from __future__ import absolute_import
 
 import json
-from .watson_service import WatsonService
-from .utils import deprecated
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class AssistantV2(WatsonService):
+
+class AssistantV2(BaseService):
     """The Assistant V2 service."""
 
     default_url = 'https://gateway.watsonplatform.net/assistant/api'
@@ -60,7 +60,7 @@ class AssistantV2(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/assistant/api").
+               "https://gateway.watsonplatform.net/assistant/api/assistant/api").
                The base url may differ between Bluemix regions.
 
         :param str username: The username used to authenticate with the service.
@@ -88,7 +88,7 @@ class AssistantV2(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='conversation',
             url=url,
@@ -115,7 +115,7 @@ class AssistantV2(WatsonService):
         :param str assistant_id: Unique identifier of the assistant. You can find the
         assistant ID of an assistant on the **Assistants** tab of the Watson Assistant
         tool. For information about creating assistants, see the
-        [documentation](https://console.bluemix.net/docs/services/assistant/create-assistant.html#creating-assistants).
+        [documentation](https://console.bluemix.net/docs/services/assistant/assistant-add.html#assistant-add-task).
         **Note:** Currently, the v2 API does not support creating assistants.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -128,8 +128,8 @@ class AssistantV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V2;operation_id=create_session'
+        sdk_headers = get_sdk_headers('conversation', 'V2', 'create_session')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -152,7 +152,7 @@ class AssistantV2(WatsonService):
         :param str assistant_id: Unique identifier of the assistant. You can find the
         assistant ID of an assistant on the **Assistants** tab of the Watson Assistant
         tool. For information about creating assistants, see the
-        [documentation](https://console.bluemix.net/docs/services/assistant/create-assistant.html#creating-assistants).
+        [documentation](https://console.bluemix.net/docs/services/assistant/assistant-add.html#assistant-add-task).
         **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
         :param dict headers: A `dict` containing the request headers
@@ -168,8 +168,8 @@ class AssistantV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V2;operation_id=delete_session'
+        sdk_headers = get_sdk_headers('conversation', 'V2', 'delete_session')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -202,11 +202,13 @@ class AssistantV2(WatsonService):
         :param str assistant_id: Unique identifier of the assistant. You can find the
         assistant ID of an assistant on the **Assistants** tab of the Watson Assistant
         tool. For information about creating assistants, see the
-        [documentation](https://console.bluemix.net/docs/services/assistant/create-assistant.html#creating-assistants).
+        [documentation](https://console.bluemix.net/docs/services/assistant/assistant-add.html#assistant-add-task).
         **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
         :param MessageInput input: An input object that includes the input text.
-        :param MessageContext context: State information for the conversation.
+        :param MessageContext context: State information for the conversation. The context
+        is stored by the assistant on a per-session basis. You can use this property to
+        set or modify context variables, which can also be accessed by dialog nodes.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -224,8 +226,8 @@ class AssistantV2(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V2;operation_id=message'
+        sdk_headers = get_sdk_headers('conversation', 'V2', 'message')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -371,7 +373,7 @@ class DialogNodeAction(object):
 
     :attr str name: The name of the action.
     :attr str action_type: (optional) The type of action to invoke.
-    :attr object parameters: (optional) A map of key/value pairs to be provided to the
+    :attr dict parameters: (optional) A map of key/value pairs to be provided to the
     action.
     :attr str result_variable: The location in the dialog context where the result of the
     action is stored.
@@ -392,8 +394,8 @@ class DialogNodeAction(object):
         :param str result_variable: The location in the dialog context where the result of
         the action is stored.
         :param str action_type: (optional) The type of action to invoke.
-        :param object parameters: (optional) A map of key/value pairs to be provided to
-        the action.
+        :param dict parameters: (optional) A map of key/value pairs to be provided to the
+        action.
         :param str credentials: (optional) The name of the context variable that the
         client application will use to pass in credentials for the action.
         """
@@ -642,7 +644,8 @@ class DialogRuntimeResponseGeneric(object):
     :attr bool typing: (optional) Whether to send a "user is typing" event during the
     pause.
     :attr str source: (optional) The URL of the image.
-    :attr str title: (optional) The title to show before the response.
+    :attr str title: (optional) The title or introductory text to show before the
+    response.
     :attr str description: (optional) The description to show with the the response.
     :attr str preference: (optional) The preferred type of control to display.
     :attr list[DialogNodeOutputOptionsElement] options: (optional) An array of objects
@@ -682,7 +685,8 @@ class DialogRuntimeResponseGeneric(object):
         :param bool typing: (optional) Whether to send a "user is typing" event during the
         pause.
         :param str source: (optional) The URL of the image.
-        :param str title: (optional) The title to show before the response.
+        :param str title: (optional) The title or introductory text to show before the
+        response.
         :param str description: (optional) The description to show with the the response.
         :param str preference: (optional) The preferred type of control to display.
         :param list[DialogNodeOutputOptionsElement] options: (optional) An array of
@@ -802,8 +806,8 @@ class DialogSuggestion(object):
     taken from the **user_label** property of the corresponding dialog node.
     :attr DialogSuggestionValue value: An object defining the message input to be sent to
     the assistant if the user selects the corresponding disambiguation option.
-    :attr object output: (optional) The dialog output that will be returned from the
-    Watson Assistant service if the user selects the corresponding option.
+    :attr dict output: (optional) The dialog output that will be returned from the Watson
+    Assistant service if the user selects the corresponding option.
     """
 
     def __init__(self, label, value, output=None):
@@ -814,7 +818,7 @@ class DialogSuggestion(object):
         is taken from the **user_label** property of the corresponding dialog node.
         :param DialogSuggestionValue value: An object defining the message input to be
         sent to the assistant if the user selects the corresponding disambiguation option.
-        :param object output: (optional) The dialog output that will be returned from the
+        :param dict output: (optional) The dialog output that will be returned from the
         Watson Assistant service if the user selects the corresponding option.
         """
         self.label = label
@@ -916,22 +920,26 @@ class DialogSuggestionValue(object):
 
 class MessageContext(object):
     """
-    State information for the conversation.
+    MessageContext.
 
-    :attr MessageContextGlobal global_: (optional) Contains information that can be shared
-    by all skills within the Assistant.
-    :attr MessageContextSkills skills: (optional) Contains information specific to
-    particular skills within the Assistant.
+    :attr MessageContextGlobal global_: (optional) Information that is shared by all
+    skills used by the Assistant.
+    :attr MessageContextSkills skills: (optional) Information specific to particular
+    skills used by the Assistant.
+    **Note:** Currently, only a single property named `main skill` is supported. This
+    object contains variables that apply to the dialog skill used by the assistant.
     """
 
     def __init__(self, global_=None, skills=None):
         """
         Initialize a MessageContext object.
 
-        :param MessageContextGlobal global_: (optional) Contains information that can be
-        shared by all skills within the Assistant.
-        :param MessageContextSkills skills: (optional) Contains information specific to
-        particular skills within the Assistant.
+        :param MessageContextGlobal global_: (optional) Information that is shared by all
+        skills used by the Assistant.
+        :param MessageContextSkills skills: (optional) Information specific to particular
+        skills used by the Assistant.
+        **Note:** Currently, only a single property named `main skill` is supported. This
+        object contains variables that apply to the dialog skill used by the assistant.
         """
         self.global_ = global_
         self.skills = skills
@@ -974,18 +982,18 @@ class MessageContext(object):
 
 class MessageContextGlobal(object):
     """
-    Contains information that can be shared by all skills within the Assistant.
+    Information that is shared by all skills used by the Assistant.
 
-    :attr MessageContextGlobalSystem system: (optional) Properties that are shared by all
-    skills used by the assistant.
+    :attr MessageContextGlobalSystem system: (optional) Built-in system properties that
+    apply to all skills used by the assistant.
     """
 
     def __init__(self, system=None):
         """
         Initialize a MessageContextGlobal object.
 
-        :param MessageContextGlobalSystem system: (optional) Properties that are shared by
-        all skills used by the assistant.
+        :param MessageContextGlobalSystem system: (optional) Built-in system properties
+        that apply to all skills used by the assistant.
         """
         self.system = system
 
@@ -1022,7 +1030,7 @@ class MessageContextGlobal(object):
 
 class MessageContextGlobalSystem(object):
     """
-    Properties that are shared by all skills used by the assistant.
+    Built-in system properties that apply to all skills used by the assistant.
 
     :attr str timezone: (optional) The user time zone. The assistant uses the time zone to
     correctly resolve relative time references.
@@ -1033,7 +1041,8 @@ class MessageContextGlobalSystem(object):
     contain carriage return, newline, or tab characters.
     :attr int turn_count: (optional) A counter that is automatically incremented with each
     turn of the conversation. A value of 1 indicates that this is the the first turn of a
-    new conversation, which can affect the behavior of some skills.
+    new conversation, which can affect the behavior of some skills (for example,
+    triggering the start node of a dialog).
     """
 
     def __init__(self, timezone=None, user_id=None, turn_count=None):
@@ -1049,7 +1058,8 @@ class MessageContextGlobalSystem(object):
         cannot contain carriage return, newline, or tab characters.
         :param int turn_count: (optional) A counter that is automatically incremented with
         each turn of the conversation. A value of 1 indicates that this is the the first
-        turn of a new conversation, which can affect the behavior of some skills.
+        turn of a new conversation, which can affect the behavior of some skills (for
+        example, triggering the start node of a dialog).
         """
         self.timezone = timezone
         self.user_id = user_id
@@ -1093,56 +1103,11 @@ class MessageContextGlobalSystem(object):
         return not self == other
 
 
-class MessageContextSkill(object):
-    """
-    Contains information specific to a particular skill within the Assistant.
-
-    :attr str user_defined: (optional) Arbitrary variables that can be read and written to
-    by a particular skill within the Assistant.
-    """
-
-    def __init__(self, user_defined=None):
-        """
-        Initialize a MessageContextSkill object.
-
-        :param str user_defined: (optional) Arbitrary variables that can be read and
-        written to by a particular skill within the Assistant.
-        """
-        self.user_defined = user_defined
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageContextSkill object from a json dictionary."""
-        args = {}
-        if 'user_defined' in _dict:
-            args['user_defined'] = _dict.get('user_defined')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'user_defined') and self.user_defined is not None:
-            _dict['user_defined'] = self.user_defined
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this MessageContextSkill object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class MessageContextSkills(object):
     """
-    Contains information specific to particular skills within the Assistant.
+    Information specific to particular skills used by the Assistant.
+    **Note:** Currently, only a single property named `main skill` is supported. This
+    object contains variables that apply to the dialog skill used by the assistant.
 
     """
 
@@ -1400,7 +1365,7 @@ class MessageOutput(object):
     actions requested by the dialog node.
     :attr MessageOutputDebug debug: (optional) Additional detailed information about a
     message response and how it was generated.
-    :attr object user_defined: (optional) An object containing any custom properties
+    :attr dict user_defined: (optional) An object containing any custom properties
     included in the response. This object includes any arbitrary properties defined in the
     dialog JSON editor as part of the dialog node output.
     """
@@ -1426,7 +1391,7 @@ class MessageOutput(object):
         any actions requested by the dialog node.
         :param MessageOutputDebug debug: (optional) Additional detailed information about
         a message response and how it was generated.
-        :param object user_defined: (optional) An object containing any custom properties
+        :param dict user_defined: (optional) An object containing any custom properties
         included in the response. This object includes any arbitrary properties defined in
         the dialog JSON editor as part of the dialog node output.
         """
@@ -1591,7 +1556,11 @@ class MessageResponse(object):
 
     :attr MessageOutput output: Assistant output to be rendered or processed by the
     client.
-    :attr MessageContext context: (optional) State information for the conversation.
+    :attr MessageContext context: (optional) State information for the conversation. The
+    context is stored by the assistant on a per-session basis. You can use this property
+    to access context variables.
+    **Note:** The context is included in message responses only if
+    **return_context**=`true` in the message request.
     """
 
     def __init__(self, output, context=None):
@@ -1601,6 +1570,10 @@ class MessageResponse(object):
         :param MessageOutput output: Assistant output to be rendered or processed by the
         client.
         :param MessageContext context: (optional) State information for the conversation.
+        The context is stored by the assistant on a per-session basis. You can use this
+        property to access context variables.
+        **Note:** The context is included in message responses only if
+        **return_context**=`true` in the message request.
         """
         self.output = output
         self.context = context
@@ -1653,7 +1626,7 @@ class RuntimeEntity(object):
     :attr str value: The term in the input text that was recognized as an entity value.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
     confidence in the entity.
-    :attr object metadata: (optional) Any metadata for the entity.
+    :attr dict metadata: (optional) Any metadata for the entity.
     :attr list[CaptureGroup] groups: (optional) The recognized capture groups for the
     entity, as defined by the entity pattern.
     """
@@ -1675,7 +1648,7 @@ class RuntimeEntity(object):
         value.
         :param float confidence: (optional) A decimal percentage that represents Watson's
         confidence in the entity.
-        :param object metadata: (optional) Any metadata for the entity.
+        :param dict metadata: (optional) Any metadata for the entity.
         :param list[CaptureGroup] groups: (optional) The recognized capture groups for the
         entity, as defined by the entity pattern.
         """

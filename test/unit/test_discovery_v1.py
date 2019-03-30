@@ -3,8 +3,8 @@ import responses
 import os
 import json
 import io
-import watson_developer_cloud
-from watson_developer_cloud.discovery_v1 import TrainingDataSet, TrainingQuery, TrainingExample
+import ibm_watson
+from ibm_watson.discovery_v1 import TrainingDataSet, TrainingQuery, TrainingExample
 
 try:
     from urllib.parse import urlparse, urljoin
@@ -58,9 +58,9 @@ def test_environments():
                   body=discovery_response_body, status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.list_environments()
 
     url_str = "{0}?version=2016-11-07".format(discovery_url)
@@ -77,9 +77,9 @@ def test_get_environment():
                   body="{\"resulting_key\": true}", status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.get_environment(environment_id='envid')
     url_str = "{0}?version=2016-11-07".format(discovery_url)
     assert responses.calls[0].request.url == url_str
@@ -94,9 +94,9 @@ def test_create_environment():
                   body="{\"resulting_key\": true}", status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
 
     discovery.create_environment(name="my name", description="my description")
     assert len(responses.calls) == 1
@@ -109,9 +109,9 @@ def test_update_environment():
                   body="{\"resulting_key\": true}", status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.update_environment('envid', name="hello", description="new")
     assert len(responses.calls) == 1
 
@@ -123,9 +123,9 @@ def test_delete_environment():
                   body="{\"resulting_key\": true}", status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.delete_environment('envid')
     assert len(responses.calls) == 1
 
@@ -139,9 +139,9 @@ def test_collections():
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.list_collections('envid')
 
     called_url = urlparse(responses.calls[0].request.url)
@@ -186,9 +186,9 @@ def test_collection():
                   status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.create_collection(environment_id='envid',
                                 name="name",
                                 description="",
@@ -222,10 +222,10 @@ def test_federated_query():
     responses.add(responses.POST, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
-    discovery.federated_query('envid', ['collid1', 'collid2'], filter='colls.sha1::9181d244*')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
+    discovery.federated_query('envid', 'colls.sha1::9181d244*', collection_ids=['collid1', 'collid2'])
 
     called_url = urlparse(responses.calls[0].request.url)
     test_url = urlparse(discovery_url)
@@ -242,10 +242,8 @@ def test_federated_query_2():
     responses.add(responses.POST, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
-    discovery.federated_query('envid', "'collid1', 'collid2'",
+    discovery = ibm_watson.DiscoveryV1('2016-11-07', username='username', password='password')
+    discovery.federated_query('envid', collection_ids="'collid1', 'collid2'",
                               filter='colls.sha1::9181d244*',
                               bias='1',
                               logging_opt_out=True)
@@ -265,10 +263,8 @@ def test_federated_query_notices():
     responses.add(responses.GET, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
-    discovery.federated_query_notices('envid', ['collid1', 'collid2'], filter='notices.sha1::9181d244*')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07', username='username', password='password')
+    discovery.federated_query_notices('envid', collection_ids=['collid1', 'collid2'], filter='notices.sha1::9181d244*')
 
     called_url = urlparse(responses.calls[0].request.url)
     test_url = urlparse(discovery_url)
@@ -285,9 +281,9 @@ def test_query():
     responses.add(responses.POST, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.query('envid', 'collid',
                     filter='extracted_metadata.sha1::9181d244*',
                     count=1,
@@ -311,9 +307,9 @@ def test_query_2():
     responses.add(responses.POST, discovery_url,
                   body="{\"body\": \"hello\"}", status=200,
                   content_type='application/json')
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.query('envid', 'collid',
                     filter='extracted_metadata.sha1::9181d244*',
                     count=1,
@@ -344,7 +340,7 @@ def test_query_relations():
         status=200,
         content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1(
+    discovery = ibm_watson.DiscoveryV1(
         '2016-11-07', username='username', password='password')
 
     discovery.query_relations('envid', 'collid', count=10)
@@ -368,7 +364,7 @@ def test_query_entities():
         status=200,
         content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1(
+    discovery = ibm_watson.DiscoveryV1(
         '2016-11-07', username='username', password='password')
 
     discovery.query_entities('envid', 'collid', {'count': 10})
@@ -391,7 +387,7 @@ def test_query_notices():
         status=200,
         content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1(
+    discovery = ibm_watson.DiscoveryV1(
         '2016-11-07', username='username', password='password')
 
     discovery.query_notices('envid', 'collid', filter='notices.sha1::*')
@@ -434,9 +430,9 @@ def test_configs():
                   status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     discovery.list_configurations(environment_id='envid')
 
     discovery.get_configuration(environment_id='envid',
@@ -479,9 +475,9 @@ def test_document():
                   status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   username='username',
-                                                   password='password')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07',
+                                       username='username',
+                                       password='password')
     html_path = os.path.join(os.getcwd(), 'resources', 'simple.html')
     with open(html_path) as fileinfo:
         conf_id = discovery.test_configuration_in_environment(environment_id='envid',
@@ -597,9 +593,7 @@ def test_delete_all_training_data():
     url = '{0}{1}'.format(base_url, endpoint)
     responses.add(responses.DELETE, url, status=204)
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version, username='username', password='password')
     response = service.delete_all_training_data(environment_id=environment_id,
                                                 collection_id=collection_id).get_result()
 
@@ -635,9 +629,9 @@ def test_list_training_data():
                   status=200,
                   content_type='application/json')
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version,
+                                     username='username',
+                                     password='password')
     response = service.list_training_data(environment_id=environment_id,
                                           collection_id=collection_id).get_result()
 
@@ -682,9 +676,9 @@ def test_add_training_data():
                   status=200,
                   content_type='application/json')
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version,
+                                     username='username',
+                                     password='password')
     response = service.add_training_data(
         environment_id=environment_id,
         collection_id=collection_id,
@@ -706,9 +700,9 @@ def test_delete_training_data():
     url = '{0}{1}'.format(base_url, endpoint)
     responses.add(responses.DELETE, url, status=204)
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version,
+                                     username='username',
+                                     password='password')
     response = service.delete_training_data(environment_id=environment_id,
                                             collection_id=collection_id,
                                             query_id=query_id).get_result()
@@ -741,9 +735,7 @@ def test_get_training_data():
                   status=200,
                   content_type='application/json')
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version, username='username', password='password')
     response = service.get_training_data(environment_id=environment_id,
                                          collection_id=collection_id,
                                          query_id=query_id).get_result()
@@ -775,9 +767,9 @@ def test_create_training_example():
                   status=201,
                   content_type='application/json')
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version,
+                                     username='username',
+                                     password='password')
     response = service.create_training_example(
         environment_id=environment_id,
         collection_id=collection_id,
@@ -804,9 +796,7 @@ def test_delete_training_example():
     url = '{0}{1}'.format(base_url, endpoint)
     responses.add(responses.DELETE, url, status=204)
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version, username='username', password='password')
     response = service.delete_training_example(
         environment_id=environment_id,
         collection_id=collection_id,
@@ -838,9 +828,7 @@ def test_get_training_example():
                   status=200,
                   content_type='application/json')
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version, username='username', password='password')
     response = service.get_training_example(
         environment_id=environment_id,
         collection_id=collection_id,
@@ -876,9 +864,9 @@ def test_update_training_example():
                   status=200,
                   content_type='application/json')
 
-    service = watson_developer_cloud.DiscoveryV1(version,
-                                                 username='username',
-                                                 password='password')
+    service = ibm_watson.DiscoveryV1(version,
+                                     username='username',
+                                     password='password')
     response = service.update_training_example(
         environment_id=environment_id,
         collection_id=collection_id,
@@ -913,7 +901,7 @@ def test_expansions():
         status=200,
         content_type='application_json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
+    discovery = ibm_watson.DiscoveryV1('2017-11-07', username="username", password="password")
 
     discovery.list_expansions('envid', 'colid')
     assert responses.calls[0].response.json() == {"expansions": "results"}
@@ -936,7 +924,7 @@ def test_delete_user_data():
         status=204,
         content_type='application_json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
+    discovery = ibm_watson.DiscoveryV1('2017-11-07', username="username", password="password")
 
     response = discovery.delete_user_data('id').get_result()
     assert response is None
@@ -986,8 +974,7 @@ def test_credentials():
                   status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   iam_apikey='iam_apikey')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07', iam_apikey='iam_apikey')
     discovery.create_credentials('envid', 'salesforce', {
         'url': 'https://login.salesforce.com',
         'credential_type': 'username_password',
@@ -1140,8 +1127,7 @@ def test_events_and_feedback():
                   content_type='application/json')
 
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   iam_apikey='iam_apikey')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07', iam_apikey='iam_apikey')
 
     discovery.create_event('click', event_data)
     assert responses.calls[1].response.json()["data"] == event_data
@@ -1195,7 +1181,7 @@ def test_tokenization_dictionary():
         status=200,
         content_type='application_json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
+    discovery = ibm_watson.DiscoveryV1('2017-11-07', username="username", password="password")
 
     tokenization_rules = [
         {
@@ -1212,7 +1198,7 @@ def test_tokenization_dictionary():
     assert responses.calls[1].response.json() == {"status": "pending", "type":"tokenization_dictionary"}
 
     discovery.delete_tokenization_dictionary('envid', 'colid')
-    assert responses.calls[2].response.status_code is 200
+    assert responses.calls[2].response.status_code == 200
 
     assert len(responses.calls) == 3
 
@@ -1236,7 +1222,7 @@ def test_stopword_operations():
         status=200,
         content_type='application_json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2017-11-07', username="username", password="password")
+    discovery = ibm_watson.DiscoveryV1('2017-11-07', username="username", password="password")
 
     stopwords_file_path = os.path.join(os.getcwd(), 'resources', 'stopwords.txt')
     with open(stopwords_file_path) as file:
@@ -1289,8 +1275,7 @@ def test_gateway_configuration():
                   status=200,
                   content_type='application/json')
 
-    discovery = watson_developer_cloud.DiscoveryV1('2016-11-07',
-                                                   iam_apikey='iam_apikey')
+    discovery = ibm_watson.DiscoveryV1('2016-11-07', iam_apikey='iam_apikey')
 
     discovery.create_gateway('envid', 'gateway_id')
     discovery.list_gateways('envid')

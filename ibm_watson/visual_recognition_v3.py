@@ -22,18 +22,17 @@ a custom classifier to identify subjects that suit your needs.
 from __future__ import absolute_import
 
 import json
-from .watson_service import datetime_to_string, string_to_datetime
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from os.path import basename
-import re
-from .watson_service import WatsonService
-from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class VisualRecognitionV3(WatsonService):
+
+class VisualRecognitionV3(BaseService):
     """The Visual Recognition V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
@@ -61,7 +60,7 @@ class VisualRecognitionV3(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/visual-recognition/api").
+               "https://gateway.watsonplatform.net/visual-recognition/api/visual-recognition/api").
                The base url may differ between Bluemix regions.
 
         :param str iam_apikey: An API key that can be used to request IAM tokens. If
@@ -77,7 +76,7 @@ class VisualRecognitionV3(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='watson_vision_combined',
             url=url,
@@ -94,13 +93,13 @@ class VisualRecognitionV3(WatsonService):
 
     def classify(self,
                  images_file=None,
-                 accept_language=None,
+                 images_filename=None,
+                 images_file_content_type=None,
                  url=None,
                  threshold=None,
                  owners=None,
                  classifier_ids=None,
-                 images_file_content_type=None,
-                 images_filename=None,
+                 accept_language=None,
                  **kwargs):
         """
         Classify images.
@@ -113,8 +112,8 @@ class VisualRecognitionV3(WatsonService):
         non-ASCII characters. The service assumes UTF-8 encoding if it encounters
         non-ASCII characters.
         You can also include an image with the **url** parameter.
-        :param str accept_language: The desired language of parts of the response. See the
-        response for details.
+        :param str images_filename: The filename for images_file.
+        :param str images_file_content_type: The content type of images_file.
         :param str url: The URL of an image (.gif, .jpg, .png, .tif) to analyze. The
         minimum recommended pixel density is 32X32 pixels, but the service tends to
         perform better with images that are at least 224 x 224 pixels. The maximum image
@@ -139,8 +138,8 @@ class VisualRecognitionV3(WatsonService):
         - `default`: Returns classes from thousands of general tags.
         - `food`: Enhances specificity and accuracy for images of food items.
         - `explicit`: Evaluates whether the image might be pornographic.
-        :param str images_file_content_type: The content type of images_file.
-        :param str images_filename: The filename for images_file.
+        :param str accept_language: The desired language of parts of the response. See the
+        response for details.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -149,8 +148,9 @@ class VisualRecognitionV3(WatsonService):
         headers = {'Accept-Language': accept_language}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=classify'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'classify')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -158,6 +158,8 @@ class VisualRecognitionV3(WatsonService):
         if images_file:
             if not images_filename and hasattr(images_file, 'name'):
                 images_filename = basename(images_file.name)
+            if not images_filename:
+                raise ValueError('images_filename must be provided')
             form_data['images_file'] = (images_filename, images_file,
                                         images_file_content_type or
                                         'application/octet-stream')
@@ -189,9 +191,9 @@ class VisualRecognitionV3(WatsonService):
 
     def detect_faces(self,
                      images_file=None,
-                     url=None,
-                     images_file_content_type=None,
                      images_filename=None,
+                     images_file_content_type=None,
+                     url=None,
                      accept_language=None,
                      **kwargs):
         """
@@ -216,14 +218,14 @@ class VisualRecognitionV3(WatsonService):
         characters. The service assumes UTF-8 encoding if it encounters non-ASCII
         characters.
         You can also include an image with the **url** parameter.
+        :param str images_filename: The filename for images_file.
+        :param str images_file_content_type: The content type of images_file.
         :param str url: The URL of an image to analyze. Must be in .gif, .jpg, .png, or
         .tif format. The minimum recommended pixel density is 32X32 pixels, but the
         service tends to perform better with images that are at least 224 x 224 pixels.
         The maximum image size is 10 MB. Redirects are followed, so you can use a
         shortened URL.
         You can also include images with the **images_file** parameter.
-        :param str images_file_content_type: The content type of images_file.
-        :param str images_filename: The filename for images_file.
         :param str accept_language: The desired language of parts of the response. See the
         response for details.
         :param dict headers: A `dict` containing the request headers
@@ -234,8 +236,9 @@ class VisualRecognitionV3(WatsonService):
         headers = {'Accept-Language': accept_language}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=detect_faces'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'detect_faces')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -243,6 +246,8 @@ class VisualRecognitionV3(WatsonService):
         if images_file:
             if not images_filename and hasattr(images_file, 'name'):
                 images_filename = basename(images_file.name)
+            if not images_filename:
+                raise ValueError('images_filename must be provided')
             form_data['images_file'] = (images_filename, images_file,
                                         images_file_content_type or
                                         'application/octet-stream')
@@ -265,6 +270,7 @@ class VisualRecognitionV3(WatsonService):
 
     def create_classifier(self,
                           name,
+                          positive_examples,
                           negative_examples=None,
                           negative_examples_filename=None,
                           **kwargs):
@@ -281,14 +287,10 @@ class VisualRecognitionV3(WatsonService):
 
         :param str name: The name of the new classifier. Encode special characters in
         UTF-8.
-        :param file negative_examples: A .zip file of images that do not depict the visual
-        subject of any of the classes of the new classifier. Must contain a minimum of 10
-        images.
-        Encode special characters in the file name in UTF-8.
-        :param str negative_examples_filename: The filename for negative_examples.
-        :param file positive_examples: A .zip file of images that depict the visual
-        subject of a class in the new classifier. You can include more than one positive
-        example file in a call.
+        :param dict positive_examples: A dictionary that contains the value for each
+        classname. The value is a .zip file of images that depict the visual subject of a
+        class in the new classifier. You can include more than one positive example file
+        in a call.
         Specify the parameter name by appending `_positive_examples` to the class name.
         For example, `goldenretriever_positive_examples` creates the class
         **goldenretriever**.
@@ -296,7 +298,11 @@ class VisualRecognitionV3(WatsonService):
         resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100
         MB per .zip file.
         Encode special characters in the file name in UTF-8.
-        :param str positive_examples_filename: The filename for positive_examples.
+        :param file negative_examples: A .zip file of images that do not depict the visual
+        subject of any of the classes of the new classifier. Must contain a minimum of 10
+        images.
+        Encode special characters in the file name in UTF-8.
+        :param str negative_examples_filename: The filename for negative_examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -304,24 +310,26 @@ class VisualRecognitionV3(WatsonService):
 
         if name is None:
             raise ValueError('name must be provided')
-        positive_examples_keys = [
-            key for key in kwargs if re.match('^.+_positive_examples$', key)
-        ]
-        if not positive_examples_keys:
-            raise ValueError(
-                'At least one <classname>_positive_examples parameter must be provided'
-            )
+        if not positive_examples:
+            raise ValueError('positive_examples must be provided')
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=create_classifier'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'create_classifier')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
         form_data = {}
         form_data['name'] = (None, name, 'text/plain')
+        for key in positive_examples.keys():
+            part_name = '%s_positive_examples' % (key)
+            value = positive_examples[key]
+            if hasattr(value, 'name'):
+                filename = basename(value.name)
+            form_data[part_name] = (filename, value, 'application/octet-stream')
         if negative_examples:
             if not negative_examples_filename and hasattr(
                     negative_examples, 'name'):
@@ -331,12 +339,6 @@ class VisualRecognitionV3(WatsonService):
             form_data['negative_examples'] = (negative_examples_filename,
                                               negative_examples,
                                               'application/octet-stream')
-        for key in positive_examples_keys:
-            value = kwargs[key]
-            filename = kwargs.get(key + '_filename')
-            if not filename and hasattr(value, 'name'):
-                filename = basename(value.name)
-            form_data[key] = (filename, value, 'application/octet-stream')
 
         url = '/v3/classifiers'
         response = self.request(
@@ -364,8 +366,9 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=delete_classifier'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'delete_classifier')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -397,8 +400,9 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=get_classifier'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'get_classifier')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -426,8 +430,9 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=list_classifiers'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'list_classifiers')
+        headers.update(sdk_headers)
 
         params = {'version': self.version, 'verbose': verbose}
 
@@ -442,6 +447,7 @@ class VisualRecognitionV3(WatsonService):
 
     def update_classifier(self,
                           classifier_id,
+                          positive_examples={},
                           negative_examples=None,
                           negative_examples_filename=None,
                           **kwargs):
@@ -461,15 +467,10 @@ class VisualRecognitionV3(WatsonService):
         retraining finished.
 
         :param str classifier_id: The ID of the classifier.
-        :param file negative_examples: A .zip file of images that do not depict the visual
-        subject of any of the classes of the new classifier. Must contain a minimum of 10
-        images.
-        Encode special characters in the file name in UTF-8.
-        :param str negative_examples_filename: The filename for negative_examples.
-        :param file positive_examples: A .zip file of images that depict the visual
-        subject of a class in the classifier. The positive examples create or update
-        classes in the classifier. You can include more than one positive example file in
-        a call.
+        :param dict positive_examples: A dictionary that contains the value for each
+        classname. The value is a .zip file of images that depict the visual subject of a
+        class in the classifier. The positive examples create or update classes in the
+        classifier. You can include more than one positive example file in a call.
         Specify the parameter name by appending `_positive_examples` to the class name.
         For example, `goldenretriever_positive_examples` creates the class
         `goldenretriever`.
@@ -477,7 +478,11 @@ class VisualRecognitionV3(WatsonService):
         resolution is 32X32 pixels. The maximum number of images is 10,000 images or 100
         MB per .zip file.
         Encode special characters in the file name in UTF-8.
-        :param str positive_examples_filename: The filename for positive_examples.
+        :param file negative_examples: A .zip file of images that do not depict the visual
+        subject of any of the classes of the new classifier. Must contain a minimum of 10
+        images.
+        Encode special characters in the file name in UTF-8.
+        :param str negative_examples_filename: The filename for negative_examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -485,19 +490,23 @@ class VisualRecognitionV3(WatsonService):
 
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-        positive_examples_keys = [
-            key for key in kwargs if re.match('^.+_positive_examples$', key)
-        ]
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=update_classifier'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'update_classifier')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
         form_data = {}
+        for key in positive_examples.keys():
+            part_name = '%s_positive_examples' % (key)
+            value = positive_examples[key]
+            if hasattr(value, 'name'):
+                filename = basename(value.name)
+            form_data[part_name] = (filename, value, 'application/octet-stream')
         if negative_examples:
             if not negative_examples_filename and hasattr(
                     negative_examples, 'name'):
@@ -507,12 +516,6 @@ class VisualRecognitionV3(WatsonService):
             form_data['negative_examples'] = (negative_examples_filename,
                                               negative_examples,
                                               'application/octet-stream')
-        for key in positive_examples_keys:
-            value = kwargs[key]
-            filename = kwargs.get(key + '_filename')
-            if not filename and hasattr(value, 'name'):
-                filename = basename(value.name)
-            form_data[key] = (filename, value, 'application/octet-stream')
 
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
@@ -548,8 +551,9 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=get_core_ml_model'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'get_core_ml_model')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -590,8 +594,9 @@ class VisualRecognitionV3(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=watson_vision_combined;service_version=V3;operation_id=delete_user_data'
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'delete_user_data')
+        headers.update(sdk_headers)
 
         params = {'version': self.version, 'customer_id': customer_id}
 

@@ -20,23 +20,23 @@ request. The service cleans HTML content before analysis by default, so the resu
 ignore most advertisements and other unwanted content.
 You can create [custom
 models](https://cloud.ibm.com/docs/services/natural-language-understanding/customizing.html)
-with Watson Knowledge Studio to detect custom entities and relations in Natural Language
-Understanding.
+with Watson Knowledge Studio to detect custom entities, relations, and categories in
+Natural Language Understanding.
 """
 
 from __future__ import absolute_import
 
 import json
-from .watson_service import datetime_to_string, string_to_datetime
-from .watson_service import WatsonService
-from .utils import deprecated
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class NaturalLanguageUnderstandingV1(WatsonService):
+
+class NaturalLanguageUnderstandingV1(BaseService):
     """The Natural Language Understanding V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
@@ -66,7 +66,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/natural-language-understanding/api").
+               "https://gateway.watsonplatform.net/natural-language-understanding/api/natural-language-understanding/api").
                The base url may differ between Bluemix regions.
 
         :param str username: The username used to authenticate with the service.
@@ -94,7 +94,7 @@ class NaturalLanguageUnderstandingV1(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='natural-language-understanding',
             url=url,
@@ -135,9 +135,10 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         - Metadata
         - Relations
         - Semantic roles
-        - Sentiment.
+        - Sentiment
+        - Syntax (Experimental).
 
-        :param Features features: Analysis features and options.
+        :param Features features: Specific features to analyze the document for.
         :param str text: The plain text to analyze. One of the `text`, `html`, or `url`
         parameters is required.
         :param str html: The HTML file to analyze. One of the `text`, `html`, or `url`
@@ -175,8 +176,9 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural-language-understanding;service_version=V1;operation_id=analyze'
+        sdk_headers = get_sdk_headers('natural-language-understanding', 'V1',
+                                      'analyze')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -225,8 +227,9 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural-language-understanding;service_version=V1;operation_id=delete_model'
+        sdk_headers = get_sdk_headers('natural-language-understanding', 'V1',
+                                      'delete_model')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -255,8 +258,9 @@ class NaturalLanguageUnderstandingV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural-language-understanding;service_version=V1;operation_id=list_models'
+        sdk_headers = get_sdk_headers('natural-language-understanding', 'V1',
+                                      'list_models')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -277,12 +281,12 @@ class NaturalLanguageUnderstandingV1(WatsonService):
 
 class AnalysisResults(object):
     """
-    Results of the analysis, organized by feature.
+    Analysis results for each requested feature.
 
     :attr str language: (optional) Language used to analyze the text.
     :attr str analyzed_text: (optional) Text that was used in the analysis.
     :attr str retrieved_url: (optional) URL of the webpage that was analyzed.
-    :attr Usage usage: (optional) Usage information.
+    :attr AnalysisResultsUsage usage: (optional) API usage information for the request.
     :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or
     alluded to in the analyzed text.
     :attr list[EntitiesResult] entities: (optional) The entities detected in the analyzed
@@ -290,17 +294,17 @@ class AnalysisResults(object):
     :attr list[KeywordsResult] keywords: (optional) The keywords from the analyzed text.
     :attr list[CategoriesResult] categories: (optional) The categories that the service
     assigned to the analyzed text.
-    :attr EmotionResult emotion: (optional) The detected anger, disgust, fear, joy, or
-    sadness that is conveyed by the content. Emotion information can be returned for
-    detected entities, keywords, or user-specified target phrases found in the text.
-    :attr MetadataResult metadata: (optional) The authors, publication date, title,
-    prominent page image, and RSS/ATOM feeds of the webpage. Supports URL and HTML input
-    types.
+    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
+    conveyed by the content.
+    :attr AnalysisResultsMetadata metadata: (optional) Webpage metadata, such as the
+    author and the title of the page.
     :attr list[RelationsResult] relations: (optional) The relationships between entities
     in the content.
     :attr list[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
     `subject`, `action`, and `object` form.
     :attr SentimentResult sentiment: (optional) The sentiment of the content.
+    :attr SyntaxResult syntax: (optional) Tokens and sentences returned from syntax
+    analysis.
     """
 
     def __init__(self,
@@ -316,14 +320,16 @@ class AnalysisResults(object):
                  metadata=None,
                  relations=None,
                  semantic_roles=None,
-                 sentiment=None):
+                 sentiment=None,
+                 syntax=None):
         """
         Initialize a AnalysisResults object.
 
         :param str language: (optional) Language used to analyze the text.
         :param str analyzed_text: (optional) Text that was used in the analysis.
         :param str retrieved_url: (optional) URL of the webpage that was analyzed.
-        :param Usage usage: (optional) Usage information.
+        :param AnalysisResultsUsage usage: (optional) API usage information for the
+        request.
         :param list[ConceptsResult] concepts: (optional) The general concepts referenced
         or alluded to in the analyzed text.
         :param list[EntitiesResult] entities: (optional) The entities detected in the
@@ -332,18 +338,17 @@ class AnalysisResults(object):
         text.
         :param list[CategoriesResult] categories: (optional) The categories that the
         service assigned to the analyzed text.
-        :param EmotionResult emotion: (optional) The detected anger, disgust, fear, joy,
-        or sadness that is conveyed by the content. Emotion information can be returned
-        for detected entities, keywords, or user-specified target phrases found in the
-        text.
-        :param MetadataResult metadata: (optional) The authors, publication date, title,
-        prominent page image, and RSS/ATOM feeds of the webpage. Supports URL and HTML
-        input types.
+        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
+        conveyed by the content.
+        :param AnalysisResultsMetadata metadata: (optional) Webpage metadata, such as the
+        author and the title of the page.
         :param list[RelationsResult] relations: (optional) The relationships between
         entities in the content.
         :param list[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
         `subject`, `action`, and `object` form.
         :param SentimentResult sentiment: (optional) The sentiment of the content.
+        :param SyntaxResult syntax: (optional) Tokens and sentences returned from syntax
+        analysis.
         """
         self.language = language
         self.analyzed_text = analyzed_text
@@ -358,6 +363,7 @@ class AnalysisResults(object):
         self.relations = relations
         self.semantic_roles = semantic_roles
         self.sentiment = sentiment
+        self.syntax = syntax
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -370,7 +376,7 @@ class AnalysisResults(object):
         if 'retrieved_url' in _dict:
             args['retrieved_url'] = _dict.get('retrieved_url')
         if 'usage' in _dict:
-            args['usage'] = Usage._from_dict(_dict.get('usage'))
+            args['usage'] = AnalysisResultsUsage._from_dict(_dict.get('usage'))
         if 'concepts' in _dict:
             args['concepts'] = [
                 ConceptsResult._from_dict(x) for x in (_dict.get('concepts'))
@@ -391,7 +397,8 @@ class AnalysisResults(object):
         if 'emotion' in _dict:
             args['emotion'] = EmotionResult._from_dict(_dict.get('emotion'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataResult._from_dict(_dict.get('metadata'))
+            args['metadata'] = AnalysisResultsMetadata._from_dict(
+                _dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = [
                 RelationsResult._from_dict(x) for x in (_dict.get('relations'))
@@ -404,6 +411,8 @@ class AnalysisResults(object):
         if 'sentiment' in _dict:
             args['sentiment'] = SentimentResult._from_dict(
                 _dict.get('sentiment'))
+        if 'syntax' in _dict:
+            args['syntax'] = SyntaxResult._from_dict(_dict.get('syntax'))
         return cls(**args)
 
     def _to_dict(self):
@@ -437,10 +446,154 @@ class AnalysisResults(object):
             ]
         if hasattr(self, 'sentiment') and self.sentiment is not None:
             _dict['sentiment'] = self.sentiment._to_dict()
+        if hasattr(self, 'syntax') and self.syntax is not None:
+            _dict['syntax'] = self.syntax._to_dict()
         return _dict
 
     def __str__(self):
         """Return a `str` version of this AnalysisResults object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class AnalysisResultsMetadata(object):
+    """
+    Webpage metadata, such as the author and the title of the page.
+
+    :attr list[Author] authors: (optional) The authors of the document.
+    :attr str publication_date: (optional) The publication date in the format ISO 8601.
+    :attr str title: (optional) The title of the document.
+    :attr str image: (optional) URL of a prominent image on the webpage.
+    :attr list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
+    """
+
+    def __init__(self,
+                 authors=None,
+                 publication_date=None,
+                 title=None,
+                 image=None,
+                 feeds=None):
+        """
+        Initialize a AnalysisResultsMetadata object.
+
+        :param list[Author] authors: (optional) The authors of the document.
+        :param str publication_date: (optional) The publication date in the format ISO
+        8601.
+        :param str title: (optional) The title of the document.
+        :param str image: (optional) URL of a prominent image on the webpage.
+        :param list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
+        """
+        self.authors = authors
+        self.publication_date = publication_date
+        self.title = title
+        self.image = image
+        self.feeds = feeds
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalysisResultsMetadata object from a json dictionary."""
+        args = {}
+        if 'authors' in _dict:
+            args['authors'] = [
+                Author._from_dict(x) for x in (_dict.get('authors'))
+            ]
+        if 'publication_date' in _dict:
+            args['publication_date'] = _dict.get('publication_date')
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'image' in _dict:
+            args['image'] = _dict.get('image')
+        if 'feeds' in _dict:
+            args['feeds'] = [Feed._from_dict(x) for x in (_dict.get('feeds'))]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'authors') and self.authors is not None:
+            _dict['authors'] = [x._to_dict() for x in self.authors]
+        if hasattr(self,
+                   'publication_date') and self.publication_date is not None:
+            _dict['publication_date'] = self.publication_date
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'image') and self.image is not None:
+            _dict['image'] = self.image
+        if hasattr(self, 'feeds') and self.feeds is not None:
+            _dict['feeds'] = [x._to_dict() for x in self.feeds]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this AnalysisResultsMetadata object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class AnalysisResultsUsage(object):
+    """
+    API usage information for the request.
+
+    :attr int features: (optional) Number of features used in the API call.
+    :attr int text_characters: (optional) Number of text characters processed.
+    :attr int text_units: (optional) Number of 10,000-character units processed.
+    """
+
+    def __init__(self, features=None, text_characters=None, text_units=None):
+        """
+        Initialize a AnalysisResultsUsage object.
+
+        :param int features: (optional) Number of features used in the API call.
+        :param int text_characters: (optional) Number of text characters processed.
+        :param int text_units: (optional) Number of 10,000-character units processed.
+        """
+        self.features = features
+        self.text_characters = text_characters
+        self.text_units = text_units
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalysisResultsUsage object from a json dictionary."""
+        args = {}
+        if 'features' in _dict:
+            args['features'] = _dict.get('features')
+        if 'text_characters' in _dict:
+            args['text_characters'] = _dict.get('text_characters')
+        if 'text_units' in _dict:
+            args['text_units'] = _dict.get('text_units')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'features') and self.features is not None:
+            _dict['features'] = self.features
+        if hasattr(self,
+                   'text_characters') and self.text_characters is not None:
+            _dict['text_characters'] = self.text_characters
+        if hasattr(self, 'text_units') and self.text_units is not None:
+            _dict['text_units'] = self.text_units
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this AnalysisResultsUsage object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -506,15 +659,22 @@ class CategoriesOptions(object):
     Portuguese, Spanish.
 
     :attr int limit: (optional) Maximum number of categories to return.
+    :attr str model: (optional) Enter a [custom
+    model](https://cloud.ibm.com/docs/services/natural-language-understanding/customizing.html)
+    ID to override the standard categories model.
     """
 
-    def __init__(self, limit=None):
+    def __init__(self, limit=None, model=None):
         """
         Initialize a CategoriesOptions object.
 
         :param int limit: (optional) Maximum number of categories to return.
+        :param str model: (optional) Enter a [custom
+        model](https://cloud.ibm.com/docs/services/natural-language-understanding/customizing.html)
+        ID to override the standard categories model.
         """
         self.limit = limit
+        self.model = model
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -522,6 +682,8 @@ class CategoriesOptions(object):
         args = {}
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
+        if 'model' in _dict:
+            args['model'] = _dict.get('model')
         return cls(**args)
 
     def _to_dict(self):
@@ -529,6 +691,8 @@ class CategoriesOptions(object):
         _dict = {}
         if hasattr(self, 'limit') and self.limit is not None:
             _dict['limit'] = self.limit
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
         return _dict
 
     def __str__(self):
@@ -1486,6 +1650,8 @@ class Features(object):
     content. The top three categories are returned.
     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
     Portuguese, Spanish.
+    :attr SyntaxOptions syntax: (optional) Returns tokens and sentences from the input
+    text.
     """
 
     def __init__(self,
@@ -1497,7 +1663,8 @@ class Features(object):
                  relations=None,
                  semantic_roles=None,
                  sentiment=None,
-                 categories=None):
+                 categories=None,
+                 syntax=None):
         """
         Initialize a Features object.
 
@@ -1543,6 +1710,8 @@ class Features(object):
         the content. The top three categories are returned.
         Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
         Portuguese, Spanish.
+        :param SyntaxOptions syntax: (optional) Returns tokens and sentences from the
+        input text.
         """
         self.concepts = concepts
         self.emotion = emotion
@@ -1553,6 +1722,7 @@ class Features(object):
         self.semantic_roles = semantic_roles
         self.sentiment = sentiment
         self.categories = categories
+        self.syntax = syntax
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -1580,6 +1750,8 @@ class Features(object):
         if 'categories' in _dict:
             args['categories'] = CategoriesOptions._from_dict(
                 _dict.get('categories'))
+        if 'syntax' in _dict:
+            args['syntax'] = SyntaxOptions._from_dict(_dict.get('syntax'))
         return cls(**args)
 
     def _to_dict(self):
@@ -1603,6 +1775,8 @@ class Features(object):
             _dict['sentiment'] = self.sentiment._to_dict()
         if hasattr(self, 'categories') and self.categories is not None:
             _dict['categories'] = self.categories._to_dict()
+        if hasattr(self, 'syntax') and self.syntax is not None:
+            _dict['syntax'] = self.syntax._to_dict()
         return _dict
 
     def __str__(self):
@@ -1870,127 +2044,25 @@ class MetadataOptions(object):
 
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self):
         """
         Initialize a MetadataOptions object.
 
-        :param **kwargs: (optional) Any additional properties.
         """
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a MetadataOptions object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
-        args.update(xtra)
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
         return _dict
-
-    def __setattr__(self, name, value):
-        properties = {}
-        if not hasattr(self, '_additionalProperties'):
-            super(MetadataOptions, self).__setattr__('_additionalProperties',
-                                                     set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(MetadataOptions, self).__setattr__(name, value)
 
     def __str__(self):
         """Return a `str` version of this MetadataOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MetadataResult(object):
-    """
-    The authors, publication date, title, prominent page image, and RSS/ATOM feeds of the
-    webpage. Supports URL and HTML input types.
-
-    :attr list[Author] authors: (optional) The authors of the document.
-    :attr str publication_date: (optional) The publication date in the format ISO 8601.
-    :attr str title: (optional) The title of the document.
-    :attr str image: (optional) URL of a prominent image on the webpage.
-    :attr list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
-    """
-
-    def __init__(self,
-                 authors=None,
-                 publication_date=None,
-                 title=None,
-                 image=None,
-                 feeds=None):
-        """
-        Initialize a MetadataResult object.
-
-        :param list[Author] authors: (optional) The authors of the document.
-        :param str publication_date: (optional) The publication date in the format ISO
-        8601.
-        :param str title: (optional) The title of the document.
-        :param str image: (optional) URL of a prominent image on the webpage.
-        :param list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
-        """
-        self.authors = authors
-        self.publication_date = publication_date
-        self.title = title
-        self.image = image
-        self.feeds = feeds
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MetadataResult object from a json dictionary."""
-        args = {}
-        if 'authors' in _dict:
-            args['authors'] = [
-                Author._from_dict(x) for x in (_dict.get('authors'))
-            ]
-        if 'publication_date' in _dict:
-            args['publication_date'] = _dict.get('publication_date')
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'image' in _dict:
-            args['image'] = _dict.get('image')
-        if 'feeds' in _dict:
-            args['feeds'] = [Feed._from_dict(x) for x in (_dict.get('feeds'))]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'authors') and self.authors is not None:
-            _dict['authors'] = [x._to_dict() for x in self.authors]
-        if hasattr(self,
-                   'publication_date') and self.publication_date is not None:
-            _dict['publication_date'] = self.publication_date
-        if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title
-        if hasattr(self, 'image') and self.image is not None:
-            _dict['image'] = self.image
-        if hasattr(self, 'feeds') and self.feeds is not None:
-            _dict['feeds'] = [x._to_dict() for x in self.feeds]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this MetadataResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2359,65 +2431,6 @@ class RelationsResult(object):
         return not self == other
 
 
-class SemanticRolesAction(object):
-    """
-    SemanticRolesAction.
-
-    :attr str text: (optional) Analyzed text that corresponds to the action.
-    :attr str normalized: (optional) normalized version of the action.
-    :attr SemanticRolesVerb verb: (optional)
-    """
-
-    def __init__(self, text=None, normalized=None, verb=None):
-        """
-        Initialize a SemanticRolesAction object.
-
-        :param str text: (optional) Analyzed text that corresponds to the action.
-        :param str normalized: (optional) normalized version of the action.
-        :param SemanticRolesVerb verb: (optional)
-        """
-        self.text = text
-        self.normalized = normalized
-        self.verb = verb
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a SemanticRolesAction object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'normalized' in _dict:
-            args['normalized'] = _dict.get('normalized')
-        if 'verb' in _dict:
-            args['verb'] = SemanticRolesVerb._from_dict(_dict.get('verb'))
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'normalized') and self.normalized is not None:
-            _dict['normalized'] = self.normalized
-        if hasattr(self, 'verb') and self.verb is not None:
-            _dict['verb'] = self.verb._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this SemanticRolesAction object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class SemanticRolesEntity(object):
     """
     SemanticRolesEntity.
@@ -2515,62 +2528,6 @@ class SemanticRolesKeyword(object):
         return not self == other
 
 
-class SemanticRolesObject(object):
-    """
-    SemanticRolesObject.
-
-    :attr str text: (optional) Object text.
-    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted keywords.
-    """
-
-    def __init__(self, text=None, keywords=None):
-        """
-        Initialize a SemanticRolesObject object.
-
-        :param str text: (optional) Object text.
-        :param list[SemanticRolesKeyword] keywords: (optional) An array of extracted
-        keywords.
-        """
-        self.text = text
-        self.keywords = keywords
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a SemanticRolesObject object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'keywords' in _dict:
-            args['keywords'] = [
-                SemanticRolesKeyword._from_dict(x)
-                for x in (_dict.get('keywords'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = [x._to_dict() for x in self.keywords]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this SemanticRolesObject object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class SemanticRolesOptions(object):
     """
     Parses sentences into subject, action, and object form.
@@ -2641,10 +2598,12 @@ class SemanticRolesResult(object):
 
     :attr str sentence: (optional) Sentence from the source that contains the subject,
     action, and object.
-    :attr SemanticRolesSubject subject: (optional) The extracted subject from the
+    :attr SemanticRolesResultSubject subject: (optional) The extracted subject from the
     sentence.
-    :attr SemanticRolesAction action: (optional) The extracted action from the sentence.
-    :attr SemanticRolesObject object: (optional) The extracted object from the sentence.
+    :attr SemanticRolesResultAction action: (optional) The extracted action from the
+    sentence.
+    :attr SemanticRolesResultObject object: (optional) The extracted object from the
+    sentence.
     """
 
     def __init__(self, sentence=None, subject=None, action=None, object=None):
@@ -2653,11 +2612,11 @@ class SemanticRolesResult(object):
 
         :param str sentence: (optional) Sentence from the source that contains the
         subject, action, and object.
-        :param SemanticRolesSubject subject: (optional) The extracted subject from the
+        :param SemanticRolesResultSubject subject: (optional) The extracted subject from
+        the sentence.
+        :param SemanticRolesResultAction action: (optional) The extracted action from the
         sentence.
-        :param SemanticRolesAction action: (optional) The extracted action from the
-        sentence.
-        :param SemanticRolesObject object: (optional) The extracted object from the
+        :param SemanticRolesResultObject object: (optional) The extracted object from the
         sentence.
         """
         self.sentence = sentence
@@ -2672,12 +2631,14 @@ class SemanticRolesResult(object):
         if 'sentence' in _dict:
             args['sentence'] = _dict.get('sentence')
         if 'subject' in _dict:
-            args['subject'] = SemanticRolesSubject._from_dict(
+            args['subject'] = SemanticRolesResultSubject._from_dict(
                 _dict.get('subject'))
         if 'action' in _dict:
-            args['action'] = SemanticRolesAction._from_dict(_dict.get('action'))
+            args['action'] = SemanticRolesResultAction._from_dict(
+                _dict.get('action'))
         if 'object' in _dict:
-            args['object'] = SemanticRolesObject._from_dict(_dict.get('object'))
+            args['object'] = SemanticRolesResultObject._from_dict(
+                _dict.get('object'))
         return cls(**args)
 
     def _to_dict(self):
@@ -2708,9 +2669,124 @@ class SemanticRolesResult(object):
         return not self == other
 
 
-class SemanticRolesSubject(object):
+class SemanticRolesResultAction(object):
     """
-    SemanticRolesSubject.
+    The extracted action from the sentence.
+
+    :attr str text: (optional) Analyzed text that corresponds to the action.
+    :attr str normalized: (optional) normalized version of the action.
+    :attr SemanticRolesVerb verb: (optional)
+    """
+
+    def __init__(self, text=None, normalized=None, verb=None):
+        """
+        Initialize a SemanticRolesResultAction object.
+
+        :param str text: (optional) Analyzed text that corresponds to the action.
+        :param str normalized: (optional) normalized version of the action.
+        :param SemanticRolesVerb verb: (optional)
+        """
+        self.text = text
+        self.normalized = normalized
+        self.verb = verb
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesResultAction object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'normalized' in _dict:
+            args['normalized'] = _dict.get('normalized')
+        if 'verb' in _dict:
+            args['verb'] = SemanticRolesVerb._from_dict(_dict.get('verb'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'normalized') and self.normalized is not None:
+            _dict['normalized'] = self.normalized
+        if hasattr(self, 'verb') and self.verb is not None:
+            _dict['verb'] = self.verb._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SemanticRolesResultAction object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SemanticRolesResultObject(object):
+    """
+    The extracted object from the sentence.
+
+    :attr str text: (optional) Object text.
+    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted keywords.
+    """
+
+    def __init__(self, text=None, keywords=None):
+        """
+        Initialize a SemanticRolesResultObject object.
+
+        :param str text: (optional) Object text.
+        :param list[SemanticRolesKeyword] keywords: (optional) An array of extracted
+        keywords.
+        """
+        self.text = text
+        self.keywords = keywords
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesResultObject object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'keywords' in _dict:
+            args['keywords'] = [
+                SemanticRolesKeyword._from_dict(x)
+                for x in (_dict.get('keywords'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'keywords') and self.keywords is not None:
+            _dict['keywords'] = [x._to_dict() for x in self.keywords]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SemanticRolesResultObject object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SemanticRolesResultSubject(object):
+    """
+    The extracted subject from the sentence.
 
     :attr str text: (optional) Text that corresponds to the subject role.
     :attr list[SemanticRolesEntity] entities: (optional) An array of extracted entities.
@@ -2719,7 +2795,7 @@ class SemanticRolesSubject(object):
 
     def __init__(self, text=None, entities=None, keywords=None):
         """
-        Initialize a SemanticRolesSubject object.
+        Initialize a SemanticRolesResultSubject object.
 
         :param str text: (optional) Text that corresponds to the subject role.
         :param list[SemanticRolesEntity] entities: (optional) An array of extracted
@@ -2733,7 +2809,7 @@ class SemanticRolesSubject(object):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a SemanticRolesSubject object from a json dictionary."""
+        """Initialize a SemanticRolesResultSubject object from a json dictionary."""
         args = {}
         if 'text' in _dict:
             args['text'] = _dict.get('text')
@@ -2761,7 +2837,7 @@ class SemanticRolesSubject(object):
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this SemanticRolesSubject object."""
+        """Return a `str` version of this SemanticRolesResultSubject object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2814,6 +2890,60 @@ class SemanticRolesVerb(object):
 
     def __str__(self):
         """Return a `str` version of this SemanticRolesVerb object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SentenceResult(object):
+    """
+    SentenceResult.
+
+    :attr str text: (optional) The sentence.
+    :attr list[int] location: (optional) Character offsets indicating the beginning and
+    end of the sentence in the analyzed text.
+    """
+
+    def __init__(self, text=None, location=None):
+        """
+        Initialize a SentenceResult object.
+
+        :param str text: (optional) The sentence.
+        :param list[int] location: (optional) Character offsets indicating the beginning
+        and end of the sentence in the analyzed text.
+        """
+        self.text = text
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SentenceResult object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'location' in _dict:
+            args['location'] = _dict.get('location')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SentenceResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2945,6 +3075,170 @@ class SentimentResult(object):
         return not self == other
 
 
+class SyntaxOptions(object):
+    """
+    Returns tokens and sentences from the input text.
+
+    :attr SyntaxOptionsTokens tokens: (optional) Tokenization options.
+    :attr bool sentences: (optional) Set this to `true` to return sentence information.
+    """
+
+    def __init__(self, tokens=None, sentences=None):
+        """
+        Initialize a SyntaxOptions object.
+
+        :param SyntaxOptionsTokens tokens: (optional) Tokenization options.
+        :param bool sentences: (optional) Set this to `true` to return sentence
+        information.
+        """
+        self.tokens = tokens
+        self.sentences = sentences
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SyntaxOptions object from a json dictionary."""
+        args = {}
+        if 'tokens' in _dict:
+            args['tokens'] = SyntaxOptionsTokens._from_dict(_dict.get('tokens'))
+        if 'sentences' in _dict:
+            args['sentences'] = _dict.get('sentences')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'tokens') and self.tokens is not None:
+            _dict['tokens'] = self.tokens._to_dict()
+        if hasattr(self, 'sentences') and self.sentences is not None:
+            _dict['sentences'] = self.sentences
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SyntaxOptions object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SyntaxOptionsTokens(object):
+    """
+    Tokenization options.
+
+    :attr bool lemma: (optional) Set this to `true` to return the lemma for each token.
+    :attr bool part_of_speech: (optional) Set this to `true` to return the part of speech
+    for each token.
+    """
+
+    def __init__(self, lemma=None, part_of_speech=None):
+        """
+        Initialize a SyntaxOptionsTokens object.
+
+        :param bool lemma: (optional) Set this to `true` to return the lemma for each
+        token.
+        :param bool part_of_speech: (optional) Set this to `true` to return the part of
+        speech for each token.
+        """
+        self.lemma = lemma
+        self.part_of_speech = part_of_speech
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SyntaxOptionsTokens object from a json dictionary."""
+        args = {}
+        if 'lemma' in _dict:
+            args['lemma'] = _dict.get('lemma')
+        if 'part_of_speech' in _dict:
+            args['part_of_speech'] = _dict.get('part_of_speech')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'lemma') and self.lemma is not None:
+            _dict['lemma'] = self.lemma
+        if hasattr(self, 'part_of_speech') and self.part_of_speech is not None:
+            _dict['part_of_speech'] = self.part_of_speech
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SyntaxOptionsTokens object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SyntaxResult(object):
+    """
+    Tokens and sentences returned from syntax analysis.
+
+    :attr list[TokenResult] tokens: (optional)
+    :attr list[SentenceResult] sentences: (optional)
+    """
+
+    def __init__(self, tokens=None, sentences=None):
+        """
+        Initialize a SyntaxResult object.
+
+        :param list[TokenResult] tokens: (optional)
+        :param list[SentenceResult] sentences: (optional)
+        """
+        self.tokens = tokens
+        self.sentences = sentences
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SyntaxResult object from a json dictionary."""
+        args = {}
+        if 'tokens' in _dict:
+            args['tokens'] = [
+                TokenResult._from_dict(x) for x in (_dict.get('tokens'))
+            ]
+        if 'sentences' in _dict:
+            args['sentences'] = [
+                SentenceResult._from_dict(x) for x in (_dict.get('sentences'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'tokens') and self.tokens is not None:
+            _dict['tokens'] = [x._to_dict() for x in self.tokens]
+        if hasattr(self, 'sentences') and self.sentences is not None:
+            _dict['sentences'] = [x._to_dict() for x in self.sentences]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SyntaxResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class TargetedEmotionResults(object):
     """
     Emotion results for a specified target.
@@ -3049,53 +3343,71 @@ class TargetedSentimentResults(object):
         return not self == other
 
 
-class Usage(object):
+class TokenResult(object):
     """
-    Usage information.
+    TokenResult.
 
-    :attr int features: (optional) Number of features used in the API call.
-    :attr int text_characters: (optional) Number of text characters processed.
-    :attr int text_units: (optional) Number of 10,000-character units processed.
+    :attr str text: (optional) The token as it appears in the analyzed text.
+    :attr str part_of_speech: (optional) The part of speech of the token. For descriptions
+    of the values, see [Universal Dependencies POS
+    tags](https://universaldependencies.org/u/pos/).
+    :attr list[int] location: (optional) Character offsets indicating the beginning and
+    end of the token in the analyzed text.
+    :attr str lemma: (optional) The
+    [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
     """
 
-    def __init__(self, features=None, text_characters=None, text_units=None):
+    def __init__(self,
+                 text=None,
+                 part_of_speech=None,
+                 location=None,
+                 lemma=None):
         """
-        Initialize a Usage object.
+        Initialize a TokenResult object.
 
-        :param int features: (optional) Number of features used in the API call.
-        :param int text_characters: (optional) Number of text characters processed.
-        :param int text_units: (optional) Number of 10,000-character units processed.
+        :param str text: (optional) The token as it appears in the analyzed text.
+        :param str part_of_speech: (optional) The part of speech of the token. For
+        descriptions of the values, see [Universal Dependencies POS
+        tags](https://universaldependencies.org/u/pos/).
+        :param list[int] location: (optional) Character offsets indicating the beginning
+        and end of the token in the analyzed text.
+        :param str lemma: (optional) The
+        [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
         """
-        self.features = features
-        self.text_characters = text_characters
-        self.text_units = text_units
+        self.text = text
+        self.part_of_speech = part_of_speech
+        self.location = location
+        self.lemma = lemma
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a Usage object from a json dictionary."""
+        """Initialize a TokenResult object from a json dictionary."""
         args = {}
-        if 'features' in _dict:
-            args['features'] = _dict.get('features')
-        if 'text_characters' in _dict:
-            args['text_characters'] = _dict.get('text_characters')
-        if 'text_units' in _dict:
-            args['text_units'] = _dict.get('text_units')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'part_of_speech' in _dict:
+            args['part_of_speech'] = _dict.get('part_of_speech')
+        if 'location' in _dict:
+            args['location'] = _dict.get('location')
+        if 'lemma' in _dict:
+            args['lemma'] = _dict.get('lemma')
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'features') and self.features is not None:
-            _dict['features'] = self.features
-        if hasattr(self,
-                   'text_characters') and self.text_characters is not None:
-            _dict['text_characters'] = self.text_characters
-        if hasattr(self, 'text_units') and self.text_units is not None:
-            _dict['text_units'] = self.text_units
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'part_of_speech') and self.part_of_speech is not None:
+            _dict['part_of_speech'] = self.part_of_speech
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location
+        if hasattr(self, 'lemma') and self.lemma is not None:
+            _dict['lemma'] = self.lemma
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this Usage object."""
+        """Return a `str` version of this TokenResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

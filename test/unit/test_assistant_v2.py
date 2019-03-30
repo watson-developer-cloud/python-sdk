@@ -1,7 +1,7 @@
 # coding: utf-8
 import json
 import responses
-import watson_developer_cloud
+import ibm_watson
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/assistant/api'
@@ -18,7 +18,7 @@ def test_create_session():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV2(
+    service = ibm_watson.AssistantV2(
         username='username', password='password', version='2017-02-03')
     session = service.create_session('bogus_id').get_result()
     assert len(responses.calls) == 1
@@ -38,7 +38,7 @@ def test_delete_session():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV2(
+    service = ibm_watson.AssistantV2(
         username='username', password='password', version='2017-02-03')
     delete_session = service.delete_session('bogus_id',
                                             'session_id').get_result()
@@ -73,7 +73,7 @@ def test_message():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = watson_developer_cloud.AssistantV2(
+    service = ibm_watson.AssistantV2(
         username='username', password='password', version='2017-02-03')
     message = service.message(
         'bogus_id', 'session_id', input={

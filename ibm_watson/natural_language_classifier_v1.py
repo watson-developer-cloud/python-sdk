@@ -23,17 +23,16 @@ those classes to new inputs.
 from __future__ import absolute_import
 
 import json
-from .watson_service import datetime_to_string, string_to_datetime
-from os.path import basename
-from .watson_service import WatsonService
-from .utils import deprecated
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class NaturalLanguageClassifierV1(WatsonService):
+
+class NaturalLanguageClassifierV1(BaseService):
     """The Natural Language Classifier V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
@@ -51,7 +50,7 @@ class NaturalLanguageClassifierV1(WatsonService):
         Construct a new client for the Natural Language Classifier service.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/natural-language-classifier/api").
+               "https://gateway.watsonplatform.net/natural-language-classifier/api/natural-language-classifier/api").
                The base url may differ between Bluemix regions.
 
         :param str username: The username used to authenticate with the service.
@@ -79,7 +78,7 @@ class NaturalLanguageClassifierV1(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='natural_language_classifier',
             url=url,
@@ -117,8 +116,9 @@ class NaturalLanguageClassifierV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural_language_classifier;service_version=V1;operation_id=classify'
+        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
+                                      'classify')
+        headers.update(sdk_headers)
 
         data = {'text': text}
 
@@ -156,8 +156,9 @@ class NaturalLanguageClassifierV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural_language_classifier;service_version=V1;operation_id=classify_collection'
+        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
+                                      'classify_collection')
+        headers.update(sdk_headers)
 
         data = {'collection': collection}
 
@@ -175,12 +176,7 @@ class NaturalLanguageClassifierV1(WatsonService):
     # Manage classifiers
     #########################
 
-    def create_classifier(self,
-                          metadata,
-                          training_data,
-                          metadata_filename=None,
-                          training_data_filename=None,
-                          **kwargs):
+    def create_classifier(self, metadata, training_data, **kwargs):
         """
         Create classifier.
 
@@ -197,8 +193,6 @@ class NaturalLanguageClassifierV1(WatsonService):
         at least one class. The data can include up to 3,000 classes and 20,000 records.
         For details, see [Data
         preparation](https://cloud.ibm.com/docs/services/natural-language-classifier/using-your-data.html).
-        :param str metadata_filename: The filename for training_metadata.
-        :param str training_data_filename: The filename for training_data.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -212,18 +206,13 @@ class NaturalLanguageClassifierV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural_language_classifier;service_version=V1;operation_id=create_classifier'
+        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
+                                      'create_classifier')
+        headers.update(sdk_headers)
 
         form_data = {}
-        if not metadata_filename and hasattr(metadata, 'name'):
-            metadata_filename = basename(metadata.name)
-        form_data['training_metadata'] = (metadata_filename, metadata,
-                                          'application/json')
-        if not training_data_filename and hasattr(training_data, 'name'):
-            training_data_filename = basename(training_data.name)
-        form_data['training_data'] = (training_data_filename, training_data,
-                                      'text/csv')
+        form_data['training_metadata'] = (None, metadata, 'application/json')
+        form_data['training_data'] = (None, training_data, 'text/csv')
 
         url = '/v1/classifiers'
         response = self.request(
@@ -250,8 +239,9 @@ class NaturalLanguageClassifierV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural_language_classifier;service_version=V1;operation_id=delete_classifier'
+        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
+                                      'delete_classifier')
+        headers.update(sdk_headers)
 
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
@@ -277,8 +267,9 @@ class NaturalLanguageClassifierV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural_language_classifier;service_version=V1;operation_id=get_classifier'
+        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
+                                      'get_classifier')
+        headers.update(sdk_headers)
 
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
@@ -300,8 +291,9 @@ class NaturalLanguageClassifierV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=natural_language_classifier;service_version=V1;operation_id=list_classifiers'
+        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
+                                      'list_classifiers')
+        headers.update(sdk_headers)
 
         url = '/v1/classifiers'
         response = self.request(

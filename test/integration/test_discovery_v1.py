@@ -1,7 +1,7 @@
 # coding: utf-8
 from unittest import TestCase
 import os
-import watson_developer_cloud
+import ibm_watson
 import random
 import pytest
 
@@ -9,10 +9,8 @@ import pytest
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
 class Discoveryv1(TestCase):
     def setUp(self):
-        self.discovery = watson_developer_cloud.DiscoveryV1(
-            version='2018-08-01',
-            username="YOUR SERVICE USERNAME",
-            password="YOUR SERVICE PASSWORD")
+        self.discovery = ibm_watson.DiscoveryV1(
+            version='2018-08-01')
         self.discovery.set_default_headers({
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'

@@ -22,16 +22,16 @@ and your users.
 from __future__ import absolute_import
 
 import json
-from .watson_service import datetime_to_string, string_to_datetime
-from .watson_service import WatsonService
-from .utils import deprecated
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class AssistantV1(WatsonService):
+
+class AssistantV1(BaseService):
     """The Assistant V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/assistant/api'
@@ -61,7 +61,7 @@ class AssistantV1(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/assistant/api").
+               "https://gateway.watsonplatform.net/assistant/api/assistant/api").
                The base url may differ between Bluemix regions.
 
         :param str username: The username used to authenticate with the service.
@@ -89,7 +89,7 @@ class AssistantV1(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='conversation',
             url=url,
@@ -109,10 +109,10 @@ class AssistantV1(WatsonService):
     def message(self,
                 workspace_id,
                 input=None,
+                intents=None,
+                entities=None,
                 alternate_intents=None,
                 context=None,
-                entities=None,
-                intents=None,
                 output=None,
                 nodes_visited_details=None,
                 **kwargs):
@@ -123,17 +123,17 @@ class AssistantV1(WatsonService):
         There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
-        :param InputData input: An input object that includes the input text.
-        :param bool alternate_intents: Whether to return more than one intent. Set to
-        `true` to return all matching intents.
-        :param Context context: State information for the conversation. To maintain state,
-        include the context from the previous response.
-        :param list[RuntimeEntity] entities: Entities to use when evaluating the message.
-        Include entities from the previous response to continue using those entities
-        rather than detecting entities in the new input.
+        :param MessageInput input: An input object that includes the input text.
         :param list[RuntimeIntent] intents: Intents to use when evaluating the user input.
         Include intents from the previous response to continue using those intents rather
         than trying to recognize intents in the new input.
+        :param list[RuntimeEntity] entities: Entities to use when evaluating the message.
+        Include entities from the previous response to continue using those entities
+        rather than detecting entities in the new input.
+        :param bool alternate_intents: Whether to return more than one intent. A value of
+        `true` indicates that all matching intents are returned.
+        :param Context context: State information for the conversation. To maintain state,
+        include the context from the previous response.
         :param OutputData output: An output object that includes the response to the user,
         the dialog nodes that were triggered, and messages from the log.
         :param bool nodes_visited_details: Whether to include additional diagnostic
@@ -147,21 +147,21 @@ class AssistantV1(WatsonService):
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if input is not None:
-            input = self._convert_model(input, InputData)
-        if context is not None:
-            context = self._convert_model(context, Context)
-        if entities is not None:
-            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
+            input = self._convert_model(input, MessageInput)
         if intents is not None:
             intents = [self._convert_model(x, RuntimeIntent) for x in intents]
+        if entities is not None:
+            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
+        if context is not None:
+            context = self._convert_model(context, Context)
         if output is not None:
             output = self._convert_model(output, OutputData)
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=message'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'message')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -170,10 +170,10 @@ class AssistantV1(WatsonService):
 
         data = {
             'input': input,
+            'intents': intents,
+            'entities': entities,
             'alternate_intents': alternate_intents,
             'context': context,
-            'entities': entities,
-            'intents': intents,
             'output': output
         }
 
@@ -196,13 +196,13 @@ class AssistantV1(WatsonService):
                          name=None,
                          description=None,
                          language=None,
+                         metadata=None,
+                         learning_opt_out=None,
+                         system_settings=None,
                          intents=None,
                          entities=None,
                          dialog_nodes=None,
                          counterexamples=None,
-                         metadata=None,
-                         learning_opt_out=None,
-                         system_settings=None,
                          **kwargs):
         """
         Create workspace.
@@ -218,46 +218,45 @@ class AssistantV1(WatsonService):
         contain carriage return, newline, or tab characters, and it must be no longer than
         128 characters.
         :param str language: The language of the workspace.
+        :param dict metadata: Any metadata related to the workspace.
+        :param bool learning_opt_out: Whether training data from the workspace (including
+        artifacts such as intents and entities) can be used by IBM for general service
+        improvements. `true` indicates that workspace training data is not to be used.
+        :param WorkspaceSystemSettings system_settings: Global settings for the workspace.
         :param list[CreateIntent] intents: An array of objects defining the intents for
         the workspace.
-        :param list[CreateEntity] entities: An array of objects defining the entities for
-        the workspace.
-        :param list[CreateDialogNode] dialog_nodes: An array of objects defining the nodes
-        in the dialog.
-        :param list[CreateCounterexample] counterexamples: An array of objects defining
-        input examples that have been marked as irrelevant input.
-        :param object metadata: Any metadata related to the workspace.
-        :param bool learning_opt_out: Whether training data from the workspace can be used
-        by IBM for general service improvements. `true` indicates that workspace training
-        data is not to be used.
-        :param WorkspaceSystemSettings system_settings: Global settings for the workspace.
+        :param list[CreateEntity] entities: An array of objects describing the entities
+        for the workspace.
+        :param list[DialogNode] dialog_nodes: An array of objects describing the dialog
+        nodes in the workspace.
+        :param list[Counterexample] counterexamples: An array of objects defining input
+        examples that have been marked as irrelevant input.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
 
+        if system_settings is not None:
+            system_settings = self._convert_model(system_settings,
+                                                  WorkspaceSystemSettings)
         if intents is not None:
             intents = [self._convert_model(x, CreateIntent) for x in intents]
         if entities is not None:
             entities = [self._convert_model(x, CreateEntity) for x in entities]
         if dialog_nodes is not None:
             dialog_nodes = [
-                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
+                self._convert_model(x, DialogNode) for x in dialog_nodes
             ]
         if counterexamples is not None:
             counterexamples = [
-                self._convert_model(x, CreateCounterexample)
-                for x in counterexamples
+                self._convert_model(x, Counterexample) for x in counterexamples
             ]
-        if system_settings is not None:
-            system_settings = self._convert_model(system_settings,
-                                                  WorkspaceSystemSettings)
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_workspace'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'create_workspace')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -265,13 +264,13 @@ class AssistantV1(WatsonService):
             'name': name,
             'description': description,
             'language': language,
+            'metadata': metadata,
+            'learning_opt_out': learning_opt_out,
+            'system_settings': system_settings,
             'intents': intents,
             'entities': entities,
             'dialog_nodes': dialog_nodes,
-            'counterexamples': counterexamples,
-            'metadata': metadata,
-            'learning_opt_out': learning_opt_out,
-            'system_settings': system_settings
+            'counterexamples': counterexamples
         }
 
         url = '/v1/workspaces'
@@ -304,8 +303,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_workspace'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'delete_workspace')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -353,8 +352,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_workspace'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'get_workspace')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -402,8 +401,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_workspaces'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_workspaces')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -428,13 +427,13 @@ class AssistantV1(WatsonService):
                          name=None,
                          description=None,
                          language=None,
+                         metadata=None,
+                         learning_opt_out=None,
+                         system_settings=None,
                          intents=None,
                          entities=None,
                          dialog_nodes=None,
                          counterexamples=None,
-                         metadata=None,
-                         learning_opt_out=None,
-                         system_settings=None,
                          append=None,
                          **kwargs):
         """
@@ -452,19 +451,19 @@ class AssistantV1(WatsonService):
         contain carriage return, newline, or tab characters, and it must be no longer than
         128 characters.
         :param str language: The language of the workspace.
+        :param dict metadata: Any metadata related to the workspace.
+        :param bool learning_opt_out: Whether training data from the workspace (including
+        artifacts such as intents and entities) can be used by IBM for general service
+        improvements. `true` indicates that workspace training data is not to be used.
+        :param WorkspaceSystemSettings system_settings: Global settings for the workspace.
         :param list[CreateIntent] intents: An array of objects defining the intents for
         the workspace.
-        :param list[CreateEntity] entities: An array of objects defining the entities for
-        the workspace.
-        :param list[CreateDialogNode] dialog_nodes: An array of objects defining the nodes
-        in the dialog.
-        :param list[CreateCounterexample] counterexamples: An array of objects defining
-        input examples that have been marked as irrelevant input.
-        :param object metadata: Any metadata related to the workspace.
-        :param bool learning_opt_out: Whether training data from the workspace can be used
-        by IBM for general service improvements. `true` indicates that workspace training
-        data is not to be used.
-        :param WorkspaceSystemSettings system_settings: Global settings for the workspace.
+        :param list[CreateEntity] entities: An array of objects describing the entities
+        for the workspace.
+        :param list[DialogNode] dialog_nodes: An array of objects describing the dialog
+        nodes in the workspace.
+        :param list[Counterexample] counterexamples: An array of objects defining input
+        examples that have been marked as irrelevant input.
         :param bool append: Whether the new data is to be appended to the existing data in
         the workspace. If **append**=`false`, elements included in the new data completely
         replace the corresponding existing elements, including all subelements. For
@@ -481,28 +480,27 @@ class AssistantV1(WatsonService):
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
+        if system_settings is not None:
+            system_settings = self._convert_model(system_settings,
+                                                  WorkspaceSystemSettings)
         if intents is not None:
             intents = [self._convert_model(x, CreateIntent) for x in intents]
         if entities is not None:
             entities = [self._convert_model(x, CreateEntity) for x in entities]
         if dialog_nodes is not None:
             dialog_nodes = [
-                self._convert_model(x, CreateDialogNode) for x in dialog_nodes
+                self._convert_model(x, DialogNode) for x in dialog_nodes
             ]
         if counterexamples is not None:
             counterexamples = [
-                self._convert_model(x, CreateCounterexample)
-                for x in counterexamples
+                self._convert_model(x, Counterexample) for x in counterexamples
             ]
-        if system_settings is not None:
-            system_settings = self._convert_model(system_settings,
-                                                  WorkspaceSystemSettings)
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_workspace'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'update_workspace')
+        headers.update(sdk_headers)
 
         params = {'version': self.version, 'append': append}
 
@@ -510,13 +508,13 @@ class AssistantV1(WatsonService):
             'name': name,
             'description': description,
             'language': language,
+            'metadata': metadata,
+            'learning_opt_out': learning_opt_out,
+            'system_settings': system_settings,
             'intents': intents,
             'entities': entities,
             'dialog_nodes': dialog_nodes,
-            'counterexamples': counterexamples,
-            'metadata': metadata,
-            'learning_opt_out': learning_opt_out,
-            'system_settings': system_settings
+            'counterexamples': counterexamples
         }
 
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
@@ -556,8 +554,7 @@ class AssistantV1(WatsonService):
         :param str description: The description of the intent. This string cannot contain
         carriage return, newline, or tab characters, and it must be no longer than 128
         characters.
-        :param list[CreateExample] examples: An array of user input examples for the
-        intent.
+        :param list[Example] examples: An array of user input examples for the intent.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -568,13 +565,13 @@ class AssistantV1(WatsonService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [self._convert_model(x, CreateExample) for x in examples]
+            examples = [self._convert_model(x, Example) for x in examples]
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_intent'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'create_intent')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -618,8 +615,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_intent'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'delete_intent')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -668,8 +665,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_intent'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'get_intent')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -728,8 +725,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_intents'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_intents')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -774,9 +771,10 @@ class AssistantV1(WatsonService):
         characters.
         - It cannot begin with the reserved prefix `sys-`.
         - It must be no longer than 128 characters.
-        :param str new_description: The description of the intent.
-        :param list[CreateExample] new_examples: An array of user input examples for the
-        intent.
+        :param str new_description: The description of the intent. This string cannot
+        contain carriage return, newline, or tab characters, and it must be no longer than
+        128 characters.
+        :param list[Example] new_examples: An array of user input examples for the intent.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -788,14 +786,14 @@ class AssistantV1(WatsonService):
             raise ValueError('intent must be provided')
         if new_examples is not None:
             new_examples = [
-                self._convert_model(x, CreateExample) for x in new_examples
+                self._convert_model(x, Example) for x in new_examples
             ]
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_intent'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'update_intent')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -840,7 +838,7 @@ class AssistantV1(WatsonService):
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 1024 characters.
-        :param list[Mentions] mentions: An array of contextual entity mentions.
+        :param list[Mention] mentions: An array of contextual entity mentions.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -853,13 +851,13 @@ class AssistantV1(WatsonService):
         if text is None:
             raise ValueError('text must be provided')
         if mentions is not None:
-            mentions = [self._convert_model(x, Mentions) for x in mentions]
+            mentions = [self._convert_model(x, Mention) for x in mentions]
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_example'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'create_example')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -902,8 +900,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_example'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'delete_example')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -950,8 +948,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_example'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'get_example')
+        headers.update(sdk_headers)
 
         params = {'version': self.version, 'include_audit': include_audit}
 
@@ -1005,8 +1003,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_examples'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_examples')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -1049,7 +1047,7 @@ class AssistantV1(WatsonService):
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 1024 characters.
-        :param list[Mentions] new_mentions: An array of contextual entity mentions.
+        :param list[Mention] new_mentions: An array of contextual entity mentions.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1063,14 +1061,14 @@ class AssistantV1(WatsonService):
             raise ValueError('text must be provided')
         if new_mentions is not None:
             new_mentions = [
-                self._convert_model(x, Mentions) for x in new_mentions
+                self._convert_model(x, Mention) for x in new_mentions
             ]
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_example'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'update_example')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -1119,8 +1117,9 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_counterexample'
+        sdk_headers = get_sdk_headers('conversation', 'V1',
+                                      'create_counterexample')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -1162,8 +1161,9 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_counterexample'
+        sdk_headers = get_sdk_headers('conversation', 'V1',
+                                      'delete_counterexample')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -1208,8 +1208,9 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_counterexample'
+        sdk_headers = get_sdk_headers('conversation', 'V1',
+                                      'get_counterexample')
+        headers.update(sdk_headers)
 
         params = {'version': self.version, 'include_audit': include_audit}
 
@@ -1259,8 +1260,9 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_counterexamples'
+        sdk_headers = get_sdk_headers('conversation', 'V1',
+                                      'list_counterexamples')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -1294,7 +1296,11 @@ class AssistantV1(WatsonService):
         :param str workspace_id: Unique identifier of the workspace.
         :param str text: The text of a user input counterexample (for example, `What are
         you wearing?`).
-        :param str new_text: The text of a user input counterexample.
+        :param str new_text: The text of a user input marked as irrelevant input. This
+        string must conform to the following restrictions:
+        - It cannot contain carriage return, newline, or tab characters
+        - It cannot consist of only whitespace characters
+        - It must be no longer than 1024 characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1308,8 +1314,9 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_counterexample'
+        sdk_headers = get_sdk_headers('conversation', 'V1',
+                                      'update_counterexample')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -1335,8 +1342,8 @@ class AssistantV1(WatsonService):
                       entity,
                       description=None,
                       metadata=None,
-                      values=None,
                       fuzzy_match=None,
+                      values=None,
                       **kwargs):
         """
         Create entity.
@@ -1356,9 +1363,9 @@ class AssistantV1(WatsonService):
         :param str description: The description of the entity. This string cannot contain
         carriage return, newline, or tab characters, and it must be no longer than 128
         characters.
-        :param object metadata: Any metadata related to the value.
-        :param list[CreateValue] values: An array of objects describing the entity values.
+        :param dict metadata: Any metadata related to the entity.
         :param bool fuzzy_match: Whether to use fuzzy matching for the entity.
+        :param list[CreateValue] values: An array of objects describing the entity values.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1374,8 +1381,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_entity'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'create_entity')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -1383,8 +1390,8 @@ class AssistantV1(WatsonService):
             'entity': entity,
             'description': description,
             'metadata': metadata,
-            'values': values,
-            'fuzzy_match': fuzzy_match
+            'fuzzy_match': fuzzy_match,
+            'values': values
         }
 
         url = '/v1/workspaces/{0}/entities'.format(
@@ -1421,8 +1428,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_entity'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'delete_entity')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -1471,8 +1478,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_entity'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'get_entity')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -1531,8 +1538,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_entities'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_entities')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -1581,9 +1588,10 @@ class AssistantV1(WatsonService):
         :param str new_description: The description of the entity. This string cannot
         contain carriage return, newline, or tab characters, and it must be no longer than
         128 characters.
-        :param object new_metadata: Any metadata related to the entity.
+        :param dict new_metadata: Any metadata related to the entity.
         :param bool new_fuzzy_match: Whether to use fuzzy matching for the entity.
-        :param list[CreateValue] new_values: An array of entity values.
+        :param list[CreateValue] new_values: An array of objects describing the entity
+        values.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1601,8 +1609,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_entity'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'update_entity')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -1664,8 +1672,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_mentions'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_mentions')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -1692,12 +1700,12 @@ class AssistantV1(WatsonService):
                      entity,
                      value,
                      metadata=None,
+                     value_type=None,
                      synonyms=None,
                      patterns=None,
-                     value_type=None,
                      **kwargs):
         """
-        Add entity value.
+        Create entity value.
 
         Create a new value for an entity.
         This operation is limited to 1000 requests per 30 minutes. For more information,
@@ -1710,19 +1718,19 @@ class AssistantV1(WatsonService):
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 64 characters.
-        :param object metadata: Any metadata related to the entity value.
-        :param list[str] synonyms: An array containing any synonyms for the entity value.
-        You can provide either synonyms or patterns (as indicated by **type**), but not
-        both. A synonym must conform to the following restrictions:
+        :param dict metadata: Any metadata related to the entity value.
+        :param str value_type: Specifies the type of entity value.
+        :param list[str] synonyms: An array of synonyms for the entity value. A value can
+        specify either synonyms or patterns (depending on the value type), but not both. A
+        synonym must conform to the following resrictions:
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 64 characters.
-        :param list[str] patterns: An array of patterns for the entity value. You can
-        provide either synonyms or patterns (as indicated by **type**), but not both. A
+        :param list[str] patterns: An array of patterns for the entity value. A value can
+        specify either synonyms or patterns (depending on the value type), but not both. A
         pattern is a regular expression no longer than 512 characters. For more
         information about how to specify a pattern, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#creating-entities).
-        :param str value_type: Specifies the type of value.
+        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#entities-create-dictionary-based).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1738,17 +1746,17 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_value'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'create_value')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
         data = {
             'value': value,
             'metadata': metadata,
+            'type': value_type,
             'synonyms': synonyms,
-            'patterns': patterns,
-            'type': value_type
+            'patterns': patterns
         }
 
         url = '/v1/workspaces/{0}/entities/{1}/values'.format(
@@ -1788,8 +1796,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_value'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'delete_value')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -1841,8 +1849,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_value'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'get_value')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -1904,8 +1912,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_values'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_values')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -1933,7 +1941,7 @@ class AssistantV1(WatsonService):
                      value,
                      new_value=None,
                      new_metadata=None,
-                     new_type=None,
+                     new_value_type=None,
                      new_synonyms=None,
                      new_patterns=None,
                      **kwargs):
@@ -1953,19 +1961,19 @@ class AssistantV1(WatsonService):
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 64 characters.
-        :param object new_metadata: Any metadata related to the entity value.
-        :param str new_type: Specifies the type of value.
-        :param list[str] new_synonyms: An array of synonyms for the entity value. You can
-        provide either synonyms or patterns (as indicated by **type**), but not both. A
-        synonym must conform to the following resrictions:
+        :param dict new_metadata: Any metadata related to the entity value.
+        :param str new_value_type: Specifies the type of entity value.
+        :param list[str] new_synonyms: An array of synonyms for the entity value. A value
+        can specify either synonyms or patterns (depending on the value type), but not
+        both. A synonym must conform to the following resrictions:
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 64 characters.
-        :param list[str] new_patterns: An array of patterns for the entity value. You can
-        provide either synonyms or patterns (as indicated by **type**), but not both. A
-        pattern is a regular expression no longer than 512 characters. For more
+        :param list[str] new_patterns: An array of patterns for the entity value. A value
+        can specify either synonyms or patterns (depending on the value type), but not
+        both. A pattern is a regular expression no longer than 512 characters. For more
         information about how to specify a pattern, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#creating-entities).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#entities-create-dictionary-based).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1981,15 +1989,15 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_value'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'update_value')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
         data = {
             'value': new_value,
             'metadata': new_metadata,
-            'type': new_type,
+            'type': new_value_type,
             'synonyms': new_synonyms,
             'patterns': new_patterns
         }
@@ -2011,7 +2019,7 @@ class AssistantV1(WatsonService):
 
     def create_synonym(self, workspace_id, entity, value, synonym, **kwargs):
         """
-        Add entity value synonym.
+        Create entity value synonym.
 
         Add a new synonym to an entity value.
         This operation is limited to 1000 requests per 30 minutes. For more information,
@@ -2042,8 +2050,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_synonym'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'create_synonym')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -2089,8 +2097,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_synonym'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'delete_synonym')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -2141,8 +2149,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_synonym'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'get_synonym')
+        headers.update(sdk_headers)
 
         params = {'version': self.version, 'include_audit': include_audit}
 
@@ -2199,8 +2207,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_synonyms'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_synonyms')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -2261,8 +2269,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_synonym'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'update_synonym')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -2294,11 +2302,11 @@ class AssistantV1(WatsonService):
                            context=None,
                            metadata=None,
                            next_step=None,
-                           actions=None,
                            title=None,
                            node_type=None,
                            event_name=None,
                            variable=None,
+                           actions=None,
                            digress_in=None,
                            digress_out=None,
                            digress_out_slots=None,
@@ -2323,17 +2331,17 @@ class AssistantV1(WatsonService):
         :param str conditions: The condition that will trigger the dialog node. This
         string cannot contain carriage return, newline, or tab characters, and it must be
         no longer than 2048 characters.
-        :param str parent: The ID of the parent dialog node.
-        :param str previous_sibling: The ID of the previous dialog node.
+        :param str parent: The ID of the parent dialog node. This property is omitted if
+        the dialog node has no parent.
+        :param str previous_sibling: The ID of the previous sibling dialog node. This
+        property is omitted if the dialog node has no previous sibling.
         :param DialogNodeOutput output: The output of the dialog node. For more
         information about how to specify dialog node output, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
-        :param object context: The context for the dialog node.
-        :param object metadata: The metadata for the dialog node.
+        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#dialog-overview-responses).
+        :param dict context: The context for the dialog node.
+        :param dict metadata: The metadata for the dialog node.
         :param DialogNodeNextStep next_step: The next step to execute following this
         dialog node.
-        :param list[DialogNodeAction] actions: An array of objects describing any actions
-        to be invoked by the dialog node.
         :param str title: The alias used to identify the dialog node. This string must
         conform to the following restrictions:
         - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
@@ -2342,6 +2350,8 @@ class AssistantV1(WatsonService):
         :param str node_type: How the dialog node is processed.
         :param str event_name: How an `event_handler` node is processed.
         :param str variable: The location in the dialog context where output is stored.
+        :param list[DialogNodeAction] actions: An array of objects describing any actions
+        to be invoked by the dialog node.
         :param str digress_in: Whether this top-level dialog node can be digressed into.
         :param str digress_out: Whether this dialog node can be returned to after a
         digression.
@@ -2370,8 +2380,9 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=create_dialog_node'
+        sdk_headers = get_sdk_headers('conversation', 'V1',
+                                      'create_dialog_node')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -2385,11 +2396,11 @@ class AssistantV1(WatsonService):
             'context': context,
             'metadata': metadata,
             'next_step': next_step,
-            'actions': actions,
             'title': title,
             'type': node_type,
             'event_name': event_name,
             'variable': variable,
+            'actions': actions,
             'digress_in': digress_in,
             'digress_out': digress_out,
             'digress_out_slots': digress_out_slots,
@@ -2430,8 +2441,9 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_dialog_node'
+        sdk_headers = get_sdk_headers('conversation', 'V1',
+                                      'delete_dialog_node')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -2474,8 +2486,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=get_dialog_node'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'get_dialog_node')
+        headers.update(sdk_headers)
 
         params = {'version': self.version, 'include_audit': include_audit}
 
@@ -2524,8 +2536,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_dialog_nodes'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_dialog_nodes')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -2559,7 +2571,7 @@ class AssistantV1(WatsonService):
                            new_metadata=None,
                            new_next_step=None,
                            new_title=None,
-                           new_type=None,
+                           new_node_type=None,
                            new_event_name=None,
                            new_variable=None,
                            new_actions=None,
@@ -2588,13 +2600,15 @@ class AssistantV1(WatsonService):
         :param str new_conditions: The condition that will trigger the dialog node. This
         string cannot contain carriage return, newline, or tab characters, and it must be
         no longer than 2048 characters.
-        :param str new_parent: The ID of the parent dialog node.
-        :param str new_previous_sibling: The ID of the previous sibling dialog node.
+        :param str new_parent: The ID of the parent dialog node. This property is omitted
+        if the dialog node has no parent.
+        :param str new_previous_sibling: The ID of the previous sibling dialog node. This
+        property is omitted if the dialog node has no previous sibling.
         :param DialogNodeOutput new_output: The output of the dialog node. For more
         information about how to specify dialog node output, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
-        :param object new_context: The context for the dialog node.
-        :param object new_metadata: The metadata for the dialog node.
+        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#dialog-overview-responses).
+        :param dict new_context: The context for the dialog node.
+        :param dict new_metadata: The metadata for the dialog node.
         :param DialogNodeNextStep new_next_step: The next step to execute following this
         dialog node.
         :param str new_title: The alias used to identify the dialog node. This string must
@@ -2602,7 +2616,7 @@ class AssistantV1(WatsonService):
         - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
         characters.
         - It must be no longer than 64 characters.
-        :param str new_type: How the dialog node is processed.
+        :param str new_node_type: How the dialog node is processed.
         :param str new_event_name: How an `event_handler` node is processed.
         :param str new_variable: The location in the dialog context where output is
         stored.
@@ -2639,8 +2653,9 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=update_dialog_node'
+        sdk_headers = get_sdk_headers('conversation', 'V1',
+                                      'update_dialog_node')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -2655,7 +2670,7 @@ class AssistantV1(WatsonService):
             'metadata': new_metadata,
             'next_step': new_next_step,
             'title': new_title,
-            'type': new_type,
+            'type': new_node_type,
             'event_name': new_event_name,
             'variable': new_variable,
             'actions': new_actions,
@@ -2698,7 +2713,7 @@ class AssistantV1(WatsonService):
         the specified filter. You must specify a filter query that includes a value for
         `language`, as well as a value for `workspace_id` or
         `request.context.metadata.deployment`. For more information, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/filter-reference.html#filter-query-syntax).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/filter-reference.html#filter-reference-syntax).
         :param str sort: How to sort the returned log events. You can sort by
         **request_timestamp**. To reverse the sort order, prefix the parameter value with
         a minus sign (`-`).
@@ -2715,8 +2730,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_all_logs'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_all_logs')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -2756,7 +2771,7 @@ class AssistantV1(WatsonService):
         a minus sign (`-`).
         :param str filter: A cacheable parameter that limits the results to those matching
         the specified filter. For more information, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/filter-reference.html#filter-query-syntax).
+        [documentation](https://cloud.ibm.com/docs/services/assistant/filter-reference.html#filter-reference-syntax).
         :param int page_limit: The number of records to return in each page of results.
         :param str cursor: A token identifying the page of results to retrieve.
         :param dict headers: A `dict` containing the request headers
@@ -2770,8 +2785,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=list_logs'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'list_logs')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -2818,8 +2833,8 @@ class AssistantV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=conversation;service_version=V1;operation_id=delete_user_data'
+        sdk_headers = get_sdk_headers('conversation', 'V1', 'delete_user_data')
+        headers.update(sdk_headers)
 
         params = {'version': self.version, 'customer_id': customer_id}
 
@@ -2840,7 +2855,7 @@ class AssistantV1(WatsonService):
 
 class CaptureGroup(object):
     """
-    CaptureGroup.
+    A recognized capture group for a pattern-based entity.
 
     :attr str group: A recognized capture group for the entity.
     :attr list[int] location: (optional) Zero-based character offsets that indicate where
@@ -2987,21 +3002,28 @@ class Counterexample(object):
     """
     Counterexample.
 
-    :attr str text: The text of the counterexample.
-    :attr datetime created: (optional) The timestamp for creation of the counterexample.
-    :attr datetime updated: (optional) The timestamp for the last update to the
-    counterexample.
+    :attr str text: The text of a user input marked as irrelevant input. This string must
+    conform to the following restrictions:
+    - It cannot contain carriage return, newline, or tab characters
+    - It cannot consist of only whitespace characters
+    - It must be no longer than 1024 characters.
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
     """
 
     def __init__(self, text, created=None, updated=None):
         """
         Initialize a Counterexample object.
 
-        :param str text: The text of the counterexample.
-        :param datetime created: (optional) The timestamp for creation of the
-        counterexample.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        counterexample.
+        :param str text: The text of a user input marked as irrelevant input. This string
+        must conform to the following restrictions:
+        - It cannot contain carriage return, newline, or tab characters
+        - It cannot consist of only whitespace characters
+        - It must be no longer than 1024 characters.
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
         """
         self.text = text
         self.created = created
@@ -3116,297 +3138,6 @@ class CounterexampleCollection(object):
         return not self == other
 
 
-class CreateCounterexample(object):
-    """
-    CreateCounterexample.
-
-    :attr str text: The text of a user input marked as irrelevant input. This string must
-    conform to the following restrictions:
-    - It cannot contain carriage return, newline, or tab characters
-    - It cannot consist of only whitespace characters
-    - It must be no longer than 1024 characters.
-    """
-
-    def __init__(self, text):
-        """
-        Initialize a CreateCounterexample object.
-
-        :param str text: The text of a user input marked as irrelevant input. This string
-        must conform to the following restrictions:
-        - It cannot contain carriage return, newline, or tab characters
-        - It cannot consist of only whitespace characters
-        - It must be no longer than 1024 characters.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a CreateCounterexample object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        else:
-            raise ValueError(
-                'Required property \'text\' not present in CreateCounterexample JSON'
-            )
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this CreateCounterexample object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class CreateDialogNode(object):
-    """
-    CreateDialogNode.
-
-    :attr str dialog_node: The dialog node ID. This string must conform to the following
-    restrictions:
-    - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
-    characters.
-    - It must be no longer than 1024 characters.
-    :attr str description: (optional) The description of the dialog node. This string
-    cannot contain carriage return, newline, or tab characters, and it must be no longer
-    than 128 characters.
-    :attr str conditions: (optional) The condition that will trigger the dialog node. This
-    string cannot contain carriage return, newline, or tab characters, and it must be no
-    longer than 2048 characters.
-    :attr str parent: (optional) The ID of the parent dialog node.
-    :attr str previous_sibling: (optional) The ID of the previous dialog node.
-    :attr DialogNodeOutput output: (optional) The output of the dialog node. For more
-    information about how to specify dialog node output, see the
-    [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
-    :attr object context: (optional) The context for the dialog node.
-    :attr object metadata: (optional) The metadata for the dialog node.
-    :attr DialogNodeNextStep next_step: (optional) The next step to execute following this
-    dialog node.
-    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any
-    actions to be invoked by the dialog node.
-    :attr str title: (optional) The alias used to identify the dialog node. This string
-    must conform to the following restrictions:
-    - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
-    characters.
-    - It must be no longer than 64 characters.
-    :attr str node_type: (optional) How the dialog node is processed.
-    :attr str event_name: (optional) How an `event_handler` node is processed.
-    :attr str variable: (optional) The location in the dialog context where output is
-    stored.
-    :attr str digress_in: (optional) Whether this top-level dialog node can be digressed
-    into.
-    :attr str digress_out: (optional) Whether this dialog node can be returned to after a
-    digression.
-    :attr str digress_out_slots: (optional) Whether the user can digress to top-level
-    nodes while filling out slots.
-    :attr str user_label: (optional) A label that can be displayed externally to describe
-    the purpose of the node to users. This string must be no longer than 512 characters.
-    """
-
-    def __init__(self,
-                 dialog_node,
-                 description=None,
-                 conditions=None,
-                 parent=None,
-                 previous_sibling=None,
-                 output=None,
-                 context=None,
-                 metadata=None,
-                 next_step=None,
-                 actions=None,
-                 title=None,
-                 node_type=None,
-                 event_name=None,
-                 variable=None,
-                 digress_in=None,
-                 digress_out=None,
-                 digress_out_slots=None,
-                 user_label=None):
-        """
-        Initialize a CreateDialogNode object.
-
-        :param str dialog_node: The dialog node ID. This string must conform to the
-        following restrictions:
-        - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
-        characters.
-        - It must be no longer than 1024 characters.
-        :param str description: (optional) The description of the dialog node. This string
-        cannot contain carriage return, newline, or tab characters, and it must be no
-        longer than 128 characters.
-        :param str conditions: (optional) The condition that will trigger the dialog node.
-        This string cannot contain carriage return, newline, or tab characters, and it
-        must be no longer than 2048 characters.
-        :param str parent: (optional) The ID of the parent dialog node.
-        :param str previous_sibling: (optional) The ID of the previous dialog node.
-        :param DialogNodeOutput output: (optional) The output of the dialog node. For more
-        information about how to specify dialog node output, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
-        :param object context: (optional) The context for the dialog node.
-        :param object metadata: (optional) The metadata for the dialog node.
-        :param DialogNodeNextStep next_step: (optional) The next step to execute following
-        this dialog node.
-        :param list[DialogNodeAction] actions: (optional) An array of objects describing
-        any actions to be invoked by the dialog node.
-        :param str title: (optional) The alias used to identify the dialog node. This
-        string must conform to the following restrictions:
-        - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
-        characters.
-        - It must be no longer than 64 characters.
-        :param str node_type: (optional) How the dialog node is processed.
-        :param str event_name: (optional) How an `event_handler` node is processed.
-        :param str variable: (optional) The location in the dialog context where output is
-        stored.
-        :param str digress_in: (optional) Whether this top-level dialog node can be
-        digressed into.
-        :param str digress_out: (optional) Whether this dialog node can be returned to
-        after a digression.
-        :param str digress_out_slots: (optional) Whether the user can digress to top-level
-        nodes while filling out slots.
-        :param str user_label: (optional) A label that can be displayed externally to
-        describe the purpose of the node to users. This string must be no longer than 512
-        characters.
-        """
-        self.dialog_node = dialog_node
-        self.description = description
-        self.conditions = conditions
-        self.parent = parent
-        self.previous_sibling = previous_sibling
-        self.output = output
-        self.context = context
-        self.metadata = metadata
-        self.next_step = next_step
-        self.actions = actions
-        self.title = title
-        self.node_type = node_type
-        self.event_name = event_name
-        self.variable = variable
-        self.digress_in = digress_in
-        self.digress_out = digress_out
-        self.digress_out_slots = digress_out_slots
-        self.user_label = user_label
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a CreateDialogNode object from a json dictionary."""
-        args = {}
-        if 'dialog_node' in _dict:
-            args['dialog_node'] = _dict.get('dialog_node')
-        else:
-            raise ValueError(
-                'Required property \'dialog_node\' not present in CreateDialogNode JSON'
-            )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'conditions' in _dict:
-            args['conditions'] = _dict.get('conditions')
-        if 'parent' in _dict:
-            args['parent'] = _dict.get('parent')
-        if 'previous_sibling' in _dict:
-            args['previous_sibling'] = _dict.get('previous_sibling')
-        if 'output' in _dict:
-            args['output'] = DialogNodeOutput._from_dict(_dict.get('output'))
-        if 'context' in _dict:
-            args['context'] = _dict.get('context')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'next_step' in _dict:
-            args['next_step'] = DialogNodeNextStep._from_dict(
-                _dict.get('next_step'))
-        if 'actions' in _dict:
-            args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
-            ]
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'type' in _dict or 'node_type' in _dict:
-            args['node_type'] = _dict.get('type') or _dict.get('node_type')
-        if 'event_name' in _dict:
-            args['event_name'] = _dict.get('event_name')
-        if 'variable' in _dict:
-            args['variable'] = _dict.get('variable')
-        if 'digress_in' in _dict:
-            args['digress_in'] = _dict.get('digress_in')
-        if 'digress_out' in _dict:
-            args['digress_out'] = _dict.get('digress_out')
-        if 'digress_out_slots' in _dict:
-            args['digress_out_slots'] = _dict.get('digress_out_slots')
-        if 'user_label' in _dict:
-            args['user_label'] = _dict.get('user_label')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
-            _dict['dialog_node'] = self.dialog_node
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'conditions') and self.conditions is not None:
-            _dict['conditions'] = self.conditions
-        if hasattr(self, 'parent') and self.parent is not None:
-            _dict['parent'] = self.parent
-        if hasattr(self,
-                   'previous_sibling') and self.previous_sibling is not None:
-            _dict['previous_sibling'] = self.previous_sibling
-        if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output._to_dict()
-        if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
-        if hasattr(self, 'next_step') and self.next_step is not None:
-            _dict['next_step'] = self.next_step._to_dict()
-        if hasattr(self, 'actions') and self.actions is not None:
-            _dict['actions'] = [x._to_dict() for x in self.actions]
-        if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title
-        if hasattr(self, 'node_type') and self.node_type is not None:
-            _dict['type'] = self.node_type
-        if hasattr(self, 'event_name') and self.event_name is not None:
-            _dict['event_name'] = self.event_name
-        if hasattr(self, 'variable') and self.variable is not None:
-            _dict['variable'] = self.variable
-        if hasattr(self, 'digress_in') and self.digress_in is not None:
-            _dict['digress_in'] = self.digress_in
-        if hasattr(self, 'digress_out') and self.digress_out is not None:
-            _dict['digress_out'] = self.digress_out
-        if hasattr(self,
-                   'digress_out_slots') and self.digress_out_slots is not None:
-            _dict['digress_out_slots'] = self.digress_out_slots
-        if hasattr(self, 'user_label') and self.user_label is not None:
-            _dict['user_label'] = self.user_label
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this CreateDialogNode object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class CreateEntity(object):
     """
     CreateEntity.
@@ -3421,18 +3152,23 @@ class CreateEntity(object):
     :attr str description: (optional) The description of the entity. This string cannot
     contain carriage return, newline, or tab characters, and it must be no longer than 128
     characters.
-    :attr object metadata: (optional) Any metadata related to the value.
+    :attr dict metadata: (optional) Any metadata related to the entity.
+    :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
     :attr list[CreateValue] values: (optional) An array of objects describing the entity
     values.
-    :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
     """
 
     def __init__(self,
                  entity,
                  description=None,
                  metadata=None,
-                 values=None,
-                 fuzzy_match=None):
+                 fuzzy_match=None,
+                 created=None,
+                 updated=None,
+                 values=None):
         """
         Initialize a CreateEntity object.
 
@@ -3446,16 +3182,21 @@ class CreateEntity(object):
         :param str description: (optional) The description of the entity. This string
         cannot contain carriage return, newline, or tab characters, and it must be no
         longer than 128 characters.
-        :param object metadata: (optional) Any metadata related to the value.
+        :param dict metadata: (optional) Any metadata related to the entity.
+        :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
         :param list[CreateValue] values: (optional) An array of objects describing the
         entity values.
-        :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
         """
         self.entity = entity
         self.description = description
         self.metadata = metadata
-        self.values = values
         self.fuzzy_match = fuzzy_match
+        self.created = created
+        self.updated = updated
+        self.values = values
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -3470,12 +3211,16 @@ class CreateEntity(object):
             args['description'] = _dict.get('description')
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
+        if 'fuzzy_match' in _dict:
+            args['fuzzy_match'] = _dict.get('fuzzy_match')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'values' in _dict:
             args['values'] = [
                 CreateValue._from_dict(x) for x in (_dict.get('values'))
             ]
-        if 'fuzzy_match' in _dict:
-            args['fuzzy_match'] = _dict.get('fuzzy_match')
         return cls(**args)
 
     def _to_dict(self):
@@ -3487,79 +3232,18 @@ class CreateEntity(object):
             _dict['description'] = self.description
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
-        if hasattr(self, 'values') and self.values is not None:
-            _dict['values'] = [x._to_dict() for x in self.values]
         if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
             _dict['fuzzy_match'] = self.fuzzy_match
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'values') and self.values is not None:
+            _dict['values'] = [x._to_dict() for x in self.values]
         return _dict
 
     def __str__(self):
         """Return a `str` version of this CreateEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class CreateExample(object):
-    """
-    CreateExample.
-
-    :attr str text: The text of a user input example. This string must conform to the
-    following restrictions:
-    - It cannot contain carriage return, newline, or tab characters.
-    - It cannot consist of only whitespace characters.
-    - It must be no longer than 1024 characters.
-    :attr list[Mentions] mentions: (optional) An array of contextual entity mentions.
-    """
-
-    def __init__(self, text, mentions=None):
-        """
-        Initialize a CreateExample object.
-
-        :param str text: The text of a user input example. This string must conform to the
-        following restrictions:
-        - It cannot contain carriage return, newline, or tab characters.
-        - It cannot consist of only whitespace characters.
-        - It must be no longer than 1024 characters.
-        :param list[Mentions] mentions: (optional) An array of contextual entity mentions.
-        """
-        self.text = text
-        self.mentions = mentions
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a CreateExample object from a json dictionary."""
-        args = {}
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        else:
-            raise ValueError(
-                'Required property \'text\' not present in CreateExample JSON')
-        if 'mentions' in _dict:
-            args['mentions'] = [
-                Mentions._from_dict(x) for x in (_dict.get('mentions'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'mentions') and self.mentions is not None:
-            _dict['mentions'] = [x._to_dict() for x in self.mentions]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this CreateExample object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -3585,11 +3269,19 @@ class CreateIntent(object):
     :attr str description: (optional) The description of the intent. This string cannot
     contain carriage return, newline, or tab characters, and it must be no longer than 128
     characters.
-    :attr list[CreateExample] examples: (optional) An array of user input examples for the
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
+    :attr list[Example] examples: (optional) An array of user input examples for the
     intent.
     """
 
-    def __init__(self, intent, description=None, examples=None):
+    def __init__(self,
+                 intent,
+                 description=None,
+                 created=None,
+                 updated=None,
+                 examples=None):
         """
         Initialize a CreateIntent object.
 
@@ -3602,11 +3294,16 @@ class CreateIntent(object):
         :param str description: (optional) The description of the intent. This string
         cannot contain carriage return, newline, or tab characters, and it must be no
         longer than 128 characters.
-        :param list[CreateExample] examples: (optional) An array of user input examples
-        for the intent.
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
+        :param list[Example] examples: (optional) An array of user input examples for the
+        intent.
         """
         self.intent = intent
         self.description = description
+        self.created = created
+        self.updated = updated
         self.examples = examples
 
     @classmethod
@@ -3620,9 +3317,13 @@ class CreateIntent(object):
                 'Required property \'intent\' not present in CreateIntent JSON')
         if 'description' in _dict:
             args['description'] = _dict.get('description')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'examples' in _dict:
             args['examples'] = [
-                CreateExample._from_dict(x) for x in (_dict.get('examples'))
+                Example._from_dict(x) for x in (_dict.get('examples'))
             ]
         return cls(**args)
 
@@ -3633,6 +3334,10 @@ class CreateIntent(object):
             _dict['intent'] = self.intent
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'examples') and self.examples is not None:
             _dict['examples'] = [x._to_dict() for x in self.examples]
         return _dict
@@ -3661,27 +3366,32 @@ class CreateValue(object):
     - It cannot contain carriage return, newline, or tab characters.
     - It cannot consist of only whitespace characters.
     - It must be no longer than 64 characters.
-    :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity
-    value. You can provide either synonyms or patterns (as indicated by **type**), but not
-    both. A synonym must conform to the following restrictions:
+    :attr dict metadata: (optional) Any metadata related to the entity value.
+    :attr str value_type: (optional) Specifies the type of entity value.
+    :attr list[str] synonyms: (optional) An array of synonyms for the entity value. A
+    value can specify either synonyms or patterns (depending on the value type), but not
+    both. A synonym must conform to the following resrictions:
     - It cannot contain carriage return, newline, or tab characters.
     - It cannot consist of only whitespace characters.
     - It must be no longer than 64 characters.
-    :attr list[str] patterns: (optional) An array of patterns for the entity value. You
-    can provide either synonyms or patterns (as indicated by **type**), but not both. A
-    pattern is a regular expression no longer than 512 characters. For more information
-    about how to specify a pattern, see the
-    [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#creating-entities).
-    :attr str value_type: (optional) Specifies the type of value.
+    :attr list[str] patterns: (optional) An array of patterns for the entity value. A
+    value can specify either synonyms or patterns (depending on the value type), but not
+    both. A pattern is a regular expression no longer than 512 characters. For more
+    information about how to specify a pattern, see the
+    [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#entities-create-dictionary-based).
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
     """
 
     def __init__(self,
                  value,
                  metadata=None,
+                 value_type=None,
                  synonyms=None,
                  patterns=None,
-                 value_type=None):
+                 created=None,
+                 updated=None):
         """
         Initialize a CreateValue object.
 
@@ -3690,25 +3400,30 @@ class CreateValue(object):
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 64 characters.
-        :param object metadata: (optional) Any metadata related to the entity value.
-        :param list[str] synonyms: (optional) An array containing any synonyms for the
-        entity value. You can provide either synonyms or patterns (as indicated by
-        **type**), but not both. A synonym must conform to the following restrictions:
+        :param dict metadata: (optional) Any metadata related to the entity value.
+        :param str value_type: (optional) Specifies the type of entity value.
+        :param list[str] synonyms: (optional) An array of synonyms for the entity value. A
+        value can specify either synonyms or patterns (depending on the value type), but
+        not both. A synonym must conform to the following resrictions:
         - It cannot contain carriage return, newline, or tab characters.
         - It cannot consist of only whitespace characters.
         - It must be no longer than 64 characters.
-        :param list[str] patterns: (optional) An array of patterns for the entity value.
-        You can provide either synonyms or patterns (as indicated by **type**), but not
-        both. A pattern is a regular expression no longer than 512 characters. For more
-        information about how to specify a pattern, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#creating-entities).
-        :param str value_type: (optional) Specifies the type of value.
+        :param list[str] patterns: (optional) An array of patterns for the entity value. A
+        value can specify either synonyms or patterns (depending on the value type), but
+        not both. A pattern is a regular expression no longer than 512 characters. For
+        more information about how to specify a pattern, see the
+        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#entities-create-dictionary-based).
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
         """
         self.value = value
         self.metadata = metadata
+        self.value_type = value_type
         self.synonyms = synonyms
         self.patterns = patterns
-        self.value_type = value_type
+        self.created = created
+        self.updated = updated
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -3721,12 +3436,16 @@ class CreateValue(object):
                 'Required property \'value\' not present in CreateValue JSON')
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
+        if 'type' in _dict or 'value_type' in _dict:
+            args['value_type'] = _dict.get('type') or _dict.get('value_type')
         if 'synonyms' in _dict:
             args['synonyms'] = _dict.get('synonyms')
         if 'patterns' in _dict:
             args['patterns'] = _dict.get('patterns')
-        if 'type' in _dict or 'value_type' in _dict:
-            args['value_type'] = _dict.get('type') or _dict.get('value_type')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
     def _to_dict(self):
@@ -3736,12 +3455,16 @@ class CreateValue(object):
             _dict['value'] = self.value
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
+        if hasattr(self, 'value_type') and self.value_type is not None:
+            _dict['type'] = self.value_type
         if hasattr(self, 'synonyms') and self.synonyms is not None:
             _dict['synonyms'] = self.synonyms
         if hasattr(self, 'patterns') and self.patterns is not None:
             _dict['patterns'] = self.patterns
-        if hasattr(self, 'value_type') and self.value_type is not None:
-            _dict['type'] = self.value_type
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
     def __str__(self):
@@ -3763,30 +3486,39 @@ class DialogNode(object):
     """
     DialogNode.
 
-    :attr str dialog_node_id: The dialog node ID.
-    :attr str description: (optional) The description of the dialog node.
-    :attr str conditions: (optional) The condition that triggers the dialog node.
-    :attr str parent: (optional) The ID of the parent dialog node. This property is not
-    returned if the dialog node has no parent.
+    :attr str dialog_node: The dialog node ID. This string must conform to the following
+    restrictions:
+    - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
+    characters.
+    - It must be no longer than 1024 characters.
+    :attr str description: (optional) The description of the dialog node. This string
+    cannot contain carriage return, newline, or tab characters, and it must be no longer
+    than 128 characters.
+    :attr str conditions: (optional) The condition that will trigger the dialog node. This
+    string cannot contain carriage return, newline, or tab characters, and it must be no
+    longer than 2048 characters.
+    :attr str parent: (optional) The ID of the parent dialog node. This property is
+    omitted if the dialog node has no parent.
     :attr str previous_sibling: (optional) The ID of the previous sibling dialog node.
-    This property is not returned if the dialog node has no previous sibling.
+    This property is omitted if the dialog node has no previous sibling.
     :attr DialogNodeOutput output: (optional) The output of the dialog node. For more
     information about how to specify dialog node output, see the
-    [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
-    :attr object context: (optional) The context (if defined) for the dialog node.
-    :attr object metadata: (optional) Any metadata for the dialog node.
+    [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#dialog-overview-responses).
+    :attr dict context: (optional) The context for the dialog node.
+    :attr dict metadata: (optional) The metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute following this
     dialog node.
-    :attr datetime created: (optional) The timestamp for creation of the dialog node.
-    :attr datetime updated: (optional) The timestamp for the most recent update to the
-    dialog node.
-    :attr list[DialogNodeAction] actions: (optional) The actions for the dialog node.
-    :attr str title: (optional) The alias used to identify the dialog node.
-    :attr bool disabled: (optional) For internal use only.
+    :attr str title: (optional) The alias used to identify the dialog node. This string
+    must conform to the following restrictions:
+    - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
+    characters.
+    - It must be no longer than 64 characters.
     :attr str node_type: (optional) How the dialog node is processed.
     :attr str event_name: (optional) How an `event_handler` node is processed.
     :attr str variable: (optional) The location in the dialog context where output is
     stored.
+    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any
+    actions to be invoked by the dialog node.
     :attr str digress_in: (optional) Whether this top-level dialog node can be digressed
     into.
     :attr str digress_out: (optional) Whether this dialog node can be returned to after a
@@ -3795,10 +3527,14 @@ class DialogNode(object):
     nodes while filling out slots.
     :attr str user_label: (optional) A label that can be displayed externally to describe
     the purpose of the node to users. This string must be no longer than 512 characters.
+    :attr bool disabled: (optional) For internal use only.
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
     """
 
     def __init__(self,
-                 dialog_node_id,
+                 dialog_node,
                  description=None,
                  conditions=None,
                  parent=None,
@@ -3807,45 +3543,54 @@ class DialogNode(object):
                  context=None,
                  metadata=None,
                  next_step=None,
-                 created=None,
-                 updated=None,
-                 actions=None,
                  title=None,
-                 disabled=None,
                  node_type=None,
                  event_name=None,
                  variable=None,
+                 actions=None,
                  digress_in=None,
                  digress_out=None,
                  digress_out_slots=None,
-                 user_label=None):
+                 user_label=None,
+                 disabled=None,
+                 created=None,
+                 updated=None):
         """
         Initialize a DialogNode object.
 
-        :param str dialog_node_id: The dialog node ID.
-        :param str description: (optional) The description of the dialog node.
-        :param str conditions: (optional) The condition that triggers the dialog node.
+        :param str dialog_node: The dialog node ID. This string must conform to the
+        following restrictions:
+        - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
+        characters.
+        - It must be no longer than 1024 characters.
+        :param str description: (optional) The description of the dialog node. This string
+        cannot contain carriage return, newline, or tab characters, and it must be no
+        longer than 128 characters.
+        :param str conditions: (optional) The condition that will trigger the dialog node.
+        This string cannot contain carriage return, newline, or tab characters, and it
+        must be no longer than 2048 characters.
         :param str parent: (optional) The ID of the parent dialog node. This property is
-        not returned if the dialog node has no parent.
+        omitted if the dialog node has no parent.
         :param str previous_sibling: (optional) The ID of the previous sibling dialog
-        node. This property is not returned if the dialog node has no previous sibling.
+        node. This property is omitted if the dialog node has no previous sibling.
         :param DialogNodeOutput output: (optional) The output of the dialog node. For more
         information about how to specify dialog node output, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
-        :param object context: (optional) The context (if defined) for the dialog node.
-        :param object metadata: (optional) Any metadata for the dialog node.
+        [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#dialog-overview-responses).
+        :param dict context: (optional) The context for the dialog node.
+        :param dict metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute following
         this dialog node.
-        :param datetime created: (optional) The timestamp for creation of the dialog node.
-        :param datetime updated: (optional) The timestamp for the most recent update to
-        the dialog node.
-        :param list[DialogNodeAction] actions: (optional) The actions for the dialog node.
-        :param str title: (optional) The alias used to identify the dialog node.
-        :param bool disabled: (optional) For internal use only.
+        :param str title: (optional) The alias used to identify the dialog node. This
+        string must conform to the following restrictions:
+        - It can contain only Unicode alphanumeric, space, underscore, hyphen, and dot
+        characters.
+        - It must be no longer than 64 characters.
         :param str node_type: (optional) How the dialog node is processed.
         :param str event_name: (optional) How an `event_handler` node is processed.
         :param str variable: (optional) The location in the dialog context where output is
         stored.
+        :param list[DialogNodeAction] actions: (optional) An array of objects describing
+        any actions to be invoked by the dialog node.
         :param str digress_in: (optional) Whether this top-level dialog node can be
         digressed into.
         :param str digress_out: (optional) Whether this dialog node can be returned to
@@ -3855,8 +3600,12 @@ class DialogNode(object):
         :param str user_label: (optional) A label that can be displayed externally to
         describe the purpose of the node to users. This string must be no longer than 512
         characters.
+        :param bool disabled: (optional) For internal use only.
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
         """
-        self.dialog_node_id = dialog_node_id
+        self.dialog_node = dialog_node
         self.description = description
         self.conditions = conditions
         self.parent = parent
@@ -3865,26 +3614,25 @@ class DialogNode(object):
         self.context = context
         self.metadata = metadata
         self.next_step = next_step
-        self.created = created
-        self.updated = updated
-        self.actions = actions
         self.title = title
-        self.disabled = disabled
         self.node_type = node_type
         self.event_name = event_name
         self.variable = variable
+        self.actions = actions
         self.digress_in = digress_in
         self.digress_out = digress_out
         self.digress_out_slots = digress_out_slots
         self.user_label = user_label
+        self.disabled = disabled
+        self.created = created
+        self.updated = updated
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a DialogNode object from a json dictionary."""
         args = {}
-        if 'dialog_node' in _dict or 'dialog_node_id' in _dict:
-            args['dialog_node_id'] = _dict.get('dialog_node') or _dict.get(
-                'dialog_node_id')
+        if 'dialog_node' in _dict:
+            args['dialog_node'] = _dict.get('dialog_node')
         else:
             raise ValueError(
                 'Required property \'dialog_node\' not present in DialogNode JSON'
@@ -3906,24 +3654,18 @@ class DialogNode(object):
         if 'next_step' in _dict:
             args['next_step'] = DialogNodeNextStep._from_dict(
                 _dict.get('next_step'))
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'actions' in _dict:
-            args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
-            ]
         if 'title' in _dict:
             args['title'] = _dict.get('title')
-        if 'disabled' in _dict:
-            args['disabled'] = _dict.get('disabled')
         if 'type' in _dict or 'node_type' in _dict:
             args['node_type'] = _dict.get('type') or _dict.get('node_type')
         if 'event_name' in _dict:
             args['event_name'] = _dict.get('event_name')
         if 'variable' in _dict:
             args['variable'] = _dict.get('variable')
+        if 'actions' in _dict:
+            args['actions'] = [
+                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+            ]
         if 'digress_in' in _dict:
             args['digress_in'] = _dict.get('digress_in')
         if 'digress_out' in _dict:
@@ -3932,13 +3674,19 @@ class DialogNode(object):
             args['digress_out_slots'] = _dict.get('digress_out_slots')
         if 'user_label' in _dict:
             args['user_label'] = _dict.get('user_label')
+        if 'disabled' in _dict:
+            args['disabled'] = _dict.get('disabled')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'dialog_node_id') and self.dialog_node_id is not None:
-            _dict['dialog_node'] = self.dialog_node_id
+        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
+            _dict['dialog_node'] = self.dialog_node
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'conditions') and self.conditions is not None:
@@ -3956,22 +3704,16 @@ class DialogNode(object):
             _dict['metadata'] = self.metadata
         if hasattr(self, 'next_step') and self.next_step is not None:
             _dict['next_step'] = self.next_step._to_dict()
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'actions') and self.actions is not None:
-            _dict['actions'] = [x._to_dict() for x in self.actions]
         if hasattr(self, 'title') and self.title is not None:
             _dict['title'] = self.title
-        if hasattr(self, 'disabled') and self.disabled is not None:
-            _dict['disabled'] = self.disabled
         if hasattr(self, 'node_type') and self.node_type is not None:
             _dict['type'] = self.node_type
         if hasattr(self, 'event_name') and self.event_name is not None:
             _dict['event_name'] = self.event_name
         if hasattr(self, 'variable') and self.variable is not None:
             _dict['variable'] = self.variable
+        if hasattr(self, 'actions') and self.actions is not None:
+            _dict['actions'] = [x._to_dict() for x in self.actions]
         if hasattr(self, 'digress_in') and self.digress_in is not None:
             _dict['digress_in'] = self.digress_in
         if hasattr(self, 'digress_out') and self.digress_out is not None:
@@ -3981,6 +3723,12 @@ class DialogNode(object):
             _dict['digress_out_slots'] = self.digress_out_slots
         if hasattr(self, 'user_label') and self.user_label is not None:
             _dict['user_label'] = self.user_label
+        if hasattr(self, 'disabled') and self.disabled is not None:
+            _dict['disabled'] = self.disabled
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
     def __str__(self):
@@ -4004,7 +3752,7 @@ class DialogNodeAction(object):
 
     :attr str name: The name of the action.
     :attr str action_type: (optional) The type of action to invoke.
-    :attr object parameters: (optional) A map of key/value pairs to be provided to the
+    :attr dict parameters: (optional) A map of key/value pairs to be provided to the
     action.
     :attr str result_variable: The location in the dialog context where the result of the
     action is stored.
@@ -4025,8 +3773,8 @@ class DialogNodeAction(object):
         :param str result_variable: The location in the dialog context where the result of
         the action is stored.
         :param str action_type: (optional) The type of action to invoke.
-        :param object parameters: (optional) A map of key/value pairs to be provided to
-        the action.
+        :param dict parameters: (optional) A map of key/value pairs to be provided to the
+        action.
         :param str credentials: (optional) The name of the context variable that the
         client application will use to pass in credentials for the action.
         """
@@ -4264,7 +4012,7 @@ class DialogNodeOutput(object):
     """
     The output of the dialog node. For more information about how to specify dialog node
     output, see the
-    [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#complex).
+    [documentation](https://cloud.ibm.com/docs/services/assistant/dialog-overview.html#dialog-overview-responses).
 
     :attr list[DialogNodeOutputGeneric] generic: (optional) An array of objects describing
     the output defined for the dialog node.
@@ -4645,14 +4393,15 @@ class DialogNodeOutputOptionsElementValue(object):
     An object defining the message input to be sent to the Watson Assistant service if the
     user selects the corresponding option.
 
-    :attr InputData input: (optional) An input object that includes the input text.
+    :attr MessageInput input: (optional) An input object that includes the input text.
     """
 
     def __init__(self, input=None):
         """
         Initialize a DialogNodeOutputOptionsElementValue object.
 
-        :param InputData input: (optional) An input object that includes the input text.
+        :param MessageInput input: (optional) An input object that includes the input
+        text.
         """
         self.input = input
 
@@ -4661,7 +4410,7 @@ class DialogNodeOutputOptionsElementValue(object):
         """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
         args = {}
         if 'input' in _dict:
-            args['input'] = InputData._from_dict(_dict.get('input'))
+            args['input'] = MessageInput._from_dict(_dict.get('input'))
         return cls(**args)
 
     def _to_dict(self):
@@ -4691,9 +4440,8 @@ class DialogNodeOutputTextValuesElement(object):
     DialogNodeOutputTextValuesElement.
 
     :attr str text: (optional) The text of a response. This string can include newline
-    characters (`
-    `), Markdown tagging, or other special characters, if supported by the channel. It
-    must be no longer than 4096 characters.
+    characters (`\\n`), Markdown tagging, or other special characters, if supported by the
+    channel. It must be no longer than 4096 characters.
     """
 
     def __init__(self, text=None):
@@ -4701,9 +4449,8 @@ class DialogNodeOutputTextValuesElement(object):
         Initialize a DialogNodeOutputTextValuesElement object.
 
         :param str text: (optional) The text of a response. This string can include
-        newline characters (`
-        `), Markdown tagging, or other special characters, if supported by the channel. It
-        must be no longer than 4096 characters.
+        newline characters (`\\n`), Markdown tagging, or other special characters, if
+        supported by the channel. It must be no longer than 4096 characters.
         """
         self.text = text
 
@@ -4821,6 +4568,9 @@ class DialogRuntimeResponseGeneric(object):
     who will be taking over the conversation.
     :attr str topic: (optional) A label identifying the topic of the conversation, derived
     from the **user_label** property of the relevant node.
+    :attr str dialog_node: (optional) The ID of the dialog node that the **topic**
+    property is taken from. The **topic** property is populated using the value of the
+    dialog node's **user_label** property.
     :attr list[DialogSuggestion] suggestions: (optional) An array of objects describing
     the possible matching dialog nodes from which the user can choose.
     **Note:** The **suggestions** property is part of the disambiguation feature, which is
@@ -4839,6 +4589,7 @@ class DialogRuntimeResponseGeneric(object):
                  options=None,
                  message_to_human_agent=None,
                  topic=None,
+                 dialog_node=None,
                  suggestions=None):
         """
         Initialize a DialogRuntimeResponseGeneric object.
@@ -4862,6 +4613,9 @@ class DialogRuntimeResponseGeneric(object):
         agent who will be taking over the conversation.
         :param str topic: (optional) A label identifying the topic of the conversation,
         derived from the **user_label** property of the relevant node.
+        :param str dialog_node: (optional) The ID of the dialog node that the **topic**
+        property is taken from. The **topic** property is populated using the value of the
+        dialog node's **user_label** property.
         :param list[DialogSuggestion] suggestions: (optional) An array of objects
         describing the possible matching dialog nodes from which the user can choose.
         **Note:** The **suggestions** property is part of the disambiguation feature,
@@ -4878,6 +4632,7 @@ class DialogRuntimeResponseGeneric(object):
         self.options = options
         self.message_to_human_agent = message_to_human_agent
         self.topic = topic
+        self.dialog_node = dialog_node
         self.suggestions = suggestions
 
     @classmethod
@@ -4913,6 +4668,8 @@ class DialogRuntimeResponseGeneric(object):
             args['message_to_human_agent'] = _dict.get('message_to_human_agent')
         if 'topic' in _dict:
             args['topic'] = _dict.get('topic')
+        if 'dialog_node' in _dict:
+            args['dialog_node'] = _dict.get('dialog_node')
         if 'suggestions' in _dict:
             args['suggestions'] = [
                 DialogSuggestion._from_dict(x)
@@ -4946,6 +4703,8 @@ class DialogRuntimeResponseGeneric(object):
             _dict['message_to_human_agent'] = self.message_to_human_agent
         if hasattr(self, 'topic') and self.topic is not None:
             _dict['topic'] = self.topic
+        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
+            _dict['dialog_node'] = self.dialog_node
         if hasattr(self, 'suggestions') and self.suggestions is not None:
             _dict['suggestions'] = [x._to_dict() for x in self.suggestions]
         return _dict
@@ -4974,11 +4733,14 @@ class DialogSuggestion(object):
     :attr DialogSuggestionValue value: An object defining the message input, intents, and
     entities to be sent to the Watson Assistant service if the user selects the
     corresponding disambiguation option.
-    :attr object output: (optional) The dialog output that will be returned from the
-    Watson Assistant service if the user selects the corresponding option.
+    :attr dict output: (optional) The dialog output that will be returned from the Watson
+    Assistant service if the user selects the corresponding option.
+    :attr str dialog_node: (optional) The ID of the dialog node that the **label**
+    property is taken from. The **label** property is populated using the value of the
+    dialog node's **user_label** property.
     """
 
-    def __init__(self, label, value, output=None):
+    def __init__(self, label, value, output=None, dialog_node=None):
         """
         Initialize a DialogSuggestion object.
 
@@ -4987,12 +4749,16 @@ class DialogSuggestion(object):
         :param DialogSuggestionValue value: An object defining the message input, intents,
         and entities to be sent to the Watson Assistant service if the user selects the
         corresponding disambiguation option.
-        :param object output: (optional) The dialog output that will be returned from the
+        :param dict output: (optional) The dialog output that will be returned from the
         Watson Assistant service if the user selects the corresponding option.
+        :param str dialog_node: (optional) The ID of the dialog node that the **label**
+        property is taken from. The **label** property is populated using the value of the
+        dialog node's **user_label** property.
         """
         self.label = label
         self.value = value
         self.output = output
+        self.dialog_node = dialog_node
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -5012,6 +4778,8 @@ class DialogSuggestion(object):
             )
         if 'output' in _dict:
             args['output'] = _dict.get('output')
+        if 'dialog_node' in _dict:
+            args['dialog_node'] = _dict.get('dialog_node')
         return cls(**args)
 
     def _to_dict(self):
@@ -5023,6 +4791,8 @@ class DialogSuggestion(object):
             _dict['value'] = self.value._to_dict()
         if hasattr(self, 'output') and self.output is not None:
             _dict['output'] = self.output
+        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
+            _dict['dialog_node'] = self.dialog_node
         return _dict
 
     def __str__(self):
@@ -5045,7 +4815,7 @@ class DialogSuggestionValue(object):
     An object defining the message input, intents, and entities to be sent to the Watson
     Assistant service if the user selects the corresponding disambiguation option.
 
-    :attr InputData input: (optional) An input object that includes the input text.
+    :attr MessageInput input: (optional) An input object that includes the input text.
     :attr list[RuntimeIntent] intents: (optional) An array of intents to be sent along
     with the user input.
     :attr list[RuntimeEntity] entities: (optional) An array of entities to be sent along
@@ -5056,7 +4826,8 @@ class DialogSuggestionValue(object):
         """
         Initialize a DialogSuggestionValue object.
 
-        :param InputData input: (optional) An input object that includes the input text.
+        :param MessageInput input: (optional) An input object that includes the input
+        text.
         :param list[RuntimeIntent] intents: (optional) An array of intents to be sent
         along with the user input.
         :param list[RuntimeEntity] entities: (optional) An array of entities to be sent
@@ -5071,7 +4842,7 @@ class DialogSuggestionValue(object):
         """Initialize a DialogSuggestionValue object from a json dictionary."""
         args = {}
         if 'input' in _dict:
-            args['input'] = InputData._from_dict(_dict.get('input'))
+            args['input'] = MessageInput._from_dict(_dict.get('input'))
         if 'intents' in _dict:
             args['intents'] = [
                 RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
@@ -5112,76 +4883,103 @@ class Entity(object):
     """
     Entity.
 
-    :attr str entity_name: The name of the entity.
-    :attr datetime created: (optional) The timestamp for creation of the entity.
-    :attr datetime updated: (optional) The timestamp for the last update to the entity.
-    :attr str description: (optional) The description of the entity.
-    :attr object metadata: (optional) Any metadata related to the entity.
-    :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
+    :attr str entity: The name of the entity. This string must conform to the following
+    restrictions:
+    - It can contain only Unicode alphanumeric, underscore, and hyphen characters.
+    - It must be no longer than 64 characters.
+    If you specify an entity name beginning with the reserved prefix `sys-`, it must be
+    the name of a system entity that you want to enable. (Any entity content specified
+    with the request is ignored.).
+    :attr str description: (optional) The description of the entity. This string cannot
+    contain carriage return, newline, or tab characters, and it must be no longer than 128
+    characters.
+    :attr dict metadata: (optional) Any metadata related to the entity.
+    :attr bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
+    :attr list[Value] values: (optional) An array of objects describing the entity values.
     """
 
     def __init__(self,
-                 entity_name,
-                 created=None,
-                 updated=None,
+                 entity,
                  description=None,
                  metadata=None,
-                 fuzzy_match=None):
+                 fuzzy_match=None,
+                 created=None,
+                 updated=None,
+                 values=None):
         """
         Initialize a Entity object.
 
-        :param str entity_name: The name of the entity.
-        :param datetime created: (optional) The timestamp for creation of the entity.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        entity.
-        :param str description: (optional) The description of the entity.
-        :param object metadata: (optional) Any metadata related to the entity.
-        :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
+        :param str entity: The name of the entity. This string must conform to the
+        following restrictions:
+        - It can contain only Unicode alphanumeric, underscore, and hyphen characters.
+        - It must be no longer than 64 characters.
+        If you specify an entity name beginning with the reserved prefix `sys-`, it must
+        be the name of a system entity that you want to enable. (Any entity content
+        specified with the request is ignored.).
+        :param str description: (optional) The description of the entity. This string
+        cannot contain carriage return, newline, or tab characters, and it must be no
+        longer than 128 characters.
+        :param dict metadata: (optional) Any metadata related to the entity.
+        :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the entity.
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
+        :param list[Value] values: (optional) An array of objects describing the entity
+        values.
         """
-        self.entity_name = entity_name
-        self.created = created
-        self.updated = updated
+        self.entity = entity
         self.description = description
         self.metadata = metadata
         self.fuzzy_match = fuzzy_match
+        self.created = created
+        self.updated = updated
+        self.values = values
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Entity object from a json dictionary."""
         args = {}
-        if 'entity' in _dict or 'entity_name' in _dict:
-            args[
-                'entity_name'] = _dict.get('entity') or _dict.get('entity_name')
+        if 'entity' in _dict:
+            args['entity'] = _dict.get('entity')
         else:
             raise ValueError(
                 'Required property \'entity\' not present in Entity JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
         if 'fuzzy_match' in _dict:
             args['fuzzy_match'] = _dict.get('fuzzy_match')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if 'values' in _dict:
+            args['values'] = [
+                Value._from_dict(x) for x in (_dict.get('values'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'entity_name') and self.entity_name is not None:
-            _dict['entity'] = self.entity_name
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'entity') and self.entity is not None:
+            _dict['entity'] = self.entity
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
             _dict['fuzzy_match'] = self.fuzzy_match
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'values') and self.values is not None:
+            _dict['values'] = [x._to_dict() for x in self.values]
         return _dict
 
     def __str__(self):
@@ -5201,10 +4999,10 @@ class Entity(object):
 
 class EntityCollection(object):
     """
-    An array of entities.
+    An array of objects describing the entities for the workspace.
 
-    :attr list[EntityExport] entities: An array of objects describing the entities defined
-    for the workspace.
+    :attr list[Entity] entities: An array of objects describing the entities defined for
+    the workspace.
     :attr Pagination pagination: The pagination data for the returned objects.
     """
 
@@ -5212,8 +5010,8 @@ class EntityCollection(object):
         """
         Initialize a EntityCollection object.
 
-        :param list[EntityExport] entities: An array of objects describing the entities
-        defined for the workspace.
+        :param list[Entity] entities: An array of objects describing the entities defined
+        for the workspace.
         :param Pagination pagination: The pagination data for the returned objects.
         """
         self.entities = entities
@@ -5225,7 +5023,7 @@ class EntityCollection(object):
         args = {}
         if 'entities' in _dict:
             args['entities'] = [
-                EntityExport._from_dict(x) for x in (_dict.get('entities'))
+                Entity._from_dict(x) for x in (_dict.get('entities'))
             ]
         else:
             raise ValueError(
@@ -5263,145 +5061,40 @@ class EntityCollection(object):
         return not self == other
 
 
-class EntityExport(object):
-    """
-    EntityExport.
-
-    :attr str entity_name: The name of the entity.
-    :attr datetime created: (optional) The timestamp for creation of the entity.
-    :attr datetime updated: (optional) The timestamp for the last update to the entity.
-    :attr str description: (optional) The description of the entity.
-    :attr object metadata: (optional) Any metadata related to the entity.
-    :attr bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
-    :attr list[ValueExport] values: (optional) An array objects describing the entity
-    values.
-    """
-
-    def __init__(self,
-                 entity_name,
-                 created=None,
-                 updated=None,
-                 description=None,
-                 metadata=None,
-                 fuzzy_match=None,
-                 values=None):
-        """
-        Initialize a EntityExport object.
-
-        :param str entity_name: The name of the entity.
-        :param datetime created: (optional) The timestamp for creation of the entity.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        entity.
-        :param str description: (optional) The description of the entity.
-        :param object metadata: (optional) Any metadata related to the entity.
-        :param bool fuzzy_match: (optional) Whether fuzzy matching is used for the entity.
-        :param list[ValueExport] values: (optional) An array objects describing the entity
-        values.
-        """
-        self.entity_name = entity_name
-        self.created = created
-        self.updated = updated
-        self.description = description
-        self.metadata = metadata
-        self.fuzzy_match = fuzzy_match
-        self.values = values
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a EntityExport object from a json dictionary."""
-        args = {}
-        if 'entity' in _dict or 'entity_name' in _dict:
-            args[
-                'entity_name'] = _dict.get('entity') or _dict.get('entity_name')
-        else:
-            raise ValueError(
-                'Required property \'entity\' not present in EntityExport JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'fuzzy_match' in _dict:
-            args['fuzzy_match'] = _dict.get('fuzzy_match')
-        if 'values' in _dict:
-            args['values'] = [
-                ValueExport._from_dict(x) for x in (_dict.get('values'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'entity_name') and self.entity_name is not None:
-            _dict['entity'] = self.entity_name
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
-        if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
-            _dict['fuzzy_match'] = self.fuzzy_match
-        if hasattr(self, 'values') and self.values is not None:
-            _dict['values'] = [x._to_dict() for x in self.values]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this EntityExport object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class EntityMention(object):
     """
     An object describing a contextual entity mention.
 
-    :attr str example_text: The text of the user input example.
-    :attr str intent_name: The name of the intent.
+    :attr str text: The text of the user input example.
+    :attr str intent: The name of the intent.
     :attr list[int] location: An array of zero-based character offsets that indicate where
     the entity mentions begin and end in the input text.
     """
 
-    def __init__(self, example_text, intent_name, location):
+    def __init__(self, text, intent, location):
         """
         Initialize a EntityMention object.
 
-        :param str example_text: The text of the user input example.
-        :param str intent_name: The name of the intent.
+        :param str text: The text of the user input example.
+        :param str intent: The name of the intent.
         :param list[int] location: An array of zero-based character offsets that indicate
         where the entity mentions begin and end in the input text.
         """
-        self.example_text = example_text
-        self.intent_name = intent_name
+        self.text = text
+        self.intent = intent
         self.location = location
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        if 'text' in _dict or 'example_text' in _dict:
-            args[
-                'example_text'] = _dict.get('text') or _dict.get('example_text')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in EntityMention JSON')
-        if 'intent' in _dict or 'intent_name' in _dict:
-            args[
-                'intent_name'] = _dict.get('intent') or _dict.get('intent_name')
+        if 'intent' in _dict:
+            args['intent'] = _dict.get('intent')
         else:
             raise ValueError(
                 'Required property \'intent\' not present in EntityMention JSON'
@@ -5417,10 +5110,10 @@ class EntityMention(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'example_text') and self.example_text is not None:
-            _dict['text'] = self.example_text
-        if hasattr(self, 'intent_name') and self.intent_name is not None:
-            _dict['intent'] = self.intent_name
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'intent') and self.intent is not None:
+            _dict['intent'] = self.intent
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location
         return _dict
@@ -5508,58 +5201,66 @@ class Example(object):
     """
     Example.
 
-    :attr str example_text: The text of the user input example.
-    :attr datetime created: (optional) The timestamp for creation of the example.
-    :attr datetime updated: (optional) The timestamp for the last update to the example.
-    :attr list[Mentions] mentions: (optional) An array of contextual entity mentions.
+    :attr str text: The text of a user input example. This string must conform to the
+    following restrictions:
+    - It cannot contain carriage return, newline, or tab characters.
+    - It cannot consist of only whitespace characters.
+    - It must be no longer than 1024 characters.
+    :attr list[Mention] mentions: (optional) An array of contextual entity mentions.
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
     """
 
-    def __init__(self, example_text, created=None, updated=None, mentions=None):
+    def __init__(self, text, mentions=None, created=None, updated=None):
         """
         Initialize a Example object.
 
-        :param str example_text: The text of the user input example.
-        :param datetime created: (optional) The timestamp for creation of the example.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        example.
-        :param list[Mentions] mentions: (optional) An array of contextual entity mentions.
+        :param str text: The text of a user input example. This string must conform to the
+        following restrictions:
+        - It cannot contain carriage return, newline, or tab characters.
+        - It cannot consist of only whitespace characters.
+        - It must be no longer than 1024 characters.
+        :param list[Mention] mentions: (optional) An array of contextual entity mentions.
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
         """
-        self.example_text = example_text
+        self.text = text
+        self.mentions = mentions
         self.created = created
         self.updated = updated
-        self.mentions = mentions
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Example object from a json dictionary."""
         args = {}
-        if 'text' in _dict or 'example_text' in _dict:
-            args[
-                'example_text'] = _dict.get('text') or _dict.get('example_text')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
         else:
             raise ValueError(
                 'Required property \'text\' not present in Example JSON')
+        if 'mentions' in _dict:
+            args['mentions'] = [
+                Mention._from_dict(x) for x in (_dict.get('mentions'))
+            ]
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'mentions' in _dict:
-            args['mentions'] = [
-                Mentions._from_dict(x) for x in (_dict.get('mentions'))
-            ]
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'example_text') and self.example_text is not None:
-            _dict['text'] = self.example_text
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'mentions') and self.mentions is not None:
+            _dict['mentions'] = [x._to_dict() for x in self.mentions]
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
             _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'mentions') and self.mentions is not None:
-            _dict['mentions'] = [x._to_dict() for x in self.mentions]
         return _dict
 
     def __str__(self):
@@ -5641,133 +5342,89 @@ class ExampleCollection(object):
         return not self == other
 
 
-class InputData(object):
-    """
-    An input object that includes the input text.
-
-    :attr str text: The text of the user input. This string cannot contain carriage
-    return, newline, or tab characters, and it must be no longer than 2048 characters.
-    """
-
-    def __init__(self, text, **kwargs):
-        """
-        Initialize a InputData object.
-
-        :param str text: The text of the user input. This string cannot contain carriage
-        return, newline, or tab characters, and it must be no longer than 2048 characters.
-        :param **kwargs: (optional) Any additional properties.
-        """
-        self.text = text
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a InputData object from a json dictionary."""
-        args = {}
-        xtra = _dict.copy()
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-            del xtra['text']
-        else:
-            raise ValueError(
-                'Required property \'text\' not present in InputData JSON')
-        args.update(xtra)
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
-        return _dict
-
-    def __setattr__(self, name, value):
-        properties = {'text'}
-        if not hasattr(self, '_additionalProperties'):
-            super(InputData, self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(InputData, self).__setattr__(name, value)
-
-    def __str__(self):
-        """Return a `str` version of this InputData object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class Intent(object):
     """
     Intent.
 
-    :attr str intent_name: The name of the intent.
-    :attr datetime created: (optional) The timestamp for creation of the intent.
-    :attr datetime updated: (optional) The timestamp for the last update to the intent.
-    :attr str description: (optional) The description of the intent.
+    :attr str intent: The name of the intent. This string must conform to the following
+    restrictions:
+    - It can contain only Unicode alphanumeric, underscore, hyphen, and dot characters.
+    - It cannot begin with the reserved prefix `sys-`.
+    - It must be no longer than 128 characters.
+    :attr str description: (optional) The description of the intent. This string cannot
+    contain carriage return, newline, or tab characters, and it must be no longer than 128
+    characters.
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
+    :attr list[Example] examples: (optional) An array of user input examples for the
+    intent.
     """
 
     def __init__(self,
-                 intent_name,
+                 intent,
+                 description=None,
                  created=None,
                  updated=None,
-                 description=None):
+                 examples=None):
         """
         Initialize a Intent object.
 
-        :param str intent_name: The name of the intent.
-        :param datetime created: (optional) The timestamp for creation of the intent.
-        :param datetime updated: (optional) The timestamp for the last update to the
+        :param str intent: The name of the intent. This string must conform to the
+        following restrictions:
+        - It can contain only Unicode alphanumeric, underscore, hyphen, and dot
+        characters.
+        - It cannot begin with the reserved prefix `sys-`.
+        - It must be no longer than 128 characters.
+        :param str description: (optional) The description of the intent. This string
+        cannot contain carriage return, newline, or tab characters, and it must be no
+        longer than 128 characters.
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
+        :param list[Example] examples: (optional) An array of user input examples for the
         intent.
-        :param str description: (optional) The description of the intent.
         """
-        self.intent_name = intent_name
+        self.intent = intent
+        self.description = description
         self.created = created
         self.updated = updated
-        self.description = description
+        self.examples = examples
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Intent object from a json dictionary."""
         args = {}
-        if 'intent' in _dict or 'intent_name' in _dict:
-            args[
-                'intent_name'] = _dict.get('intent') or _dict.get('intent_name')
+        if 'intent' in _dict:
+            args['intent'] = _dict.get('intent')
         else:
             raise ValueError(
                 'Required property \'intent\' not present in Intent JSON')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
+        if 'examples' in _dict:
+            args['examples'] = [
+                Example._from_dict(x) for x in (_dict.get('examples'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'intent_name') and self.intent_name is not None:
-            _dict['intent'] = self.intent_name
+        if hasattr(self, 'intent') and self.intent is not None:
+            _dict['intent'] = self.intent
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
             _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
+        if hasattr(self, 'examples') and self.examples is not None:
+            _dict['examples'] = [x._to_dict() for x in self.examples]
         return _dict
 
     def __str__(self):
@@ -5789,8 +5446,8 @@ class IntentCollection(object):
     """
     IntentCollection.
 
-    :attr list[IntentExport] intents: An array of objects describing the intents defined
-    for the workspace.
+    :attr list[Intent] intents: An array of objects describing the intents defined for the
+    workspace.
     :attr Pagination pagination: The pagination data for the returned objects.
     """
 
@@ -5798,8 +5455,8 @@ class IntentCollection(object):
         """
         Initialize a IntentCollection object.
 
-        :param list[IntentExport] intents: An array of objects describing the intents
-        defined for the workspace.
+        :param list[Intent] intents: An array of objects describing the intents defined
+        for the workspace.
         :param Pagination pagination: The pagination data for the returned objects.
         """
         self.intents = intents
@@ -5811,7 +5468,7 @@ class IntentCollection(object):
         args = {}
         if 'intents' in _dict:
             args['intents'] = [
-                IntentExport._from_dict(x) for x in (_dict.get('intents'))
+                Intent._from_dict(x) for x in (_dict.get('intents'))
             ]
         else:
             raise ValueError(
@@ -5849,158 +5506,9 @@ class IntentCollection(object):
         return not self == other
 
 
-class IntentExport(object):
+class Log(object):
     """
-    IntentExport.
-
-    :attr str intent_name: The name of the intent.
-    :attr datetime created: (optional) The timestamp for creation of the intent.
-    :attr datetime updated: (optional) The timestamp for the last update to the intent.
-    :attr str description: (optional) The description of the intent.
-    :attr list[Example] examples: (optional) An array of objects describing the user input
-    examples for the intent.
-    """
-
-    def __init__(self,
-                 intent_name,
-                 created=None,
-                 updated=None,
-                 description=None,
-                 examples=None):
-        """
-        Initialize a IntentExport object.
-
-        :param str intent_name: The name of the intent.
-        :param datetime created: (optional) The timestamp for creation of the intent.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        intent.
-        :param str description: (optional) The description of the intent.
-        :param list[Example] examples: (optional) An array of objects describing the user
-        input examples for the intent.
-        """
-        self.intent_name = intent_name
-        self.created = created
-        self.updated = updated
-        self.description = description
-        self.examples = examples
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a IntentExport object from a json dictionary."""
-        args = {}
-        if 'intent' in _dict or 'intent_name' in _dict:
-            args[
-                'intent_name'] = _dict.get('intent') or _dict.get('intent_name')
-        else:
-            raise ValueError(
-                'Required property \'intent\' not present in IntentExport JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'examples' in _dict:
-            args['examples'] = [
-                Example._from_dict(x) for x in (_dict.get('examples'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'intent_name') and self.intent_name is not None:
-            _dict['intent'] = self.intent_name
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this IntentExport object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class LogCollection(object):
-    """
-    LogCollection.
-
-    :attr list[LogExport] logs: An array of objects describing log events.
-    :attr LogPagination pagination: The pagination data for the returned objects.
-    """
-
-    def __init__(self, logs, pagination):
-        """
-        Initialize a LogCollection object.
-
-        :param list[LogExport] logs: An array of objects describing log events.
-        :param LogPagination pagination: The pagination data for the returned objects.
-        """
-        self.logs = logs
-        self.pagination = pagination
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a LogCollection object from a json dictionary."""
-        args = {}
-        if 'logs' in _dict:
-            args['logs'] = [
-                LogExport._from_dict(x) for x in (_dict.get('logs'))
-            ]
-        else:
-            raise ValueError(
-                'Required property \'logs\' not present in LogCollection JSON')
-        if 'pagination' in _dict:
-            args['pagination'] = LogPagination._from_dict(
-                _dict.get('pagination'))
-        else:
-            raise ValueError(
-                'Required property \'pagination\' not present in LogCollection JSON'
-            )
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'logs') and self.logs is not None:
-            _dict['logs'] = [x._to_dict() for x in self.logs]
-        if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this LogCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class LogExport(object):
-    """
-    LogExport.
+    Log.
 
     :attr MessageRequest request: A request sent to the workspace, including the user
     input and context.
@@ -6017,7 +5525,7 @@ class LogExport(object):
     def __init__(self, request, response, log_id, request_timestamp,
                  response_timestamp, workspace_id, language):
         """
-        Initialize a LogExport object.
+        Initialize a Log object.
 
         :param MessageRequest request: A request sent to the workspace, including the user
         input and context.
@@ -6042,46 +5550,45 @@ class LogExport(object):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a LogExport object from a json dictionary."""
+        """Initialize a Log object from a json dictionary."""
         args = {}
         if 'request' in _dict:
             args['request'] = MessageRequest._from_dict(_dict.get('request'))
         else:
             raise ValueError(
-                'Required property \'request\' not present in LogExport JSON')
+                'Required property \'request\' not present in Log JSON')
         if 'response' in _dict:
             args['response'] = MessageResponse._from_dict(_dict.get('response'))
         else:
             raise ValueError(
-                'Required property \'response\' not present in LogExport JSON')
+                'Required property \'response\' not present in Log JSON')
         if 'log_id' in _dict:
             args['log_id'] = _dict.get('log_id')
         else:
             raise ValueError(
-                'Required property \'log_id\' not present in LogExport JSON')
+                'Required property \'log_id\' not present in Log JSON')
         if 'request_timestamp' in _dict:
             args['request_timestamp'] = _dict.get('request_timestamp')
         else:
             raise ValueError(
-                'Required property \'request_timestamp\' not present in LogExport JSON'
+                'Required property \'request_timestamp\' not present in Log JSON'
             )
         if 'response_timestamp' in _dict:
             args['response_timestamp'] = _dict.get('response_timestamp')
         else:
             raise ValueError(
-                'Required property \'response_timestamp\' not present in LogExport JSON'
+                'Required property \'response_timestamp\' not present in Log JSON'
             )
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict.get('workspace_id')
         else:
             raise ValueError(
-                'Required property \'workspace_id\' not present in LogExport JSON'
-            )
+                'Required property \'workspace_id\' not present in Log JSON')
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         else:
             raise ValueError(
-                'Required property \'language\' not present in LogExport JSON')
+                'Required property \'language\' not present in Log JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -6107,7 +5614,67 @@ class LogExport(object):
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this LogExport object."""
+        """Return a `str` version of this Log object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogCollection(object):
+    """
+    LogCollection.
+
+    :attr list[Log] logs: An array of objects describing log events.
+    :attr LogPagination pagination: The pagination data for the returned objects.
+    """
+
+    def __init__(self, logs, pagination):
+        """
+        Initialize a LogCollection object.
+
+        :param list[Log] logs: An array of objects describing log events.
+        :param LogPagination pagination: The pagination data for the returned objects.
+        """
+        self.logs = logs
+        self.pagination = pagination
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogCollection object from a json dictionary."""
+        args = {}
+        if 'logs' in _dict:
+            args['logs'] = [Log._from_dict(x) for x in (_dict.get('logs'))]
+        else:
+            raise ValueError(
+                'Required property \'logs\' not present in LogCollection JSON')
+        if 'pagination' in _dict:
+            args['pagination'] = LogPagination._from_dict(
+                _dict.get('pagination'))
+        else:
+            raise ValueError(
+                'Required property \'pagination\' not present in LogCollection JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'logs') and self.logs is not None:
+            _dict['logs'] = [x._to_dict() for x in self.logs]
+        if hasattr(self, 'pagination') and self.pagination is not None:
+            _dict['pagination'] = self.pagination._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this LogCollection object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -6260,7 +5827,7 @@ class LogPagination(object):
         return not self == other
 
 
-class Mentions(object):
+class Mention(object):
     """
     A mention of a contextual entity.
 
@@ -6271,7 +5838,7 @@ class Mentions(object):
 
     def __init__(self, entity, location):
         """
-        Initialize a Mentions object.
+        Initialize a Mention object.
 
         :param str entity: The name of the entity.
         :param list[int] location: An array of zero-based character offsets that indicate
@@ -6282,18 +5849,18 @@ class Mentions(object):
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a Mentions object from a json dictionary."""
+        """Initialize a Mention object from a json dictionary."""
         args = {}
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
             raise ValueError(
-                'Required property \'entity\' not present in Mentions JSON')
+                'Required property \'entity\' not present in Mention JSON')
         if 'location' in _dict:
             args['location'] = _dict.get('location')
         else:
             raise ValueError(
-                'Required property \'location\' not present in Mentions JSON')
+                'Required property \'location\' not present in Mention JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -6306,7 +5873,7 @@ class Mentions(object):
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this Mentions object."""
+        """Return a `str` version of this Mention object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -6386,25 +5953,35 @@ class MessageContextMetadata(object):
 
 class MessageInput(object):
     """
-    The text of the user input.
+    An input object that includes the input text.
 
-    :attr str text: (optional) The user's input.
+    :attr str text: (optional) The text of the user input. This string cannot contain
+    carriage return, newline, or tab characters, and it must be no longer than 2048
+    characters.
     """
 
-    def __init__(self, text=None):
+    def __init__(self, text=None, **kwargs):
         """
         Initialize a MessageInput object.
 
-        :param str text: (optional) The user's input.
+        :param str text: (optional) The text of the user input. This string cannot contain
+        carriage return, newline, or tab characters, and it must be no longer than 2048
+        characters.
+        :param **kwargs: (optional) Any additional properties.
         """
         self.text = text
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a MessageInput object from a json dictionary."""
         args = {}
+        xtra = _dict.copy()
         if 'text' in _dict:
             args['text'] = _dict.get('text')
+            del xtra['text']
+        args.update(xtra)
         return cls(**args)
 
     def _to_dict(self):
@@ -6412,7 +5989,21 @@ class MessageInput(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
         return _dict
+
+    def __setattr__(self, name, value):
+        properties = {'text'}
+        if not hasattr(self, '_additionalProperties'):
+            super(MessageInput, self).__setattr__('_additionalProperties',
+                                                  set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(MessageInput, self).__setattr__(name, value)
 
     def __str__(self):
         """Return a `str` version of this MessageInput object."""
@@ -6433,72 +6024,83 @@ class MessageRequest(object):
     """
     A request sent to the workspace, including the user input and context.
 
-    :attr InputData input: (optional) An input object that includes the input text.
-    :attr bool alternate_intents: (optional) Whether to return more than one intent. Set
-    to `true` to return all matching intents.
-    :attr Context context: (optional) State information for the conversation. To maintain
-    state, include the context from the previous response.
-    :attr list[RuntimeEntity] entities: (optional) Entities to use when evaluating the
-    message. Include entities from the previous response to continue using those entities
-    rather than detecting entities in the new input.
+    :attr MessageInput input: (optional) An input object that includes the input text.
     :attr list[RuntimeIntent] intents: (optional) Intents to use when evaluating the user
     input. Include intents from the previous response to continue using those intents
     rather than trying to recognize intents in the new input.
+    :attr list[RuntimeEntity] entities: (optional) Entities to use when evaluating the
+    message. Include entities from the previous response to continue using those entities
+    rather than detecting entities in the new input.
+    :attr bool alternate_intents: (optional) Whether to return more than one intent. A
+    value of `true` indicates that all matching intents are returned.
+    :attr Context context: (optional) State information for the conversation. To maintain
+    state, include the context from the previous response.
     :attr OutputData output: (optional) An output object that includes the response to the
     user, the dialog nodes that were triggered, and messages from the log.
+    :attr list[DialogNodeAction] actions: (optional) An array of objects describing any
+    actions requested by the dialog node.
     """
 
     def __init__(self,
                  input=None,
+                 intents=None,
+                 entities=None,
                  alternate_intents=None,
                  context=None,
-                 entities=None,
-                 intents=None,
-                 output=None):
+                 output=None,
+                 actions=None):
         """
         Initialize a MessageRequest object.
 
-        :param InputData input: (optional) An input object that includes the input text.
-        :param bool alternate_intents: (optional) Whether to return more than one intent.
-        Set to `true` to return all matching intents.
-        :param Context context: (optional) State information for the conversation. To
-        maintain state, include the context from the previous response.
-        :param list[RuntimeEntity] entities: (optional) Entities to use when evaluating
-        the message. Include entities from the previous response to continue using those
-        entities rather than detecting entities in the new input.
+        :param MessageInput input: (optional) An input object that includes the input
+        text.
         :param list[RuntimeIntent] intents: (optional) Intents to use when evaluating the
         user input. Include intents from the previous response to continue using those
         intents rather than trying to recognize intents in the new input.
+        :param list[RuntimeEntity] entities: (optional) Entities to use when evaluating
+        the message. Include entities from the previous response to continue using those
+        entities rather than detecting entities in the new input.
+        :param bool alternate_intents: (optional) Whether to return more than one intent.
+        A value of `true` indicates that all matching intents are returned.
+        :param Context context: (optional) State information for the conversation. To
+        maintain state, include the context from the previous response.
         :param OutputData output: (optional) An output object that includes the response
         to the user, the dialog nodes that were triggered, and messages from the log.
+        :param list[DialogNodeAction] actions: (optional) An array of objects describing
+        any actions requested by the dialog node.
         """
         self.input = input
+        self.intents = intents
+        self.entities = entities
         self.alternate_intents = alternate_intents
         self.context = context
-        self.entities = entities
-        self.intents = intents
         self.output = output
+        self.actions = actions
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a MessageRequest object from a json dictionary."""
         args = {}
         if 'input' in _dict:
-            args['input'] = InputData._from_dict(_dict.get('input'))
-        if 'alternate_intents' in _dict:
-            args['alternate_intents'] = _dict.get('alternate_intents')
-        if 'context' in _dict:
-            args['context'] = Context._from_dict(_dict.get('context'))
-        if 'entities' in _dict:
-            args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
-            ]
+            args['input'] = MessageInput._from_dict(_dict.get('input'))
         if 'intents' in _dict:
             args['intents'] = [
                 RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
             ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        if 'alternate_intents' in _dict:
+            args['alternate_intents'] = _dict.get('alternate_intents')
+        if 'context' in _dict:
+            args['context'] = Context._from_dict(_dict.get('context'))
         if 'output' in _dict:
             args['output'] = OutputData._from_dict(_dict.get('output'))
+        if 'actions' in _dict:
+            args['actions'] = [
+                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -6506,17 +6108,19 @@ class MessageRequest(object):
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
             _dict['input'] = self.input._to_dict()
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
         if hasattr(self,
                    'alternate_intents') and self.alternate_intents is not None:
             _dict['alternate_intents'] = self.alternate_intents
         if hasattr(self, 'context') and self.context is not None:
             _dict['context'] = self.context._to_dict()
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
         if hasattr(self, 'output') and self.output is not None:
             _dict['output'] = self.output._to_dict()
+        if hasattr(self, 'actions') and self.actions is not None:
+            _dict['actions'] = [x._to_dict() for x in self.actions]
         return _dict
 
     def __str__(self):
@@ -6539,7 +6143,7 @@ class MessageResponse(object):
     The response sent by the workspace, including the output text, detected intents and
     entities, and context.
 
-    :attr MessageInput input: (optional) The text of the user input.
+    :attr MessageInput input: An input object that includes the input text.
     :attr list[RuntimeIntent] intents: An array of intents recognized in the user input,
     sorted in descending order of confidence.
     :attr list[RuntimeEntity] entities: An array of entities identified in the user input.
@@ -6554,16 +6158,17 @@ class MessageResponse(object):
     """
 
     def __init__(self,
+                 input,
                  intents,
                  entities,
                  context,
                  output,
-                 input=None,
                  alternate_intents=None,
                  actions=None):
         """
         Initialize a MessageResponse object.
 
+        :param MessageInput input: An input object that includes the input text.
         :param list[RuntimeIntent] intents: An array of intents recognized in the user
         input, sorted in descending order of confidence.
         :param list[RuntimeEntity] entities: An array of entities identified in the user
@@ -6572,7 +6177,6 @@ class MessageResponse(object):
         include the context from the previous response.
         :param OutputData output: An output object that includes the response to the user,
         the dialog nodes that were triggered, and messages from the log.
-        :param MessageInput input: (optional) The text of the user input.
         :param bool alternate_intents: (optional) Whether to return more than one intent.
         A value of `true` indicates that all matching intents are returned.
         :param list[DialogNodeAction] actions: (optional) An array of objects describing
@@ -6592,6 +6196,10 @@ class MessageResponse(object):
         args = {}
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
+        else:
+            raise ValueError(
+                'Required property \'input\' not present in MessageResponse JSON'
+            )
         if 'intents' in _dict:
             args['intents'] = [
                 RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
@@ -6905,7 +6513,7 @@ class RuntimeEntity(object):
     :attr str value: The term in the input text that was recognized as an entity value.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
     confidence in the entity.
-    :attr object metadata: (optional) Any metadata for the entity.
+    :attr dict metadata: (optional) Any metadata for the entity.
     :attr list[CaptureGroup] groups: (optional) The recognized capture groups for the
     entity, as defined by the entity pattern.
     """
@@ -6928,7 +6536,7 @@ class RuntimeEntity(object):
         value.
         :param float confidence: (optional) A decimal percentage that represents Watson's
         confidence in the entity.
-        :param object metadata: (optional) Any metadata for the entity.
+        :param dict metadata: (optional) Any metadata for the entity.
         :param list[CaptureGroup] groups: (optional) The recognized capture groups for the
         entity, as defined by the entity pattern.
         :param **kwargs: (optional) Any additional properties.
@@ -7116,22 +6724,30 @@ class Synonym(object):
     """
     Synonym.
 
-    :attr str synonym_text: The text of the synonym.
-    :attr datetime created: (optional) The timestamp for creation of the synonym.
+    :attr str synonym: The text of the synonym. This string must conform to the following
+    restrictions:
+    - It cannot contain carriage return, newline, or tab characters.
+    - It cannot consist of only whitespace characters.
+    - It must be no longer than 64 characters.
+    :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to the
-    synonym.
+    object.
     """
 
-    def __init__(self, synonym_text, created=None, updated=None):
+    def __init__(self, synonym, created=None, updated=None):
         """
         Initialize a Synonym object.
 
-        :param str synonym_text: The text of the synonym.
-        :param datetime created: (optional) The timestamp for creation of the synonym.
+        :param str synonym: The text of the synonym. This string must conform to the
+        following restrictions:
+        - It cannot contain carriage return, newline, or tab characters.
+        - It cannot consist of only whitespace characters.
+        - It must be no longer than 64 characters.
+        :param datetime created: (optional) The timestamp for creation of the object.
         :param datetime updated: (optional) The timestamp for the most recent update to
-        the synonym.
+        the object.
         """
-        self.synonym_text = synonym_text
+        self.synonym = synonym
         self.created = created
         self.updated = updated
 
@@ -7139,9 +6755,8 @@ class Synonym(object):
     def _from_dict(cls, _dict):
         """Initialize a Synonym object from a json dictionary."""
         args = {}
-        if 'synonym' in _dict or 'synonym_text' in _dict:
-            args['synonym_text'] = _dict.get('synonym') or _dict.get(
-                'synonym_text')
+        if 'synonym' in _dict:
+            args['synonym'] = _dict.get('synonym')
         else:
             raise ValueError(
                 'Required property \'synonym\' not present in Synonym JSON')
@@ -7154,8 +6769,8 @@ class Synonym(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'synonym_text') and self.synonym_text is not None:
-            _dict['synonym'] = self.synonym_text
+        if hasattr(self, 'synonym') and self.synonym is not None:
+            _dict['synonym'] = self.synonym
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
@@ -7300,92 +6915,113 @@ class Value(object):
     """
     Value.
 
-    :attr str value_text: The text of the entity value.
-    :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr datetime created: (optional) The timestamp for creation of the entity value.
-    :attr datetime updated: (optional) The timestamp for the last update to the entity
-    value.
-    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity
-    value.
-    :attr list[str] patterns: (optional) An array containing any patterns for the entity
-    value.
-    :attr str value_type: Specifies the type of value.
+    :attr str value: The text of the entity value. This string must conform to the
+    following restrictions:
+    - It cannot contain carriage return, newline, or tab characters.
+    - It cannot consist of only whitespace characters.
+    - It must be no longer than 64 characters.
+    :attr dict metadata: (optional) Any metadata related to the entity value.
+    :attr str value_type: Specifies the type of entity value.
+    :attr list[str] synonyms: (optional) An array of synonyms for the entity value. A
+    value can specify either synonyms or patterns (depending on the value type), but not
+    both. A synonym must conform to the following resrictions:
+    - It cannot contain carriage return, newline, or tab characters.
+    - It cannot consist of only whitespace characters.
+    - It must be no longer than 64 characters.
+    :attr list[str] patterns: (optional) An array of patterns for the entity value. A
+    value can specify either synonyms or patterns (depending on the value type), but not
+    both. A pattern is a regular expression no longer than 512 characters. For more
+    information about how to specify a pattern, see the
+    [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#entities-create-dictionary-based).
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
     """
 
     def __init__(self,
-                 value_text,
+                 value,
                  value_type,
                  metadata=None,
-                 created=None,
-                 updated=None,
                  synonyms=None,
-                 patterns=None):
+                 patterns=None,
+                 created=None,
+                 updated=None):
         """
         Initialize a Value object.
 
-        :param str value_text: The text of the entity value.
-        :param str value_type: Specifies the type of value.
-        :param object metadata: (optional) Any metadata related to the entity value.
-        :param datetime created: (optional) The timestamp for creation of the entity
-        value.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        entity value.
-        :param list[str] synonyms: (optional) An array containing any synonyms for the
-        entity value.
-        :param list[str] patterns: (optional) An array containing any patterns for the
-        entity value.
+        :param str value: The text of the entity value. This string must conform to the
+        following restrictions:
+        - It cannot contain carriage return, newline, or tab characters.
+        - It cannot consist of only whitespace characters.
+        - It must be no longer than 64 characters.
+        :param str value_type: Specifies the type of entity value.
+        :param dict metadata: (optional) Any metadata related to the entity value.
+        :param list[str] synonyms: (optional) An array of synonyms for the entity value. A
+        value can specify either synonyms or patterns (depending on the value type), but
+        not both. A synonym must conform to the following resrictions:
+        - It cannot contain carriage return, newline, or tab characters.
+        - It cannot consist of only whitespace characters.
+        - It must be no longer than 64 characters.
+        :param list[str] patterns: (optional) An array of patterns for the entity value. A
+        value can specify either synonyms or patterns (depending on the value type), but
+        not both. A pattern is a regular expression no longer than 512 characters. For
+        more information about how to specify a pattern, see the
+        [documentation](https://cloud.ibm.com/docs/services/assistant/entities.html#entities-create-dictionary-based).
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
         """
-        self.value_text = value_text
+        self.value = value
         self.metadata = metadata
-        self.created = created
-        self.updated = updated
+        self.value_type = value_type
         self.synonyms = synonyms
         self.patterns = patterns
-        self.value_type = value_type
+        self.created = created
+        self.updated = updated
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Value object from a json dictionary."""
         args = {}
-        if 'value' in _dict or 'value_text' in _dict:
-            args['value_text'] = _dict.get('value') or _dict.get('value_text')
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
         else:
             raise ValueError(
                 'Required property \'value\' not present in Value JSON')
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'synonyms' in _dict:
-            args['synonyms'] = _dict.get('synonyms')
-        if 'patterns' in _dict:
-            args['patterns'] = _dict.get('patterns')
         if 'type' in _dict or 'value_type' in _dict:
             args['value_type'] = _dict.get('type') or _dict.get('value_type')
         else:
             raise ValueError(
                 'Required property \'type\' not present in Value JSON')
+        if 'synonyms' in _dict:
+            args['synonyms'] = _dict.get('synonyms')
+        if 'patterns' in _dict:
+            args['patterns'] = _dict.get('patterns')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'value_text') and self.value_text is not None:
-            _dict['value'] = self.value_text
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'value_type') and self.value_type is not None:
+            _dict['type'] = self.value_type
         if hasattr(self, 'synonyms') and self.synonyms is not None:
             _dict['synonyms'] = self.synonyms
         if hasattr(self, 'patterns') and self.patterns is not None:
             _dict['patterns'] = self.patterns
-        if hasattr(self, 'value_type') and self.value_type is not None:
-            _dict['type'] = self.value_type
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
     def __str__(self):
@@ -7407,7 +7043,7 @@ class ValueCollection(object):
     """
     ValueCollection.
 
-    :attr list[ValueExport] values: An array of entity values.
+    :attr list[Value] values: An array of entity values.
     :attr Pagination pagination: The pagination data for the returned objects.
     """
 
@@ -7415,7 +7051,7 @@ class ValueCollection(object):
         """
         Initialize a ValueCollection object.
 
-        :param list[ValueExport] values: An array of entity values.
+        :param list[Value] values: An array of entity values.
         :param Pagination pagination: The pagination data for the returned objects.
         """
         self.values = values
@@ -7427,7 +7063,7 @@ class ValueCollection(object):
         args = {}
         if 'values' in _dict:
             args['values'] = [
-                ValueExport._from_dict(x) for x in (_dict.get('values'))
+                Value._from_dict(x) for x in (_dict.get('values'))
             ]
         else:
             raise ValueError(
@@ -7465,168 +7101,92 @@ class ValueCollection(object):
         return not self == other
 
 
-class ValueExport(object):
-    """
-    ValueExport.
-
-    :attr str value_text: The text of the entity value.
-    :attr object metadata: (optional) Any metadata related to the entity value.
-    :attr datetime created: (optional) The timestamp for creation of the entity value.
-    :attr datetime updated: (optional) The timestamp for the last update to the entity
-    value.
-    :attr list[str] synonyms: (optional) An array containing any synonyms for the entity
-    value.
-    :attr list[str] patterns: (optional) An array containing any patterns for the entity
-    value.
-    :attr str value_type: Specifies the type of value.
-    """
-
-    def __init__(self,
-                 value_text,
-                 value_type,
-                 metadata=None,
-                 created=None,
-                 updated=None,
-                 synonyms=None,
-                 patterns=None):
-        """
-        Initialize a ValueExport object.
-
-        :param str value_text: The text of the entity value.
-        :param str value_type: Specifies the type of value.
-        :param object metadata: (optional) Any metadata related to the entity value.
-        :param datetime created: (optional) The timestamp for creation of the entity
-        value.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        entity value.
-        :param list[str] synonyms: (optional) An array containing any synonyms for the
-        entity value.
-        :param list[str] patterns: (optional) An array containing any patterns for the
-        entity value.
-        """
-        self.value_text = value_text
-        self.metadata = metadata
-        self.created = created
-        self.updated = updated
-        self.synonyms = synonyms
-        self.patterns = patterns
-        self.value_type = value_type
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ValueExport object from a json dictionary."""
-        args = {}
-        if 'value' in _dict or 'value_text' in _dict:
-            args['value_text'] = _dict.get('value') or _dict.get('value_text')
-        else:
-            raise ValueError(
-                'Required property \'value\' not present in ValueExport JSON')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'synonyms' in _dict:
-            args['synonyms'] = _dict.get('synonyms')
-        if 'patterns' in _dict:
-            args['patterns'] = _dict.get('patterns')
-        if 'type' in _dict or 'value_type' in _dict:
-            args['value_type'] = _dict.get('type') or _dict.get('value_type')
-        else:
-            raise ValueError(
-                'Required property \'type\' not present in ValueExport JSON')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'value_text') and self.value_text is not None:
-            _dict['value'] = self.value_text
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'synonyms') and self.synonyms is not None:
-            _dict['synonyms'] = self.synonyms
-        if hasattr(self, 'patterns') and self.patterns is not None:
-            _dict['patterns'] = self.patterns
-        if hasattr(self, 'value_type') and self.value_type is not None:
-            _dict['type'] = self.value_type
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ValueExport object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class Workspace(object):
     """
     Workspace.
 
-    :attr str name: The name of the workspace.
+    :attr str name: The name of the workspace. This string cannot contain carriage return,
+    newline, or tab characters, and it must be no longer than 64 characters.
+    :attr str description: (optional) The description of the workspace. This string cannot
+    contain carriage return, newline, or tab characters, and it must be no longer than 128
+    characters.
     :attr str language: The language of the workspace.
-    :attr datetime created: (optional) The timestamp for creation of the workspace.
-    :attr datetime updated: (optional) The timestamp for the last update to the workspace.
-    :attr str workspace_id: The workspace ID of the workspace.
-    :attr str description: (optional) The description of the workspace.
-    :attr object metadata: (optional) Any metadata related to the workspace.
-    :attr bool learning_opt_out: (optional) Whether training data from the workspace
-    (including artifacts such as intents and entities) can be used by IBM for general
-    service improvements. `true` indicates that workspace training data is not to be used.
+    :attr dict metadata: (optional) Any metadata related to the workspace.
+    :attr bool learning_opt_out: Whether training data from the workspace (including
+    artifacts such as intents and entities) can be used by IBM for general service
+    improvements. `true` indicates that workspace training data is not to be used.
     :attr WorkspaceSystemSettings system_settings: (optional) Global settings for the
     workspace.
+    :attr str workspace_id: The workspace ID of the workspace.
+    :attr str status: (optional) The current status of the workspace.
+    :attr datetime created: (optional) The timestamp for creation of the object.
+    :attr datetime updated: (optional) The timestamp for the most recent update to the
+    object.
+    :attr list[Intent] intents: (optional) An array of intents.
+    :attr list[Entity] entities: (optional) An array of objects describing the entities
+    for the workspace.
+    :attr list[DialogNode] dialog_nodes: (optional) An array of objects describing the
+    dialog nodes in the workspace.
+    :attr list[Counterexample] counterexamples: (optional) An array of counterexamples.
     """
 
     def __init__(self,
                  name,
                  language,
+                 learning_opt_out,
                  workspace_id,
-                 created=None,
-                 updated=None,
                  description=None,
                  metadata=None,
-                 learning_opt_out=None,
-                 system_settings=None):
+                 system_settings=None,
+                 status=None,
+                 created=None,
+                 updated=None,
+                 intents=None,
+                 entities=None,
+                 dialog_nodes=None,
+                 counterexamples=None):
         """
         Initialize a Workspace object.
 
-        :param str name: The name of the workspace.
+        :param str name: The name of the workspace. This string cannot contain carriage
+        return, newline, or tab characters, and it must be no longer than 64 characters.
         :param str language: The language of the workspace.
+        :param bool learning_opt_out: Whether training data from the workspace (including
+        artifacts such as intents and entities) can be used by IBM for general service
+        improvements. `true` indicates that workspace training data is not to be used.
         :param str workspace_id: The workspace ID of the workspace.
-        :param datetime created: (optional) The timestamp for creation of the workspace.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        workspace.
-        :param str description: (optional) The description of the workspace.
-        :param object metadata: (optional) Any metadata related to the workspace.
-        :param bool learning_opt_out: (optional) Whether training data from the workspace
-        (including artifacts such as intents and entities) can be used by IBM for general
-        service improvements. `true` indicates that workspace training data is not to be
-        used.
+        :param str description: (optional) The description of the workspace. This string
+        cannot contain carriage return, newline, or tab characters, and it must be no
+        longer than 128 characters.
+        :param dict metadata: (optional) Any metadata related to the workspace.
         :param WorkspaceSystemSettings system_settings: (optional) Global settings for the
         workspace.
+        :param str status: (optional) The current status of the workspace.
+        :param datetime created: (optional) The timestamp for creation of the object.
+        :param datetime updated: (optional) The timestamp for the most recent update to
+        the object.
+        :param list[Intent] intents: (optional) An array of intents.
+        :param list[Entity] entities: (optional) An array of objects describing the
+        entities for the workspace.
+        :param list[DialogNode] dialog_nodes: (optional) An array of objects describing
+        the dialog nodes in the workspace.
+        :param list[Counterexample] counterexamples: (optional) An array of
+        counterexamples.
         """
         self.name = name
-        self.language = language
-        self.created = created
-        self.updated = updated
-        self.workspace_id = workspace_id
         self.description = description
+        self.language = language
         self.metadata = metadata
         self.learning_opt_out = learning_opt_out
         self.system_settings = system_settings
+        self.workspace_id = workspace_id
+        self.status = status
+        self.created = created
+        self.updated = updated
+        self.intents = intents
+        self.entities = entities
+        self.dialog_nodes = dialog_nodes
+        self.counterexamples = counterexamples
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -7637,30 +7197,53 @@ class Workspace(object):
         else:
             raise ValueError(
                 'Required property \'name\' not present in Workspace JSON')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         else:
             raise ValueError(
                 'Required property \'language\' not present in Workspace JSON')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+        if 'learning_opt_out' in _dict:
+            args['learning_opt_out'] = _dict.get('learning_opt_out')
+        else:
+            raise ValueError(
+                'Required property \'learning_opt_out\' not present in Workspace JSON'
+            )
+        if 'system_settings' in _dict:
+            args['system_settings'] = WorkspaceSystemSettings._from_dict(
+                _dict.get('system_settings'))
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict.get('workspace_id')
         else:
             raise ValueError(
                 'Required property \'workspace_id\' not present in Workspace JSON'
             )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        if 'learning_opt_out' in _dict:
-            args['learning_opt_out'] = _dict.get('learning_opt_out')
-        if 'system_settings' in _dict:
-            args['system_settings'] = WorkspaceSystemSettings._from_dict(
-                _dict.get('system_settings'))
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'updated' in _dict:
+            args['updated'] = string_to_datetime(_dict.get('updated'))
+        if 'intents' in _dict:
+            args['intents'] = [
+                Intent._from_dict(x) for x in (_dict.get('intents'))
+            ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                Entity._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        if 'dialog_nodes' in _dict:
+            args['dialog_nodes'] = [
+                DialogNode._from_dict(x) for x in (_dict.get('dialog_nodes'))
+            ]
+        if 'counterexamples' in _dict:
+            args['counterexamples'] = [
+                Counterexample._from_dict(x)
+                for x in (_dict.get('counterexamples'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -7668,16 +7251,10 @@ class Workspace(object):
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
-            _dict['workspace_id'] = self.workspace_id
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self,
@@ -7686,6 +7263,25 @@ class Workspace(object):
         if hasattr(self,
                    'system_settings') and self.system_settings is not None:
             _dict['system_settings'] = self.system_settings._to_dict()
+        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
+            _dict['workspace_id'] = self.workspace_id
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self, 'dialog_nodes') and self.dialog_nodes is not None:
+            _dict['dialog_nodes'] = [x._to_dict() for x in self.dialog_nodes]
+        if hasattr(self,
+                   'counterexamples') and self.counterexamples is not None:
+            _dict['counterexamples'] = [
+                x._to_dict() for x in self.counterexamples
+            ]
         return _dict
 
     def __str__(self):
@@ -7767,209 +7363,6 @@ class WorkspaceCollection(object):
         return not self == other
 
 
-class WorkspaceExport(object):
-    """
-    WorkspaceExport.
-
-    :attr str name: The name of the workspace.
-    :attr str description: The description of the workspace.
-    :attr str language: The language of the workspace.
-    :attr object metadata: Any metadata that is required by the workspace.
-    :attr datetime created: (optional) The timestamp for creation of the workspace.
-    :attr datetime updated: (optional) The timestamp for the last update to the workspace.
-    :attr str workspace_id: The workspace ID of the workspace.
-    :attr str status: The current status of the workspace.
-    :attr bool learning_opt_out: Whether training data from the workspace can be used by
-    IBM for general service improvements. `true` indicates that workspace training data is
-    not to be used.
-    :attr WorkspaceSystemSettings system_settings: (optional) Global settings for the
-    workspace.
-    :attr list[IntentExport] intents: (optional) An array of intents.
-    :attr list[EntityExport] entities: (optional) An array of entities.
-    :attr list[Counterexample] counterexamples: (optional) An array of counterexamples.
-    :attr list[DialogNode] dialog_nodes: (optional) An array of objects describing the
-    dialog nodes in the workspace.
-    """
-
-    def __init__(self,
-                 name,
-                 description,
-                 language,
-                 metadata,
-                 workspace_id,
-                 status,
-                 learning_opt_out,
-                 created=None,
-                 updated=None,
-                 system_settings=None,
-                 intents=None,
-                 entities=None,
-                 counterexamples=None,
-                 dialog_nodes=None):
-        """
-        Initialize a WorkspaceExport object.
-
-        :param str name: The name of the workspace.
-        :param str description: The description of the workspace.
-        :param str language: The language of the workspace.
-        :param object metadata: Any metadata that is required by the workspace.
-        :param str workspace_id: The workspace ID of the workspace.
-        :param str status: The current status of the workspace.
-        :param bool learning_opt_out: Whether training data from the workspace can be used
-        by IBM for general service improvements. `true` indicates that workspace training
-        data is not to be used.
-        :param datetime created: (optional) The timestamp for creation of the workspace.
-        :param datetime updated: (optional) The timestamp for the last update to the
-        workspace.
-        :param WorkspaceSystemSettings system_settings: (optional) Global settings for the
-        workspace.
-        :param list[IntentExport] intents: (optional) An array of intents.
-        :param list[EntityExport] entities: (optional) An array of entities.
-        :param list[Counterexample] counterexamples: (optional) An array of
-        counterexamples.
-        :param list[DialogNode] dialog_nodes: (optional) An array of objects describing
-        the dialog nodes in the workspace.
-        """
-        self.name = name
-        self.description = description
-        self.language = language
-        self.metadata = metadata
-        self.created = created
-        self.updated = updated
-        self.workspace_id = workspace_id
-        self.status = status
-        self.learning_opt_out = learning_opt_out
-        self.system_settings = system_settings
-        self.intents = intents
-        self.entities = entities
-        self.counterexamples = counterexamples
-        self.dialog_nodes = dialog_nodes
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a WorkspaceExport object from a json dictionary."""
-        args = {}
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        else:
-            raise ValueError(
-                'Required property \'name\' not present in WorkspaceExport JSON'
-            )
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        else:
-            raise ValueError(
-                'Required property \'description\' not present in WorkspaceExport JSON'
-            )
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        else:
-            raise ValueError(
-                'Required property \'language\' not present in WorkspaceExport JSON'
-            )
-        if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
-        else:
-            raise ValueError(
-                'Required property \'metadata\' not present in WorkspaceExport JSON'
-            )
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'workspace_id' in _dict:
-            args['workspace_id'] = _dict.get('workspace_id')
-        else:
-            raise ValueError(
-                'Required property \'workspace_id\' not present in WorkspaceExport JSON'
-            )
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        else:
-            raise ValueError(
-                'Required property \'status\' not present in WorkspaceExport JSON'
-            )
-        if 'learning_opt_out' in _dict:
-            args['learning_opt_out'] = _dict.get('learning_opt_out')
-        else:
-            raise ValueError(
-                'Required property \'learning_opt_out\' not present in WorkspaceExport JSON'
-            )
-        if 'system_settings' in _dict:
-            args['system_settings'] = WorkspaceSystemSettings._from_dict(
-                _dict.get('system_settings'))
-        if 'intents' in _dict:
-            args['intents'] = [
-                IntentExport._from_dict(x) for x in (_dict.get('intents'))
-            ]
-        if 'entities' in _dict:
-            args['entities'] = [
-                EntityExport._from_dict(x) for x in (_dict.get('entities'))
-            ]
-        if 'counterexamples' in _dict:
-            args['counterexamples'] = [
-                Counterexample._from_dict(x)
-                for x in (_dict.get('counterexamples'))
-            ]
-        if 'dialog_nodes' in _dict:
-            args['dialog_nodes'] = [
-                DialogNode._from_dict(x) for x in (_dict.get('dialog_nodes'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
-        if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
-            _dict['workspace_id'] = self.workspace_id
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self,
-                   'learning_opt_out') and self.learning_opt_out is not None:
-            _dict['learning_opt_out'] = self.learning_opt_out
-        if hasattr(self,
-                   'system_settings') and self.system_settings is not None:
-            _dict['system_settings'] = self.system_settings._to_dict()
-        if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        if hasattr(self,
-                   'counterexamples') and self.counterexamples is not None:
-            _dict['counterexamples'] = [
-                x._to_dict() for x in self.counterexamples
-            ]
-        if hasattr(self, 'dialog_nodes') and self.dialog_nodes is not None:
-            _dict['dialog_nodes'] = [x._to_dict() for x in self.dialog_nodes]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this WorkspaceExport object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class WorkspaceSystemSettings(object):
     """
     Global settings for the workspace.
@@ -7979,7 +7372,7 @@ class WorkspaceSystemSettings(object):
     :attr WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
     settings related to the disambiguation feature.
     **Note:** This feature is available only to Premium users.
-    :attr object human_agent_assist: (optional) For internal use only.
+    :attr dict human_agent_assist: (optional) For internal use only.
     """
 
     def __init__(self,
@@ -7994,7 +7387,7 @@ class WorkspaceSystemSettings(object):
         :param WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
         settings related to the disambiguation feature.
         **Note:** This feature is available only to Premium users.
-        :param object human_agent_assist: (optional) For internal use only.
+        :param dict human_agent_assist: (optional) For internal use only.
         """
         self.tooling = tooling
         self.disambiguation = disambiguation

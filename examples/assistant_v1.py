@@ -1,20 +1,20 @@
 from __future__ import print_function
 import json
-from watson_developer_cloud import AssistantV1
+from ibm_watson import AssistantV1
 
 # If service instance provides API key authentication
-# assistant = AssistantV1(
-#     version='2018-07-10',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/assistant/api',
-#     iam_apikey='iam_apikey')
-
 assistant = AssistantV1(
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD',
+    version='2018-07-10',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    # url='https://gateway.watsonplatform.net/assistant/api',
-    version='2018-07-10')
+    url='https://gateway.watsonplatform.net/assistant/api',
+    iam_apikey='YOUR APIKEY')
+
+# assistant = AssistantV1(
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD',
+#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+#     # url='https://gateway.watsonplatform.net/assistant/api',
+#     version='2018-07-10')
 
 #########################
 # Workspaces

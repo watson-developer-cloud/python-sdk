@@ -21,17 +21,17 @@ critical aspects of the documents.
 from __future__ import absolute_import
 
 import json
-from .watson_service import datetime_to_string, string_to_datetime
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from os.path import basename
-from .watson_service import WatsonService
-from .utils import deprecated
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class CompareComplyV1(WatsonService):
+
+class CompareComplyV1(BaseService):
     """The Compare Comply V1 service."""
 
     default_url = 'https://gateway.watsonplatform.net/compare-comply/api'
@@ -59,7 +59,7 @@ class CompareComplyV1(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/compare-comply/api").
+               "https://gateway.watsonplatform.net/compare-comply/api/compare-comply/api").
                The base url may differ between Bluemix regions.
 
         :param str iam_apikey: An API key that can be used to request IAM tokens. If
@@ -75,7 +75,7 @@ class CompareComplyV1(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='compare-comply',
             url=url,
@@ -92,23 +92,23 @@ class CompareComplyV1(WatsonService):
 
     def convert_to_html(self,
                         file,
-                        model_id=None,
-                        file_content_type=None,
                         filename=None,
+                        file_content_type=None,
+                        model=None,
                         **kwargs):
         """
-        Convert file to HTML.
+        Convert document to HTML.
 
-        Convert an uploaded file to HTML.
+        Converts a document to HTML.
 
-        :param file file: The file to convert.
-        :param str model_id: The analysis model to be used by the service. For the
-        `/v1/element_classification` and `/v1/comparison` methods, the default is
-        `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
-        apply to the standalone methods as well as to the methods' use in batch-processing
-        requests.
-        :param str file_content_type: The content type of file.
+        :param file file: The document to convert.
         :param str filename: The filename for file.
+        :param str file_content_type: The content type of file.
+        :param str model: The analysis model to be used by the service. For the **Element
+        classification** and **Compare two documents** methods, the default is
+        `contracts`. For the **Extract tables** method, the default is `tables`. These
+        defaults apply to the standalone methods as well as to the methods' use in
+        batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -120,10 +120,10 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=convert_to_html'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'convert_to_html')
+        headers.update(sdk_headers)
 
-        params = {'version': self.version, 'model_id': model_id}
+        params = {'version': self.version, 'model': model}
 
         form_data = {}
         if not filename and hasattr(file, 'name'):
@@ -149,23 +149,21 @@ class CompareComplyV1(WatsonService):
 
     def classify_elements(self,
                           file,
-                          model_id=None,
                           file_content_type=None,
-                          filename=None,
+                          model=None,
                           **kwargs):
         """
         Classify the elements of a document.
 
-        Analyze an uploaded file's structural and semantic elements.
+        Analyzes the structural and semantic elements of a document.
 
-        :param file file: The file to classify.
-        :param str model_id: The analysis model to be used by the service. For the
-        `/v1/element_classification` and `/v1/comparison` methods, the default is
-        `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
-        apply to the standalone methods as well as to the methods' use in batch-processing
-        requests.
+        :param file file: The document to classify.
         :param str file_content_type: The content type of file.
-        :param str filename: The filename for file.
+        :param str model: The analysis model to be used by the service. For the **Element
+        classification** and **Compare two documents** methods, the default is
+        `contracts`. For the **Extract tables** method, the default is `tables`. These
+        defaults apply to the standalone methods as well as to the methods' use in
+        batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -177,15 +175,14 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=classify_elements'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1',
+                                      'classify_elements')
+        headers.update(sdk_headers)
 
-        params = {'version': self.version, 'model_id': model_id}
+        params = {'version': self.version, 'model': model}
 
         form_data = {}
-        if not filename and hasattr(file, 'name'):
-            filename = basename(file.name)
-        form_data['file'] = (filename, file, file_content_type or
+        form_data['file'] = (None, file, file_content_type or
                              'application/octet-stream')
 
         url = '/v1/element_classification'
@@ -202,25 +199,20 @@ class CompareComplyV1(WatsonService):
     # Tables
     #########################
 
-    def extract_tables(self,
-                       file,
-                       model_id=None,
-                       file_content_type=None,
-                       filename=None,
+    def extract_tables(self, file, file_content_type=None, model=None,
                        **kwargs):
         """
         Extract a document's tables.
 
-        Extract and analyze an uploaded file's tables.
+        Analyzes the tables in a document.
 
-        :param file file: The file on which to run table extraction.
-        :param str model_id: The analysis model to be used by the service. For the
-        `/v1/element_classification` and `/v1/comparison` methods, the default is
-        `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
-        apply to the standalone methods as well as to the methods' use in batch-processing
-        requests.
+        :param file file: The document on which to run table extraction.
         :param str file_content_type: The content type of file.
-        :param str filename: The filename for file.
+        :param str model: The analysis model to be used by the service. For the **Element
+        classification** and **Compare two documents** methods, the default is
+        `contracts`. For the **Extract tables** method, the default is `tables`. These
+        defaults apply to the standalone methods as well as to the methods' use in
+        batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -232,15 +224,13 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=extract_tables'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'extract_tables')
+        headers.update(sdk_headers)
 
-        params = {'version': self.version, 'model_id': model_id}
+        params = {'version': self.version, 'model': model}
 
         form_data = {}
-        if not filename and hasattr(file, 'name'):
-            filename = basename(file.name)
-        form_data['file'] = (filename, file, file_content_type or
+        form_data['file'] = (None, file, file_content_type or
                              'application/octet-stream')
 
         url = '/v1/tables'
@@ -260,32 +250,28 @@ class CompareComplyV1(WatsonService):
     def compare_documents(self,
                           file_1,
                           file_2,
+                          file_1_content_type=None,
+                          file_2_content_type=None,
                           file_1_label=None,
                           file_2_label=None,
-                          model_id=None,
-                          file_1_content_type=None,
-                          file_1_filename=None,
-                          file_2_content_type=None,
-                          file_2_filename=None,
+                          model=None,
                           **kwargs):
         """
         Compare two documents.
 
-        Compare two uploaded input files. Uploaded files must be in the same file format.
+        Compares two input documents. Documents must be in the same format.
 
-        :param file file_1: The first file to compare.
-        :param file file_2: The second file to compare.
-        :param str file_1_label: A text label for the first file.
-        :param str file_2_label: A text label for the second file.
-        :param str model_id: The analysis model to be used by the service. For the
-        `/v1/element_classification` and `/v1/comparison` methods, the default is
-        `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
-        apply to the standalone methods as well as to the methods' use in batch-processing
-        requests.
+        :param file file_1: The first document to compare.
+        :param file file_2: The second document to compare.
         :param str file_1_content_type: The content type of file_1.
-        :param str file_1_filename: The filename for file_1.
         :param str file_2_content_type: The content type of file_2.
-        :param str file_2_filename: The filename for file_2.
+        :param str file_1_label: A text label for the first document.
+        :param str file_2_label: A text label for the second document.
+        :param str model: The analysis model to be used by the service. For the **Element
+        classification** and **Compare two documents** methods, the default is
+        `contracts`. For the **Extract tables** method, the default is `tables`. These
+        defaults apply to the standalone methods as well as to the methods' use in
+        batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -299,24 +285,21 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=compare_documents'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1',
+                                      'compare_documents')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
             'file_1_label': file_1_label,
             'file_2_label': file_2_label,
-            'model_id': model_id
+            'model': model
         }
 
         form_data = {}
-        if not file_1_filename and hasattr(file_1, 'name'):
-            file_1_filename = basename(file_1.name)
-        form_data['file_1'] = (file_1_filename, file_1, file_1_content_type or
+        form_data['file_1'] = (None, file_1, file_1_content_type or
                                'application/octet-stream')
-        if not file_2_filename and hasattr(file_2, 'name'):
-            file_2_filename = basename(file_2.name)
-        form_data['file_2'] = (file_2_filename, file_2, file_2_content_type or
+        form_data['file_2'] = (None, file_2, file_2_content_type or
                                'application/octet-stream')
 
         url = '/v1/comparison'
@@ -358,8 +341,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=add_feedback'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'add_feedback')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -379,17 +362,19 @@ class CompareComplyV1(WatsonService):
             accept_json=True)
         return response
 
-    def delete_feedback(self, feedback_id, model_id=None, **kwargs):
+    def delete_feedback(self, feedback_id, model=None, **kwargs):
         """
-        Deletes a specified feedback entry.
+        Delete a specified feedback entry.
+
+        Deletes a feedback entry with a specified `feedback_id`.
 
         :param str feedback_id: A string that specifies the feedback entry to be deleted
         from the document.
-        :param str model_id: The analysis model to be used by the service. For the
-        `/v1/element_classification` and `/v1/comparison` methods, the default is
-        `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
-        apply to the standalone methods as well as to the methods' use in batch-processing
-        requests.
+        :param str model: The analysis model to be used by the service. For the **Element
+        classification** and **Compare two documents** methods, the default is
+        `contracts`. For the **Extract tables** method, the default is `tables`. These
+        defaults apply to the standalone methods as well as to the methods' use in
+        batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -401,10 +386,10 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=delete_feedback'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'delete_feedback')
+        headers.update(sdk_headers)
 
-        params = {'version': self.version, 'model_id': model_id}
+        params = {'version': self.version, 'model': model}
 
         url = '/v1/feedback/{0}'.format(*self._encode_path_vars(feedback_id))
         response = self.request(
@@ -415,17 +400,19 @@ class CompareComplyV1(WatsonService):
             accept_json=True)
         return response
 
-    def get_feedback(self, feedback_id, model_id=None, **kwargs):
+    def get_feedback(self, feedback_id, model=None, **kwargs):
         """
         List a specified feedback entry.
 
+        Lists a feedback entry with a specified `feedback_id`.
+
         :param str feedback_id: A string that specifies the feedback entry to be included
         in the output.
-        :param str model_id: The analysis model to be used by the service. For the
-        `/v1/element_classification` and `/v1/comparison` methods, the default is
-        `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
-        apply to the standalone methods as well as to the methods' use in batch-processing
-        requests.
+        :param str model: The analysis model to be used by the service. For the **Element
+        classification** and **Compare two documents** methods, the default is
+        `contracts`. For the **Extract tables** method, the default is `tables`. These
+        defaults apply to the standalone methods as well as to the methods' use in
+        batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -437,10 +424,10 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=get_feedback'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'get_feedback')
+        headers.update(sdk_headers)
 
-        params = {'version': self.version, 'model_id': model_id}
+        params = {'version': self.version, 'model': model}
 
         url = '/v1/feedback/{0}'.format(*self._encode_path_vars(feedback_id))
         response = self.request(
@@ -470,7 +457,9 @@ class CompareComplyV1(WatsonService):
                       include_total=None,
                       **kwargs):
         """
-        List the feedback in documents.
+        List the feedback in a document.
+
+        Lists the feedback in a document.
 
         :param str feedback_type: An optional string that filters the output to include
         only feedback with the specified feedback type. The only permitted value is
@@ -524,8 +513,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=list_feedback'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'list_feedback')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -568,9 +557,7 @@ class CompareComplyV1(WatsonService):
                      output_credentials_file,
                      output_bucket_location,
                      output_bucket_name,
-                     model_id=None,
-                     input_credentials_filename=None,
-                     output_credentials_filename=None,
+                     model=None,
                      **kwargs):
         """
         Submit a batch-processing request.
@@ -598,13 +585,11 @@ class CompareComplyV1(WatsonService):
         Storage output bucket as listed on the **Endpoint** tab of your Cloud Object
         Storage instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
         :param str output_bucket_name: The name of the Cloud Object Storage output bucket.
-        :param str model_id: The analysis model to be used by the service. For the
-        `/v1/element_classification` and `/v1/comparison` methods, the default is
-        `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
-        apply to the standalone methods as well as to the methods' use in batch-processing
-        requests.
-        :param str input_credentials_filename: The filename for input_credentials_file.
-        :param str output_credentials_filename: The filename for output_credentials_file.
+        :param str model: The analysis model to be used by the service. For the **Element
+        classification** and **Compare two documents** methods, the default is
+        `contracts`. For the **Extract tables** method, the default is `tables`. These
+        defaults apply to the standalone methods as well as to the methods' use in
+        batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -628,30 +613,18 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=create_batch'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'create_batch')
+        headers.update(sdk_headers)
 
-        params = {
-            'version': self.version,
-            'function': function,
-            'model_id': model_id
-        }
+        params = {'version': self.version, 'function': function, 'model': model}
 
         form_data = {}
-        if not input_credentials_filename and hasattr(input_credentials_file,
-                                                      'name'):
-            input_credentials_filename = basename(input_credentials_file.name)
-        form_data['input_credentials_file'] = (input_credentials_filename,
-                                               input_credentials_file,
+        form_data['input_credentials_file'] = (None, input_credentials_file,
                                                'application/json')
         form_data['input_bucket_location'] = (None, input_bucket_location,
                                               'text/plain')
         form_data['input_bucket_name'] = (None, input_bucket_name, 'text/plain')
-        if not output_credentials_filename and hasattr(output_credentials_file,
-                                                       'name'):
-            output_credentials_filename = basename(output_credentials_file.name)
-        form_data['output_credentials_file'] = (output_credentials_filename,
-                                                output_credentials_file,
+        form_data['output_credentials_file'] = (None, output_credentials_file,
                                                 'application/json')
         form_data['output_bucket_location'] = (None, output_bucket_location,
                                                'text/plain')
@@ -670,12 +643,12 @@ class CompareComplyV1(WatsonService):
 
     def get_batch(self, batch_id, **kwargs):
         """
-        Get information about a specific batch-processing request.
+        Get information about a specific batch-processing job.
 
-        Get information about a batch-processing request with a specified ID.
+        Gets information about a batch-processing job with a specified ID.
 
-        :param str batch_id: The ID of the batch-processing request whose information you
-        want to retrieve.
+        :param str batch_id: The ID of the batch-processing job whose information you want
+        to retrieve.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -687,8 +660,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=get_batch'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'get_batch')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -705,7 +678,7 @@ class CompareComplyV1(WatsonService):
         """
         List submitted batch-processing jobs.
 
-        List the batch-processing jobs submitted by users.
+        Lists batch-processing jobs submitted by users.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -715,8 +688,8 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=list_batches'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'list_batches')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 
@@ -729,21 +702,21 @@ class CompareComplyV1(WatsonService):
             accept_json=True)
         return response
 
-    def update_batch(self, batch_id, action, model_id=None, **kwargs):
+    def update_batch(self, batch_id, action, model=None, **kwargs):
         """
-        Update a pending or active batch-processing request.
+        Update a pending or active batch-processing job.
 
-        Update a pending or active batch-processing request. You can rescan the input
-        bucket to check for new documents or cancel a request.
+        Updates a pending or active batch-processing job. You can rescan the input bucket
+        to check for new documents or cancel a job.
 
-        :param str batch_id: The ID of the batch-processing request you want to update.
+        :param str batch_id: The ID of the batch-processing job you want to update.
         :param str action: The action you want to perform on the specified
-        batch-processing request.
-        :param str model_id: The analysis model to be used by the service. For the
-        `/v1/element_classification` and `/v1/comparison` methods, the default is
-        `contracts`. For the `/v1/tables` method, the default is `tables`. These defaults
-        apply to the standalone methods as well as to the methods' use in batch-processing
-        requests.
+        batch-processing job.
+        :param str model: The analysis model to be used by the service. For the **Element
+        classification** and **Compare two documents** methods, the default is
+        `contracts`. For the **Extract tables** method, the default is `tables`. These
+        defaults apply to the standalone methods as well as to the methods' use in
+        batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -757,14 +730,10 @@ class CompareComplyV1(WatsonService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=compare-comply;service_version=V1;operation_id=update_batch'
+        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'update_batch')
+        headers.update(sdk_headers)
 
-        params = {
-            'version': self.version,
-            'action': action,
-            'model_id': model_id
-        }
+        params = {'version': self.version, 'action': action, 'model': model}
 
         url = '/v1/batches/{0}'.format(*self._encode_path_vars(batch_id))
         response = self.request(
@@ -841,33 +810,39 @@ class AlignedElement(object):
 
     :attr list[ElementPair] element_pair: (optional) Identifies two elements that
     semantically align between the compared documents.
-    :attr bool identical_text: (optional) Specifies whether the text is identical.
-    :attr bool significant_elements: (optional) Indicates that the elements aligned are
-    contractual clauses of significance.
+    :attr bool identical_text: (optional) Specifies whether the aligned element is
+    identical. Elements are considered identical despite minor differences such as leading
+    punctuation, end-of-sentence punctuation, whitespace, the presence or absence of
+    definite or indefinite articles, and others.
     :attr list[str] provenance_ids: (optional) One or more hashed values that you can send
     to IBM to provide feedback or receive support.
+    :attr bool significant_elements: (optional) Indicates that the elements aligned are
+    contractual clauses of significance.
     """
 
     def __init__(self,
                  element_pair=None,
                  identical_text=None,
-                 significant_elements=None,
-                 provenance_ids=None):
+                 provenance_ids=None,
+                 significant_elements=None):
         """
         Initialize a AlignedElement object.
 
         :param list[ElementPair] element_pair: (optional) Identifies two elements that
         semantically align between the compared documents.
-        :param bool identical_text: (optional) Specifies whether the text is identical.
-        :param bool significant_elements: (optional) Indicates that the elements aligned
-        are contractual clauses of significance.
+        :param bool identical_text: (optional) Specifies whether the aligned element is
+        identical. Elements are considered identical despite minor differences such as
+        leading punctuation, end-of-sentence punctuation, whitespace, the presence or
+        absence of definite or indefinite articles, and others.
         :param list[str] provenance_ids: (optional) One or more hashed values that you can
         send to IBM to provide feedback or receive support.
+        :param bool significant_elements: (optional) Indicates that the elements aligned
+        are contractual clauses of significance.
         """
         self.element_pair = element_pair
         self.identical_text = identical_text
-        self.significant_elements = significant_elements
         self.provenance_ids = provenance_ids
+        self.significant_elements = significant_elements
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -879,10 +854,10 @@ class AlignedElement(object):
             ]
         if 'identical_text' in _dict:
             args['identical_text'] = _dict.get('identical_text')
-        if 'significant_elements' in _dict:
-            args['significant_elements'] = _dict.get('significant_elements')
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
+        if 'significant_elements' in _dict:
+            args['significant_elements'] = _dict.get('significant_elements')
         return cls(**args)
 
     def _to_dict(self):
@@ -892,11 +867,11 @@ class AlignedElement(object):
             _dict['element_pair'] = [x._to_dict() for x in self.element_pair]
         if hasattr(self, 'identical_text') and self.identical_text is not None:
             _dict['identical_text'] = self.identical_text
+        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
+            _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'significant_elements'
                   ) and self.significant_elements is not None:
             _dict['significant_elements'] = self.significant_elements
-        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
-            _dict['provenance_ids'] = self.provenance_ids
         return _dict
 
     def __str__(self):
@@ -1169,9 +1144,7 @@ class BodyCells(object):
     """
     Cells that are not table header, column header, or row header cells.
 
-    :attr str cell_id: (optional) A string value in the format `columnHeader-x-y`, where
-    `x` and `y` are the begin and end offsets of this column header cell in the input
-    document.
+    :attr str cell_id: (optional) The unique ID of the cell in the current table.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     :attr str text: (optional) The textual contents of this cell from the input document
@@ -1184,20 +1157,12 @@ class BodyCells(object):
     location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
     location in the current table.
-    :attr list[str] row_header_ids: (optional) An array of values, each being the `id`
-    value of a row header that is applicable to this body cell.
-    :attr list[str] row_header_texts: (optional) An array of values, each being the `text`
-    value of a row header that is applicable to this body cell.
-    :attr list[str] row_header_texts_normalized: (optional) If you provide customization
-    input, the normalized version of the row header texts according to the customization;
-    otherwise, the same value as `row_header_texts`.
-    :attr list[str] column_header_ids: (optional) An array of values, each being the `id`
-    value of a column header that is applicable to the current cell.
-    :attr list[str] column_header_texts: (optional) An array of values, each being the
-    `text` value of a column header that is applicable to the current cell.
-    :attr list[str] column_header_texts_normalized: (optional) If you provide
-    customization input, the normalized version of the column header texts according to
-    the customization; otherwise, the same value as `column_header_texts`.
+    :attr list[RowHeaderIds] row_header_ids: (optional)
+    :attr list[RowHeaderTexts] row_header_texts: (optional)
+    :attr list[RowHeaderTextsNormalized] row_header_texts_normalized: (optional)
+    :attr list[ColumnHeaderIds] column_header_ids: (optional)
+    :attr list[ColumnHeaderTexts] column_header_texts: (optional)
+    :attr list[ColumnHeaderTextsNormalized] column_header_texts_normalized: (optional)
     :attr list[Attribute] attributes: (optional)
     """
 
@@ -1219,9 +1184,7 @@ class BodyCells(object):
         """
         Initialize a BodyCells object.
 
-        :param str cell_id: (optional) A string value in the format `columnHeader-x-y`,
-        where `x` and `y` are the begin and end offsets of this column header cell in the
-        input document.
+        :param str cell_id: (optional) The unique ID of the cell in the current table.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         :param str text: (optional) The textual contents of this cell from the input
@@ -1234,20 +1197,13 @@ class BodyCells(object):
         `column` location in the current table.
         :param int column_index_end: (optional) The `end` index of this cell's `column`
         location in the current table.
-        :param list[str] row_header_ids: (optional) An array of values, each being the
-        `id` value of a row header that is applicable to this body cell.
-        :param list[str] row_header_texts: (optional) An array of values, each being the
-        `text` value of a row header that is applicable to this body cell.
-        :param list[str] row_header_texts_normalized: (optional) If you provide
-        customization input, the normalized version of the row header texts according to
-        the customization; otherwise, the same value as `row_header_texts`.
-        :param list[str] column_header_ids: (optional) An array of values, each being the
-        `id` value of a column header that is applicable to the current cell.
-        :param list[str] column_header_texts: (optional) An array of values, each being
-        the `text` value of a column header that is applicable to the current cell.
-        :param list[str] column_header_texts_normalized: (optional) If you provide
-        customization input, the normalized version of the column header texts according
-        to the customization; otherwise, the same value as `column_header_texts`.
+        :param list[RowHeaderIds] row_header_ids: (optional)
+        :param list[RowHeaderTexts] row_header_texts: (optional)
+        :param list[RowHeaderTextsNormalized] row_header_texts_normalized: (optional)
+        :param list[ColumnHeaderIds] column_header_ids: (optional)
+        :param list[ColumnHeaderTexts] column_header_texts: (optional)
+        :param list[ColumnHeaderTextsNormalized] column_header_texts_normalized:
+        (optional)
         :param list[Attribute] attributes: (optional)
         """
         self.cell_id = cell_id
@@ -1284,19 +1240,35 @@ class BodyCells(object):
         if 'column_index_end' in _dict:
             args['column_index_end'] = _dict.get('column_index_end')
         if 'row_header_ids' in _dict:
-            args['row_header_ids'] = _dict.get('row_header_ids')
+            args['row_header_ids'] = [
+                RowHeaderIds._from_dict(x)
+                for x in (_dict.get('row_header_ids'))
+            ]
         if 'row_header_texts' in _dict:
-            args['row_header_texts'] = _dict.get('row_header_texts')
+            args['row_header_texts'] = [
+                RowHeaderTexts._from_dict(x)
+                for x in (_dict.get('row_header_texts'))
+            ]
         if 'row_header_texts_normalized' in _dict:
-            args['row_header_texts_normalized'] = _dict.get(
-                'row_header_texts_normalized')
+            args['row_header_texts_normalized'] = [
+                RowHeaderTextsNormalized._from_dict(x)
+                for x in (_dict.get('row_header_texts_normalized'))
+            ]
         if 'column_header_ids' in _dict:
-            args['column_header_ids'] = _dict.get('column_header_ids')
+            args['column_header_ids'] = [
+                ColumnHeaderIds._from_dict(x)
+                for x in (_dict.get('column_header_ids'))
+            ]
         if 'column_header_texts' in _dict:
-            args['column_header_texts'] = _dict.get('column_header_texts')
+            args['column_header_texts'] = [
+                ColumnHeaderTexts._from_dict(x)
+                for x in (_dict.get('column_header_texts'))
+            ]
         if 'column_header_texts_normalized' in _dict:
-            args['column_header_texts_normalized'] = _dict.get(
-                'column_header_texts_normalized')
+            args['column_header_texts_normalized'] = [
+                ColumnHeaderTextsNormalized._from_dict(x)
+                for x in (_dict.get('column_header_texts_normalized'))
+            ]
         if 'attributes' in _dict:
             args['attributes'] = [
                 Attribute._from_dict(x) for x in (_dict.get('attributes'))
@@ -1325,25 +1297,35 @@ class BodyCells(object):
                    'column_index_end') and self.column_index_end is not None:
             _dict['column_index_end'] = self.column_index_end
         if hasattr(self, 'row_header_ids') and self.row_header_ids is not None:
-            _dict['row_header_ids'] = self.row_header_ids
+            _dict['row_header_ids'] = [
+                x._to_dict() for x in self.row_header_ids
+            ]
         if hasattr(self,
                    'row_header_texts') and self.row_header_texts is not None:
-            _dict['row_header_texts'] = self.row_header_texts
+            _dict['row_header_texts'] = [
+                x._to_dict() for x in self.row_header_texts
+            ]
         if hasattr(self, 'row_header_texts_normalized'
                   ) and self.row_header_texts_normalized is not None:
-            _dict[
-                'row_header_texts_normalized'] = self.row_header_texts_normalized
+            _dict['row_header_texts_normalized'] = [
+                x._to_dict() for x in self.row_header_texts_normalized
+            ]
         if hasattr(self,
                    'column_header_ids') and self.column_header_ids is not None:
-            _dict['column_header_ids'] = self.column_header_ids
+            _dict['column_header_ids'] = [
+                x._to_dict() for x in self.column_header_ids
+            ]
         if hasattr(
                 self,
                 'column_header_texts') and self.column_header_texts is not None:
-            _dict['column_header_texts'] = self.column_header_texts
+            _dict['column_header_texts'] = [
+                x._to_dict() for x in self.column_header_texts
+            ]
         if hasattr(self, 'column_header_texts_normalized'
                   ) and self.column_header_texts_normalized is not None:
-            _dict[
-                'column_header_texts_normalized'] = self.column_header_texts_normalized
+            _dict['column_header_texts_normalized'] = [
+                x._to_dict() for x in self.column_header_texts_normalized
+            ]
         if hasattr(self, 'attributes') and self.attributes is not None:
             _dict['attributes'] = [x._to_dict() for x in self.attributes]
         return _dict
@@ -1417,13 +1399,58 @@ class Category(object):
         return not self == other
 
 
+class CategoryComparison(object):
+    """
+    Information defining an element's subject matter.
+
+    :attr str label: (optional) The category of the associated element.
+    """
+
+    def __init__(self, label=None):
+        """
+        Initialize a CategoryComparison object.
+
+        :param str label: (optional) The category of the associated element.
+        """
+        self.label = label
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoryComparison object from a json dictionary."""
+        args = {}
+        if 'label' in _dict:
+            args['label'] = _dict.get('label')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'label') and self.label is not None:
+            _dict['label'] = self.label
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this CategoryComparison object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ClassifyReturn(object):
     """
-    The analysis of objects returned by the `/v1/element_classification` method.
+    The analysis of objects returned by the **Element classification** method.
 
     :attr Document document: (optional) Basic information about the input document.
     :attr str model_id: (optional) The analysis model used to classify the input document.
-    For the `/v1/element_classification` method, the only valid value is `contracts`.
+    For the **Element classification** method, the only valid value is `contracts`.
     :attr str model_version: (optional) The version of the analysis model identified by
     the value of the `model_id` key.
     :attr list[Element] elements: (optional) Document elements identified by the service.
@@ -1432,12 +1459,15 @@ class ClassifyReturn(object):
     :attr DocStructure document_structure: (optional) The structure of the input document.
     :attr list[Parties] parties: (optional) Definitions of the parties identified in the
     input document.
-    :attr list[EffectiveDates] effective_dates: (optional) The effective dates of the
-    input document.
-    :attr list[ContractAmts] contract_amounts: (optional) The monetary amounts identified
-    in the input document.
-    :attr list[TerminationDates] termination_dates: (optional) The input document's
-    termination dates.
+    :attr list[EffectiveDates] effective_dates: (optional) The date or dates on which the
+    document becomes effective.
+    :attr list[ContractAmts] contract_amounts: (optional) The monetary amounts that
+    identify the total amount of the contract that needs to be paid from one party to
+    another.
+    :attr list[TerminationDates] termination_dates: (optional) The date or dates on which
+    the document is to be terminated.
+    :attr list[ContractType] contract_type: (optional) The document's contract type or
+    types as declared in the document.
     """
 
     def __init__(self,
@@ -1450,13 +1480,14 @@ class ClassifyReturn(object):
                  parties=None,
                  effective_dates=None,
                  contract_amounts=None,
-                 termination_dates=None):
+                 termination_dates=None,
+                 contract_type=None):
         """
         Initialize a ClassifyReturn object.
 
         :param Document document: (optional) Basic information about the input document.
         :param str model_id: (optional) The analysis model used to classify the input
-        document. For the `/v1/element_classification` method, the only valid value is
+        document. For the **Element classification** method, the only valid value is
         `contracts`.
         :param str model_version: (optional) The version of the analysis model identified
         by the value of the `model_id` key.
@@ -1468,12 +1499,15 @@ class ClassifyReturn(object):
         document.
         :param list[Parties] parties: (optional) Definitions of the parties identified in
         the input document.
-        :param list[EffectiveDates] effective_dates: (optional) The effective dates of the
-        input document.
-        :param list[ContractAmts] contract_amounts: (optional) The monetary amounts
-        identified in the input document.
-        :param list[TerminationDates] termination_dates: (optional) The input document's
-        termination dates.
+        :param list[EffectiveDates] effective_dates: (optional) The date or dates on which
+        the document becomes effective.
+        :param list[ContractAmts] contract_amounts: (optional) The monetary amounts that
+        identify the total amount of the contract that needs to be paid from one party to
+        another.
+        :param list[TerminationDates] termination_dates: (optional) The date or dates on
+        which the document is to be terminated.
+        :param list[ContractType] contract_type: (optional) The document's contract type
+        or types as declared in the document.
         """
         self.document = document
         self.model_id = model_id
@@ -1485,6 +1519,7 @@ class ClassifyReturn(object):
         self.effective_dates = effective_dates
         self.contract_amounts = contract_amounts
         self.termination_dates = termination_dates
+        self.contract_type = contract_type
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -1526,6 +1561,10 @@ class ClassifyReturn(object):
                 TerminationDates._from_dict(x)
                 for x in (_dict.get('termination_dates'))
             ]
+        if 'contract_type' in _dict:
+            args['contract_type'] = [
+                ContractType._from_dict(x) for x in (_dict.get('contract_type'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -1562,10 +1601,152 @@ class ClassifyReturn(object):
             _dict['termination_dates'] = [
                 x._to_dict() for x in self.termination_dates
             ]
+        if hasattr(self, 'contract_type') and self.contract_type is not None:
+            _dict['contract_type'] = [x._to_dict() for x in self.contract_type]
         return _dict
 
     def __str__(self):
         """Return a `str` version of this ClassifyReturn object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ColumnHeaderIds(object):
+    """
+    An array of values, each being the `id` value of a column header that is applicable to
+    the current cell.
+
+    :attr str id: (optional) The `id` value of a column header.
+    """
+
+    def __init__(self, id=None):
+        """
+        Initialize a ColumnHeaderIds object.
+
+        :param str id: (optional) The `id` value of a column header.
+        """
+        self.id = id
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ColumnHeaderIds object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ColumnHeaderIds object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ColumnHeaderTexts(object):
+    """
+    An array of values, each being the `text` value of a column header that is applicable
+    to the current cell.
+
+    :attr str text: (optional) The `text` value of a column header.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a ColumnHeaderTexts object.
+
+        :param str text: (optional) The `text` value of a column header.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ColumnHeaderTexts object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ColumnHeaderTexts object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ColumnHeaderTextsNormalized(object):
+    """
+    If you provide customization input, the normalized version of the column header texts
+    according to the customization; otherwise, the same value as `column_header_texts`.
+
+    :attr str text_normalized: (optional) The normalized version of a column header text.
+    """
+
+    def __init__(self, text_normalized=None):
+        """
+        Initialize a ColumnHeaderTextsNormalized object.
+
+        :param str text_normalized: (optional) The normalized version of a column header
+        text.
+        """
+        self.text_normalized = text_normalized
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ColumnHeaderTextsNormalized object from a json dictionary."""
+        args = {}
+        if 'text_normalized' in _dict:
+            args['text_normalized'] = _dict.get('text_normalized')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'text_normalized') and self.text_normalized is not None:
+            _dict['text_normalized'] = self.text_normalized
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ColumnHeaderTextsNormalized object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -1584,9 +1765,7 @@ class ColumnHeaders(object):
     Column-level cells, each applicable as a header to other cells in the same column as
     itself, of the current table.
 
-    :attr str cell_id: (optional) A string value in the format `columnHeader-x-y`, where
-    `x` and `y` are the begin and end offsets of this column header cell in the input
-    document.
+    :attr str cell_id: (optional) The unique ID of the cell in the current table.
     :attr object location: (optional) The location of the column header cell in the
     current table as defined by its `begin` and `end` offsets, respectfully, in the input
     document.
@@ -1617,9 +1796,7 @@ class ColumnHeaders(object):
         """
         Initialize a ColumnHeaders object.
 
-        :param str cell_id: (optional) A string value in the format `columnHeader-x-y`,
-        where `x` and `y` are the begin and end offsets of this column header cell in the
-        input document.
+        :param str cell_id: (optional) The unique ID of the cell in the current table.
         :param object location: (optional) The location of the column header cell in the
         current table as defined by its `begin` and `end` offsets, respectfully, in the
         input document.
@@ -1713,49 +1890,53 @@ class CompareReturn(object):
     """
     The comparison of the two submitted documents.
 
+    :attr str model_id: (optional) The analysis model used to compare the input documents.
+    For the **Compare two documents** method, the only valid value is `contracts`.
+    :attr str model_version: (optional) The version of the analysis model identified by
+    the value of the `model_id` key.
     :attr list[Document] documents: (optional) Information about the documents being
     compared.
     :attr list[AlignedElement] aligned_elements: (optional) A list of pairs of elements
     that semantically align between the compared documents.
     :attr list[UnalignedElement] unaligned_elements: (optional) A list of elements that do
     not semantically align between the compared documents.
-    :attr str model_id: (optional) The analysis model used to classify the input document.
-    For the `/v1/element_classification` method, the only valid value is `contracts`.
-    :attr str model_version: (optional) The version of the analysis model identified by
-    the value of the `model_id` key.
     """
 
     def __init__(self,
+                 model_id=None,
+                 model_version=None,
                  documents=None,
                  aligned_elements=None,
-                 unaligned_elements=None,
-                 model_id=None,
-                 model_version=None):
+                 unaligned_elements=None):
         """
         Initialize a CompareReturn object.
 
+        :param str model_id: (optional) The analysis model used to compare the input
+        documents. For the **Compare two documents** method, the only valid value is
+        `contracts`.
+        :param str model_version: (optional) The version of the analysis model identified
+        by the value of the `model_id` key.
         :param list[Document] documents: (optional) Information about the documents being
         compared.
         :param list[AlignedElement] aligned_elements: (optional) A list of pairs of
         elements that semantically align between the compared documents.
         :param list[UnalignedElement] unaligned_elements: (optional) A list of elements
         that do not semantically align between the compared documents.
-        :param str model_id: (optional) The analysis model used to classify the input
-        document. For the `/v1/element_classification` method, the only valid value is
-        `contracts`.
-        :param str model_version: (optional) The version of the analysis model identified
-        by the value of the `model_id` key.
         """
+        self.model_id = model_id
+        self.model_version = model_version
         self.documents = documents
         self.aligned_elements = aligned_elements
         self.unaligned_elements = unaligned_elements
-        self.model_id = model_id
-        self.model_version = model_version
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a CompareReturn object from a json dictionary."""
         args = {}
+        if 'model_id' in _dict:
+            args['model_id'] = _dict.get('model_id')
+        if 'model_version' in _dict:
+            args['model_version'] = _dict.get('model_version')
         if 'documents' in _dict:
             args['documents'] = [
                 Document._from_dict(x) for x in (_dict.get('documents'))
@@ -1770,15 +1951,15 @@ class CompareReturn(object):
                 UnalignedElement._from_dict(x)
                 for x in (_dict.get('unaligned_elements'))
             ]
-        if 'model_id' in _dict:
-            args['model_id'] = _dict.get('model_id')
-        if 'model_version' in _dict:
-            args['model_version'] = _dict.get('model_version')
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'model_id') and self.model_id is not None:
+            _dict['model_id'] = self.model_id
+        if hasattr(self, 'model_version') and self.model_version is not None:
+            _dict['model_version'] = self.model_version
         if hasattr(self, 'documents') and self.documents is not None:
             _dict['documents'] = [x._to_dict() for x in self.documents]
         if hasattr(self,
@@ -1792,10 +1973,6 @@ class CompareReturn(object):
             _dict['unaligned_elements'] = [
                 x._to_dict() for x in self.unaligned_elements
             ]
-        if hasattr(self, 'model_id') and self.model_id is not None:
-            _dict['model_id'] = self.model_id
-        if hasattr(self, 'model_version') and self.model_version is not None:
-            _dict['model_version'] = self.model_version
         return _dict
 
     def __str__(self):
@@ -1916,6 +2093,70 @@ class ContractAmts(object):
 
     def __str__(self):
         """Return a `str` version of this ContractAmts object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ContractType(object):
+    """
+    The contract type identified in the input document.
+
+    :attr str text: (optional) The contract type.
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the termination date.
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    """
+
+    def __init__(self, text=None, confidence_level=None, location=None):
+        """
+        Initialize a ContractType object.
+
+        :param str text: (optional) The contract type.
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the termination date.
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        """
+        self.text = text
+        self.confidence_level = confidence_level
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContractType object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ContractType object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2412,13 +2653,13 @@ class ElementPair(object):
 
     :attr str document_label: (optional) The label of the document (that is, the value of
     either the `file_1_label` or `file_2_label` parameters) in which the element occurs.
-    :attr str text: (optional) The text of the element.
+    :attr str text: (optional) The contents of the element.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
-    :attr list[TypeLabel] types: (optional) Description of the action specified by the
-    element  and whom it affects.
-    :attr list[Category] categories: (optional) List of functional categories into which
-    the element falls; in other words, the subject matter of the element.
+    :attr list[TypeLabelComparison] types: (optional) Description of the action specified
+    by the element and whom it affects.
+    :attr list[CategoryComparison] categories: (optional) List of functional categories
+    into which the element falls; in other words, the subject matter of the element.
     :attr list[Attribute] attributes: (optional) List of document attributes.
     """
 
@@ -2435,13 +2676,14 @@ class ElementPair(object):
         :param str document_label: (optional) The label of the document (that is, the
         value of either the `file_1_label` or `file_2_label` parameters) in which the
         element occurs.
-        :param str text: (optional) The text of the element.
+        :param str text: (optional) The contents of the element.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
-        :param list[TypeLabel] types: (optional) Description of the action specified by
-        the element  and whom it affects.
-        :param list[Category] categories: (optional) List of functional categories into
-        which the element falls; in other words, the subject matter of the element.
+        :param list[TypeLabelComparison] types: (optional) Description of the action
+        specified by the element and whom it affects.
+        :param list[CategoryComparison] categories: (optional) List of functional
+        categories into which the element falls; in other words, the subject matter of the
+        element.
         :param list[Attribute] attributes: (optional) List of document attributes.
         """
         self.document_label = document_label
@@ -2463,11 +2705,12 @@ class ElementPair(object):
             args['location'] = Location._from_dict(_dict.get('location'))
         if 'types' in _dict:
             args['types'] = [
-                TypeLabel._from_dict(x) for x in (_dict.get('types'))
+                TypeLabelComparison._from_dict(x) for x in (_dict.get('types'))
             ]
         if 'categories' in _dict:
             args['categories'] = [
-                Category._from_dict(x) for x in (_dict.get('categories'))
+                CategoryComparison._from_dict(x)
+                for x in (_dict.get('categories'))
             ]
         if 'attributes' in _dict:
             args['attributes'] = [
@@ -3117,6 +3360,120 @@ class HTMLReturn(object):
         return not self == other
 
 
+class Key(object):
+    """
+    A key in a key-value pair.
+
+    :attr str cell_id: (optional) The unique ID of the key in the table.
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text: (optional) The text content of the table cell without HTML markup.
+    """
+
+    def __init__(self, cell_id=None, location=None, text=None):
+        """
+        Initialize a Key object.
+
+        :param str cell_id: (optional) The unique ID of the key in the table.
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        :param str text: (optional) The text content of the table cell without HTML
+        markup.
+        """
+        self.cell_id = cell_id
+        self.location = location
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Key object from a json dictionary."""
+        args = {}
+        if 'cell_id' in _dict:
+            args['cell_id'] = _dict.get('cell_id')
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'cell_id') and self.cell_id is not None:
+            _dict['cell_id'] = self.cell_id
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Key object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class KeyValuePair(object):
+    """
+    Key-value pairs detected across cell boundaries.
+
+    :attr Key key: (optional) A key in a key-value pair.
+    :attr Value value: (optional) A value in a key-value pair.
+    """
+
+    def __init__(self, key=None, value=None):
+        """
+        Initialize a KeyValuePair object.
+
+        :param Key key: (optional) A key in a key-value pair.
+        :param Value value: (optional) A value in a key-value pair.
+        """
+        self.key = key
+        self.value = value
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a KeyValuePair object from a json dictionary."""
+        args = {}
+        if 'key' in _dict:
+            args['key'] = Key._from_dict(_dict.get('key'))
+        if 'value' in _dict:
+            args['value'] = Value._from_dict(_dict.get('value'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'key') and self.key is not None:
+            _dict['key'] = self.key._to_dict()
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this KeyValuePair object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Label(object):
     """
     A pair of `nature` and `party` objects. The `nature` object identifies the effect of
@@ -3611,13 +3968,152 @@ class Parties(object):
         return not self == other
 
 
+class RowHeaderIds(object):
+    """
+    An array of values, each being the `id` value of a row header that is applicable to
+    this body cell.
+
+    :attr str id: (optional) The `id` values of a row header.
+    """
+
+    def __init__(self, id=None):
+        """
+        Initialize a RowHeaderIds object.
+
+        :param str id: (optional) The `id` values of a row header.
+        """
+        self.id = id
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RowHeaderIds object from a json dictionary."""
+        args = {}
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this RowHeaderIds object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RowHeaderTexts(object):
+    """
+    An array of values, each being the `text` value of a row header that is applicable to
+    this body cell.
+
+    :attr str text: (optional) The `text` value of a row header.
+    """
+
+    def __init__(self, text=None):
+        """
+        Initialize a RowHeaderTexts object.
+
+        :param str text: (optional) The `text` value of a row header.
+        """
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RowHeaderTexts object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this RowHeaderTexts object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RowHeaderTextsNormalized(object):
+    """
+    If you provide customization input, the normalized version of the row header texts
+    according to the customization; otherwise, the same value as `row_header_texts`.
+
+    :attr str text_normalized: (optional) The normalized version of a row header text.
+    """
+
+    def __init__(self, text_normalized=None):
+        """
+        Initialize a RowHeaderTextsNormalized object.
+
+        :param str text_normalized: (optional) The normalized version of a row header
+        text.
+        """
+        self.text_normalized = text_normalized
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RowHeaderTextsNormalized object from a json dictionary."""
+        args = {}
+        if 'text_normalized' in _dict:
+            args['text_normalized'] = _dict.get('text_normalized')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'text_normalized') and self.text_normalized is not None:
+            _dict['text_normalized'] = self.text_normalized
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this RowHeaderTextsNormalized object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class RowHeaders(object):
     """
     Row-level cells, each applicable as a header to other cells in the same row as itself,
     of the current table.
 
-    :attr str cell_id: (optional) A string value in the format `rowHeader-x-y`, where `x`
-    and `y` are the begin and end offsets of this row header cell in the input document.
+    :attr str cell_id: (optional) The unique ID of the cell in the current table.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     :attr str text: (optional) The textual contents of this cell from the input document
@@ -3647,9 +4143,7 @@ class RowHeaders(object):
         """
         Initialize a RowHeaders object.
 
-        :param str cell_id: (optional) A string value in the format `rowHeader-x-y`, where
-        `x` and `y` are the begin and end offsets of this row header cell in the input
-        document.
+        :param str cell_id: (optional) The unique ID of the cell in the current table.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         :param str text: (optional) The textual contents of this cell from the input
@@ -3935,9 +4429,7 @@ class TableHeaders(object):
     """
     The contents of the current table's header.
 
-    :attr str cell_id: (optional) String value in the format `tableHeader-x-y` where `x`
-    and `y` are the `begin` and `end` offsets, respectfully, of the cell value in the
-    input document.
+    :attr str cell_id: (optional) The unique ID of the cell in the current table.
     :attr object location: (optional) The location of the table header cell in the current
     table as defined by its `begin` and `end` offsets, respectfully, in the input
     document.
@@ -3964,9 +4456,7 @@ class TableHeaders(object):
         """
         Initialize a TableHeaders object.
 
-        :param str cell_id: (optional) String value in the format `tableHeader-x-y` where
-        `x` and `y` are the `begin` and `end` offsets, respectfully, of the cell value in
-        the input document.
+        :param str cell_id: (optional) The unique ID of the cell in the current table.
         :param object location: (optional) The location of the table header cell in the
         current table as defined by its `begin` and `end` offsets, respectfully, in the
         input document.
@@ -4139,6 +4629,8 @@ class Tables(object):
     :attr list[ColumnHeaders] column_headers: (optional) An array of column-level cells,
     each applicable as a header to other cells in the same column as itself, of the
     current table.
+    :attr list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
+    identified in the current table.
     :attr list[BodyCells] body_cells: (optional) An array of cells that are neither table
     header nor column header nor row header cells, of the current table with corresponding
     row and column header associations.
@@ -4151,6 +4643,7 @@ class Tables(object):
                  table_headers=None,
                  row_headers=None,
                  column_headers=None,
+                 key_value_pairs=None,
                  body_cells=None):
         """
         Initialize a Tables object.
@@ -4169,6 +4662,8 @@ class Tables(object):
         :param list[ColumnHeaders] column_headers: (optional) An array of column-level
         cells, each applicable as a header to other cells in the same column as itself, of
         the current table.
+        :param list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
+        identified in the current table.
         :param list[BodyCells] body_cells: (optional) An array of cells that are neither
         table header nor column header nor row header cells, of the current table with
         corresponding row and column header associations.
@@ -4179,6 +4674,7 @@ class Tables(object):
         self.table_headers = table_headers
         self.row_headers = row_headers
         self.column_headers = column_headers
+        self.key_value_pairs = key_value_pairs
         self.body_cells = body_cells
 
     @classmethod
@@ -4205,6 +4701,11 @@ class Tables(object):
                 ColumnHeaders._from_dict(x)
                 for x in (_dict.get('column_headers'))
             ]
+        if 'key_value_pairs' in _dict:
+            args['key_value_pairs'] = [
+                KeyValuePair._from_dict(x)
+                for x in (_dict.get('key_value_pairs'))
+            ]
         if 'body_cells' in _dict:
             args['body_cells'] = [
                 BodyCells._from_dict(x) for x in (_dict.get('body_cells'))
@@ -4227,6 +4728,11 @@ class Tables(object):
         if hasattr(self, 'column_headers') and self.column_headers is not None:
             _dict['column_headers'] = [
                 x._to_dict() for x in self.column_headers
+            ]
+        if hasattr(self,
+                   'key_value_pairs') and self.key_value_pairs is not None:
+            _dict['key_value_pairs'] = [
+                x._to_dict() for x in self.key_value_pairs
             ]
         if hasattr(self, 'body_cells') and self.body_cells is not None:
             _dict['body_cells'] = [x._to_dict() for x in self.body_cells]
@@ -4369,19 +4875,69 @@ class TypeLabel(object):
         return not self == other
 
 
+class TypeLabelComparison(object):
+    """
+    Identification of a specific type.
+
+    :attr Label label: (optional) A pair of `nature` and `party` objects. The `nature`
+    object identifies the effect of the element on the identified `party`, and the `party`
+    object identifies the affected party.
+    """
+
+    def __init__(self, label=None):
+        """
+        Initialize a TypeLabelComparison object.
+
+        :param Label label: (optional) A pair of `nature` and `party` objects. The
+        `nature` object identifies the effect of the element on the identified `party`,
+        and the `party` object identifies the affected party.
+        """
+        self.label = label
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TypeLabelComparison object from a json dictionary."""
+        args = {}
+        if 'label' in _dict:
+            args['label'] = Label._from_dict(_dict.get('label'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'label') and self.label is not None:
+            _dict['label'] = self.label._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this TypeLabelComparison object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class UnalignedElement(object):
     """
     Element that does not align semantically between two compared documents.
 
     :attr str document_label: (optional) The label assigned to the document by the value
-    of the `file_1_label` or `file_2_label` parameters on the `/v1/compare` method.
+    of the `file_1_label` or `file_2_label` parameters on the **Compare two documents**
+    method.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     :attr str text: (optional) The text of the element.
-    :attr list[TypeLabel] types: (optional) Description of the action specified by the
-    element and whom it affects.
-    :attr list[Category] categories: (optional) List of functional categories into which
-    the element falls; in other words, the subject matter of the element.
+    :attr list[TypeLabelComparison] types: (optional) Description of the action specified
+    by the element and whom it affects.
+    :attr list[CategoryComparison] categories: (optional) List of functional categories
+    into which the element falls; in other words, the subject matter of the element.
     :attr list[Attribute] attributes: (optional) List of document attributes.
     """
 
@@ -4396,15 +4952,16 @@ class UnalignedElement(object):
         Initialize a UnalignedElement object.
 
         :param str document_label: (optional) The label assigned to the document by the
-        value of the `file_1_label` or `file_2_label` parameters on the `/v1/compare`
-        method.
+        value of the `file_1_label` or `file_2_label` parameters on the **Compare two
+        documents** method.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         :param str text: (optional) The text of the element.
-        :param list[TypeLabel] types: (optional) Description of the action specified by
-        the element and whom it affects.
-        :param list[Category] categories: (optional) List of functional categories into
-        which the element falls; in other words, the subject matter of the element.
+        :param list[TypeLabelComparison] types: (optional) Description of the action
+        specified by the element and whom it affects.
+        :param list[CategoryComparison] categories: (optional) List of functional
+        categories into which the element falls; in other words, the subject matter of the
+        element.
         :param list[Attribute] attributes: (optional) List of document attributes.
         """
         self.document_label = document_label
@@ -4426,11 +4983,12 @@ class UnalignedElement(object):
             args['text'] = _dict.get('text')
         if 'types' in _dict:
             args['types'] = [
-                TypeLabel._from_dict(x) for x in (_dict.get('types'))
+                TypeLabelComparison._from_dict(x) for x in (_dict.get('types'))
             ]
         if 'categories' in _dict:
             args['categories'] = [
-                Category._from_dict(x) for x in (_dict.get('categories'))
+                CategoryComparison._from_dict(x)
+                for x in (_dict.get('categories'))
             ]
         if 'attributes' in _dict:
             args['attributes'] = [
@@ -4595,6 +5153,68 @@ class UpdatedLabelsOut(object):
 
     def __str__(self):
         """Return a `str` version of this UpdatedLabelsOut object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Value(object):
+    """
+    A value in a key-value pair.
+
+    :attr str cell_id: (optional) The unique ID of the value in the table.
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text: (optional) The text content of the table cell without HTML markup.
+    """
+
+    def __init__(self, cell_id=None, location=None, text=None):
+        """
+        Initialize a Value object.
+
+        :param str cell_id: (optional) The unique ID of the value in the table.
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        :param str text: (optional) The text content of the table cell without HTML
+        markup.
+        """
+        self.cell_id = cell_id
+        self.location = location
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Value object from a json dictionary."""
+        args = {}
+        if 'cell_id' in _dict:
+            args['cell_id'] = _dict.get('cell_id')
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'cell_id') and self.cell_id is not None:
+            _dict['cell_id'] = self.cell_id
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Value object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

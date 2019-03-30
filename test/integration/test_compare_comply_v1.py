@@ -1,6 +1,6 @@
 # coding: utf-8
 import pytest
-import watson_developer_cloud
+import ibm_watson
 import os
 from os.path import abspath
 from unittest import TestCase
@@ -12,9 +12,8 @@ class IntegrationTestCompareComplyV1(TestCase):
 
     @classmethod
     def setup_class(cls):
-        cls.compare_comply = watson_developer_cloud.CompareComplyV1(
-            '2018-10-15',
-            iam_apikey='YOUR IAM API KEY')
+        cls.compare_comply = ibm_watson.CompareComplyV1(
+            '2018-10-15')
         cls.compare_comply.set_default_headers({
             'X-Watson-Learning-Opt-Out':
             '1',
@@ -31,7 +30,7 @@ class IntegrationTestCompareComplyV1(TestCase):
     def test_classify_elements(self):
         contract = abspath('resources/contract_A.pdf')
         with open(contract, 'rb') as file:
-            result = self.compare_comply.classify_elements(file).get_result()
+            result = self.compare_comply.classify_elements(file, 'application/pdf').get_result()
         assert result is not None
 
     def test_extract_tables(self):

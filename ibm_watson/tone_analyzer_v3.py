@@ -28,15 +28,15 @@ data from requests and responses.
 from __future__ import absolute_import
 
 import json
-from .watson_service import WatsonService
-from .utils import deprecated
+from .common import get_sdk_headers
+from ibm_cloud_sdk_core import BaseService
 
 ##############################################################################
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
-class ToneAnalyzerV3(WatsonService):
+
+class ToneAnalyzerV3(BaseService):
     """The Tone Analyzer V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
@@ -66,7 +66,7 @@ class ToneAnalyzerV3(WatsonService):
                ready for a later version.
 
         :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/tone-analyzer/api").
+               "https://gateway.watsonplatform.net/tone-analyzer/api/tone-analyzer/api").
                The base url may differ between Bluemix regions.
 
         :param str username: The username used to authenticate with the service.
@@ -94,7 +94,7 @@ class ToneAnalyzerV3(WatsonService):
                'https://iam.bluemix.net/identity/token'.
         """
 
-        WatsonService.__init__(
+        BaseService.__init__(
             self,
             vcap_services_name='tone_analyzer',
             url=url,
@@ -113,11 +113,11 @@ class ToneAnalyzerV3(WatsonService):
 
     def tone(self,
              tone_input,
-             content_type=None,
              sentences=None,
              tones=None,
              content_language=None,
              accept_language=None,
+             content_type=None,
              **kwargs):
         """
         Analyze general tone.
@@ -142,9 +142,6 @@ class ToneAnalyzerV3(WatsonService):
 
         :param ToneInput tone_input: JSON, plain text, or HTML input that contains the
         content to be analyzed. For JSON input, provide an object of type `ToneInput`.
-        :param str content_type: The type of the input. A character encoding can be
-        specified by including a `charset` parameter. For example,
-        'text/plain;charset=utf-8'.
         :param bool sentences: Indicates whether the service is to return an analysis of
         each individual sentence in addition to its analysis of the full document. If
         `true` (the default), the service returns results for each sentence.
@@ -166,6 +163,9 @@ class ToneAnalyzerV3(WatsonService):
         two-character arguments, regional variants are treated as their parent language;
         for example, `en-US` is interpreted as `en`. You can use different languages for
         **Content-Language** and **Accept-Language**.
+        :param str content_type: The type of the input. A character encoding can be
+        specified by including a `charset` parameter. For example,
+        'text/plain;charset=utf-8'.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -177,14 +177,14 @@ class ToneAnalyzerV3(WatsonService):
             tone_input = self._convert_model(tone_input, ToneInput)
 
         headers = {
-            'Content-Type': content_type,
             'Content-Language': content_language,
-            'Accept-Language': accept_language
+            'Accept-Language': accept_language,
+            'Content-Type': content_type
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=tone_analyzer;service_version=V3;operation_id=tone'
+        sdk_headers = get_sdk_headers('tone_analyzer', 'V3', 'tone')
+        headers.update(sdk_headers)
 
         params = {
             'version': self.version,
@@ -256,8 +256,8 @@ class ToneAnalyzerV3(WatsonService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        headers[
-            'X-IBMCloud-SDK-Analytics'] = 'service_name=tone_analyzer;service_version=V3;operation_id=tone_chat'
+        sdk_headers = get_sdk_headers('tone_analyzer', 'V3', 'tone_chat')
+        headers.update(sdk_headers)
 
         params = {'version': self.version}
 

@@ -1,6 +1,6 @@
 # coding: utf-8
 import responses
-import watson_developer_cloud
+import ibm_watson
 import json
 import os
 
@@ -23,7 +23,7 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_get_classifier(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
@@ -47,7 +47,7 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_delete_classifier(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
@@ -62,7 +62,7 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_list_classifiers(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
@@ -90,7 +90,7 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_create_classifier(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
@@ -111,13 +111,13 @@ class TestVisualRecognitionV3(TestCase):
 
         with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
             open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
-            vr_service.create_classifier('Cars vs Trucks', cars_positive_examples=cars, negative_examples=trucks)
+            vr_service.create_classifier('Cars vs Trucks', positive_examples={'cars_positive_examples': cars}, negative_examples=trucks)
 
         assert len(responses.calls) == 2
 
     @responses.activate
     def test_update_classifier(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusid')
 
@@ -145,7 +145,7 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_classify(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/classify')
 
@@ -191,7 +191,7 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_detect_faces(self):
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
 
         gc_url = "{0}{1}".format(base_url, 'v3/detect_faces')
 
@@ -256,7 +256,7 @@ class TestVisualRecognitionV3(TestCase):
             status=204,
             content_type='application_json')
 
-        vr_service = watson_developer_cloud.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
         response = vr_service.delete_user_data('id').get_result()
         assert response is None
         assert len(responses.calls) == 2

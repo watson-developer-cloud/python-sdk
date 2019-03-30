@@ -1,19 +1,19 @@
 # coding=utf-8
 from __future__ import print_function
 import json
-from watson_developer_cloud import LanguageTranslatorV3
+from ibm_watson import LanguageTranslatorV3
 
-# language_translator = LanguageTranslatorV3(
-#     version='2018-05-01.',
-#     ### url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     # url='https://gateway.watsonplatform.net/language-translator/api',
-#     iam_apikey='your_apikey')
-
-# Authenticate with username/password if your service instance doesn't provide an API key
 language_translator = LanguageTranslatorV3(
     version='2018-05-01.',
-    username='YOUR SERVICE USERNAME',
-    password='YOUR SERVICE PASSWORD')
+    ### url is optional, and defaults to the URL below. Use the correct URL for your region.
+    # url='https://gateway.watsonplatform.net/language-translator/api',
+    iam_apikey='YOUR APIKEY')
+
+# Authenticate with username/password if your service instance doesn't provide an API key
+# language_translator = LanguageTranslatorV3(
+#     version='2018-05-01',
+#     username='YOUR SERVICE USERNAME',
+#     password='YOUR SERVICE PASSWORD')
 
 ## Translate
 translation = language_translator.translate(
