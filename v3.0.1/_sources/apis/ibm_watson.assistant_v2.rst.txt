@@ -1,0 +1,7 @@
+ibm\_watson.assistant\_v2 module
+================================
+
+.. automodule:: ibm_watson.assistant_v2
+    :members:
+    :undoc-members:
+    :show-inheritance:

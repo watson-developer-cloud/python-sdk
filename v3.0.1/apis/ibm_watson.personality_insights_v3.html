@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.personality_insights_v3 module &#8212; Watson Developer Cloud Python SDK 3.0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.speech_to_text_v1 module" href="ibm_watson.speech_to_text_v1.html" />
+    <link rel="prev" title="ibm_watson.natural_language_understanding_v1 module" href="ibm_watson.natural_language_understanding_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.personality_insights_v3">
+<span id="ibm-watson-personality-insights-v3-module"></span><h1>ibm_watson.personality_insights_v3 module<a class="headerlink" href="#module-ibm_watson.personality_insights_v3" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson&amp;trade; Personality Insights service enables applications to derive insights
+from social media, enterprise data, or other digital communications. The service uses
+linguistic analytics to infer individuals’ intrinsic personality characteristics,
+including Big Five, Needs, and Values, from digital communications such as email, text
+messages, tweets, and forum posts.
+The service can automatically infer, from potentially noisy social media, portraits of
+individuals that reflect their personality characteristics. The service can infer
+consumption preferences based on the results of its analysis and, for JSON content that is
+timestamped, can report temporal behavior.
+* For information about the meaning of the models that the service uses to describe
+personality characteristics, see [Personality
+models](<a class="reference external" href="https://cloud.ibm.com/docs/services/personality-insights/models.html">https://cloud.ibm.com/docs/services/personality-insights/models.html</a>).
+* For information about the meaning of the consumption preferences, see [Consumption
+preferences](<a class="reference external" href="https://cloud.ibm.com/docs/services/personality-insights/preferences.html">https://cloud.ibm.com/docs/services/personality-insights/preferences.html</a>).
+<strong>Note:</strong> Request logging is disabled for the Personality Insights service. Regardless of
+whether you set the <cite>X-Watson-Learning-Opt-Out</cite> request header, the service does not log
+or retain data from requests and responses.</p>
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.PersonalityInsightsV3">
+<em class="property">class </em><code class="descname">PersonalityInsightsV3</code><span class="sig-paren">(</span><em>version</em>, <em>url='https://gateway.watsonplatform.net/personality-insights/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>iam_apikey=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#PersonalityInsightsV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.PersonalityInsightsV3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Personality Insights V3 service.</p>
+<dl class="attribute">
+<dt id="ibm_watson.personality_insights_v3.PersonalityInsightsV3.default_url">
+<code class="descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/personality-insights/api'</em><a class="headerlink" href="#ibm_watson.personality_insights_v3.PersonalityInsightsV3.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.personality_insights_v3.PersonalityInsightsV3.profile">
+<code class="descname">profile</code><span class="sig-paren">(</span><em>content</em>, <em>accept</em>, <em>content_language=None</em>, <em>accept_language=None</em>, <em>raw_scores=None</em>, <em>csv_headers=None</em>, <em>consumption_preferences=None</em>, <em>content_type=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#PersonalityInsightsV3.profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.PersonalityInsightsV3.profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get profile.</p>
+<p>Generates a personality profile for the author of the input text. The service
+accepts a maximum of 20 MB of input content, but it requires much less text to
+produce an accurate profile. The service can analyze text in Arabic, English,
+Japanese, Korean, or Spanish. It can return its results in a variety of languages.
+<strong>See also:</strong>
+* [Requesting a
+profile](<a class="reference external" href="https://cloud.ibm.com/docs/services/personality-insights/input.html">https://cloud.ibm.com/docs/services/personality-insights/input.html</a>)
+* [Providing sufficient
+input](<a class="reference external" href="https://cloud.ibm.com/docs/services/personality-insights/input.html#sufficient">https://cloud.ibm.com/docs/services/personality-insights/input.html#sufficient</a>)
+### Content types</p>
+<blockquote>
+<div><p>You can provide input content as plain text (<cite>text/plain</cite>), HTML (<cite>text/html</cite>),</p>
+</div></blockquote>
+<p>or JSON (<cite>application/json</cite>) by specifying the <strong>Content-Type</strong> parameter. The
+default is <cite>text/plain</cite>.
+* Per the JSON specification, the default character encoding for JSON content is
+effectively always UTF-8.
+* Per the HTTP specification, the default encoding for plain text and HTML is
+ISO-8859-1 (effectively, the ASCII character set).
+When specifying a content type of plain text or HTML, include the <cite>charset</cite>
+parameter to indicate the character encoding of the input text; for example,
+<cite>Content-Type: text/plain;charset=utf-8</cite>.
+<strong>See also:</strong> [Specifying request and response
+formats](<a class="reference external" href="https://cloud.ibm.com/docs/services/personality-insights/input.html#formats">https://cloud.ibm.com/docs/services/personality-insights/input.html#formats</a>)
+### Accept types</p>
+<blockquote>
+<div><p>You must request a response as JSON (<cite>application/json</cite>) or comma-separated</p>
+</div></blockquote>
+<p>values (<cite>text/csv</cite>) by specifying the <strong>Accept</strong> parameter. CSV output includes a
+fixed number of columns. Set the <strong>csv_headers</strong> parameter to <cite>true</cite> to request
+optional column headers for CSV output.
+<strong>See also:</strong>
+* [Understanding a JSON
+profile](<a class="reference external" href="https://cloud.ibm.com/docs/services/personality-insights/output.html">https://cloud.ibm.com/docs/services/personality-insights/output.html</a>)
+* [Understanding a CSV
+profile](<a class="reference external" href="https://cloud.ibm.com/docs/services/personality-insights/output-csv.html">https://cloud.ibm.com/docs/services/personality-insights/output-csv.html</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>content</strong> (<a class="reference internal" href="#ibm_watson.personality_insights_v3.Content" title="ibm_watson.personality_insights_v3.Content"><em>Content</em></a>) – A maximum of 20 MB of content to analyze, though the</p>
+</dd>
+</dl>
+<p>service requires much less text; for more information, see [Providing sufficient
+input](<a class="reference external" href="https://cloud.ibm.com/docs/services/personality-insights/input.html#sufficient">https://cloud.ibm.com/docs/services/personality-insights/input.html#sufficient</a>).
+For JSON input, provide an object of type <cite>Content</cite>.
+:param str accept: The type of the response. For more information, see <strong>Accept
+types</strong> in the method description.
+:param str content_language: The language of the input text for the request:
+Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as
+their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>.
+The effect of the <strong>Content-Language</strong> parameter depends on the <strong>Content-Type</strong>
+parameter. When <strong>Content-Type</strong> is <cite>text/plain</cite> or <cite>text/html</cite>,
+<strong>Content-Language</strong> is the only way to specify the language. When
+<strong>Content-Type</strong> is <cite>application/json</cite>, <strong>Content-Language</strong> overrides a language
+specified with the <cite>language</cite> parameter of a <cite>ContentItem</cite> object, and content
+items that specify a different language are ignored; omit this parameter to base
+the language on the specification of the content items. You can specify any
+combination of languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+:param str accept_language: The desired language of the response. For
+two-character arguments, regional variants are treated as their parent language;
+for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can specify any combination of
+languages for the input and response content.
+:param bool raw_scores: Indicates whether a raw score in addition to a normalized
+percentile is returned for each characteristic; raw scores are not compared with a
+sample population. By default, only normalized percentiles are returned.
+:param bool csv_headers: Indicates whether column labels are returned with a CSV
+response. By default, no column labels are returned. Applies only when the
+response type is CSV (<cite>text/csv</cite>).
+:param bool consumption_preferences: Indicates whether consumption preferences are
+returned with the results. By default, no consumption preferences are returned.
+:param str content_type: The type of the input. For more information, see
+<strong>Content types</strong> in the method description.
+Default: <cite>text/plain</cite>.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.
+:rtype: DetailedResponse</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.Behavior">
+<em class="property">class </em><code class="descname">Behavior</code><span class="sig-paren">(</span><em>trait_id</em>, <em>name</em>, <em>category</em>, <em>percentage</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#Behavior"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.Behavior" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Behavior.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str trait_id</dt>
+<dd class="field-odd"><p>The unique, non-localized identifier of the characteristic to</p>
+</dd>
+</dl>
+<p>which the results pertain. IDs have the form <cite>behavior_{value}</cite>.
+:attr str name: The user-visible, localized name of the characteristic.
+:attr str category: The category of the characteristic: <cite>behavior</cite> for temporal data.
+:attr float percentage: For JSON content that is timestamped, the percentage of
+timestamped input data that occurred during that day of the week or hour of the day.
+The range is 0 to 1.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.ConsumptionPreferences">
+<em class="property">class </em><code class="descname">ConsumptionPreferences</code><span class="sig-paren">(</span><em>consumption_preference_id</em>, <em>name</em>, <em>score</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#ConsumptionPreferences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.ConsumptionPreferences" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ConsumptionPreferences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str consumption_preference_id</dt>
+<dd class="field-odd"><p>The unique, non-localized identifier of the</p>
+</dd>
+</dl>
+<p>consumption preference to which the results pertain. IDs have the form
+<cite>consumption_preferences_{preference}</cite>.
+:attr str name: The user-visible, localized name of the consumption preference.
+:attr float score: The score for the consumption preference:
+* <cite>0.0</cite>: Unlikely
+* <cite>0.5</cite>: Neutral
+* <cite>1.0</cite>: Likely
+The scores for some preferences are binary and do not allow a neutral value. The score
+is an indication of preference based on the results inferred from the input text, not
+a normalized percentile.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.ConsumptionPreferencesCategory">
+<em class="property">class </em><code class="descname">ConsumptionPreferencesCategory</code><span class="sig-paren">(</span><em>consumption_preference_category_id</em>, <em>name</em>, <em>consumption_preferences</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#ConsumptionPreferencesCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.ConsumptionPreferencesCategory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ConsumptionPreferencesCategory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str consumption_preference_category_id</dt>
+<dd class="field-odd"><p>The unique, non-localized identifier of</p>
+</dd>
+</dl>
+<p>the consumption preferences category to which the results pertain. IDs have the form
+<cite>consumption_preferences_{category}</cite>.
+:attr str name: The user-visible name of the consumption preferences category.
+:attr list[ConsumptionPreferences] consumption_preferences: Detailed results inferred
+from the input text for the individual preferences of the category.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.Content">
+<em class="property">class </em><code class="descname">Content</code><span class="sig-paren">(</span><em>content_items</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#Content"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.Content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[ContentItem] content_items</dt>
+<dd class="field-odd"><p>An array of <cite>ContentItem</cite> objects that provides</p>
+</dd>
+</dl>
+<p>the text that is to be analyzed.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.ContentItem">
+<em class="property">class </em><code class="descname">ContentItem</code><span class="sig-paren">(</span><em>content</em>, <em>id=None</em>, <em>created=None</em>, <em>updated=None</em>, <em>contenttype=None</em>, <em>language=None</em>, <em>parentid=None</em>, <em>reply=None</em>, <em>forward=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#ContentItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.ContentItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ContentItem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str content</dt>
+<dd class="field-odd"><p>The content that is to be analyzed. The service supports up to 20</p>
+</dd>
+</dl>
+<p>MB of content for all <cite>ContentItem</cite> objects combined.
+:attr str id: (optional) A unique identifier for this content item.
+:attr int created: (optional) A timestamp that identifies when this content was
+created. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at
+0:00 UTC). Required only for results that include temporal behavior data.
+:attr int updated: (optional) A timestamp that identifies when this content was last
+updated. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at
+0:00 UTC). Required only for results that include temporal behavior data.
+:attr str contenttype: (optional) The MIME type of the content. The default is plain
+text. The tags are stripped from HTML content before it is analyzed; plain text is
+processed as submitted.
+:attr str language: (optional) The language identifier (two-letter ISO 639-1
+identifier) for the language of the content item. The default is <cite>en</cite> (English).
+Regional variants are treated as their parent language; for example, <cite>en-US</cite> is
+interpreted as <cite>en</cite>. A language specified with the <strong>Content-Type</strong> parameter
+overrides the value of this parameter; any content items that specify a different
+language are ignored. Omit the <strong>Content-Type</strong> parameter to base the language on the
+most prevalent specification among the content items; again, content items that
+specify a different language are ignored. You can specify any combination of languages
+for the input and response content.
+:attr str parentid: (optional) The unique ID of the parent content item for this item.
+Used to identify hierarchical relationships between posts/replies, messages/replies,
+and so on.
+:attr bool reply: (optional) Indicates whether this content item is a reply to another
+content item.
+:attr bool forward: (optional) Indicates whether this content item is a
+forwarded/copied version of another content item.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.Profile">
+<em class="property">class </em><code class="descname">Profile</code><span class="sig-paren">(</span><em>processed_language</em>, <em>word_count</em>, <em>personality</em>, <em>needs</em>, <em>values</em>, <em>warnings</em>, <em>word_count_message=None</em>, <em>behavior=None</em>, <em>consumption_preferences=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#Profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.Profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Profile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str processed_language</dt>
+<dd class="field-odd"><p>The language model that was used to process the input.</p>
+</dd>
+<dt class="field-even">Attr int word_count</dt>
+<dd class="field-even"><p>The number of words from the input that were used to produce the</p>
+</dd>
+</dl>
+<p>profile.
+:attr str word_count_message: (optional) When guidance is appropriate, a string that
+provides a message that indicates the number of words found and where that value falls
+in the range of required or suggested number of words.
+:attr list[Trait] personality: A recursive array of <cite>Trait</cite> objects that provides
+detailed results for the Big Five personality characteristics (dimensions and facets)
+inferred from the input text.
+:attr list[Trait] needs: Detailed results for the Needs characteristics inferred from
+the input text.
+:attr list[Trait] values: Detailed results for the Values characteristics inferred
+from the input text.
+:attr list[Behavior] behavior: (optional) For JSON content that is timestamped,
+detailed results about the social behavior disclosed by the input in terms of temporal
+characteristics. The results include information about the distribution of the content
+over the days of the week and the hours of the day.
+:attr list[ConsumptionPreferencesCategory] consumption_preferences: (optional) If the
+<strong>consumption_preferences</strong> parameter is <cite>true</cite>, detailed results for each category of
+consumption preferences. Each element of the array provides information inferred from
+the input text for the individual preferences of that category.
+:attr list[Warning] warnings: Warning messages associated with the input text
+submitted with the request. The array is empty if the input generated no warnings.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.Trait">
+<em class="property">class </em><code class="descname">Trait</code><span class="sig-paren">(</span><em>trait_id</em>, <em>name</em>, <em>category</em>, <em>percentile</em>, <em>raw_score=None</em>, <em>significant=None</em>, <em>children=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#Trait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.Trait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Trait.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str trait_id</dt>
+<dd class="field-odd"><p>The unique, non-localized identifier of the characteristic to</p>
+</dd>
+</dl>
+<p>which the results pertain. IDs have the form
+* <cite>big5_{characteristic}</cite> for Big Five personality dimensions
+* <cite>facet_{characteristic}</cite> for Big Five personality facets
+* <cite>need_{characteristic}</cite> for Needs</p>
+<blockquote>
+<div><p><a href="#id1"><span class="problematic" id="id2">*</span></a><cite>value_{characteristic}</cite> for Values.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>The user-visible, localized name of the characteristic.</p>
+</dd>
+<dt class="field-even">Attr str category</dt>
+<dd class="field-even"><p>The category of the characteristic: <cite>personality</cite> for Big Five</p>
+</dd>
+</dl>
+<p>personality characteristics, <cite>needs</cite> for Needs, and <cite>values</cite> for Values.
+:attr float percentile: The normalized percentile score for the characteristic. The
+range is 0 to 1. For example, if the percentage for Openness is 0.60, the author
+scored in the 60th percentile; the author is more open than 59 percent of the
+population and less open than 39 percent of the population.
+:attr float raw_score: (optional) The raw score for the characteristic. The range is 0
+to 1. A higher score generally indicates a greater likelihood that the author has that
+characteristic, but raw scores must be considered in aggregate: The range of values in
+practice might be much smaller than 0 to 1, so an individual score must be considered
+in the context of the overall scores and their range.
+The raw score is computed based on the input and the service model; it is not
+normalized or compared with a sample population. The raw score enables comparison of
+the results against a different sampling population and with a custom normalization
+approach.
+:attr bool significant: (optional) <strong>`2017-10-13`</strong>: Indicates whether the
+characteristic is meaningful for the input language. The field is always <cite>true</cite> for
+all characteristics of English, Spanish, and Japanese input. The field is <cite>false</cite> for
+the subset of characteristics of Arabic and Korean input for which the service’s
+models are unable to generate meaningful results. <strong>`2016-10-19`</strong>: Not returned.
+:attr list[Trait] children: (optional) For <cite>personality</cite> (Big Five) dimensions, more
+detailed results for the facets of each dimension as inferred from the input text.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.personality_insights_v3.Warning">
+<em class="property">class </em><code class="descname">Warning</code><span class="sig-paren">(</span><em>warning_id</em>, <em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/personality_insights_v3.html#Warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.personality_insights_v3.Warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Warning.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str warning_id</dt>
+<dd class="field-odd"><p>The identifier of the warning message.</p>
+</dd>
+<dt class="field-even">Attr str message</dt>
+<dd class="field-even"><p>The message associated with the <cite>warning_id</cite>:</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p><cite>WORD_COUNT_MESSAGE</cite>: “There were {number} words in the input. We need a minimum of</p></li>
+</ul>
+<p>600, preferably 1,200 or more, to compute statistically significant estimates.”
+* <cite>JSON_AS_TEXT</cite>: “Request input was processed as text/plain as indicated, however
+detected a JSON input. Did you mean application/json?”
+* <cite>CONTENT_TRUNCATED</cite>: “For maximum accuracy while also optimizing processing time,
+only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels
+off at approximately 3,000 words so this did not affect the accuracy of the profile.”
+* <cite>PARTIAL_TEXT_USED</cite>, “The text provided to compute the profile was trimmed for
+performance reasons. This action does not affect the accuracy of the output, as not
+all of the input text was required.” Applies only when Arabic input text exceeds a
+threshold at which additional words do not contribute to the accuracy of the profile.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.natural_language_understanding_v1.html" title="previous chapter">ibm_watson.natural_language_understanding_v1 module</a></li>
+      <li>Next: <a href="ibm_watson.speech_to_text_v1.html" title="next chapter">ibm_watson.speech_to_text_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

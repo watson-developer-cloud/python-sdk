@@ -1,0 +1,7 @@
+ibm\_watson.tone\_analyzer\_v3 module
+=====================================
+
+.. automodule:: ibm_watson.tone_analyzer_v3
+    :members:
+    :undoc-members:
+    :show-inheritance:

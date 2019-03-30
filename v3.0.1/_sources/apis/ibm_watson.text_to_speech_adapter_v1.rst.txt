@@ -1,0 +1,7 @@
+ibm\_watson.text\_to\_speech\_adapter\_v1 module
+================================================
+
+.. automodule:: ibm_watson.text_to_speech_adapter_v1
+    :members:
+    :undoc-members:
+    :show-inheritance:
