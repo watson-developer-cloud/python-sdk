@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/watson-developer-cloud/python-sdk.svg?branch=master)](https://travis-ci.org/watson-developer-cloud/python-sdk)
 [![Slack](https://wdc-slack-inviter.mybluemix.net/badge.svg)](https://wdc-slack-inviter.mybluemix.net)
-[![Latest Stable Version](https://img.shields.io/pypi/v/ibm-watson.svg)](https://pypi.python.org/pypi//ibm-watson)
+[![Latest Stable Version](https://img.shields.io/pypi/v/ibm-watson.svg)](https://pypi.python.org/pypi/ibm-watson)
 [![CLA assistant](https://cla-assistant.io/readme/badge/watson-developer-cloud/python-sdk)](https://cla-assistant.io/watson-developer-cloud/python-sdk)
 
 Python client library to quickly get started with the various [Watson APIs][wdc] services.
