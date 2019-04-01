@@ -98,7 +98,7 @@ To find out which authentication to use, view the service credentials. You find 
 
 On this page, you should be able to see your credentials for accessing your service instance.
 
-![alt text](https://cdn-images-1.medium.com/max/1600/1*DaTt56z0RaKlbyWDUaRJgQ.png)
+![alt text](https://user-images.githubusercontent.com/13935994/55351058-6ac51900-548b-11e9-886e-945c6d4f31df.png)
 
 
 ### Supplying credentials
