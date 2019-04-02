@@ -143,7 +143,7 @@ You supply either an IAM service **API key** or an **access token**:
 
 - Use the API key to have the SDK manage the lifecycle of the access token. The SDK requests an access token, ensures that the access token is valid, and refreshes it if necessary.
 - Use the access token if you want to manage the lifecycle yourself. For details, see [Authenticating with IAM tokens](https://console.bluemix.net/docs/services/watson/getting-started-iam.html).
-- For untrusted environments use a server-side token generator to generate access tokens for your environment using your IAM API key. The generated access tokens will be valid for one hour and can be refreshed.
+- Use a server-side to generate access tokens using your IAM API key for untrusted environments like client-side scripts. The generated access tokens will be valid for one hour and can be refreshed.
 
 ### Generating access tokens using IAM API key
 ```python
