@@ -1,0 +1,7 @@
+ibm\_watson.personality\_insights\_v3 module
+============================================
+
+.. automodule:: ibm_watson.personality_insights_v3
+    :members:
+    :undoc-members:
+    :show-inheritance:

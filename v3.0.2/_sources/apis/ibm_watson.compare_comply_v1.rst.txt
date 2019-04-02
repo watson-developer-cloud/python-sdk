@@ -1,0 +1,7 @@
+ibm\_watson.compare\_comply\_v1 module
+======================================
+
+.. automodule:: ibm_watson.compare_comply_v1
+    :members:
+    :undoc-members:
+    :show-inheritance:

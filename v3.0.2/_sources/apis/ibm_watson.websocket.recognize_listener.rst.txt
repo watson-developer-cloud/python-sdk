@@ -1,0 +1,7 @@
+ibm\_watson.websocket.recognize\_listener module
+================================================
+
+.. automodule:: ibm_watson.websocket.recognize_listener
+    :members:
+    :undoc-members:
+    :show-inheritance:
