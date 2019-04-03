@@ -194,7 +194,7 @@ discovery.set_username_and_password('<username>', '<password>')
 
 ## Python version
 
-Tested on Python 2.7, 3.4, 3.5, and 3.6.
+Tested on Python 2.7, 3.5, 3.6, and 3.7.
 
 ## Changes for v1.0
 Version 1.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
