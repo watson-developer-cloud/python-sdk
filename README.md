@@ -148,8 +148,8 @@ You supply either an IAM service **API key** or an **access token**:
 ### Generating access tokens using IAM API key
 ```python
 # In your API endpoint use this to generate new access tokens
-iamTokenManager = IAMTokenManager(iam_apikey='<apikey>')
-token = iamTokenManager.get_token()
+iam_token_manager = IAMTokenManager(iam_apikey='<apikey>')
+token = iam_token_manager.get_token()
 ```
 
 #### Supplying the IAM API key
