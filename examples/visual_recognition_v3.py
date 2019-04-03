@@ -16,7 +16,7 @@ service = VisualRecognitionV3(
 # with open(abspath('resources/cars.zip'), 'rb') as cars, \
 #      open(abspath('resources/trucks.zip'), 'rb') as trucks:
 #     classifier = service.create_classifier('Cars vs Trucks',
-#                                            positive_examples={'cars_positive_examples': cars},
+#                                            positive_examples={'cars': cars},
 #                                            negative_examples=trucks).get_result()
 # print(json.dumps(classifier, indent=2))
 

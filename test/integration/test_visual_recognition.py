@@ -42,7 +42,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             open(abspath('resources/trucks.zip'), 'rb') as trucks:
             classifier = self.visual_recognition.create_classifier(
                 'CarsVsTrucks',
-                positive_examples={'cars_positive_examples': cars},
+                positive_examples={'cars': cars},
                 negative_examples=trucks,
                 ).get_result()
 

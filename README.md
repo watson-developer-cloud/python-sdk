@@ -98,9 +98,6 @@ To find out which authentication to use, view the service credentials. You find 
 
 On this page, you should be able to see your credentials for accessing your service instance.
 
-![alt text](https://user-images.githubusercontent.com/13935994/55351058-6ac51900-548b-11e9-886e-945c6d4f31df.png)
-
-
 ### Supplying credentials
 
 There are two ways to supply the credentials you found above to the SDK for authentication.
