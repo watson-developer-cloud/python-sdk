@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.text_to_speech_adapter_v1 module &#8212; Watson Developer Cloud Python SDK 3.0.3 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.text_to_speech_v1 module" href="ibm_watson.text_to_speech_v1.html" />
+    <link rel="prev" title="ibm_watson.speech_to_text_v1_adapter module" href="ibm_watson.speech_to_text_v1_adapter.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.text_to_speech_adapter_v1">
+<span id="ibm-watson-text-to-speech-adapter-v1-module"></span><h1>ibm_watson.text_to_speech_adapter_v1 module<a class="headerlink" href="#module-ibm_watson.text_to_speech_adapter_v1" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ibm_watson.text_to_speech_adapter_v1.TextToSpeechV1Adapter">
+<em class="property">class </em><code class="descname">TextToSpeechV1Adapter</code><span class="sig-paren">(</span><em>url='https://stream.watsonplatform.net/text-to-speech/api'</em>, <em>username=None</em>, <em>password=None</em>, <em>iam_apikey=None</em>, <em>iam_access_token=None</em>, <em>iam_url=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_adapter_v1.html#TextToSpeechV1Adapter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_adapter_v1.TextToSpeechV1Adapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="ibm_watson.text_to_speech_v1.html#ibm_watson.text_to_speech_v1.TextToSpeechV1" title="ibm_watson.text_to_speech_v1.TextToSpeechV1"><code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_watson.text_to_speech_v1.TextToSpeechV1</span></code></a></p>
+<dl class="method">
+<dt id="ibm_watson.text_to_speech_adapter_v1.TextToSpeechV1Adapter.synthesize_using_websocket">
+<code class="descname">synthesize_using_websocket</code><span class="sig-paren">(</span><em>text</em>, <em>synthesize_callback</em>, <em>accept=None</em>, <em>voice=None</em>, <em>timings=None</em>, <em>customization_id=None</em>, <em>http_proxy_host=None</em>, <em>http_proxy_port=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_adapter_v1.html#TextToSpeechV1Adapter.synthesize_using_websocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_adapter_v1.TextToSpeechV1Adapter.synthesize_using_websocket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthesizes text to spoken audio using web sockets. It supports the use of
+the SSML &lt;mark&gt; element to identify the location of user-specified markers in the audio.
+It can also return timing information for all strings of the input text.
+Note:The service processes one request per connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Provides the text that is to be synthesized. The client can pass plain</p>
+</dd>
+</dl>
+<p>text or text that is annotated with the Speech Synthesis Markup Language (SSML). For more
+information, see [Specifying input text](<a class="reference external" href="https://console.bluemix.net/docs/services/text-to-speech/http.html#input">https://console.bluemix.net/docs/services/text-to-speech/http.html#input</a>).
+SSML input can also include the &lt;mark&gt; element;
+see [Specifying an SSML mark](<a class="reference external" href="https://console.bluemix.net/docs/services/text-to-speech/word-timing.html#mark">https://console.bluemix.net/docs/services/text-to-speech/word-timing.html#mark</a>).
+The client can pass a maximum of 5 KB of text with the request.
+:param SynthesizeCallback synthesize_callback: The callback method for the websocket.
+:param str accept: Specifies the requested format (MIME type) of the audio. For more information, see [Specifying
+an audio format](<a class="reference external" href="https://console.bluemix.net/docs/services/text-to-speech/http.html#format">https://console.bluemix.net/docs/services/text-to-speech/http.html#format</a>). In addition to the
+supported specifications, you can use <em>/</em> to specify the default audio format, audio/ogg;codecs=opus.
+:param str voice: The voice to use for synthesis.
+:param list[str] timings: Specifies that the service is to return word timing information for all strings of the
+input text. The service returns the start and end time of each string of the input. Specify words as the lone element
+of the array to request word timings. Specify an empty array or omit the parameter to receive no word timings. For
+more information, see [Obtaining word timings](<a class="reference external" href="https://console.bluemix.net/docs/services/text-to-speech/word-timing.html#timing">https://console.bluemix.net/docs/services/text-to-speech/word-timing.html#timing</a>).
+Not supported for Japanese input text.
+:param str customization_id: Specifies the globally unique identifier (GUID) for a custom voice model that is to be used for the
+synthesis. A custom voice model is guaranteed to work only if it matches the language of the voice that is used for the synthesis.
+If you include a customization ID, you must call the method with the service credentials of the custom model’s owner. Omit the
+parameter to use the specified voice with no customization. For more information, see [Understanding customization]
+(<a class="reference external" href="https://console.bluemix.net/docs/services/text-to-speech/custom-intro.html#customIntro">https://console.bluemix.net/docs/services/text-to-speech/custom-intro.html#customIntro</a>).
+:param str http_proxy_host: http proxy host name.
+:param str http_proxy_port: http proxy port. If not set, set to 80.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>SpeechRecognitionResults</cite> response.
+:rtype: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.speech_to_text_v1_adapter.html" title="previous chapter">ibm_watson.speech_to_text_v1_adapter module</a></li>
+      <li>Next: <a href="ibm_watson.text_to_speech_v1.html" title="next chapter">ibm_watson.text_to_speech_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,7 @@
+ibm\_watson.websocket.recognize\_abstract\_callback module
+==========================================================
+
+.. automodule:: ibm_watson.websocket.recognize_abstract_callback
+    :members:
+    :undoc-members:
+    :show-inheritance:
