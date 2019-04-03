@@ -46,6 +46,7 @@ class IntegrationTestCompareComplyV1(TestCase):
 
         assert result is not None
 
+    @pytest.mark.skip(reason="Temporarily skip")
     def test_feedback(self):
         feedback_data = {
             'feedback_type': 'element_classification',
