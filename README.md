@@ -98,9 +98,6 @@ To find out which authentication to use, view the service credentials. You find 
 
 On this page, you should be able to see your credentials for accessing your service instance.
 
-![alt text](https://user-images.githubusercontent.com/13935994/55351058-6ac51900-548b-11e9-886e-945c6d4f31df.png)
-
-
 ### Supplying credentials
 
 There are two ways to supply the credentials you found above to the SDK for authentication.
@@ -137,12 +134,20 @@ If you'd prefer to set authentication values manually in your code, the SDK supp
 
 ### IAM
 
-IBM Cloud is migrating to token-based Identity and Access Management (IAM) authentication. IAM authentication uses a service API key to get an access token that is passed with the call. Access tokens are valid for approximately one hour and must be regenerated.
+IBM Cloud has migrated to token-based Identity and Access Management (IAM) authentication. IAM authentication uses a service API key to get an access token that is passed with the call. Access tokens are valid for approximately one hour and must be regenerated.
 
 You supply either an IAM service **API key** or an **access token**:
 
 - Use the API key to have the SDK manage the lifecycle of the access token. The SDK requests an access token, ensures that the access token is valid, and refreshes it if necessary.
 - Use the access token if you want to manage the lifecycle yourself. For details, see [Authenticating with IAM tokens](https://console.bluemix.net/docs/services/watson/getting-started-iam.html).
+- Use a server-side to generate access tokens using your IAM API key for untrusted environments like client-side scripts. The generated access tokens will be valid for one hour and can be refreshed.
+
+### Generating access tokens using IAM API key
+```python
+# In your API endpoint use this to generate new access tokens
+iam_token_manager = IAMTokenManager(iam_apikey='<apikey>')
+token = iam_token_manager.get_token()
+```
 
 #### Supplying the IAM API key
 
