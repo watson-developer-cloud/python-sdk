@@ -35,7 +35,7 @@ deploy:
   skip_cleanup: true
   on:
     python: '3.5'
-    branch: v2
+    branch: master
 - provider: pypi
   user: ehdsouza
   password:
