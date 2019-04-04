@@ -35,7 +35,7 @@ from .utils import deprecated
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
+@deprecated("watson-developer-cloud moved to ibm-watson. To get updates, use the new package.")
 class ToneAnalyzerV3(WatsonService):
     """The Tone Analyzer V3 service."""
 

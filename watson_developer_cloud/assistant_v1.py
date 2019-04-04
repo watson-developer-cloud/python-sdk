@@ -30,7 +30,7 @@ from .utils import deprecated
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
+@deprecated("watson-developer-cloud moved to ibm-watson. To get updates, use the new package.")
 class AssistantV1(WatsonService):
     """The Assistant V1 service."""
 

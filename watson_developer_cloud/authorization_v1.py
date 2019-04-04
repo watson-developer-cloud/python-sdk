@@ -27,7 +27,7 @@ except ImportError:
     import urlparse  # Python 2
 
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
+@deprecated("watson-developer-cloud moved to ibm-watson. To get updates, use the new package.")
 class AuthorizationV1(WatsonService):
     """
     Generates tokens, which can be used client-side to avoid exposing the

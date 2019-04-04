@@ -43,7 +43,7 @@ from .utils import deprecated
 # Service
 ##############################################################################
 
-@deprecated("watson-developer-cloud moved to ibm-watson")
+@deprecated("watson-developer-cloud moved to ibm-watson. To get updates, use the new package.")
 class PersonalityInsightsV3(WatsonService):
     """The Personality Insights V3 service."""
 
