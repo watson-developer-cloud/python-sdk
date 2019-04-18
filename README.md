@@ -30,6 +30,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Dependencies](#dependencies)
   * [License](#license)
   * [Contributing](#contributing)
+  * [Featured Projects](#featured-projects)
 
 </details>
 
@@ -333,6 +334,16 @@ service.synthesize_using_websocket('I like to pet dogs',
 ## Contributing
 
 See [CONTRIBUTING.md][CONTRIBUTING].
+
+## Featured Projects
+
+Here are some projects that have been using the SDK:
+
+* [NLC ICD-10 Classifier](https://github.com/IBM/nlc-icd10-classifier)
+* [Cognitive Moderator Service](https://github.com/IBM/cognitive-moderator-service)
+
+We'd love to highlight cool open-source projects that use this SDK! If you'd like to get your project added to the list, feel free to make an issue linking us to it.
+
 
 ## License
 
