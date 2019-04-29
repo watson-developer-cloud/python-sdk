@@ -1,7 +1,0 @@
-watson\_developer\_cloud.iam\_token\_manager module
-===================================================
-
-.. automodule:: watson_developer_cloud.iam_token_manager
-    :members:
-    :undoc-members:
-    :show-inheritance:
