@@ -10,7 +10,7 @@ platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/language-translator/api'
 base_url = '{0}{1}'.format(platform_url, service_path)
 
-iam_url = "https://iam.bluemix.net/identity/token"
+iam_url = "https://iam.cloud.ibm.com/identity/token"
 iam_token_response = """{
     "access_token": "oAeisG8yqPY7sFR_x66Z15",
     "token_type": "Bearer",

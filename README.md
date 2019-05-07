@@ -140,7 +140,7 @@ IBM Cloud has migrated to token-based Identity and Access Management (IAM) authe
 You supply either an IAM service **API key** or an **access token**:
 
 - Use the API key to have the SDK manage the lifecycle of the access token. The SDK requests an access token, ensures that the access token is valid, and refreshes it if necessary.
-- Use the access token if you want to manage the lifecycle yourself. For details, see [Authenticating with IAM tokens](https://console.bluemix.net/docs/services/watson/getting-started-iam.html).
+- Use the access token if you want to manage the lifecycle yourself. For details, see [Authenticating with IAM tokens](https://cloud.ibm.com/docs/services/watson?topic=watson-iam).
 - Use a server-side to generate access tokens using your IAM API key for untrusted environments like client-side scripts. The generated access tokens will be valid for one hour and can be refreshed.
 
 ### Generating access tokens using IAM API key
@@ -157,7 +157,7 @@ token = iam_token_manager.get_token()
 discovery = DiscoveryV1(version='2018-08-01',
                         url='<url_as_per_region>',
                         apikey='<apikey>',
-                        iam_url='<iam_url>') # optional - the default value is https://iam.bluemix.net/identity/token
+                        iam_url='<iam_url>') # optional - the default value is https://iam.cloud.ibm.com/identity/token
 ```
 
 ```python
@@ -350,12 +350,12 @@ We'd love to highlight cool open-source projects that use this SDK! If you'd lik
 This library is licensed under the [Apache 2.0 license][license].
 
 [wdc]: http://www.ibm.com/watson/developercloud/
-[ibm_cloud]: https://console.bluemix.net
-[watson-dashboard]: https://console.bluemix.net/dashboard/apps?category=watson
+[ibm_cloud]: https://cloud.ibm.com/
+[watson-dashboard]: https://cloud.ibm.com/catalog?category=ai
 [responses]: https://github.com/getsentry/responses
 [requests]: http://docs.python-requests.org/en/latest/
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
 [CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
 [license]: http://www.apache.org/licenses/LICENSE-2.0
-[vcap_services]: https://console.bluemix.net/docs/services/watson/getting-started-variables.html
-[ibm-cloud-onboarding]: http://console.bluemix.net/registration?target=/developer/watson&cm_sp=WatsonPlatform-WatsonServices-_-OnPageNavLink-IBMWatson_SDKs-_-Python
+[vcap_services]: https://cloud.ibm.com/docs/services/watson?topic=watson-vcapServices
+[ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=/developer/watson&cm_sp=WatsonPlatform-WatsonServices-_-OnPageNavLink-IBMWatson_SDKs-_-Python

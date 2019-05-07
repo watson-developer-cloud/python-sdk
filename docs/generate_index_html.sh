@@ -18,7 +18,7 @@ echo '<!DOCTYPE html>
     </div>
 
     <p><a href="https://www.ibm.com/watson/developer/">Info</a>
-        | <a href="https://console.bluemix.net/developer/watson/documentation">Documentation</a>
+        | <a href="https://cloud.ibm.com/developer/watson/documentation">Documentation</a>
         | <a href="https://github.com/watson-developer-cloud/python-sdk">GitHub</a>
         | <a href="https://pypi.python.org/pypi/ibm-watson">pypi</a>
     </p>
