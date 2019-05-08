@@ -61,7 +61,7 @@ class VisualRecognitionV3(BaseService):
 
         :param str url: The base url to use when contacting the service (e.g.
                "https://gateway.watsonplatform.net/visual-recognition/api/visual-recognition/api").
-               The base url may differ between Bluemix regions.
+               The base url may differ between IBM Cloud regions.
 
         :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
@@ -73,7 +73,7 @@ class VisualRecognitionV3(BaseService):
                made with an expired token will fail.
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.bluemix.net/identity/token'.
+               'https://iam.cloud.ibm.com/identity/token'.
         """
 
         BaseService.__init__(

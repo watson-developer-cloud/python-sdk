@@ -69,7 +69,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         `model` parameter. You must make the request with service credentials created for
         the instance of the service that owns the custom model. By default, no custom
         language model is used. See [Custom
-        models](https://console.bluemix.net/docs/services/speech-to-text/input.html#custom).
+        models](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#custom).
         **Note:** Use this parameter instead of the deprecated `customization_id`
         parameter.
         :param str acoustic_customization_id: The customization ID (GUID) of a custom
@@ -99,7 +99,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         models that have been upgraded for a new base model. The default value depends on
         whether the parameter is used with or without a custom model. For more
         information, see [Base model
-        version](https://console.bluemix.net/docs/services/speech-to-text/input.html#version).
+        version](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#version).
         :param int inactivity_timeout: The time in seconds after which, if only silence
         (no speech) is detected in submitted audio, the connection is closed with a 400
         error. Useful for stopping audio submission from a live microphone when a user
@@ -143,7 +143,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         To determine whether a language model supports speaker labels, use the **Get
         models** method and check that the attribute `speaker_labels` is set to `true`.
         You can also refer to [Speaker
-        labels](https://console.bluemix.net/docs/services/speech-to-text/output.html#speaker_labels).
+        labels](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#speaker_labels).
         :param str http_proxy_host: http proxy host name.
         :param str http_proxy_port: http proxy port. If not set, set to 80.
         :param str customization_id: **Deprecated.** Use the `language_customization_id`

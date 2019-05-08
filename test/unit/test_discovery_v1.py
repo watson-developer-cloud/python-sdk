@@ -942,7 +942,7 @@ def test_credentials():
                    'username':'user@email.com'}
               }
 
-    iam_url = "https://iam.bluemix.net/identity/token"
+    iam_url = "https://iam.cloud.ibm.com/identity/token"
     iam_token_response = """{
         "access_token": "oAeisG8yqPY7sFR_x66Z15",
         "token_type": "Bearer",
@@ -1084,7 +1084,7 @@ def test_events_and_feedback():
         ]
     }
 
-    iam_url = "https://iam.bluemix.net/identity/token"
+    iam_url = "https://iam.cloud.ibm.com/identity/token"
     iam_token_response = """{
         "access_token": "oAeisG8yqPY7sFR_x66Z15",
         "token_type": "Bearer",
@@ -1249,7 +1249,7 @@ def test_gateway_configuration():
         "gateway_id": "gateway_id"
     }
 
-    iam_url = "https://iam.bluemix.net/identity/token"
+    iam_url = "https://iam.cloud.ibm.com/identity/token"
     iam_token_response = """{
         "access_token": "oAeisG8yqPY7sFR_x66Z15",
         "token_type": "Bearer",

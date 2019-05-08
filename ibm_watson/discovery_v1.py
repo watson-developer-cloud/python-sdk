@@ -65,18 +65,18 @@ class DiscoveryV1(BaseService):
 
         :param str url: The base url to use when contacting the service (e.g.
                "https://gateway.watsonplatform.net/discovery/api/discovery/api").
-               The base url may differ between Bluemix regions.
+               The base url may differ between IBM Cloud regions.
 
         :param str username: The username used to authenticate with the service.
                Username and password credentials are only required to run your
-               application locally or outside of Bluemix. When running on
-               Bluemix, the credentials will be automatically loaded from the
+               application locally or outside of IBM Cloud. When running on
+               IBM Cloud, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
         :param str password: The password used to authenticate with the service.
                Username and password credentials are only required to run your
-               application locally or outside of Bluemix. When running on
-               Bluemix, the credentials will be automatically loaded from the
+               application locally or outside of IBM Cloud. When running on
+               IBM Cloud, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
         :param str iam_apikey: An API key that can be used to request IAM tokens. If
@@ -89,7 +89,7 @@ class DiscoveryV1(BaseService):
                made with an expired token will fail.
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.bluemix.net/identity/token'.
+               'https://iam.cloud.ibm.com/identity/token'.
         """
 
         BaseService.__init__(

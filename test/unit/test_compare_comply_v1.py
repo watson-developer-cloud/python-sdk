@@ -118,7 +118,7 @@ class TestCompareComplyV1(TestCase):
 
     @classmethod
     def setUp(cls):
-        iam_url = "https://iam.bluemix.net/identity/token"
+        iam_url = "https://iam.cloud.ibm.com/identity/token"
         iam_token_response = """{
             "access_token": "oAeisG8yqPY7sFR_x66Z15",
             "token_type": "Bearer",

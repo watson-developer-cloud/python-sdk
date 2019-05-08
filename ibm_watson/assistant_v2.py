@@ -61,18 +61,18 @@ class AssistantV2(BaseService):
 
         :param str url: The base url to use when contacting the service (e.g.
                "https://gateway.watsonplatform.net/assistant/api/assistant/api").
-               The base url may differ between Bluemix regions.
+               The base url may differ between IBM Cloud regions.
 
         :param str username: The username used to authenticate with the service.
                Username and password credentials are only required to run your
-               application locally or outside of Bluemix. When running on
-               Bluemix, the credentials will be automatically loaded from the
+               application locally or outside of IBM Cloud. When running on
+               IBM Cloud, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
         :param str password: The password used to authenticate with the service.
                Username and password credentials are only required to run your
-               application locally or outside of Bluemix. When running on
-               Bluemix, the credentials will be automatically loaded from the
+               application locally or outside of IBM Cloud. When running on
+               IBM Cloud, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
         :param str iam_apikey: An API key that can be used to request IAM tokens. If
@@ -85,7 +85,7 @@ class AssistantV2(BaseService):
                made with an expired token will fail.
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.bluemix.net/identity/token'.
+               'https://iam.cloud.ibm.com/identity/token'.
         """
 
         BaseService.__init__(
@@ -115,7 +115,7 @@ class AssistantV2(BaseService):
         :param str assistant_id: Unique identifier of the assistant. You can find the
         assistant ID of an assistant on the **Assistants** tab of the Watson Assistant
         tool. For information about creating assistants, see the
-        [documentation](https://console.bluemix.net/docs/services/assistant/assistant-add.html#assistant-add-task).
+        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
         **Note:** Currently, the v2 API does not support creating assistants.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -152,7 +152,7 @@ class AssistantV2(BaseService):
         :param str assistant_id: Unique identifier of the assistant. You can find the
         assistant ID of an assistant on the **Assistants** tab of the Watson Assistant
         tool. For information about creating assistants, see the
-        [documentation](https://console.bluemix.net/docs/services/assistant/assistant-add.html#assistant-add-task).
+        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
         **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
         :param dict headers: A `dict` containing the request headers
@@ -202,7 +202,7 @@ class AssistantV2(BaseService):
         :param str assistant_id: Unique identifier of the assistant. You can find the
         assistant ID of an assistant on the **Assistants** tab of the Watson Assistant
         tool. For information about creating assistants, see the
-        [documentation](https://console.bluemix.net/docs/services/assistant/assistant-add.html#assistant-add-task).
+        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
         **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
         :param MessageInput input: An input object that includes the input text.
