@@ -1,0 +1,7 @@
+ibm\_watson.visual\_recognition\_v3 module
+==========================================
+
+.. automodule:: ibm_watson.visual_recognition_v3
+    :members:
+    :undoc-members:
+    :show-inheritance:

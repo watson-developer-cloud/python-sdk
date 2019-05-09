@@ -1,0 +1,7 @@
+ibm\_watson.common module
+=========================
+
+.. automodule:: ibm_watson.common
+    :members:
+    :undoc-members:
+    :show-inheritance:
