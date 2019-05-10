@@ -65,3 +65,7 @@ test/__init__.py
 
 .sfdx/tools/apex.db
 .pytest_cache/
+
+# ignore detect secrets files
+.pre-commit-config.yaml
+.secrets.baseline
