@@ -1310,7 +1310,7 @@ def test_create_workspace():
         username='username', password='password', version='2017-02-03')
     workspace = service.create_workspace(
         name='Pizza app', description='Pizza app', language='en', metadata={},
-        system_settings={'tooling': {'store_generic_responses' : True, 'disambiguation': {'prompt': 'Hello world', 'enabled': True}}}).get_result()
+        system_settings={'tooling': {'store_generic_responses' : True}}).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1433,7 +1433,7 @@ def test_update_workspace():
         description='Pizza app',
         language='en',
         metadata={},
-        system_settings={'tooling': {'store_generic_responses' : True, 'disambiguation': {'prompt': 'Hello world', 'enabled': True}}}).get_result()
+        system_settings={'tooling': {'store_generic_responses' : True}}).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
