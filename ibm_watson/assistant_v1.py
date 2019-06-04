@@ -4394,23 +4394,55 @@ class DialogNodeOutputOptionsElementValue(object):
     user selects the corresponding option.
 
     :attr MessageInput input: (optional) An input object that includes the input text.
+    :attr list[RuntimeIntent] intents: (optional) An array of intents to be used while
+    processing the input.
+    **Note:** This property is supported for backward compatibility with applications that
+    use the v1 **Get response to user input** method.
+    :attr list[RuntimeEntity] entities: (optional) An array of entities to be used while
+    processing the user input.
+    **Note:** This property is supported for backward compatibility with applications that
+    use the v1 **Get response to user input** method.
     """
 
-    def __init__(self, input=None):
+    def __init__(self, input=None, intents=None, entities=None):
         """
         Initialize a DialogNodeOutputOptionsElementValue object.
 
         :param MessageInput input: (optional) An input object that includes the input
         text.
+        :param list[RuntimeIntent] intents: (optional) An array of intents to be used
+        while processing the input.
+        **Note:** This property is supported for backward compatibility with applications
+        that use the v1 **Get response to user input** method.
+        :param list[RuntimeEntity] entities: (optional) An array of entities to be used
+        while processing the user input.
+        **Note:** This property is supported for backward compatibility with applications
+        that use the v1 **Get response to user input** method.
         """
         self.input = input
+        self.intents = intents
+        self.entities = entities
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
         args = {}
+        validKeys = ['input', 'intents', 'entities']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElementValue: '
+                + ', '.join(badKeys))
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
+        if 'intents' in _dict:
+            args['intents'] = [
+                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+            ]
+        if 'entities' in _dict:
+            args['entities'] = [
+                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
