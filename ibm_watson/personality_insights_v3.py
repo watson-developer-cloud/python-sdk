@@ -25,9 +25,9 @@ consumption preferences based on the results of its analysis and, for JSON conte
 timestamped, can report temporal behavior.
 * For information about the meaning of the models that the service uses to describe
 personality characteristics, see [Personality
-models](https://cloud.ibm.com/docs/services/personality-insights/models.html).
+models](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-models#models).
 * For information about the meaning of the consumption preferences, see [Consumption
-preferences](https://cloud.ibm.com/docs/services/personality-insights/preferences.html).
+preferences](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-preferences#preferences).
 **Note:** Request logging is disabled for the Personality Insights service. Regardless of
 whether you set the `X-Watson-Learning-Opt-Out` request header, the service does not log
 or retain data from requests and responses.
@@ -58,6 +58,11 @@ class PersonalityInsightsV3(BaseService):
             iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
+            iam_client_id=None,
+            iam_client_secret=None,
+            icp4d_access_token=None,
+            icp4d_url=None,
+            authentication_type=None,
     ):
         """
         Construct a new client for the Personality Insights service.
@@ -100,6 +105,21 @@ class PersonalityInsightsV3(BaseService):
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
                'https://iam.cloud.ibm.com/identity/token'.
+
+        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
+
+        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
+
+        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
+               fully managed by the application. Responsibility falls on the application to
+               refresh the token, either before it expires or reactively upon receiving a 401
+               from the service as any requests made with an expired token will fail.
+
+        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
+               URL must be passed in.
+
+        :param str authentication_type: Specifies the authentication pattern to use. Values that it
+               takes are basic, iam or icp4d.
         """
 
         BaseService.__init__(
@@ -111,8 +131,13 @@ class PersonalityInsightsV3(BaseService):
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
+            iam_client_id=iam_client_id,
+            iam_client_secret=iam_client_secret,
             use_vcap_services=True,
-            display_name='Personality Insights')
+            display_name='Personality Insights',
+            icp4d_access_token=icp4d_access_token,
+            icp4d_url=icp4d_url,
+            authentication_type=authentication_type)
         self.version = version
 
     #########################
@@ -138,9 +163,9 @@ class PersonalityInsightsV3(BaseService):
         Japanese, Korean, or Spanish. It can return its results in a variety of languages.
         **See also:**
         * [Requesting a
-        profile](https://cloud.ibm.com/docs/services/personality-insights/input.html)
+        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#input)
         * [Providing sufficient
-        input](https://cloud.ibm.com/docs/services/personality-insights/input.html#sufficient)
+        input](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#sufficient)
         ### Content types
          You can provide input content as plain text (`text/plain`), HTML (`text/html`),
         or JSON (`application/json`) by specifying the **Content-Type** parameter. The
@@ -153,7 +178,7 @@ class PersonalityInsightsV3(BaseService):
         parameter to indicate the character encoding of the input text; for example,
         `Content-Type: text/plain;charset=utf-8`.
         **See also:** [Specifying request and response
-        formats](https://cloud.ibm.com/docs/services/personality-insights/input.html#formats)
+        formats](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#formats)
         ### Accept types
          You must request a response as JSON (`application/json`) or comma-separated
         values (`text/csv`) by specifying the **Accept** parameter. CSV output includes a
@@ -161,13 +186,13 @@ class PersonalityInsightsV3(BaseService):
         optional column headers for CSV output.
         **See also:**
         * [Understanding a JSON
-        profile](https://cloud.ibm.com/docs/services/personality-insights/output.html)
+        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-output#output)
         * [Understanding a CSV
-        profile](https://cloud.ibm.com/docs/services/personality-insights/output-csv.html).
+        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-outputCSV#outputCSV).
 
         :param Content content: A maximum of 20 MB of content to analyze, though the
         service requires much less text; for more information, see [Providing sufficient
-        input](https://cloud.ibm.com/docs/services/personality-insights/input.html#sufficient).
+        input](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#sufficient).
         For JSON input, provide an object of type `Content`.
         :param str accept: The type of the response. For more information, see **Accept
         types** in the method description.
@@ -250,7 +275,7 @@ class PersonalityInsightsV3(BaseService):
 
 class Behavior(object):
     """
-    Behavior.
+    The temporal behavior for the input content.
 
     :attr str trait_id: The unique, non-localized identifier of the characteristic to
     which the results pertain. IDs have the form `behavior_{value}`.
@@ -283,6 +308,12 @@ class Behavior(object):
     def _from_dict(cls, _dict):
         """Initialize a Behavior object from a json dictionary."""
         args = {}
+        validKeys = ['trait_id', 'name', 'category', 'percentage']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Behavior: '
+                + ', '.join(badKeys))
         if 'trait_id' in _dict:
             args['trait_id'] = _dict.get('trait_id')
         else:
@@ -335,7 +366,7 @@ class Behavior(object):
 
 class ConsumptionPreferences(object):
     """
-    ConsumptionPreferences.
+    A consumption preference that the service inferred from the input content.
 
     :attr str consumption_preference_id: The unique, non-localized identifier of the
     consumption preference to which the results pertain. IDs have the form
@@ -374,6 +405,12 @@ class ConsumptionPreferences(object):
     def _from_dict(cls, _dict):
         """Initialize a ConsumptionPreferences object from a json dictionary."""
         args = {}
+        validKeys = ['consumption_preference_id', 'name', 'score']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ConsumptionPreferences: '
+                + ', '.join(badKeys))
         if 'consumption_preference_id' in _dict:
             args['consumption_preference_id'] = _dict.get(
                 'consumption_preference_id')
@@ -424,7 +461,7 @@ class ConsumptionPreferences(object):
 
 class ConsumptionPreferencesCategory(object):
     """
-    ConsumptionPreferencesCategory.
+    The consumption preferences that the service inferred from the input content.
 
     :attr str consumption_preference_category_id: The unique, non-localized identifier of
     the consumption preferences category to which the results pertain. IDs have the form
@@ -454,6 +491,15 @@ class ConsumptionPreferencesCategory(object):
     def _from_dict(cls, _dict):
         """Initialize a ConsumptionPreferencesCategory object from a json dictionary."""
         args = {}
+        validKeys = [
+            'consumption_preference_category_id', 'name',
+            'consumption_preferences'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ConsumptionPreferencesCategory: '
+                + ', '.join(badKeys))
         if 'consumption_preference_category_id' in _dict:
             args['consumption_preference_category_id'] = _dict.get(
                 'consumption_preference_category_id')
@@ -511,7 +557,7 @@ class ConsumptionPreferencesCategory(object):
 
 class Content(object):
     """
-    Content.
+    The full input content that the service is to analyze.
 
     :attr list[ContentItem] content_items: An array of `ContentItem` objects that provides
     the text that is to be analyzed.
@@ -530,6 +576,12 @@ class Content(object):
     def _from_dict(cls, _dict):
         """Initialize a Content object from a json dictionary."""
         args = {}
+        validKeys = ['content_items', 'contentItems']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Content: ' +
+                ', '.join(badKeys))
         if 'contentItems' in _dict:
             args['content_items'] = [
                 ContentItem._from_dict(x) for x in (_dict.get('contentItems'))
@@ -564,7 +616,7 @@ class Content(object):
 
 class ContentItem(object):
     """
-    ContentItem.
+    An input content item that the service is to analyze.
 
     :attr str content: The content that is to be analyzed. The service supports up to 20
     MB of content for all `ContentItem` objects combined.
@@ -652,6 +704,15 @@ class ContentItem(object):
     def _from_dict(cls, _dict):
         """Initialize a ContentItem object from a json dictionary."""
         args = {}
+        validKeys = [
+            'content', 'id', 'created', 'updated', 'contenttype', 'language',
+            'parentid', 'reply', 'forward'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ContentItem: '
+                + ', '.join(badKeys))
         if 'content' in _dict:
             args['content'] = _dict.get('content')
         else:
@@ -715,7 +776,7 @@ class ContentItem(object):
 
 class Profile(object):
     """
-    Profile.
+    The personality profile that the service generated for the input content.
 
     :attr str processed_language: The language model that was used to process the input.
     :attr int word_count: The number of words from the input that were used to produce the
@@ -738,8 +799,8 @@ class Profile(object):
     **consumption_preferences** parameter is `true`, detailed results for each category of
     consumption preferences. Each element of the array provides information inferred from
     the input text for the individual preferences of that category.
-    :attr list[Warning] warnings: Warning messages associated with the input text
-    submitted with the request. The array is empty if the input generated no warnings.
+    :attr list[Warning] warnings: An array of warning messages that are associated with
+    the input text for the request. The array is empty if the input generated no warnings.
     """
 
     def __init__(self,
@@ -766,8 +827,9 @@ class Profile(object):
         from the input text.
         :param list[Trait] values: Detailed results for the Values characteristics
         inferred from the input text.
-        :param list[Warning] warnings: Warning messages associated with the input text
-        submitted with the request. The array is empty if the input generated no warnings.
+        :param list[Warning] warnings: An array of warning messages that are associated
+        with the input text for the request. The array is empty if the input generated no
+        warnings.
         :param str word_count_message: (optional) When guidance is appropriate, a string
         that provides a message that indicates the number of words found and where that
         value falls in the range of required or suggested number of words.
@@ -795,6 +857,16 @@ class Profile(object):
     def _from_dict(cls, _dict):
         """Initialize a Profile object from a json dictionary."""
         args = {}
+        validKeys = [
+            'processed_language', 'word_count', 'word_count_message',
+            'personality', 'needs', 'values', 'behavior',
+            'consumption_preferences', 'warnings'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Profile: ' +
+                ', '.join(badKeys))
         if 'processed_language' in _dict:
             args['processed_language'] = _dict.get('processed_language')
         else:
@@ -892,7 +964,7 @@ class Profile(object):
 
 class Trait(object):
     """
-    Trait.
+    The characteristics that the service inferred from the input content.
 
     :attr str trait_id: The unique, non-localized identifier of the characteristic to
     which the results pertain. IDs have the form
@@ -980,6 +1052,15 @@ class Trait(object):
     def _from_dict(cls, _dict):
         """Initialize a Trait object from a json dictionary."""
         args = {}
+        validKeys = [
+            'trait_id', 'name', 'category', 'percentile', 'raw_score',
+            'significant', 'children'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Trait: ' +
+                ', '.join(badKeys))
         if 'trait_id' in _dict:
             args['trait_id'] = _dict.get('trait_id')
         else:
@@ -1046,7 +1127,7 @@ class Trait(object):
 
 class Warning(object):
     """
-    Warning.
+    A warning message that is associated with the input content.
 
     :attr str warning_id: The identifier of the warning message.
     :attr str message: The message associated with the `warning_id`:
@@ -1090,6 +1171,12 @@ class Warning(object):
     def _from_dict(cls, _dict):
         """Initialize a Warning object from a json dictionary."""
         args = {}
+        validKeys = ['warning_id', 'message']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Warning: ' +
+                ', '.join(badKeys))
         if 'warning_id' in _dict:
             args['warning_id'] = _dict.get('warning_id')
         else:
