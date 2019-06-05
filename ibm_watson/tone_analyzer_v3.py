@@ -50,6 +50,11 @@ class ToneAnalyzerV3(BaseService):
             iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
+            iam_client_id=None,
+            iam_client_secret=None,
+            icp4d_access_token=None,
+            icp4d_url=None,
+            authentication_type=None,
     ):
         """
         Construct a new client for the Tone Analyzer service.
@@ -92,6 +97,21 @@ class ToneAnalyzerV3(BaseService):
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
                'https://iam.cloud.ibm.com/identity/token'.
+
+        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
+
+        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
+
+        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
+               fully managed by the application. Responsibility falls on the application to
+               refresh the token, either before it expires or reactively upon receiving a 401
+               from the service as any requests made with an expired token will fail.
+
+        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
+               URL must be passed in.
+
+        :param str authentication_type: Specifies the authentication pattern to use. Values that it
+               takes are basic, iam or icp4d.
         """
 
         BaseService.__init__(
@@ -103,8 +123,13 @@ class ToneAnalyzerV3(BaseService):
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
+            iam_client_id=iam_client_id,
+            iam_client_secret=iam_client_secret,
             use_vcap_services=True,
-            display_name='Tone Analyzer')
+            display_name='Tone Analyzer',
+            icp4d_access_token=icp4d_access_token,
+            icp4d_url=icp4d_url,
+            authentication_type=authentication_type)
         self.version = version
 
     #########################
@@ -122,7 +147,7 @@ class ToneAnalyzerV3(BaseService):
         """
         Analyze general tone.
 
-        Use the general purpose endpoint to analyze the tone of your input content. The
+        Use the general-purpose endpoint to analyze the tone of your input content. The
         service analyzes the content for emotional and language tones. The method always
         analyzes the tone of the full document; by default, it also analyzes the tone of
         each individual sentence of the content.
@@ -138,7 +163,7 @@ class ToneAnalyzerV3(BaseService):
         text/plain;charset=utf-8`. For `text/html`, the service removes HTML tags and
         analyzes only the textual content.
         **See also:** [Using the general-purpose
-        endpoint](https://cloud.ibm.com/docs/services/tone-analyzer/using-tone.html#using-the-general-purpose-endpoint).
+        endpoint](https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utgpe#utgpe).
 
         :param ToneInput tone_input: JSON, plain text, or HTML input that contains the
         content to be analyzed. For JSON input, provide an object of type `ToneInput`.
@@ -213,9 +238,9 @@ class ToneAnalyzerV3(BaseService):
                   accept_language=None,
                   **kwargs):
         """
-        Analyze customer engagement tone.
+        Analyze customer-engagement tone.
 
-        Use the customer engagement endpoint to analyze the tone of customer service and
+        Use the customer-engagement endpoint to analyze the tone of customer service and
         customer support conversations. For each utterance of a conversation, the method
         reports the most prevalent subset of the following seven tones: sad, frustrated,
         satisfied, excited, polite, impolite, and sympathetic.
@@ -226,7 +251,7 @@ class ToneAnalyzerV3(BaseService):
         utterances have more than 500 characters. Per the JSON specification, the default
         character encoding for JSON content is effectively always UTF-8.
         **See also:** [Using the customer-engagement
-        endpoint](https://cloud.ibm.com/docs/services/tone-analyzer/using-tone-chat.html#using-the-customer-engagement-endpoint).
+        endpoint](https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utco#utco).
 
         :param list[Utterance] utterances: An array of `Utterance` objects that provides
         the input content that the service is to analyze.
@@ -281,8 +306,7 @@ class ToneAnalyzerV3(BaseService):
 
 class DocumentAnalysis(object):
     """
-    An object of type `DocumentAnalysis` that provides the results of the analysis for the
-    full input document.
+    The results of the analysis for the full input content.
 
     :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of `ToneScore`
     objects that provides the results of the analysis for each qualifying tone of the
@@ -326,6 +350,12 @@ class DocumentAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentAnalysis object from a json dictionary."""
         args = {}
+        validKeys = ['tones', 'tone_categories', 'warning']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DocumentAnalysis: '
+                + ', '.join(badKeys))
         if 'tones' in _dict:
             args['tones'] = [
                 ToneScore._from_dict(x) for x in (_dict.get('tones'))
@@ -370,7 +400,7 @@ class DocumentAnalysis(object):
 
 class SentenceAnalysis(object):
     """
-    SentenceAnalysis.
+    The results of the analysis for the individual sentences of the input content.
 
     :attr int sentence_id: The unique identifier of a sentence of the input content. The
     first sentence has ID 0, and the ID of each subsequent sentence is incremented by one.
@@ -430,6 +460,15 @@ class SentenceAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a SentenceAnalysis object from a json dictionary."""
         args = {}
+        validKeys = [
+            'sentence_id', 'text', 'tones', 'tone_categories', 'input_from',
+            'input_to'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SentenceAnalysis: '
+                + ', '.join(badKeys))
         if 'sentence_id' in _dict:
             args['sentence_id'] = _dict.get('sentence_id')
         else:
@@ -494,10 +533,10 @@ class SentenceAnalysis(object):
 
 class ToneAnalysis(object):
     """
-    ToneAnalysis.
+    The tone analysis results for the input from the general-purpose endpoint.
 
-    :attr DocumentAnalysis document_tone: An object of type `DocumentAnalysis` that
-    provides the results of the analysis for the full input document.
+    :attr DocumentAnalysis document_tone: The results of the analysis for the full input
+    content.
     :attr list[SentenceAnalysis] sentences_tone: (optional) An array of `SentenceAnalysis`
     objects that provides the results of the analysis for the individual sentences of the
     input content. The service returns results only for the first 100 sentences of the
@@ -509,8 +548,8 @@ class ToneAnalysis(object):
         """
         Initialize a ToneAnalysis object.
 
-        :param DocumentAnalysis document_tone: An object of type `DocumentAnalysis` that
-        provides the results of the analysis for the full input document.
+        :param DocumentAnalysis document_tone: The results of the analysis for the full
+        input content.
         :param list[SentenceAnalysis] sentences_tone: (optional) An array of
         `SentenceAnalysis` objects that provides the results of the analysis for the
         individual sentences of the input content. The service returns results only for
@@ -524,6 +563,12 @@ class ToneAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneAnalysis object from a json dictionary."""
         args = {}
+        validKeys = ['document_tone', 'sentences_tone']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneAnalysis: '
+                + ', '.join(badKeys))
         if 'document_tone' in _dict:
             args['document_tone'] = DocumentAnalysis._from_dict(
                 _dict.get('document_tone'))
@@ -566,7 +611,7 @@ class ToneAnalysis(object):
 
 class ToneCategory(object):
     """
-    ToneCategory.
+    The category for a tone from the input content.
 
     :attr list[ToneScore] tones: An array of `ToneScore` objects that provides the results
     for the tones of the category.
@@ -595,6 +640,12 @@ class ToneCategory(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneCategory object from a json dictionary."""
         args = {}
+        validKeys = ['tones', 'category_id', 'category_name']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneCategory: '
+                + ', '.join(badKeys))
         if 'tones' in _dict:
             args['tones'] = [
                 ToneScore._from_dict(x) for x in (_dict.get('tones'))
@@ -644,7 +695,7 @@ class ToneCategory(object):
 
 class ToneChatScore(object):
     """
-    ToneChatScore.
+    The score for an utterance from the input content.
 
     :attr float score: The score for the tone in the range of 0.5 to 1. A score greater
     than 0.75 indicates a high likelihood that the tone is perceived in the utterance.
@@ -674,6 +725,12 @@ class ToneChatScore(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneChatScore object from a json dictionary."""
         args = {}
+        validKeys = ['score', 'tone_id', 'tone_name']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneChatScore: '
+                + ', '.join(badKeys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -721,7 +778,7 @@ class ToneChatScore(object):
 
 class ToneInput(object):
     """
-    ToneInput.
+    Input for the general-purpose endpoint.
 
     :attr str text: The input content that the service is to analyze.
     """
@@ -738,6 +795,12 @@ class ToneInput(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneInput object from a json dictionary."""
         args = {}
+        validKeys = ['text']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneInput: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -769,7 +832,7 @@ class ToneInput(object):
 
 class ToneScore(object):
     """
-    ToneScore.
+    The score for a tone from the input content.
 
     :attr float score: The score for the tone.
     * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to 1. A score
@@ -825,6 +888,12 @@ class ToneScore(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneScore object from a json dictionary."""
         args = {}
+        validKeys = ['score', 'tone_id', 'tone_name']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneScore: '
+                + ', '.join(badKeys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -870,7 +939,7 @@ class ToneScore(object):
 
 class Utterance(object):
     """
-    Utterance.
+    An utterance for the input of the general-purpose endpoint.
 
     :attr str text: An utterance contributed by a user in the conversation that is to be
     analyzed. The utterance can contain multiple sentences.
@@ -894,6 +963,12 @@ class Utterance(object):
     def _from_dict(cls, _dict):
         """Initialize a Utterance object from a json dictionary."""
         args = {}
+        validKeys = ['text', 'user']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Utterance: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -929,7 +1004,7 @@ class Utterance(object):
 
 class UtteranceAnalyses(object):
     """
-    UtteranceAnalyses.
+    The results of the analysis for the utterances of the input content.
 
     :attr list[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis` objects
     that provides the results for each utterance of the input.
@@ -955,6 +1030,12 @@ class UtteranceAnalyses(object):
     def _from_dict(cls, _dict):
         """Initialize a UtteranceAnalyses object from a json dictionary."""
         args = {}
+        validKeys = ['utterances_tone', 'warning']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class UtteranceAnalyses: '
+                + ', '.join(badKeys))
         if 'utterances_tone' in _dict:
             args['utterances_tone'] = [
                 UtteranceAnalysis._from_dict(x)
@@ -997,7 +1078,7 @@ class UtteranceAnalyses(object):
 
 class UtteranceAnalysis(object):
     """
-    UtteranceAnalysis.
+    The results of the analysis for an utterance of the input content.
 
     :attr int utterance_id: The unique identifier of the utterance. The first utterance
     has ID 0, and the ID of each subsequent utterance is incremented by one.
@@ -1035,6 +1116,12 @@ class UtteranceAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a UtteranceAnalysis object from a json dictionary."""
         args = {}
+        validKeys = ['utterance_id', 'utterance_text', 'tones', 'error']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class UtteranceAnalysis: '
+                + ', '.join(badKeys))
         if 'utterance_id' in _dict:
             args['utterance_id'] = _dict.get('utterance_id')
         else:
