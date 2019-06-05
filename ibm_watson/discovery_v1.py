@@ -3692,7 +3692,8 @@ class Collection(object):
                  document_counts=None,
                  disk_usage=None,
                  training_status=None,
-                 source_crawl=None):
+                 crawl_status=None,
+                 smart_document_understanding=None):
         """
         Initialize a Collection object.
 
@@ -3727,12 +3728,24 @@ class Collection(object):
         self.document_counts = document_counts
         self.disk_usage = disk_usage
         self.training_status = training_status
-        self.source_crawl = source_crawl
+        self.crawl_status = crawl_status
+        self.smart_document_understanding = smart_document_understanding
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Collection object from a json dictionary."""
         args = {}
+        validKeys = [
+            'collection_id', 'name', 'description', 'created', 'updated',
+            'status', 'configuration_id', 'language', 'document_counts',
+            'disk_usage', 'training_status', 'crawl_status',
+            'smart_document_understanding'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Collection: '
+                + ', '.join(badKeys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         if 'name' in _dict:
