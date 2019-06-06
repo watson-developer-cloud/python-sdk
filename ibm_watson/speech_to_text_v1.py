@@ -604,9 +604,9 @@ class SpeechToTextV1(BaseService):
                    customization_id=None,
                    grammar_name=None,
                    redaction=None,
+                   content_type=None,
                    processing_metrics=None,
                    processing_metrics_interval=None,
-                   content_type=None,
                    audio_metrics=None,
                    **kwargs):
         """
