@@ -2340,7 +2340,6 @@ class SpeechToTextV1(BaseService):
     def train_acoustic_model(self,
                              customization_id,
                              custom_language_model_id=None,
-                             strict=None,
                              **kwargs):
         """
         Train a custom acoustic model.
@@ -2400,11 +2399,6 @@ class SpeechToTextV1(BaseService):
         the audio resources. The custom language model must be based on the same version
         of the same base model as the custom acoustic model. The credentials specified
         with the request must own both custom models.
-        :param bool strict: If `false`, allows training of the custom acoustic model to
-        proceed as long as the model contains at least one valid audio resource. The
-        method returns an array of `TrainingWarning` objects that lists any invalid
-        resources. By default (`true`), training of a custom acoustic model fails (status
-        code 400) if the model contains one or more invalid audio resources.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2421,8 +2415,7 @@ class SpeechToTextV1(BaseService):
         headers.update(sdk_headers)
 
         params = {
-            'custom_language_model_id': custom_language_model_id,
-            'strict': strict
+            'custom_language_model_id': custom_language_model_id
         }
 
         url = '/v1/acoustic_customizations/{0}/train'.format(
