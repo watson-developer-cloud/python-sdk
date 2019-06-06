@@ -50,6 +50,9 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   customization_id=None,
                                   grammar_name=None,
                                   redaction=None,
+                                  processing_metrics=None,
+                                  processing_metrics_interval=None,
+                                  audio_metrics=None,
                                   **kwargs):
         """
         Sends audio for speech recognition using web sockets.
@@ -170,6 +173,23 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         **Note:** Applies to US English, Japanese, and Korean transcription only.
         See [Numeric
         redaction](https://cloud.ibm.com/docs/services/speech-to-text/output.html#redaction).
+        :param bool processing_metrics: If `true`, requests processing metrics about the
+        service's transcription of the input audio. The service returns processing metrics
+        at the interval specified by the `processing_metrics_interval` parameter. It also
+        returns processing metrics for transcription events, for example, for final and
+        interim results. By default, the service returns no processing metrics.
+        :param float processing_metrics_interval: Specifies the interval in real
+        wall-clock seconds at which the service is to return processing metrics. The
+        parameter is ignored unless the `processing_metrics` parameter is set to `true`.
+        The parameter accepts a minimum value of 0.1 seconds. The level of precision is
+        not restricted, so you can specify values such as 0.25 and 0.125.
+        The service does not impose a maximum value. If you want to receive processing
+        metrics only for transcription events instead of at periodic intervals, set the
+        value to a large number. If the value is larger than the duration of the audio,
+        the service returns processing metrics only for transcription events.
+        :param bool audio_metrics: If `true`, requests detailed information about the
+        signal characteristics of the input audio. The service returns audio metrics with
+        the final transcription results. By default, the service returns no audio metrics.
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
@@ -227,7 +247,10 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'smart_formatting': smart_formatting,
             'speaker_labels': speaker_labels,
             'grammar_name': grammar_name,
-            'redaction': redaction
+            'redaction': redaction,
+            'processing_metrics': processing_metrics,
+            'processing_metrics_interval': processing_metrics_interval,
+            'audio_metrics': audio_metrics
         }
         options = dict([(k, v) for k, v in options.items() if v is not None])
 
