@@ -479,6 +479,7 @@ class LanguageTranslatorV3(BaseService):
 
     def translate_document(self,
                            file,
+                           filename=None,
                            file_content_type=None,
                            model_id=None,
                            source=None,
@@ -496,6 +497,7 @@ class LanguageTranslatorV3(BaseService):
         [Supported file
         types](https://cloud.ibm.com/docs/services/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats)
         Maximum file size: **20 MB**.
+        :param str filename: The filename for file.
         :param str file_content_type: The content type of file.
         :param str model_id: The model to use for translation. `model_id` or both `source`
         and `target` are required.
@@ -523,7 +525,11 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         form_data = {}
-        form_data['file'] = (None, file, file_content_type or
+        if not filename and hasattr(file, 'name'):
+            filename = basename(file.name)
+        if not filename:
+            raise ValueError('filename must be provided')
+        form_data['file'] = (filename, file, file_content_type or
                              'application/octet-stream')
         if model_id:
             form_data['model_id'] = (None, model_id, 'text/plain')
