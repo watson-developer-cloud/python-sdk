@@ -46,6 +46,7 @@ class TestLanguageTranslatorV3(TestCase):
         responses.add(
             responses.POST, url=iam_url, body=json.dumps(iam_token_response), status=200)
 
+    @classmethod
     @responses.activate
     def test_translate_source_target(self):
         service = ibm_watson.LanguageTranslatorV3(
@@ -71,6 +72,7 @@ class TestLanguageTranslatorV3(TestCase):
         assert response == expected
         TranslationResult._from_dict(response)
 
+    @classmethod
     @responses.activate
     def test_translate_model_id(self):
         service = ibm_watson.LanguageTranslatorV3(
@@ -101,6 +103,7 @@ class TestLanguageTranslatorV3(TestCase):
         assert response == expected
         TranslationResult._from_dict(response)
 
+    @classmethod
     @responses.activate
     def test_identify(self):
         service = ibm_watson.LanguageTranslatorV3(
@@ -136,6 +139,7 @@ class TestLanguageTranslatorV3(TestCase):
         assert response == expected
         IdentifiedLanguages._from_dict(response)
 
+    @classmethod
     @responses.activate
     def test_list_identifiable_languages(self):
         service = ibm_watson.LanguageTranslatorV3(
@@ -183,6 +187,7 @@ class TestLanguageTranslatorV3(TestCase):
         assert response == expected
         IdentifiableLanguages._from_dict(response)
 
+    @classmethod
     @responses.activate
     def test_create_model(self):
         service = ibm_watson.LanguageTranslatorV3(
@@ -219,6 +224,7 @@ class TestLanguageTranslatorV3(TestCase):
         assert response == expected
         TranslationModel._from_dict(response)
 
+    @classmethod
     @responses.activate
     def test_delete_model(self):
         service = ibm_watson.LanguageTranslatorV3(
@@ -242,6 +248,7 @@ class TestLanguageTranslatorV3(TestCase):
         assert response == expected
         DeleteModelResult._from_dict(response)
 
+    @classmethod
     @responses.activate
     def test_get_model(self):
         service = ibm_watson.LanguageTranslatorV3(
@@ -274,6 +281,7 @@ class TestLanguageTranslatorV3(TestCase):
         assert response == expected
         TranslationModel._from_dict(response)
 
+    @classmethod
     @responses.activate
     def test_list_models(self):
         service = ibm_watson.LanguageTranslatorV3(
@@ -321,6 +329,7 @@ class TestLanguageTranslatorV3(TestCase):
         assert response == expected
         TranslationModels._from_dict(response)
 
+    @classmethod
     @responses.activate
     def test_document_translation(self):
         document_status = {
