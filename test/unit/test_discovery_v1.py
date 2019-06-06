@@ -57,8 +57,9 @@ class TestDiscoveryV1(TestCase):
         responses.add(
             responses.POST, url=iam_url, body=json.dumps(iam_token_response), status=200)
 
+    @classmethod
     @responses.activate
-    def test_environments(self):
+    def test_environments(cls):
         discovery_url = urljoin(base_discovery_url, 'environments')
         discovery_response_body = """{
         "environments": [
@@ -104,8 +105,9 @@ class TestDiscoveryV1(TestCase):
         assert responses.calls[0].response.text == discovery_response_body
         assert len(responses.calls) == 1
 
+    @classmethod
     @responses.activate
-    def test_get_environment(self):
+    def test_get_environment(cls):
         discovery_url = urljoin(base_discovery_url, 'environments/envid')
         responses.add(responses.GET, discovery_url,
                       body="{\"resulting_key\": true}", status=200,
@@ -120,8 +122,9 @@ class TestDiscoveryV1(TestCase):
         assert len(responses.calls) == 1
 
 
+    @classmethod
     @responses.activate
-    def test_create_environment(self):
+    def test_create_environment(cls):
 
         discovery_url = urljoin(base_discovery_url, 'environments')
         responses.add(responses.POST, discovery_url,
@@ -136,8 +139,9 @@ class TestDiscoveryV1(TestCase):
         assert len(responses.calls) == 1
 
 
+    @classmethod
     @responses.activate
-    def test_update_environment(self):
+    def test_update_environment(cls):
         discovery_url = urljoin(base_discovery_url, 'environments/envid')
         responses.add(responses.PUT, discovery_url,
                       body="{\"resulting_key\": true}", status=200,
@@ -150,8 +154,9 @@ class TestDiscoveryV1(TestCase):
         assert len(responses.calls) == 1
 
 
+    @classmethod
     @responses.activate
-    def test_delete_environment(self):
+    def test_delete_environment(cls):
         discovery_url = urljoin(base_discovery_url, 'environments/envid')
         responses.add(responses.DELETE, discovery_url,
                       body="{\"resulting_key\": true}", status=200,
@@ -164,8 +169,9 @@ class TestDiscoveryV1(TestCase):
         assert len(responses.calls) == 1
 
 
+    @classmethod
     @responses.activate
-    def test_collections(self):
+    def test_collections(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/collections')
 
@@ -186,8 +192,9 @@ class TestDiscoveryV1(TestCase):
         assert len(responses.calls) == 1
 
 
+    @classmethod
     @responses.activate
-    def test_collection(self):
+    def test_collection(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/collections/collid')
 
@@ -248,8 +255,9 @@ class TestDiscoveryV1(TestCase):
                                          collection_id='collid')
         assert len(responses.calls) == 5
 
+    @classmethod
     @responses.activate
-    def test_federated_query(self):
+    def test_federated_query(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/query')
 
@@ -268,8 +276,9 @@ class TestDiscoveryV1(TestCase):
         assert called_url.path == test_url.path
         assert len(responses.calls) == 1
 
+    @classmethod
     @responses.activate
-    def test_federated_query_2(self):
+    def test_federated_query_2(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/query')
 
@@ -289,8 +298,9 @@ class TestDiscoveryV1(TestCase):
         assert called_url.path == test_url.path
         assert len(responses.calls) == 1
 
+    @classmethod
     @responses.activate
-    def test_federated_query_notices(self):
+    def test_federated_query_notices(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/notices')
 
@@ -307,8 +317,9 @@ class TestDiscoveryV1(TestCase):
         assert called_url.path == test_url.path
         assert len(responses.calls) == 1
 
+    @classmethod
     @responses.activate
-    def test_query(self):
+    def test_query(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/collections/collid/query')
 
@@ -333,8 +344,9 @@ class TestDiscoveryV1(TestCase):
         assert called_url.path == test_url.path
         assert len(responses.calls) == 1
 
+    @classmethod
     @responses.activate
-    def test_query_2(self):
+    def test_query_2(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/collections/collid/query')
 
@@ -361,8 +373,9 @@ class TestDiscoveryV1(TestCase):
         assert called_url.path == test_url.path
         assert len(responses.calls) == 1
 
+    @classmethod
     @responses.activate
-    def test_query_relations(self):
+    def test_query_relations(cls):
         discovery_url = urljoin(
             base_discovery_url,
             'environments/envid/collections/collid/query_relations')
@@ -385,8 +398,9 @@ class TestDiscoveryV1(TestCase):
         assert len(responses.calls) == 1
 
 
+    @classmethod
     @responses.activate
-    def test_query_entities(self):
+    def test_query_entities(cls):
         discovery_url = urljoin(
             base_discovery_url,
             'environments/envid/collections/collid/query_entities')
@@ -408,8 +422,9 @@ class TestDiscoveryV1(TestCase):
         assert called_url.path == test_url.path
         assert len(responses.calls) == 1
 
+    @classmethod
     @responses.activate
-    def test_query_notices(self):
+    def test_query_notices(cls):
         discovery_url = urljoin(
             base_discovery_url,
             'environments/envid/collections/collid/notices')
@@ -431,8 +446,10 @@ class TestDiscoveryV1(TestCase):
         assert called_url.path == test_url.path
         assert len(responses.calls) == 1
 
+
+    @classmethod
     @responses.activate
-    def test_configs(self):
+    def test_configs(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/configurations')
         discovery_config_id = urljoin(base_discovery_url,
@@ -490,8 +507,9 @@ class TestDiscoveryV1(TestCase):
         assert len(responses.calls) == 7
 
 
+    @classmethod
     @responses.activate
-    def test_document(self):
+    def test_document(cls):
         discovery_url = urljoin(base_discovery_url,
                                 'environments/envid/preview')
         config_url = urljoin(base_discovery_url,
@@ -616,8 +634,9 @@ class TestDiscoveryV1(TestCase):
         assert len(responses.calls) == 10
 
 
+    @classmethod
     @responses.activate
-    def test_delete_all_training_data(self):
+    def test_delete_all_training_data(cls):
         training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
         endpoint = training_endpoint.format(environment_id, collection_id)
         url = '{0}{1}'.format(base_url, endpoint)
@@ -630,8 +649,9 @@ class TestDiscoveryV1(TestCase):
         assert response is None
 
 
+    @classmethod
     @responses.activate
-    def test_list_training_data(self):
+    def test_list_training_data(cls):
         training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
         endpoint = training_endpoint.format(environment_id, collection_id)
         url = '{0}{1}'.format(base_url, endpoint)
@@ -670,8 +690,9 @@ class TestDiscoveryV1(TestCase):
         TrainingDataSet._from_dict(response)
 
 
+    @classmethod
     @responses.activate
-    def test_add_training_data(self):
+    def test_add_training_data(cls):
         training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
         endpoint = training_endpoint.format(environment_id, collection_id)
         url = '{0}{1}'.format(base_url, endpoint)
@@ -721,8 +742,9 @@ class TestDiscoveryV1(TestCase):
         TrainingQuery._from_dict(response)
 
 
+    @classmethod
     @responses.activate
-    def test_delete_training_data(self):
+    def test_delete_training_data(cls):
         training_endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'
         query_id = 'queryid'
         endpoint = training_endpoint.format(
@@ -740,8 +762,9 @@ class TestDiscoveryV1(TestCase):
         assert response is None
 
 
+    @classmethod
     @responses.activate
-    def test_get_training_data(self):
+    def test_get_training_data(cls):
         training_endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'
         query_id = 'queryid'
         endpoint = training_endpoint.format(
@@ -775,8 +798,9 @@ class TestDiscoveryV1(TestCase):
         TrainingQuery._from_dict(response)
 
 
+    @classmethod
     @responses.activate
-    def test_create_training_example(self):
+    def test_create_training_example(cls):
         examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
             '/{2}/examples'
         query_id = 'queryid'
@@ -813,8 +837,9 @@ class TestDiscoveryV1(TestCase):
         TrainingExample._from_dict(response)
 
 
+    @classmethod
     @responses.activate
-    def test_delete_training_example(self):
+    def test_delete_training_example(cls):
         examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
             '/{2}/examples/{3}'
         query_id = 'queryid'
@@ -836,8 +861,9 @@ class TestDiscoveryV1(TestCase):
         assert response is None
 
 
+    @classmethod
     @responses.activate
-    def test_get_training_example(self):
+    def test_get_training_example(cls):
         examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
             '/{2}/examples/{3}'
         query_id = 'queryid'
@@ -870,8 +896,9 @@ class TestDiscoveryV1(TestCase):
         TrainingExample._from_dict(response)
 
 
+    @classmethod
     @responses.activate
-    def test_update_training_example(self):
+    def test_update_training_example(cls):
         examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
             '/{2}/examples/{3}'
         query_id = 'queryid'
@@ -909,8 +936,9 @@ class TestDiscoveryV1(TestCase):
         # Verify that response can be converted to a TrainingExample
         TrainingExample._from_dict(response)
 
+    @classmethod
     @responses.activate
-    def test_expansions(self):
+    def test_expansions(cls):
         url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/expansions'
         responses.add(
             responses.GET,
@@ -944,8 +972,9 @@ class TestDiscoveryV1(TestCase):
 
         assert len(responses.calls) == 3
 
+    @classmethod
     @responses.activate
-    def test_delete_user_data(self):
+    def test_delete_user_data(cls):
         url = 'https://gateway.watsonplatform.net/discovery/api/v1/user_data'
         responses.add(
             responses.DELETE,
@@ -960,8 +989,9 @@ class TestDiscoveryV1(TestCase):
         assert response is None
         assert len(responses.calls) == 1
 
+    @classmethod
     @responses.activate
-    def test_credentials(self):
+    def test_credentials(cls):
         discovery_credentials_url = urljoin(base_discovery_url, 'environments/envid/credentials')
 
         results = {'credential_id': 'e68305ce-29f3-48ea-b829-06653ca0fdef',
@@ -1011,8 +1041,9 @@ class TestDiscoveryV1(TestCase):
         discovery.delete_credentials(environment_id='envid', credential_id='credential_id')
         assert len(responses.calls) == 10
 
+    @classmethod
     @responses.activate
-    def test_events_and_feedback(self):
+    def test_events_and_feedback(cls):
         discovery_event_url = urljoin(base_discovery_url, 'events')
         discovery_metrics_event_rate_url = urljoin(base_discovery_url, 'metrics/event_rate')
         discovery_metrics_query_url = urljoin(base_discovery_url, 'metrics/number_of_queries')
@@ -1170,8 +1201,9 @@ class TestDiscoveryV1(TestCase):
 
         assert len(responses.calls) == 14
 
+    @classmethod
     @responses.activate
-    def test_tokenization_dictionary(self):
+    def test_tokenization_dictionary(cls):
         url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/word_lists/tokenization_dictionary?version=2017-11-07'
         responses.add(
             responses.POST,
@@ -1212,8 +1244,9 @@ class TestDiscoveryV1(TestCase):
 
         assert len(responses.calls) == 3
 
+    @classmethod
     @responses.activate
-    def test_stopword_operations(self):
+    def test_stopword_operations(cls):
         url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/word_lists/stopwords?version=2017-11-07'
         responses.add(
             responses.POST,
@@ -1247,8 +1280,10 @@ class TestDiscoveryV1(TestCase):
 
         assert len(responses.calls) == 3
 
+
+    @classmethod
     @responses.activate
-    def test_gateway_configuration(self):
+    def test_gateway_configuration(cls):
         discovery_gateway_url = urljoin(base_discovery_url, 'environments/envid/gateways')
 
         gateway_details = {
