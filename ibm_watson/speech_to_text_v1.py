@@ -5921,7 +5921,6 @@ class SpeechRecognitionResults(object):
                  results=None,
                  result_index=None,
                  speaker_labels=None,
-                 processing_metrics=None,
                  audio_metrics=None,
                  warnings=None):
         """
@@ -5965,7 +5964,6 @@ class SpeechRecognitionResults(object):
         self.results = results
         self.result_index = result_index
         self.speaker_labels = speaker_labels
-        self.processing_metrics = processing_metrics
         self.audio_metrics = audio_metrics
         self.warnings = warnings
 
@@ -5994,9 +5992,6 @@ class SpeechRecognitionResults(object):
                 SpeakerLabelsResult._from_dict(x)
                 for x in (_dict.get('speaker_labels'))
             ]
-        if 'processing_metrics' in _dict:
-            args['processing_metrics'] = ProcessingMetrics._from_dict(
-                _dict.get('processing_metrics'))
         if 'audio_metrics' in _dict:
             args['audio_metrics'] = AudioMetrics._from_dict(
                 _dict.get('audio_metrics'))
@@ -6015,10 +6010,6 @@ class SpeechRecognitionResults(object):
             _dict['speaker_labels'] = [
                 x._to_dict() for x in self.speaker_labels
             ]
-        if hasattr(
-                self,
-                'processing_metrics') and self.processing_metrics is not None:
-            _dict['processing_metrics'] = self.processing_metrics._to_dict()
         if hasattr(self, 'audio_metrics') and self.audio_metrics is not None:
             _dict['audio_metrics'] = self.audio_metrics._to_dict()
         if hasattr(self, 'warnings') and self.warnings is not None:
