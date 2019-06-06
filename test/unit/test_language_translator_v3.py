@@ -48,7 +48,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_translate_source_target(self):
+    def test_translate_source_target(cls):
         service = ibm_watson.LanguageTranslatorV3(
             version='2018-05-01',
             iam_apikey='iam_apikey')
@@ -74,7 +74,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_translate_model_id(self):
+    def test_translate_model_id(cls):
         service = ibm_watson.LanguageTranslatorV3(
             version='2018-05-01',
             iam_apikey='iam_apikey')
@@ -105,7 +105,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_identify(self):
+    def test_identify(cls):
         service = ibm_watson.LanguageTranslatorV3(
             version='2018-05-01',
             iam_apikey='iam_apikey')
@@ -141,7 +141,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_list_identifiable_languages(self):
+    def test_list_identifiable_languages(cls):
         service = ibm_watson.LanguageTranslatorV3(
             version='2018-05-01',
             iam_apikey='iam_apikey')
@@ -189,7 +189,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_create_model(self):
+    def test_create_model(cls):
         service = ibm_watson.LanguageTranslatorV3(
             version='2018-05-01',
             username='xxx',
@@ -226,7 +226,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_delete_model(self):
+    def test_delete_model(cls):
         service = ibm_watson.LanguageTranslatorV3(
             version='2018-05-01',
             iam_apikey='iam_apikey')
@@ -250,7 +250,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_get_model(self):
+    def test_get_model(cls):
         service = ibm_watson.LanguageTranslatorV3(
             version='2018-05-01',
             iam_apikey='iam_apikey')
@@ -283,7 +283,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_list_models(self):
+    def test_list_models(cls):
         service = ibm_watson.LanguageTranslatorV3(
             version='2018-05-01',
             iam_apikey='iam_apikey')
@@ -331,7 +331,7 @@ class TestLanguageTranslatorV3(TestCase):
 
     @classmethod
     @responses.activate
-    def test_document_translation(self):
+    def test_document_translation(cls):
         document_status = {
             'status': 'processing',
             'model_id': 'en-es',
