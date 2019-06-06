@@ -27,6 +27,8 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Disable SSL certificate verification](#disable-ssl-certificate-verification)
   * [Sending request headers](#sending-request-headers)
   * [Parsing HTTP response info](#parsing-http-response-info)
+  * [Using Websockets](#using-websockets)
+  * [IBM Cloud Pak for Data(ICP4D)](#ibm-cloud-pak-for-data(icp4d))
   * [Dependencies](#dependencies)
   * [License](#license)
   * [Contributing](#contributing)
@@ -320,6 +322,33 @@ service.synthesize_using_websocket('I like to pet dogs',
                                    accept='audio/wav',
                                    voice='en-US_AllisonVoice'
                                   )
+```
+
+## IBM Cloud Pak for Data(ICP4D)
+If your service instance is of ICP4D, below are two ways of initializing the assistant service.
+
+#### 1) Supplying the `username`, `password`, `icp4d_url` and `authentication_type`
+The SDK will manage the token for the user
+```python
+assistant = AssistantV1(
+    version='<version',
+    username='<your username>',
+    password='<your password>',
+    url='<service url>', # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
+    icp4d_url='<authentication url>', # should be of the form https://{icp_cluster_host}
+    authentication_type='icp4d')
+
+assistant.disable_SSL_verification() # MAKE SURE SSL VERIFICATION IS DISABLED
+```
+
+#### 2) Supplying the access token
+```python
+assistant = AssistantV1(
+    version='<version>',
+    url='service url', # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
+    icp4d_access_token='<your managed access token>')
+
+assistant.disable_SSL_verification() # MAKE SURE SSL VERIFICATION IS DISABLED
 ```
 
 ## Dependencies
