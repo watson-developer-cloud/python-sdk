@@ -438,9 +438,7 @@ class TestDiscoveryV1(TestCase):
         discovery_config_id = urljoin(base_discovery_url,
                                       'environments/envid/configurations/confid')
 
-        results = {"configurations":
-                [{"name": "Default Configuration",
-                  "configuration_id": "confid"}]}
+        results = {"configurations":[{"name": "Default Configuration", "configuration_id": "confid"}]}
 
         responses.add(responses.GET, discovery_url,
                       body=json.dumps(results),
@@ -503,9 +501,7 @@ class TestDiscoveryV1(TestCase):
                       status=200,
                       content_type='application/json')
         responses.add(responses.GET, config_url,
-                      body=json.dumps({"configurations":
-                                    [{"name": "Default Configuration",
-                                      "configuration_id": "confid"}]}),
+                      body=json.dumps({"configurations": [{"name": "Default Configuration", "configuration_id": "confid"}]}),
                       status=200,
                       content_type='application/json')
 
