@@ -122,7 +122,7 @@ try:
         pass
 except KeyboardInterrupt:
     # stop recording
-    audio_source.completed_recording()
     stream.stop_stream()
     stream.close()
     audio.terminate()
+    audio_source.completed_recording()
