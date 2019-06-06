@@ -27,6 +27,7 @@ import json
 from .common import get_sdk_headers
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from os.path import basename
 
 ##############################################################################
 # Service
