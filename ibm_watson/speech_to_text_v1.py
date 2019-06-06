@@ -1219,7 +1219,6 @@ class SpeechToTextV1(BaseService):
                              customization_id,
                              word_type_to_add=None,
                              customization_weight=None,
-                             strict=None,
                              **kwargs):
         """
         Train a custom language model.
@@ -1277,12 +1276,6 @@ class SpeechToTextV1(BaseService):
         The value that you assign is used for all recognition requests that use the model.
         You can override it for any recognition request by specifying a customization
         weight for that request.
-        :param bool strict: If `false`, allows training of the custom language model to
-        proceed as long as the model contains at least one valid resource. The method
-        returns an array of `TrainingWarning` objects that lists any invalid resources. By
-        default (`true`), training of a custom language model fails (status code 400) if
-        the model contains one or more invalid resources (corpus files, grammar files, or
-        custom words).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1300,8 +1293,7 @@ class SpeechToTextV1(BaseService):
 
         params = {
             'word_type_to_add': word_type_to_add,
-            'customization_weight': customization_weight,
-            'strict': strict
+            'customization_weight': customization_weight
         }
 
         url = '/v1/customizations/{0}/train'.format(
