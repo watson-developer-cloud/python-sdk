@@ -606,8 +606,8 @@ class SpeechToTextV1(BaseService):
                    redaction=None,
                    processing_metrics=None,
                    processing_metrics_interval=None,
-                   audio_metrics=None,
                    content_type=None,
+                   audio_metrics=None,
                    **kwargs):
         """
         Create a job.
