@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.common &#8212; Watson Developer Cloud Python SDK 3.1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for ibm_watson.common</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># Copyright 2019 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">from</span> <span class="nn">.version</span> <span class="k">import</span> <span class="n">__version__</span>
+
+<span class="n">SDK_ANALYTICS_HEADER</span> <span class="o">=</span> <span class="s1">&#39;X-IBMCloud-SDK-Analytics&#39;</span>
+<span class="n">USER_AGENT_HEADER</span> <span class="o">=</span> <span class="s1">&#39;User-Agent&#39;</span>
+<span class="n">SDK_NAME</span> <span class="o">=</span> <span class="s1">&#39;watson-apis-python-sdk&#39;</span>
+
+<div class="viewcode-block" id="get_system_info"><a class="viewcode-back" href="../../apis/ibm_watson.common.html#ibm_watson.common.get_system_info">[docs]</a><span class="k">def</span> <span class="nf">get_system_info</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> </span><span class="si">{1}</span><span class="s1"> </span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">(),</span> <span class="c1"># OS</span>
+                                <span class="n">platform</span><span class="o">.</span><span class="n">release</span><span class="p">(),</span> <span class="c1"># OS version</span>
+                                <span class="n">platform</span><span class="o">.</span><span class="n">python_version</span><span class="p">())</span> <span class="c1"># Python version</span></div>
+<div class="viewcode-block" id="get_user_agent"><a class="viewcode-back" href="../../apis/ibm_watson.common.html#ibm_watson.common.get_user_agent">[docs]</a><span class="k">def</span> <span class="nf">get_user_agent</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">user_agent</span></div>
+
+<div class="viewcode-block" id="get_sdk_analytics"><a class="viewcode-back" href="../../apis/ibm_watson.common.html#ibm_watson.common.get_sdk_analytics">[docs]</a><span class="k">def</span> <span class="nf">get_sdk_analytics</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_version</span><span class="p">,</span> <span class="n">operation_id</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;service_name=</span><span class="si">{0}</span><span class="s1">;service_version=</span><span class="si">{1}</span><span class="s1">;operation_id=</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">service_name</span><span class="p">,</span> <span class="n">service_version</span><span class="p">,</span> <span class="n">operation_id</span><span class="p">)</span></div>
+
+<span class="n">user_agent</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">-</span><span class="si">{1}</span><span class="s1"> </span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SDK_NAME</span><span class="p">,</span> <span class="n">__version__</span><span class="p">,</span> <span class="n">get_system_info</span><span class="p">())</span>
+
+<div class="viewcode-block" id="get_sdk_headers"><a class="viewcode-back" href="../../apis/ibm_watson.common.html#ibm_watson.common.get_sdk_headers">[docs]</a><span class="k">def</span> <span class="nf">get_sdk_headers</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_version</span><span class="p">,</span> <span class="n">operation_id</span><span class="p">):</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">headers</span><span class="p">[</span><span class="n">SDK_ANALYTICS_HEADER</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_sdk_analytics</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">service_version</span><span class="p">,</span> <span class="n">operation_id</span><span class="p">)</span>
+    <span class="n">headers</span><span class="p">[</span><span class="n">USER_AGENT_HEADER</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_user_agent</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">headers</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
