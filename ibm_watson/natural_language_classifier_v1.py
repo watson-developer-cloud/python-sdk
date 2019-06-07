@@ -45,6 +45,11 @@ class NaturalLanguageClassifierV1(BaseService):
             iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
+            iam_client_id=None,
+            iam_client_secret=None,
+            icp4d_access_token=None,
+            icp4d_url=None,
+            authentication_type=None,
     ):
         """
         Construct a new client for the Natural Language Classifier service.
@@ -61,7 +66,7 @@ class NaturalLanguageClassifierV1(BaseService):
 
         :param str password: The password used to authenticate with the service.
                Username and password credentials are only required to run your
-               application locally or outside of BlueIBM Cloudmix. When running on
+               application locally or outside of IBM Cloud. When running on
                IBM Cloud, the credentials will be automatically loaded from the
                `VCAP_SERVICES` environment variable.
 
@@ -76,6 +81,21 @@ class NaturalLanguageClassifierV1(BaseService):
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
                'https://iam.cloud.ibm.com/identity/token'.
+
+        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
+
+        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
+
+        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
+               fully managed by the application. Responsibility falls on the application to
+               refresh the token, either before it expires or reactively upon receiving a 401
+               from the service as any requests made with an expired token will fail.
+
+        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
+               URL must be passed in.
+
+        :param str authentication_type: Specifies the authentication pattern to use. Values that it
+               takes are basic, iam or icp4d.
         """
 
         BaseService.__init__(
@@ -87,8 +107,13 @@ class NaturalLanguageClassifierV1(BaseService):
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
+            iam_client_id=iam_client_id,
+            iam_client_secret=iam_client_secret,
             use_vcap_services=True,
-            display_name='Natural Language Classifier')
+            display_name='Natural Language Classifier',
+            icp4d_access_token=icp4d_access_token,
+            icp4d_url=icp4d_url,
+            authentication_type=authentication_type)
 
     #########################
     # Classify text
@@ -192,7 +217,7 @@ class NaturalLanguageClassifierV1(BaseService):
         :param file training_data: Training data in CSV format. Each text value must have
         at least one class. The data can include up to 3,000 classes and 20,000 records.
         For details, see [Data
-        preparation](https://cloud.ibm.com/docs/services/natural-language-classifier/using-your-data.html).
+        preparation](https://cloud.ibm.com/docs/services/natural-language-classifier?topic=natural-language-classifier-using-your-data).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -223,30 +248,27 @@ class NaturalLanguageClassifierV1(BaseService):
             accept_json=True)
         return response
 
-    def delete_classifier(self, classifier_id, **kwargs):
+    def list_classifiers(self, **kwargs):
         """
-        Delete classifier.
+        List classifiers.
 
-        :param str classifier_id: Classifier ID to delete.
+        Returns an empty array if no classifiers are available.
+
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
 
-        if classifier_id is None:
-            raise ValueError('classifier_id must be provided')
-
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
-                                      'delete_classifier')
+                                      'list_classifiers')
         headers.update(sdk_headers)
 
-        url = '/v1/classifiers/{0}'.format(
-            *self._encode_path_vars(classifier_id))
+        url = '/v1/classifiers'
         response = self.request(
-            method='DELETE', url=url, headers=headers, accept_json=True)
+            method='GET', url=url, headers=headers, accept_json=True)
         return response
 
     def get_classifier(self, classifier_id, **kwargs):
@@ -277,27 +299,30 @@ class NaturalLanguageClassifierV1(BaseService):
             method='GET', url=url, headers=headers, accept_json=True)
         return response
 
-    def list_classifiers(self, **kwargs):
+    def delete_classifier(self, classifier_id, **kwargs):
         """
-        List classifiers.
+        Delete classifier.
 
-        Returns an empty array if no classifiers are available.
-
+        :param str classifier_id: Classifier ID to delete.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
 
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
-                                      'list_classifiers')
+                                      'delete_classifier')
         headers.update(sdk_headers)
 
-        url = '/v1/classifiers'
+        url = '/v1/classifiers/{0}'.format(
+            *self._encode_path_vars(classifier_id))
         response = self.request(
-            method='GET', url=url, headers=headers, accept_json=True)
+            method='DELETE', url=url, headers=headers, accept_json=True)
         return response
 
 
@@ -344,6 +369,12 @@ class Classification(object):
     def _from_dict(cls, _dict):
         """Initialize a Classification object from a json dictionary."""
         args = {}
+        validKeys = ['classifier_id', 'url', 'text', 'top_class', 'classes']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Classification: '
+                + ', '.join(badKeys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
@@ -415,6 +446,12 @@ class ClassificationCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassificationCollection object from a json dictionary."""
         args = {}
+        validKeys = ['classifier_id', 'url', 'collection']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ClassificationCollection: '
+                + ', '.join(badKeys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
@@ -476,6 +513,12 @@ class ClassifiedClass(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifiedClass object from a json dictionary."""
         args = {}
+        validKeys = ['confidence', 'class_name']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ClassifiedClass: '
+                + ', '.join(badKeys))
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
         if 'class_name' in _dict:
@@ -551,6 +594,15 @@ class Classifier(object):
     def _from_dict(cls, _dict):
         """Initialize a Classifier object from a json dictionary."""
         args = {}
+        validKeys = [
+            'name', 'url', 'status', 'classifier_id', 'created',
+            'status_description', 'language'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Classifier: '
+                + ', '.join(badKeys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'url' in _dict:
@@ -631,6 +683,12 @@ class ClassifierList(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifierList object from a json dictionary."""
         args = {}
+        validKeys = ['classifiers']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ClassifierList: '
+                + ', '.join(badKeys))
         if 'classifiers' in _dict:
             args['classifiers'] = [
                 Classifier._from_dict(x) for x in (_dict.get('classifiers'))
@@ -682,6 +740,12 @@ class ClassifyInput(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifyInput object from a json dictionary."""
         args = {}
+        validKeys = ['text']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ClassifyInput: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -740,6 +804,12 @@ class CollectionItem(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionItem object from a json dictionary."""
         args = {}
+        validKeys = ['text', 'top_class', 'classes']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CollectionItem: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'top_class' in _dict:

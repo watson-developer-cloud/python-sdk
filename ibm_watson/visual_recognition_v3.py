@@ -44,6 +44,11 @@ class VisualRecognitionV3(BaseService):
             iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
+            iam_client_id=None,
+            iam_client_secret=None,
+            icp4d_access_token=None,
+            icp4d_url=None,
+            authentication_type=None,
     ):
         """
         Construct a new client for the Visual Recognition service.
@@ -74,6 +79,21 @@ class VisualRecognitionV3(BaseService):
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
                'https://iam.cloud.ibm.com/identity/token'.
+
+        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
+
+        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
+
+        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
+               fully managed by the application. Responsibility falls on the application to
+               refresh the token, either before it expires or reactively upon receiving a 401
+               from the service as any requests made with an expired token will fail.
+
+        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
+               URL must be passed in.
+
+        :param str authentication_type: Specifies the authentication pattern to use. Values that it
+               takes are basic, iam or icp4d.
         """
 
         BaseService.__init__(
@@ -83,8 +103,13 @@ class VisualRecognitionV3(BaseService):
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
+            iam_client_id=iam_client_id,
+            iam_client_secret=iam_client_secret,
             use_vcap_services=True,
-            display_name='Visual Recognition')
+            display_name='Visual Recognition',
+            icp4d_access_token=icp4d_access_token,
+            icp4d_url=icp4d_url,
+            authentication_type=authentication_type)
         self.version = version
 
     #########################
@@ -203,10 +228,10 @@ class VisualRecognitionV3(BaseService):
         to the Face model was removed. The identity information refers to the `name` of
         the person, `score`, and `type_hierarchy` knowledge graph. For details about the
         enhanced Face model, see the [Release
-        notes](https://cloud.ibm.com/docs/services/visual-recognition/release-notes.html#2april2018).
+        notes](https://cloud.ibm.com/docs/services/visual-recognition?topic=visual-recognition-release-notes#2april2018).
         Analyze and get data about faces in images. Responses can include estimated age
         and gender. This feature uses a built-in model, so no training is necessary. The
-        Detect faces method does not support general biometric facial recognition.
+        **Detect faces** method does not support general biometric facial recognition.
         Supported image formats include .gif, .jpg, .png, and .tif. The maximum image size
         is 10 MB. The minimum recommended pixel density is 32X32 pixels, but the service
         tends to perform better with images that are at least 224 x 224 pixels.
@@ -350,32 +375,29 @@ class VisualRecognitionV3(BaseService):
             accept_json=True)
         return response
 
-    def delete_classifier(self, classifier_id, **kwargs):
+    def list_classifiers(self, verbose=None, **kwargs):
         """
-        Delete a classifier.
+        Retrieve a list of classifiers.
 
-        :param str classifier_id: The ID of the classifier.
+        :param bool verbose: Specify `true` to return details about the classifiers. Omit
+        this parameter to return a brief list of classifiers.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
 
-        if classifier_id is None:
-            raise ValueError('classifier_id must be provided')
-
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
-                                      'delete_classifier')
+                                      'list_classifiers')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'verbose': verbose}
 
-        url = '/v3/classifiers/{0}'.format(
-            *self._encode_path_vars(classifier_id))
+        url = '/v3/classifiers'
         response = self.request(
-            method='DELETE',
+            method='GET',
             url=url,
             headers=headers,
             params=params,
@@ -416,35 +438,6 @@ class VisualRecognitionV3(BaseService):
             accept_json=True)
         return response
 
-    def list_classifiers(self, verbose=None, **kwargs):
-        """
-        Retrieve a list of classifiers.
-
-        :param bool verbose: Specify `true` to return details about the classifiers. Omit
-        this parameter to return a brief list of classifiers.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
-                                      'list_classifiers')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version, 'verbose': verbose}
-
-        url = '/v3/classifiers'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
     def update_classifier(self,
                           classifier_id,
                           positive_examples={},
@@ -457,7 +450,7 @@ class VisualRecognitionV3(BaseService):
         Update a custom classifier by adding new positive or negative classes or by adding
         new images to existing classes. You must supply at least one set of positive or
         negative examples. For details, see [Updating custom
-        classifiers](https://cloud.ibm.com/docs/services/visual-recognition/customizing.html#updating-custom-classifiers).
+        classifiers](https://cloud.ibm.com/docs/services/visual-recognition?topic=visual-recognition-customizing#updating-custom-classifiers).
         Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
         file names, and classifier and class names). The service assumes UTF-8 encoding if
         it encounters non-ASCII characters.
@@ -528,6 +521,38 @@ class VisualRecognitionV3(BaseService):
             accept_json=True)
         return response
 
+    def delete_classifier(self, classifier_id, **kwargs):
+        """
+        Delete a classifier.
+
+        :param str classifier_id: The ID of the classifier.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if classifier_id is None:
+            raise ValueError('classifier_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
+                                      'delete_classifier')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v3/classifiers/{0}'.format(
+            *self._encode_path_vars(classifier_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
     #########################
     # Core ML
     #########################
@@ -580,7 +605,7 @@ class VisualRecognitionV3(BaseService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
-        security](https://cloud.ibm.com/docs/services/visual-recognition/information-security.html).
+        security](https://cloud.ibm.com/docs/services/visual-recognition?topic=visual-recognition-information-security).
 
         :param str customer_id: The customer ID for which all data is to be deleted.
         :param dict headers: A `dict` containing the request headers
@@ -634,6 +659,12 @@ class Class(object):
     def _from_dict(cls, _dict):
         """Initialize a Class object from a json dictionary."""
         args = {}
+        validKeys = ['class_name', 'class']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Class: ' +
+                ', '.join(badKeys))
         if 'class' in _dict or 'class_name' in _dict:
             args['class_name'] = _dict.get('class') or _dict.get('class_name')
         else:
@@ -705,6 +736,12 @@ class ClassResult(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassResult object from a json dictionary."""
         args = {}
+        validKeys = ['class_name', 'class', 'score', 'type_hierarchy']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ClassResult: '
+                + ', '.join(badKeys))
         if 'class' in _dict or 'class_name' in _dict:
             args['class_name'] = _dict.get('class') or _dict.get('class_name')
         else:
@@ -789,6 +826,14 @@ class ClassifiedImage(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifiedImage object from a json dictionary."""
         args = {}
+        validKeys = [
+            'source_url', 'resolved_url', 'image', 'error', 'classifiers'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ClassifiedImage: '
+                + ', '.join(badKeys))
         if 'source_url' in _dict:
             args['source_url'] = _dict.get('source_url')
         if 'resolved_url' in _dict:
@@ -879,6 +924,12 @@ class ClassifiedImages(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifiedImages object from a json dictionary."""
         args = {}
+        validKeys = ['custom_classes', 'images_processed', 'images', 'warnings']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ClassifiedImages: '
+                + ', '.join(badKeys))
         if 'custom_classes' in _dict:
             args['custom_classes'] = _dict.get('custom_classes')
         if 'images_processed' in _dict:
@@ -998,6 +1049,15 @@ class Classifier(object):
     def _from_dict(cls, _dict):
         """Initialize a Classifier object from a json dictionary."""
         args = {}
+        validKeys = [
+            'classifier_id', 'name', 'owner', 'status', 'core_ml_enabled',
+            'explanation', 'created', 'classes', 'retrained', 'updated'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Classifier: '
+                + ', '.join(badKeys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         else:
@@ -1095,6 +1155,12 @@ class ClassifierResult(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifierResult object from a json dictionary."""
         args = {}
+        validKeys = ['name', 'classifier_id', 'classes']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ClassifierResult: '
+                + ', '.join(badKeys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -1162,6 +1228,12 @@ class Classifiers(object):
     def _from_dict(cls, _dict):
         """Initialize a Classifiers object from a json dictionary."""
         args = {}
+        validKeys = ['classifiers']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Classifiers: '
+                + ', '.join(badKeys))
         if 'classifiers' in _dict:
             args['classifiers'] = [
                 Classifier._from_dict(x) for x in (_dict.get('classifiers'))
@@ -1225,6 +1297,12 @@ class DetectedFaces(object):
     def _from_dict(cls, _dict):
         """Initialize a DetectedFaces object from a json dictionary."""
         args = {}
+        validKeys = ['images_processed', 'images', 'warnings']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DetectedFaces: '
+                + ', '.join(badKeys))
         if 'images_processed' in _dict:
             args['images_processed'] = _dict.get('images_processed')
         else:
@@ -1300,6 +1378,12 @@ class ErrorInfo(object):
     def _from_dict(cls, _dict):
         """Initialize a ErrorInfo object from a json dictionary."""
         args = {}
+        validKeys = ['code', 'description', 'error_id']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ErrorInfo: '
+                + ', '.join(badKeys))
         if 'code' in _dict:
             args['code'] = _dict.get('code')
         else:
@@ -1371,6 +1455,12 @@ class Face(object):
     def _from_dict(cls, _dict):
         """Initialize a Face object from a json dictionary."""
         args = {}
+        validKeys = ['age', 'gender', 'face_location']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Face: ' +
+                ', '.join(badKeys))
         if 'age' in _dict:
             args['age'] = FaceAge._from_dict(_dict.get('age'))
         if 'gender' in _dict:
@@ -1433,6 +1523,12 @@ class FaceAge(object):
     def _from_dict(cls, _dict):
         """Initialize a FaceAge object from a json dictionary."""
         args = {}
+        validKeys = ['min', 'max', 'score']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class FaceAge: ' +
+                ', '.join(badKeys))
         if 'min' in _dict:
             args['min'] = _dict.get('min')
         if 'max' in _dict:
@@ -1499,6 +1595,12 @@ class FaceGender(object):
     def _from_dict(cls, _dict):
         """Initialize a FaceGender object from a json dictionary."""
         args = {}
+        validKeys = ['gender', 'gender_label', 'score']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class FaceGender: '
+                + ', '.join(badKeys))
         if 'gender' in _dict:
             args['gender'] = _dict.get('gender')
         else:
@@ -1571,6 +1673,12 @@ class FaceLocation(object):
     def _from_dict(cls, _dict):
         """Initialize a FaceLocation object from a json dictionary."""
         args = {}
+        validKeys = ['width', 'height', 'left', 'top']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class FaceLocation: '
+                + ', '.join(badKeys))
         if 'width' in _dict:
             args['width'] = _dict.get('width')
         else:
@@ -1665,6 +1773,12 @@ class ImageWithFaces(object):
     def _from_dict(cls, _dict):
         """Initialize a ImageWithFaces object from a json dictionary."""
         args = {}
+        validKeys = ['faces', 'image', 'source_url', 'resolved_url', 'error']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ImageWithFaces: '
+                + ', '.join(badKeys))
         if 'faces' in _dict:
             args['faces'] = [Face._from_dict(x) for x in (_dict.get('faces'))]
         else:
@@ -1733,6 +1847,12 @@ class WarningInfo(object):
     def _from_dict(cls, _dict):
         """Initialize a WarningInfo object from a json dictionary."""
         args = {}
+        validKeys = ['warning_id', 'description']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WarningInfo: '
+                + ', '.join(badKeys))
         if 'warning_id' in _dict:
             args['warning_id'] = _dict.get('warning_id')
         else:

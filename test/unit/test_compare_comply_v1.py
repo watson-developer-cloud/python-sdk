@@ -3,6 +3,8 @@ import responses
 import ibm_watson
 import json
 import os
+import time
+import jwt
 
 from unittest import TestCase
 
@@ -114,20 +116,39 @@ batch = {
     "output_bucket_location": "us-south"
 }
 
+def get_access_token():
+    access_token_layout = {
+        "username": "dummy",
+        "role": "Admin",
+        "permissions": [
+            "administrator",
+            "manage_catalog"
+        ],
+        "sub": "admin",
+        "iss": "sss",
+        "aud": "sss",
+        "uid": "sss",
+        "iat": 3600,
+        "exp": int(time.time())
+    }
+
+    access_token = jwt.encode(access_token_layout, 'secret', algorithm='HS256', headers={'kid': '230498151c214b788dd97f22b85410a5'})
+    return access_token.decode('utf-8')
+
 class TestCompareComplyV1(TestCase):
 
     @classmethod
     def setUp(cls):
         iam_url = "https://iam.cloud.ibm.com/identity/token"
-        iam_token_response = """{
-            "access_token": "oAeisG8yqPY7sFR_x66Z15",
+        iam_token_response = {
+            "access_token": get_access_token(),
             "token_type": "Bearer",
             "expires_in": 3600,
             "expiration": 1524167011,
             "refresh_token": "jy4gl91BQ"
-        }"""
+        }
         responses.add(
-            responses.POST, url=iam_url, body=iam_token_response, status=200)
+            responses.POST, url=iam_url, body=json.dumps(iam_token_response), status=200)
 
     @responses.activate
     def test_convert_to_html(self):

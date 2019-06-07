@@ -4,7 +4,7 @@ import json
 from ibm_watson import LanguageTranslatorV3
 
 language_translator = LanguageTranslatorV3(
-    version='2018-05-01.',
+    version='2018-05-01',
     ### url is optional, and defaults to the URL below. Use the correct URL for your region.
     # url='https://gateway.watsonplatform.net/language-translator/api',
     iam_apikey='YOUR APIKEY')

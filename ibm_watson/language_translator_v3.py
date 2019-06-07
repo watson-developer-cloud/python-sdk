@@ -26,6 +26,8 @@ from __future__ import absolute_import
 import json
 from .common import get_sdk_headers
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from os.path import basename
 
 ##############################################################################
 # Service
@@ -46,6 +48,11 @@ class LanguageTranslatorV3(BaseService):
             iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
+            iam_client_id=None,
+            iam_client_secret=None,
+            icp4d_access_token=None,
+            icp4d_url=None,
+            authentication_type=None,
     ):
         """
         Construct a new client for the Language Translator service.
@@ -88,6 +95,21 @@ class LanguageTranslatorV3(BaseService):
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
                'https://iam.cloud.ibm.com/identity/token'.
+
+        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
+
+        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
+
+        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
+               fully managed by the application. Responsibility falls on the application to
+               refresh the token, either before it expires or reactively upon receiving a 401
+               from the service as any requests made with an expired token will fail.
+
+        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
+               URL must be passed in.
+
+        :param str authentication_type: Specifies the authentication pattern to use. Values that it
+               takes are basic, iam or icp4d.
         """
 
         BaseService.__init__(
@@ -99,8 +121,13 @@ class LanguageTranslatorV3(BaseService):
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
+            iam_client_id=iam_client_id,
+            iam_client_secret=iam_client_secret,
             use_vcap_services=True,
-            display_name='Language Translator')
+            display_name='Language Translator',
+            icp4d_access_token=icp4d_access_token,
+            icp4d_url=icp4d_url,
+            authentication_type=authentication_type)
         self.version = version
 
     #########################
@@ -157,6 +184,36 @@ class LanguageTranslatorV3(BaseService):
     # Identification
     #########################
 
+    def list_identifiable_languages(self, **kwargs):
+        """
+        List identifiable languages.
+
+        Lists the languages that the service can identify. Returns the language code (for
+        example, `en` for English or `es` for Spanish) and name of each language.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'list_identifiable_languages')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v3/identifiable_languages'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
     def identify(self, text, **kwargs):
         """
         Identify language.
@@ -193,13 +250,27 @@ class LanguageTranslatorV3(BaseService):
             accept_json=True)
         return response
 
-    def list_identifiable_languages(self, **kwargs):
+    #########################
+    # Models
+    #########################
+
+    def list_models(self,
+                    source=None,
+                    target=None,
+                    default_models=None,
+                    **kwargs):
         """
-        List identifiable languages.
+        List models.
 
-        Lists the languages that the service can identify. Returns the language code (for
-        example, `en` for English or `es` for Spanish) and name of each language.
+        Lists available translation models.
 
+        :param str source: Specify a language code to filter results by source language.
+        :param str target: Specify a language code to filter results by target language.
+        :param bool default_models: If the default parameter isn't specified, the service
+        will return all models (default and non-default) for each language pair. To return
+        only default models, set this to `true`. To return only non-default models, set
+        this to `false`. There is exactly one default model per language pair, the IBM
+        provided base model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -209,12 +280,17 @@ class LanguageTranslatorV3(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers('language_translator', 'V3',
-                                      'list_identifiable_languages')
+                                      'list_models')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+            'source': source,
+            'target': target,
+            'default': default_models
+        }
 
-        url = '/v3/identifiable_languages'
+        url = '/v3/models'
         response = self.request(
             method='GET',
             url=url,
@@ -222,10 +298,6 @@ class LanguageTranslatorV3(BaseService):
             params=params,
             accept_json=True)
         return response
-
-    #########################
-    # Models
-    #########################
 
     def create_model(self,
                      base_model_id,
@@ -373,23 +445,16 @@ class LanguageTranslatorV3(BaseService):
             accept_json=True)
         return response
 
-    def list_models(self,
-                    source=None,
-                    target=None,
-                    default_models=None,
-                    **kwargs):
+    #########################
+    # Document translation
+    #########################
+
+    def list_documents(self, **kwargs):
         """
-        List models.
+        List documents.
 
-        Lists available translation models.
+        Lists documents that have been submitted for translation.
 
-        :param str source: Specify a language code to filter results by source language.
-        :param str target: Specify a language code to filter results by target language.
-        :param bool default_models: If the default parameter isn't specified, the service
-        will return all models (default and non-default) for each language pair. To return
-        only default models, set this to `true`. To return only non-default models, set
-        this to `false`. There is exactly one default model per language pair, the IBM
-        provided base model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -399,23 +464,206 @@ class LanguageTranslatorV3(BaseService):
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers('language_translator', 'V3',
-                                      'list_models')
+                                      'list_documents')
         headers.update(sdk_headers)
 
-        params = {
-            'version': self.version,
-            'source': source,
-            'target': target,
-            'default': default_models
-        }
+        params = {'version': self.version}
 
-        url = '/v3/models'
+        url = '/v3/documents'
         response = self.request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        return response
+
+    def translate_document(self,
+                           file,
+                           filename=None,
+                           file_content_type=None,
+                           model_id=None,
+                           source=None,
+                           target=None,
+                           document_id=None,
+                           **kwargs):
+        """
+        Translate document.
+
+        Submit a document for translation. You can submit the document contents in the
+        `file` parameter, or you can reference a previously submitted document by document
+        ID.
+
+        :param file file: The source file to translate.
+        [Supported file
+        types](https://cloud.ibm.com/docs/services/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats)
+        Maximum file size: **20 MB**.
+        :param str filename: The filename for file.
+        :param str file_content_type: The content type of file.
+        :param str model_id: The model to use for translation. `model_id` or both `source`
+        and `target` are required.
+        :param str source: Language code that specifies the language of the source
+        document.
+        :param str target: Language code that specifies the target language for
+        translation.
+        :param str document_id: To use a previously submitted document as the source for a
+        new translation, enter the `document_id` of the document.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if file is None:
+            raise ValueError('file must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'translate_document')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = {}
+        if not filename and hasattr(file, 'name'):
+            filename = basename(file.name)
+        if not filename:
+            raise ValueError('filename must be provided')
+        form_data['file'] = (filename, file, file_content_type or
+                             'application/octet-stream')
+        if model_id:
+            form_data['model_id'] = (None, model_id, 'text/plain')
+        if source:
+            form_data['source'] = (None, source, 'text/plain')
+        if target:
+            form_data['target'] = (None, target, 'text/plain')
+        if document_id:
+            form_data['document_id'] = (None, document_id, 'text/plain')
+
+        url = '/v3/documents'
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            files=form_data,
+            accept_json=True)
+        return response
+
+    def get_document_status(self, document_id, **kwargs):
+        """
+        Get document status.
+
+        Gets the translation status of a document.
+
+        :param str document_id: The document ID of the document.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if document_id is None:
+            raise ValueError('document_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'get_document_status')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v3/documents/{0}'.format(*self._encode_path_vars(document_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def delete_document(self, document_id, **kwargs):
+        """
+        Delete document.
+
+        Deletes a document.
+
+        :param str document_id: Document ID of the document to delete.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if document_id is None:
+            raise ValueError('document_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'delete_document')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v3/documents/{0}'.format(*self._encode_path_vars(document_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=False)
+        return response
+
+    def get_translated_document(self, document_id, accept=None, **kwargs):
+        """
+        Get translated document.
+
+        Gets the translated document associated with the given document ID.
+
+        :param str document_id: The document ID of the document that was submitted for
+        translation.
+        :param str accept: The type of the response: application/powerpoint,
+        application/mspowerpoint, application/x-rtf, application/json, application/xml,
+        application/vnd.ms-excel,
+        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+        application/vnd.ms-powerpoint,
+        application/vnd.openxmlformats-officedocument.presentationml.presentation,
+        application/msword,
+        application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+        application/vnd.oasis.opendocument.spreadsheet,
+        application/vnd.oasis.opendocument.presentation,
+        application/vnd.oasis.opendocument.text, application/pdf, application/rtf,
+        text/html, text/json, text/plain, text/richtext, text/rtf, or text/xml. A
+        character encoding can be specified by including a `charset` parameter. For
+        example, 'text/html;charset=utf-8'.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if document_id is None:
+            raise ValueError('document_id must be provided')
+
+        headers = {'Accept': accept}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('language_translator', 'V3',
+                                      'get_translated_document')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v3/documents/{0}/translated_document'.format(
+            *self._encode_path_vars(document_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=(accept is None or accept == 'application/json'))
         return response
 
 
@@ -443,6 +691,12 @@ class DeleteModelResult(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteModelResult object from a json dictionary."""
         args = {}
+        validKeys = ['status']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DeleteModelResult: '
+                + ', '.join(badKeys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         else:
@@ -460,6 +714,245 @@ class DeleteModelResult(object):
 
     def __str__(self):
         """Return a `str` version of this DeleteModelResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DocumentList(object):
+    """
+    DocumentList.
+
+    :attr list[DocumentStatus] documents: An array of all previously submitted documents.
+    """
+
+    def __init__(self, documents):
+        """
+        Initialize a DocumentList object.
+
+        :param list[DocumentStatus] documents: An array of all previously submitted
+        documents.
+        """
+        self.documents = documents
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentList object from a json dictionary."""
+        args = {}
+        validKeys = ['documents']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DocumentList: '
+                + ', '.join(badKeys))
+        if 'documents' in _dict:
+            args['documents'] = [
+                DocumentStatus._from_dict(x) for x in (_dict.get('documents'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'documents\' not present in DocumentList JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'documents') and self.documents is not None:
+            _dict['documents'] = [x._to_dict() for x in self.documents]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DocumentList object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DocumentStatus(object):
+    """
+    Document information, including translation status.
+
+    :attr str document_id: System generated ID identifying a document being translated
+    using one specific translation model.
+    :attr str filename: filename from the submission (if it was missing in the
+    multipart-form, 'noname.<ext matching content type>' is used.
+    :attr str status: The status of the translation job associated with a submitted
+    document.
+    :attr str model_id: A globally unique string that identifies the underlying model that
+    is used for translation.
+    :attr str base_model_id: (optional) Model ID of the base model that was used to
+    customize the model. If the model is not a custom model, this will be absent or an
+    empty string.
+    :attr str source: Translation source language code.
+    :attr str target: Translation target language code.
+    :attr datetime created: The time when the document was submitted.
+    :attr datetime completed: (optional) The time when the translation completed.
+    :attr int word_count: (optional) The number of words in the source document, present
+    only if status=available.
+    :attr int character_count: (optional) The number of characters in the source document,
+    present only if status=available.
+    """
+
+    def __init__(self,
+                 document_id,
+                 filename,
+                 status,
+                 model_id,
+                 source,
+                 target,
+                 created,
+                 base_model_id=None,
+                 completed=None,
+                 word_count=None,
+                 character_count=None):
+        """
+        Initialize a DocumentStatus object.
+
+        :param str document_id: System generated ID identifying a document being
+        translated using one specific translation model.
+        :param str filename: filename from the submission (if it was missing in the
+        multipart-form, 'noname.<ext matching content type>' is used.
+        :param str status: The status of the translation job associated with a submitted
+        document.
+        :param str model_id: A globally unique string that identifies the underlying model
+        that is used for translation.
+        :param str source: Translation source language code.
+        :param str target: Translation target language code.
+        :param datetime created: The time when the document was submitted.
+        :param str base_model_id: (optional) Model ID of the base model that was used to
+        customize the model. If the model is not a custom model, this will be absent or an
+        empty string.
+        :param datetime completed: (optional) The time when the translation completed.
+        :param int word_count: (optional) The number of words in the source document,
+        present only if status=available.
+        :param int character_count: (optional) The number of characters in the source
+        document, present only if status=available.
+        """
+        self.document_id = document_id
+        self.filename = filename
+        self.status = status
+        self.model_id = model_id
+        self.base_model_id = base_model_id
+        self.source = source
+        self.target = target
+        self.created = created
+        self.completed = completed
+        self.word_count = word_count
+        self.character_count = character_count
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentStatus object from a json dictionary."""
+        args = {}
+        validKeys = [
+            'document_id', 'filename', 'status', 'model_id', 'base_model_id',
+            'source', 'target', 'created', 'completed', 'word_count',
+            'character_count'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DocumentStatus: '
+                + ', '.join(badKeys))
+        if 'document_id' in _dict:
+            args['document_id'] = _dict.get('document_id')
+        else:
+            raise ValueError(
+                'Required property \'document_id\' not present in DocumentStatus JSON'
+            )
+        if 'filename' in _dict:
+            args['filename'] = _dict.get('filename')
+        else:
+            raise ValueError(
+                'Required property \'filename\' not present in DocumentStatus JSON'
+            )
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError(
+                'Required property \'status\' not present in DocumentStatus JSON'
+            )
+        if 'model_id' in _dict:
+            args['model_id'] = _dict.get('model_id')
+        else:
+            raise ValueError(
+                'Required property \'model_id\' not present in DocumentStatus JSON'
+            )
+        if 'base_model_id' in _dict:
+            args['base_model_id'] = _dict.get('base_model_id')
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in DocumentStatus JSON'
+            )
+        if 'target' in _dict:
+            args['target'] = _dict.get('target')
+        else:
+            raise ValueError(
+                'Required property \'target\' not present in DocumentStatus JSON'
+            )
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        else:
+            raise ValueError(
+                'Required property \'created\' not present in DocumentStatus JSON'
+            )
+        if 'completed' in _dict:
+            args['completed'] = string_to_datetime(_dict.get('completed'))
+        if 'word_count' in _dict:
+            args['word_count'] = _dict.get('word_count')
+        if 'character_count' in _dict:
+            args['character_count'] = _dict.get('character_count')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'document_id') and self.document_id is not None:
+            _dict['document_id'] = self.document_id
+        if hasattr(self, 'filename') and self.filename is not None:
+            _dict['filename'] = self.filename
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'model_id') and self.model_id is not None:
+            _dict['model_id'] = self.model_id
+        if hasattr(self, 'base_model_id') and self.base_model_id is not None:
+            _dict['base_model_id'] = self.base_model_id
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'target') and self.target is not None:
+            _dict['target'] = self.target
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'completed') and self.completed is not None:
+            _dict['completed'] = datetime_to_string(self.completed)
+        if hasattr(self, 'word_count') and self.word_count is not None:
+            _dict['word_count'] = self.word_count
+        if hasattr(self,
+                   'character_count') and self.character_count is not None:
+            _dict['character_count'] = self.character_count
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this DocumentStatus object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -495,6 +988,12 @@ class IdentifiableLanguage(object):
     def _from_dict(cls, _dict):
         """Initialize a IdentifiableLanguage object from a json dictionary."""
         args = {}
+        validKeys = ['language', 'name']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class IdentifiableLanguage: '
+                + ', '.join(badKeys))
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         else:
@@ -554,6 +1053,12 @@ class IdentifiableLanguages(object):
     def _from_dict(cls, _dict):
         """Initialize a IdentifiableLanguages object from a json dictionary."""
         args = {}
+        validKeys = ['languages']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class IdentifiableLanguages: '
+                + ', '.join(badKeys))
         if 'languages' in _dict:
             args['languages'] = [
                 IdentifiableLanguage._from_dict(x)
@@ -609,6 +1114,12 @@ class IdentifiedLanguage(object):
     def _from_dict(cls, _dict):
         """Initialize a IdentifiedLanguage object from a json dictionary."""
         args = {}
+        validKeys = ['language', 'confidence']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class IdentifiedLanguage: '
+                + ', '.join(badKeys))
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         else:
@@ -668,6 +1179,12 @@ class IdentifiedLanguages(object):
     def _from_dict(cls, _dict):
         """Initialize a IdentifiedLanguages object from a json dictionary."""
         args = {}
+        validKeys = ['languages']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class IdentifiedLanguages: '
+                + ', '.join(badKeys))
         if 'languages' in _dict:
             args['languages'] = [
                 IdentifiedLanguage._from_dict(x)
@@ -720,6 +1237,12 @@ class Translation(object):
     def _from_dict(cls, _dict):
         """Initialize a Translation object from a json dictionary."""
         args = {}
+        validKeys = ['translation_output', 'translation']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Translation: '
+                + ', '.join(badKeys))
         if 'translation' in _dict or 'translation_output' in _dict:
             args['translation_output'] = _dict.get('translation') or _dict.get(
                 'translation_output')
@@ -826,6 +1349,15 @@ class TranslationModel(object):
     def _from_dict(cls, _dict):
         """Initialize a TranslationModel object from a json dictionary."""
         args = {}
+        validKeys = [
+            'model_id', 'name', 'source', 'target', 'base_model_id', 'domain',
+            'customizable', 'default_model', 'owner', 'status'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TranslationModel: '
+                + ', '.join(badKeys))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         else:
@@ -911,6 +1443,12 @@ class TranslationModels(object):
     def _from_dict(cls, _dict):
         """Initialize a TranslationModels object from a json dictionary."""
         args = {}
+        validKeys = ['models']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TranslationModels: '
+                + ', '.join(badKeys))
         if 'models' in _dict:
             args['models'] = [
                 TranslationModel._from_dict(x) for x in (_dict.get('models'))
@@ -970,6 +1508,12 @@ class TranslationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a TranslationResult object from a json dictionary."""
         args = {}
+        validKeys = ['word_count', 'character_count', 'translations']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TranslationResult: '
+                + ', '.join(badKeys))
         if 'word_count' in _dict:
             args['word_count'] = _dict.get('word_count')
         else:

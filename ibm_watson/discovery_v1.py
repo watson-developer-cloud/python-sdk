@@ -14,11 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The IBM Watson&trade; Discovery Service is a cognitive search and content analytics engine
-that you can add to applications to identify patterns, trends and actionable insights to
-drive better decision-making. Securely unify structured and unstructured data with
-pre-enriched content, and use a simplified query language to eliminate the need for manual
-filtering of results.
+IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
+can add to applications to identify patterns, trends and actionable insights to drive
+better decision-making. Securely unify structured and unstructured data with pre-enriched
+content, and use a simplified query language to eliminate the need for manual filtering of
+results.
 """
 
 from __future__ import absolute_import
@@ -48,6 +48,11 @@ class DiscoveryV1(BaseService):
             iam_apikey=None,
             iam_access_token=None,
             iam_url=None,
+            iam_client_id=None,
+            iam_client_secret=None,
+            icp4d_access_token=None,
+            icp4d_url=None,
+            authentication_type=None,
     ):
         """
         Construct a new client for the Discovery service.
@@ -90,6 +95,21 @@ class DiscoveryV1(BaseService):
 
         :param str iam_url: An optional URL for the IAM service API. Defaults to
                'https://iam.cloud.ibm.com/identity/token'.
+
+        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
+
+        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
+
+        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
+               fully managed by the application. Responsibility falls on the application to
+               refresh the token, either before it expires or reactively upon receiving a 401
+               from the service as any requests made with an expired token will fail.
+
+        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
+               URL must be passed in.
+
+        :param str authentication_type: Specifies the authentication pattern to use. Values that it
+               takes are basic, iam or icp4d.
         """
 
         BaseService.__init__(
@@ -101,8 +121,13 @@ class DiscoveryV1(BaseService):
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
+            iam_client_id=iam_client_id,
+            iam_client_secret=iam_client_secret,
             use_vcap_services=True,
-            display_name='Discovery')
+            display_name='Discovery',
+            icp4d_access_token=icp4d_access_token,
+            icp4d_url=icp4d_url,
+            authentication_type=authentication_type)
         self.version = version
 
     #########################
@@ -150,68 +175,6 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def delete_environment(self, environment_id, **kwargs):
-        """
-        Delete environment.
-
-        :param str environment_id: The ID of the environment.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_environment')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}'.format(
-            *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def get_environment(self, environment_id, **kwargs):
-        """
-        Get environment info.
-
-        :param str environment_id: The ID of the environment.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_environment')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}'.format(
-            *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
     def list_environments(self, name=None, **kwargs):
         """
         List environments.
@@ -241,16 +204,11 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def list_fields(self, environment_id, collection_ids, **kwargs):
+    def get_environment(self, environment_id, **kwargs):
         """
-        List fields across collections.
-
-        Gets a list of the unique fields (and their types) stored in the indexes of the
-        specified collections.
+        Get environment info.
 
         :param str environment_id: The ID of the environment.
-        :param list[str] collection_ids: A comma-separated list of collection IDs to be
-        queried against.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -258,21 +216,16 @@ class DiscoveryV1(BaseService):
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-        if collection_ids is None:
-            raise ValueError('collection_ids must be provided')
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_fields')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_environment')
         headers.update(sdk_headers)
 
-        params = {
-            'version': self.version,
-            'collection_ids': self._convert_list(collection_ids)
-        }
+        params = {'version': self.version}
 
-        url = '/v1/environments/{0}/fields'.format(
+        url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
             method='GET',
@@ -326,6 +279,78 @@ class DiscoveryV1(BaseService):
             headers=headers,
             params=params,
             json=data,
+            accept_json=True)
+        return response
+
+    def delete_environment(self, environment_id, **kwargs):
+        """
+        Delete environment.
+
+        :param str environment_id: The ID of the environment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_environment')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}'.format(
+            *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_fields(self, environment_id, collection_ids, **kwargs):
+        """
+        List fields across collections.
+
+        Gets a list of the unique fields (and their types) stored in the indexes of the
+        specified collections.
+
+        :param str environment_id: The ID of the environment.
+        :param list[str] collection_ids: A comma-separated list of collection IDs to be
+        queried against.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_ids is None:
+            raise ValueError('collection_ids must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_fields')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'collection_ids': self._convert_list(collection_ids)
+        }
+
+        url = '/v1/environments/{0}/fields'.format(
+            *self._encode_path_vars(environment_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
             accept_json=True)
         return response
 
@@ -417,19 +442,14 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def delete_configuration(self, environment_id, configuration_id, **kwargs):
+    def list_configurations(self, environment_id, name=None, **kwargs):
         """
-        Delete a configuration.
+        List configurations.
 
-        The deletion is performed unconditionally. A configuration deletion request
-        succeeds even if the configuration is referenced by a collection or document
-        ingestion. However, documents that have already been submitted for processing
-        continue to use the deleted configuration. Documents are always processed with a
-        snapshot of the configuration as it existed at the time the document was
-        submitted.
+        Lists existing configurations for the service instance.
 
         :param str environment_id: The ID of the environment.
-        :param str configuration_id: The ID of the configuration.
+        :param str name: Find configurations with the given name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -437,21 +457,19 @@ class DiscoveryV1(BaseService):
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-        if configuration_id is None:
-            raise ValueError('configuration_id must be provided')
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_configuration')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_configurations')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'name': name}
 
-        url = '/v1/environments/{0}/configurations/{1}'.format(
-            *self._encode_path_vars(environment_id, configuration_id))
+        url = '/v1/environments/{0}/configurations'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='DELETE',
+            method='GET',
             url=url,
             headers=headers,
             params=params,
@@ -484,40 +502,6 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def list_configurations(self, environment_id, name=None, **kwargs):
-        """
-        List configurations.
-
-        Lists existing configurations for the service instance.
-
-        :param str environment_id: The ID of the environment.
-        :param str name: Find configurations with the given name.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_configurations')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version, 'name': name}
-
-        url = '/v1/environments/{0}/configurations'.format(
-            *self._encode_path_vars(environment_id))
         response = self.request(
             method='GET',
             url=url,
@@ -613,6 +597,47 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
+    def delete_configuration(self, environment_id, configuration_id, **kwargs):
+        """
+        Delete a configuration.
+
+        The deletion is performed unconditionally. A configuration deletion request
+        succeeds even if the configuration is referenced by a collection or document
+        ingestion. However, documents that have already been submitted for processing
+        continue to use the deleted configuration. Documents are always processed with a
+        snapshot of the configuration as it existed at the time the document was
+        submitted.
+
+        :param str environment_id: The ID of the environment.
+        :param str configuration_id: The ID of the configuration.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if configuration_id is None:
+            raise ValueError('configuration_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_configuration')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/configurations/{1}'.format(
+            *self._encode_path_vars(environment_id, configuration_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
     #########################
     # Test your configuration on a document
     #########################
@@ -630,7 +655,9 @@ class DiscoveryV1(BaseService):
         """
         Test configuration.
 
-        Runs a sample document through the default or your configuration and returns
+        **Deprecated** This method is no longer supported and is scheduled to be removed
+        from service on July 31st 2019.
+         Runs a sample document through the default or your configuration and returns
         diagnostic information designed to help you understand how the document was
         processed. The document is not added to the index.
 
@@ -648,10 +675,8 @@ class DiscoveryV1(BaseService):
         the supported size are rejected.
         :param str filename: The filename for file.
         :param str file_content_type: The content type of file.
-        :param str metadata: If you're using the Data Crawler to upload your documents,
-        you can test a document against the type of metadata that the Data Crawler might
-        send. The maximum supported metadata file size is 1 MB. Metadata parts larger than
-        1 MB are rejected.
+        :param str metadata: The maximum supported metadata file size is 1 MB. Metadata
+        parts larger than 1 MB are rejected.
         Example:  ``` {
           \"Creator\": \"Johnny Appleseed\",
           \"Subject\": \"Apples\"
@@ -764,12 +789,14 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def delete_collection(self, environment_id, collection_id, **kwargs):
+    def list_collections(self, environment_id, name=None, **kwargs):
         """
-        Delete a collection.
+        List collections.
+
+        Lists existing collections for the service instance.
 
         :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
+        :param str name: Find collections with the given name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -777,21 +804,19 @@ class DiscoveryV1(BaseService):
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_collection')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_collections')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'name': name}
 
-        url = '/v1/environments/{0}/collections/{1}'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        url = '/v1/environments/{0}/collections'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
-            method='DELETE',
+            method='GET',
             url=url,
             headers=headers,
             params=params,
@@ -824,77 +849,6 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def list_collection_fields(self, environment_id, collection_id, **kwargs):
-        """
-        List collection fields.
-
-        Gets a list of the unique fields (and their types) stored in the index.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1',
-                                      'list_collection_fields')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/fields'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def list_collections(self, environment_id, name=None, **kwargs):
-        """
-        List collections.
-
-        Lists existing collections for the service instance.
-
-        :param str environment_id: The ID of the environment.
-        :param str name: Find collections with the given name.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_collections')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version, 'name': name}
-
-        url = '/v1/environments/{0}/collections'.format(
-            *self._encode_path_vars(environment_id))
         response = self.request(
             method='GET',
             url=url,
@@ -954,9 +908,117 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
+    def delete_collection(self, environment_id, collection_id, **kwargs):
+        """
+        Delete a collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_collection')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def list_collection_fields(self, environment_id, collection_id, **kwargs):
+        """
+        List collection fields.
+
+        Gets a list of the unique fields (and their types) stored in the index.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1',
+                                      'list_collection_fields')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/fields'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
     #########################
     # Query modifications
     #########################
+
+    def list_expansions(self, environment_id, collection_id, **kwargs):
+        """
+        Get the expansion list.
+
+        Returns the current expansion list for the specified collection. If an expansion
+        list is not specified, an object with empty expansion arrays is returned.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_expansions')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
 
     def create_expansions(self, environment_id, collection_id, expansions,
                           **kwargs):
@@ -1016,21 +1078,15 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def create_stopword_list(self,
-                             environment_id,
-                             collection_id,
-                             stopword_file,
-                             stopword_filename=None,
-                             **kwargs):
+    def delete_expansions(self, environment_id, collection_id, **kwargs):
         """
-        Create stopword list.
+        Delete the expansion list.
 
-        Upload a custom stopword list to use with the specified collection.
+        Remove the expansion information for this collection. The expansion list must be
+        deleted to disable query expansion for a collection.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param file stopword_file: The content of the stopword list to ingest.
-        :param str stopword_filename: The filename for stopword_file.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1040,33 +1096,61 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-        if stopword_file is None:
-            raise ValueError('stopword_file must be provided')
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'create_stopword_list')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_expansions')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
-        form_data = {}
-        if not stopword_filename and hasattr(stopword_file, 'name'):
-            stopword_filename = basename(stopword_file.name)
-        if not stopword_filename:
-            raise ValueError('stopword_filename must be provided')
-        form_data['stopword_file'] = (stopword_filename, stopword_file,
-                                      'application/octet-stream')
-
-        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
+        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='POST',
+            method='DELETE',
             url=url,
             headers=headers,
             params=params,
-            files=form_data,
+            accept_json=False)
+        return response
+
+    def get_tokenization_dictionary_status(self, environment_id, collection_id,
+                                           **kwargs):
+        """
+        Get tokenization dictionary status.
+
+        Returns the current status of the tokenization dictionary for the specified
+        collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1',
+                                      'get_tokenization_dictionary_status')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
             accept_json=True)
         return response
 
@@ -1120,80 +1204,6 @@ class DiscoveryV1(BaseService):
             params=params,
             json=data,
             accept_json=True)
-        return response
-
-    def delete_expansions(self, environment_id, collection_id, **kwargs):
-        """
-        Delete the expansion list.
-
-        Remove the expansion information for this collection. The expansion list must be
-        deleted to disable query expansion for a collection.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_expansions')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
-        return response
-
-    def delete_stopword_list(self, environment_id, collection_id, **kwargs):
-        """
-        Delete a custom stopword list.
-
-        Delete a custom stopword list from the collection. After a custom stopword list is
-        deleted, the default list is used for the collection.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_stopword_list')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
         return response
 
     def delete_tokenization_dictionary(self, environment_id, collection_id,
@@ -1271,16 +1281,21 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def get_tokenization_dictionary_status(self, environment_id, collection_id,
-                                           **kwargs):
+    def create_stopword_list(self,
+                             environment_id,
+                             collection_id,
+                             stopword_file,
+                             stopword_filename=None,
+                             **kwargs):
         """
-        Get tokenization dictionary status.
+        Create stopword list.
 
-        Returns the current status of the tokenization dictionary for the specified
-        collection.
+        Upload a custom stopword list to use with the specified collection.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
+        :param file stopword_file: The content of the stopword list to ingest.
+        :param str stopword_filename: The filename for stopword_file.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1290,32 +1305,42 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        if stopword_file is None:
+            raise ValueError('stopword_file must be provided')
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1',
-                                      'get_tokenization_dictionary_status')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'create_stopword_list')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
+        form_data = {}
+        if not stopword_filename and hasattr(stopword_file, 'name'):
+            stopword_filename = basename(stopword_file.name)
+        if not stopword_filename:
+            raise ValueError('stopword_filename must be provided')
+        form_data['stopword_file'] = (stopword_filename, stopword_file,
+                                      'application/octet-stream')
+
+        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET',
+            method='POST',
             url=url,
             headers=headers,
             params=params,
+            files=form_data,
             accept_json=True)
         return response
 
-    def list_expansions(self, environment_id, collection_id, **kwargs):
+    def delete_stopword_list(self, environment_id, collection_id, **kwargs):
         """
-        Get the expansion list.
+        Delete a custom stopword list.
 
-        Returns the current expansion list for the specified collection. If an expansion
-        list is not specified, an object with empty expansion arrays is returned.
+        Delete a custom stopword list from the collection. After a custom stopword list is
+        deleted, the default list is used for the collection.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
@@ -1332,19 +1357,19 @@ class DiscoveryV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_expansions')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_stopword_list')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
+        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
         response = self.request(
-            method='GET',
+            method='DELETE',
             url=url,
             headers=headers,
             params=params,
-            accept_json=True)
+            accept_json=False)
         return response
 
     #########################
@@ -1391,10 +1416,8 @@ class DiscoveryV1(BaseService):
         the supported size are rejected.
         :param str filename: The filename for file.
         :param str file_content_type: The content type of file.
-        :param str metadata: If you're using the Data Crawler to upload your documents,
-        you can test a document against the type of metadata that the Data Crawler might
-        send. The maximum supported metadata file size is 1 MB. Metadata parts larger than
-        1 MB are rejected.
+        :param str metadata: The maximum supported metadata file size is 1 MB. Metadata
+        parts larger than 1 MB are rejected.
         Example:  ``` {
           \"Creator\": \"Johnny Appleseed\",
           \"Subject\": \"Apples\"
@@ -1436,48 +1459,6 @@ class DiscoveryV1(BaseService):
             headers=headers,
             params=params,
             files=form_data,
-            accept_json=True)
-        return response
-
-    def delete_document(self, environment_id, collection_id, document_id,
-                        **kwargs):
-        """
-        Delete a document.
-
-        If the given document ID is invalid, or if the document is not found, then the a
-        success response is returned (HTTP status code `200`) with the status set to
-        'deleted'.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str document_id: The ID of the document.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        if document_id is None:
-            raise ValueError('document_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_document')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
             accept_json=True)
         return response
 
@@ -1550,10 +1531,8 @@ class DiscoveryV1(BaseService):
         the supported size are rejected.
         :param str filename: The filename for file.
         :param str file_content_type: The content type of file.
-        :param str metadata: If you're using the Data Crawler to upload your documents,
-        you can test a document against the type of metadata that the Data Crawler might
-        send. The maximum supported metadata file size is 1 MB. Metadata parts larger than
-        1 MB are rejected.
+        :param str metadata: The maximum supported metadata file size is 1 MB. Metadata
+        parts larger than 1 MB are rejected.
         Example:  ``` {
           \"Creator\": \"Johnny Appleseed\",
           \"Subject\": \"Apples\"
@@ -1600,9 +1579,332 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
+    def delete_document(self, environment_id, collection_id, document_id,
+                        **kwargs):
+        """
+        Delete a document.
+
+        If the given document ID is invalid, or if the document is not found, then the a
+        success response is returned (HTTP status code `200`) with the status set to
+        'deleted'.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str document_id: The ID of the document.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if document_id is None:
+            raise ValueError('document_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_document')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
+            *self._encode_path_vars(environment_id, collection_id, document_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
     #########################
     # Queries
     #########################
+
+    def query(self,
+              environment_id,
+              collection_id,
+              filter=None,
+              query=None,
+              natural_language_query=None,
+              passages=None,
+              aggregation=None,
+              count=None,
+              return_fields=None,
+              offset=None,
+              sort=None,
+              highlight=None,
+              passages_fields=None,
+              passages_count=None,
+              passages_characters=None,
+              deduplicate=None,
+              deduplicate_field=None,
+              collection_ids=None,
+              similar=None,
+              similar_document_ids=None,
+              similar_fields=None,
+              bias=None,
+              logging_opt_out=None,
+              **kwargs):
+        """
+        Query a collection.
+
+        By using this method, you can construct long queries. For details, see the
+        [Discovery
+        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-query-concepts#query-concepts).
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str filter: A cacheable query that excludes documents that don't mention
+        the query content. Filter searches are better for metadata-type searches and for
+        assessing the concepts in the data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first. Use
+        a query search when you want to find the most relevant search results.
+        :param str natural_language_query: A natural language query that returns relevant
+        documents by utilizing training data and natural language understanding.
+        :param bool passages: A passages query that returns the most relevant passages
+        from the results.
+        :param str aggregation: An aggregation search that returns an exact answer by
+        combining query search with filters. Useful for applications to build lists,
+        tables, and time series. For a full list of possible aggregations, see the Query
+        reference.
+        :param int count: Number of results to return.
+        :param str return_fields: A comma-separated list of the portion of the document
+        hierarchy to return.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10 and the offset is
+        8, it returns the last two results.
+        :param str sort: A comma-separated list of fields in the document to sort on. You
+        can optionally specify a sort direction by prefixing the field with `-` for
+        descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified. This parameter cannot be used in the same query as the
+        **bias** parameter.
+        :param bool highlight: When true, a highlight field is returned for each result
+        which contains the fields which match the query with `<em></em>` tags around the
+        matching query terms.
+        :param str passages_fields: A comma-separated list of fields that passages are
+        drawn from. If this parameter not specified, then all top-level fields are
+        included.
+        :param int passages_count: The maximum number of passages to return. The search
+        returns fewer passages if the requested total is not found. The default is `10`.
+        The maximum is `100`.
+        :param int passages_characters: The approximate number of characters that any one
+        passage will have.
+        :param bool deduplicate: When `true`, and used with a Watson Discovery News
+        collection, duplicate results (based on the contents of the **title** field) are
+        removed. Duplicate comparison is limited to the current query only; **offset** is
+        not considered. This parameter is currently Beta functionality.
+        :param str deduplicate_field: When specified, duplicate results based on the field
+        specified are removed from the returned results. Duplicate comparison is limited
+        to the current query only, **offset** is not considered. This parameter is
+        currently Beta functionality.
+        :param str collection_ids: A comma-separated list of collection IDs to be queried
+        against. Required when querying multiple collections, invalid when performing a
+        single collection query.
+        :param bool similar: When `true`, results are returned based on their similarity
+        to the document IDs specified in the **similar.document_ids** parameter.
+        :param str similar_document_ids: A comma-separated list of document IDs to find
+        similar documents.
+        **Tip:** Include the **natural_language_query** parameter to expand the scope of
+        the document similarity search with the natural language query. Other query
+        parameters, such as **filter** and **query**, are subsequently applied and reduce
+        the scope.
+        :param str similar_fields: A comma-separated list of field names that are used as
+        a basis for comparison to identify similar documents. If not specified, the entire
+        document is used for comparison.
+        :param str bias: Field which the returned results will be biased against. The
+        specified field must be either a **date** or **number** format. When a **date**
+        type field is specified returned results are biased towards field values closer to
+        the current date. When a **number** type field is specified, returned results are
+        biased towards higher field values. This parameter cannot be used in the same
+        query as the **sort** parameter.
+        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
+        **Logs** endpoint.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'query')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'passages': passages,
+            'aggregation': aggregation,
+            'count': count,
+            'return': return_fields,
+            'offset': offset,
+            'sort': sort,
+            'highlight': highlight,
+            'passages.fields': passages_fields,
+            'passages.count': passages_count,
+            'passages.characters': passages_characters,
+            'deduplicate': deduplicate,
+            'deduplicate.field': deduplicate_field,
+            'collection_ids': collection_ids,
+            'similar': similar,
+            'similar.document_ids': similar_document_ids,
+            'similar.fields': similar_fields,
+            'bias': bias
+        }
+
+        url = '/v1/environments/{0}/collections/{1}/query'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    def query_notices(self,
+                      environment_id,
+                      collection_id,
+                      filter=None,
+                      query=None,
+                      natural_language_query=None,
+                      passages=None,
+                      aggregation=None,
+                      count=None,
+                      return_fields=None,
+                      offset=None,
+                      sort=None,
+                      highlight=None,
+                      passages_fields=None,
+                      passages_count=None,
+                      passages_characters=None,
+                      deduplicate_field=None,
+                      similar=None,
+                      similar_document_ids=None,
+                      similar_fields=None,
+                      **kwargs):
+        """
+        Query system notices.
+
+        Queries for notices (errors or warnings) that might have been generated by the
+        system. Notices are generated when ingesting documents and performing relevance
+        training. See the [Discovery
+        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-query-concepts#query-concepts)
+        for more details on the query language.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str filter: A cacheable query that excludes documents that don't mention
+        the query content. Filter searches are better for metadata-type searches and for
+        assessing the concepts in the data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first.
+        :param str natural_language_query: A natural language query that returns relevant
+        documents by utilizing training data and natural language understanding.
+        :param bool passages: A passages query that returns the most relevant passages
+        from the results.
+        :param str aggregation: An aggregation search that returns an exact answer by
+        combining query search with filters. Useful for applications to build lists,
+        tables, and time series. For a full list of possible aggregations, see the Query
+        reference.
+        :param int count: Number of results to return. The maximum for the **count** and
+        **offset** values together in any one query is **10000**.
+        :param list[str] return_fields: A comma-separated list of the portion of the
+        document hierarchy to return.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10 and the offset is
+        8, it returns the last two results. The maximum for the **count** and **offset**
+        values together in any one query is **10000**.
+        :param list[str] sort: A comma-separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
+        :param bool highlight: When true, a highlight field is returned for each result
+        which contains the fields which match the query with `<em></em>` tags around the
+        matching query terms.
+        :param list[str] passages_fields: A comma-separated list of fields that passages
+        are drawn from. If this parameter not specified, then all top-level fields are
+        included.
+        :param int passages_count: The maximum number of passages to return. The search
+        returns fewer passages if the requested total is not found.
+        :param int passages_characters: The approximate number of characters that any one
+        passage will have.
+        :param str deduplicate_field: When specified, duplicate results based on the field
+        specified are removed from the returned results. Duplicate comparison is limited
+        to the current query only, **offset** is not considered. This parameter is
+        currently Beta functionality.
+        :param bool similar: When `true`, results are returned based on their similarity
+        to the document IDs specified in the **similar.document_ids** parameter.
+        :param list[str] similar_document_ids: A comma-separated list of document IDs to
+        find similar documents.
+        **Tip:** Include the **natural_language_query** parameter to expand the scope of
+        the document similarity search with the natural language query. Other query
+        parameters, such as **filter** and **query**, are subsequently applied and reduce
+        the scope.
+        :param list[str] similar_fields: A comma-separated list of field names that are
+        used as a basis for comparison to identify similar documents. If not specified,
+        the entire document is used for comparison.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'query_notices')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'passages': passages,
+            'aggregation': aggregation,
+            'count': count,
+            'return': self._convert_list(return_fields),
+            'offset': offset,
+            'sort': self._convert_list(sort),
+            'highlight': highlight,
+            'passages.fields': self._convert_list(passages_fields),
+            'passages.count': passages_count,
+            'passages.characters': passages_characters,
+            'deduplicate.field': deduplicate_field,
+            'similar': similar,
+            'similar.document_ids': self._convert_list(similar_document_ids),
+            'similar.fields': self._convert_list(similar_fields)
+        }
+
+        url = '/v1/environments/{0}/collections/{1}/notices'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
 
     def federated_query(self,
                         environment_id,
@@ -1629,11 +1931,10 @@ class DiscoveryV1(BaseService):
                         logging_opt_out=None,
                         **kwargs):
         """
-        Long environment queries.
+        Query multiple collections.
 
-        Complex queries might be too long for a standard method query. By using this
-        method, you can construct longer queries. However, these queries may take longer
-        to complete than the standard method. For details, see the [Discovery service
+        By using this method, you can construct long queries that search multiple
+        collection. For details, see the [Discovery
         documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-query-concepts#query-concepts).
 
         :param str environment_id: The ID of the environment.
@@ -1642,11 +1943,9 @@ class DiscoveryV1(BaseService):
         assessing the concepts in the data set.
         :param str query: A query search returns all documents in your data set with full
         enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results. You cannot
-        use **natural_language_query** and **query** at the same time.
+        a query search when you want to find the most relevant search results.
         :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding. You
-        cannot use **natural_language_query** and **query** at the same time.
+        documents by utilizing training data and natural language understanding.
         :param bool passages: A passages query that returns the most relevant passages
         from the results.
         :param str aggregation: An aggregation search that returns an exact answer by
@@ -1777,7 +2076,7 @@ class DiscoveryV1(BaseService):
 
         Queries for notices (errors or warnings) that might have been generated by the
         system. Notices are generated when ingesting documents and performing relevance
-        training. See the [Discovery service
+        training. See the [Discovery
         documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-query-concepts#query-concepts)
         for more details on the query language.
 
@@ -1788,12 +2087,9 @@ class DiscoveryV1(BaseService):
         the query content. Filter searches are better for metadata-type searches and for
         assessing the concepts in the data set.
         :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results. You cannot
-        use **natural_language_query** and **query** at the same time.
+        enrichments and full text, but with the most relevant documents listed first.
         :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding. You
-        cannot use **natural_language_query** and **query** at the same time.
+        documents by utilizing training data and natural language understanding.
         :param str aggregation: An aggregation search that returns an exact answer by
         combining query search with filters. Useful for applications to build lists,
         tables, and time series. For a full list of possible aggregations, see the Query
@@ -1873,161 +2169,6 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def query(self,
-              environment_id,
-              collection_id,
-              filter=None,
-              query=None,
-              natural_language_query=None,
-              passages=None,
-              aggregation=None,
-              count=None,
-              return_fields=None,
-              offset=None,
-              sort=None,
-              highlight=None,
-              passages_fields=None,
-              passages_count=None,
-              passages_characters=None,
-              deduplicate=None,
-              deduplicate_field=None,
-              collection_ids=None,
-              similar=None,
-              similar_document_ids=None,
-              similar_fields=None,
-              bias=None,
-              logging_opt_out=None,
-              **kwargs):
-        """
-        Long collection queries.
-
-        Complex queries might be too long for a standard method query. By using this
-        method, you can construct longer queries. However, these queries may take longer
-        to complete than the standard method. For details, see the [Discovery service
-        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-query-concepts#query-concepts).
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results. You cannot
-        use **natural_language_query** and **query** at the same time.
-        :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding. You
-        cannot use **natural_language_query** and **query** at the same time.
-        :param bool passages: A passages query that returns the most relevant passages
-        from the results.
-        :param str aggregation: An aggregation search that returns an exact answer by
-        combining query search with filters. Useful for applications to build lists,
-        tables, and time series. For a full list of possible aggregations, see the Query
-        reference.
-        :param int count: Number of results to return.
-        :param str return_fields: A comma-separated list of the portion of the document
-        hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
-        8, it returns the last two results.
-        :param str sort: A comma-separated list of fields in the document to sort on. You
-        can optionally specify a sort direction by prefixing the field with `-` for
-        descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified. This parameter cannot be used in the same query as the
-        **bias** parameter.
-        :param bool highlight: When true, a highlight field is returned for each result
-        which contains the fields which match the query with `<em></em>` tags around the
-        matching query terms.
-        :param str passages_fields: A comma-separated list of fields that passages are
-        drawn from. If this parameter not specified, then all top-level fields are
-        included.
-        :param int passages_count: The maximum number of passages to return. The search
-        returns fewer passages if the requested total is not found. The default is `10`.
-        The maximum is `100`.
-        :param int passages_characters: The approximate number of characters that any one
-        passage will have.
-        :param bool deduplicate: When `true`, and used with a Watson Discovery News
-        collection, duplicate results (based on the contents of the **title** field) are
-        removed. Duplicate comparison is limited to the current query only; **offset** is
-        not considered. This parameter is currently Beta functionality.
-        :param str deduplicate_field: When specified, duplicate results based on the field
-        specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, **offset** is not considered. This parameter is
-        currently Beta functionality.
-        :param str collection_ids: A comma-separated list of collection IDs to be queried
-        against. Required when querying multiple collections, invalid when performing a
-        single collection query.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param str similar_document_ids: A comma-separated list of document IDs to find
-        similar documents.
-        **Tip:** Include the **natural_language_query** parameter to expand the scope of
-        the document similarity search with the natural language query. Other query
-        parameters, such as **filter** and **query**, are subsequently applied and reduce
-        the scope.
-        :param str similar_fields: A comma-separated list of field names that are used as
-        a basis for comparison to identify similar documents. If not specified, the entire
-        document is used for comparison.
-        :param str bias: Field which the returned results will be biased against. The
-        specified field must be either a **date** or **number** format. When a **date**
-        type field is specified returned results are biased towards field values closer to
-        the current date. When a **number** type field is specified, returned results are
-        biased towards higher field values. This parameter cannot be used in the same
-        query as the **sort** parameter.
-        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
-        **Logs** endpoint.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-
-        headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'query')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        data = {
-            'filter': filter,
-            'query': query,
-            'natural_language_query': natural_language_query,
-            'passages': passages,
-            'aggregation': aggregation,
-            'count': count,
-            'return': return_fields,
-            'offset': offset,
-            'sort': sort,
-            'highlight': highlight,
-            'passages.fields': passages_fields,
-            'passages.count': passages_count,
-            'passages.characters': passages_characters,
-            'deduplicate': deduplicate,
-            'deduplicate.field': deduplicate_field,
-            'collection_ids': collection_ids,
-            'similar': similar,
-            'similar.document_ids': similar_document_ids,
-            'similar.fields': similar_fields,
-            'bias': bias
-        }
-
-        url = '/v1/environments/{0}/collections/{1}/query'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
-        return response
-
     def query_entities(self,
                        environment_id,
                        collection_id,
@@ -2096,138 +2237,6 @@ class DiscoveryV1(BaseService):
             headers=headers,
             params=params,
             json=data,
-            accept_json=True)
-        return response
-
-    def query_notices(self,
-                      environment_id,
-                      collection_id,
-                      filter=None,
-                      query=None,
-                      natural_language_query=None,
-                      passages=None,
-                      aggregation=None,
-                      count=None,
-                      return_fields=None,
-                      offset=None,
-                      sort=None,
-                      highlight=None,
-                      passages_fields=None,
-                      passages_count=None,
-                      passages_characters=None,
-                      deduplicate_field=None,
-                      similar=None,
-                      similar_document_ids=None,
-                      similar_fields=None,
-                      **kwargs):
-        """
-        Query system notices.
-
-        Queries for notices (errors or warnings) that might have been generated by the
-        system. Notices are generated when ingesting documents and performing relevance
-        training. See the [Discovery service
-        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-query-concepts#query-concepts)
-        for more details on the query language.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results. You cannot
-        use **natural_language_query** and **query** at the same time.
-        :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding. You
-        cannot use **natural_language_query** and **query** at the same time.
-        :param bool passages: A passages query that returns the most relevant passages
-        from the results.
-        :param str aggregation: An aggregation search that returns an exact answer by
-        combining query search with filters. Useful for applications to build lists,
-        tables, and time series. For a full list of possible aggregations, see the Query
-        reference.
-        :param int count: Number of results to return. The maximum for the **count** and
-        **offset** values together in any one query is **10000**.
-        :param list[str] return_fields: A comma-separated list of the portion of the
-        document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
-        8, it returns the last two results. The maximum for the **count** and **offset**
-        values together in any one query is **10000**.
-        :param list[str] sort: A comma-separated list of fields in the document to sort
-        on. You can optionally specify a sort direction by prefixing the field with `-`
-        for descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified.
-        :param bool highlight: When true, a highlight field is returned for each result
-        which contains the fields which match the query with `<em></em>` tags around the
-        matching query terms.
-        :param list[str] passages_fields: A comma-separated list of fields that passages
-        are drawn from. If this parameter not specified, then all top-level fields are
-        included.
-        :param int passages_count: The maximum number of passages to return. The search
-        returns fewer passages if the requested total is not found.
-        :param int passages_characters: The approximate number of characters that any one
-        passage will have.
-        :param str deduplicate_field: When specified, duplicate results based on the field
-        specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, **offset** is not considered. This parameter is
-        currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs to
-        find similar documents.
-        **Tip:** Include the **natural_language_query** parameter to expand the scope of
-        the document similarity search with the natural language query. Other query
-        parameters, such as **filter** and **query**, are subsequently applied and reduce
-        the scope.
-        :param list[str] similar_fields: A comma-separated list of field names that are
-        used as a basis for comparison to identify similar documents. If not specified,
-        the entire document is used for comparison.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'query_notices')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version,
-            'filter': filter,
-            'query': query,
-            'natural_language_query': natural_language_query,
-            'passages': passages,
-            'aggregation': aggregation,
-            'count': count,
-            'return': self._convert_list(return_fields),
-            'offset': offset,
-            'sort': self._convert_list(sort),
-            'highlight': highlight,
-            'passages.fields': self._convert_list(passages_fields),
-            'passages.count': passages_count,
-            'passages.characters': passages_characters,
-            'deduplicate.field': deduplicate_field,
-            'similar': similar,
-            'similar.document_ids': self._convert_list(similar_document_ids),
-            'similar.fields': self._convert_list(similar_fields)
-        }
-
-        url = '/v1/environments/{0}/collections/{1}/notices'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
             accept_json=True)
         return response
 
@@ -2315,6 +2324,42 @@ class DiscoveryV1(BaseService):
     # Training data
     #########################
 
+    def list_training_data(self, environment_id, collection_id, **kwargs):
+        """
+        List training data.
+
+        Lists the training data for the specified collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_training_data')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
     def add_training_data(self,
                           environment_id,
                           collection_id,
@@ -2371,6 +2416,166 @@ class DiscoveryV1(BaseService):
             headers=headers,
             params=params,
             json=data,
+            accept_json=True)
+        return response
+
+    def delete_all_training_data(self, environment_id, collection_id, **kwargs):
+        """
+        Delete all training data.
+
+        Deletes all training data from a collection.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1',
+                                      'delete_all_training_data')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
+            *self._encode_path_vars(environment_id, collection_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=False)
+        return response
+
+    def get_training_data(self, environment_id, collection_id, query_id,
+                          **kwargs):
+        """
+        Get details about a query.
+
+        Gets details for a specific training data query, including the query string and
+        all examples.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str query_id: The ID of the query used for training.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if query_id is None:
+            raise ValueError('query_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_training_data')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def delete_training_data(self, environment_id, collection_id, query_id,
+                             **kwargs):
+        """
+        Delete a training data query.
+
+        Removes the training data query and all associated examples from the training data
+        set.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str query_id: The ID of the query used for training.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if query_id is None:
+            raise ValueError('query_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_training_data')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id))
+        response = self.request(
+            method='DELETE',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=False)
+        return response
+
+    def list_training_examples(self, environment_id, collection_id, query_id,
+                               **kwargs):
+        """
+        List examples for a training data query.
+
+        List all examples for this training data query.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str query_id: The ID of the query used for training.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if query_id is None:
+            raise ValueError('query_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1',
+                                      'list_training_examples')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
             accept_json=True)
         return response
 
@@ -2432,84 +2637,6 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def delete_all_training_data(self, environment_id, collection_id, **kwargs):
-        """
-        Delete all training data.
-
-        Deletes all training data from a collection.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1',
-                                      'delete_all_training_data')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
-        return response
-
-    def delete_training_data(self, environment_id, collection_id, query_id,
-                             **kwargs):
-        """
-        Delete a training data query.
-
-        Removes the training data query and all associated examples from the training data
-        set.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str query_id: The ID of the query used for training.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        if query_id is None:
-            raise ValueError('query_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_training_data')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
-        return response
-
     def delete_training_example(self, environment_id, collection_id, query_id,
                                 example_id, **kwargs):
         """
@@ -2553,168 +2680,6 @@ class DiscoveryV1(BaseService):
             headers=headers,
             params=params,
             accept_json=False)
-        return response
-
-    def get_training_data(self, environment_id, collection_id, query_id,
-                          **kwargs):
-        """
-        Get details about a query.
-
-        Gets details for a specific training data query, including the query string and
-        all examples.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str query_id: The ID of the query used for training.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        if query_id is None:
-            raise ValueError('query_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_training_data')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def get_training_example(self, environment_id, collection_id, query_id,
-                             example_id, **kwargs):
-        """
-        Get details for training data example.
-
-        Gets the details for this training example.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str query_id: The ID of the query used for training.
-        :param str example_id: The ID of the document as it is indexed.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        if query_id is None:
-            raise ValueError('query_id must be provided')
-        if example_id is None:
-            raise ValueError('example_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_training_example')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id,
-                                    example_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def list_training_data(self, environment_id, collection_id, **kwargs):
-        """
-        List training data.
-
-        Lists the training data for the specified collection.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_training_data')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def list_training_examples(self, environment_id, collection_id, query_id,
-                               **kwargs):
-        """
-        List examples for a training data query.
-
-        List all examples for this training data query.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str query_id: The ID of the query used for training.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        if query_id is None:
-            raise ValueError('query_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1',
-                                      'list_training_examples')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
         return response
 
     def update_training_example(self,
@@ -2770,6 +2735,50 @@ class DiscoveryV1(BaseService):
             headers=headers,
             params=params,
             json=data,
+            accept_json=True)
+        return response
+
+    def get_training_example(self, environment_id, collection_id, query_id,
+                             example_id, **kwargs):
+        """
+        Get details for training data example.
+
+        Gets the details for this training example.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str query_id: The ID of the query used for training.
+        :param str example_id: The ID of the document as it is indexed.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if query_id is None:
+            raise ValueError('query_id must be provided')
+        if example_id is None:
+            raise ValueError('example_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_training_example')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
+            *self._encode_path_vars(environment_id, collection_id, query_id,
+                                    example_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
             accept_json=True)
         return response
 
@@ -2859,25 +2868,35 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def get_metrics_event_rate(self,
-                               start_time=None,
-                               end_time=None,
-                               result_type=None,
-                               **kwargs):
+    def query_log(self,
+                  filter=None,
+                  query=None,
+                  count=None,
+                  offset=None,
+                  sort=None,
+                  **kwargs):
         """
-        Percentage of queries with an associated event.
+        Search the query and event log.
 
-        The percentage of queries using the **natural_language_query** parameter that have
-        a corresponding \"click\" event over a specified time window.  This metric
-        requires having integrated event tracking in your application using the **Events**
-        API.
+        Searches the query and event log to find query sessions that match the specified
+        criteria. Searching the **logs** endpoint uses the standard Discovery query syntax
+        for the parameters that are supported.
 
-        :param datetime start_time: Metric is computed from data recorded after this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param datetime end_time: Metric is computed from data recorded before this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param str result_type: The type of result to consider when calculating the
-        metric.
+        :param str filter: A cacheable query that excludes documents that don't mention
+        the query content. Filter searches are better for metadata-type searches and for
+        assessing the concepts in the data set.
+        :param str query: A query search returns all documents in your data set with full
+        enrichments and full text, but with the most relevant documents listed first.
+        :param int count: Number of results to return. The maximum for the **count** and
+        **offset** values together in any one query is **10000**.
+        :param int offset: The number of query results to skip at the beginning. For
+        example, if the total number of results that are returned is 10 and the offset is
+        8, it returns the last two results. The maximum for the **count** and **offset**
+        values together in any one query is **10000**.
+        :param list[str] sort: A comma-separated list of fields in the document to sort
+        on. You can optionally specify a sort direction by prefixing the field with `-`
+        for descending or `+` for ascending. Ascending is the default sort direction if no
+        prefix is specified.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2886,18 +2905,19 @@ class DiscoveryV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1',
-                                      'get_metrics_event_rate')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'query_log')
         headers.update(sdk_headers)
 
         params = {
             'version': self.version,
-            'start_time': start_time,
-            'end_time': end_time,
-            'result_type': result_type
+            'filter': filter,
+            'query': query,
+            'count': count,
+            'offset': offset,
+            'sort': self._convert_list(sort)
         }
 
-        url = '/v1/metrics/event_rate'
+        url = '/v1/logs'
         response = self.request(
             method='GET',
             url=url,
@@ -3041,6 +3061,53 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
+    def get_metrics_event_rate(self,
+                               start_time=None,
+                               end_time=None,
+                               result_type=None,
+                               **kwargs):
+        """
+        Percentage of queries with an associated event.
+
+        The percentage of queries using the **natural_language_query** parameter that have
+        a corresponding \"click\" event over a specified time window.  This metric
+        requires having integrated event tracking in your application using the **Events**
+        API.
+
+        :param datetime start_time: Metric is computed from data recorded after this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: Metric is computed from data recorded before this
+        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: The type of result to consider when calculating the
+        metric.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1',
+                                      'get_metrics_event_rate')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'start_time': start_time,
+            'end_time': end_time,
+            'result_type': result_type
+        }
+
+        url = '/v1/metrics/event_rate'
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
     def get_metrics_query_token_event(self, count=None, **kwargs):
         """
         Most frequent query tokens with an event.
@@ -3075,58 +3142,37 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def query_log(self,
-                  filter=None,
-                  query=None,
-                  count=None,
-                  offset=None,
-                  sort=None,
-                  **kwargs):
+    #########################
+    # Credentials
+    #########################
+
+    def list_credentials(self, environment_id, **kwargs):
         """
-        Search the query and event log.
+        List credentials.
 
-        Searches the query and event log to find query sessions that match the specified
-        criteria. Searching the **logs** endpoint uses the standard Discovery query syntax
-        for the parameters that are supported.
+        List all the source credentials that have been created for this service instance.
+         **Note:**  All credentials are sent over an encrypted connection and encrypted at
+        rest.
 
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results. You cannot
-        use **natural_language_query** and **query** at the same time.
-        :param int count: Number of results to return. The maximum for the **count** and
-        **offset** values together in any one query is **10000**.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
-        8, it returns the last two results. The maximum for the **count** and **offset**
-        values together in any one query is **10000**.
-        :param list[str] sort: A comma-separated list of fields in the document to sort
-        on. You can optionally specify a sort direction by prefixing the field with `-`
-        for descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified.
+        :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
 
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'query_log')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_credentials')
         headers.update(sdk_headers)
 
-        params = {
-            'version': self.version,
-            'filter': filter,
-            'query': query,
-            'count': count,
-            'offset': offset,
-            'sort': self._convert_list(sort)
-        }
+        params = {'version': self.version}
 
-        url = '/v1/logs'
+        url = '/v1/environments/{0}/credentials'.format(
+            *self._encode_path_vars(environment_id))
         response = self.request(
             method='GET',
             url=url,
@@ -3135,14 +3181,11 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    #########################
-    # Credentials
-    #########################
-
     def create_credentials(self,
                            environment_id,
                            source_type=None,
                            credential_details=None,
+                           status=None,
                            **kwargs):
         """
         Create credentials.
@@ -3165,6 +3208,11 @@ class DiscoveryV1(BaseService):
         :param CredentialDetails credential_details: Object containing details of the
         stored credentials.
         Obtain credentials for your source from the administrator of the source.
+        :param str status: The current status of this set of credentials. `connected`
+        indicates that the credentials are available to use with the source configuration
+        of a collection. `invalid` refers to the credentials (for example, the password
+        provided has expired) and must be corrected before they can be used with a
+        collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3186,13 +3234,123 @@ class DiscoveryV1(BaseService):
 
         data = {
             'source_type': source_type,
-            'credential_details': credential_details
+            'credential_details': credential_details,
+            'status': status
         }
 
         url = '/v1/environments/{0}/credentials'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
             method='POST',
+            url=url,
+            headers=headers,
+            params=params,
+            json=data,
+            accept_json=True)
+        return response
+
+    def get_credentials(self, environment_id, credential_id, **kwargs):
+        """
+        View Credentials.
+
+        Returns details about the specified credentials.
+         **Note:** Secure credential information such as a password or SSH key is never
+        returned and must be obtained from the source system.
+
+        :param str environment_id: The ID of the environment.
+        :param str credential_id: The unique identifier for a set of source credentials.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if credential_id is None:
+            raise ValueError('credential_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_credentials')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v1/environments/{0}/credentials/{1}'.format(
+            *self._encode_path_vars(environment_id, credential_id))
+        response = self.request(
+            method='GET',
+            url=url,
+            headers=headers,
+            params=params,
+            accept_json=True)
+        return response
+
+    def update_credentials(self,
+                           environment_id,
+                           credential_id,
+                           source_type=None,
+                           credential_details=None,
+                           status=None,
+                           **kwargs):
+        """
+        Update credentials.
+
+        Updates an existing set of source credentials.
+        **Note:** All credentials are sent over an encrypted connection and encrypted at
+        rest.
+
+        :param str environment_id: The ID of the environment.
+        :param str credential_id: The unique identifier for a set of source credentials.
+        :param str source_type: The source that this credentials object connects to.
+        -  `box` indicates the credentials are used to connect an instance of Enterprise
+        Box.
+        -  `salesforce` indicates the credentials are used to connect to Salesforce.
+        -  `sharepoint` indicates the credentials are used to connect to Microsoft
+        SharePoint Online.
+        -  `web_crawl` indicates the credentials are used to perform a web crawl.
+        =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
+        Cloud Object Store.
+        :param CredentialDetails credential_details: Object containing details of the
+        stored credentials.
+        Obtain credentials for your source from the administrator of the source.
+        :param str status: The current status of this set of credentials. `connected`
+        indicates that the credentials are available to use with the source configuration
+        of a collection. `invalid` refers to the credentials (for example, the password
+        provided has expired) and must be corrected before they can be used with a
+        collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if credential_id is None:
+            raise ValueError('credential_id must be provided')
+        if credential_details is not None:
+            credential_details = self._convert_model(credential_details,
+                                                     CredentialDetails)
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'update_credentials')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'source_type': source_type,
+            'credential_details': credential_details,
+            'status': status
+        }
+
+        url = '/v1/environments/{0}/credentials/{1}'.format(
+            *self._encode_path_vars(environment_id, credential_id))
+        response = self.request(
+            method='PUT',
             url=url,
             headers=headers,
             params=params,
@@ -3236,51 +3394,15 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def get_credentials(self, environment_id, credential_id, **kwargs):
+    #########################
+    # gatewayConfiguration
+    #########################
+
+    def list_gateways(self, environment_id, **kwargs):
         """
-        View Credentials.
+        List Gateways.
 
-        Returns details about the specified credentials.
-         **Note:** Secure credential information such as a password or SSH key is never
-        returned and must be obtained from the source system.
-
-        :param str environment_id: The ID of the environment.
-        :param str credential_id: The unique identifier for a set of source credentials.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if credential_id is None:
-            raise ValueError('credential_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_credentials')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/credentials/{1}'.format(
-            *self._encode_path_vars(environment_id, credential_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    def list_credentials(self, environment_id, **kwargs):
-        """
-        List credentials.
-
-        List all the source credentials that have been created for this service instance.
-         **Note:**  All credentials are sent over an encrypted connection and encrypted at
-        rest.
+        List the currently configured gateways.
 
         :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
@@ -3294,12 +3416,12 @@ class DiscoveryV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_credentials')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_gateways')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/credentials'.format(
+        url = '/v1/environments/{0}/gateways'.format(
             *self._encode_path_vars(environment_id))
         response = self.request(
             method='GET',
@@ -3308,74 +3430,6 @@ class DiscoveryV1(BaseService):
             params=params,
             accept_json=True)
         return response
-
-    def update_credentials(self,
-                           environment_id,
-                           credential_id,
-                           source_type=None,
-                           credential_details=None,
-                           **kwargs):
-        """
-        Update credentials.
-
-        Updates an existing set of source credentials.
-        **Note:** All credentials are sent over an encrypted connection and encrypted at
-        rest.
-
-        :param str environment_id: The ID of the environment.
-        :param str credential_id: The unique identifier for a set of source credentials.
-        :param str source_type: The source that this credentials object connects to.
-        -  `box` indicates the credentials are used to connect an instance of Enterprise
-        Box.
-        -  `salesforce` indicates the credentials are used to connect to Salesforce.
-        -  `sharepoint` indicates the credentials are used to connect to Microsoft
-        SharePoint Online.
-        -  `web_crawl` indicates the credentials are used to perform a web crawl.
-        =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
-        Cloud Object Store.
-        :param CredentialDetails credential_details: Object containing details of the
-        stored credentials.
-        Obtain credentials for your source from the administrator of the source.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if credential_id is None:
-            raise ValueError('credential_id must be provided')
-        if credential_details is not None:
-            credential_details = self._convert_model(credential_details,
-                                                     CredentialDetails)
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'update_credentials')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        data = {
-            'source_type': source_type,
-            'credential_details': credential_details
-        }
-
-        url = '/v1/environments/{0}/credentials/{1}'.format(
-            *self._encode_path_vars(environment_id, credential_id))
-        response = self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
-        return response
-
-    #########################
-    # gatewayConfiguration
-    #########################
 
     def create_gateway(self, environment_id, name=None, **kwargs):
         """
@@ -3411,42 +3465,6 @@ class DiscoveryV1(BaseService):
             headers=headers,
             params=params,
             json=data,
-            accept_json=True)
-        return response
-
-    def delete_gateway(self, environment_id, gateway_id, **kwargs):
-        """
-        Delete Gateway.
-
-        Delete the specified gateway configuration.
-
-        :param str environment_id: The ID of the environment.
-        :param str gateway_id: The requested gateway ID.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if gateway_id is None:
-            raise ValueError('gateway_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_gateway')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        url = '/v1/environments/{0}/gateways/{1}'.format(
-            *self._encode_path_vars(environment_id, gateway_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
             accept_json=True)
         return response
 
@@ -3486,13 +3504,14 @@ class DiscoveryV1(BaseService):
             accept_json=True)
         return response
 
-    def list_gateways(self, environment_id, **kwargs):
+    def delete_gateway(self, environment_id, gateway_id, **kwargs):
         """
-        List Gateways.
+        Delete Gateway.
 
-        List the currently configured gateways.
+        Delete the specified gateway configuration.
 
         :param str environment_id: The ID of the environment.
+        :param str gateway_id: The requested gateway ID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3500,19 +3519,21 @@ class DiscoveryV1(BaseService):
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
+        if gateway_id is None:
+            raise ValueError('gateway_id must be provided')
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'list_gateways')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'delete_gateway')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/gateways'.format(
-            *self._encode_path_vars(environment_id))
+        url = '/v1/environments/{0}/gateways/{1}'.format(
+            *self._encode_path_vars(environment_id, gateway_id))
         response = self.request(
-            method='GET',
+            method='DELETE',
             url=url,
             headers=headers,
             params=params,
@@ -3552,6 +3573,12 @@ class AggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a AggregationResult object from a json dictionary."""
         args = {}
+        validKeys = ['key', 'matching_results', 'aggregations']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class AggregationResult: '
+                + ', '.join(badKeys))
         if 'key' in _dict:
             args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
@@ -3614,7 +3641,7 @@ class Calculation(object):
         :param list[AggregationResult] results: (optional) Array of aggregation results.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        the Discovery service.
+        Discovery.
         :param str field: (optional) The field where the aggregation is located in the
         document.
         :param float value: (optional) Value of the aggregation.
@@ -3626,6 +3653,12 @@ class Calculation(object):
     def _from_dict(cls, _dict):
         """Initialize a Calculation object from a json dictionary."""
         args = {}
+        validKeys = ['field', 'value']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Calculation: '
+                + ', '.join(badKeys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'value' in _dict:
@@ -3676,8 +3709,10 @@ class Collection(object):
     :attr CollectionDiskUsage disk_usage: (optional) Summary of the disk usage statistics
     for this collection.
     :attr TrainingStatus training_status: (optional)
-    :attr SourceStatus source_crawl: (optional) Object containing source crawl status
-    information.
+    :attr CollectionCrawlStatus crawl_status: (optional) Object containing information
+    about the crawl status of this collection.
+    :attr SduStatus smart_document_understanding: (optional) Object containing smart
+    document understanding information for this collection.
     """
 
     def __init__(self,
@@ -3692,7 +3727,8 @@ class Collection(object):
                  document_counts=None,
                  disk_usage=None,
                  training_status=None,
-                 source_crawl=None):
+                 crawl_status=None,
+                 smart_document_understanding=None):
         """
         Initialize a Collection object.
 
@@ -3713,8 +3749,10 @@ class Collection(object):
         :param CollectionDiskUsage disk_usage: (optional) Summary of the disk usage
         statistics for this collection.
         :param TrainingStatus training_status: (optional)
-        :param SourceStatus source_crawl: (optional) Object containing source crawl status
-        information.
+        :param CollectionCrawlStatus crawl_status: (optional) Object containing
+        information about the crawl status of this collection.
+        :param SduStatus smart_document_understanding: (optional) Object containing smart
+        document understanding information for this collection.
         """
         self.collection_id = collection_id
         self.name = name
@@ -3727,12 +3765,24 @@ class Collection(object):
         self.document_counts = document_counts
         self.disk_usage = disk_usage
         self.training_status = training_status
-        self.source_crawl = source_crawl
+        self.crawl_status = crawl_status
+        self.smart_document_understanding = smart_document_understanding
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Collection object from a json dictionary."""
         args = {}
+        validKeys = [
+            'collection_id', 'name', 'description', 'created', 'updated',
+            'status', 'configuration_id', 'language', 'document_counts',
+            'disk_usage', 'training_status', 'crawl_status',
+            'smart_document_understanding'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Collection: '
+                + ', '.join(badKeys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         if 'name' in _dict:
@@ -3758,9 +3808,12 @@ class Collection(object):
         if 'training_status' in _dict:
             args['training_status'] = TrainingStatus._from_dict(
                 _dict.get('training_status'))
-        if 'source_crawl' in _dict:
-            args['source_crawl'] = SourceStatus._from_dict(
-                _dict.get('source_crawl'))
+        if 'crawl_status' in _dict:
+            args['crawl_status'] = CollectionCrawlStatus._from_dict(
+                _dict.get('crawl_status'))
+        if 'smart_document_understanding' in _dict:
+            args['smart_document_understanding'] = SduStatus._from_dict(
+                _dict.get('smart_document_understanding'))
         return cls(**args)
 
     def _to_dict(self):
@@ -3791,12 +3844,71 @@ class Collection(object):
         if hasattr(self,
                    'training_status') and self.training_status is not None:
             _dict['training_status'] = self.training_status._to_dict()
+        if hasattr(self, 'crawl_status') and self.crawl_status is not None:
+            _dict['crawl_status'] = self.crawl_status._to_dict()
+        if hasattr(self, 'smart_document_understanding'
+                  ) and self.smart_document_understanding is not None:
+            _dict[
+                'smart_document_understanding'] = self.smart_document_understanding._to_dict(
+                )
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Collection object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CollectionCrawlStatus(object):
+    """
+    Object containing information about the crawl status of this collection.
+
+    :attr SourceStatus source_crawl: (optional) Object containing source crawl status
+    information.
+    """
+
+    def __init__(self, source_crawl=None):
+        """
+        Initialize a CollectionCrawlStatus object.
+
+        :param SourceStatus source_crawl: (optional) Object containing source crawl status
+        information.
+        """
+        self.source_crawl = source_crawl
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CollectionCrawlStatus object from a json dictionary."""
+        args = {}
+        validKeys = ['source_crawl']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CollectionCrawlStatus: '
+                + ', '.join(badKeys))
+        if 'source_crawl' in _dict:
+            args['source_crawl'] = SourceStatus._from_dict(
+                _dict.get('source_crawl'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
         if hasattr(self, 'source_crawl') and self.source_crawl is not None:
             _dict['source_crawl'] = self.source_crawl._to_dict()
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this Collection object."""
+        """Return a `str` version of this CollectionCrawlStatus object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -3829,6 +3941,12 @@ class CollectionDiskUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionDiskUsage object from a json dictionary."""
         args = {}
+        validKeys = ['used_bytes']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CollectionDiskUsage: '
+                + ', '.join(badKeys))
         if 'used_bytes' in _dict:
             args['used_bytes'] = _dict.get('used_bytes')
         return cls(**args)
@@ -3879,6 +3997,12 @@ class CollectionUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionUsage object from a json dictionary."""
         args = {}
+        validKeys = ['available', 'maximum_allowed']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CollectionUsage: '
+                + ', '.join(badKeys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'maximum_allowed' in _dict:
@@ -3976,6 +4100,15 @@ class Configuration(object):
     def _from_dict(cls, _dict):
         """Initialize a Configuration object from a json dictionary."""
         args = {}
+        validKeys = [
+            'configuration_id', 'name', 'created', 'updated', 'description',
+            'conversions', 'enrichments', 'normalizations', 'source'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Configuration: '
+                + ', '.join(badKeys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         if 'name' in _dict:
@@ -4057,6 +4190,11 @@ class Conversions(object):
     :attr list[NormalizationOperation] json_normalizations: (optional) Defines operations
     that can be used to transform the final output JSON into a normalized form. Operations
     are executed in the order that they appear in the array.
+    :attr bool image_text_recognition: (optional) When `true`, automatic text extraction
+    from images (this includes images embedded in supported document formats, for example
+    PDF, and suppported image formats, for example TIFF) is performed on documents
+    uploaded to the collection. This field is supported on **Advanced** and higher plans
+    only. **Lite** plans do not support image text recognition.
     """
 
     def __init__(self,
@@ -4064,7 +4202,8 @@ class Conversions(object):
                  word=None,
                  html=None,
                  segment=None,
-                 json_normalizations=None):
+                 json_normalizations=None,
+                 image_text_recognition=None):
         """
         Initialize a Conversions object.
 
@@ -4076,17 +4215,33 @@ class Conversions(object):
         :param list[NormalizationOperation] json_normalizations: (optional) Defines
         operations that can be used to transform the final output JSON into a normalized
         form. Operations are executed in the order that they appear in the array.
+        :param bool image_text_recognition: (optional) When `true`, automatic text
+        extraction from images (this includes images embedded in supported document
+        formats, for example PDF, and suppported image formats, for example TIFF) is
+        performed on documents uploaded to the collection. This field is supported on
+        **Advanced** and higher plans only. **Lite** plans do not support image text
+        recognition.
         """
         self.pdf = pdf
         self.word = word
         self.html = html
         self.segment = segment
         self.json_normalizations = json_normalizations
+        self.image_text_recognition = image_text_recognition
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Conversions object from a json dictionary."""
         args = {}
+        validKeys = [
+            'pdf', 'word', 'html', 'segment', 'json_normalizations',
+            'image_text_recognition'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Conversions: '
+                + ', '.join(badKeys))
         if 'pdf' in _dict:
             args['pdf'] = PdfSettings._from_dict(_dict.get('pdf'))
         if 'word' in _dict:
@@ -4100,6 +4255,8 @@ class Conversions(object):
                 NormalizationOperation._from_dict(x)
                 for x in (_dict.get('json_normalizations'))
             ]
+        if 'image_text_recognition' in _dict:
+            args['image_text_recognition'] = _dict.get('image_text_recognition')
         return cls(**args)
 
     def _to_dict(self):
@@ -4119,6 +4276,9 @@ class Conversions(object):
             _dict['json_normalizations'] = [
                 x._to_dict() for x in self.json_normalizations
             ]
+        if hasattr(self, 'image_text_recognition'
+                  ) and self.image_text_recognition is not None:
+            _dict['image_text_recognition'] = self.image_text_recognition
         return _dict
 
     def __str__(self):
@@ -4158,6 +4318,12 @@ class CreateEventResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a CreateEventResponse object from a json dictionary."""
         args = {}
+        validKeys = ['type', 'data']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CreateEventResponse: '
+                + ', '.join(badKeys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'data' in _dict:
@@ -4199,7 +4365,7 @@ class CredentialDetails(object):
     -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
     -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
     -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
-    **source_version** of `online`, or `ntml_v1` with **source_version** of `2016`
+    **source_version** of `online`, or `ntlm_v1` with **source_version** of `2016`
     -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
     -  "source_type": "cloud_object_storage"` - valid `credential_type`s: `aws4_hmac`.
     :attr str client_id: (optional) The **client_id** of the source that these credentials
@@ -4211,7 +4377,7 @@ class CredentialDetails(object):
     and `basic`.
     :attr str username: (optional) The **username** of the source that these credentials
     connect to. Only valid, and required, with a **credential_type** of `saml`,
-    `username_password`, `basic`, or `ntml_v1`.
+    `username_password`, `basic`, or `ntlm_v1`.
     :attr str organization_url: (optional) The **organization_url** of the source that
     these credentials connect to. Only valid, and required, with a **credential_type** of
     `saml`.
@@ -4236,26 +4402,28 @@ class CredentialDetails(object):
     **credentials**.
     :attr str password: (optional) The **password** of the source that these credentials
     connect to. Only valid, and required, with **credential_type**s of `saml`,
-    `username_password`, `basic`, or `ntml_v1`.
+    `username_password`, `basic`, or `ntlm_v1`.
     **Note:** When used with a **source_type** of `salesforce`, the password consists of
     the Salesforce password and a valid Salesforce security token concatenated. This value
     is never returned and is only used when creating or modifying **credentials**.
     :attr str gateway_id: (optional) The ID of the **gateway** to be connected through
     (when connecting to intranet sites). Only valid with a **credential_type** of
-    `noauth`, `basic`, or `ntml_v1`. Gateways are created using the
+    `noauth`, `basic`, or `ntlm_v1`. Gateways are created using the
     `/v1/environments/{environment_id}/gateways` methods.
     :attr str source_version: (optional) The type of Sharepoint repository to connect to.
     Only valid, and required, with a **source_type** of `sharepoint`.
     :attr str web_application_url: (optional) SharePoint OnPrem WebApplication URL. Only
-    valid, and required, with a **source_version** of `2016`.
+    valid, and required, with a **source_version** of `2016`. If a port is not supplied,
+    the default to port `80` for http and port `443` for https connections are used.
     :attr str domain: (optional) The domain used to log in to your OnPrem SharePoint
     account. Only valid, and required, with a **source_version** of `2016`.
     :attr str endpoint: (optional) The endpoint associated with the cloud object store
     that your are connecting to. Only valid, and required, with a **credential_type** of
     `aws4_hmac`.
     :attr str access_key_id: (optional) The access key ID associated with the cloud object
-    store. Only valid, and required, with a **credential_type** of `aws4_hmac`. For more
-    infomation, see the [cloud object store
+    store. Only valid, and required, with a **credential_type** of `aws4_hmac`. This value
+    is never returned and is only used when creating or modifying **credentials**. For
+    more infomation, see the [cloud object store
     documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
     :attr str secret_access_key: (optional) The secret access key associated with the
     cloud object store. Only valid, and required, with a **credential_type** of
@@ -4293,7 +4461,7 @@ class CredentialDetails(object):
         -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
         -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
         -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
-        **source_version** of `online`, or `ntml_v1` with **source_version** of `2016`
+        **source_version** of `online`, or `ntlm_v1` with **source_version** of `2016`
         -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
         -  "source_type": "cloud_object_storage"` - valid `credential_type`s: `aws4_hmac`.
         :param str client_id: (optional) The **client_id** of the source that these
@@ -4307,7 +4475,7 @@ class CredentialDetails(object):
         `username_password`, `noauth`, and `basic`.
         :param str username: (optional) The **username** of the source that these
         credentials connect to. Only valid, and required, with a **credential_type** of
-        `saml`, `username_password`, `basic`, or `ntml_v1`.
+        `saml`, `username_password`, `basic`, or `ntlm_v1`.
         :param str organization_url: (optional) The **organization_url** of the source
         that these credentials connect to. Only valid, and required, with a
         **credential_type** of `saml`.
@@ -4332,19 +4500,21 @@ class CredentialDetails(object):
         **credentials**.
         :param str password: (optional) The **password** of the source that these
         credentials connect to. Only valid, and required, with **credential_type**s of
-        `saml`, `username_password`, `basic`, or `ntml_v1`.
+        `saml`, `username_password`, `basic`, or `ntlm_v1`.
         **Note:** When used with a **source_type** of `salesforce`, the password consists
         of the Salesforce password and a valid Salesforce security token concatenated.
         This value is never returned and is only used when creating or modifying
         **credentials**.
         :param str gateway_id: (optional) The ID of the **gateway** to be connected
         through (when connecting to intranet sites). Only valid with a **credential_type**
-        of `noauth`, `basic`, or `ntml_v1`. Gateways are created using the
+        of `noauth`, `basic`, or `ntlm_v1`. Gateways are created using the
         `/v1/environments/{environment_id}/gateways` methods.
         :param str source_version: (optional) The type of Sharepoint repository to connect
         to. Only valid, and required, with a **source_type** of `sharepoint`.
         :param str web_application_url: (optional) SharePoint OnPrem WebApplication URL.
-        Only valid, and required, with a **source_version** of `2016`.
+        Only valid, and required, with a **source_version** of `2016`. If a port is not
+        supplied, the default to port `80` for http and port `443` for https connections
+        are used.
         :param str domain: (optional) The domain used to log in to your OnPrem SharePoint
         account. Only valid, and required, with a **source_version** of `2016`.
         :param str endpoint: (optional) The endpoint associated with the cloud object
@@ -4352,7 +4522,8 @@ class CredentialDetails(object):
         **credential_type** of `aws4_hmac`.
         :param str access_key_id: (optional) The access key ID associated with the cloud
         object store. Only valid, and required, with a **credential_type** of `aws4_hmac`.
-        For more infomation, see the [cloud object store
+        This value is never returned and is only used when creating or modifying
+        **credentials**. For more infomation, see the [cloud object store
         documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
         :param str secret_access_key: (optional) The secret access key associated with the
         cloud object store. Only valid, and required, with a **credential_type** of
@@ -4384,6 +4555,18 @@ class CredentialDetails(object):
     def _from_dict(cls, _dict):
         """Initialize a CredentialDetails object from a json dictionary."""
         args = {}
+        validKeys = [
+            'credential_type', 'client_id', 'enterprise_id', 'url', 'username',
+            'organization_url', 'site_collection_path', 'site_collection.path',
+            'client_secret', 'public_key_id', 'private_key', 'passphrase',
+            'password', 'gateway_id', 'source_version', 'web_application_url',
+            'domain', 'endpoint', 'access_key_id', 'secret_access_key'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CredentialDetails: '
+                + ', '.join(badKeys))
         if 'credential_type' in _dict:
             args['credential_type'] = _dict.get('credential_type')
         if 'client_id' in _dict:
@@ -4504,12 +4687,18 @@ class Credentials(object):
     :attr CredentialDetails credential_details: (optional) Object containing details of
     the stored credentials.
     Obtain credentials for your source from the administrator of the source.
+    :attr str status: (optional) The current status of this set of credentials.
+    `connected` indicates that the credentials are available to use with the source
+    configuration of a collection. `invalid` refers to the credentials (for example, the
+    password provided has expired) and must be corrected before they can be used with a
+    collection.
     """
 
     def __init__(self,
                  credential_id=None,
                  source_type=None,
-                 credential_details=None):
+                 credential_details=None,
+                 status=None):
         """
         Initialize a Credentials object.
 
@@ -4528,15 +4717,29 @@ class Credentials(object):
         :param CredentialDetails credential_details: (optional) Object containing details
         of the stored credentials.
         Obtain credentials for your source from the administrator of the source.
+        :param str status: (optional) The current status of this set of credentials.
+        `connected` indicates that the credentials are available to use with the source
+        configuration of a collection. `invalid` refers to the credentials (for example,
+        the password provided has expired) and must be corrected before they can be used
+        with a collection.
         """
         self.credential_id = credential_id
         self.source_type = source_type
         self.credential_details = credential_details
+        self.status = status
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Credentials object from a json dictionary."""
         args = {}
+        validKeys = [
+            'credential_id', 'source_type', 'credential_details', 'status'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Credentials: '
+                + ', '.join(badKeys))
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'source_type' in _dict:
@@ -4544,6 +4747,8 @@ class Credentials(object):
         if 'credential_details' in _dict:
             args['credential_details'] = CredentialDetails._from_dict(
                 _dict.get('credential_details'))
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
         return cls(**args)
 
     def _to_dict(self):
@@ -4557,6 +4762,8 @@ class Credentials(object):
                 self,
                 'credential_details') and self.credential_details is not None:
             _dict['credential_details'] = self.credential_details._to_dict()
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
         return _dict
 
     def __str__(self):
@@ -4595,6 +4802,12 @@ class CredentialsList(object):
     def _from_dict(cls, _dict):
         """Initialize a CredentialsList object from a json dictionary."""
         args = {}
+        validKeys = ['credentials']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CredentialsList: '
+                + ', '.join(badKeys))
         if 'credentials' in _dict:
             args['credentials'] = [
                 Credentials._from_dict(x) for x in (_dict.get('credentials'))
@@ -4649,6 +4862,12 @@ class DeleteCollectionResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteCollectionResponse object from a json dictionary."""
         args = {}
+        validKeys = ['collection_id', 'status']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DeleteCollectionResponse: '
+                + ', '.join(badKeys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         else:
@@ -4714,6 +4933,12 @@ class DeleteConfigurationResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteConfigurationResponse object from a json dictionary."""
         args = {}
+        validKeys = ['configuration_id', 'status', 'notices']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DeleteConfigurationResponse: '
+                + ', '.join(badKeys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         else:
@@ -4783,6 +5008,12 @@ class DeleteCredentials(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteCredentials object from a json dictionary."""
         args = {}
+        validKeys = ['credential_id', 'status']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DeleteCredentials: '
+                + ', '.join(badKeys))
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'status' in _dict:
@@ -4837,6 +5068,12 @@ class DeleteDocumentResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteDocumentResponse object from a json dictionary."""
         args = {}
+        validKeys = ['document_id', 'status']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DeleteDocumentResponse: '
+                + ', '.join(badKeys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
@@ -4889,6 +5126,12 @@ class DeleteEnvironmentResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteEnvironmentResponse object from a json dictionary."""
         args = {}
+        validKeys = ['environment_id', 'status']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DeleteEnvironmentResponse: '
+                + ', '.join(badKeys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         else:
@@ -4953,6 +5196,12 @@ class DiskUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a DiskUsage object from a json dictionary."""
         args = {}
+        validKeys = ['used_bytes', 'maximum_allowed_bytes']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DiskUsage: '
+                + ', '.join(badKeys))
         if 'used_bytes' in _dict:
             args['used_bytes'] = _dict.get('used_bytes')
         if 'maximum_allowed_bytes' in _dict:
@@ -5016,6 +5265,12 @@ class DocumentAccepted(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentAccepted object from a json dictionary."""
         args = {}
+        validKeys = ['document_id', 'status', 'notices']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DocumentAccepted: '
+                + ', '.join(badKeys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
@@ -5092,6 +5347,12 @@ class DocumentCounts(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentCounts object from a json dictionary."""
         args = {}
+        validKeys = ['available', 'processing', 'failed', 'pending']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DocumentCounts: '
+                + ', '.join(badKeys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'processing' in _dict:
@@ -5154,6 +5415,12 @@ class DocumentSnapshot(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentSnapshot object from a json dictionary."""
         args = {}
+        validKeys = ['step', 'snapshot']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DocumentSnapshot: '
+                + ', '.join(badKeys))
         if 'step' in _dict:
             args['step'] = _dict.get('step')
         if 'snapshot' in _dict:
@@ -5237,6 +5504,15 @@ class DocumentStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentStatus object from a json dictionary."""
         args = {}
+        validKeys = [
+            'document_id', 'configuration_id', 'status', 'status_description',
+            'filename', 'file_type', 'sha1', 'notices'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DocumentStatus: '
+                + ', '.join(badKeys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         else:
@@ -5337,8 +5613,8 @@ class Enrichment(object):
     :attr bool ignore_downstream_errors: (optional) If true, then most errors generated
     during the enrichment process will be treated as warnings and will not cause the
     document to fail processing.
-    :attr EnrichmentOptions options: (optional) An object representing the configuration
-    options to use for the `elements` enrichment.
+    :attr EnrichmentOptions options: (optional) Options which are specific to a particular
+    enrichment.
     """
 
     def __init__(self,
@@ -5373,8 +5649,8 @@ class Enrichment(object):
         :param bool ignore_downstream_errors: (optional) If true, then most errors
         generated during the enrichment process will be treated as warnings and will not
         cause the document to fail processing.
-        :param EnrichmentOptions options: (optional) An object representing the
-        configuration options to use for the `elements` enrichment.
+        :param EnrichmentOptions options: (optional) Options which are specific to a
+        particular enrichment.
         """
         self.description = description
         self.destination_field = destination_field
@@ -5388,6 +5664,16 @@ class Enrichment(object):
     def _from_dict(cls, _dict):
         """Initialize a Enrichment object from a json dictionary."""
         args = {}
+        validKeys = [
+            'description', 'destination_field', 'source_field', 'overwrite',
+            'enrichment_name', 'enrichment', 'ignore_downstream_errors',
+            'options'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Enrichment: '
+                + ', '.join(badKeys))
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'destination_field' in _dict:
@@ -5457,7 +5743,7 @@ class Enrichment(object):
 
 class EnrichmentOptions(object):
     """
-    An object representing the configuration options to use for the `elements` enrichment.
+    Options which are specific to a particular enrichment.
 
     :attr NluEnrichmentFeatures features: (optional)
     :attr str language: (optional) ISO 639-1 code indicating the language to use for the
@@ -5491,6 +5777,12 @@ class EnrichmentOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a EnrichmentOptions object from a json dictionary."""
         args = {}
+        validKeys = ['features', 'language', 'model']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class EnrichmentOptions: '
+                + ', '.join(badKeys))
         if 'features' in _dict:
             args['features'] = NluEnrichmentFeatures._from_dict(
                 _dict.get('features'))
@@ -5604,6 +5896,16 @@ class Environment(object):
     def _from_dict(cls, _dict):
         """Initialize a Environment object from a json dictionary."""
         args = {}
+        validKeys = [
+            'environment_id', 'name', 'description', 'created', 'updated',
+            'status', 'read_only', 'size', 'requested_size', 'index_capacity',
+            'search_status'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Environment: '
+                + ', '.join(badKeys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'name' in _dict:
@@ -5696,6 +5998,12 @@ class EnvironmentDocuments(object):
     def _from_dict(cls, _dict):
         """Initialize a EnvironmentDocuments object from a json dictionary."""
         args = {}
+        validKeys = ['indexed', 'maximum_allowed']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class EnvironmentDocuments: '
+                + ', '.join(badKeys))
         if 'indexed' in _dict:
             args['indexed'] = _dict.get('indexed')
         if 'maximum_allowed' in _dict:
@@ -5786,6 +6094,15 @@ class EventData(object):
     def _from_dict(cls, _dict):
         """Initialize a EventData object from a json dictionary."""
         args = {}
+        validKeys = [
+            'environment_id', 'session_token', 'client_timestamp',
+            'display_rank', 'collection_id', 'document_id', 'query_id'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class EventData: '
+                + ', '.join(badKeys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         else:
@@ -5884,6 +6201,12 @@ class Expansion(object):
     def _from_dict(cls, _dict):
         """Initialize a Expansion object from a json dictionary."""
         args = {}
+        validKeys = ['input_terms', 'expanded_terms']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Expansion: '
+                + ', '.join(badKeys))
         if 'input_terms' in _dict:
             args['input_terms'] = _dict.get('input_terms')
         if 'expanded_terms' in _dict:
@@ -5960,6 +6283,12 @@ class Expansions(object):
     def _from_dict(cls, _dict):
         """Initialize a Expansions object from a json dictionary."""
         args = {}
+        validKeys = ['expansions']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Expansions: '
+                + ', '.join(badKeys))
         if 'expansions' in _dict:
             args['expansions'] = [
                 Expansion._from_dict(x) for x in (_dict.get('expansions'))
@@ -6014,6 +6343,12 @@ class Field(object):
     def _from_dict(cls, _dict):
         """Initialize a Field object from a json dictionary."""
         args = {}
+        validKeys = ['field_name', 'field', 'field_type', 'type']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Field: ' +
+                ', '.join(badKeys))
         if 'field' in _dict or 'field_name' in _dict:
             args['field_name'] = _dict.get('field') or _dict.get('field_name')
         if 'type' in _dict or 'field_type' in _dict:
@@ -6065,7 +6400,7 @@ class Filter(object):
         :param list[AggregationResult] results: (optional) Array of aggregation results.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        the Discovery service.
+        Discovery.
         :param str match: (optional) The match the aggregated results queried for.
         """
         self.match = match
@@ -6074,6 +6409,12 @@ class Filter(object):
     def _from_dict(cls, _dict):
         """Initialize a Filter object from a json dictionary."""
         args = {}
+        validKeys = ['match']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Filter: ' +
+                ', '.join(badKeys))
         if 'match' in _dict:
             args['match'] = _dict.get('match')
         return cls(**args)
@@ -6105,7 +6446,7 @@ class FontSetting(object):
     FontSetting.
 
     :attr int level: (optional) The HTML heading level that any content with the matching
-    font will be converted to.
+    font is converted to.
     :attr int min_size: (optional) The minimum size of the font to match.
     :attr int max_size: (optional) The maximum size of the font to match.
     :attr bool bold: (optional) When `true`, the font is matched if it is bold.
@@ -6124,7 +6465,7 @@ class FontSetting(object):
         Initialize a FontSetting object.
 
         :param int level: (optional) The HTML heading level that any content with the
-        matching font will be converted to.
+        matching font is converted to.
         :param int min_size: (optional) The minimum size of the font to match.
         :param int max_size: (optional) The maximum size of the font to match.
         :param bool bold: (optional) When `true`, the font is matched if it is bold.
@@ -6142,6 +6483,12 @@ class FontSetting(object):
     def _from_dict(cls, _dict):
         """Initialize a FontSetting object from a json dictionary."""
         args = {}
+        validKeys = ['level', 'min_size', 'max_size', 'bold', 'italic', 'name']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class FontSetting: '
+                + ', '.join(badKeys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'min_size' in _dict:
@@ -6232,6 +6579,12 @@ class Gateway(object):
     def _from_dict(cls, _dict):
         """Initialize a Gateway object from a json dictionary."""
         args = {}
+        validKeys = ['gateway_id', 'name', 'status', 'token', 'token_id']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Gateway: ' +
+                ', '.join(badKeys))
         if 'gateway_id' in _dict:
             args['gateway_id'] = _dict.get('gateway_id')
         if 'name' in _dict:
@@ -6296,6 +6649,12 @@ class GatewayDelete(object):
     def _from_dict(cls, _dict):
         """Initialize a GatewayDelete object from a json dictionary."""
         args = {}
+        validKeys = ['gateway_id', 'status']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class GatewayDelete: '
+                + ', '.join(badKeys))
         if 'gateway_id' in _dict:
             args['gateway_id'] = _dict.get('gateway_id')
         if 'status' in _dict:
@@ -6345,6 +6704,12 @@ class GatewayList(object):
     def _from_dict(cls, _dict):
         """Initialize a GatewayList object from a json dictionary."""
         args = {}
+        validKeys = ['gateways']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class GatewayList: '
+                + ', '.join(badKeys))
         if 'gateways' in _dict:
             args['gateways'] = [
                 Gateway._from_dict(x) for x in (_dict.get('gateways'))
@@ -6397,7 +6762,7 @@ class Histogram(object):
         :param list[AggregationResult] results: (optional) Array of aggregation results.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        the Discovery service.
+        Discovery.
         :param str field: (optional) The field where the aggregation is located in the
         document.
         :param int interval: (optional) Interval of the aggregation. (For 'histogram'
@@ -6410,6 +6775,12 @@ class Histogram(object):
     def _from_dict(cls, _dict):
         """Initialize a Histogram object from a json dictionary."""
         args = {}
+        validKeys = ['field', 'interval']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Histogram: '
+                + ', '.join(badKeys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'interval' in _dict:
@@ -6488,6 +6859,16 @@ class HtmlSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a HtmlSettings object from a json dictionary."""
         args = {}
+        validKeys = [
+            'exclude_tags_completely', 'exclude_tags_keep_content',
+            'keep_content', 'exclude_content', 'keep_tag_attributes',
+            'exclude_tag_attributes'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class HtmlSettings: '
+                + ', '.join(badKeys))
         if 'exclude_tags_completely' in _dict:
             args['exclude_tags_completely'] = _dict.get(
                 'exclude_tags_completely')
@@ -6575,6 +6956,12 @@ class IndexCapacity(object):
     def _from_dict(cls, _dict):
         """Initialize a IndexCapacity object from a json dictionary."""
         args = {}
+        validKeys = ['documents', 'disk_usage', 'collections']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class IndexCapacity: '
+                + ', '.join(badKeys))
         if 'documents' in _dict:
             args['documents'] = EnvironmentDocuments._from_dict(
                 _dict.get('documents'))
@@ -6641,6 +7028,12 @@ class ListCollectionFieldsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListCollectionFieldsResponse object from a json dictionary."""
         args = {}
+        validKeys = ['fields']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ListCollectionFieldsResponse: '
+                + ', '.join(badKeys))
         if 'fields' in _dict:
             args['fields'] = [
                 Field._from_dict(x) for x in (_dict.get('fields'))
@@ -6690,6 +7083,12 @@ class ListCollectionsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListCollectionsResponse object from a json dictionary."""
         args = {}
+        validKeys = ['collections']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ListCollectionsResponse: '
+                + ', '.join(badKeys))
         if 'collections' in _dict:
             args['collections'] = [
                 Collection._from_dict(x) for x in (_dict.get('collections'))
@@ -6739,6 +7138,12 @@ class ListConfigurationsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListConfigurationsResponse object from a json dictionary."""
         args = {}
+        validKeys = ['configurations']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ListConfigurationsResponse: '
+                + ', '.join(badKeys))
         if 'configurations' in _dict:
             args['configurations'] = [
                 Configuration._from_dict(x)
@@ -6791,6 +7196,12 @@ class ListEnvironmentsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListEnvironmentsResponse object from a json dictionary."""
         args = {}
+        validKeys = ['environments']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ListEnvironmentsResponse: '
+                + ', '.join(badKeys))
         if 'environments' in _dict:
             args['environments'] = [
                 Environment._from_dict(x) for x in (_dict.get('environments'))
@@ -6843,6 +7254,12 @@ class LogQueryResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponse object from a json dictionary."""
         args = {}
+        validKeys = ['matching_results', 'results']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class LogQueryResponse: '
+                + ', '.join(badKeys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -7018,6 +7435,17 @@ class LogQueryResponseResult(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResult object from a json dictionary."""
         args = {}
+        validKeys = [
+            'environment_id', 'customer_id', 'document_type',
+            'natural_language_query', 'document_results', 'created_timestamp',
+            'client_timestamp', 'query_id', 'session_token', 'collection_id',
+            'display_rank', 'document_id', 'event_type', 'result_type'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class LogQueryResponseResult: '
+                + ', '.join(badKeys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'customer_id' in _dict:
@@ -7133,6 +7561,12 @@ class LogQueryResponseResultDocuments(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResultDocuments object from a json dictionary."""
         args = {}
+        validKeys = ['results', 'count']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class LogQueryResponseResultDocuments: '
+                + ', '.join(badKeys))
         if 'results' in _dict:
             args['results'] = [
                 LogQueryResponseResultDocumentsResult._from_dict(x)
@@ -7213,6 +7647,14 @@ class LogQueryResponseResultDocumentsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResultDocumentsResult object from a json dictionary."""
         args = {}
+        validKeys = [
+            'position', 'document_id', 'score', 'confidence', 'collection_id'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class LogQueryResponseResultDocumentsResult: '
+                + ', '.join(badKeys))
         if 'position' in _dict:
             args['position'] = _dict.get('position')
         if 'document_id' in _dict:
@@ -7286,6 +7728,12 @@ class MetricAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricAggregation object from a json dictionary."""
         args = {}
+        validKeys = ['interval', 'event_type', 'results']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class MetricAggregation: '
+                + ', '.join(badKeys))
         if 'interval' in _dict:
             args['interval'] = _dict.get('interval')
         if 'event_type' in _dict:
@@ -7363,6 +7811,12 @@ class MetricAggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricAggregationResult object from a json dictionary."""
         args = {}
+        validKeys = ['key_as_string', 'key', 'matching_results', 'event_rate']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class MetricAggregationResult: '
+                + ', '.join(badKeys))
         if 'key_as_string' in _dict:
             args['key_as_string'] = string_to_datetime(
                 _dict.get('key_as_string'))
@@ -7423,6 +7877,12 @@ class MetricResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricResponse object from a json dictionary."""
         args = {}
+        validKeys = ['aggregations']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class MetricResponse: '
+                + ', '.join(badKeys))
         if 'aggregations' in _dict:
             args['aggregations'] = [
                 MetricAggregation._from_dict(x)
@@ -7478,6 +7938,12 @@ class MetricTokenAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenAggregation object from a json dictionary."""
         args = {}
+        validKeys = ['event_type', 'results']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class MetricTokenAggregation: '
+                + ', '.join(badKeys))
         if 'event_type' in _dict:
             args['event_type'] = _dict.get('event_type')
         if 'results' in _dict:
@@ -7542,6 +8008,12 @@ class MetricTokenAggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenAggregationResult object from a json dictionary."""
         args = {}
+        validKeys = ['key', 'matching_results', 'event_rate']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class MetricTokenAggregationResult: '
+                + ', '.join(badKeys))
         if 'key' in _dict:
             args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
@@ -7598,6 +8070,12 @@ class MetricTokenResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenResponse object from a json dictionary."""
         args = {}
+        validKeys = ['aggregations']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class MetricTokenResponse: '
+                + ', '.join(badKeys))
         if 'aggregations' in _dict:
             args['aggregations'] = [
                 MetricTokenAggregation._from_dict(x)
@@ -7648,7 +8126,7 @@ class Nested(object):
         :param list[AggregationResult] results: (optional) Array of aggregation results.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        the Discovery service.
+        Discovery.
         :param str path: (optional) The area of the results the aggregation was restricted
         to.
         """
@@ -7658,6 +8136,12 @@ class Nested(object):
     def _from_dict(cls, _dict):
         """Initialize a Nested object from a json dictionary."""
         args = {}
+        validKeys = ['path']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Nested: ' +
+                ', '.join(badKeys))
         if 'path' in _dict:
             args['path'] = _dict.get('path')
         return cls(**args)
@@ -7763,6 +8247,12 @@ class NluEnrichmentConcepts(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentConcepts object from a json dictionary."""
         args = {}
+        validKeys = ['limit']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NluEnrichmentConcepts: '
+                + ', '.join(badKeys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         return cls(**args)
@@ -7815,6 +8305,12 @@ class NluEnrichmentEmotion(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentEmotion object from a json dictionary."""
         args = {}
+        validKeys = ['document', 'targets']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NluEnrichmentEmotion: '
+                + ', '.join(badKeys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -7906,6 +8402,15 @@ class NluEnrichmentEntities(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentEntities object from a json dictionary."""
         args = {}
+        validKeys = [
+            'sentiment', 'emotion', 'limit', 'mentions', 'mention_types',
+            'sentence_locations', 'model'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NluEnrichmentEntities: '
+                + ', '.join(badKeys))
         if 'sentiment' in _dict:
             args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
@@ -8022,6 +8527,15 @@ class NluEnrichmentFeatures(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentFeatures object from a json dictionary."""
         args = {}
+        validKeys = [
+            'keywords', 'entities', 'sentiment', 'emotion', 'categories',
+            'semantic_roles', 'relations', 'concepts'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NluEnrichmentFeatures: '
+                + ', '.join(badKeys))
         if 'keywords' in _dict:
             args['keywords'] = NluEnrichmentKeywords._from_dict(
                 _dict.get('keywords'))
@@ -8115,6 +8629,12 @@ class NluEnrichmentKeywords(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentKeywords object from a json dictionary."""
         args = {}
+        validKeys = ['sentiment', 'emotion', 'limit']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NluEnrichmentKeywords: '
+                + ', '.join(badKeys))
         if 'sentiment' in _dict:
             args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
@@ -8174,6 +8694,12 @@ class NluEnrichmentRelations(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentRelations object from a json dictionary."""
         args = {}
+        validKeys = ['model']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NluEnrichmentRelations: '
+                + ', '.join(badKeys))
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -8231,6 +8757,12 @@ class NluEnrichmentSemanticRoles(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentSemanticRoles object from a json dictionary."""
         args = {}
+        validKeys = ['entities', 'keywords', 'limit']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NluEnrichmentSemanticRoles: '
+                + ', '.join(badKeys))
         if 'entities' in _dict:
             args['entities'] = _dict.get('entities')
         if 'keywords' in _dict:
@@ -8291,6 +8823,12 @@ class NluEnrichmentSentiment(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentSentiment object from a json dictionary."""
         args = {}
+        validKeys = ['document', 'targets']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NluEnrichmentSentiment: '
+                + ', '.join(badKeys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -8394,6 +8932,12 @@ class NormalizationOperation(object):
     def _from_dict(cls, _dict):
         """Initialize a NormalizationOperation object from a json dictionary."""
         args = {}
+        validKeys = ['operation', 'source_field', 'destination_field']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class NormalizationOperation: '
+                + ', '.join(badKeys))
         if 'operation' in _dict:
             args['operation'] = _dict.get('operation')
         if 'source_field' in _dict:
@@ -8508,6 +9052,15 @@ class Notice(object):
     def _from_dict(cls, _dict):
         """Initialize a Notice object from a json dictionary."""
         args = {}
+        validKeys = [
+            'notice_id', 'created', 'document_id', 'query_id', 'severity',
+            'step', 'description'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Notice: ' +
+                ', '.join(badKeys))
         if 'notice_id' in _dict:
             args['notice_id'] = _dict.get('notice_id')
         if 'created' in _dict:
@@ -8577,6 +9130,12 @@ class PdfHeadingDetection(object):
     def _from_dict(cls, _dict):
         """Initialize a PdfHeadingDetection object from a json dictionary."""
         args = {}
+        validKeys = ['fonts']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class PdfHeadingDetection: '
+                + ', '.join(badKeys))
         if 'fonts' in _dict:
             args['fonts'] = [
                 FontSetting._from_dict(x) for x in (_dict.get('fonts'))
@@ -8624,6 +9183,12 @@ class PdfSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a PdfSettings object from a json dictionary."""
         args = {}
+        validKeys = ['heading']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class PdfSettings: '
+                + ', '.join(badKeys))
         if 'heading' in _dict:
             args['heading'] = PdfHeadingDetection._from_dict(
                 _dict.get('heading'))
@@ -8653,14 +9218,14 @@ class PdfSettings(object):
 
 class QueryAggregation(object):
     """
-    An aggregation produced by the Discovery service to analyze the input provided.
+    An aggregation produced by  Discovery to analyze the input provided.
 
     :attr str type: (optional) The type of aggregation command used. For example: term,
     filter, max, min, etc.
     :attr list[AggregationResult] results: (optional) Array of aggregation results.
     :attr int matching_results: (optional) Number of matching results.
-    :attr list[QueryAggregation] aggregations: (optional) Aggregations returned by the
-    Discovery service.
+    :attr list[QueryAggregation] aggregations: (optional) Aggregations returned by
+    Discovery.
     """
 
     def __init__(self,
@@ -8676,7 +9241,7 @@ class QueryAggregation(object):
         :param list[AggregationResult] results: (optional) Array of aggregation results.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        the Discovery service.
+        Discovery.
         """
         self.type = type
         self.results = results
@@ -8687,6 +9252,12 @@ class QueryAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryAggregation object from a json dictionary."""
         args = {}
+        validKeys = ['type', 'results', 'matching_results', 'aggregations']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryAggregation: '
+                + ', '.join(badKeys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
@@ -8757,6 +9328,12 @@ class QueryEntitiesContext(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryEntitiesContext object from a json dictionary."""
         args = {}
+        validKeys = ['text']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryEntitiesContext: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -8805,6 +9382,12 @@ class QueryEntitiesEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryEntitiesEntity object from a json dictionary."""
         args = {}
+        validKeys = ['text', 'type']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryEntitiesEntity: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'type' in _dict:
@@ -8856,6 +9439,12 @@ class QueryEntitiesResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryEntitiesResponse object from a json dictionary."""
         args = {}
+        validKeys = ['entities']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryEntitiesResponse: '
+                + ', '.join(badKeys))
         if 'entities' in _dict:
             args['entities'] = [
                 QueryEntitiesResponseItem._from_dict(x)
@@ -8912,6 +9501,12 @@ class QueryEntitiesResponseItem(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryEntitiesResponseItem object from a json dictionary."""
         args = {}
+        validKeys = ['text', 'type', 'evidence']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryEntitiesResponseItem: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'type' in _dict:
@@ -8994,6 +9589,14 @@ class QueryEvidence(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryEvidence object from a json dictionary."""
         args = {}
+        validKeys = [
+            'document_id', 'field', 'start_offset', 'end_offset', 'entities'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryEvidence: '
+                + ', '.join(badKeys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'field' in _dict:
@@ -9076,6 +9679,12 @@ class QueryEvidenceEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryEvidenceEntity object from a json dictionary."""
         args = {}
+        validKeys = ['type', 'text', 'start_offset', 'end_offset']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryEvidenceEntity: '
+                + ', '.join(badKeys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -9138,6 +9747,12 @@ class QueryFilterType(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryFilterType object from a json dictionary."""
         args = {}
+        validKeys = ['exclude', 'include']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryFilterType: '
+                + ', '.join(badKeys))
         if 'exclude' in _dict:
             args['exclude'] = _dict.get('exclude')
         if 'include' in _dict:
@@ -9212,6 +9827,15 @@ class QueryNoticesResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryNoticesResponse object from a json dictionary."""
         args = {}
+        validKeys = [
+            'matching_results', 'results', 'aggregations', 'passages',
+            'duplicates_removed'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryNoticesResponse: '
+                + ', '.join(badKeys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -9475,6 +10099,15 @@ class QueryPassages(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryPassages object from a json dictionary."""
         args = {}
+        validKeys = [
+            'document_id', 'passage_score', 'passage_text', 'start_offset',
+            'end_offset', 'field'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryPassages: '
+                + ', '.join(badKeys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'passage_score' in _dict:
@@ -9540,6 +10173,12 @@ class QueryRelationsArgument(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryRelationsArgument object from a json dictionary."""
         args = {}
+        validKeys = ['entities']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryRelationsArgument: '
+                + ', '.join(badKeys))
         if 'entities' in _dict:
             args['entities'] = [
                 QueryEntitiesEntity._from_dict(x)
@@ -9596,6 +10235,12 @@ class QueryRelationsEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryRelationsEntity object from a json dictionary."""
         args = {}
+        validKeys = ['text', 'type', 'exact']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryRelationsEntity: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'type' in _dict:
@@ -9660,6 +10305,12 @@ class QueryRelationsFilter(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryRelationsFilter object from a json dictionary."""
         args = {}
+        validKeys = ['relation_types', 'entity_types', 'document_ids']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryRelationsFilter: '
+                + ', '.join(badKeys))
         if 'relation_types' in _dict:
             args['relation_types'] = QueryFilterType._from_dict(
                 _dict.get('relation_types'))
@@ -9730,6 +10381,12 @@ class QueryRelationsRelationship(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryRelationsRelationship object from a json dictionary."""
         args = {}
+        validKeys = ['type', 'frequency', 'arguments', 'evidence']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryRelationsRelationship: '
+                + ', '.join(badKeys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'frequency' in _dict:
@@ -9794,6 +10451,12 @@ class QueryRelationsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryRelationsResponse object from a json dictionary."""
         args = {}
+        validKeys = ['relations']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryRelationsResponse: '
+                + ', '.join(badKeys))
         if 'relations' in _dict:
             args['relations'] = [
                 QueryRelationsRelationship._from_dict(x)
@@ -9879,6 +10542,15 @@ class QueryResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryResponse object from a json dictionary."""
         args = {}
+        validKeys = [
+            'matching_results', 'results', 'aggregations', 'passages',
+            'duplicates_removed', 'session_token', 'retrieval_details'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryResponse: '
+                + ', '.join(badKeys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -10083,6 +10755,12 @@ class QueryResultMetadata(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryResultMetadata object from a json dictionary."""
         args = {}
+        validKeys = ['score', 'confidence']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryResultMetadata: '
+                + ', '.join(badKeys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -10152,6 +10830,12 @@ class RetrievalDetails(object):
     def _from_dict(cls, _dict):
         """Initialize a RetrievalDetails object from a json dictionary."""
         args = {}
+        validKeys = ['document_retrieval_strategy']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RetrievalDetails: '
+                + ', '.join(badKeys))
         if 'document_retrieval_strategy' in _dict:
             args['document_retrieval_strategy'] = _dict.get(
                 'document_retrieval_strategy')
@@ -10168,6 +10852,188 @@ class RetrievalDetails(object):
 
     def __str__(self):
         """Return a `str` version of this RetrievalDetails object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SduStatus(object):
+    """
+    Object containing smart document understanding information for this collection.
+
+    :attr bool enabled: (optional) When `true`, smart document understanding conversion is
+    enabled for this collection. All collections created with a version date after
+    `2019-04-30` have smart document understanding enabled. If `false`, documents added to
+    the collection are converted using the **conversion** settings specified in the
+    configuration associated with the collection.
+    :attr int total_annotated_pages: (optional) The total number of pages annotated using
+    smart document understanding in this collection.
+    :attr int total_pages: (optional) The current number of pages that can be used for
+    training smart document understanding. The `total_pages` number is calculated as the
+    total number of pages identified from the documents listed in the **total_documents**
+    field.
+    :attr int total_documents: (optional) The total number of documents in this collection
+    that can be used to train smart document understanding. For **lite** plan collections,
+    the maximum is the first 20 uploaded documents (not including HTML or JSON documents).
+    For other plans, the maximum is the first 40 uploaded documents (not including HTML or
+    JSON documents). When the maximum is reached, additional documents uploaded to the
+    collection are not considered for training smart document understanding.
+    :attr SduStatusCustomFields custom_fields: (optional) Information about custom smart
+    document understanding fields that exist in this collection.
+    """
+
+    def __init__(self,
+                 enabled=None,
+                 total_annotated_pages=None,
+                 total_pages=None,
+                 total_documents=None,
+                 custom_fields=None):
+        """
+        Initialize a SduStatus object.
+
+        :param bool enabled: (optional) When `true`, smart document understanding
+        conversion is enabled for this collection. All collections created with a version
+        date after `2019-04-30` have smart document understanding enabled. If `false`,
+        documents added to the collection are converted using the **conversion** settings
+        specified in the configuration associated with the collection.
+        :param int total_annotated_pages: (optional) The total number of pages annotated
+        using smart document understanding in this collection.
+        :param int total_pages: (optional) The current number of pages that can be used
+        for training smart document understanding. The `total_pages` number is calculated
+        as the total number of pages identified from the documents listed in the
+        **total_documents** field.
+        :param int total_documents: (optional) The total number of documents in this
+        collection that can be used to train smart document understanding. For **lite**
+        plan collections, the maximum is the first 20 uploaded documents (not including
+        HTML or JSON documents). For other plans, the maximum is the first 40 uploaded
+        documents (not including HTML or JSON documents). When the maximum is reached,
+        additional documents uploaded to the collection are not considered for training
+        smart document understanding.
+        :param SduStatusCustomFields custom_fields: (optional) Information about custom
+        smart document understanding fields that exist in this collection.
+        """
+        self.enabled = enabled
+        self.total_annotated_pages = total_annotated_pages
+        self.total_pages = total_pages
+        self.total_documents = total_documents
+        self.custom_fields = custom_fields
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SduStatus object from a json dictionary."""
+        args = {}
+        validKeys = [
+            'enabled', 'total_annotated_pages', 'total_pages',
+            'total_documents', 'custom_fields'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SduStatus: '
+                + ', '.join(badKeys))
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'total_annotated_pages' in _dict:
+            args['total_annotated_pages'] = _dict.get('total_annotated_pages')
+        if 'total_pages' in _dict:
+            args['total_pages'] = _dict.get('total_pages')
+        if 'total_documents' in _dict:
+            args['total_documents'] = _dict.get('total_documents')
+        if 'custom_fields' in _dict:
+            args['custom_fields'] = SduStatusCustomFields._from_dict(
+                _dict.get('custom_fields'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'total_annotated_pages'
+                  ) and self.total_annotated_pages is not None:
+            _dict['total_annotated_pages'] = self.total_annotated_pages
+        if hasattr(self, 'total_pages') and self.total_pages is not None:
+            _dict['total_pages'] = self.total_pages
+        if hasattr(self,
+                   'total_documents') and self.total_documents is not None:
+            _dict['total_documents'] = self.total_documents
+        if hasattr(self, 'custom_fields') and self.custom_fields is not None:
+            _dict['custom_fields'] = self.custom_fields._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SduStatus object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SduStatusCustomFields(object):
+    """
+    Information about custom smart document understanding fields that exist in this
+    collection.
+
+    :attr int defined: (optional) The number of custom fields defined for this collection.
+    :attr int maximum_allowed: (optional) The maximum number of custom fields that are
+    allowed in this collection.
+    """
+
+    def __init__(self, defined=None, maximum_allowed=None):
+        """
+        Initialize a SduStatusCustomFields object.
+
+        :param int defined: (optional) The number of custom fields defined for this
+        collection.
+        :param int maximum_allowed: (optional) The maximum number of custom fields that
+        are allowed in this collection.
+        """
+        self.defined = defined
+        self.maximum_allowed = maximum_allowed
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SduStatusCustomFields object from a json dictionary."""
+        args = {}
+        validKeys = ['defined', 'maximum_allowed']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SduStatusCustomFields: '
+                + ', '.join(badKeys))
+        if 'defined' in _dict:
+            args['defined'] = _dict.get('defined')
+        if 'maximum_allowed' in _dict:
+            args['maximum_allowed'] = _dict.get('maximum_allowed')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'defined') and self.defined is not None:
+            _dict['defined'] = self.defined
+        if hasattr(self,
+                   'maximum_allowed') and self.maximum_allowed is not None:
+            _dict['maximum_allowed'] = self.maximum_allowed
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SduStatusCustomFields object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -10221,6 +11087,12 @@ class SearchStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a SearchStatus object from a json dictionary."""
         args = {}
+        validKeys = ['scope', 'status', 'status_description', 'last_trained']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SearchStatus: '
+                + ', '.join(badKeys))
         if 'scope' in _dict:
             args['scope'] = _dict.get('scope')
         if 'status' in _dict:
@@ -10269,10 +11141,20 @@ class SegmentSettings(object):
     :attr list[str] selector_tags: (optional) Defines the heading level that splits into
     document segments. Valid values are h1, h2, h3, h4, h5, h6. The content of the header
     field that the segmentation splits at is used as the **title** field for that
-    segmented result.
+    segmented result. Only valid if used with a collection that has **enabled** set to
+    `false` in the **smart_document_understanding** object.
+    :attr list[str] annotated_fields: (optional) Defines the annotated smart document
+    understanding fields that the document is split on. The content of the annotated field
+    that the segmentation splits at is used as the **title** field for that segmented
+    result. For example, if the field `sub-title` is specified, when a document is
+    uploaded each time the smart documement understanding conversion encounters a field of
+    type `sub-title` the document is split at that point and the content of the field used
+    as the title of the remaining content. Thnis split is performed for all instances of
+    the listed fields in the uploaded document. Only valid if used with a collection that
+    has **enabled** set to `true` in the **smart_document_understanding** object.
     """
 
-    def __init__(self, enabled=None, selector_tags=None):
+    def __init__(self, enabled=None, selector_tags=None, annotated_fields=None):
         """
         Initialize a SegmentSettings object.
 
@@ -10281,19 +11163,39 @@ class SegmentSettings(object):
         :param list[str] selector_tags: (optional) Defines the heading level that splits
         into document segments. Valid values are h1, h2, h3, h4, h5, h6. The content of
         the header field that the segmentation splits at is used as the **title** field
-        for that segmented result.
+        for that segmented result. Only valid if used with a collection that has
+        **enabled** set to `false` in the **smart_document_understanding** object.
+        :param list[str] annotated_fields: (optional) Defines the annotated smart document
+        understanding fields that the document is split on. The content of the annotated
+        field that the segmentation splits at is used as the **title** field for that
+        segmented result. For example, if the field `sub-title` is specified, when a
+        document is uploaded each time the smart documement understanding conversion
+        encounters a field of type `sub-title` the document is split at that point and the
+        content of the field used as the title of the remaining content. Thnis split is
+        performed for all instances of the listed fields in the uploaded document. Only
+        valid if used with a collection that has **enabled** set to `true` in the
+        **smart_document_understanding** object.
         """
         self.enabled = enabled
         self.selector_tags = selector_tags
+        self.annotated_fields = annotated_fields
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a SegmentSettings object from a json dictionary."""
         args = {}
+        validKeys = ['enabled', 'selector_tags', 'annotated_fields']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SegmentSettings: '
+                + ', '.join(badKeys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'selector_tags' in _dict:
             args['selector_tags'] = _dict.get('selector_tags')
+        if 'annotated_fields' in _dict:
+            args['annotated_fields'] = _dict.get('annotated_fields')
         return cls(**args)
 
     def _to_dict(self):
@@ -10303,6 +11205,9 @@ class SegmentSettings(object):
             _dict['enabled'] = self.enabled
         if hasattr(self, 'selector_tags') and self.selector_tags is not None:
             _dict['selector_tags'] = self.selector_tags
+        if hasattr(self,
+                   'annotated_fields') and self.annotated_fields is not None:
+            _dict['annotated_fields'] = self.annotated_fields
         return _dict
 
     def __str__(self):
@@ -10376,6 +11281,12 @@ class Source(object):
     def _from_dict(cls, _dict):
         """Initialize a Source object from a json dictionary."""
         args = {}
+        validKeys = ['type', 'credential_id', 'schedule', 'options']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Source: ' +
+                ', '.join(badKeys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'credential_id' in _dict:
@@ -10481,6 +11392,15 @@ class SourceOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptions object from a json dictionary."""
         args = {}
+        validKeys = [
+            'folders', 'objects', 'site_collections', 'urls', 'buckets',
+            'crawl_all_buckets'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SourceOptions: '
+                + ', '.join(badKeys))
         if 'folders' in _dict:
             args['folders'] = [
                 SourceOptionsFolder._from_dict(x)
@@ -10569,6 +11489,12 @@ class SourceOptionsBuckets(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsBuckets object from a json dictionary."""
         args = {}
+        validKeys = ['name', 'limit']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SourceOptionsBuckets: '
+                + ', '.join(badKeys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -10631,6 +11557,12 @@ class SourceOptionsFolder(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsFolder object from a json dictionary."""
         args = {}
+        validKeys = ['owner_user_id', 'folder_id', 'limit']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SourceOptionsFolder: '
+                + ', '.join(badKeys))
         if 'owner_user_id' in _dict:
             args['owner_user_id'] = _dict.get('owner_user_id')
         else:
@@ -10699,6 +11631,12 @@ class SourceOptionsObject(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsObject object from a json dictionary."""
         args = {}
+        validKeys = ['name', 'limit']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SourceOptionsObject: '
+                + ', '.join(badKeys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -10762,6 +11700,12 @@ class SourceOptionsSiteColl(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsSiteColl object from a json dictionary."""
         args = {}
+        validKeys = ['site_collection_path', 'limit']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SourceOptionsSiteColl: '
+                + ', '.join(badKeys))
         if 'site_collection_path' in _dict:
             args['site_collection_path'] = _dict.get('site_collection_path')
         else:
@@ -10822,6 +11766,9 @@ class SourceOptionsWebCrawl(object):
     `robots.txt` encountered by the crawler. This should only ever be done when crawling a
     web site the user owns. This must be be set to `true` when a **gateway_id** is specied
     in the **credentials**.
+    :attr list[str] blacklist: (optional) Array of URL's to be excluded while crawling.
+    The crawler will not follow links which contains this string. For example, listing
+    `https://ibm.com/watson` also excludes `https://ibm.com/watson/discovery`.
     """
 
     def __init__(self,
@@ -10831,7 +11778,8 @@ class SourceOptionsWebCrawl(object):
                  allow_untrusted_certificate=None,
                  maximum_hops=None,
                  request_timeout=None,
-                 override_robots_txt=None):
+                 override_robots_txt=None,
+                 blacklist=None):
         """
         Initialize a SourceOptionsWebCrawl object.
 
@@ -10856,6 +11804,10 @@ class SourceOptionsWebCrawl(object):
         any `robots.txt` encountered by the crawler. This should only ever be done when
         crawling a web site the user owns. This must be be set to `true` when a
         **gateway_id** is specied in the **credentials**.
+        :param list[str] blacklist: (optional) Array of URL's to be excluded while
+        crawling. The crawler will not follow links which contains this string. For
+        example, listing `https://ibm.com/watson` also excludes
+        `https://ibm.com/watson/discovery`.
         """
         self.url = url
         self.limit_to_starting_hosts = limit_to_starting_hosts
@@ -10864,11 +11816,22 @@ class SourceOptionsWebCrawl(object):
         self.maximum_hops = maximum_hops
         self.request_timeout = request_timeout
         self.override_robots_txt = override_robots_txt
+        self.blacklist = blacklist
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsWebCrawl object from a json dictionary."""
         args = {}
+        validKeys = [
+            'url', 'limit_to_starting_hosts', 'crawl_speed',
+            'allow_untrusted_certificate', 'maximum_hops', 'request_timeout',
+            'override_robots_txt', 'blacklist'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SourceOptionsWebCrawl: '
+                + ', '.join(badKeys))
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         else:
@@ -10889,6 +11852,8 @@ class SourceOptionsWebCrawl(object):
             args['request_timeout'] = _dict.get('request_timeout')
         if 'override_robots_txt' in _dict:
             args['override_robots_txt'] = _dict.get('override_robots_txt')
+        if 'blacklist' in _dict:
+            args['blacklist'] = _dict.get('blacklist')
         return cls(**args)
 
     def _to_dict(self):
@@ -10914,6 +11879,8 @@ class SourceOptionsWebCrawl(object):
                 self,
                 'override_robots_txt') and self.override_robots_txt is not None:
             _dict['override_robots_txt'] = self.override_robots_txt
+        if hasattr(self, 'blacklist') and self.blacklist is not None:
+            _dict['blacklist'] = self.blacklist
         return _dict
 
     def __str__(self):
@@ -10941,6 +11908,8 @@ class SourceSchedule(object):
     :attr str time_zone: (optional) The time zone to base source crawl times on. Possible
     values correspond to the IANA (Internet Assigned Numbers Authority) time zones list.
     :attr str frequency: (optional) The crawl schedule in the specified **time_zone**.
+    -  `five_minutes`: Runs every five minutes.
+    -  `hourly`: Runs every hour.
     -  `daily`: Runs every day between 00:00 and 06:00.
     -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
     -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
@@ -10958,6 +11927,8 @@ class SourceSchedule(object):
         zones list.
         :param str frequency: (optional) The crawl schedule in the specified
         **time_zone**.
+        -  `five_minutes`: Runs every five minutes.
+        -  `hourly`: Runs every hour.
         -  `daily`: Runs every day between 00:00 and 06:00.
         -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
         -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
@@ -10970,6 +11941,12 @@ class SourceSchedule(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceSchedule object from a json dictionary."""
         args = {}
+        validKeys = ['enabled', 'time_zone', 'frequency']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SourceSchedule: '
+                + ', '.join(badKeys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'time_zone' in _dict:
@@ -11015,11 +11992,12 @@ class SourceStatus(object):
     -  `complete` indicates that the crawl has completed with no errors.
     -  `queued` indicates that the crawl has been paused by the system and will
     automatically restart when possible.
-    :attr datetime last_updated: (optional) Date in UTC format indicating when the last
-    crawl was attempted. If `null`, no crawl was completed.
+    -  `unknown` indicates that an unidentified error has occured in the service.
+    :attr datetime next_crawl: (optional) Date in `RFC 3339` format indicating the time of
+    the next crawl attempt.
     """
 
-    def __init__(self, status=None, last_updated=None):
+    def __init__(self, status=None, next_crawl=None):
         """
         Initialize a SourceStatus object.
 
@@ -11030,20 +12008,27 @@ class SourceStatus(object):
         -  `complete` indicates that the crawl has completed with no errors.
         -  `queued` indicates that the crawl has been paused by the system and will
         automatically restart when possible.
-        :param datetime last_updated: (optional) Date in UTC format indicating when the
-        last crawl was attempted. If `null`, no crawl was completed.
+        -  `unknown` indicates that an unidentified error has occured in the service.
+        :param datetime next_crawl: (optional) Date in `RFC 3339` format indicating the
+        time of the next crawl attempt.
         """
         self.status = status
-        self.last_updated = last_updated
+        self.next_crawl = next_crawl
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a SourceStatus object from a json dictionary."""
         args = {}
+        validKeys = ['status', 'next_crawl']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SourceStatus: '
+                + ', '.join(badKeys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
-        if 'last_updated' in _dict:
-            args['last_updated'] = string_to_datetime(_dict.get('last_updated'))
+        if 'next_crawl' in _dict:
+            args['next_crawl'] = string_to_datetime(_dict.get('next_crawl'))
         return cls(**args)
 
     def _to_dict(self):
@@ -11051,8 +12036,8 @@ class SourceStatus(object):
         _dict = {}
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
-        if hasattr(self, 'last_updated') and self.last_updated is not None:
-            _dict['last_updated'] = datetime_to_string(self.last_updated)
+        if hasattr(self, 'next_crawl') and self.next_crawl is not None:
+            _dict['next_crawl'] = datetime_to_string(self.next_crawl)
         return _dict
 
     def __str__(self):
@@ -11094,7 +12079,7 @@ class Term(object):
         :param list[AggregationResult] results: (optional) Array of aggregation results.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        the Discovery service.
+        Discovery.
         :param str field: (optional) The field where the aggregation is located in the
         document.
         :param int count: (optional)
@@ -11106,6 +12091,12 @@ class Term(object):
     def _from_dict(cls, _dict):
         """Initialize a Term object from a json dictionary."""
         args = {}
+        validKeys = ['field', 'count']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Term: ' +
+                ', '.join(badKeys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'count' in _dict:
@@ -11184,6 +12175,15 @@ class TestDocument(object):
     def _from_dict(cls, _dict):
         """Initialize a TestDocument object from a json dictionary."""
         args = {}
+        validKeys = [
+            'configuration_id', 'status', 'enriched_field_units',
+            'original_media_type', 'snapshots', 'notices'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TestDocument: '
+                + ', '.join(badKeys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         if 'status' in _dict:
@@ -11268,7 +12268,7 @@ class Timeslice(object):
         :param list[AggregationResult] results: (optional) Array of aggregation results.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        the Discovery service.
+        Discovery.
         :param str field: (optional) The field where the aggregation is located in the
         document.
         :param str interval: (optional) Interval of the aggregation. Valid date interval
@@ -11286,6 +12286,12 @@ class Timeslice(object):
     def _from_dict(cls, _dict):
         """Initialize a Timeslice object from a json dictionary."""
         args = {}
+        validKeys = ['field', 'interval', 'anomaly']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Timeslice: '
+                + ', '.join(badKeys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'interval' in _dict:
@@ -11354,6 +12360,12 @@ class TokenDictRule(object):
     def _from_dict(cls, _dict):
         """Initialize a TokenDictRule object from a json dictionary."""
         args = {}
+        validKeys = ['text', 'tokens', 'readings', 'part_of_speech']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TokenDictRule: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -11428,6 +12440,12 @@ class TokenDictStatusResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a TokenDictStatusResponse object from a json dictionary."""
         args = {}
+        validKeys = ['status', 'type']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TokenDictStatusResponse: '
+                + ', '.join(badKeys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'type' in _dict:
@@ -11481,7 +12499,7 @@ class TopHits(object):
         :param list[AggregationResult] results: (optional) Array of aggregation results.
         :param int matching_results: (optional) Number of matching results.
         :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        the Discovery service.
+        Discovery.
         :param int size: (optional) Number of top hits returned by the aggregation.
         :param TopHitsResults hits: (optional)
         """
@@ -11492,6 +12510,12 @@ class TopHits(object):
     def _from_dict(cls, _dict):
         """Initialize a TopHits object from a json dictionary."""
         args = {}
+        validKeys = ['size', 'hits']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TopHits: ' +
+                ', '.join(badKeys))
         if 'size' in _dict:
             args['size'] = _dict.get('size')
         if 'hits' in _dict:
@@ -11544,6 +12568,12 @@ class TopHitsResults(object):
     def _from_dict(cls, _dict):
         """Initialize a TopHitsResults object from a json dictionary."""
         args = {}
+        validKeys = ['matching_results', 'hits']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TopHitsResults: '
+                + ', '.join(badKeys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'hits' in _dict:
@@ -11606,6 +12636,12 @@ class TrainingDataSet(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingDataSet object from a json dictionary."""
         args = {}
+        validKeys = ['environment_id', 'collection_id', 'queries']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TrainingDataSet: '
+                + ', '.join(badKeys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'collection_id' in _dict:
@@ -11671,6 +12707,12 @@ class TrainingExample(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingExample object from a json dictionary."""
         args = {}
+        validKeys = ['document_id', 'cross_reference', 'relevance']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TrainingExample: '
+                + ', '.join(badKeys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'cross_reference' in _dict:
@@ -11725,6 +12767,12 @@ class TrainingExampleList(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingExampleList object from a json dictionary."""
         args = {}
+        validKeys = ['examples']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TrainingExampleList: '
+                + ', '.join(badKeys))
         if 'examples' in _dict:
             args['examples'] = [
                 TrainingExample._from_dict(x) for x in (_dict.get('examples'))
@@ -11789,6 +12837,12 @@ class TrainingQuery(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingQuery object from a json dictionary."""
         args = {}
+        validKeys = ['query_id', 'natural_language_query', 'filter', 'examples']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TrainingQuery: '
+                + ', '.join(badKeys))
         if 'query_id' in _dict:
             args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
@@ -11898,6 +12952,17 @@ class TrainingStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingStatus object from a json dictionary."""
         args = {}
+        validKeys = [
+            'total_examples', 'available', 'processing',
+            'minimum_queries_added', 'minimum_examples_added',
+            'sufficient_label_diversity', 'notices', 'successfully_trained',
+            'data_updated'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TrainingStatus: '
+                + ', '.join(badKeys))
         if 'total_examples' in _dict:
             args['total_examples'] = _dict.get('total_examples')
         if 'available' in _dict:
@@ -11986,6 +13051,12 @@ class WordHeadingDetection(object):
     def _from_dict(cls, _dict):
         """Initialize a WordHeadingDetection object from a json dictionary."""
         args = {}
+        validKeys = ['fonts', 'styles']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WordHeadingDetection: '
+                + ', '.join(badKeys))
         if 'fonts' in _dict:
             args['fonts'] = [
                 FontSetting._from_dict(x) for x in (_dict.get('fonts'))
@@ -12039,6 +13110,12 @@ class WordSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a WordSettings object from a json dictionary."""
         args = {}
+        validKeys = ['heading']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WordSettings: '
+                + ', '.join(badKeys))
         if 'heading' in _dict:
             args['heading'] = WordHeadingDetection._from_dict(
                 _dict.get('heading'))
@@ -12090,6 +13167,12 @@ class WordStyle(object):
     def _from_dict(cls, _dict):
         """Initialize a WordStyle object from a json dictionary."""
         args = {}
+        validKeys = ['level', 'names']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WordStyle: '
+                + ', '.join(badKeys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'names' in _dict:
@@ -12139,6 +13222,12 @@ class XPathPatterns(object):
     def _from_dict(cls, _dict):
         """Initialize a XPathPatterns object from a json dictionary."""
         args = {}
+        validKeys = ['xpaths']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class XPathPatterns: '
+                + ', '.join(badKeys))
         if 'xpaths' in _dict:
             args['xpaths'] = _dict.get('xpaths')
         return cls(**args)
