@@ -358,7 +358,7 @@ assistant.disable_SSL_verification() # MAKE SURE SSL VERIFICATION IS DISABLED
 * [responses] for testing
 * Following for web sockets support in speech to text
    * `websocket-client` 0.48.0
-* `ibm_cloud_sdk_core` >=0.5.0
+* `ibm_cloud_sdk_core` >=0.5.1
 
 ## Contributing
 
