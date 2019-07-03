@@ -327,7 +327,7 @@ service.synthesize_using_websocket('I like to pet dogs',
 ## IBM Cloud Pak for Data(ICP4D)
 If your service instance is of ICP4D, below are two ways of initializing the assistant service.
 
-#### 1) Supplying the `username`, `password`, `icp4d_url` and `authentication_type`
+### 1) Supplying the username, password, icp4d_url and authentication_type
 The SDK will manage the token for the user
 ```python
 assistant = AssistantV1(
@@ -341,7 +341,7 @@ assistant = AssistantV1(
 assistant.disable_SSL_verification() # MAKE SURE SSL VERIFICATION IS DISABLED
 ```
 
-#### 2) Supplying the access token
+### 2) Supplying the access token
 ```python
 assistant = AssistantV1(
     version='<version>',
