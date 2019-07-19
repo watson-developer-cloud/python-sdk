@@ -36,19 +36,19 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
 * You need an [IBM Cloud][ibm-cloud-onboarding] account.
 
 ## Installation
-Note: We are moving to `ibm-watson`. All versions prior to v3.0.0 can still be found in `watson-developer-cloud`
-
 To install, use `pip` or `easy_install`:
 
 ```bash
-pip install --upgrade watson-developer-cloud
+pip install --upgrade ibm-watson
 ```
 
 or
 
 ```bash
-easy_install --upgrade watson-developer-cloud
+easy_install --upgrade ibm-watson
 ```
+
+Note: To install a version of the SDK before 3.0.0, use `pip install --upgrade watson-developer-cloud`
 
 Note the following:
 
