@@ -145,6 +145,10 @@ class AssistantV1(BaseService):
         Get response to user input.
 
         Send user input to a workspace and receive a response.
+        **Note:** For most applications, there are significant advantages to using the v2
+        runtime API instead. These advantages include ease of deployment, automatic state
+        management, versioning, and search capabilities. For more information, see the
+        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-api-overview).
         There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
@@ -6773,9 +6777,9 @@ class RuntimeEntity(object):
     :attr str entity: An entity detected in the input.
     :attr list[int] location: An array of zero-based character offsets that indicate where
     the detected entity values begin and end in the input text.
-    :attr str value: The term in the input text that was recognized as an entity value.
+    :attr str value: The entity value that was recognized in the user input.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
-    confidence in the entity.
+    confidence in the recognized entity.
     :attr dict metadata: (optional) Any metadata for the entity.
     :attr list[CaptureGroup] groups: (optional) The recognized capture groups for the
     entity, as defined by the entity pattern.
@@ -6795,10 +6799,9 @@ class RuntimeEntity(object):
         :param str entity: An entity detected in the input.
         :param list[int] location: An array of zero-based character offsets that indicate
         where the detected entity values begin and end in the input text.
-        :param str value: The term in the input text that was recognized as an entity
-        value.
+        :param str value: The entity value that was recognized in the user input.
         :param float confidence: (optional) A decimal percentage that represents Watson's
-        confidence in the entity.
+        confidence in the recognized entity.
         :param dict metadata: (optional) Any metadata for the entity.
         :param list[CaptureGroup] groups: (optional) The recognized capture groups for the
         entity, as defined by the entity pattern.
