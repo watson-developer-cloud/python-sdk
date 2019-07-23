@@ -320,7 +320,7 @@ class LanguageTranslatorV3(BaseService):
         cumulative file size of all uploaded files is limited to <b>250 MB</b>. To
         successfully train with a parallel corpus you must have at least <b>5,000 parallel
         sentences</b> in your corpus.
-        You can have a <b>maxium of 10 custom models per language pair</b>.
+        You can have a <b>maximum of 10 custom models per language pair</b>.
 
         :param str base_model_id: The model ID of the model to use as the base for
         customization. To see available models, use the `List models` method. Usually all
