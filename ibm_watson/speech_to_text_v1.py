@@ -6224,60 +6224,60 @@ class TrainingWarning(object):
     """
     A warning from training of a custom language or custom acoustic model.
 
-    :attr str description: A warning message that lists the invalid resources that are
+    :attr str code: An identifier for the type of invalid resources listed in the
+    `description` field.
+    :attr str message: A warning message that lists the invalid resources that are
     excluded from the custom model's training. The message has the following format:
     `Analysis of the following {resource_type} has not completed successfully:
     [{resource_names}]. They will be excluded from custom {model_type} model training.`.
-    :attr str warning_id: An identifier for the type of invalid resources listed in the
-    `description` field.
     """
 
-    def __init__(self, description, warning_id):
+    def __init__(self, code, message):
         """
         Initialize a TrainingWarning object.
 
-        :param str description: A warning message that lists the invalid resources that
-        are excluded from the custom model's training. The message has the following
-        format: `Analysis of the following {resource_type} has not completed successfully:
+        :param str code: An identifier for the type of invalid resources listed in the
+        `description` field.
+        :param str message: A warning message that lists the invalid resources that are
+        excluded from the custom model's training. The message has the following format:
+        `Analysis of the following {resource_type} has not completed successfully:
         [{resource_names}]. They will be excluded from custom {model_type} model
         training.`.
-        :param str warning_id: An identifier for the type of invalid resources listed in
-        the `description` field.
         """
-        self.description = description
-        self.warning_id = warning_id
+        self.code = code
+        self.message = message
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a TrainingWarning object from a json dictionary."""
         args = {}
-        validKeys = ['description', 'warning_id']
+        validKeys = ['code', 'message']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingWarning: '
                 + ', '.join(badKeys))
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
         else:
             raise ValueError(
-                'Required property \'description\' not present in TrainingWarning JSON'
+                'Required property \'code\' not present in TrainingWarning JSON'
             )
-        if 'warning_id' in _dict:
-            args['warning_id'] = _dict.get('warning_id')
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
         else:
             raise ValueError(
-                'Required property \'warning_id\' not present in TrainingWarning JSON'
+                'Required property \'message\' not present in TrainingWarning JSON'
             )
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'warning_id') and self.warning_id is not None:
-            _dict['warning_id'] = self.warning_id
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
         return _dict
 
     def __str__(self):
