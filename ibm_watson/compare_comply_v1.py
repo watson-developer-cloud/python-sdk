@@ -48,6 +48,8 @@ class CompareComplyV1(BaseService):
             icp4d_access_token=None,
             icp4d_url=None,
             authentication_type=None,
+            username=None,
+            password=None,
     ):
         """
         Construct a new client for the Compare Comply service.
@@ -66,6 +68,18 @@ class CompareComplyV1(BaseService):
         :param str url: The base url to use when contacting the service (e.g.
                "https://gateway.watsonplatform.net/compare-comply/api/compare-comply/api").
                The base url may differ between IBM Cloud regions.
+
+        :param str username: The username used to authenticate with the service.
+               Username and password credentials are only required to run your
+               application locally or outside of IBM Cloud. When running on
+               IBM Cloud, the credentials will be automatically loaded from the
+               `VCAP_SERVICES` environment variable.
+
+        :param str password: The password used to authenticate with the service.
+               Username and password credentials are only required to run your
+               application locally or outside of IBM Cloud. When running on
+               IBM Cloud, the credentials will be automatically loaded from the
+               `VCAP_SERVICES` environment variable.
 
         :param str iam_apikey: An API key that can be used to request IAM tokens. If
                this API key is provided, the SDK will manage the token and handle the
@@ -99,6 +113,8 @@ class CompareComplyV1(BaseService):
             self,
             vcap_services_name='compare-comply',
             url=url,
+            username=username,
+            password=password,
             iam_apikey=iam_apikey,
             iam_access_token=iam_access_token,
             iam_url=iam_url,
