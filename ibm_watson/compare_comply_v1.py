@@ -1556,11 +1556,6 @@ class ClassifyReturn(object):
     :attr str model_version: (optional) The version of the analysis model identified by
     the value of the `model_id` key.
     :attr list[Element] elements: (optional) Document elements identified by the service.
-    :attr list[Tables] tables: (optional) Definition of tables identified in the input
-    document.
-    :attr DocStructure document_structure: (optional) The structure of the input document.
-    :attr list[Parties] parties: (optional) Definitions of the parties identified in the
-    input document.
     :attr list[EffectiveDates] effective_dates: (optional) The date or dates on which the
     document becomes effective.
     :attr list[ContractAmts] contract_amounts: (optional) The monetary amounts that
@@ -1568,8 +1563,17 @@ class ClassifyReturn(object):
     another.
     :attr list[TerminationDates] termination_dates: (optional) The date or dates on which
     the document is to be terminated.
-    :attr list[ContractType] contract_type: (optional) The document's contract type or
+    :attr list[ContractTypes] contract_types: (optional) The document's contract type or
     types as declared in the document.
+    :attr list[ContractTerms] contract_terms: (optional) The duration or durations of the
+    contract.
+    :attr list[PaymentTerms] payment_terms: (optional) The document's payment duration or
+    durations.
+    :attr list[Tables] tables: (optional) Definition of tables identified in the input
+    document.
+    :attr DocStructure document_structure: (optional) The structure of the input document.
+    :attr list[Parties] parties: (optional) Definitions of the parties identified in the
+    input document.
     """
 
     def __init__(self,
@@ -1577,13 +1581,15 @@ class ClassifyReturn(object):
                  model_id=None,
                  model_version=None,
                  elements=None,
-                 tables=None,
-                 document_structure=None,
-                 parties=None,
                  effective_dates=None,
                  contract_amounts=None,
                  termination_dates=None,
-                 contract_type=None):
+                 contract_types=None,
+                 contract_terms=None,
+                 payment_terms=None,
+                 tables=None,
+                 document_structure=None,
+                 parties=None):
         """
         Initialize a ClassifyReturn object.
 
