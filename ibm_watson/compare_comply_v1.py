@@ -1601,12 +1601,6 @@ class ClassifyReturn(object):
         by the value of the `model_id` key.
         :param list[Element] elements: (optional) Document elements identified by the
         service.
-        :param list[Tables] tables: (optional) Definition of tables identified in the
-        input document.
-        :param DocStructure document_structure: (optional) The structure of the input
-        document.
-        :param list[Parties] parties: (optional) Definitions of the parties identified in
-        the input document.
         :param list[EffectiveDates] effective_dates: (optional) The date or dates on which
         the document becomes effective.
         :param list[ContractAmts] contract_amounts: (optional) The monetary amounts that
@@ -1614,29 +1608,42 @@ class ClassifyReturn(object):
         another.
         :param list[TerminationDates] termination_dates: (optional) The date or dates on
         which the document is to be terminated.
-        :param list[ContractType] contract_type: (optional) The document's contract type
+        :param list[ContractTypes] contract_types: (optional) The document's contract type
         or types as declared in the document.
+        :param list[ContractTerms] contract_terms: (optional) The duration or durations of
+        the contract.
+        :param list[PaymentTerms] payment_terms: (optional) The document's payment
+        duration or durations.
+        :param list[Tables] tables: (optional) Definition of tables identified in the
+        input document.
+        :param DocStructure document_structure: (optional) The structure of the input
+        document.
+        :param list[Parties] parties: (optional) Definitions of the parties identified in
+        the input document.
         """
         self.document = document
         self.model_id = model_id
         self.model_version = model_version
         self.elements = elements
-        self.tables = tables
-        self.document_structure = document_structure
-        self.parties = parties
         self.effective_dates = effective_dates
         self.contract_amounts = contract_amounts
         self.termination_dates = termination_dates
-        self.contract_type = contract_type
+        self.contract_types = contract_types
+        self.contract_terms = contract_terms
+        self.payment_terms = payment_terms
+        self.tables = tables
+        self.document_structure = document_structure
+        self.parties = parties
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a ClassifyReturn object from a json dictionary."""
         args = {}
         validKeys = [
-            'document', 'model_id', 'model_version', 'elements', 'tables',
-            'document_structure', 'parties', 'effective_dates',
-            'contract_amounts', 'termination_dates', 'contract_type'
+            'document', 'model_id', 'model_version', 'elements',
+            'effective_dates', 'contract_amounts', 'termination_dates',
+            'contract_types', 'contract_terms', 'payment_terms', 'tables',
+            'document_structure', 'parties'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -1653,17 +1660,6 @@ class ClassifyReturn(object):
             args['elements'] = [
                 Element._from_dict(x) for x in (_dict.get('elements'))
             ]
-        if 'tables' in _dict:
-            args['tables'] = [
-                Tables._from_dict(x) for x in (_dict.get('tables'))
-            ]
-        if 'document_structure' in _dict:
-            args['document_structure'] = DocStructure._from_dict(
-                _dict.get('document_structure'))
-        if 'parties' in _dict:
-            args['parties'] = [
-                Parties._from_dict(x) for x in (_dict.get('parties'))
-            ]
         if 'effective_dates' in _dict:
             args['effective_dates'] = [
                 EffectiveDates._from_dict(x)
@@ -1679,9 +1675,30 @@ class ClassifyReturn(object):
                 TerminationDates._from_dict(x)
                 for x in (_dict.get('termination_dates'))
             ]
-        if 'contract_type' in _dict:
-            args['contract_type'] = [
-                ContractType._from_dict(x) for x in (_dict.get('contract_type'))
+        if 'contract_types' in _dict:
+            args['contract_types'] = [
+                ContractTypes._from_dict(x)
+                for x in (_dict.get('contract_types'))
+            ]
+        if 'contract_terms' in _dict:
+            args['contract_terms'] = [
+                ContractTerms._from_dict(x)
+                for x in (_dict.get('contract_terms'))
+            ]
+        if 'payment_terms' in _dict:
+            args['payment_terms'] = [
+                PaymentTerms._from_dict(x) for x in (_dict.get('payment_terms'))
+            ]
+        if 'tables' in _dict:
+            args['tables'] = [
+                Tables._from_dict(x) for x in (_dict.get('tables'))
+            ]
+        if 'document_structure' in _dict:
+            args['document_structure'] = DocStructure._from_dict(
+                _dict.get('document_structure'))
+        if 'parties' in _dict:
+            args['parties'] = [
+                Parties._from_dict(x) for x in (_dict.get('parties'))
             ]
         return cls(**args)
 
@@ -1696,14 +1713,6 @@ class ClassifyReturn(object):
             _dict['model_version'] = self.model_version
         if hasattr(self, 'elements') and self.elements is not None:
             _dict['elements'] = [x._to_dict() for x in self.elements]
-        if hasattr(self, 'tables') and self.tables is not None:
-            _dict['tables'] = [x._to_dict() for x in self.tables]
-        if hasattr(
-                self,
-                'document_structure') and self.document_structure is not None:
-            _dict['document_structure'] = self.document_structure._to_dict()
-        if hasattr(self, 'parties') and self.parties is not None:
-            _dict['parties'] = [x._to_dict() for x in self.parties]
         if hasattr(self,
                    'effective_dates') and self.effective_dates is not None:
             _dict['effective_dates'] = [
@@ -1719,8 +1728,24 @@ class ClassifyReturn(object):
             _dict['termination_dates'] = [
                 x._to_dict() for x in self.termination_dates
             ]
-        if hasattr(self, 'contract_type') and self.contract_type is not None:
-            _dict['contract_type'] = [x._to_dict() for x in self.contract_type]
+        if hasattr(self, 'contract_types') and self.contract_types is not None:
+            _dict['contract_types'] = [
+                x._to_dict() for x in self.contract_types
+            ]
+        if hasattr(self, 'contract_terms') and self.contract_terms is not None:
+            _dict['contract_terms'] = [
+                x._to_dict() for x in self.contract_terms
+            ]
+        if hasattr(self, 'payment_terms') and self.payment_terms is not None:
+            _dict['payment_terms'] = [x._to_dict() for x in self.payment_terms]
+        if hasattr(self, 'tables') and self.tables is not None:
+            _dict['tables'] = [x._to_dict() for x in self.tables]
+        if hasattr(
+                self,
+                'document_structure') and self.document_structure is not None:
+            _dict['document_structure'] = self.document_structure._to_dict()
+        if hasattr(self, 'parties') and self.parties is not None:
+            _dict['parties'] = [x._to_dict() for x in self.parties]
         return _dict
 
     def __str__(self):
