@@ -2944,7 +2944,8 @@ class AcousticModel(object):
     :attr str status: (optional) The current status of the custom acoustic model:
     * `pending`: The model was created but is waiting either for valid training data to be
     added or for the service to finish analyzing added data.
-    * `ready`: The model contains valid data and is ready to be trained.
+    * `ready`: The model contains valid data and is ready to be trained. If the model
+    contains a mix of valid and invalid resources, you need to set the `strict` parameter
     to `false` for the training to proceed.
     * `training`: The model is currently being trained.
     * `available`: The model is trained and ready to use.
@@ -2962,6 +2963,7 @@ class AcousticModel(object):
     def __init__(self,
                  customization_id,
                  created=None,
+                 updated=None,
                  language=None,
                  versions=None,
                  owner=None,
@@ -2980,6 +2982,10 @@ class AcousticModel(object):
         :param str created: (optional) The date and time in Coordinated Universal Time
         (UTC) at which the custom acoustic model was created. The value is provided in
         full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str updated: (optional) The date and time in Coordinated Universal Time
+        (UTC) at which the custom acoustic model was last modified. The `created` and
+        `updated` fields are equal when an acoustic model is first added but has yet to be
+        updated. The value is provided in full ISO 8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         :param str language: (optional) The language identifier of the custom acoustic
         model (for example, `en-US`).
         :param list[str] versions: (optional) A list of the available versions of the
@@ -2995,7 +3001,8 @@ class AcousticModel(object):
         :param str status: (optional) The current status of the custom acoustic model:
         * `pending`: The model was created but is waiting either for valid training data
         to be added or for the service to finish analyzing added data.
-        * `ready`: The model contains valid data and is ready to be trained.
+        * `ready`: The model contains valid data and is ready to be trained. If the model
+        contains a mix of valid and invalid resources, you need to set the `strict`
         parameter to `false` for the training to proceed.
         * `training`: The model is currently being trained.
         * `available`: The model is trained and ready to use.
@@ -3012,6 +3019,7 @@ class AcousticModel(object):
         """
         self.customization_id = customization_id
         self.created = created
+        self.updated = updated
         self.language = language
         self.versions = versions
         self.owner = owner
@@ -3027,9 +3035,9 @@ class AcousticModel(object):
         """Initialize a AcousticModel object from a json dictionary."""
         args = {}
         validKeys = [
-            'customization_id', 'created', 'language', 'versions', 'owner',
-            'name', 'description', 'base_model_name', 'status', 'progress',
-            'warnings'
+            'customization_id', 'created', 'updated', 'language', 'versions',
+            'owner', 'name', 'description', 'base_model_name', 'status',
+            'progress', 'warnings'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -3044,6 +3052,8 @@ class AcousticModel(object):
             )
         if 'created' in _dict:
             args['created'] = _dict.get('created')
+        if 'updated' in _dict:
+            args['updated'] = _dict.get('updated')
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         if 'versions' in _dict:
@@ -3072,6 +3082,8 @@ class AcousticModel(object):
             _dict['customization_id'] = self.customization_id
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = self.created
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = self.updated
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'versions') and self.versions is not None:
@@ -4536,6 +4548,10 @@ class LanguageModel(object):
     :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at
     which the custom language model was created. The value is provided in full ISO 8601
     format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str updated: (optional) The date and time in Coordinated Universal Time (UTC) at
+    which the custom language model was last modified. The `created` and `updated` fields
+    are equal when a language model is first added but has yet to be updated. The value is
+    provided in full ISO 8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
     :attr str language: (optional) The language identifier of the custom language model
     (for example, `en-US`).
     :attr str dialect: (optional) The dialect of the language for the custom language
@@ -4558,7 +4574,9 @@ class LanguageModel(object):
     :attr str status: (optional) The current status of the custom language model:
     * `pending`: The model was created but is waiting either for valid training data to be
     added or for the service to finish analyzing added data.
-    * `ready`: The model contains valid data and is ready to be trained.
+    * `ready`: The model contains valid data and is ready to be trained. If the model
+    contains a mix of valid and invalid resources, you need to set the `strict` parameter
+    to `false` for the training to proceed.
     * `training`: The model is currently being trained.
     * `available`: The model is trained and ready to use.
     * `upgrading`: The model is currently being upgraded.
@@ -4579,6 +4597,7 @@ class LanguageModel(object):
     def __init__(self,
                  customization_id,
                  created=None,
+                 updated=None,
                  language=None,
                  dialect=None,
                  versions=None,
@@ -4599,6 +4618,10 @@ class LanguageModel(object):
         :param str created: (optional) The date and time in Coordinated Universal Time
         (UTC) at which the custom language model was created. The value is provided in
         full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str updated: (optional) The date and time in Coordinated Universal Time
+        (UTC) at which the custom language model was last modified. The `created` and
+        `updated` fields are equal when a language model is first added but has yet to be
+        updated. The value is provided in full ISO 8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         :param str language: (optional) The language identifier of the custom language
         model (for example, `en-US`).
         :param str dialect: (optional) The dialect of the language for the custom language
@@ -4621,7 +4644,8 @@ class LanguageModel(object):
         :param str status: (optional) The current status of the custom language model:
         * `pending`: The model was created but is waiting either for valid training data
         to be added or for the service to finish analyzing added data.
-        * `ready`: The model contains valid data and is ready to be trained.
+        * `ready`: The model contains valid data and is ready to be trained. If the model
+        contains a mix of valid and invalid resources, you need to set the `strict`
         parameter to `false` for the training to proceed.
         * `training`: The model is currently being trained.
         * `available`: The model is trained and ready to use.
@@ -4642,6 +4666,7 @@ class LanguageModel(object):
         """
         self.customization_id = customization_id
         self.created = created
+        self.updated = updated
         self.language = language
         self.dialect = dialect
         self.versions = versions
@@ -4659,9 +4684,9 @@ class LanguageModel(object):
         """Initialize a LanguageModel object from a json dictionary."""
         args = {}
         validKeys = [
-            'customization_id', 'created', 'language', 'dialect', 'versions',
-            'owner', 'name', 'description', 'base_model_name', 'status',
-            'progress', 'error', 'warnings'
+            'customization_id', 'created', 'updated', 'language', 'dialect',
+            'versions', 'owner', 'name', 'description', 'base_model_name',
+            'status', 'progress', 'error', 'warnings'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -4676,6 +4701,8 @@ class LanguageModel(object):
             )
         if 'created' in _dict:
             args['created'] = _dict.get('created')
+        if 'updated' in _dict:
+            args['updated'] = _dict.get('updated')
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         if 'dialect' in _dict:
@@ -4708,6 +4735,8 @@ class LanguageModel(object):
             _dict['customization_id'] = self.customization_id
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = self.created
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = self.updated
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'dialect') and self.dialect is not None:
