@@ -1581,15 +1581,15 @@ class ClassifyReturn(object):
                  model_id=None,
                  model_version=None,
                  elements=None,
+                 tables=None,
+                 document_structure=None,
+                 parties=None,
                  effective_dates=None,
                  contract_amounts=None,
                  termination_dates=None,
                  contract_types=None,
                  contract_terms=None,
-                 payment_terms=None,
-                 tables=None,
-                 document_structure=None,
-                 parties=None):
+                 payment_terms=None):
         """
         Initialize a ClassifyReturn object.
 
@@ -2308,12 +2308,12 @@ class ContractAmts(object):
     """
 
     def __init__(self,
-                 confidence_level=None,
                  text=None,
+                 confidence_level=None,
+                 location=None,
                  text_normalized=None,
                  interpretation=None,
-                 provenance_ids=None,
-                 location=None):
+                 provenance_ids=None):
         """
         Initialize a ContractAmts object.
 
@@ -4711,8 +4711,8 @@ class Parties(object):
 
     def __init__(self,
                  party=None,
-                 role=None,
                  importance=None,
+                 role=None,
                  addresses=None,
                  contacts=None,
                  mentions=None):
@@ -5712,13 +5712,13 @@ class Tables(object):
                  location=None,
                  text=None,
                  section_title=None,
-                 title=None,
                  table_headers=None,
                  row_headers=None,
                  column_headers=None,
+                 key_value_pairs=None,
                  body_cells=None,
                  contexts=None,
-                 key_value_pairs=None):
+                 title=None):
         """
         Initialize a Tables object.
 

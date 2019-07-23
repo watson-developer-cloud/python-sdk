@@ -2963,7 +2963,6 @@ class AcousticModel(object):
     def __init__(self,
                  customization_id,
                  created=None,
-                 updated=None,
                  language=None,
                  versions=None,
                  owner=None,
@@ -2972,7 +2971,8 @@ class AcousticModel(object):
                  base_model_name=None,
                  status=None,
                  progress=None,
-                 warnings=None):
+                 warnings=None,
+                 updated=None):
         """
         Initialize a AcousticModel object.
 
@@ -4597,7 +4597,6 @@ class LanguageModel(object):
     def __init__(self,
                  customization_id,
                  created=None,
-                 updated=None,
                  language=None,
                  dialect=None,
                  versions=None,
@@ -4608,7 +4607,8 @@ class LanguageModel(object):
                  status=None,
                  progress=None,
                  error=None,
-                 warnings=None):
+                 warnings=None,
+                 updated=None):
         """
         Initialize a LanguageModel object.
 
@@ -5969,9 +5969,9 @@ class SpeechRecognitionResults(object):
                  results=None,
                  result_index=None,
                  speaker_labels=None,
-                 processing_metrics=None,
                  audio_metrics=None,
-                 warnings=None):
+                 warnings=None,
+                 processing_metrics=None):
         """
         Initialize a SpeechRecognitionResults object.
 
