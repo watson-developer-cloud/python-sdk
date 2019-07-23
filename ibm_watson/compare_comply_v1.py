@@ -2227,45 +2227,39 @@ class Contact(object):
         return not self == other
 
 
-class ContractAmts(object):
+class Contexts(object):
     """
-    A monetary amount identified in the input document.
+    Text that is related to the contents of the table and that precedes or follows the
+    current table.
 
-    :attr str text: (optional) The monetary amount.
-    :attr str confidence_level: (optional) The confidence level in the identification of
-    the contract amount.
+    :attr str text: (optional) The related text.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, confidence_level=None, location=None):
+    def __init__(self, text=None, location=None):
         """
-        Initialize a ContractAmts object.
+        Initialize a Contexts object.
 
-        :param str text: (optional) The monetary amount.
-        :param str confidence_level: (optional) The confidence level in the identification
-        of the contract amount.
+        :param str text: (optional) The related text.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
         self.text = text
-        self.confidence_level = confidence_level
         self.location = location
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a ContractAmts object from a json dictionary."""
+        """Initialize a Contexts object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'confidence_level', 'location']
+        validKeys = ['text', 'location']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
-                'Unrecognized keys detected in dictionary for class ContractAmts: '
+                'Unrecognized keys detected in dictionary for class Contexts: '
                 + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
-        if 'confidence_level' in _dict:
-            args['confidence_level'] = _dict.get('confidence_level')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -2275,9 +2269,118 @@ class ContractAmts(object):
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Contexts object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ContractAmts(object):
+    """
+    A monetary amount identified in the input document.
+
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the contract amount.
+    :attr str text: (optional) The monetary amount.
+    :attr str text_normalized: (optional) The normalized form of the amount, which is
+    listed as a string. This element is optional; that is, the service output lists it
+    only if normalized text exists.
+    :attr Interpretation interpretation: (optional) The details of the normalized text, if
+    applicable. This element is optional; that is, the service output lists it only if
+    normalized text exists.
+    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
+    to IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    """
+
+    def __init__(self,
+                 confidence_level=None,
+                 text=None,
+                 text_normalized=None,
+                 interpretation=None,
+                 provenance_ids=None,
+                 location=None):
+        """
+        Initialize a ContractAmts object.
+
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the contract amount.
+        :param str text: (optional) The monetary amount.
+        :param str text_normalized: (optional) The normalized form of the amount, which is
+        listed as a string. This element is optional; that is, the service output lists it
+        only if normalized text exists.
+        :param Interpretation interpretation: (optional) The details of the normalized
+        text, if applicable. This element is optional; that is, the service output lists
+        it only if normalized text exists.
+        :param list[str] provenance_ids: (optional) One or more hash values that you can
+        send to IBM to provide feedback or receive support.
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        """
+        self.confidence_level = confidence_level
+        self.text = text
+        self.text_normalized = text_normalized
+        self.interpretation = interpretation
+        self.provenance_ids = provenance_ids
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContractAmts object from a json dictionary."""
+        args = {}
+        validKeys = [
+            'confidence_level', 'text', 'text_normalized', 'interpretation',
+            'provenance_ids', 'location'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ContractAmts: '
+                + ', '.join(badKeys))
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'text_normalized' in _dict:
+            args['text_normalized'] = _dict.get('text_normalized')
+        if 'interpretation' in _dict:
+            args['interpretation'] = Interpretation._from_dict(
+                _dict.get('interpretation'))
+        if 'provenance_ids' in _dict:
+            args['provenance_ids'] = _dict.get('provenance_ids')
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
         if hasattr(self,
                    'confidence_level') and self.confidence_level is not None:
             _dict['confidence_level'] = self.confidence_level
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self,
+                   'text_normalized') and self.text_normalized is not None:
+            _dict['text_normalized'] = self.text_normalized
+        if hasattr(self, 'interpretation') and self.interpretation is not None:
+            _dict['interpretation'] = self.interpretation._to_dict()
+        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
+            _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
@@ -2297,45 +2400,80 @@ class ContractAmts(object):
         return not self == other
 
 
-class ContractType(object):
+class ContractTerms(object):
     """
-    The contract type identified in the input document.
+    The duration or durations of the contract.
 
-    :attr str text: (optional) The contract type.
     :attr str confidence_level: (optional) The confidence level in the identification of
-    the termination date.
+    the contract term.
+    :attr str text: (optional) The contract term (duration).
+    :attr str text_normalized: (optional) The normalized form of the contract term, which
+    is listed as a string. This element is optional; that is, the service output lists it
+    only if normalized text exists.
+    :attr Interpretation interpretation: (optional) The details of the normalized text, if
+    applicable. This element is optional; that is, the service output lists it only if
+    normalized text exists.
+    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
+    to IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, confidence_level=None, location=None):
+    def __init__(self,
+                 confidence_level=None,
+                 text=None,
+                 text_normalized=None,
+                 interpretation=None,
+                 provenance_ids=None,
+                 location=None):
         """
-        Initialize a ContractType object.
+        Initialize a ContractTerms object.
 
-        :param str text: (optional) The contract type.
         :param str confidence_level: (optional) The confidence level in the identification
-        of the termination date.
+        of the contract term.
+        :param str text: (optional) The contract term (duration).
+        :param str text_normalized: (optional) The normalized form of the contract term,
+        which is listed as a string. This element is optional; that is, the service output
+        lists it only if normalized text exists.
+        :param Interpretation interpretation: (optional) The details of the normalized
+        text, if applicable. This element is optional; that is, the service output lists
+        it only if normalized text exists.
+        :param list[str] provenance_ids: (optional) One or more hash values that you can
+        send to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
-        self.text = text
         self.confidence_level = confidence_level
+        self.text = text
+        self.text_normalized = text_normalized
+        self.interpretation = interpretation
+        self.provenance_ids = provenance_ids
         self.location = location
 
     @classmethod
     def _from_dict(cls, _dict):
-        """Initialize a ContractType object from a json dictionary."""
+        """Initialize a ContractTerms object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'confidence_level', 'location']
+        validKeys = [
+            'confidence_level', 'text', 'text_normalized', 'interpretation',
+            'provenance_ids', 'location'
+        ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
-                'Unrecognized keys detected in dictionary for class ContractType: '
+                'Unrecognized keys detected in dictionary for class ContractTerms: '
                 + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'text_normalized' in _dict:
+            args['text_normalized'] = _dict.get('text_normalized')
+        if 'interpretation' in _dict:
+            args['interpretation'] = Interpretation._from_dict(
+                _dict.get('interpretation'))
+        if 'provenance_ids' in _dict:
+            args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -2343,17 +2481,107 @@ class ContractType(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
         if hasattr(self,
                    'confidence_level') and self.confidence_level is not None:
             _dict['confidence_level'] = self.confidence_level
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self,
+                   'text_normalized') and self.text_normalized is not None:
+            _dict['text_normalized'] = self.text_normalized
+        if hasattr(self, 'interpretation') and self.interpretation is not None:
+            _dict['interpretation'] = self.interpretation._to_dict()
+        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
+            _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
 
     def __str__(self):
-        """Return a `str` version of this ContractType object."""
+        """Return a `str` version of this ContractTerms object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ContractTypes(object):
+    """
+    The contract type identified in the input document.
+
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the contract type.
+    :attr str text: (optional) The contract type.
+    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
+    to IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    """
+
+    def __init__(self,
+                 confidence_level=None,
+                 text=None,
+                 provenance_ids=None,
+                 location=None):
+        """
+        Initialize a ContractTypes object.
+
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the contract type.
+        :param str text: (optional) The contract type.
+        :param list[str] provenance_ids: (optional) One or more hash values that you can
+        send to IBM to provide feedback or receive support.
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        """
+        self.confidence_level = confidence_level
+        self.text = text
+        self.provenance_ids = provenance_ids
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContractTypes object from a json dictionary."""
+        args = {}
+        validKeys = ['confidence_level', 'text', 'provenance_ids', 'location']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ContractTypes: '
+                + ', '.join(badKeys))
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'provenance_ids' in _dict:
+            args['provenance_ids'] = _dict.get('provenance_ids')
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
+            _dict['provenance_ids'] = self.provenance_ids
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ContractTypes object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2515,9 +2743,14 @@ class DocStructure(object):
     :attr list[LeadingSentence] leading_sentences: (optional) An array containing one
     object per section or subsection, in parallel with the `section_titles` array, that
     details the leading sentences in the corresponding section or subsection.
+    :attr list[Paragraphs] paragraphs: (optional) An array containing one object per
+    paragraph, in parallel with the `section_titles` and `leading_sentences` arrays.
     """
 
-    def __init__(self, section_titles=None, leading_sentences=None):
+    def __init__(self,
+                 section_titles=None,
+                 leading_sentences=None,
+                 paragraphs=None):
         """
         Initialize a DocStructure object.
 
@@ -2526,15 +2759,18 @@ class DocStructure(object):
         :param list[LeadingSentence] leading_sentences: (optional) An array containing one
         object per section or subsection, in parallel with the `section_titles` array,
         that details the leading sentences in the corresponding section or subsection.
+        :param list[Paragraphs] paragraphs: (optional) An array containing one object per
+        paragraph, in parallel with the `section_titles` and `leading_sentences` arrays.
         """
         self.section_titles = section_titles
         self.leading_sentences = leading_sentences
+        self.paragraphs = paragraphs
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a DocStructure object from a json dictionary."""
         args = {}
-        validKeys = ['section_titles', 'leading_sentences']
+        validKeys = ['section_titles', 'leading_sentences', 'paragraphs']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
@@ -2550,6 +2786,10 @@ class DocStructure(object):
                 LeadingSentence._from_dict(x)
                 for x in (_dict.get('leading_sentences'))
             ]
+        if 'paragraphs' in _dict:
+            args['paragraphs'] = [
+                Paragraphs._from_dict(x) for x in (_dict.get('paragraphs'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -2564,6 +2804,8 @@ class DocStructure(object):
             _dict['leading_sentences'] = [
                 x._to_dict() for x in self.leading_sentences
             ]
+        if hasattr(self, 'paragraphs') and self.paragraphs is not None:
+            _dict['paragraphs'] = [x._to_dict() for x in self.paragraphs]
         return _dict
 
     def __str__(self):
@@ -2661,41 +2903,65 @@ class EffectiveDates(object):
     """
     An effective date.
 
-    :attr str text: (optional) The effective date, listed as a string.
     :attr str confidence_level: (optional) The confidence level in the identification of
     the effective date.
+    :attr str text: (optional) The effective date, listed as a string.
+    :attr str text_normalized: (optional) The normalized form of the effective date, which
+    is listed as a string. This element is optional; that is, the service output lists it
+    only if normalized text exists.
+    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
+    to IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, confidence_level=None, location=None):
+    def __init__(self,
+                 confidence_level=None,
+                 text=None,
+                 text_normalized=None,
+                 provenance_ids=None,
+                 location=None):
         """
         Initialize a EffectiveDates object.
 
-        :param str text: (optional) The effective date, listed as a string.
         :param str confidence_level: (optional) The confidence level in the identification
         of the effective date.
+        :param str text: (optional) The effective date, listed as a string.
+        :param str text_normalized: (optional) The normalized form of the effective date,
+        which is listed as a string. This element is optional; that is, the service output
+        lists it only if normalized text exists.
+        :param list[str] provenance_ids: (optional) One or more hash values that you can
+        send to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
-        self.text = text
         self.confidence_level = confidence_level
+        self.text = text
+        self.text_normalized = text_normalized
+        self.provenance_ids = provenance_ids
         self.location = location
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a EffectiveDates object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'confidence_level', 'location']
+        validKeys = [
+            'confidence_level', 'text', 'text_normalized', 'provenance_ids',
+            'location'
+        ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EffectiveDates: '
                 + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'text_normalized' in _dict:
+            args['text_normalized'] = _dict.get('text_normalized')
+        if 'provenance_ids' in _dict:
+            args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -2703,11 +2969,16 @@ class EffectiveDates(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
         if hasattr(self,
                    'confidence_level') and self.confidence_level is not None:
             _dict['confidence_level'] = self.confidence_level
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self,
+                   'text_normalized') and self.text_normalized is not None:
+            _dict['text_normalized'] = self.text_normalized
+        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
+            _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
@@ -3659,6 +3930,86 @@ class HTMLReturn(object):
         return not self == other
 
 
+class Interpretation(object):
+    """
+    The details of the normalized text, if applicable. This element is optional; that is,
+    the service output lists it only if normalized text exists.
+
+    :attr str value: (optional) The value that was located in the normalized text.
+    :attr float numeric_value: (optional) An integer or float expressing the numeric value
+    of the `value` key.
+    :attr str unit: (optional) A string listing the unit of the value that was found in
+    the normalized text.
+    **Note:** The value of `unit` is the [ISO-4217 currency
+    code](https://www.iso.org/iso-4217-currency-codes.html) identified for the currency
+    amount (for example, `USD` or `EUR`). If the service cannot disambiguate a currency
+    symbol (for example, `$` or `£`), the value of `unit` contains the ambiguous symbol
+    as-is.
+    """
+
+    def __init__(self, value=None, numeric_value=None, unit=None):
+        """
+        Initialize a Interpretation object.
+
+        :param str value: (optional) The value that was located in the normalized text.
+        :param float numeric_value: (optional) An integer or float expressing the numeric
+        value of the `value` key.
+        :param str unit: (optional) A string listing the unit of the value that was found
+        in the normalized text.
+        **Note:** The value of `unit` is the [ISO-4217 currency
+        code](https://www.iso.org/iso-4217-currency-codes.html) identified for the
+        currency amount (for example, `USD` or `EUR`). If the service cannot disambiguate
+        a currency symbol (for example, `$` or `£`), the value of `unit` contains the
+        ambiguous symbol as-is.
+        """
+        self.value = value
+        self.numeric_value = numeric_value
+        self.unit = unit
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Interpretation object from a json dictionary."""
+        args = {}
+        validKeys = ['value', 'numeric_value', 'unit']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Interpretation: '
+                + ', '.join(badKeys))
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        if 'numeric_value' in _dict:
+            args['numeric_value'] = _dict.get('numeric_value')
+        if 'unit' in _dict:
+            args['unit'] = _dict.get('unit')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'numeric_value') and self.numeric_value is not None:
+            _dict['numeric_value'] = self.numeric_value
+        if hasattr(self, 'unit') and self.unit is not None:
+            _dict['unit'] = self.unit
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Interpretation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Key(object):
     """
     A key in a key-value pair.
@@ -3991,6 +4342,66 @@ class Location(object):
         return not self == other
 
 
+class Mention(object):
+    """
+    A mention of a party.
+
+    :attr str text: (optional) The name of the party.
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    """
+
+    def __init__(self, text=None, location=None):
+        """
+        Initialize a Mention object.
+
+        :param str text: (optional) The name of the party.
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        """
+        self.text = text
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Mention object from a json dictionary."""
+        args = {}
+        validKeys = ['text', 'location']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Mention: ' +
+                ', '.join(badKeys))
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Mention object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class OriginalLabelsIn(object):
     """
     The original labeling from the input document, without the submitted feedback.
@@ -4230,48 +4641,109 @@ class Pagination(object):
         return not self == other
 
 
+class Paragraphs(object):
+    """
+    The locations of each paragraph in the input document.
+
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    """
+
+    def __init__(self, location=None):
+        """
+        Initialize a Paragraphs object.
+
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        """
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Paragraphs object from a json dictionary."""
+        args = {}
+        validKeys = ['location']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Paragraphs: '
+                + ', '.join(badKeys))
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Paragraphs object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Parties(object):
     """
     A party and its corresponding role, including address and contact information if
     identified.
 
-    :attr str party: (optional) A string identifying the party.
-    :attr str importance: (optional) A string that identifies the importance of the party.
+    :attr str party: (optional) The normalized form of the party's name.
     :attr str role: (optional) A string identifying the party's role.
-    :attr list[Address] addresses: (optional) List of the party's address or addresses.
-    :attr list[Contact] contacts: (optional) List of the names and roles of contacts
+    :attr str importance: (optional) A string that identifies the importance of the party.
+    :attr list[Address] addresses: (optional) A list of the party's address or addresses.
+    :attr list[Contact] contacts: (optional) A list of the names and roles of contacts
     identified in the input document.
+    :attr list[Mention] mentions: (optional) A list of the party's mentions in the input
+    document.
     """
 
     def __init__(self,
                  party=None,
-                 importance=None,
                  role=None,
+                 importance=None,
                  addresses=None,
-                 contacts=None):
+                 contacts=None,
+                 mentions=None):
         """
         Initialize a Parties object.
 
-        :param str party: (optional) A string identifying the party.
+        :param str party: (optional) The normalized form of the party's name.
+        :param str role: (optional) A string identifying the party's role.
         :param str importance: (optional) A string that identifies the importance of the
         party.
-        :param str role: (optional) A string identifying the party's role.
-        :param list[Address] addresses: (optional) List of the party's address or
+        :param list[Address] addresses: (optional) A list of the party's address or
         addresses.
-        :param list[Contact] contacts: (optional) List of the names and roles of contacts
-        identified in the input document.
+        :param list[Contact] contacts: (optional) A list of the names and roles of
+        contacts identified in the input document.
+        :param list[Mention] mentions: (optional) A list of the party's mentions in the
+        input document.
         """
         self.party = party
-        self.importance = importance
         self.role = role
+        self.importance = importance
         self.addresses = addresses
         self.contacts = contacts
+        self.mentions = mentions
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Parties object from a json dictionary."""
         args = {}
-        validKeys = ['party', 'importance', 'role', 'addresses', 'contacts']
+        validKeys = [
+            'party', 'role', 'importance', 'addresses', 'contacts', 'mentions'
+        ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
@@ -4279,10 +4751,10 @@ class Parties(object):
                 ', '.join(badKeys))
         if 'party' in _dict:
             args['party'] = _dict.get('party')
-        if 'importance' in _dict:
-            args['importance'] = _dict.get('importance')
         if 'role' in _dict:
             args['role'] = _dict.get('role')
+        if 'importance' in _dict:
+            args['importance'] = _dict.get('importance')
         if 'addresses' in _dict:
             args['addresses'] = [
                 Address._from_dict(x) for x in (_dict.get('addresses'))
@@ -4291,6 +4763,10 @@ class Parties(object):
             args['contacts'] = [
                 Contact._from_dict(x) for x in (_dict.get('contacts'))
             ]
+        if 'mentions' in _dict:
+            args['mentions'] = [
+                Mention._from_dict(x) for x in (_dict.get('mentions'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -4298,18 +4774,132 @@ class Parties(object):
         _dict = {}
         if hasattr(self, 'party') and self.party is not None:
             _dict['party'] = self.party
-        if hasattr(self, 'importance') and self.importance is not None:
-            _dict['importance'] = self.importance
         if hasattr(self, 'role') and self.role is not None:
             _dict['role'] = self.role
+        if hasattr(self, 'importance') and self.importance is not None:
+            _dict['importance'] = self.importance
         if hasattr(self, 'addresses') and self.addresses is not None:
             _dict['addresses'] = [x._to_dict() for x in self.addresses]
         if hasattr(self, 'contacts') and self.contacts is not None:
             _dict['contacts'] = [x._to_dict() for x in self.contacts]
+        if hasattr(self, 'mentions') and self.mentions is not None:
+            _dict['mentions'] = [x._to_dict() for x in self.mentions]
         return _dict
 
     def __str__(self):
         """Return a `str` version of this Parties object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class PaymentTerms(object):
+    """
+    The document's payment duration or durations.
+
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the payment term.
+    :attr str text: (optional) The payment term (duration).
+    :attr str text_normalized: (optional) The normalized form of the payment term, which
+    is listed as a string. This element is optional; that is, the service output lists it
+    only if normalized text exists.
+    :attr Interpretation interpretation: (optional) The details of the normalized text, if
+    applicable. This element is optional; that is, the service output lists it only if
+    normalized text exists.
+    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
+    to IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    """
+
+    def __init__(self,
+                 confidence_level=None,
+                 text=None,
+                 text_normalized=None,
+                 interpretation=None,
+                 provenance_ids=None,
+                 location=None):
+        """
+        Initialize a PaymentTerms object.
+
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the payment term.
+        :param str text: (optional) The payment term (duration).
+        :param str text_normalized: (optional) The normalized form of the payment term,
+        which is listed as a string. This element is optional; that is, the service output
+        lists it only if normalized text exists.
+        :param Interpretation interpretation: (optional) The details of the normalized
+        text, if applicable. This element is optional; that is, the service output lists
+        it only if normalized text exists.
+        :param list[str] provenance_ids: (optional) One or more hash values that you can
+        send to IBM to provide feedback or receive support.
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        """
+        self.confidence_level = confidence_level
+        self.text = text
+        self.text_normalized = text_normalized
+        self.interpretation = interpretation
+        self.provenance_ids = provenance_ids
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PaymentTerms object from a json dictionary."""
+        args = {}
+        validKeys = [
+            'confidence_level', 'text', 'text_normalized', 'interpretation',
+            'provenance_ids', 'location'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class PaymentTerms: '
+                + ', '.join(badKeys))
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'text_normalized' in _dict:
+            args['text_normalized'] = _dict.get('text_normalized')
+        if 'interpretation' in _dict:
+            args['interpretation'] = Interpretation._from_dict(
+                _dict.get('interpretation'))
+        if 'provenance_ids' in _dict:
+            args['provenance_ids'] = _dict.get('provenance_ids')
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self,
+                   'text_normalized') and self.text_normalized is not None:
+            _dict['text_normalized'] = self.text_normalized
+        if hasattr(self, 'interpretation') and self.interpretation is not None:
+            _dict['interpretation'] = self.interpretation._to_dict()
+        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
+            _dict['provenance_ids'] = self.provenance_ids
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this PaymentTerms object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -5028,6 +5618,68 @@ class TableReturn(object):
         return not self == other
 
 
+class TableTitle(object):
+    """
+    If identified, the title or caption of the current table of the form `Table x.: ...`.
+    Empty when no title is identified. When exposed, the `title` is also excluded from the
+    `contexts` array of the same table.
+
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text: (optional) The text of the identified table title or caption.
+    """
+
+    def __init__(self, location=None, text=None):
+        """
+        Initialize a TableTitle object.
+
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        :param str text: (optional) The text of the identified table title or caption.
+        """
+        self.location = location
+        self.text = text
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableTitle object from a json dictionary."""
+        args = {}
+        validKeys = ['location', 'text']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TableTitle: '
+                + ', '.join(badKeys))
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this TableTitle object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Tables(object):
     """
     The contents of the tables extracted from a document.
@@ -5037,6 +5689,9 @@ class Tables(object):
     :attr str text: (optional) The textual contents of the current table from the input
     document without associated markup content.
     :attr SectionTitle section_title: (optional) The table's section title, if identified.
+    :attr TableTitle title: (optional) If identified, the title or caption of the current
+    table of the form `Table x.: ...`. Empty when no title is identified. When exposed,
+    the `title` is also excluded from the `contexts` array of the same table.
     :attr list[TableHeaders] table_headers: (optional) An array of table-level cells that
     apply as headers to all the other cells in the current table.
     :attr list[RowHeaders] row_headers: (optional) An array of row-level cells, each
@@ -5044,22 +5699,26 @@ class Tables(object):
     :attr list[ColumnHeaders] column_headers: (optional) An array of column-level cells,
     each applicable as a header to other cells in the same column as itself, of the
     current table.
-    :attr list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
-    identified in the current table.
     :attr list[BodyCells] body_cells: (optional) An array of cells that are neither table
     header nor column header nor row header cells, of the current table with corresponding
     row and column header associations.
+    :attr list[Contexts] contexts: (optional) An array of objects that list text that is
+    related to the table contents and that precedes or follows the current table.
+    :attr list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
+    identified in the current table.
     """
 
     def __init__(self,
                  location=None,
                  text=None,
                  section_title=None,
+                 title=None,
                  table_headers=None,
                  row_headers=None,
                  column_headers=None,
-                 key_value_pairs=None,
-                 body_cells=None):
+                 body_cells=None,
+                 contexts=None,
+                 key_value_pairs=None):
         """
         Initialize a Tables object.
 
@@ -5069,6 +5728,9 @@ class Tables(object):
         input document without associated markup content.
         :param SectionTitle section_title: (optional) The table's section title, if
         identified.
+        :param TableTitle title: (optional) If identified, the title or caption of the
+        current table of the form `Table x.: ...`. Empty when no title is identified. When
+        exposed, the `title` is also excluded from the `contexts` array of the same table.
         :param list[TableHeaders] table_headers: (optional) An array of table-level cells
         that apply as headers to all the other cells in the current table.
         :param list[RowHeaders] row_headers: (optional) An array of row-level cells, each
@@ -5077,28 +5739,33 @@ class Tables(object):
         :param list[ColumnHeaders] column_headers: (optional) An array of column-level
         cells, each applicable as a header to other cells in the same column as itself, of
         the current table.
-        :param list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
-        identified in the current table.
         :param list[BodyCells] body_cells: (optional) An array of cells that are neither
         table header nor column header nor row header cells, of the current table with
         corresponding row and column header associations.
+        :param list[Contexts] contexts: (optional) An array of objects that list text that
+        is related to the table contents and that precedes or follows the current table.
+        :param list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
+        identified in the current table.
         """
         self.location = location
         self.text = text
         self.section_title = section_title
+        self.title = title
         self.table_headers = table_headers
         self.row_headers = row_headers
         self.column_headers = column_headers
-        self.key_value_pairs = key_value_pairs
         self.body_cells = body_cells
+        self.contexts = contexts
+        self.key_value_pairs = key_value_pairs
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Tables object from a json dictionary."""
         args = {}
         validKeys = [
-            'location', 'text', 'section_title', 'table_headers', 'row_headers',
-            'column_headers', 'key_value_pairs', 'body_cells'
+            'location', 'text', 'section_title', 'title', 'table_headers',
+            'row_headers', 'column_headers', 'body_cells', 'contexts',
+            'key_value_pairs'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -5112,6 +5779,8 @@ class Tables(object):
         if 'section_title' in _dict:
             args['section_title'] = SectionTitle._from_dict(
                 _dict.get('section_title'))
+        if 'title' in _dict:
+            args['title'] = TableTitle._from_dict(_dict.get('title'))
         if 'table_headers' in _dict:
             args['table_headers'] = [
                 TableHeaders._from_dict(x) for x in (_dict.get('table_headers'))
@@ -5125,14 +5794,18 @@ class Tables(object):
                 ColumnHeaders._from_dict(x)
                 for x in (_dict.get('column_headers'))
             ]
+        if 'body_cells' in _dict:
+            args['body_cells'] = [
+                BodyCells._from_dict(x) for x in (_dict.get('body_cells'))
+            ]
+        if 'contexts' in _dict:
+            args['contexts'] = [
+                Contexts._from_dict(x) for x in (_dict.get('contexts'))
+            ]
         if 'key_value_pairs' in _dict:
             args['key_value_pairs'] = [
                 KeyValuePair._from_dict(x)
                 for x in (_dict.get('key_value_pairs'))
-            ]
-        if 'body_cells' in _dict:
-            args['body_cells'] = [
-                BodyCells._from_dict(x) for x in (_dict.get('body_cells'))
             ]
         return cls(**args)
 
@@ -5145,6 +5818,8 @@ class Tables(object):
             _dict['text'] = self.text
         if hasattr(self, 'section_title') and self.section_title is not None:
             _dict['section_title'] = self.section_title._to_dict()
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title._to_dict()
         if hasattr(self, 'table_headers') and self.table_headers is not None:
             _dict['table_headers'] = [x._to_dict() for x in self.table_headers]
         if hasattr(self, 'row_headers') and self.row_headers is not None:
@@ -5153,13 +5828,15 @@ class Tables(object):
             _dict['column_headers'] = [
                 x._to_dict() for x in self.column_headers
             ]
+        if hasattr(self, 'body_cells') and self.body_cells is not None:
+            _dict['body_cells'] = [x._to_dict() for x in self.body_cells]
+        if hasattr(self, 'contexts') and self.contexts is not None:
+            _dict['contexts'] = [x._to_dict() for x in self.contexts]
         if hasattr(self,
                    'key_value_pairs') and self.key_value_pairs is not None:
             _dict['key_value_pairs'] = [
                 x._to_dict() for x in self.key_value_pairs
             ]
-        if hasattr(self, 'body_cells') and self.body_cells is not None:
-            _dict['body_cells'] = [x._to_dict() for x in self.body_cells]
         return _dict
 
     def __str__(self):
@@ -5181,41 +5858,65 @@ class TerminationDates(object):
     """
     Termination dates identified in the input document.
 
-    :attr str text: (optional) The termination date.
     :attr str confidence_level: (optional) The confidence level in the identification of
     the termination date.
+    :attr str text: (optional) The termination date.
+    :attr str text_normalized: (optional) The normalized form of the termination date,
+    which is listed as a string. This element is optional; that is, the service output
+    lists it only if normalized text exists.
+    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
+    to IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
 
-    def __init__(self, text=None, confidence_level=None, location=None):
+    def __init__(self,
+                 confidence_level=None,
+                 text=None,
+                 text_normalized=None,
+                 provenance_ids=None,
+                 location=None):
         """
         Initialize a TerminationDates object.
 
-        :param str text: (optional) The termination date.
         :param str confidence_level: (optional) The confidence level in the identification
         of the termination date.
+        :param str text: (optional) The termination date.
+        :param str text_normalized: (optional) The normalized form of the termination
+        date, which is listed as a string. This element is optional; that is, the service
+        output lists it only if normalized text exists.
+        :param list[str] provenance_ids: (optional) One or more hash values that you can
+        send to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
-        self.text = text
         self.confidence_level = confidence_level
+        self.text = text
+        self.text_normalized = text_normalized
+        self.provenance_ids = provenance_ids
         self.location = location
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a TerminationDates object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'confidence_level', 'location']
+        validKeys = [
+            'confidence_level', 'text', 'text_normalized', 'provenance_ids',
+            'location'
+        ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TerminationDates: '
                 + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'text_normalized' in _dict:
+            args['text_normalized'] = _dict.get('text_normalized')
+        if 'provenance_ids' in _dict:
+            args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -5223,11 +5924,16 @@ class TerminationDates(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
         if hasattr(self,
                    'confidence_level') and self.confidence_level is not None:
             _dict['confidence_level'] = self.confidence_level
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self,
+                   'text_normalized') and self.text_normalized is not None:
+            _dict['text_normalized'] = self.text_normalized
+        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
+            _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
